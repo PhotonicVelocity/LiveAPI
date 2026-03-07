@@ -1,25 +1,33 @@
-# API_MakeDoc
+# LiveAPI
 
-This python script will generate Ableton Live API documentation in XML format, based on realtime inspection of the Live module in the remote script runtime. Compatible with Live 12 & higher, on PC or Mac.
+Comprehensive reference for the Ableton Live Python API — classes, properties, methods, enums, and behavioral notes
+that Ableton doesn't publicly document.
 
-## Usage
+## What's Here
 
-### Viewing Documentation
+- **`reference/`** — Curated per-class reference docs synthesized from stubs, Max for Live docs, and direct probing.
+  See [reference/README.md](reference/README.md) for coverage and contributing guidelines.
+- **`build/`** — Generated API stubs and XML dumps per Live version (11.0 through 12.3.5).
+- **`MaxForLive/`** — API docs parsed from Max for Live HTML documentation.
+- **`src/`** — Introspection tooling (runs as a Control Surface inside Live to dump API surfaces).
 
-Docs for given version are available at [isfopo.github.io/LiveAPI_MakeDoc](https://isfopo.github.io/LiveAPI_MakeDoc/).Versions correspond with respective Live versions.
+## Audience
 
-### Usage as a Module
+Anyone working with Live's Python API:
 
-To use as a module in a remote script project, go to [isfopo.github.io/LiveAPI_MakeDoc](https://isfopo.github.io/LiveAPI_MakeDoc/) and download the latest version of the script and move it to the same directory as your remote script. Then, in your project, import the script as a module like `import Live` or `from Live import *`
-
-## Build and Release
-
-For releases, see the [Build and Release](https://github.com/isfopo/LiveAPI_MakeDoc/build) page.
+- Remote Script / Control Surface authors
+- Max for Live developers
+- [LiveRelay](https://github.com/PhotonicVelocity/LiveRelay) and [PythonForLive](https://github.com/PhotonicVelocity/PythonForLive) users
+- [AbletonOSC](https://github.com/ideoforms/AbletonOSC) contributors
+- Anyone building tools that interact with Live programmatically
 
 ## Credits
 
-This repository is a fork of [NSUSpray/LiveAPI_MakeDoc](https://github.com/NSUSpray/LiveAPI_MakeDoc), which contained the python script for XML documentation generation. Stub generation is based on [cylab/AbletonLive-API-Stub](https://github.com/cylab/AbletonLive-API-Stub)
+Introspection tooling forked from [isfopo/LiveAPI_MakeDoc](https://github.com/isfopo/LiveAPI_MakeDoc) (itself a fork of
+[NSUSpray/LiveAPI_MakeDoc](https://github.com/NSUSpray/LiveAPI_MakeDoc)). Stub generation based on
+[cylab/AbletonLive-API-Stub](https://github.com/cylab/AbletonLive-API-Stub).
 
 ## Disclaimer
 
-This is unofficial documentation for the Ableton Live API for use in Remote Scripts and Max for Live devices. These files are provided as-is, without any warranty, expressed or implied, including but not limited to fitness for any particular purpose. Do not contact Ableton with questions about this project, but feel free to open an issue on this repository.
+This is unofficial documentation for the Ableton Live API. These files are provided as-is, without any warranty. Do not
+contact Ableton with questions about this project.
