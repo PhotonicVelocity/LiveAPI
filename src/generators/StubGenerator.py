@@ -112,6 +112,7 @@ class StubGenerator:
     ) -> Tuple[List[Tuple[str, str, Union[str, None]]], Optional[str], Optional[str]]:
         args: List[Tuple[str, str, Union[str, None]]] = []
         ret: Optional[str] = None
+        original_doc = doc
 
         try:
             if doc and ":" in doc:
@@ -130,7 +131,9 @@ class StubGenerator:
 
                 doc = parts[1].strip()
         except Exception as e:
-            raise Exception(f"Error parsing function documentation: {e}")
+            # Be permissive for older Live versions with different doc formats
+            print(f"Warning: could not parse args from doc: {e}")
+            return [], None, original_doc
 
         return args or [], ret or None, doc or None
 

@@ -2,7 +2,7 @@
         <?xml-stylesheet type="text/css" href="../Live.css"?>
         <Root>
             <Live>
-            <Header>Live API Version 12.2.5</Header>
+            <Header>Live API Version 12.3.0</Header>
             <Doc>
                 Running Python version 3.11.6
             </Doc>
@@ -380,6 +380,8 @@
 <Class>Live.CcControlDevice.CcControlDevice<Description>Class</Description></Class>
 <Doc>	This class represents a CcControl device.</Doc>
 <Property>Live.CcControlDevice.CcControlDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.CcControlDevice.CcControlDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.CcControlDevice.CcControlDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.CcControlDevice.CcControlDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -444,6 +446,8 @@
 <Doc>	Return the custom float target 9 list</Doc>
 <Property>Live.CcControlDevice.CcControlDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.CcControlDevice.CcControlDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.CcControlDevice.CcControlDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.CcControlDevice.CcControlDevice.latency_in_samples<Description>Property</Description></Property>
@@ -484,6 +488,8 @@
 <Doc>	add_custom_float_target_9_listener( (CcControlDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "custom_float_target_9" has changed. C++ signature :  void add_custom_float_target_9_listener(TCcControlDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CcControlDevice.CcControlDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -520,6 +526,8 @@
 <Doc>	custom_float_target_9_has_listener( (CcControlDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "custom_float_target_9". C++ signature :  bool custom_float_target_9_has_listener(TCcControlDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CcControlDevice.CcControlDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -556,6 +564,8 @@
 <Doc>	remove_custom_float_target_9_listener( (CcControlDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "custom_float_target_9". C++ signature :  void remove_custom_float_target_9_listener(TCcControlDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CcControlDevice.CcControlDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -566,6 +576,8 @@
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.resend()<Description>Method</Description></Method>
 <Doc>	resend( (CcControlDevice)self) -&gt; None : Resend all CC values. C++ signature :  void resend(TCcControlDevicePyHandle)</Doc>
+<Method>Live.CcControlDevice.CcControlDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.CcControlDevice.CcControlDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.CcControlDevice.CcControlDevice.View<Description>Class</Description></Class>
@@ -637,6 +649,10 @@
 <Doc>	delete_device( (Chain)arg1, (int)arg2) -&gt; None : Remove a device identified by its index from the chain. Throws runtime error if bad index.  C++ signature :  void delete_device(TChainPyHandle,int)</Doc>
 <Method>Live.Chain.Chain.devices_has_listener()<Description>Method</Description></Method>
 <Doc>	devices_has_listener( (Chain)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "devices". C++ signature :  bool devices_has_listener(TChainPyHandle,boost::python::api::object)</Doc>
+<Method>Live.Chain.Chain.duplicate_device()<Description>Method</Description></Method>
+<Doc>	duplicate_device( (Chain)arg1, (int)arg2) -&gt; None : Duplicate the device at the given index in the chain. C++ signature :  void duplicate_device(TChainPyHandle,int)</Doc>
+<Method>Live.Chain.Chain.insert_device()<Description>Method</Description></Method>
+<Doc>	insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -&gt; LomObject : Add a device at a given index in the chain. At end if -1. C++ signature :  TWeakPtr&lt;TPyHandleBase&gt; insert_device(TChainPyHandle,std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt;&gt; [,int=-1])</Doc>
 <Method>Live.Chain.Chain.is_auto_colored_has_listener()<Description>Method</Description></Method>
 <Doc>	is_auto_colored_has_listener( (Chain)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_auto_colored". C++ signature :  bool is_auto_colored_has_listener(TChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.Chain.Chain.mute_has_listener()<Description>Method</Description></Method>
@@ -1223,6 +1239,8 @@
 <Doc>	Return a list of source channels for input routing in the sidechain.</Doc>
 <Property>Live.CompressorDevice.CompressorDevice.available_input_routing_types<Description>Property</Description></Property>
 <Doc>	Return a list of source types for input routing in the sidechain.</Doc>
+<Property>Live.CompressorDevice.CompressorDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.CompressorDevice.CompressorDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.CompressorDevice.CompressorDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -1239,6 +1257,8 @@
 <Doc>	Get and set the current source type for input routing in the sidechain.Raises ValueError if the type isn't one of the current values inavailable_input_routing_types.</Doc>
 <Property>Live.CompressorDevice.CompressorDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.CompressorDevice.CompressorDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.CompressorDevice.CompressorDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.CompressorDevice.CompressorDevice.latency_in_samples<Description>Property</Description></Property>
@@ -1261,6 +1281,8 @@
 <Doc>	add_input_routing_type_listener( (CompressorDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "input_routing_type" has changed. C++ signature :  void add_input_routing_type_listener(TCompressorDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CompressorDevice.CompressorDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1279,6 +1301,8 @@
 <Doc>	input_routing_type_has_listener( (CompressorDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "input_routing_type". C++ signature :  bool input_routing_type_has_listener(TCompressorDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CompressorDevice.CompressorDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -1297,6 +1321,8 @@
 <Doc>	remove_input_routing_type_listener( (CompressorDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "input_routing_type". C++ signature :  void remove_input_routing_type_listener(TCompressorDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CompressorDevice.CompressorDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1305,6 +1331,8 @@
 <Doc>	remove_name_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "name". C++ signature :  void remove_name_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.remove_parameters_listener()<Description>Method</Description></Method>
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.CompressorDevice.CompressorDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.CompressorDevice.CompressorDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.CompressorDevice.CompressorDevice.View<Description>Class</Description></Class>
@@ -1347,6 +1375,8 @@
 <Class>Live.Device.Device<Description>Class</Description></Class>
 <Doc>	This class represents a MIDI or Audio DSP-Device in Live.</Doc>
 <Property>Live.Device.Device._live_ptr<Description>Property</Description></Property>
+<Property>Live.Device.Device.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.Device.Device.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.Device.Device.can_have_drum_pads<Description>Property</Description></Property>
@@ -1359,6 +1389,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.Device.Device.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.Device.Device.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.Device.Device.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.Device.Device.latency_in_samples<Description>Property</Description></Property>
@@ -1373,6 +1405,8 @@
 <Doc>	Representing the view aspects of a device.</Doc>
 <Method>Live.Device.Device.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Device.Device.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1383,6 +1417,8 @@
 <Doc>	add_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "parameters" has changed. C++ signature :  void add_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Device.Device.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -1393,6 +1429,8 @@
 <Doc>	parameters_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "parameters". C++ signature :  bool parameters_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Device.Device.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1401,6 +1439,8 @@
 <Doc>	remove_name_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "name". C++ signature :  void remove_name_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Device.Device.remove_parameters_listener()<Description>Method</Description></Method>
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Device.Device.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.Device.Device.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.Device.Device.View<Description>Class</Description></Class>
@@ -1540,6 +1580,8 @@
 <Class>Live.DriftDevice.DriftDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Drift device.</Doc>
 <Property>Live.DriftDevice.DriftDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.DriftDevice.DriftDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.DriftDevice.DriftDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.DriftDevice.DriftDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -1552,6 +1594,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.DriftDevice.DriftDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.DriftDevice.DriftDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.DriftDevice.DriftDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.DriftDevice.DriftDevice.latency_in_samples<Description>Property</Description></Property>
@@ -1624,6 +1668,8 @@
 <Doc>	Return the voice mode list</Doc>
 <Method>Live.DriftDevice.DriftDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DriftDevice.DriftDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1664,6 +1710,8 @@
 <Doc>	add_voice_mode_index_listener( (DriftDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "voice_mode_index" has changed. C++ signature :  void add_voice_mode_index_listener(TDriftDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DriftDevice.DriftDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -1700,6 +1748,8 @@
 <Doc>	pitch_bend_range_has_listener( (DriftDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "pitch_bend_range". C++ signature :  bool pitch_bend_range_has_listener(TDriftDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DriftDevice.DriftDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1738,6 +1788,8 @@
 <Doc>	remove_voice_count_index_listener( (DriftDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "voice_count_index". C++ signature :  void remove_voice_count_index_listener(TDriftDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.DriftDevice.DriftDevice.remove_voice_mode_index_listener()<Description>Method</Description></Method>
 <Doc>	remove_voice_mode_index_listener( (DriftDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "voice_mode_index". C++ signature :  void remove_voice_mode_index_listener(TDriftDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.DriftDevice.DriftDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.DriftDevice.DriftDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Method>Live.DriftDevice.DriftDevice.voice_count_index_has_listener()<Description>Method</Description></Method>
@@ -1761,6 +1813,8 @@
 <Class>Live.DrumCellDevice.DrumCellDevice<Description>Class</Description></Class>
 <Doc>	This class represents a DrumCell device.</Doc>
 <Property>Live.DrumCellDevice.DrumCellDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.DrumCellDevice.DrumCellDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.DrumCellDevice.DrumCellDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.DrumCellDevice.DrumCellDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -1775,6 +1829,8 @@
 <Doc>	Return the Gain value</Doc>
 <Property>Live.DrumCellDevice.DrumCellDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.DrumCellDevice.DrumCellDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.DrumCellDevice.DrumCellDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.DrumCellDevice.DrumCellDevice.latency_in_samples<Description>Property</Description></Property>
@@ -1791,6 +1847,8 @@
 <Doc>	add_gain_listener( (DrumCellDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "gain" has changed. C++ signature :  void add_gain_listener(TDrumCellDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DrumCellDevice.DrumCellDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1803,6 +1861,8 @@
 <Doc>	gain_has_listener( (DrumCellDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "gain". C++ signature :  bool gain_has_listener(TDrumCellDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DrumCellDevice.DrumCellDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -1815,6 +1875,8 @@
 <Doc>	remove_gain_listener( (DrumCellDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "gain". C++ signature :  void remove_gain_listener(TDrumCellDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DrumCellDevice.DrumCellDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -1823,6 +1885,8 @@
 <Doc>	remove_name_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "name". C++ signature :  void remove_name_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.remove_parameters_listener()<Description>Method</Description></Method>
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.DrumCellDevice.DrumCellDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.DrumCellDevice.DrumCellDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.DrumCellDevice.DrumCellDevice.View<Description>Class</Description></Class>
@@ -1860,6 +1924,8 @@
 <Doc>	return True, if this Chain can be feed with an Audio signal. This istrue for all MIDI Chains.</Doc>
 <Property>Live.DrumChain.DrumChain.has_midi_output<Description>Property</Description></Property>
 <Doc>	return True, if this Chain sends out MIDI events. This istrue for all MIDI Chains with no Instruments.</Doc>
+<Property>Live.DrumChain.DrumChain.in_note<Description>Property</Description></Property>
+<Doc>	Access to the incoming MIDI note that will trigger this chain.</Doc>
 <Property>Live.DrumChain.DrumChain.is_auto_colored<Description>Property</Description></Property>
 <Doc>	Get/set access to the auto color flag of the Chain.If True, the Chain will always have the same color as the containingTrack or Chain.</Doc>
 <Property>Live.DrumChain.DrumChain.mixer_device<Description>Property</Description></Property>
@@ -1882,6 +1948,8 @@
 <Doc>	add_color_listener( (Chain)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "color" has changed. C++ signature :  void add_color_listener(TChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.add_devices_listener()<Description>Method</Description></Method>
 <Doc>	add_devices_listener( (Chain)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "devices" has changed. C++ signature :  void add_devices_listener(TChainPyHandle,boost::python::api::object)</Doc>
+<Method>Live.DrumChain.DrumChain.add_in_note_listener()<Description>Method</Description></Method>
+<Doc>	add_in_note_listener( (DrumChain)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "in_note" has changed. C++ signature :  void add_in_note_listener(TDrumChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.add_is_auto_colored_listener()<Description>Method</Description></Method>
 <Doc>	add_is_auto_colored_listener( (Chain)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_auto_colored" has changed. C++ signature :  void add_is_auto_colored_listener(TChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.add_mute_listener()<Description>Method</Description></Method>
@@ -1904,6 +1972,12 @@
 <Doc>	delete_device( (Chain)arg1, (int)arg2) -&gt; None : Remove a device identified by its index from the chain. Throws runtime error if bad index.  C++ signature :  void delete_device(TChainPyHandle,int)</Doc>
 <Method>Live.DrumChain.DrumChain.devices_has_listener()<Description>Method</Description></Method>
 <Doc>	devices_has_listener( (Chain)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "devices". C++ signature :  bool devices_has_listener(TChainPyHandle,boost::python::api::object)</Doc>
+<Method>Live.DrumChain.DrumChain.duplicate_device()<Description>Method</Description></Method>
+<Doc>	duplicate_device( (Chain)arg1, (int)arg2) -&gt; None : Duplicate the device at the given index in the chain. C++ signature :  void duplicate_device(TChainPyHandle,int)</Doc>
+<Method>Live.DrumChain.DrumChain.in_note_has_listener()<Description>Method</Description></Method>
+<Doc>	in_note_has_listener( (DrumChain)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "in_note". C++ signature :  bool in_note_has_listener(TDrumChainPyHandle,boost::python::api::object)</Doc>
+<Method>Live.DrumChain.DrumChain.insert_device()<Description>Method</Description></Method>
+<Doc>	insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -&gt; LomObject : Add a device at a given index in the chain. At end if -1. C++ signature :  TWeakPtr&lt;TPyHandleBase&gt; insert_device(TChainPyHandle,std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt;&gt; [,int=-1])</Doc>
 <Method>Live.DrumChain.DrumChain.is_auto_colored_has_listener()<Description>Method</Description></Method>
 <Doc>	is_auto_colored_has_listener( (Chain)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_auto_colored". C++ signature :  bool is_auto_colored_has_listener(TChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.mute_has_listener()<Description>Method</Description></Method>
@@ -1922,6 +1996,8 @@
 <Doc>	remove_color_listener( (Chain)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "color". C++ signature :  void remove_color_listener(TChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.remove_devices_listener()<Description>Method</Description></Method>
 <Doc>	remove_devices_listener( (Chain)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "devices". C++ signature :  void remove_devices_listener(TChainPyHandle,boost::python::api::object)</Doc>
+<Method>Live.DrumChain.DrumChain.remove_in_note_listener()<Description>Method</Description></Method>
+<Doc>	remove_in_note_listener( (DrumChain)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "in_note". C++ signature :  void remove_in_note_listener(TDrumChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.remove_is_auto_colored_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_auto_colored_listener( (Chain)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_auto_colored". C++ signature :  void remove_is_auto_colored_listener(TChainPyHandle,boost::python::api::object)</Doc>
 <Method>Live.DrumChain.DrumChain.remove_mute_listener()<Description>Method</Description></Method>
@@ -2016,6 +2092,8 @@
 <Class>Live.Eq8Device.Eq8Device<Description>Class</Description></Class>
 <Doc>	This class represents an Eq8 device.</Doc>
 <Property>Live.Eq8Device.Eq8Device._live_ptr<Description>Property</Description></Property>
+<Property>Live.Eq8Device.Eq8Device.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.Eq8Device.Eq8Device.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.Eq8Device.Eq8Device.can_have_drum_pads<Description>Property</Description></Property>
@@ -2032,6 +2110,8 @@
 <Doc>	Access to Eq8's global mode.</Doc>
 <Property>Live.Eq8Device.Eq8Device.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.Eq8Device.Eq8Device.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.Eq8Device.Eq8Device.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.Eq8Device.Eq8Device.latency_in_samples<Description>Property</Description></Property>
@@ -2052,6 +2132,8 @@
 <Doc>	add_global_mode_listener( (Eq8Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "global_mode" has changed. C++ signature :  void add_global_mode_listener(TEq8DevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Eq8Device.Eq8Device.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2068,6 +2150,8 @@
 <Doc>	global_mode_has_listener( (Eq8Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "global_mode". C++ signature :  bool global_mode_has_listener(TEq8DevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Eq8Device.Eq8Device.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -2084,6 +2168,8 @@
 <Doc>	remove_global_mode_listener( (Eq8Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "global_mode". C++ signature :  void remove_global_mode_listener(TEq8DevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Eq8Device.Eq8Device.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2094,6 +2180,8 @@
 <Doc>	remove_oversample_listener( (Eq8Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "oversample". C++ signature :  void remove_oversample_listener(TEq8DevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.Eq8Device.Eq8Device.remove_parameters_listener()<Description>Method</Description></Method>
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.Eq8Device.Eq8Device.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.Eq8Device.Eq8Device.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.Eq8Device.Eq8Device.View<Description>Class</Description></Class>
@@ -2189,6 +2277,8 @@
 <Class>Live.HybridReverbDevice.HybridReverbDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Hybrid Reverb device.</Doc>
 <Property>Live.HybridReverbDevice.HybridReverbDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.HybridReverbDevice.HybridReverbDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.HybridReverbDevice.HybridReverbDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.HybridReverbDevice.HybridReverbDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -2217,6 +2307,8 @@
 <Doc>	Return the current IrTimeShapingOn</Doc>
 <Property>Live.HybridReverbDevice.HybridReverbDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.HybridReverbDevice.HybridReverbDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.HybridReverbDevice.HybridReverbDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.HybridReverbDevice.HybridReverbDevice.latency_in_samples<Description>Property</Description></Property>
@@ -2245,6 +2337,8 @@
 <Doc>	add_ir_time_shaping_on_listener( (HybridReverbDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "ir_time_shaping_on" has changed. C++ signature :  void add_ir_time_shaping_on_listener(THybridReverbDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.HybridReverbDevice.HybridReverbDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2269,6 +2363,8 @@
 <Doc>	ir_time_shaping_on_has_listener( (HybridReverbDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "ir_time_shaping_on". C++ signature :  bool ir_time_shaping_on_has_listener(THybridReverbDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.HybridReverbDevice.HybridReverbDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -2293,6 +2389,8 @@
 <Doc>	remove_ir_time_shaping_on_listener( (HybridReverbDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "ir_time_shaping_on". C++ signature :  void remove_ir_time_shaping_on_listener(THybridReverbDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.HybridReverbDevice.HybridReverbDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2301,6 +2399,8 @@
 <Doc>	remove_name_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "name". C++ signature :  void remove_name_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.remove_parameters_listener()<Description>Method</Description></Method>
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.HybridReverbDevice.HybridReverbDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.HybridReverbDevice.HybridReverbDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.HybridReverbDevice.HybridReverbDevice.View<Description>Class</Description></Class>
@@ -2321,6 +2421,8 @@
 <Doc>	authorization_clock_days_ahead() -&gt; int : Advances the current date by the number of days specified by _AuthClockDaysAhead C++ signature :  int authorization_clock_days_ahead()</Doc>
 <Built-In>Live.Licensing.get_authorization_page_url()<Description>Built-In</Description></Built-In>
 <Doc>	get_authorization_page_url( (bool)reauthorize, (bool)is_trial) -&gt; str : Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization. C++ signature :  TString get_authorization_page_url(bool,bool)</Doc>
+<Built-In>Live.Licensing.get_purchase_live_url()<Description>Built-In</Description></Built-In>
+<Doc>	get_purchase_live_url() -&gt; str : Returns the environment-aware purchase URL for purchasing Live licenses C++ signature :  std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt;&gt; get_purchase_live_url()</Doc>
 <Built-In>Live.Licensing.get_services_url()<Description>Built-In</Description></Built-In>
 <Doc>	get_services_url() -&gt; str : Returns the URL against which service calls (e.g. for authorization) can be performed. C++ signature :  std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt;&gt; get_services_url()</Doc>
 <Built-In>Live.Licensing.get_unlock_dir()<Description>Built-In</Description></Built-In>
@@ -2360,6 +2462,8 @@
 <Doc>	get_startup_dialog( (PythonLicensingBridge)arg1, (object)authorize_callable, (object)authorize_later_callable) -&gt; StartupDialogServes as an entry point for the user to authorize Live on first launch. : Retrieves an instance of the startup dialog with the passed callables connected to its buttons. C++ signature :  TWeakPtr&lt;AStartupDialog&gt; get_startup_dialog(APythonLicensingBridge {lvalue},boost::python::api::object,boost::python::api::object)</Doc>
 <Method>Live.Licensing.PythonLicensingBridge.get_trial_time_left()<Description>Method</Description></Method>
 <Doc>	get_trial_time_left( (PythonLicensingBridge)arg1) -&gt; str : Returns remaining time on a trial as a formatted string. C++ signature :  TString get_trial_time_left(APythonLicensingBridge {lvalue})</Doc>
+<Method>Live.Licensing.PythonLicensingBridge.invoke_pack_installation_callback()<Description>Method</Description></Method>
+<Doc>	invoke_pack_installation_callback( (PythonLicensingBridge)arg1) -&gt; None : Call package installation callback. C++ signature :  void invoke_pack_installation_callback(APythonLicensingBridge {lvalue})</Doc>
 <Method>Live.Licensing.PythonLicensingBridge.load_and_convert_legacy_unlock_cfg()<Description>Method</Description></Method>
 <Doc>	load_and_convert_legacy_unlock_cfg( (PythonLicensingBridge)arg1) -&gt; dict : Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object. C++ signature :  boost::python::dict load_and_convert_legacy_unlock_cfg(APythonLicensingBridge {lvalue})</Doc>
 <Method>Live.Licensing.PythonLicensingBridge.process_license_response()<Description>Method</Description></Method>
@@ -2386,6 +2490,7 @@
 <Doc>	Return the integer represented by the given array of bytes.  bytes Holds the array of bytes to convert.  The argument must either support the buffer protocol or be an iterable object producing bytes. Bytes and bytearray are examples of built-in objects that support the buffer protocol.  byteorder The byte order used to represent the integer.  If byteorder is 'big', the most significant byte is at the beginning of the byte array.  If byteorder is 'little', the most significant byte is at the end of the byte array.  To request the native byte order of the host system, use `sys.byteorder' as the byte order value.  Default is to use 'big'.  signed Indicates whether two's complement is used to represent the integer.</Doc>
 <Class>Live.Licensing.UnlockStatus<Description>Class</Description></Class>
 <Doc>	Returns relevant information after unlock</Doc>
+<Property>Live.Licensing.UnlockStatus.authorization_deactivated<Description>Property</Description></Property>
 <Property>Live.Licensing.UnlockStatus.authorization_expired<Description>Property</Description></Property>
 <Property>Live.Licensing.UnlockStatus.has_max_unlock_products<Description>Property</Description></Property>
 <Property>Live.Licensing.UnlockStatus.temp_demo_mode<Description>Property</Description></Property>
@@ -2417,6 +2522,8 @@
 <Class>Live.LooperDevice.LooperDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Looper device.</Doc>
 <Property>Live.LooperDevice.LooperDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.LooperDevice.LooperDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.LooperDevice.LooperDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.LooperDevice.LooperDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -2429,6 +2536,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.LooperDevice.LooperDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.LooperDevice.LooperDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.LooperDevice.LooperDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.LooperDevice.LooperDevice.latency_in_samples<Description>Property</Description></Property>
@@ -2453,6 +2562,8 @@
 <Doc>	Representing the view aspects of a device.</Doc>
 <Method>Live.LooperDevice.LooperDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.LooperDevice.LooperDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2483,6 +2594,8 @@
 <Doc>	half_speed( (LooperDevice)arg1) -&gt; None : Halve the speed of Looper's playback. C++ signature :  void half_speed(TLooperDevicePyHandle)</Doc>
 <Method>Live.LooperDevice.LooperDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.LooperDevice.LooperDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -2505,6 +2618,8 @@
 <Doc>	record_length_index_has_listener( (LooperDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "record_length_index". C++ signature :  bool record_length_index_has_listener(TLooperDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.LooperDevice.LooperDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2521,6 +2636,8 @@
 <Doc>	remove_record_length_index_listener( (LooperDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "record_length_index". C++ signature :  void remove_record_length_index_listener(TLooperDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.LooperDevice.LooperDevice.remove_tempo_listener()<Description>Method</Description></Method>
 <Doc>	remove_tempo_listener( (LooperDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "tempo". C++ signature :  void remove_tempo_listener(TLooperDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.LooperDevice.LooperDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.LooperDevice.LooperDevice.stop()<Description>Method</Description></Method>
 <Doc>	stop( (LooperDevice)arg1) -&gt; None : Stop Looper's playback. C++ signature :  void stop(TLooperDevicePyHandle)</Doc>
 <Method>Live.LooperDevice.LooperDevice.store_chosen_bank()<Description>Method</Description></Method>
@@ -2550,6 +2667,8 @@
 <Doc>	Const access to a list of all audio inputs of the device.</Doc>
 <Property>Live.MaxDevice.MaxDevice.audio_outputs<Description>Property</Description></Property>
 <Doc>	Const access to a list of all audio outputs of the device.</Doc>
+<Property>Live.MaxDevice.MaxDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.MaxDevice.MaxDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.MaxDevice.MaxDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -2562,6 +2681,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.MaxDevice.MaxDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.MaxDevice.MaxDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.MaxDevice.MaxDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.MaxDevice.MaxDevice.latency_in_samples<Description>Property</Description></Property>
@@ -2586,6 +2707,8 @@
 <Doc>	add_bank_parameters_changed_listener( (MaxDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "bank_parameters_changed" has changed. C++ signature :  void add_bank_parameters_changed_listener(TMaxDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MaxDevice.MaxDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2614,6 +2737,8 @@
 <Doc>	get_value_item_icons( (MaxDevice)arg1, (DeviceParameter)arg2) -&gt; list : Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces. C++ signature :  boost::python::list get_value_item_icons(TMaxDevicePyHandle,TPyHandle&lt;ATimeableValue&gt;)</Doc>
 <Method>Live.MaxDevice.MaxDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MaxDevice.MaxDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -2634,6 +2759,8 @@
 <Doc>	remove_bank_parameters_changed_listener( (MaxDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "bank_parameters_changed". C++ signature :  void remove_bank_parameters_changed_listener(TMaxDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MaxDevice.MaxDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2646,6 +2773,8 @@
 <Doc>	remove_name_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "name". C++ signature :  void remove_name_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MaxDevice.MaxDevice.remove_parameters_listener()<Description>Method</Description></Method>
 <Doc>	remove_parameters_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "parameters". C++ signature :  void remove_parameters_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MaxDevice.MaxDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.MaxDevice.MaxDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.MaxDevice.MaxDevice.View<Description>Class</Description></Class>
@@ -2665,6 +2794,8 @@
 <Class>Live.MeldDevice.MeldDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Meld device.</Doc>
 <Property>Live.MeldDevice.MeldDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.MeldDevice.MeldDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.MeldDevice.MeldDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.MeldDevice.MeldDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -2677,6 +2808,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.MeldDevice.MeldDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.MeldDevice.MeldDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.MeldDevice.MeldDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.MeldDevice.MeldDevice.latency_in_samples<Description>Property</Description></Property>
@@ -2699,6 +2832,8 @@
 <Doc>	Representing the view aspects of a device.</Doc>
 <Method>Live.MeldDevice.MeldDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MeldDevice.MeldDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2717,6 +2852,8 @@
 <Doc>	add_unison_voices_listener( (MeldDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "unison_voices" has changed. C++ signature :  void add_unison_voices_listener(TMeldDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MeldDevice.MeldDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -2731,6 +2868,8 @@
 <Doc>	poly_voices_has_listener( (MeldDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "poly_voices". C++ signature :  bool poly_voices_has_listener(TMeldDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.MeldDevice.MeldDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2747,6 +2886,8 @@
 <Doc>	remove_selected_engine_listener( (MeldDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "selected_engine". C++ signature :  void remove_selected_engine_listener(TMeldDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.remove_unison_voices_listener()<Description>Method</Description></Method>
 <Doc>	remove_unison_voices_listener( (MeldDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "unison_voices". C++ signature :  void remove_unison_voices_listener(TMeldDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.MeldDevice.MeldDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.MeldDevice.MeldDevice.selected_engine_has_listener()<Description>Method</Description></Method>
 <Doc>	selected_engine_has_listener( (MeldDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "selected_engine". C++ signature :  bool selected_engine_has_listener(TMeldDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.MeldDevice.MeldDevice.store_chosen_bank()<Description>Method</Description></Method>
@@ -2866,6 +3007,8 @@
 <Class>Live.PluginDevice.PluginDevice<Description>Class</Description></Class>
 <Doc>	This class represents a plugin device.</Doc>
 <Property>Live.PluginDevice.PluginDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.PluginDevice.PluginDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.PluginDevice.PluginDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.PluginDevice.PluginDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -2878,6 +3021,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.PluginDevice.PluginDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.PluginDevice.PluginDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.PluginDevice.PluginDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.PluginDevice.PluginDevice.latency_in_samples<Description>Property</Description></Property>
@@ -2896,6 +3041,8 @@
 <Doc>	Representing the view aspects of a device.</Doc>
 <Method>Live.PluginDevice.PluginDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.PluginDevice.PluginDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2912,6 +3059,8 @@
 <Doc>	get_parameter_names( (PluginDevice)arg1 [, (int)begin=0 [, (int)end=-1]]) -&gt; StringVector : Get the range of plugin parameter names, bound by begin and end. If end is smaller than 0 it is interpreted as the parameter count.  C++ signature :  std::__1::vector&lt;TString, std::__1::allocator&lt;TString&gt;&gt; get_parameter_names(TPluginDevicePyHandle [,int=0 [,int=-1]])</Doc>
 <Method>Live.PluginDevice.PluginDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.PluginDevice.PluginDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -2924,6 +3073,8 @@
 <Doc>	presets_has_listener( (PluginDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "presets". C++ signature :  bool presets_has_listener(TPluginDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.PluginDevice.PluginDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -2936,6 +3087,8 @@
 <Doc>	remove_presets_listener( (PluginDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "presets". C++ signature :  void remove_presets_listener(TPluginDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.remove_selected_preset_index_listener()<Description>Method</Description></Method>
 <Doc>	remove_selected_preset_index_listener( (PluginDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "selected_preset_index". C++ signature :  void remove_selected_preset_index_listener(TPluginDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.PluginDevice.PluginDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.PluginDevice.PluginDevice.selected_preset_index_has_listener()<Description>Method</Description></Method>
 <Doc>	selected_preset_index_has_listener( (PluginDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "selected_preset_index". C++ signature :  bool selected_preset_index_has_listener(TPluginDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.PluginDevice.PluginDevice.store_chosen_bank()<Description>Method</Description></Method>
@@ -2957,6 +3110,8 @@
 <Class>Live.RackDevice.RackDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Rack device.</Doc>
 <Property>Live.RackDevice.RackDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.RackDevice.RackDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.RackDevice.RackDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.RackDevice.RackDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -2983,6 +3138,8 @@
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
 <Property>Live.RackDevice.RackDevice.is_showing_chains<Description>Property</Description></Property>
 <Doc>	Returns True, if it is showing chains.</Doc>
+<Property>Live.RackDevice.RackDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.RackDevice.RackDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.RackDevice.RackDevice.latency_in_samples<Description>Property</Description></Property>
@@ -3019,6 +3176,8 @@
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.add_is_showing_chains_listener()<Description>Method</Description></Method>
 <Doc>	add_is_showing_chains_listener( (RackDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_showing_chains" has changed. C++ signature :  void add_is_showing_chains_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.RackDevice.RackDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3051,10 +3210,14 @@
 <Doc>	has_drum_pads_has_listener( (RackDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "has_drum_pads". C++ signature :  bool has_drum_pads_has_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.has_macro_mappings_has_listener()<Description>Method</Description></Method>
 <Doc>	has_macro_mappings_has_listener( (RackDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "has_macro_mappings". C++ signature :  bool has_macro_mappings_has_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.RackDevice.RackDevice.insert_chain()<Description>Method</Description></Method>
+<Doc>	insert_chain( (RackDevice)arg1 [, (int)Index=-1]) -&gt; LomObject : Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence. C++ signature :  TWeakPtr&lt;TPyHandleBase&gt; insert_chain(TRackDevicePyHandle [,int=-1])</Doc>
 <Method>Live.RackDevice.RackDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.is_showing_chains_has_listener()<Description>Method</Description></Method>
 <Doc>	is_showing_chains_has_listener( (RackDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_showing_chains". C++ signature :  bool is_showing_chains_has_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.RackDevice.RackDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -3083,6 +3246,8 @@
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.remove_is_showing_chains_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_showing_chains_listener( (RackDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_showing_chains". C++ signature :  void remove_is_showing_chains_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.RackDevice.RackDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3105,6 +3270,8 @@
 <Doc>	remove_visible_macro_count_listener( (RackDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "visible_macro_count". C++ signature :  void remove_visible_macro_count_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.RackDevice.RackDevice.return_chains_has_listener()<Description>Method</Description></Method>
 <Doc>	return_chains_has_listener( (RackDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "return_chains". C++ signature :  bool return_chains_has_listener(TRackDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.RackDevice.RackDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.RackDevice.RackDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Method>Live.RackDevice.RackDevice.store_variation()<Description>Method</Description></Method>
@@ -3164,6 +3331,8 @@
 <Class>Live.RoarDevice.RoarDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Roar device.</Doc>
 <Property>Live.RoarDevice.RoarDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.RoarDevice.RoarDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.RoarDevice.RoarDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.RoarDevice.RoarDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -3178,6 +3347,8 @@
 <Doc>	Return the Envelope Input Listen toggle state</Doc>
 <Property>Live.RoarDevice.RoarDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.RoarDevice.RoarDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.RoarDevice.RoarDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.RoarDevice.RoarDevice.latency_in_samples<Description>Property</Description></Property>
@@ -3198,6 +3369,8 @@
 <Doc>	add_env_listen_listener( (RoarDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "env_listen" has changed. C++ signature :  void add_env_listen_listener(TRoarDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.RoarDevice.RoarDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3212,6 +3385,8 @@
 <Doc>	env_listen_has_listener( (RoarDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "env_listen". C++ signature :  bool env_listen_has_listener(TRoarDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.RoarDevice.RoarDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -3224,6 +3399,8 @@
 <Doc>	remove_env_listen_listener( (RoarDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "env_listen". C++ signature :  void remove_env_listen_listener(TRoarDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.RoarDevice.RoarDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3236,6 +3413,8 @@
 <Doc>	remove_routing_mode_index_listener( (RoarDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "routing_mode_index". C++ signature :  void remove_routing_mode_index_listener(TRoarDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.RoarDevice.RoarDevice.routing_mode_index_has_listener()<Description>Method</Description></Method>
 <Doc>	routing_mode_index_has_listener( (RoarDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "routing_mode_index". C++ signature :  bool routing_mode_index_has_listener(TRoarDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.RoarDevice.RoarDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.RoarDevice.RoarDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.RoarDevice.RoarDevice.View<Description>Class</Description></Class>
@@ -3544,6 +3723,8 @@
 <Class>Live.ShifterDevice.ShifterDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Shifter device.</Doc>
 <Property>Live.ShifterDevice.ShifterDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.ShifterDevice.ShifterDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.ShifterDevice.ShifterDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.ShifterDevice.ShifterDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -3556,6 +3737,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.ShifterDevice.ShifterDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.ShifterDevice.ShifterDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.ShifterDevice.ShifterDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.ShifterDevice.ShifterDevice.latency_in_samples<Description>Property</Description></Property>
@@ -3576,6 +3759,8 @@
 <Doc>	Representing the view aspects of a device.</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.ShifterDevice.ShifterDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3590,6 +3775,8 @@
 <Doc>	add_pitch_mode_index_listener( (ShifterDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "pitch_mode_index" has changed. C++ signature :  void add_pitch_mode_index_listener(TShifterDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.ShifterDevice.ShifterDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -3604,6 +3791,8 @@
 <Doc>	pitch_mode_index_has_listener( (ShifterDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "pitch_mode_index". C++ signature :  bool pitch_mode_index_has_listener(TShifterDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.ShifterDevice.ShifterDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3616,6 +3805,8 @@
 <Doc>	remove_pitch_bend_range_listener( (ShifterDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "pitch_bend_range". C++ signature :  void remove_pitch_bend_range_listener(TShifterDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.remove_pitch_mode_index_listener()<Description>Method</Description></Method>
 <Doc>	remove_pitch_mode_index_listener( (ShifterDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "pitch_mode_index". C++ signature :  void remove_pitch_mode_index_listener(TShifterDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.ShifterDevice.ShifterDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.ShifterDevice.ShifterDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.ShifterDevice.ShifterDevice.View<Description>Class</Description></Class>
@@ -3640,6 +3831,8 @@
 <Class>Live.SimplerDevice.SimplerDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Simpler device.</Doc>
 <Property>Live.SimplerDevice.SimplerDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.SimplerDevice.SimplerDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.SimplerDevice.SimplerDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.SimplerDevice.SimplerDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -3658,6 +3851,8 @@
 <Doc>	Return const access to the name of the device's class.</Doc>
 <Property>Live.SimplerDevice.SimplerDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.SimplerDevice.SimplerDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.SimplerDevice.SimplerDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.SimplerDevice.SimplerDevice.latency_in_samples<Description>Property</Description></Property>
@@ -3700,6 +3895,8 @@
 <Doc>	add_can_warp_half_listener( (SimplerDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "can_warp_half" has changed. C++ signature :  void add_can_warp_half_listener(TSimplerDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.SimplerDevice.SimplerDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3742,6 +3939,8 @@
 <Doc>	guess_playback_length( (SimplerDevice)self) -&gt; float : Return an estimated beat time for the playback length between start- and end-marker. Calling this method on an empty simpler raises an error. C++ signature :  double guess_playback_length(TSimplerDevicePyHandle)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.SimplerDevice.SimplerDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -3772,6 +3971,8 @@
 <Doc>	remove_can_warp_half_listener( (SimplerDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "can_warp_half". C++ signature :  void remove_can_warp_half_listener(TSimplerDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.SimplerDevice.SimplerDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -3808,6 +4009,8 @@
 <Doc>	reverse( (SimplerDevice)self) -&gt; None : Reverse the loaded sample. Calling this method on an empty simpler raises an error. C++ signature :  void reverse(TSimplerDevicePyHandle)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.sample_has_listener()<Description>Method</Description></Method>
 <Doc>	sample_has_listener( (SimplerDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "sample". C++ signature :  bool sample_has_listener(TSimplerDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.SimplerDevice.SimplerDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.slicing_playback_mode_has_listener()<Description>Method</Description></Method>
 <Doc>	slicing_playback_mode_has_listener( (SimplerDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "slicing_playback_mode". C++ signature :  bool slicing_playback_mode_has_listener(TSimplerDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SimplerDevice.SimplerDevice.store_chosen_bank()<Description>Method</Description></Method>
@@ -4516,6 +4719,8 @@
 <Class>Live.SpectralResonatorDevice.SpectralResonatorDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Spectral Resonator device.</Doc>
 <Property>Live.SpectralResonatorDevice.SpectralResonatorDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -4532,6 +4737,8 @@
 <Doc>	Return the current frequency dial mode list</Doc>
 <Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.SpectralResonatorDevice.SpectralResonatorDevice.latency_in_samples<Description>Property</Description></Property>
@@ -4570,6 +4777,8 @@
 <Doc>	add_frequency_dial_mode_listener( (SpectralResonatorDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "frequency_dial_mode" has changed. C++ signature :  void add_frequency_dial_mode_listener(TTransmuteDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -4604,6 +4813,8 @@
 <Doc>	frequency_dial_mode_list_has_listener( (SpectralResonatorDevice)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "frequency_dial_mode_list". C++ signature :  bool frequency_dial_mode_list_has_listener(TTransmuteDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.is_active_has_listener()<Description>Method</Description></Method>
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -4638,6 +4849,8 @@
 <Doc>	remove_frequency_dial_mode_listener( (SpectralResonatorDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "frequency_dial_mode". C++ signature :  void remove_frequency_dial_mode_listener(TTransmuteDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -4666,6 +4879,8 @@
 <Doc>	remove_pitch_mode_listener( (SpectralResonatorDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "pitch_mode". C++ signature :  void remove_pitch_mode_listener(TTransmuteDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.remove_polyphony_listener()<Description>Method</Description></Method>
 <Doc>	remove_polyphony_listener( (SpectralResonatorDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "polyphony". C++ signature :  void remove_polyphony_listener(TTransmuteDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.SpectralResonatorDevice.SpectralResonatorDevice.store_chosen_bank()<Description>Method</Description></Method>
 <Doc>	store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -&gt; None : Set the selected bank in the device for persistency. C++ signature :  void store_chosen_bank(TPyHandle&lt;ADevice&gt;,int,int)</Doc>
 <Class>Live.SpectralResonatorDevice.SpectralResonatorDevice.View<Description>Class</Description></Class>
@@ -5003,6 +5218,8 @@
 <Doc>	duplicate_clip_slot( (Track)arg1, (int)arg2) -&gt; int : Duplicate a clip and put it into the next free slot and return the index of the destination slot. A new scene is created if no free slot is available. If creating the new scene would exceed the limitations, a runtime error is raised. C++ signature :  int duplicate_clip_slot(TTrackPyHandle,int)</Doc>
 <Method>Live.Track.Track.duplicate_clip_to_arrangement()<Description>Method</Description></Method>
 <Doc>	duplicate_clip_to_arrangement( (Track)self, (Clip)clip, (float)destination_time) -&gt; Clip : Duplicate the given clip into the arrangement of this track at the provided destination time and return it. When the type of the clip and the type of the track are incompatible, a runtime error is raised. C++ signature :  TWeakPtr&lt;TPyHandle&lt;AClip&gt;&gt; duplicate_clip_to_arrangement(TTrackPyHandle,TPyHandle&lt;AClip&gt;,double)</Doc>
+<Method>Live.Track.Track.duplicate_device()<Description>Method</Description></Method>
+<Doc>	duplicate_device( (Track)arg1, (int)arg2) -&gt; None : Duplicate a device at a given index in the 'devices' list. C++ signature :  void duplicate_device(TTrackPyHandle,int)</Doc>
 <Method>Live.Track.Track.fired_slot_index_has_listener()<Description>Method</Description></Method>
 <Doc>	fired_slot_index_has_listener( (Track)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "fired_slot_index". C++ signature :  bool fired_slot_index_has_listener(TTrackPyHandle,boost::python::api::object)</Doc>
 <Method>Live.Track.Track.get_data()<Description>Method</Description></Method>
@@ -5031,6 +5248,8 @@
 <Doc>	input_routings_has_listener( (Track)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "input_routings". C++ signature :  bool input_routings_has_listener(TTrackPyHandle,boost::python::api::object)</Doc>
 <Method>Live.Track.Track.input_sub_routings_has_listener()<Description>Method</Description></Method>
 <Doc>	input_sub_routings_has_listener( (Track)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "input_sub_routings". C++ signature :  bool input_sub_routings_has_listener(TTrackPyHandle,boost::python::api::object)</Doc>
+<Method>Live.Track.Track.insert_device()<Description>Method</Description></Method>
+<Doc>	insert_device( (Track)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -&gt; LomObject : Add a device at a given index in the 'devices' list. At end if -1. C++ signature :  TWeakPtr&lt;TPyHandleBase&gt; insert_device(TTrackPyHandle,std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt;&gt; [,int=-1])</Doc>
 <Method>Live.Track.Track.is_frozen_has_listener()<Description>Method</Description></Method>
 <Doc>	is_frozen_has_listener( (Track)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_frozen". C++ signature :  bool is_frozen_has_listener(TTrackPyHandle,boost::python::api::object)</Doc>
 <Method>Live.Track.Track.is_showing_chains_has_listener()<Description>Method</Description></Method>
@@ -5281,6 +5500,8 @@
 <Class>Live.WavetableDevice.WavetableDevice<Description>Class</Description></Class>
 <Doc>	This class represents a Wavetable device.</Doc>
 <Property>Live.WavetableDevice.WavetableDevice._live_ptr<Description>Property</Description></Property>
+<Property>Live.WavetableDevice.WavetableDevice.can_compare_ab<Description>Property</Description></Property>
+<Doc>	Returns true if the Device has the capability to AB compare.</Doc>
 <Property>Live.WavetableDevice.WavetableDevice.can_have_chains<Description>Property</Description></Property>
 <Doc>	Returns true if the device is a rack.</Doc>
 <Property>Live.WavetableDevice.WavetableDevice.can_have_drum_pads<Description>Property</Description></Property>
@@ -5295,6 +5516,8 @@
 <Doc>	Return the current filter routing.</Doc>
 <Property>Live.WavetableDevice.WavetableDevice.is_active<Description>Property</Description></Property>
 <Doc>	Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.</Doc>
+<Property>Live.WavetableDevice.WavetableDevice.is_using_compare_preset_b<Description>Property</Description></Property>
+<Doc>	Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.</Doc>
 <Property>Live.WavetableDevice.WavetableDevice.latency_in_ms<Description>Property</Description></Property>
 <Doc>	Returns the latency of the device in ms.</Doc>
 <Property>Live.WavetableDevice.WavetableDevice.latency_in_samples<Description>Property</Description></Property>
@@ -5339,6 +5562,8 @@
 <Doc>	add_filter_routing_listener( (WavetableDevice)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "filter_routing" has changed. C++ signature :  void add_filter_routing_listener(TWavetableDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.add_is_active_listener()<Description>Method</Description></Method>
 <Doc>	add_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_active" has changed. C++ signature :  void add_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.WavetableDevice.WavetableDevice.add_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	add_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "is_using_compare_preset_b" has changed. C++ signature :  void add_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.add_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	add_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Add a listener function or method, which will be called as soon as the property "latency_in_ms" has changed. C++ signature :  void add_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.add_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -5387,6 +5612,8 @@
 <Doc>	is_active_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_active". C++ signature :  bool is_active_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.is_parameter_modulatable()<Description>Method</Description></Method>
 <Doc>	is_parameter_modulatable( (WavetableDevice)self, (DeviceParameter)parameter) -&gt; bool : Indicate whether the parameter is modulatable. Note that pitch parameters only exist in python and must be handled there. C++ signature :  bool is_parameter_modulatable(TWavetableDevicePyHandle,TPyHandle&lt;ATimeableValue&gt;)</Doc>
+<Method>Live.WavetableDevice.WavetableDevice.is_using_compare_preset_b_has_listener()<Description>Method</Description></Method>
+<Doc>	is_using_compare_preset_b_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "is_using_compare_preset_b". C++ signature :  bool is_using_compare_preset_b_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.latency_in_ms_has_listener()<Description>Method</Description></Method>
 <Doc>	latency_in_ms_has_listener( (Device)arg1, (object)arg2) -&gt; bool : Returns true, if the given listener function or method is connected to the property "latency_in_ms". C++ signature :  bool latency_in_ms_has_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.latency_in_samples_has_listener()<Description>Method</Description></Method>
@@ -5421,6 +5648,8 @@
 <Doc>	remove_filter_routing_listener( (WavetableDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "filter_routing". C++ signature :  void remove_filter_routing_listener(TWavetableDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.remove_is_active_listener()<Description>Method</Description></Method>
 <Doc>	remove_is_active_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_active". C++ signature :  void remove_is_active_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
+<Method>Live.WavetableDevice.WavetableDevice.remove_is_using_compare_preset_b_listener()<Description>Method</Description></Method>
+<Doc>	remove_is_using_compare_preset_b_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "is_using_compare_preset_b". C++ signature :  void remove_is_using_compare_preset_b_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.remove_latency_in_ms_listener()<Description>Method</Description></Method>
 <Doc>	remove_latency_in_ms_listener( (Device)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "latency_in_ms". C++ signature :  void remove_latency_in_ms_listener(TPyHandle&lt;ADevice&gt;,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.remove_latency_in_samples_listener()<Description>Method</Description></Method>
@@ -5457,6 +5686,8 @@
 <Doc>	remove_unison_voice_count_listener( (WavetableDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "unison_voice_count". C++ signature :  void remove_unison_voice_count_listener(TWavetableDevicePyHandle,boost::python::api::object)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.remove_visible_modulation_target_names_listener()<Description>Method</Description></Method>
 <Doc>	remove_visible_modulation_target_names_listener( (WavetableDevice)arg1, (object)arg2) -&gt; None : Remove a previously set listener function or method from property "visible_modulation_target_names". C++ signature :  void remove_visible_modulation_target_names_listener(TWavetableDevicePyHandle,boost::python::api::object)</Doc>
+<Method>Live.WavetableDevice.WavetableDevice.save_preset_to_compare_ab_slot()<Description>Method</Description></Method>
+<Doc>	save_preset_to_compare_ab_slot( (Device)arg1) -&gt; None : Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws. C++ signature :  void save_preset_to_compare_ab_slot(TPyHandle&lt;ADevice&gt;)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.set_modulation_value()<Description>Method</Description></Method>
 <Doc>	set_modulation_value( (WavetableDevice)self, (int)target_index, (int)source, (float)value) -&gt; None : Set the value of a modulation amount for the given target-source connection. C++ signature :  void set_modulation_value(TWavetableDevicePyHandle,int,int,float)</Doc>
 <Method>Live.WavetableDevice.WavetableDevice.store_chosen_bank()<Description>Method</Description></Method>
