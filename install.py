@@ -32,7 +32,7 @@ import shutil
 import getpass
 import argparse
 import platform
-from typing import Literal
+from typing import Literal, Optional
 
 USERLIBWIN = "C:\\Users\\{user}\\Documents\\Ableton\\User Library"
 USERLIBMAC = "/Users/{user}/Music/Ableton/User Library"
@@ -78,7 +78,7 @@ outdir = current_dir
 if mode == "build":
     outdir = os.path.join(outdir, "build")
 
-content: str | None = None
+content: Optional[str] = None
 
 with codecs.open(os.path.join(user_script_dir, "__init__.py"), "r", "utf-8") as f:
     content = f.read()

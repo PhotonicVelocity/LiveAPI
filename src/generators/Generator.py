@@ -76,8 +76,15 @@ class Generator:
             return
 
         try:
-            # Retrieve all members of the object
-            members = [(name, getattr(obj, name)) for name in dir(obj)]
+            # Retrieve all members of the object, skipping attributes that raise
+            members = []
+            for name in dir(obj):
+                try:
+                    members.append((name, getattr(obj, name)))
+                except Exception as e:
+                    # Older Live versions may throw on attribute access; skip safely
+                    print(f"Skipping member {name} on {obj}: {e}")
+                    continue
 
             # Process properties
             for name, member in members:
@@ -100,16 +107,16 @@ class Generator:
                             self._describe_obj("Sub-Class", member)
                         else:
                             self._describe_obj("Class", member)
-                    except TypeError:
-                        # 'obj' is not a class, so cannot be a base class
+                    except Exception:
+                        # 'obj' may not be a class, or issubclass may fail on older Live versions
                         self._describe_obj("Class", member)
 
             if self.lines:
                 self.lines.pop()
 
         except Exception as e:
-            # Log the exception with more detail
-            self.write(f"<Error> Error processing object {obj}: {e} </Error>")
+            # Log the exception with more detail without corrupting XML output
+            print(f"Error processing object {obj}: {e}")
             return
 
     def _describe_module(self, module):
@@ -121,12 +128,20 @@ class Generator:
         self._print_obj_info("Module", module)
 
         for name in dir(module):  # do the built-ins first
-            obj = getattr(module, name)
+            try:
+                obj = getattr(module, name)
+            except Exception as e:
+                print(f"Skipping module member {name} on {module}: {e}")
+                continue
             if inspect.isbuiltin(obj):
                 self._describe_obj("Built-In", obj)
 
         for name in dir(module):  # then the rest
-            obj = getattr(module, name)
+            try:
+                obj = getattr(module, name)
+            except Exception as e:
+                print(f"Skipping module member {name} on {module}: {e}")
+                continue
             if inspect.isclass(obj):
                 self._describe_obj("Class", obj)
             elif inspect.ismethod(obj) or inspect.isfunction(obj):
