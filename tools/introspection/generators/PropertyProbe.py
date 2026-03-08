@@ -4,6 +4,35 @@ settability, listener support, and enum values.
 
 Outputs probe_results.json alongside Live.json from Phase 1.
 Requires a Live session with a document open (fresh empty set is sufficient).
+
+## Object collection
+
+The probe needs live instances of each class to read property values from.
+Collection happens in two phases within `_collect_live_objects()`:
+
+1. **Natural walk** — traverses the object tree from Application/Song downward,
+   registering every reachable instance. First registration wins so that richer
+   instances (e.g. regular track vs master track) take priority.
+
+2. **Scaffolding** — creates temporary Live objects (clips, MIDI notes, etc.)
+   to reach classes that don't exist in a fresh empty set. Each `_ensure_*`
+   method follows the same pattern:
+   - Check if the class key is already registered (skip if so).
+   - Create the object via the Live API.
+   - Register the instance.
+   - Append a cleanup callable to `self._cleanup`.
+
+   To add a new temp object type, add one `_ensure_*` method and one call
+   at the end of `_collect_live_objects()`. Methods are called in dependency
+   order (e.g. clip before MIDI notes, since notes need a clip to live in).
+
+## Cleanup
+
+`self._cleanup` is a LIFO stack of `(description, callable)` tuples.
+`_run_cleanup()` pops and executes each in reverse order so dependents are
+removed before their parents (notes before clip, clip before track).
+Cleanup runs in a `finally` block in `_generate()` — after probing is
+complete but guaranteed even on failure.
 """
 
 import inspect
@@ -19,6 +48,7 @@ class PropertyProbe:
         self.outdir = outdir
         self.c_instance = c_instance
         self._live_objects: dict[str, Any] = {}
+        self._cleanup: list[tuple[str, Any]] = []  # (description, callable)
 
     def generate(self):
         with warnings.catch_warnings():
@@ -29,8 +59,11 @@ class PropertyProbe:
         if self.c_instance is not None:
             self._collect_live_objects()
 
-        results = {}
-        self._probe_module(self.module, results)
+        try:
+            results = {}
+            self._probe_module(self.module, results)
+        finally:
+            self._run_cleanup()
 
         out_file = os.path.join(self.outdir, "probe_results.json")
         with open(out_file, "w") as f:
@@ -81,6 +114,10 @@ class PropertyProbe:
 
         for track in all_tracks:
             self._collect_from_track(track)
+
+        # Scaffolding — create temp objects to reach missing classes
+        self._ensure_clip(song)
+        self._ensure_midi_notes()
 
     def _collect_from_track(self, track: Any):
         """Collect instances reachable from a track."""
@@ -161,6 +198,83 @@ class PropertyProbe:
         tend to have more properties accessible (e.g., regular track vs master track)."""
         if obj is not None and class_key not in self._live_objects:
             self._live_objects[class_key] = obj
+
+    # ------------------------------------------------------------------
+    # Scaffolding — create temporary objects to reach missing classes
+    # ------------------------------------------------------------------
+
+    def _ensure_clip(self, song: Any):
+        """Create a temp MIDI clip if Clip.Clip is not yet registered."""
+        if "Clip.Clip" in self._live_objects:
+            return
+
+        # Find first MIDI track
+        midi_track = None
+        try:
+            for track in song.tracks:
+                if track.has_midi_input:
+                    midi_track = track
+                    break
+        except Exception:
+            return
+        if midi_track is None:
+            return
+
+        # Find first empty clip slot
+        slot = None
+        try:
+            for s in midi_track.clip_slots:
+                if not s.has_clip:
+                    slot = s
+                    break
+        except Exception:
+            return
+        if slot is None:
+            return
+
+        try:
+            slot.create_clip(1.0)
+            clip = slot.clip
+        except Exception:
+            return
+
+        self._cleanup.append(("delete temp clip", lambda: slot.delete_clip()))
+        self._register(clip, "Clip.Clip")
+        self._try(lambda: self._register(clip.view, "Clip.Clip.View"))
+
+    def _ensure_midi_notes(self):
+        """Add a temp MIDI note if Clip.MidiNote is not yet registered."""
+        if "Clip.MidiNote" in self._live_objects:
+            return
+
+        clip = self._live_objects.get("Clip.Clip")
+        if clip is None:
+            return
+
+        try:
+            import Live  # type: ignore
+            spec = Live.Clip.MidiNoteSpecification(
+                pitch=60, start_time=0.0, duration=0.25, velocity=100
+            )
+            clip.add_new_notes((spec,))
+            notes = clip.get_notes_extended(0, 128, 0.0, 1.0)
+            if len(notes) > 0:
+                self._register(notes[0], "Clip.MidiNote")
+            self._cleanup.append((
+                "remove temp MIDI notes",
+                lambda: clip.remove_notes_extended(0, 128, 0.0, 1.0),
+            ))
+        except Exception:
+            pass
+
+    def _run_cleanup(self):
+        """Run all cleanup actions in LIFO order."""
+        while self._cleanup:
+            desc, fn = self._cleanup.pop()
+            try:
+                fn()
+            except Exception:
+                pass
 
     # ------------------------------------------------------------------
     # Probe logic — iterate modules/classes and inspect properties
