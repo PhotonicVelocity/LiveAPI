@@ -106,6 +106,10 @@ class PropertyProbe:
         # Tuning system
         self._try(lambda: self._register(song.tuning_system, "TuningSystem.TuningSystem"))
 
+        # Value objects from song methods
+        self._try(lambda: self._register(song.get_current_beats_song_time(), "Song.BeatTime"))
+        self._try(lambda: self._register(song.get_current_smpte_song_time(0), "Song.SmptTime"))
+
         # Walk all tracks (regular + return + master)
         all_tracks = []
         self._try(lambda: all_tracks.extend(song.tracks))
@@ -116,8 +120,13 @@ class PropertyProbe:
             self._collect_from_track(track)
 
         # Scaffolding — create temp objects to reach missing classes
+        self._ensure_cue_point(song)
         self._ensure_clip(song)
         self._ensure_midi_notes()
+        # Device loading via browser.load_item() is async and unreliable for
+        # probing — devices aren't initialized until the next tick, and cleanup
+        # of loaded devices is fragile. Specialized device classes (DriftDevice,
+        # SimplerDevice, etc.) require a set that already contains those devices.
 
     def _collect_from_track(self, track: Any):
         """Collect instances reachable from a track."""
@@ -202,6 +211,20 @@ class PropertyProbe:
     # ------------------------------------------------------------------
     # Scaffolding — create temporary objects to reach missing classes
     # ------------------------------------------------------------------
+
+    def _ensure_cue_point(self, song: Any):
+        """Create a temp cue point if Song.CuePoint is not yet registered."""
+        if "Song.CuePoint" in self._live_objects:
+            return
+
+        try:
+            song.set_or_delete_cue()
+            cue_points = song.cue_points
+            if len(cue_points) > 0:
+                self._register(cue_points[0], "Song.CuePoint")
+                self._cleanup.append(("delete temp cue point", lambda: song.set_or_delete_cue()))
+        except Exception:
+            pass
 
     def _ensure_clip(self, song: Any):
         """Create a temp MIDI clip if Clip.Clip is not yet registered."""
