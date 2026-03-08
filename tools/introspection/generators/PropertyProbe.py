@@ -1,5 +1,5 @@
 """
-Probe generator — runs inside Live to discover runtime property types,
+Property probe — runs inside Live to discover runtime property types,
 settability, listener support, and enum values.
 
 Outputs probe_results.json alongside Live.json from Phase 1.
@@ -13,7 +13,7 @@ import warnings
 from typing import Any, Optional
 
 
-class ProbeGenerator:
+class PropertyProbe:
     def __init__(self, module: Any, outdir: str, c_instance: Any = None):
         self.module = module
         self.outdir = outdir
@@ -245,11 +245,10 @@ class ProbeGenerator:
         return result if result else None
 
     def _probe_property(self, prop: Any, name: str, live_instance: Any) -> dict:
-        info: dict = {}
-
-        # Settable? Check descriptor-level fset (no mutation)
-        if getattr(prop, "fset", None) is not None:
-            info["settable"] = True
+        info: dict = {
+            "settable": getattr(prop, "fset", None) is not None,
+            "runtime_type": None,
+        }
 
         # Runtime value type
         if live_instance is not None:

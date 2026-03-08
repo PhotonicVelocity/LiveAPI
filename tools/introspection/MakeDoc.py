@@ -22,7 +22,7 @@ from _Framework.ControlSurface import ControlSurface  # type: ignore
 from .helpers.app import get_version_number
 from .generators import Generator as _gen_mod
 from .generators import CaptureGenerator as _capgen_mod
-from .generators import ProbeGenerator as _probegen_mod
+from .generators import PropertyProbe as _probe_mod
 
 RELOAD_TRIGGER = "/tmp/makedoc_reload"
 PROBE_TRIGGER = "/tmp/makedoc_probe"
@@ -75,7 +75,7 @@ class APIMakeDoc(ControlSurface):
         """Reload probe module and run probe."""
         self.log_message("Reloading probe module...")
         try:
-            importlib.reload(_probegen_mod)
+            importlib.reload(_probe_mod)
             self.log_message("Probe module reloaded")
         except Exception as e:
             self.log_message(f"Reload error: {e}")
@@ -94,7 +94,7 @@ class APIMakeDoc(ControlSurface):
 
     def _run_probe(self):
         self.log_message("Probing Live API runtime types")
-        probe = _probegen_mod.ProbeGenerator(
+        probe = _probe_mod.PropertyProbe(
             Live,
             outdir=self.outdir,
             c_instance=self._c_instance,

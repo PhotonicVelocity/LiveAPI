@@ -259,7 +259,7 @@ class StubGenerator:
             probe_info = None
             if self._current_class_key:
                 probe_info = self._get_probe_info(self._current_class_key, short_name)
-                if probe_info and "runtime_type" in probe_info:
+                if probe_info and probe_info.get("runtime_type"):
                     return_type = f" -> {self._format_return_type(probe_info)}"
 
             f.write(f"\n{indent}@property\n")
