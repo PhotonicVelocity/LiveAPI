@@ -166,10 +166,11 @@ The probe runs as a separate pass after capture, triggered the same way:
 touch /tmp/makedoc_probe
 ```
 
-It requires a Live session with a document open (at least one track, one clip slot). The probe is read-only — it does
-not modify the Live session, create clips, or change any state. Properties that raise on read are logged and skipped.
-DeprecationWarnings are suppressed during probing so deprecated properties are still captured for older Live version
-compatibility.
+It requires a Live session with a document open (at least one track, one clip slot). The probe may create temporary
+objects (clips, MIDI notes) to reach classes that don't exist in an empty set — these are cleaned up automatically when
+probing finishes. Use a fresh empty set to avoid any risk to real project data. Properties that raise on read are logged
+and skipped. DeprecationWarnings are suppressed during probing so deprecated properties are still captured for older
+Live version compatibility.
 
 ## Phase 3: Generate Stubs (runs outside Live)
 
