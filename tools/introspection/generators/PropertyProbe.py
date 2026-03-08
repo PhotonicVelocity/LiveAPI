@@ -100,14 +100,18 @@ class PropertyProbe:
         # Scenes
         self._try(lambda: self._register(song.scenes[0], "Scene.Scene"))
 
-        # Groove pool
+        # Groove pool + individual grooves
         self._try(lambda: self._register(song.groove_pool, "GroovePool.GroovePool"))
+        self._try(lambda: self._register(song.groove_pool.grooves[0], "Groove.Groove"))
 
         # Cue points
         self._try(lambda: self._register(song.cue_points[0], "Song.CuePoint"))
 
-        # Tuning system
+        # Tuning system + sub-objects — returns None in a fresh set with no custom
+        # tuning loaded. TODO: probe with a saved set that has a tuning system.
         self._try(lambda: self._register(song.tuning_system, "TuningSystem.TuningSystem"))
+        self._try(lambda: self._register(song.tuning_system.reference_pitch, "TuningSystem.ReferencePitch"))
+        self._try(lambda: self._register(song.tuning_system.highest_note, "TuningSystem.PitchClassAndOctave"))
 
         # Value objects from song methods
         self._try(lambda: self._register(song.get_current_beats_song_time(), "Song.BeatTime"))
@@ -130,6 +134,9 @@ class PropertyProbe:
         self._try(lambda: self._register_alt(
             song.master_track.mixer_device, "MixerDevice.MixerDevice"
         ))
+
+        # Construction — standalone value types that don't need the live set
+        self._ensure_constructable_types()
 
         # Scaffolding — create temp objects to reach missing classes
         self._ensure_cue_point(song)
@@ -328,8 +335,14 @@ class PropertyProbe:
         if clip is None:
             return
 
-        # Need a DeviceParameter to attach the envelope to
-        param = self._live_objects.get("DeviceParameter.DeviceParameter")
+        # The parameter must be from the same track as the clip — use the
+        # clip's canonical_parent chain to find the track's mixer volume.
+        param = None
+        try:
+            track = clip.canonical_parent.canonical_parent  # clip → clip_slot → track
+            param = track.mixer_device.volume
+        except Exception:
+            pass
         if param is None:
             return
 
@@ -442,6 +455,39 @@ class PropertyProbe:
             if take_lane is not None:
                 self._register(take_lane, "TakeLane.TakeLane")
                 # No delete_take_lane API exists; the lane stays but is harmless in a fresh set
+        except Exception:
+            pass
+
+    def _ensure_constructable_types(self):
+        """Register instances of classes that can be constructed directly (no Live session needed)."""
+        try:
+            import Live  # type: ignore
+
+            # MidiMap feedback rules — plain value objects used by Control Surfaces
+            if "MidiMap.CCFeedbackRule" not in self._live_objects:
+                self._try(lambda: self._register(Live.MidiMap.CCFeedbackRule(), "MidiMap.CCFeedbackRule"))
+            if "MidiMap.NoteFeedbackRule" not in self._live_objects:
+                self._try(lambda: self._register(Live.MidiMap.NoteFeedbackRule(), "MidiMap.NoteFeedbackRule"))
+            if "MidiMap.PitchBendFeedbackRule" not in self._live_objects:
+                self._try(lambda: self._register(
+                    Live.MidiMap.PitchBendFeedbackRule(), "MidiMap.PitchBendFeedbackRule"
+                ))
+
+            # Base.Timer — used by Push 2, v3 framework, third-party scripts
+            if "Base.Timer" not in self._live_objects:
+                self._try(lambda: self._register(
+                    Live.Base.Timer(callback=lambda: None, interval=1, start=False), "Base.Timer"
+                ))
+
+            # Base.Text — returned by Live.Base.get_text()
+            if "Base.Text" not in self._live_objects:
+                self._try(lambda: self._register(Live.Base.get_text("", ""), "Base.Text"))
+
+            # Clip.MidiNoteSpecification — constructable value object for creating MIDI notes
+            self._try(lambda: self._register(
+                Live.Clip.MidiNoteSpecification(pitch=60, start_time=0.0, duration=0.25),
+                "Clip.MidiNoteSpecification",
+            ))
         except Exception:
             pass
 
