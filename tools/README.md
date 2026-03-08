@@ -111,14 +111,33 @@ to reach an instance of each class, then reading each property value to record i
 
 ### How It Works
 
-The probe needs a live instance of each class to read properties from. It navigates the object tree starting from a
-fresh empty Live set:
+The probe needs a live instance of each class to read properties from. Object collection happens in three phases within
+`_collect_live_objects()`:
 
-- **Root objects** — `Application`, `Song`, `Song.View` are directly accessible
-- **Collection traversal** — `Song.tracks[0]` → `Track`, `Track.clip_slots[0]` → `ClipSlot`, etc.
-- **Nested navigation** — `Track.mixer_device` → `MixerDevice`, `MixerDevice.volume` → `DeviceParameter`
-- **Unreachable classes** — classes that require specific session state (e.g., a loaded Wavetable device, a clip with
-  automation) are skipped and logged
+1. **Natural walk** — traverses the object tree from Application/Song downward, registering every reachable instance in
+   a fresh empty Live set. First registration wins so that richer instances (e.g., audio track over MIDI track) take
+   priority. Examples:
+   - **Root objects** — `Application`, `Song`, `Song.View` are directly accessible
+   - **Collection traversal** — `Song.tracks[0]` → `Track`, `Track.clip_slots[0]` → `ClipSlot`, etc.
+   - **Nested navigation** — `Track.mixer_device` → `MixerDevice`, `MixerDevice.volume` → `DeviceParameter`
+
+2. **Construction** — instantiates standalone value types that exist independently of any Live document.
+   `CCFeedbackRule()`, `NoteFeedbackRule()`, `PitchBendFeedbackRule()`, `Base.Timer()` can all be constructed directly
+   from the `Live` module. Construction runs before scaffolding so that anything obtainable without mutating the set is
+   registered first.
+
+3. **Scaffolding** — creates temporary Live objects (clips, MIDI notes, automation envelopes, etc.) to reach classes
+   that don't exist in a fresh empty set. Each `_ensure_*` method follows the pattern: check if already registered →
+   create the object → register it → append a cleanup callable to `self._cleanup`. Cleanup runs in LIFO order after
+   probing completes.
+
+**Alt-instance probing** — when different instances of the same class expose different subsets of properties (e.g.,
+master track mixer has `crossfader`/`cue_volume`/`song_tempo` while regular track mixer has `crossfade_assign`),
+alternative instances are registered with `_register_alt()`. The probe tries the primary instance first, then falls back
+to alts for any property that raises on the primary.
+
+Classes that require specific session state (e.g., a loaded Wavetable device, a Drum Rack with chains) remain
+unreachable from a fresh empty set and are reported with `runtime_type: null`.
 
 ### What It Probes
 
@@ -167,10 +186,10 @@ touch /tmp/makedoc_probe
 ```
 
 It requires a Live session with a document open (at least one track, one clip slot). The probe may create temporary
-objects (clips, MIDI notes) to reach classes that don't exist in an empty set — these are cleaned up automatically when
-probing finishes. Use a fresh empty set to avoid any risk to real project data. Properties that raise on read are logged
-and skipped. DeprecationWarnings are suppressed during probing so deprecated properties are still captured for older
-Live version compatibility.
+objects (clips, MIDI notes, automation envelopes, audio clips, take lanes) to reach classes that don't exist in an empty
+set — these are cleaned up automatically when probing finishes. Use a fresh empty set to avoid any risk to real project
+data. Properties that raise on read are skipped and reported with `runtime_type: null`. DeprecationWarnings are
+suppressed during probing so deprecated properties are still captured for older Live version compatibility.
 
 ## Phase 3: Generate Stubs (runs outside Live)
 
