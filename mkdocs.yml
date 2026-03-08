@@ -1,0 +1,88 @@
+site_name: LiveAPI
+site_description: Comprehensive reference for the Ableton Live Object Model
+site_url: https://photonicvelocity.github.io/LiveAPI/
+repo_url: https://github.com/PhotonicVelocity/LiveAPI
+repo_name: PhotonicVelocity/LiveAPI
+
+theme:
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - toc.follow
+
+docs_dir: reference
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - tables
+  - toc:
+      permalink: true
+
+plugins:
+  - search
+
+nav:
+  - index.md
+  - Application.md
+  - Song.md
+  - Scene.md
+  - Tracks:
+      - tracks/Track.md
+      - tracks/Clip.md
+      - tracks/ClipSlot.md
+      - tracks/Envelope.md
+      - tracks/MixerDevice.md
+      - tracks/TakeLane.md
+  - Devices:
+      - devices/Device.md
+      - devices/DeviceParameter.md
+      - devices/Chain.md
+      - devices/DrumChain.md
+      - devices/DrumPad.md
+      - devices/RackDevice.md
+  - Device Subclasses:
+      - devices/CcControlDevice.md
+      - devices/CompressorDevice.md
+      - devices/DeviceIO.md
+      - devices/DriftDevice.md
+      - devices/DrumCellDevice.md
+      - devices/Eq8Device.md
+      - devices/HybridReverbDevice.md
+      - devices/LooperDevice.md
+      - devices/MaxDevice.md
+      - devices/MeldDevice.md
+      - devices/PluginDevice.md
+      - devices/RoarDevice.md
+      - devices/Sample.md
+      - devices/ShifterDevice.md
+      - devices/SimplerDevice.md
+      - devices/SpectralResonatorDevice.md
+      - devices/WavetableDevice.md
+  - Other:
+      - Browser.md
+      - other/Conversions.md
+      - other/Groove.md
+      - other/GroovePool.md
+      - other/TuningSystem.md
