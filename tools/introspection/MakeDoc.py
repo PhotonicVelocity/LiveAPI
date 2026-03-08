@@ -28,7 +28,6 @@ import os
 import sys
 import Live  # type: ignore
 from _Framework.ControlSurface import ControlSurface  # type: ignore
-from .types.BuildMode import BuildMode
 from .helpers.app import get_version_number
 from .generators.StubGenerator import StubGenerator
 from .generators.DocumentationGenerator import DocumentationGenerator
@@ -37,23 +36,16 @@ from .generators.DocumentationGenerator import DocumentationGenerator
 class APIMakeDoc(ControlSurface):
     script_dir: str
     outdir: str
-    document_gen: DocumentationGenerator
-    build_mode: BuildMode
 
-    def __init__(self, c_instance, outdir: str, build_mode: BuildMode):
+    def __init__(self, c_instance, outdir: str):
         ControlSurface.__init__(self, c_instance)
         self.log_message(f"Running Python Version: {sys.version}")
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
-
-        self.outdir = outdir
-        self.build_mode = build_mode
         self.version = get_version_number(Live)
+        self.outdir = os.path.join(outdir, self.version)
 
-        if build_mode == "build":
-            self.outdir = os.path.join(outdir, self.version)
-
-        if not os.path.exists(outdir):
-            os.makedirs(outdir)
+        if not os.path.exists(self.outdir):
+            os.makedirs(self.outdir)
 
         self.build_documentation()
         self.build_stub()
@@ -61,7 +53,7 @@ class APIMakeDoc(ControlSurface):
     def build_documentation(self):
         self.log_message("Generating documentation for Live API")
 
-        doc_generator = self.document_gen = DocumentationGenerator(
+        doc_generator = DocumentationGenerator(
             Live,
             outdir=self.outdir,
             script_dir=self.script_dir,
@@ -78,11 +70,5 @@ class APIMakeDoc(ControlSurface):
 
         self.log_message("Completed generating stub for Live API")
 
-    def handle_on_server_start(self, port: int):
-        self.show_message(
-            "Documentation is being served at localhost:%s/Live.xml" % port
-        )
-
     def disconnect(self):
-        self.document_gen.close()
         ControlSurface.disconnect(self)
