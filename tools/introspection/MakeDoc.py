@@ -2,7 +2,7 @@
 MakeDoc — MIDI Remote Script that captures Live API metadata.
 
 Runs inside Ableton Live as a Control Surface. On load, introspects the Live
-module and writes raw data files (Live.xml) to the output directory.
+module and writes raw data files (Live.json) to the output directory.
 Stub generation is a separate offline step.
 
 Reload support: after the initial run, MakeDoc polls for a trigger file.
@@ -21,7 +21,7 @@ import Live  # type: ignore
 from _Framework.ControlSurface import ControlSurface  # type: ignore
 from .helpers.app import get_version_number
 from .generators import Generator as _gen_mod
-from .generators import DocumentationGenerator as _docgen_mod
+from .generators import CaptureGenerator as _capgen_mod
 
 RELOAD_TRIGGER = "/tmp/makedoc_reload"
 
@@ -58,7 +58,7 @@ class APIMakeDoc(ControlSurface):
         self.log_message("Reloading generator modules...")
         try:
             importlib.reload(_gen_mod)
-            importlib.reload(_docgen_mod)
+            importlib.reload(_capgen_mod)
             self.log_message("Generator modules reloaded")
         except Exception as e:
             self.log_message(f"Reload error: {e}")
@@ -67,16 +67,16 @@ class APIMakeDoc(ControlSurface):
 
     def _run(self):
         self.log_message("Capturing Live API metadata")
-        self._build_documentation()
+        self._build_capture()
         self.log_message("Capture complete")
 
-    def _build_documentation(self):
-        doc_generator = _docgen_mod.DocumentationGenerator(
+    def _build_capture(self):
+        generator = _capgen_mod.CaptureGenerator(
             Live,
             outdir=self.outdir,
             script_dir=self.script_dir,
         )
-        doc_generator.generate()
+        generator.generate()
 
     def disconnect(self):
         ControlSurface.disconnect(self)

@@ -29,7 +29,7 @@ path. The stubs include a `py.typed` marker for PEP 561 compatibility.
 
 ```
 reference/     Curated per-class API docs (the primary product)
-build/         Generated stubs and XML per Live version
+build/         Generated stubs and capture data per Live version
 MaxForLive/    API docs parsed from Max for Live HTML documentation
 tools/         Introspection and stub generation pipeline (see tools/README.md)
 ```

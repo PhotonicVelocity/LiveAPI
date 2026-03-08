@@ -1,11 +1,11 @@
 # Build Output
 
-Auto-generated API stubs and XML dumps, organized by Live version (11.0 through 12.3.5).
+Auto-generated API stubs and capture data, organized by Live version.
 
 Each version directory contains:
 
-- `Live/` — Python stub modules for every Live API class
-- `Live.xml` — XML dump of the full API surface
+- `Live.json` — captured API metadata (classes, methods, properties, docstrings)
+- `Live/` — typed Python stub modules generated from the capture
 
 ## How These Are Generated
 
