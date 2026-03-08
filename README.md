@@ -3,74 +3,43 @@
 Comprehensive reference for the Ableton Live Python API — classes, properties, methods, enums, and behavioral notes
 that Ableton doesn't publicly document.
 
-## Purpose
+## Overview
 
-Ableton does not publish documentation for the Python API embedded in Live. The best available sources are auto-generated
-stubs (incomplete types, no behavioral notes), Max for Live docs (partial coverage, not always current), and tribal
-knowledge scattered across forums and source code. LiveAPI synthesizes all of these — plus direct runtime probing — into
-a single accurate, browsable reference.
+Ableton does not publish documentation for the Python API embedded in Live. LiveAPI fills that gap with:
 
-## Audience
+- **Curated reference docs** — per-class documentation with properties, methods, enums, and behavioral notes
+- **Typed Python stubs** — use in your Control Surface or Remote Script for autocomplete and type checking
 
-Anyone working with Live's Python API:
+## Reference Docs
 
-- Remote Script / Control Surface authors
-- Max for Live developers
-- [LiveRelay](https://github.com/PhotonicVelocity/LiveRelay) and
-  [PythonForLive](https://github.com/PhotonicVelocity/PythonForLive) contributors and users
-- [AbletonOSC](https://github.com/ideoforms/AbletonOSC) contributors
-- Anyone building tools that interact with Live programmatically
-
-## Project Structure
-
-### `reference/` — The Product
-
-Curated per-class reference docs. Each file covers one Live API class with its properties, methods, children, enums, and
-behavioral notes. This is the primary deliverable of the project — everything else exists to produce and maintain it.
-
-See [reference/README.md](reference/README.md) for coverage status, format guidelines, and contributing instructions.
+The [`reference/`](reference/) directory contains per-class documentation for the Live Object Model. Each file covers
+one class with summary tables, detailed member descriptions, quirks, and open questions.
 
 Published as a searchable site via GitHub Pages (MkDocs + Material theme).
 
-### `build/` — Generated Output
+## Using the Stubs
 
-Per-version output from the introspection pipeline. Each version directory (e.g., `build/12.3.6/`) contains:
+Pre-built stubs for each Live version are available in [`build/`](build/). Each version directory contains a `Live/`
+package with typed modules you can use for autocomplete and static analysis.
 
-- `Live.xml` — raw API dump (classes, methods, properties, docstrings)
-- `probe_results.json` — runtime metadata (types, settability, listeners, enums)
-- `Live/` — typed Python stubs
+To use in a Control Surface project, add the relevant `build/<version>/Live/` directory to your type checker's search
+path. The stubs include a `py.typed` marker for PEP 561 compatibility.
 
-### `MaxForLive/` — Parsed Max for Live Docs
-
-API documentation extracted from Max for Live's HTML docs. Another source for cross-referencing when writing reference
-docs. Richer descriptions than stubs but does not cover the full API.
-
-### `tools/` — Introspection and Build Tooling
-
-Two-phase pipeline for generating typed stubs from Live's API:
-
-**Phase 1: Capture** (runs inside Live)
-
-`tools/introspection/` is a MIDI Remote Script that introspects the `Live` module at runtime and writes raw data files.
-Install with `python tools/install.py`, then start Live.
-
-- `DocumentationGenerator` — walks `Live` module via `dir()` / `inspect` → `Live.xml`
-- `ProbeGenerator` — walks the live object tree for runtime types → `probe_results.json`
-
-**Phase 2: Generate stubs** (runs outside Live)
+## Project Structure
 
 ```
-python tools/generate_stubs.py build/<version>
+reference/     Curated per-class API docs (the primary product)
+build/         Generated stubs and XML per Live version
+MaxForLive/    API docs parsed from Max for Live HTML documentation
+tools/         Introspection and stub generation pipeline (see tools/README.md)
 ```
 
-Reads `Live.xml` and `probe_results.json`, produces typed Python stubs in `build/<version>/Live/`.
-
-### Sources and Synthesis
+## Sources
 
 The reference docs are built from three sources:
 
-1. **Generated stubs** (`build/`) — complete class/method/property inventory with runtime types
-2. **Max for Live docs** (`MaxForLive/`) — richer descriptions and gotcha coverage, but partial API coverage
+1. **Generated stubs** — complete class/method/property inventory from runtime introspection
+2. **Max for Live docs** — richer descriptions and gotcha coverage, partial API coverage
 3. **Direct probing** — runtime verification of behavior that neither source clarifies
 
 Each reference file records its probe status (`unprobed`, `partial`, or `verified`) so coverage gaps are visible.
