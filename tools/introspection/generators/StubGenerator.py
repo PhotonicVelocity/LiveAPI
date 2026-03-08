@@ -1,9 +1,7 @@
-from io import BytesIO
 import json
 import re
 import codecs
-from typing import Callable, IO, List, Optional, Tuple, Union
-import xml.etree.ElementTree as ElementTree
+from typing import IO, List, Optional, Tuple, Union
 from os import makedirs
 from os.path import abspath, join, exists
 
@@ -90,16 +88,16 @@ class StubGenerator:
         return rt
 
     def generate(self):
-        in_file = abspath(join(self.script_dir, "Live.xml"))
+        in_file = abspath(join(self.script_dir, "Live.json"))
         out_dir = abspath(join(self.script_dir, "Live"))
         if not exists(out_dir):
             makedirs(out_dir)
 
-        xml = self.parse_xml(in_file)
-        if xml is None:
+        data = self._load_capture(in_file)
+        if data is None:
             return
 
-        elements = self._collect_elements(xml)
+        elements = self._collect_elements(data)
 
         # Monolithic __init__.py
         with codecs.open(join(out_dir, "__init__.py"), "w", "utf-8") as f:
@@ -115,24 +113,18 @@ class StubGenerator:
         with open(join(out_dir, "py.typed"), "w") as f:
             f.write("")
 
-    def _collect_elements(self, xml) -> List[Tuple[Optional[str], Optional[str], Optional[str]]]:
-        """Parse XML into a list of (tag, name, doc) tuples."""
-        elements: List[Tuple[Optional[str], Optional[str], Optional[str]]] = []
-        last_tag = None
-        last_name = None
-        last_doc = None
-        for element in xml.findall("./*"):
-            if element.tag == "Doc":
-                last_doc = element.text.strip() if element.text else ""
-            else:
-                if last_tag is not None:
-                    elements.append((last_tag, last_name, last_doc))
-                last_doc = None
-                last_tag = element.tag
-                last_name = element.text.strip() if element.text else ""
-        if last_tag is not None:
-            elements.append((last_tag, last_name, last_doc))
-        return elements
+    def _load_capture(self, path: str) -> Optional[dict]:
+        """Load Live.json capture file."""
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error loading capture file '{path}': {e}")
+            return None
+
+    def _collect_elements(self, data: dict) -> List[Tuple[Optional[str], Optional[str], Optional[str]]]:
+        """Convert JSON elements into a list of (kind, name, doc) tuples."""
+        return [(e["kind"], e["name"], e.get("doc")) for e in data["elements"]]
 
     def _generate_per_module(self, elements, out_dir: str):
         """Write per-module stub files into classes/ subdirectory."""
@@ -168,14 +160,6 @@ class StubGenerator:
                 self._flush_listeners(f)
 
     def generate_code(self, tag, name, doc, f: IO[str]):
-        if doc is not None:
-            doc = (
-                doc.replace("&gt;", ">")
-                .replace("&lt;", "<")
-                .replace("&amp;gt;", ">")
-                .replace("&amp;lt;", "<")
-                .replace("&amp;", "&")
-            )
         if tag is not None and name is not None and name != "Live":
             level = name.count(".") - 1
             indent = "    " * level
@@ -366,27 +350,3 @@ class StubGenerator:
             arg_doc = "{0}\n{1}:rtype: {2}".format(arg_doc, indent, ret)
         return arg_doc
 
-    def read_file(self, name) -> str:
-        with codecs.open(name, "r", "utf-8") as f:
-            return f.read()
-
-    def parse_xml(self, file):
-        """
-        Create and return a namespace-agnostic ElementTree root element.
-
-        :param file: Path to the XML file.
-        :return: Root ElementTree.Element or None if parsing fails.
-        """
-        try:
-            text = self.read_file(file)
-
-            tree = ElementTree.iterparse(BytesIO(text.encode("UTF-8")))
-            for _, el in tree:
-                if "}" in el.tag:
-                    el.tag = el.tag.split("}", 1)[1]  # strip all namespaces
-            return tree.root.find("Live")  # type: ignore
-
-        except Exception as e:
-            print(f"Unexpected error while parsing XML file '{file}': {e}")
-
-        return None
