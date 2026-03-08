@@ -63,12 +63,35 @@ class DocumentationGenerator(Generator):
 
         # Safely retrieve __name__ if it exists
         obj_name = getattr(obj, "__name__", None)
+        recovered_doc = None
+
+        # Boost.Python sometimes concatenates the docstring onto __name__;
+        # strip the overlap by checking if __doc__ text appears as a suffix
+        if obj_name:
+            obj_doc = getattr(obj, "__doc__", None) or ""
+            if obj_doc and len(obj_name) > len(obj_doc):
+                overlap = obj_name[len(obj_name) - len(obj_doc):]
+                if obj_doc.startswith(overlap):
+                    obj_name = obj_name[:len(obj_name) - len(obj_doc)]
+            # If name had a space and __doc__ is None, Boost.Python concatenated the
+            # doc directly into __name__. Split at the last CamelCase boundary
+            # (lowercase followed by uppercase) to recover the real class name.
+            if " " in obj_name:
+                first_word = obj_name.split(" ", 1)[0]
+                rest = obj_name[len(first_word):].strip()
+                if not obj_doc:
+                    for i in range(len(first_word) - 1, 0, -1):
+                        if first_word[i - 1].islower() and first_word[i].isupper():
+                            rest = first_word[i:] + " " + rest if rest else first_word[i:]
+                            first_word = first_word[:i]
+                            break
+                    if rest:
+                        recovered_doc = rest.rstrip(".")
+                obj_name = first_word
 
         # Filter out unnamed Boost.Python functions and special methods
         if obj_name:
-            if obj_name == "<unnamed Boost.Python function>" or obj_name.startswith(
-                "__"
-            ):
+            if "<" in obj_name or obj_name.startswith("__"):
                 return
 
         # Determine the name to use
@@ -101,3 +124,5 @@ class DocumentationGenerator(Generator):
         # Print the docstring if available
         if hasattr(obj, "__doc__") and getattr(obj, "__doc__"):
             self.write(f"<Doc>\t{self._get_doc(obj)}</Doc>\n")
+        elif recovered_doc:
+            self.write(f"<Doc>\t{self._clean_doc(recovered_doc)}</Doc>\n")
