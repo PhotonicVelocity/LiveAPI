@@ -38,7 +38,9 @@ complete but guaranteed even on failure.
 import inspect
 import json
 import os
+import struct
 import warnings
+import wave
 from typing import Any, Optional
 
 
@@ -48,6 +50,7 @@ class PropertyProbe:
         self.outdir = outdir
         self.c_instance = c_instance
         self._live_objects: dict[str, Any] = {}
+        self._alt_instances: dict[str, list[Any]] = {}  # fallback instances per class key
         self._cleanup: list[tuple[str, Any]] = []  # (description, callable)
 
     def generate(self):
@@ -110,19 +113,31 @@ class PropertyProbe:
         self._try(lambda: self._register(song.get_current_beats_song_time(), "Song.BeatTime"))
         self._try(lambda: self._register(song.get_current_smpte_song_time(0), "Song.SmptTime"))
 
-        # Walk all tracks (regular + return + master)
+        # Walk all tracks — audio tracks first so Track.Track gets an instance
+        # with input/output meters (MIDI tracks lack these).
         all_tracks = []
         self._try(lambda: all_tracks.extend(song.tracks))
         self._try(lambda: all_tracks.extend(song.return_tracks))
+        all_tracks.sort(key=lambda t: (0 if self._try_bool(lambda: t.has_audio_input) else 1))
         self._try(lambda: all_tracks.append(song.master_track))
 
         for track in all_tracks:
             self._collect_from_track(track)
 
+        # Master track mixer has crossfader, cue_volume, song_tempo that regular
+        # track mixers lack. Register as alt so both are probed — the primary
+        # (regular track) covers crossfade_assign, the alt covers the rest.
+        self._try(lambda: self._register_alt(
+            song.master_track.mixer_device, "MixerDevice.MixerDevice"
+        ))
+
         # Scaffolding — create temp objects to reach missing classes
         self._ensure_cue_point(song)
         self._ensure_clip(song)
         self._ensure_midi_notes()
+        self._ensure_automation_envelope()
+        self._ensure_warp_markers(song)
+        self._ensure_take_lane(song)
         # Device loading via browser.load_item() is async and unreliable for
         # probing — devices aren't initialized until the next tick, and cleanup
         # of loaded devices is fragile. Specialized device classes (DriftDevice,
@@ -202,11 +217,25 @@ class PropertyProbe:
         except Exception:
             pass
 
-    def _register(self, obj: Any, class_key: str):
-        """Register a live object instance. First registration wins — earlier instances
-        tend to have more properties accessible (e.g., regular track vs master track)."""
-        if obj is not None and class_key not in self._live_objects:
+    def _try_bool(self, fn) -> bool:
+        try:
+            return bool(fn())
+        except Exception:
+            return False
+
+    def _register(self, obj: Any, class_key: str, force: bool = False):
+        """Register a live object instance. First registration wins unless force=True.
+        Use force=True when a later instance is known to expose strictly more properties
+        (e.g., audio clip over MIDI clip, master mixer over regular mixer)."""
+        if obj is not None and (force or class_key not in self._live_objects):
             self._live_objects[class_key] = obj
+
+    def _register_alt(self, obj: Any, class_key: str):
+        """Register an alternative instance for a class. Used when different instances
+        expose different subsets of properties (e.g., master vs regular track mixer).
+        The primary instance is tried first; alts are tried for properties that fail."""
+        if obj is not None:
+            self._alt_instances.setdefault(class_key, []).append(obj)
 
     # ------------------------------------------------------------------
     # Scaffolding — create temporary objects to reach missing classes
@@ -290,6 +319,132 @@ class PropertyProbe:
         except Exception:
             pass
 
+    def _ensure_automation_envelope(self):
+        """Create a temp automation envelope to probe Envelope classes."""
+        if "Envelope.Envelope" in self._live_objects:
+            return
+
+        clip = self._live_objects.get("Clip.Clip")
+        if clip is None:
+            return
+
+        # Need a DeviceParameter to attach the envelope to
+        param = self._live_objects.get("DeviceParameter.DeviceParameter")
+        if param is None:
+            return
+
+        try:
+            envelope = clip.create_automation_envelope(param)
+            if envelope is None:
+                return
+        except Exception:
+            return
+
+        self._register(envelope, "Envelope.Envelope")
+        self._cleanup.append(("clear temp envelope", lambda: clip.clear_envelope(param)))
+
+        # Insert a step so we can probe EnvelopeEvent and its control coefficients
+        try:
+            envelope.insert_step(0.0, 0.25, 0.5)
+            events = envelope.events_in_range(0.0, 1.0)
+            if len(events) > 0:
+                event = events[0]
+                self._register(event, "Envelope.EnvelopeEvent")
+                self._try(lambda: self._register(
+                    event.control_coefficients, "Envelope.EnvelopeEventControlCoefficients"
+                ))
+        except Exception:
+            pass
+
+    def _ensure_warp_markers(self, song: Any):
+        """Create a temp audio clip to probe Clip.WarpMarker."""
+        if "Clip.WarpMarker" in self._live_objects:
+            return
+
+        # Find an audio track
+        audio_track = None
+        try:
+            for track in song.tracks:
+                if track.has_audio_input:
+                    audio_track = track
+                    break
+        except Exception:
+            return
+        if audio_track is None:
+            return
+
+        # Find an empty clip slot
+        slot = None
+        try:
+            for s in audio_track.clip_slots:
+                if not s.has_clip:
+                    slot = s
+                    break
+        except Exception:
+            return
+        if slot is None:
+            return
+
+        # Generate a silent WAV file
+        wav_path = "/tmp/probe_silent.wav"
+        try:
+            sample_rate = 48000
+            total_frames = sample_rate  # 1 second
+            silence = struct.pack("<h", 0) * total_frames
+            with wave.open(wav_path, "wb") as wf:
+                wf.setnchannels(1)
+                wf.setsampwidth(2)
+                wf.setframerate(sample_rate)
+                wf.writeframes(silence)
+        except Exception:
+            return
+
+        try:
+            clip = slot.create_audio_clip(wav_path)
+        except Exception:
+            self._try(lambda: os.remove(wav_path))
+            return
+
+        self._cleanup.append(("delete temp audio clip", lambda: slot.delete_clip()))
+        self._cleanup.append(("delete temp WAV", lambda: os.remove(wav_path)))
+
+        # Audio clips expose all common Clip properties plus 12 audio-only ones
+        # (warp_markers, gain, file_path, etc.) — force-overwrite the MIDI clip.
+        self._register(clip, "Clip.Clip", force=True)
+        self._try(lambda: self._register(clip.view, "Clip.Clip.View", force=True))
+
+        try:
+            markers = clip.warp_markers
+            if len(markers) > 0:
+                self._register(markers[0], "Clip.WarpMarker")
+        except Exception:
+            pass
+
+    def _ensure_take_lane(self, song: Any):
+        """Create a temp take lane to probe TakeLane.TakeLane."""
+        if "TakeLane.TakeLane" in self._live_objects:
+            return
+
+        # Find a MIDI track to create the take lane on
+        midi_track = None
+        try:
+            for track in song.tracks:
+                if track.has_midi_input:
+                    midi_track = track
+                    break
+        except Exception:
+            return
+        if midi_track is None:
+            return
+
+        try:
+            take_lane = midi_track.create_take_lane()
+            if take_lane is not None:
+                self._register(take_lane, "TakeLane.TakeLane")
+                # No delete_take_lane API exists; the lane stays but is harmless in a fresh set
+        except Exception:
+            pass
+
     def _run_cleanup(self):
         """Run all cleanup actions in LIFO order."""
         while self._cleanup:
@@ -358,9 +513,10 @@ class PropertyProbe:
         except Exception:
             pass
 
-        # Find a live instance for runtime type probing
+        # Find live instances for runtime type probing
         live_key = qualified_name.replace("Live.", "", 1) if qualified_name.startswith("Live.") else qualified_name
         live_instance = self._live_objects.get(live_key)
+        alt_instances = self._alt_instances.get(live_key, [])
 
         # Probe properties
         properties = {}
@@ -372,7 +528,7 @@ class PropertyProbe:
             except Exception:
                 continue
             if isinstance(member, property):
-                prop_info = self._probe_property(member, name, live_instance)
+                prop_info = self._probe_property(member, name, live_instance, alt_instances)
                 if prop_info:
                     properties[name] = prop_info
 
@@ -381,18 +537,22 @@ class PropertyProbe:
 
         return result if result else None
 
-    def _probe_property(self, prop: Any, name: str, live_instance: Any) -> dict:
+    def _probe_property(
+        self, prop: Any, name: str, live_instance: Any, alt_instances: list[Any] | None = None,
+    ) -> dict:
         info: dict = {
             "settable": getattr(prop, "fset", None) is not None,
             "runtime_type": None,
         }
 
-        # Runtime value type
-        if live_instance is not None:
+        # Try the primary instance, then alts if it fails
+        instances = ([live_instance] if live_instance is not None else []) + (alt_instances or [])
+        for instance in instances:
             try:
-                value = getattr(live_instance, name)
+                value = getattr(instance, name)
                 value_type = type(value).__name__
                 info["runtime_type"] = value_type
+                info.pop("runtime_error", None)
 
                 # For sequences, probe element type
                 if value_type in ("list", "tuple", "Vector"):
@@ -403,6 +563,7 @@ class PropertyProbe:
                             info["runtime_element_type"] = "(empty)"
                     except Exception:
                         pass
+                break  # success — no need to try more instances
             except Exception as e:
                 info["runtime_error"] = str(e)
 

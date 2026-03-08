@@ -26,6 +26,20 @@ produce and maintain it.
 - Do not amend commits unless explicitly requested.
 - If unexpected modifications appear, stop and ask before proceeding.
 
+## Introspection Hot Reload
+
+The MakeDoc Control Surface runs from a **copy** in `~/Music/Ableton/User Library/Remote Scripts/MakeDoc/`, not from
+the source tree. After editing files in `tools/introspection/`, you must reinstall before hot reload will pick up
+changes:
+
+```bash
+python tools/install.py          # copy updated source to Remote Scripts
+touch /tmp/makedoc_probe          # trigger probe hot reload (PropertyProbe only)
+touch /tmp/makedoc_reload         # trigger capture hot reload (CaptureGenerator only)
+```
+
+Changes to `MakeDoc.py` or `__init__.py` require a full Live restart.
+
 ## Dev Server
 
 ```bash
