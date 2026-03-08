@@ -105,7 +105,7 @@ effect immediately.
 
 ## Phase 2: Probe (runs inside Live)
 
-`ProbeGenerator` reads live object properties to determine runtime types, settability, and listener support. It uses
+`PropertyProbe` reads live object properties to determine runtime types, settability, and listener support. It uses
 `Live.json` from Phase 1 as its input — iterating over captured classes and properties, navigating the Live Object Model
 to reach an instance of each class, then reading each property value to record its `type()`.
 
@@ -208,7 +208,7 @@ tools/
 │   ├── generators/
 │   │   ├── Generator.py            Base class (module walking, file I/O)
 │   │   ├── CaptureGenerator.py     Phase 1: JSON capture output
-│   │   ├── ProbeGenerator.py       Phase 2: runtime property type probing
+│   │   ├── PropertyProbe.py       Phase 2: runtime property type probing
 │   │   └── StubGenerator.py        Phase 3: Python stub output (used by generate_stubs.py)
 │   └── helpers/
 │       └── app.py          Version number extraction
