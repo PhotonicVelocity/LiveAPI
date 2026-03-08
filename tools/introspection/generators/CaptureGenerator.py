@@ -1,6 +1,7 @@
 import inspect
 import json
 import os
+import re
 import sys
 
 from ..helpers.app import get_version_number
@@ -51,6 +52,115 @@ class CaptureGenerator(Generator):
         """Get object's doc string with whitespace normalized."""
         if getattr(obj, "__doc__") is not None:
             return self._clean_doc(getattr(obj, "__doc__"))
+
+    def _parse_signature(self, raw_doc):
+        """Parse a Boost.Python docstring into structured fields.
+
+        Input format:
+            method( (Type)arg1, (Type)arg2 [, (Type)arg3=default]) -> RetType : Description C++ signature :  ...
+
+        Returns a dict with optional keys: args, returns, doc, cpp_signature.
+        Returns None if the docstring doesn't match the expected format.
+        """
+        if not raw_doc:
+            return None
+
+        result = {}
+        remaining = raw_doc
+
+        # Extract C++ signature if present (take the last occurrence).
+        # Boost.Python sometimes concatenates a duplicate signature after the C++ sig;
+        # strip all C++ signature blocks to isolate the primary signature.
+        cpp_marker = "C++ signature :"
+        while cpp_marker in remaining:
+            before, cpp_sig = remaining.rsplit(cpp_marker, 1)
+            remaining = before.rstrip()
+            cpp_sig = cpp_sig.strip()
+            if cpp_sig and "cpp_signature" not in result:
+                result["cpp_signature"] = cpp_sig
+
+        # Strip trailing " :" left over from the " : C++ signature :" separator
+        if remaining.endswith(":"):
+            remaining = remaining[:-1].rstrip()
+
+        # Split at first " : " to separate signature from description
+        if " : " in remaining:
+            sig_part, desc_part = remaining.split(" : ", 1)
+            desc_part = desc_part.strip()
+            # Clean up any C++ signature remnants leaked into the description
+            if cpp_marker in desc_part:
+                desc_part = desc_part[:desc_part.index(cpp_marker)].rstrip().rstrip(":")
+            if desc_part:
+                result["doc"] = desc_part
+        else:
+            sig_part = remaining
+
+        # Parse: method_name( (Type)arg [, (Type)arg=default]) -> RetType
+        # Also handles: method_name() -> RetType (no args)
+        sig_match = re.match(r"^[\w]+\(\s*(.*?)\)\s*->\s*(\S+)\s*$", sig_part)
+        corrupted_ret = False
+        if not sig_match:
+            # Boost.Python sometimes concatenates class docstrings onto the return type
+            # (e.g., "-> StartupDialogServes as an entry point..."). Try a lenient match.
+            sig_match = re.match(r"^[\w]+\(\s*(.*?)\)\s*->\s*(\S+)", sig_part)
+            if not sig_match:
+                return None
+            corrupted_ret = True
+
+        args_str = sig_match.group(1)
+        ret = sig_match.group(2)
+
+        # Recover corrupted return type by splitting at the last CamelCase boundary
+        # (e.g., "StartupDialogServes" -> "StartupDialog")
+        if corrupted_ret:
+            for i in range(len(ret) - 1, 0, -1):
+                if ret[i - 1].islower() and ret[i].isupper():
+                    ret = ret[:i]
+                    break
+
+        # Validate return type is a valid identifier
+        if ret and re.match(r"^[\w\[\], .]+$", ret):
+            result["returns"] = ret
+
+        # Parse individual args: (Type)name or (Type)name=default
+        if args_str.strip():
+            # Remove optional brackets
+            args_str = args_str.replace("[", "").replace("]", "")
+            args = []
+            for arg_match in re.finditer(r"\((\w+)\)(\w+)(?:=(\S+))?", args_str):
+                arg: dict = {"name": arg_match.group(2), "type": arg_match.group(1)}
+                if arg_match.group(3):
+                    arg["default"] = arg_match.group(3)
+                args.append(arg)
+            if args:
+                result["args"] = args
+
+        return result if result else None
+
+    def _detect_enum(self, obj):
+        """Detect if a class is a Boost.Python enum (int subclass with named int values).
+
+        Returns a dict of {name: value} or None if not an enum.
+        """
+        try:
+            if not inspect.isclass(obj):
+                return None
+            if not issubclass(obj, int):
+                return None
+            # Collect int-valued class attributes (enum members)
+            values = {}
+            for attr_name in dir(obj):
+                if attr_name.startswith("_"):
+                    continue
+                try:
+                    val = getattr(obj, attr_name)
+                except Exception:
+                    continue
+                if isinstance(val, int) and not callable(val):
+                    values[attr_name] = int(val)
+            return values if values else None
+        except Exception:
+            return None
 
     def _print_obj_info(self, description, obj, name=None):
         """Collect element info into the elements list."""
@@ -108,11 +218,37 @@ class CaptureGenerator(Generator):
         # Build the element dict
         element: dict = {"kind": description, "name": line_str}
 
-        # Add docstring if available
-        doc = self._get_doc(obj) if hasattr(obj, "__doc__") and getattr(obj, "__doc__") else None
-        if doc:
-            element["doc"] = doc
-        elif recovered_doc:
-            element["doc"] = self._clean_doc(recovered_doc)
+        # Get the raw docstring
+        raw_doc = self._get_doc(obj) if hasattr(obj, "__doc__") and getattr(obj, "__doc__") else None
+        if not raw_doc and recovered_doc:
+            raw_doc = self._clean_doc(recovered_doc)
+
+        # For methods and built-ins, parse the signature into structured fields
+        if description in ("Method", "Built-In") and raw_doc:
+            parsed = self._parse_signature(raw_doc)
+            if parsed:
+                # Methods: strip the implicit self arg (first arg is always the class itself)
+                if description == "Method" and "args" in parsed:
+                    parsed["args"] = parsed["args"][1:]
+                    if not parsed["args"]:
+                        del parsed["args"]
+                element.update(parsed)
+            else:
+                # Parsing failed — store raw doc
+                element["doc"] = raw_doc
+
+        # For classes, detect enums
+        elif description in ("Class", "Sub-Class"):
+            enum_values = self._detect_enum(obj)
+            if enum_values is not None:
+                element["enum"] = True
+                element["enum_values"] = enum_values
+            if raw_doc:
+                element["doc"] = raw_doc
+
+        # For everything else, store the raw doc
+        else:
+            if raw_doc:
+                element["doc"] = raw_doc
 
         self._elements.append(element)

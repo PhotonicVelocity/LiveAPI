@@ -111,6 +111,8 @@ class Generator:
 
             # Process methods and functions
             for name, member in members:
+                if name == "from_bytes":
+                    continue  # Skip inherited int method on enum classes
                 if inspect.isbuiltin(member) or inspect.isfunction(member):
                     self._describe_obj("Method", member)
 
