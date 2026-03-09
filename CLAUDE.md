@@ -34,7 +34,8 @@ changes:
 
 ```bash
 python tools/install.py          # copy updated source to Remote Scripts
-touch /tmp/makedoc_probe          # trigger probe hot reload (PropertyProbe only)
+touch /tmp/makedoc_probe          # trigger probe hot reload (PropertyProbe — steps 1-3)
+touch /tmp/makedoc_probe_devices  # trigger device probe (DevicePropertyProbe — step 4)
 touch /tmp/makedoc_reload         # trigger capture hot reload (CaptureGenerator only)
 ```
 
