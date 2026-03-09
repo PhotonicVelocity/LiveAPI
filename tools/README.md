@@ -15,6 +15,7 @@ python tools/install.py
 
 This copies the introspection package into Ableton's MIDI Remote Scripts directory with the output path configured to
 `build/`. After installing, start Live and select **MakeDoc** as a Control Surface in Preferences → Link, Tempo & MIDI.
+Nothing runs automatically on startup — MakeDoc just starts its tick loop and waits for trigger files.
 
 ### What It Captures
 
@@ -94,7 +95,7 @@ appending class docs. The capture handles both cases by detecting overlaps and s
 
 ### Hot Reload
 
-After the initial capture, MakeDoc polls for a trigger file. To re-run capture without restarting Live:
+To run or re-run capture without restarting Live:
 
 ```
 touch /tmp/makedoc_reload
@@ -191,6 +192,43 @@ set — these are cleaned up automatically when probing finishes. Use a fresh em
 data. Properties that raise on read are skipped and reported with `runtime_type: null`. DeprecationWarnings are
 suppressed during probing so deprecated properties are still captured for older Live version compatibility.
 
+### Step 4: Device Probe
+
+`DevicePropertyProbe` extends the probe by loading every built-in device from the browser one at a time and probing
+device-specific classes that aren't reachable from a fresh empty set (e.g., `Compressor2Device`, `Eq8Device`,
+`WavetableDevice`).
+
+**Why a separate step?** `browser.load_item()` is asynchronous — devices aren't initialized until the next
+`schedule_message` tick after loading. The device probe is therefore a tick-driven state machine rather than a
+synchronous pass:
+
+```
+INIT → LOAD → WAIT → PROBE → LOAD → ... → CLEANUP → DONE
+```
+
+Each tick advances one state transition. MakeDoc's tick loop drives the probe, calling `tick()` once per cycle until it
+returns `False`.
+
+**What it probes per device:**
+
+- The device class itself (e.g., `Compressor2Device.Compressor2Device`)
+- The device's `.view` (e.g., `Compressor2Device.Compressor2Device.View`)
+- Chains (Rack devices) → `Chain.Chain`, `ChainMixerDevice.ChainMixerDevice`
+- Drum pads (Drum Rack) → `DrumPad.DrumPad`, `DrumChain.DrumChain`
+- Sample (SimplerDevice) → `Sample.Sample`
+- Device I/O routing → `DeviceIO.DeviceIO`
+
+PluginDevice (third-party VST/AU) is skipped. Device classes already probed by an earlier device are also skipped —
+deduplication is by Python class name, not browser item name.
+
+**Trigger:**
+
+```
+touch /tmp/makedoc_probe_devices
+```
+
+Results are merged into the same `probe_results.json` used by the synchronous probe (steps 1-3).
+
 ## Phase 3: Generate Stubs (runs outside Live)
 
 ```
@@ -216,19 +254,47 @@ python tools/generate_stubs.py build/12.3.6              # version inferred from
 python tools/generate_stubs.py build/12.3.6 --version 12.3.6  # version specified explicitly
 ```
 
+## Running the Full Pipeline
+
+`run_pipeline.py` orchestrates all four phases end-to-end. It triggers each in-Live phase via tmp files and polls for
+completion markers before moving on.
+
+```
+python tools/run_pipeline.py                  # auto-detect version from latest build dir
+python tools/run_pipeline.py --version 12.3.6
+python tools/run_pipeline.py --skip-capture   # skip phase 1 (reuse existing Live.json)
+```
+
+Or via the justfile:
+
+```
+cd tools && just pipeline
+cd tools && just pipeline --skip-capture
+```
+
+Each in-Live phase writes a completion marker (`/tmp/makedoc_*_done`) when finished:
+
+| Phase        | Trigger                      | Marker                           |
+| ------------ | ---------------------------- | -------------------------------- |
+| Capture      | `/tmp/makedoc_reload`        | `/tmp/makedoc_capture_done`      |
+| Probe        | `/tmp/makedoc_probe`         | `/tmp/makedoc_probe_done`        |
+| Device probe | `/tmp/makedoc_probe_devices` | `/tmp/makedoc_device_probe_done` |
+
 ## Pipeline Structure
 
 ```
 tools/
+├── run_pipeline.py         Run all phases end-to-end (trigger + poll + generate)
 ├── install.py              Install the capture script into Live's Remote Scripts
 ├── generate_stubs.py       CLI for offline stub generation
 ├── introspection/          The MIDI Remote Script package
 │   ├── __init__.py         Control Surface entry point
-│   ├── MakeDoc.py          Capture orchestrator + hot reload
+│   ├── MakeDoc.py          Tick loop orchestrator + trigger file polling
 │   ├── generators/
 │   │   ├── Generator.py            Base class (module walking, file I/O)
 │   │   ├── CaptureGenerator.py     Phase 1: JSON capture output
-│   │   ├── PropertyProbe.py       Phase 2: runtime property type probing
+│   │   ├── PropertyProbe.py        Phase 2 steps 1-3: synchronous property probing
+│   │   ├── DevicePropertyProbe.py  Phase 2 step 4: tick-driven device probing
 │   │   └── StubGenerator.py        Phase 3: Python stub output (used by generate_stubs.py)
 │   └── helpers/
 │       └── app.py          Version number extraction

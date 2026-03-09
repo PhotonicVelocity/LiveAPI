@@ -13,5 +13,8 @@ open-set:
 reload:
 	just install-builder && just close-set && sleep 1 && just open-set
 
+pipeline *args:
+	python3 run_pipeline.py {{args}}
+
 watch:
 	python3 watch.py
