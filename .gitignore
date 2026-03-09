@@ -2,3 +2,8 @@
 __pycache__/
 site/
 .env
+
+# Ableton project artifacts
+Icon?
+Backup/
+Cache.cfg
