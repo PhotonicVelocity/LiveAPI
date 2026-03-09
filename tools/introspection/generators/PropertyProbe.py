@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Property probe — runs inside Live to discover runtime property types,
 settability, listener support, and enum values.

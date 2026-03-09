@@ -93,6 +93,11 @@ defaults, return types, descriptions, C++ signatures). Enum classes are detected
 **Boost.Python quirks:** Live's C++ bindings sometimes concatenate docstrings onto `__name__` or corrupt return types by
 appending class docs. The capture handles both cases by detecting overlaps and splitting at CamelCase boundaries.
 
+### Python Compatibility
+
+All introspection modules use `from __future__ import annotations` so that modern type hint syntax (`list[Any] | None`)
+works on Live 12.0's Python 3.7.3 runtime without raising `TypeError` at import time.
+
 ### Hot Reload
 
 To run or re-run capture without restarting Live:

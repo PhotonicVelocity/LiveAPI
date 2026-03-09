@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 Device property probe — tick-driven probe that loads devices from the browser
 one at a time, waits for initialization, probes their properties, and cleans up.
