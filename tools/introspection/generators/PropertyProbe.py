@@ -40,9 +40,7 @@ complete but guaranteed even on failure.
 import inspect
 import json
 import os
-import struct
 import warnings
-import wave
 from typing import Any, Optional
 
 
@@ -119,12 +117,17 @@ class PropertyProbe:
         self._try(lambda: self._register(song.get_current_beats_song_time(), "Song.BeatTime"))
         self._try(lambda: self._register(song.get_current_smpte_song_time(0), "Song.SmptTime"))
 
-        # Walk all tracks — audio tracks first so Track.Track gets an instance
-        # with input/output meters (MIDI tracks lack these).
+        # Walk all tracks — non-group audio tracks first so Track.Track gets an
+        # instance with arm, monitoring, and input/output meters. Group tracks lack
+        # arm/implicit_arm/current_monitoring_state; MIDI tracks lack meters.
         all_tracks = []
         self._try(lambda: all_tracks.extend(song.tracks))
         self._try(lambda: all_tracks.extend(song.return_tracks))
-        all_tracks.sort(key=lambda t: (0 if self._try_bool(lambda: t.has_audio_input) else 1))
+        all_tracks.sort(key=lambda t: (
+            0 if self._try_bool(lambda: t.has_audio_input) and not self._try_bool(lambda: t.is_foldable) else
+            1 if not self._try_bool(lambda: t.is_foldable) else
+            2
+        ))
         self._try(lambda: all_tracks.append(song.master_track))
 
         for track in all_tracks:
@@ -142,10 +145,6 @@ class PropertyProbe:
 
         # Scaffolding — create temp objects to reach missing classes
         self._ensure_cue_point(song)
-        self._ensure_clip(song)
-        self._ensure_midi_notes()
-        self._ensure_automation_envelope()
-        self._ensure_warp_markers(song)
         self._ensure_take_lane(song)
         # Device loading via browser.load_item() is async and unreliable for
         # probing — devices aren't initialized until the next tick, and cleanup
@@ -154,7 +153,12 @@ class PropertyProbe:
 
     def _collect_from_track(self, track: Any):
         """Collect instances reachable from a track."""
-        self._try(lambda: self._register(track, "Track.Track"))
+        # Group tracks lack arm/monitoring; register as alt so fold_state is still probed
+        is_group = self._try_bool(lambda: track.is_foldable)
+        if is_group:
+            self._register_alt(track, "Track.Track")
+        else:
+            self._try(lambda: self._register(track, "Track.Track"))
         self._try(lambda: self._register(track.view, "Track.Track.View"))
         self._try(lambda: self._register(track.mixer_device, "MixerDevice.MixerDevice"))
 
@@ -168,6 +172,7 @@ class PropertyProbe:
         self._try(lambda: self._register(track.mixer_device.volume, "DeviceParameter.DeviceParameter"))
 
         # Clip slots
+        is_audio = self._try_bool(lambda: track.has_audio_input)
         try:
             slots = track.clip_slots
             if len(slots) > 0:
@@ -176,8 +181,10 @@ class PropertyProbe:
                     try:
                         if slot.has_clip:
                             clip = slot.clip
-                            self._register(clip, "Clip.Clip")
-                            self._try(lambda: self._register(clip.view, "Clip.Clip.View"))
+                            # Audio clips expose more Clip properties — force-overwrite
+                            self._register(clip, "Clip.Clip", force=is_audio)
+                            self._try(lambda: self._register(clip.view, "Clip.Clip.View", force=is_audio))
+                            self._collect_from_clip(clip, is_audio)
                             break
                     except Exception:
                         continue
@@ -188,6 +195,62 @@ class PropertyProbe:
         try:
             for device in track.devices:
                 self._collect_from_device(device)
+        except Exception:
+            pass
+
+    def _collect_from_clip(self, clip: Any, is_audio: bool):
+        """Extract sub-objects from an existing clip (MIDI notes, warp markers, envelopes)."""
+        if is_audio:
+            # Warp markers from warped audio clips
+            try:
+                markers = clip.warp_markers
+                if len(markers) > 0:
+                    self._register(markers[0], "Clip.WarpMarker")
+            except Exception:
+                pass
+        else:
+            # MIDI notes
+            try:
+                notes = clip.get_notes_extended(0, 128, 0.0, clip.length)
+                if len(notes) > 0:
+                    self._register(notes[0], "Clip.MidiNote")
+            except Exception:
+                pass
+
+        # Automation envelopes — try 12.2+ collection first, then legacy per-parameter API.
+        # Register under both old and new keys so the probe finds the instance regardless of version.
+        try:
+            if hasattr(clip, "automation_envelopes"):
+                envs = clip.automation_envelopes
+                if envs and len(envs) > 0:
+                    env = envs[0]
+                    self._register(env, "Envelope.Envelope")
+                    self._register(env, "Clip.AutomationEnvelope")
+                    self._try_envelope_events(env, clip)
+                    return
+        except Exception:
+            pass
+        try:
+            if clip.has_envelopes:
+                track = clip.canonical_parent.canonical_parent  # clip → clip_slot → track
+                param = track.mixer_device.volume
+                env = clip.automation_envelope(param)
+                if env is not None:
+                    self._register(env, "Clip.AutomationEnvelope")
+                    self._register(env, "Envelope.Envelope")
+                    self._try_envelope_events(env, clip)
+        except Exception:
+            pass
+
+    def _try_envelope_events(self, env: Any, clip: Any):
+        """Try to extract EnvelopeEvent sub-objects (12.2+ only)."""
+        try:
+            events = env.events_in_range(0.0, clip.length)
+            if len(events) > 0:
+                self._register(events[0], "Envelope.EnvelopeEvent")
+                self._try(lambda: self._register(
+                    events[0].control_coefficients, "Envelope.EnvelopeEventControlCoefficients"
+                ))
         except Exception:
             pass
 
@@ -261,177 +324,6 @@ class PropertyProbe:
             if len(cue_points) > 0:
                 self._register(cue_points[0], "Song.CuePoint")
                 self._cleanup.append(("delete temp cue point", lambda: song.set_or_delete_cue()))
-        except Exception:
-            pass
-
-    def _ensure_clip(self, song: Any):
-        """Create a temp MIDI clip if Clip.Clip is not yet registered."""
-        if "Clip.Clip" in self._live_objects:
-            return
-
-        # Find first MIDI track
-        midi_track = None
-        try:
-            for track in song.tracks:
-                if track.has_midi_input:
-                    midi_track = track
-                    break
-        except Exception:
-            return
-        if midi_track is None:
-            return
-
-        # Find first empty clip slot
-        slot = None
-        try:
-            for s in midi_track.clip_slots:
-                if not s.has_clip:
-                    slot = s
-                    break
-        except Exception:
-            return
-        if slot is None:
-            return
-
-        try:
-            slot.create_clip(1.0)
-            clip = slot.clip
-        except Exception:
-            return
-
-        self._cleanup.append(("delete temp clip", lambda: slot.delete_clip()))
-        self._register(clip, "Clip.Clip")
-        self._try(lambda: self._register(clip.view, "Clip.Clip.View"))
-
-    def _ensure_midi_notes(self):
-        """Add a temp MIDI note if Clip.MidiNote is not yet registered."""
-        if "Clip.MidiNote" in self._live_objects:
-            return
-
-        clip = self._live_objects.get("Clip.Clip")
-        if clip is None:
-            return
-
-        try:
-            import Live  # type: ignore
-            spec = Live.Clip.MidiNoteSpecification(
-                pitch=60, start_time=0.0, duration=0.25, velocity=100
-            )
-            clip.add_new_notes((spec,))
-            notes = clip.get_notes_extended(0, 128, 0.0, 1.0)
-            if len(notes) > 0:
-                self._register(notes[0], "Clip.MidiNote")
-            self._cleanup.append((
-                "remove temp MIDI notes",
-                lambda: clip.remove_notes_extended(0, 128, 0.0, 1.0),
-            ))
-        except Exception:
-            pass
-
-    def _ensure_automation_envelope(self):
-        """Create a temp automation envelope to probe Envelope classes."""
-        if "Envelope.Envelope" in self._live_objects:
-            return
-
-        clip = self._live_objects.get("Clip.Clip")
-        if clip is None:
-            return
-
-        # The parameter must be from the same track as the clip — use the
-        # clip's canonical_parent chain to find the track's mixer volume.
-        param = None
-        try:
-            track = clip.canonical_parent.canonical_parent  # clip → clip_slot → track
-            param = track.mixer_device.volume
-        except Exception:
-            pass
-        if param is None:
-            return
-
-        try:
-            envelope = clip.create_automation_envelope(param)
-            if envelope is None:
-                return
-        except Exception:
-            return
-
-        self._register(envelope, "Envelope.Envelope")
-        self._cleanup.append(("clear temp envelope", lambda: clip.clear_envelope(param)))
-
-        # Insert a step so we can probe EnvelopeEvent and its control coefficients
-        try:
-            envelope.insert_step(0.0, 0.25, 0.5)
-            events = envelope.events_in_range(0.0, 1.0)
-            if len(events) > 0:
-                event = events[0]
-                self._register(event, "Envelope.EnvelopeEvent")
-                self._try(lambda: self._register(
-                    event.control_coefficients, "Envelope.EnvelopeEventControlCoefficients"
-                ))
-        except Exception:
-            pass
-
-    def _ensure_warp_markers(self, song: Any):
-        """Create a temp audio clip to probe Clip.WarpMarker."""
-        if "Clip.WarpMarker" in self._live_objects:
-            return
-
-        # Find an audio track
-        audio_track = None
-        try:
-            for track in song.tracks:
-                if track.has_audio_input:
-                    audio_track = track
-                    break
-        except Exception:
-            return
-        if audio_track is None:
-            return
-
-        # Find an empty clip slot
-        slot = None
-        try:
-            for s in audio_track.clip_slots:
-                if not s.has_clip:
-                    slot = s
-                    break
-        except Exception:
-            return
-        if slot is None:
-            return
-
-        # Generate a silent WAV file
-        wav_path = "/tmp/probe_silent.wav"
-        try:
-            sample_rate = 48000
-            total_frames = sample_rate  # 1 second
-            silence = struct.pack("<h", 0) * total_frames
-            with wave.open(wav_path, "wb") as wf:
-                wf.setnchannels(1)
-                wf.setsampwidth(2)
-                wf.setframerate(sample_rate)
-                wf.writeframes(silence)
-        except Exception:
-            return
-
-        try:
-            clip = slot.create_audio_clip(wav_path)
-        except Exception:
-            self._try(lambda: os.remove(wav_path))
-            return
-
-        self._cleanup.append(("delete temp audio clip", lambda: slot.delete_clip()))
-        self._cleanup.append(("delete temp WAV", lambda: os.remove(wav_path)))
-
-        # Audio clips expose all common Clip properties plus 12 audio-only ones
-        # (warp_markers, gain, file_path, etc.) — force-overwrite the MIDI clip.
-        self._register(clip, "Clip.Clip", force=True)
-        self._try(lambda: self._register(clip.view, "Clip.Clip.View", force=True))
-
-        try:
-            markers = clip.warp_markers
-            if len(markers) > 0:
-                self._register(markers[0], "Clip.WarpMarker")
         except Exception:
             pass
 
