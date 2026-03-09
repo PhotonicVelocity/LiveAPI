@@ -39,8 +39,12 @@ POLL_INTERVAL = 0.5  # seconds
 TIMEOUT = 120  # seconds
 
 
-def trigger_and_wait(phase: str, timeout: float = TIMEOUT):
-    """Trigger a phase and block until its completion marker appears."""
+def trigger_and_wait(phase: str, timeout: float = TIMEOUT) -> tuple[float, str]:
+    """Trigger a phase and block until its completion marker appears.
+
+    Returns (elapsed_seconds, build_dir) where build_dir is the path
+    written into the marker by MakeDoc.
+    """
     marker = MARKERS[phase]
     trigger = TRIGGERS[phase]
 
@@ -61,19 +65,9 @@ def trigger_and_wait(phase: str, timeout: float = TIMEOUT):
         time.sleep(POLL_INTERVAL)
 
     elapsed = time.monotonic() - start
+    build_dir = open(marker).read().strip()
     os.remove(marker)
-    return elapsed
-
-
-def detect_version() -> str:
-    """Return the latest version directory name under build/."""
-    if not os.path.isdir(BUILD_ROOT):
-        return ""
-    versions = sorted(
-        (d for d in os.listdir(BUILD_ROOT) if os.path.isdir(os.path.join(BUILD_ROOT, d))),
-        reverse=True,
-    )
-    return versions[0] if versions else ""
+    return elapsed, build_dir
 
 
 def main():
@@ -83,34 +77,35 @@ def main():
     parser.add_argument("--timeout", type=float, default=TIMEOUT, help=f"Per-phase timeout in seconds (default {TIMEOUT})")
     args = parser.parse_args()
 
+    build_dir = ""
+
     # --- Phase 1: Capture ---
     if not args.skip_capture:
         print("Phase 1/4: Capture (Live.json)...", flush=True)
-        elapsed = trigger_and_wait("capture", timeout=args.timeout)
+        elapsed, build_dir = trigger_and_wait("capture", timeout=args.timeout)
         print(f"  Done ({elapsed:.1f}s)")
     else:
         print("Phase 1/4: Capture — skipped")
 
     # --- Phase 2: Property probe ---
     print("Phase 2/4: Property probe...", flush=True)
-    elapsed = trigger_and_wait("probe", timeout=args.timeout)
+    elapsed, build_dir = trigger_and_wait("probe", timeout=args.timeout)
     print(f"  Done ({elapsed:.1f}s)")
 
     # --- Phase 3: Device probe ---
     print("Phase 3/4: Device probe...", flush=True)
-    elapsed = trigger_and_wait("device_probe", timeout=args.timeout)
+    elapsed, build_dir = trigger_and_wait("device_probe", timeout=args.timeout)
     print(f"  Done ({elapsed:.1f}s)")
 
     # --- Phase 4: Stub generation (offline) ---
-    version = args.version or detect_version()
-    if not version:
-        print("ERROR: No build directory found and --version not specified", file=sys.stderr)
+    if args.version:
+        build_dir = os.path.join(BUILD_ROOT, args.version)
+    if not build_dir or not os.path.isdir(build_dir):
+        print(f"ERROR: Build directory not found: {build_dir!r}", file=sys.stderr)
+        print("  Specify --version or ensure MakeDoc is running in Live.", file=sys.stderr)
         sys.exit(1)
 
-    build_dir = os.path.join(BUILD_ROOT, version)
-    if not os.path.isdir(build_dir):
-        print(f"ERROR: {build_dir} does not exist", file=sys.stderr)
-        sys.exit(1)
+    version = os.path.basename(build_dir)
 
     json_file = os.path.join(build_dir, "Live.json")
     if not os.path.exists(json_file):

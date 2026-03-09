@@ -225,8 +225,12 @@ returns `False`.
 - Sample (SimplerDevice) → `Sample.Sample`
 - Device I/O routing → `DeviceIO.DeviceIO`
 
-PluginDevice (third-party VST/AU) is skipped. Device classes already probed by an earlier device are also skipped —
-deduplication is by Python class name, not browser item name.
+- PluginDevice (third-party VST/AU) — the first available plugin is found via `browser.plugins` and loaded
+- Quantized `DeviceParameter` — after each device load, checks for a parameter with `value_items` to cover properties
+  that fail on continuous parameters
+
+Device classes already probed by an earlier device are skipped — deduplication is by Python class name, not browser item
+name.
 
 **Trigger:**
 
@@ -267,7 +271,7 @@ python tools/generate_stubs.py build/12.3.6 --version 12.3.6  # version specifie
 completion markers before moving on.
 
 ```
-python tools/run_pipeline.py                  # auto-detect version from latest build dir
+python tools/run_pipeline.py                  # version auto-detected from MakeDoc output
 python tools/run_pipeline.py --version 12.3.6
 python tools/run_pipeline.py --skip-capture   # skip phase 1 (reuse existing Live.json)
 ```
@@ -279,7 +283,9 @@ cd tools && just pipeline
 cd tools && just pipeline --skip-capture
 ```
 
-Each in-Live phase writes a completion marker (`/tmp/makedoc_*_done`) when finished:
+Each in-Live phase writes a completion marker (`/tmp/makedoc_*_done`) containing the build directory path (e.g.
+`/path/to/build/11.0.0`). The pipeline reads this path to auto-detect the version — no more guessing from directory
+listings.
 
 | Phase        | Trigger                      | Marker                           |
 | ------------ | ---------------------------- | -------------------------------- |
