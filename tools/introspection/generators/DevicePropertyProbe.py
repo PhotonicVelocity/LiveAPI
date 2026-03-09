@@ -193,9 +193,7 @@ class DevicePropertyProbe:
             device = devices[-1]
             cls_name = type(device).__name__
 
-            if cls_name == "PluginDevice":
-                self._log(f"  Skipping PluginDevice (third-party)")
-            elif cls_name in self._seen_class_names:
+            if cls_name in self._seen_class_names:
                 # Re-probe if there are still untyped properties (different
                 # instances may expose different subsets, e.g. Instrument Rack
                 # vs Drum Rack both map to RackDevice, or sample-loaded Simpler
@@ -216,8 +214,7 @@ class DevicePropertyProbe:
             # DrumChain, DeviceIO, etc.) may only be populated on certain devices
             # that share the same Python class (e.g. Drum Rack vs Instrument Rack
             # are both RackDevice, but only Instrument Rack has top-level chains).
-            if cls_name != "PluginDevice":
-                self._probe_nested(device)
+            self._probe_nested(device)
 
             # Delete the device
             try:
@@ -321,6 +318,19 @@ class DevicePropertyProbe:
         except Exception:
             pass
 
+        # Add the first available plug-in from browser.plugins — gives us a
+        # PluginDevice instance to probe (AU/VST varies by machine).
+        try:
+            plugins_root = self._browser.plugins
+            plugin_item = self._find_first_plugin(plugins_root)
+            if plugin_item:
+                items.append(plugin_item)
+                self._log(f"Added plugin '{plugin_item.name}' for PluginDevice probing")
+            else:
+                self._log("No plugin found in browser.plugins")
+        except Exception as e:
+            self._log(f"Failed to search browser.plugins: {e}")
+
         return items
 
     def _walk_browser(self, item: Any, items: list, seen_names: set):
@@ -378,6 +388,32 @@ class DevicePropertyProbe:
                 continue
             if not getattr(child, "is_loadable", False):
                 result = self._find_first_adg(child)
+                if result:
+                    return result
+        return None
+
+    def _find_first_plugin(self, item: Any, depth: int = 0) -> Any:
+        """Find the first loadable plugin in the browser.plugins tree.
+
+        Plugins may report is_device=True or is_loadable=True depending on the
+        Live version. We accept either, but skip folders.
+        """
+        try:
+            children = item.children
+        except Exception:
+            return None
+        for child in children:
+            try:
+                is_folder = getattr(child, "is_folder", False)
+                is_loadable = getattr(child, "is_loadable", False)
+                is_device = getattr(child, "is_device", False)
+                if not is_folder and (is_loadable or is_device):
+                    return child
+            except Exception:
+                continue
+            # Recurse into folders (max 5 levels: category → manufacturer → plugin)
+            if depth < 5:
+                result = self._find_first_plugin(child, depth + 1)
                 if result:
                     return result
         return None
@@ -498,6 +534,23 @@ class DevicePropertyProbe:
                         break
             except Exception:
                 continue
+
+        # Quantized DeviceParameter — find a parameter with value_items to cover
+        # properties that fail on continuous parameters (e.g. value_items, short_value_items).
+        dp_key = "DeviceParameter.DeviceParameter"
+        if self._has_untyped_props("DeviceParameter"):
+            try:
+                for param in device.parameters:
+                    try:
+                        items = param.value_items
+                        if items and len(items) > 0:
+                            self._probe_instance(param, dp_key)
+                            self._log(f"    Probed quantized param '{param.name}'")
+                            break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
 
     def _probe_instance(self, instance: Any, class_key: str):
         """Probe all properties of a live object instance and store results."""

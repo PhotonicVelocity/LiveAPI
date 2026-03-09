@@ -81,11 +81,10 @@ class APIMakeDoc(ControlSurface):
             self.log_message(f"MakeDoc tick error: {e}")
         self.schedule_message(1, self._tick)
 
-    @staticmethod
-    def _touch(path: str):
-        """Write a completion marker file."""
+    def _touch(self, path: str):
+        """Write a completion marker containing the build directory path."""
         with open(path, "w") as f:
-            f.write("")
+            f.write(self.outdir)
 
     def _reload_and_capture(self):
         """Reload generator modules and re-run capture."""
