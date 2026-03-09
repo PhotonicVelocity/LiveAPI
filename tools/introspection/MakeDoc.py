@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """
 MakeDoc — MIDI Remote Script that captures Live API metadata.
 
