@@ -118,34 +118,34 @@ class LocalSource:
             return "app_direct"
         return None
 
-    def install(self, major: str, version: str, app_name: str, dest: str) -> None:
+    def install(self, major: str, version: str, app_name: str, staging_dir: str) -> None:
         fmt = self._find_format(major, version, app_name)
         major_dir = os.path.join(self.base, major)
 
         if fmt == ".tar":
             path = os.path.join(major_dir, f"Live {version}.tar")
             print(f"Extracting {path}...")
-            _run(["tar", "xf", path, "-C", APPLICATIONS], timeout=300)
+            _run(["tar", "xf", path, "-C", staging_dir], timeout=300)
 
         elif fmt == ".tar.gz":
             path = os.path.join(major_dir, f"Live {version}.tar.gz")
             print(f"Extracting {path}...")
-            _run(["tar", "xzf", path, "-C", APPLICATIONS], timeout=300)
+            _run(["tar", "xzf", path, "-C", staging_dir], timeout=300)
 
         elif fmt == ".zip":
             path = os.path.join(major_dir, f"Live {version}.zip")
             print(f"Extracting {path}...")
-            _run(["unzip", "-q", "-o", path, "-d", APPLICATIONS], timeout=300)
+            _run(["unzip", "-q", "-o", path, "-d", staging_dir], timeout=300)
 
         elif fmt == "app_in_version":
             path = os.path.join(major_dir, version, app_name)
             print(f"Copying {path}...")
-            shutil.copytree(path, dest, symlinks=True)
+            shutil.copytree(path, os.path.join(staging_dir, app_name), symlinks=True)
 
         elif fmt == "app_direct":
             path = os.path.join(major_dir, app_name)
             print(f"Copying {path}...")
-            shutil.copytree(path, dest, symlinks=True)
+            shutil.copytree(path, os.path.join(staging_dir, app_name), symlinks=True)
 
         else:
             print(f"No .app, .tar, .tar.gz, or .zip found for {version}", file=sys.stderr)
@@ -219,27 +219,46 @@ class RemoteSource:
             return "app_direct"
         return None
 
-    def _download(self, remote_path: str, local_path: str) -> None:
-        """SCP a file from the remote."""
-        print(f"Downloading {os.path.basename(remote_path)} from remote...")
-        _run(["scp", f"{self.host}:{remote_path}", local_path], timeout=600)
+    def _rsync(self, remote_path: str, local_path: str, *, max_retries: int = 3,
+               directory: bool = False) -> None:
+        """Transfer a file or directory from the remote using rsync with retry.
 
-    def install(self, major: str, version: str, app_name: str, dest: str) -> None:
+        Uses --partial so stalled transfers resume where they left off.
+        """
+        name = os.path.basename(remote_path)
+        src = f"{self.host}:{remote_path}/" if directory else f"{self.host}:{remote_path}"
+        dst = f"{local_path}/" if directory else local_path
+        for attempt in range(1, max_retries + 1):
+            label = f" ({attempt}/{max_retries})" if attempt > 1 else ""
+            action = "Resuming" if attempt > 1 else "Downloading"
+            print(f"  {action} {name}{label}...")
+            cmd = ["rsync", "--partial", "--info=progress2", "--timeout=30"]
+            if directory:
+                cmd.append("-a")
+            cmd += [src, dst]
+            result = subprocess.run(cmd, timeout=600)
+            if result.returncode == 0:
+                return
+            print(f"  Transfer stalled or failed (exit {result.returncode})", file=sys.stderr)
+        print(f"Download failed after {max_retries} attempts", file=sys.stderr)
+        sys.exit(1)
+
+    def install(self, major: str, version: str, app_name: str, staging_dir: str) -> None:
         fmt = self._find_format(major, version, app_name)
         base = f"{self.base}/{major}"
 
         if fmt in (".tar", ".tar.gz", ".zip"):
             remote_path = f"{base}/Live {version}{fmt}"
             local_archive = os.path.join(tempfile.gettempdir(), f"Live {version}{fmt}")
-            self._download(remote_path, local_archive)
+            self._rsync(remote_path, local_archive)
 
-            print(f"Extracting to {APPLICATIONS}/...")
+            print("Extracting...")
             if fmt == ".tar":
-                _run(["tar", "xf", local_archive, "-C", APPLICATIONS], timeout=300)
+                _run(["tar", "xf", local_archive, "-C", staging_dir], timeout=300)
             elif fmt == ".tar.gz":
-                _run(["tar", "xzf", local_archive, "-C", APPLICATIONS], timeout=300)
+                _run(["tar", "xzf", local_archive, "-C", staging_dir], timeout=300)
             elif fmt == ".zip":
-                _run(["unzip", "-q", "-o", local_archive, "-d", APPLICATIONS], timeout=300)
+                _run(["unzip", "-q", "-o", local_archive, "-d", staging_dir], timeout=300)
             os.remove(local_archive)
 
         elif fmt in ("app_in_version", "app_direct"):
@@ -247,11 +266,9 @@ class RemoteSource:
                 remote_path = f"{base}/{version}/{app_name}"
             else:
                 remote_path = f"{base}/{app_name}"
-            print(f"Copying Live {version} from remote via rsync...")
-            _run(
-                ["rsync", "-a", "--progress", f"{self.host}:{remote_path}/", f"{dest}/"],
-                timeout=600,
-            )
+            staged_app = os.path.join(staging_dir, app_name)
+            print(f"Copying Live {version} from remote...")
+            self._rsync(remote_path, staged_app, directory=True)
 
         else:
             print(f"No .app, .tar, .tar.gz, or .zip found for {version} on remote", file=sys.stderr)
@@ -359,12 +376,26 @@ def main() -> None:
         print("Live is still running. Quit it first.", file=sys.stderr)
         sys.exit(1)
 
-    # Remove existing app bundle
-    if os.path.exists(local_app):
-        print(f"Removing {local_app}...")
-        shutil.rmtree(local_app)
+    # Stage into a temp directory, then swap atomically so a failed
+    # download/extract never leaves /Applications without a working app.
+    staging_dir = tempfile.mkdtemp(prefix="live-swap-")
+    try:
+        source.install(major, target, app_name, staging_dir)
 
-    source.install(major, target, app_name, local_app)
+        staged_app = os.path.join(staging_dir, app_name)
+        if not os.path.isdir(staged_app):
+            print(f"ERROR: Expected {staged_app} after install, not found", file=sys.stderr)
+            sys.exit(1)
+
+        # Swap: remove old, move staged into place
+        if os.path.exists(local_app):
+            print(f"Removing old {app_name}...")
+            shutil.rmtree(local_app)
+        os.rename(staged_app, local_app)
+    finally:
+        # Clean up staging dir (may already be empty after rename)
+        shutil.rmtree(staging_dir, ignore_errors=True)
+
     print(f"Installed {app_name} ({target}) to {APPLICATIONS}/")
 
     # Reinstall MakeDoc Remote Script
