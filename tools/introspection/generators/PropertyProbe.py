@@ -107,10 +107,14 @@ class PropertyProbe:
         # Cue points
         self._try(lambda: self._register(song.cue_points[0], "Song.CuePoint"))
 
-        # Tuning system + sub-objects — returns None in a fresh set with no custom
-        # tuning loaded. TODO: probe with a saved set that has a tuning system.
+        # Tuning system + sub-objects — returns None in a fresh set with no custom tuning loaded.
+        # Class lives under Song.TuningSystem in 12.0–12.1, moves to TuningSystem.TuningSystem later.
+        # Register under both keys so the probe matches whichever version is running.
+        self._try(lambda: self._register(song.tuning_system, "Song.TuningSystem"))
         self._try(lambda: self._register(song.tuning_system, "TuningSystem.TuningSystem"))
+        self._try(lambda: self._register(song.tuning_system.reference_pitch, "Song.ReferencePitch"))
         self._try(lambda: self._register(song.tuning_system.reference_pitch, "TuningSystem.ReferencePitch"))
+        self._try(lambda: self._register(song.tuning_system.highest_note, "Song.PitchClassAndOctave"))
         self._try(lambda: self._register(song.tuning_system.highest_note, "TuningSystem.PitchClassAndOctave"))
 
         # Value objects from song methods

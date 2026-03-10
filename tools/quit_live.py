@@ -1,4 +1,7 @@
-"""Quit Ableton Live via AppleScript, dismissing the save dialog if it appears.
+"""Force-quit Ableton Live.
+
+WARNING: This kills the Live process immediately. Any unsaved changes will be lost.
+Only use this with the introspection pipeline — never with real sets open.
 
 Usage:
     python tools/quit_live.py
@@ -10,35 +13,6 @@ import subprocess
 import sys
 import time
 
-APPLESCRIPT = """
-tell application "System Events"
-    if not (exists process "Live") then
-        return "not_running"
-    end if
-    tell process "Live"
-        -- Use the menu bar to quit (more reliable than keystroke)
-        click menu item "Quit Live" of menu "Live" of menu bar 1
-        -- If the set is dirty, Live shows a save dialog before quitting.
-        -- Live uses a custom dialog (AXGroup), not a native sheet.
-        -- The button description uses a curly apostrophe (U+2019).
-        repeat 10 times
-            delay 0.5
-            try
-                set grp to group 1 of window 1
-                repeat with b in (every button of grp)
-                    if description of b starts with "Don" and description of b ends with "t Save" then
-                        click b
-                        return "quit"
-                    end if
-                end repeat
-            end try
-        end repeat
-        -- No dialog appeared — set was clean, quit is proceeding.
-        return "quit"
-    end tell
-end tell
-"""
-
 
 def is_live_running() -> bool:
     result = subprocess.run(["pgrep", "-x", "Live"], capture_output=True)
@@ -46,7 +20,7 @@ def is_live_running() -> bool:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Quit Ableton Live, dismissing save dialog")
+    parser = argparse.ArgumentParser(description="Force-quit Ableton Live (unsaved changes will be lost)")
     parser.add_argument("--wait", action="store_true", help="Block until Live has fully exited")
     args = parser.parse_args()
 
@@ -54,20 +28,11 @@ def main() -> None:
         print("Live is not running.")
         return
 
-    result = subprocess.run(["osascript", "-e", APPLESCRIPT], capture_output=True, text=True)
-    if result.returncode != 0:
-        print(f"AppleScript failed: {result.stderr.strip()}", file=sys.stderr)
-        sys.exit(1)
-
-    output = result.stdout.strip()
-    if output == "not_running":
-        print("Live is not running.")
-        return
-
-    print("Quit signal sent.")
+    subprocess.run(["pkill", "-x", "Live"])
+    print("Kill signal sent.")
 
     if args.wait:
-        timeout = 30
+        timeout = 15
         start = time.monotonic()
         while is_live_running():
             if time.monotonic() - start > timeout:

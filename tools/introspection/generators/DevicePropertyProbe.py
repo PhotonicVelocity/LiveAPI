@@ -14,7 +14,7 @@ Unlike PropertyProbe which runs synchronously, DevicePropertyProbe is a state
 machine driven by MakeDoc's schedule_message tick loop. Each tick advances one
 step:
 
-    INIT → LOAD → WAIT → PROBE → LOAD → ... → DONE
+    INIT → COLLECT → LOAD → WAIT → PROBE → LOAD → ... → CLEANUP → DONE
 
 This is necessary because browser.load_item() is async — devices aren't
 initialized until the next tick after loading.
@@ -33,6 +33,7 @@ from typing import Any
 
 # State constants
 _INIT = "INIT"
+_COLLECT = "COLLECT"
 _LOAD = "LOAD"
 _WAIT = "WAIT"
 _PROBE = "PROBE"
@@ -81,7 +82,7 @@ class DevicePropertyProbe:
                     continue
                 if not result:
                     return False
-                # Yield only when entering WAIT (async load needs one tick)
+                # Yield when entering WAIT (async load needs one tick)
                 if self._state == _WAIT:
                     return True
 
@@ -89,6 +90,8 @@ class DevicePropertyProbe:
         """Execute a single state transition."""
         if self._state == _INIT:
             return self._do_init()
+        elif self._state == _COLLECT:
+            return self._do_collect()
         elif self._state == _LOAD:
             return self._do_load()
         elif self._state == _WAIT:
@@ -106,7 +109,7 @@ class DevicePropertyProbe:
     # ------------------------------------------------------------------
 
     def _do_init(self) -> bool:
-        """Set up: load existing results, create scratch track, collect browser items."""
+        """Set up: load existing results, create scratch track, check browser readiness."""
         try:
             self._song = self.c_instance.song()
             self._browser = self._song.application.browser
@@ -138,7 +141,11 @@ class DevicePropertyProbe:
             self._log(f"Failed to create scratch track: {e}")
             return False
 
-        # Collect device items from browser
+        self._state = _COLLECT
+        return True
+
+    def _do_collect(self) -> bool:
+        """Collect browser items now that the scanner has finished."""
         self._items = self._collect_browser_items()
         self._log(f"Found {len(self._items)} devices to probe")
         self._index = 0
