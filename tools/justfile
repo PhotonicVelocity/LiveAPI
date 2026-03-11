@@ -1,8 +1,8 @@
 install:
-	python3 install.py --name MakeDoc
+	python3 install.py --name APICapture
 
 install-builder:
-	python3 install.py --name MakeDoc_Build --mode build
+	python3 install.py --name APICapture_Build --mode build
 
 close-set:
 	pkill -x "Ableton Live 12 Suite"

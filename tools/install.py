@@ -1,7 +1,7 @@
 """
-Install the MakeDoc Remote Script into Ableton Live's User Library.
+Install the APICapture Remote Script into Ableton Live's User Library.
 
-Copies the introspection package into the Remote Scripts folder and patches
+Copies the apicapture package into the Remote Scripts folder and patches
 the output folder placeholder so generated files land in build/<version>/.
 
 This script only works for Live 11+ (User Library based).
@@ -9,7 +9,7 @@ This script only works for Live 11+ (User Library based).
 Flags:
   --user_lib_dir  Path to User Library (if non-standard)
   --user          Override detected username
-  --name          Name of the installed Remote Script folder (default: MakeDoc)
+  --name          Name of the installed Remote Script folder (default: APICapture)
 """
 
 import codecs
@@ -31,7 +31,7 @@ args = parser.parse_args()
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
 repo_root = os.path.dirname(script_dir)
-src_dir = os.path.join(script_dir, "introspection")
+src_dir = os.path.join(script_dir, "apicapture")
 
 user = args.user or getpass.getuser()
 
@@ -42,7 +42,7 @@ user_scripts_path = os.path.join(
 )
 
 user_script_dir = os.path.join(
-    user_scripts_path, args.name or "MakeDoc"
+    user_scripts_path, args.name or "APICapture"
 )
 
 if os.path.isdir(user_script_dir):

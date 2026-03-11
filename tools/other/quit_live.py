@@ -1,7 +1,7 @@
 """Force-quit Ableton Live.
 
 WARNING: This kills the Live process immediately. Any unsaved changes will be lost.
-Only use this with the introspection pipeline — never with real sets open.
+Only use this with the APICapture pipeline — never with real sets open.
 
 Usage:
     python tools/quit_live.py
