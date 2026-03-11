@@ -9,8 +9,8 @@ Each version directory contains:
 
 ## How These Are Generated
 
-The introspection Control Surface in `tools/introspection/` runs inside Ableton Live and dumps the API surface for the
-running version. See `tools/install.py` to install the script, then select it as a Control Surface in Live's preferences.
+The APICapture Control Surface in `tools/apicapture/` runs inside Ableton Live and dumps the API surface for the running
+version. See `tools/install.py` to install the script, then select it as a Control Surface in Live's preferences.
 
 ## Purpose
 

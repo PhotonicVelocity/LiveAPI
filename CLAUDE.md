@@ -26,20 +26,23 @@ produce and maintain it.
 - Do not amend commits unless explicitly requested.
 - If unexpected modifications appear, stop and ask before proceeding.
 
-## Introspection Hot Reload
+## APICapture Hot Reload
 
-The MakeDoc Control Surface runs from a **copy** in `~/Music/Ableton/User Library/Remote Scripts/MakeDoc/`, not from
-the source tree. After editing files in `tools/introspection/`, you must reinstall before hot reload will pick up
-changes:
+The APICapture Control Surface runs from a **copy** in `~/Music/Ableton/User Library/Remote Scripts/APICapture/`, not
+from the source tree. After editing files in `tools/apicapture/scripts/`, you must reinstall before hot reload will pick
+up changes:
 
 ```bash
-python tools/install.py          # copy updated source to Remote Scripts
-touch /tmp/makedoc_probe          # trigger probe hot reload (PropertyProbe — steps 1-3)
-touch /tmp/makedoc_probe_devices  # trigger device probe (DevicePropertyProbe — step 4)
-touch /tmp/makedoc_reload         # trigger capture hot reload (CaptureGenerator only)
+python tools/install.py                  # copy updated source to Remote Scripts
+touch /tmp/apicapture_capture            # trigger raw capture (CaptureModule)
+touch /tmp/apicapture_probe              # trigger basic probe (PropertyProbe only)
+touch /tmp/apicapture_full_probe         # trigger full probe (PropertyProbe + DeviceProbe)
+touch /tmp/apicapture_run                # trigger full pipeline (capture + full probe)
+echo verbose > /tmp/apicapture_probe     # include instance data in probe output
 ```
 
-Changes to `MakeDoc.py` or `__init__.py` require a full Live restart.
+Scripts in `scripts/` are reloaded via `importlib.reload()` on every trigger, so code changes take effect immediately
+after reinstalling. Changes to `APICapture.py` or `__init__.py` require a full Live restart.
 
 ## Dev Server
 
@@ -68,12 +71,12 @@ Serves at http://localhost:8123/LiveAPI/
   - `other/` — Conversions, Groove, GroovePool, TuningSystem
 - `build/` — auto-generated API stubs and XML dumps per Live version (11.0–12.3.5)
 - `MaxForLive/` — API docs parsed from Max for Live HTML documentation
-- `tools/` — introspection and build tooling
-  - `introspection/` — MakeDoc Control Surface (runs inside Live, dumps API surfaces)
-  - `install.py` — installs the introspection script to Remote Scripts folder
+- `tools/` — APICapture and build tooling
+  - `apicapture/` — APICapture Control Surface (runs inside Live, captures API metadata)
+  - `install.py` — installs APICapture to Remote Scripts folder
   - `watch.py` — tails Ableton's log file for debugging
   - `justfile` — shortcuts for install/build/reload workflow
-  - `set/` — Ableton Live set used with introspection tooling
+  - `set/` — Ableton Live set used with APICapture
 - `doc/` — project-level documentation (decisions, contributing)
 
 ## Reference Format

@@ -13,7 +13,7 @@ import os
 import sys
 
 # Add repo root to path so we can import the generator
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), "introspection"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "apicapture"))
 
 from generators.StubGenerator import StubGenerator
 

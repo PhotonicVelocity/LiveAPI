@@ -1,7 +1,7 @@
 """
-Run the full introspection pipeline: capture → probe → device probe → generate stubs.
+Run the full apicapture pipeline: capture → probe → device probe → generate stubs.
 
-Requires a running Ableton Live instance with MakeDoc loaded as a Control Surface.
+Requires a running Ableton Live instance with APICapture loaded as a Control Surface.
 Each phase inside Live is triggered via a tmp file and signals completion via a
 corresponding marker file. The device probe is tick-driven and takes ~20 seconds;
 the other phases are near-instant.
@@ -30,18 +30,18 @@ APP_NAMES = {
     "12": "Ableton Live 12 Suite.app",
 }
 
-# Trigger files — MakeDoc watches for these and deletes them on pickup.
+# Trigger files — APICapture watches for these and deletes them on pickup.
 TRIGGERS = {
-    "capture": "/tmp/makedoc_reload",
-    "probe": "/tmp/makedoc_probe",
-    "device_probe": "/tmp/makedoc_probe_devices",
+    "capture": "/tmp/apicapture_reload",
+    "probe": "/tmp/apicapture_probe",
+    "device_probe": "/tmp/apicapture_probe_devices",
 }
 
-# Completion markers — written by MakeDoc when each phase finishes.
+# Completion markers — written by APICapture when each phase finishes.
 MARKERS = {
-    "capture": "/tmp/makedoc_capture_done",
-    "probe": "/tmp/makedoc_probe_done",
-    "device_probe": "/tmp/makedoc_device_probe_done",
+    "capture": "/tmp/apicapture_capture_done",
+    "probe": "/tmp/apicapture_probe_done",
+    "device_probe": "/tmp/apicapture_device_probe_done",
 }
 
 SET_PROJECTS = {
@@ -51,7 +51,7 @@ SET_PROJECTS = {
 
 POLL_INTERVAL = 0.5  # seconds
 TIMEOUT = 120  # seconds
-LAUNCH_TIMEOUT = 180  # seconds to wait for Live to boot + MakeDoc to respond
+LAUNCH_TIMEOUT = 180  # seconds to wait for Live to boot + APICapture to respond
 
 
 def _normalize_version(v: str) -> str:
@@ -94,7 +94,7 @@ def trigger_and_wait(phase: str, timeout: float = TIMEOUT) -> tuple[float, str]:
     """Trigger a phase and block until its completion marker appears.
 
     Returns (elapsed_seconds, build_dir) where build_dir is the path
-    written into the marker by MakeDoc.
+    written into the marker by APICapture.
     """
     marker = MARKERS[phase]
     trigger = TRIGGERS[phase]
@@ -150,8 +150,8 @@ def _find_log_path(target: str) -> str | None:
     return None
 
 
-def _wait_for_makedoc_ready(target: str, timeout: float):
-    """Tail the Live log and wait for MakeDoc's ready message."""
+def _wait_for_apicapture_ready(target: str, timeout: float):
+    """Tail the Live log and wait for APICapture's ready message."""
     log_path = _find_log_path(target)
     if log_path is None:
         print("  Warning: Could not find Live log file, falling back to timeout", file=sys.stderr)
@@ -170,13 +170,13 @@ def _wait_for_makedoc_ready(target: str, timeout: float):
             with open(log_path) as f:
                 f.seek(start_pos)
                 new_content = f.read()
-            if "MakeDoc ready" in new_content:
+            if "APICapture ready" in new_content:
                 return
         except OSError:
             pass
         time.sleep(POLL_INTERVAL)
 
-    print(f"  ERROR: MakeDoc did not become ready within {timeout}s", file=sys.stderr)
+    print(f"  ERROR: APICapture did not become ready within {timeout}s", file=sys.stderr)
     sys.exit(1)
 
 
@@ -221,13 +221,13 @@ def _swap_and_launch(target: str, major: str):
     print(f"Opening Set.als in {app_name}...", flush=True)
     subprocess.run(["open", "-a", app_name, set_project])
 
-    print("  Waiting for MakeDoc to initialize...", flush=True)
-    _wait_for_makedoc_ready(target, LAUNCH_TIMEOUT)
+    print("  Waiting for APICapture to initialize...", flush=True)
+    _wait_for_apicapture_ready(target, LAUNCH_TIMEOUT)
     print("  Live is ready")
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the full MakeDoc introspection pipeline")
+    parser = argparse.ArgumentParser(description="Run the full APICapture apicapture pipeline")
     parser.add_argument("version", help="Live version to run against (e.g. 11.1, 12.3.6)")
     parser.add_argument("--skip-capture", action="store_true", help="Skip phase 1 (reuse existing Live.json)")
     parser.add_argument("--swap", action="store_true", help="Quit Live, swap to the target version, and relaunch")
@@ -280,7 +280,7 @@ def main():
     elapsed, _ = trigger_and_wait("device_probe", timeout=args.timeout)
     print(f"  Done ({elapsed:.1f}s)")
 
-    # MakeDoc reports the full version (e.g. 11.1.0) which becomes the build dir name.
+    # APICapture reports the full version (e.g. 11.1.0) which becomes the build dir name.
     # The target may use a shorter form (11.1), so find the matching build dir.
     build_dir = os.path.join(BUILD_ROOT, target)
     if not os.path.isdir(build_dir):
@@ -303,7 +303,7 @@ def main():
     print(f"Phase 4/4: Generate stubs ({version})...", flush=True)
     start = time.monotonic()
 
-    sys.path.insert(0, os.path.join(SCRIPT_DIR, "introspection"))
+    sys.path.insert(0, os.path.join(SCRIPT_DIR, "apicapture"))
     from generators.StubGenerator import StubGenerator
 
     generator = StubGenerator(build_dir, version=version)

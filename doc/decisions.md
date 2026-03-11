@@ -98,4 +98,4 @@ This mirrors how people think about Live's structure and matches the parent-chil
 - Probing and parsing should eventually generate reference content automatically.
 - Raw probe notes in the reference are temporary — the goal is a clean pipeline:
   `stubs + M4L docs + probe results → parser → reference markdown`.
-- Whether probes use the MakeDoc Control Surface or LiveRelay is TBD.
+- Whether probes use the APICapture Control Surface or LiveRelay is TBD.

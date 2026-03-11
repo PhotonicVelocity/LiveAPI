@@ -1,7 +1,7 @@
 """Swap the installed Ableton Live version from a local or remote source.
 
 Lists available versions, copies the selected one to /Applications, and
-reinstalls the MakeDoc Remote Script.
+reinstalls the APICapture Remote Script.
 
 The version source can be a local directory or an SSH remote (user@host:/path).
 It defaults to NAS_HOST:NAS_BASE from .env / environment.
@@ -398,14 +398,14 @@ def main() -> None:
 
     print(f"Installed {app_name} ({target}) to {APPLICATIONS}/")
 
-    # Reinstall MakeDoc Remote Script
-    print("Reinstalling MakeDoc...")
+    # Reinstall APICapture Remote Script
+    print("Reinstalling APICapture...")
     install = subprocess.run(
-        [sys.executable, os.path.join(SCRIPT_DIR, "install.py"), "--name", "MakeDoc"],
+        [sys.executable, os.path.join(SCRIPT_DIR, "install.py"), "--name", "APICapture"],
         cwd=SCRIPT_DIR,
     )
     if install.returncode != 0:
-        print("MakeDoc install failed", file=sys.stderr)
+        print("APICapture install failed", file=sys.stderr)
         sys.exit(1)
 
     print(f"\nReady. Launch Live {target} to continue.")

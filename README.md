@@ -31,7 +31,7 @@ path. The stubs include a `py.typed` marker for PEP 561 compatibility.
 reference/     Curated per-class API docs (the primary product)
 build/         Generated stubs and capture data per Live version
 MaxForLive/    API docs parsed from Max for Live HTML documentation
-tools/         Introspection and stub generation pipeline (see tools/README.md)
+tools/         APICapture and stub generation pipeline (see tools/README.md)
 ```
 
 ## Sources
@@ -51,7 +51,7 @@ Each reference file records its probe status (`unprobed`, `partial`, or `verifie
 
 ## Credits
 
-Introspection tooling forked from [isfopo/LiveAPI_MakeDoc](https://github.com/isfopo/LiveAPI_MakeDoc) (itself a fork of
+APICapture tooling forked from [isfopo/LiveAPI_MakeDoc](https://github.com/isfopo/LiveAPI_MakeDoc) (itself a fork of
 [NSUSpray/LiveAPI_MakeDoc](https://github.com/NSUSpray/LiveAPI_MakeDoc)). Stub generation based on
 [cylab/AbletonLive-API-Stub](https://github.com/cylab/AbletonLive-API-Stub).
 
