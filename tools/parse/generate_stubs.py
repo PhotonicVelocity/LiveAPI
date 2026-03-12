@@ -53,7 +53,7 @@ _TYPE_MAP: dict[str, str] = {
     "dict": "dict",
 }
 
-_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Callable\n"
+_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable\n"
 
 # Matches capitalized identifiers that could be class/enum references in type annotations.
 _TYPE_REF_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+)\b")
@@ -62,13 +62,14 @@ _TYPE_REF_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+)\b")
 _INIT_ARG_RE = re.compile(r"\((\w+)\)(\w+)(?:=([^\s\],\)]+))?")
 
 # Names that should never appear in TYPE_CHECKING imports.
-_SKIP_NAMES = {"None", "Callable", "TYPE_CHECKING", "IO", "Exception"}
+_SKIP_NAMES = {"None", "Callable", "Any", "TYPE_CHECKING", "IO", "Exception"}
 
 
 class StubGenerator:
-    def __init__(self, tree: dict, output_dir: str):
+    def __init__(self, tree: dict, output_dir: str, refinements: dict | None = None):
         self.tree = tree
         self.output_dir = output_dir
+        self._refinements = refinements or {}
 
         # Indexes built in Phase 1
         self._class_to_module: dict[str, str] = {}
@@ -175,7 +176,8 @@ class StubGenerator:
     def _write_class_file(self, module_name: str, main_class_node: dict, module_dir: str) -> None:
         """Write {Module}/{Module}.pyi containing the main class."""
         buf = StringIO()
-        self._render_class(main_class_node, buf, indent=0)
+        path = f"Live.{module_name}"
+        self._render_class(main_class_node, buf, indent=0, path=path)
 
         body = buf.getvalue()
 
@@ -209,10 +211,11 @@ class StubGenerator:
         if import_main:
             exports.append(module_name)
 
+        mod_path = f"Live.{module_name}"
         for node in nodes:
             node_type = node.get("type", "")
             if node_type == "class":
-                self._render_class(node, buf, indent=0)
+                self._render_class(node, buf, indent=0, path=mod_path)
                 exports.append(node["name"])
             elif node_type == "enum":
                 self._render_enum(node, buf, indent=0)
@@ -221,7 +224,8 @@ class StubGenerator:
                 self._render_type_node(node, buf, indent=0)
                 exports.append(node["name"])
             elif node_type == "function":
-                self._render_function(node, buf, indent=0, is_method=False)
+                func_path = f"{mod_path}.{node['name']}"
+                self._render_function(node, buf, indent=0, is_method=False, path=func_path)
                 exports.append(node["name"])
 
         body = buf.getvalue()
@@ -253,9 +257,10 @@ class StubGenerator:
     # Node renderers
     # ------------------------------------------------------------------
 
-    def _render_class(self, node: dict, buf: StringIO, indent: int) -> None:
+    def _render_class(self, node: dict, buf: StringIO, indent: int, path: str = "") -> None:
         """Render a class node and its non-ref children."""
         name = node["name"]
+        class_path = f"{path}.{name}" if path else name
         pad = "    " * indent
 
         buf.write(f"\n\n{pad}class {name}:")
@@ -274,7 +279,7 @@ class StubGenerator:
         # Render children
         children = [c for c in node.get("children", []) if not c.get("ref")]
         if children:
-            self._render_children(children, buf, indent + 1)
+            self._render_children(children, buf, indent + 1, path=class_path)
             has_body = True
 
         if not has_body:
@@ -337,22 +342,29 @@ class StubGenerator:
         else:
             buf.write(f"\n{pad}    ...")
 
-    def _render_function(self, node: dict, buf: StringIO, indent: int, *, is_method: bool) -> None:
+    def _render_function(
+        self, node: dict, buf: StringIO, indent: int, *, is_method: bool, path: str = ""
+    ) -> None:
         """Render a function/method node."""
         name = node["name"]
         pad = "    " * indent
+
+        # Look up refinements for this function
+        ref = self._refinements.get(path, {}) if path else {}
+        arg_refs = ref.get("args", {})
+        ret_ref = ref.get("returns", {})
 
         # Build args
         args = node.get("args", [])
         formatted_args: list[str] = []
         for arg in args:
-            formatted_args.append(self._format_arg(arg))
+            formatted_args.append(self._format_arg(arg, arg_refs))
 
         args_str = ", ".join(formatted_args)
 
-        # Return type
+        # Return type (refinement overrides parsed type)
         returns = node.get("returns")
-        ret_type = returns["type"] if returns and returns.get("type") else "None"
+        ret_type = ret_ref.get("type") or (returns["type"] if returns and returns.get("type") else "None")
 
         buf.write(f"\n\n{pad}def {name}({args_str}) -> {ret_type}:")
 
@@ -362,12 +374,16 @@ class StubGenerator:
 
         buf.write(f"\n{pad}    ...")
 
-    def _render_property(self, node: dict, buf: StringIO, indent: int) -> None:
+    def _render_property(self, node: dict, buf: StringIO, indent: int, path: str = "") -> None:
         """Render a property node with optional setter."""
         name = node["name"]
         pad = "    " * indent
 
-        probed_type = node.get("probed_type")
+        # Check for property type refinement
+        ref = self._refinements.get(path, {}) if path else {}
+        refined_type = ref.get("probed_type")
+
+        probed_type = refined_type or node.get("probed_type")
         type_str = self._resolve_probed_type(probed_type) if probed_type else None
 
         # Getter
@@ -409,21 +425,23 @@ class StubGenerator:
 
         buf.write(f"\n\n{pad}class {name}(Exception): ...")
 
-    def _render_children(self, children: list[dict], buf: StringIO, indent: int) -> None:
+    def _render_children(self, children: list[dict], buf: StringIO, indent: int, path: str = "") -> None:
         """Render a list of child nodes, dispatching by type."""
         for child in children:
             if child.get("ref"):
                 continue
 
+            child_name = child.get("name", "")
+            child_path = f"{path}.{child_name}" if path else child_name
             node_type = child.get("type", "")
             if node_type == "class":
-                self._render_class(child, buf, indent)
+                self._render_class(child, buf, indent, path=path)
             elif node_type == "enum":
                 self._render_enum(child, buf, indent)
             elif node_type == "function":
-                self._render_function(child, buf, indent, is_method=True)
+                self._render_function(child, buf, indent, is_method=True, path=child_path)
             elif node_type == "property":
-                self._render_property(child, buf, indent)
+                self._render_property(child, buf, indent, path=child_path)
             elif node_type == "str":
                 self._render_str_const(child, buf, indent)
             elif node_type == "type":
@@ -439,13 +457,16 @@ class StubGenerator:
             return "None"
         return _TYPE_MAP.get(probed_type, probed_type)
 
-    def _format_arg(self, arg: dict) -> str:
+    def _format_arg(self, arg: dict, arg_refs: dict | None = None) -> str:
         """Format a function argument for the stub signature."""
         name = arg["name"]
         if name == "self":
             return "self"
 
-        arg_type = arg.get("type", "object")
+        # Apply refinements: name and type overrides
+        ref = (arg_refs or {}).get(name, {})
+        name = ref.get("name", name)
+        arg_type = ref.get("type", arg.get("type", "object"))
         default = arg.get("default")
 
         # When default references an enum, widen type to accept both enum and int
@@ -566,15 +587,25 @@ def main():
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument("--input", help="Path to LiveTree.parsed.json (default: build/{version}/LiveTree.parsed.json)")
     parser.add_argument("--output", help="Output directory (default: build/{version}/Live)")
+    parser.add_argument(
+        "--refinements", help="Path to refinements.json (default: build/{version}/refinements.json, skipped if missing)"
+    )
     args = parser.parse_args()
 
     input_path = args.input or join("build", args.version, "LiveTree.parsed.json")
     output_dir = args.output or join("build", args.version, "Live")
+    refinements_path = args.refinements or join("build", args.version, "refinements.json")
 
     with open(input_path) as f:
         data = json.load(f)
 
-    generator = StubGenerator(data["tree"], output_dir)
+    refinements: dict = {}
+    if exists(refinements_path):
+        with open(refinements_path) as f:
+            refinements = json.load(f).get("refinements", {})
+        print(f"Loaded {len(refinements)} refinements from {refinements_path}")
+
+    generator = StubGenerator(data["tree"], output_dir, refinements)
     generator.generate()
     print(f"Stubs written to {abspath(output_dir)}")
 
