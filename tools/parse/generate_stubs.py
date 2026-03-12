@@ -259,7 +259,7 @@ class StubGenerator:
         pad = "    " * indent
 
         buf.write(f"\n\n{pad}class {name}:")
-        doc = node.get("raw_doc")
+        doc = node.get("description") or node.get("raw_doc")
         has_body = False
 
         if doc:
@@ -356,8 +356,7 @@ class StubGenerator:
 
         buf.write(f"\n\n{pad}def {name}({args_str}) -> {ret_type}:")
 
-        # Docstring: prefer description over raw_doc for functions
-        doc = node.get("description") or node.get("raw_doc")
+        doc = node.get("description")
         if doc:
             self._write_docstring(doc, buf, indent + 1)
 
