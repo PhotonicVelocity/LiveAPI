@@ -41,7 +41,12 @@ def _walk(obj, seen: set[int]) -> dict:
     """Recursively walk obj and everything in dir(obj). Returns a tree node."""
     obj_id = id(obj)
     if obj_id in seen:
-        return {"name": getattr(obj, "__name__", "(unknown)"), "type": type(obj).__name__, "id": obj_id, "ref": True}
+        node = {"name": getattr(obj, "__name__", "(unknown)"), "type": type(obj).__name__, "id": obj_id, "ref": True}
+        try:
+            node["repr"] = repr(obj)
+        except Exception:
+            pass
+        return node
     seen.add(obj_id)
 
     node: dict = {
@@ -103,6 +108,8 @@ def _walk(obj, seen: set[int]) -> dict:
         elif inspect.ismodule(member) or inspect.isclass(member) or inspect.isbuiltin(member) or inspect.isfunction(member):
             child = _walk(member, seen)
             if inspect.isclass(member):
+                # Pop children so class metadata appears before children in JSON output
+                saved_children = child.pop("children", None)
                 try:
                     init_doc = getattr(member.__init__, "__doc__", None)
                     if init_doc:
@@ -110,10 +117,18 @@ def _walk(obj, seen: set[int]) -> dict:
                 except Exception:
                     pass
                 try:
+                    bases = member.__bases__
+                    if bases and bases != (object,):
+                        child["bases"] = [repr(b) for b in bases]
+                except Exception:
+                    pass
+                try:
                     member()
                     child["constructable"] = True
                 except Exception:
                     pass
+                if saved_children is not None:
+                    child["children"] = saved_children
             children.append(child)
         elif isinstance(member, property):
             child: dict = {

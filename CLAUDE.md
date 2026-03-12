@@ -15,6 +15,11 @@ produce and maintain it.
 2. Preserve existing work; never discard unrelated changes.
 3. The reference docs are the product — keep them clean, accurate, and well-structured.
 
+## Context Compaction
+
+After every context compaction (when the conversation summary replaces earlier messages), re-read this CLAUDE.md file
+before continuing work. The summary may lose repo-specific constraints that are captured here.
+
 ## Formatting
 
 - Wrap lines at 120 characters in all files (code, docs, markdown).
