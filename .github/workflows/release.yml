@@ -1,0 +1,50 @@
+name: Release API Stubs
+
+on:
+  push:
+    branches: [main]
+    paths: ["build/**"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create releases for new versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          existing=$(gh release list --limit 100 --json tagName -q '.[].tagName')
+
+          for dir in build/*/; do
+            version=$(basename "$dir")
+
+            # Skip non-version directories
+            [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
+
+            # Skip if release already exists
+            echo "$existing" | grep -qx "$version" && continue
+
+            # Skip if no stubs generated
+            [ -f "$dir/Live/__init__.py" ] || continue
+
+            # Zip only the Live/ subdirectory (stubs)
+            (cd "$dir" && zip -r "../../Live-${version}-stubs.zip" Live/)
+
+            gh release create "$version" \
+              "Live-${version}-stubs.zip" \
+              --title "Live ${version} API Stubs" \
+              --notes "Auto-generated Python API stubs for Ableton Live ${version}.
+
+          Use these for type checking and autocomplete when developing Remote Scripts
+          or Max for Live Python code.
+
+          Download and add to your project's type checking path."
+
+            rm "Live-${version}-stubs.zip"
+            echo "Created release for Live ${version}"
+          done

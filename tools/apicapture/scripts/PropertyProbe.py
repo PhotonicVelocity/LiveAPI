@@ -163,7 +163,11 @@ class PropertyProbe:
             try:
                 obj = constructor()
                 self._add_instance(obj)
-                self.log(f"  Constructed {repr(type(obj))}")
+                class_repr = repr(type(obj))
+                self.log(f"  Constructed {class_repr}")
+                entry = self.repr_index.get(class_repr)
+                if entry is not None:
+                    entry["constructable"] = True
             except Exception as e:
                 self.log(f"  Failed hardcoded construction: {e}")
 
@@ -172,6 +176,14 @@ class PropertyProbe:
         return [
             lambda: Live.Base.Timer(callback=lambda: None, interval=1, start=False),
             lambda: Live.Clip.MidiNoteSpecification(pitch=60, start_time=0.0, duration=0.25),
+            lambda: Live.Clip.WarpMarker(sample_time=0.0, beat_time=0.0),
+            lambda: Live.Envelope.EnvelopeEventControlCoefficients(x1=0.0, y1=0.0, x2=0.0, y2=0.0),
+            lambda: Live.Envelope.EnvelopeEvent(
+                time=0.0, value=0.0,
+                control_coefficients=Live.Envelope.EnvelopeEventControlCoefficients(x1=0.0, y1=0.0, x2=0.0, y2=0.0),
+            ),
+            lambda: Live.TuningSystem.PitchClassAndOctave(index_in_octave=0, octave=0),
+            lambda: Live.TuningSystem.ReferencePitch(index_in_octave=0, octave=0, frequency=440.0),
         ]
 
     # --- Probe loop ---
@@ -221,13 +233,8 @@ class PropertyProbe:
                     if type_name not in _PRIMITIVES:
                         prop_info["repr"] = repr(type(prop))
                     self._discover(prop)
-                    # Record element type for iterables (vectors)
-                    if not prop_info.get("element_repr") and hasattr(prop, "__iter__"):
-                        for item in prop:
-                            item_type = type(item).__name__
-                            if item_type not in _PRIMITIVES:
-                                prop_info["element_repr"] = repr(type(item))
-                            break
+                    if hasattr(prop, "__iter__"):
+                        self._record_element_type(prop)
                 elif prop_info.get("repr") and not self._is_complete(prop_info["repr"]):
                     # Re-discover incomplete child types
                     self._discover(prop)
@@ -238,7 +245,11 @@ class PropertyProbe:
                 self.log(f"  Failed to access property {prop_name}: {e}")
 
     def _probe_getters(self, entry: dict, inst: dict):
-        """Call each no-arg getter on a live instance to discover its return type."""
+        """Call each no-arg getter on a live instance to discover its return type.
+
+        Records the type name and repr, then discovers the value to register new instances.
+        Also records element_repr for iterable return values (vectors/lists).
+        """
         obj = inst["_obj"]
         for getter_name, getter_info in entry["getters"].items():
             if getter_info["probed"]:
@@ -252,6 +263,8 @@ class PropertyProbe:
                 if type_name not in _PRIMITIVES:
                     getter_info["repr"] = repr(type(result))
                 self._discover(result)
+                if hasattr(result, "__iter__"):
+                    self._record_element_type(result)
             except Exception as e:
                 self.log(f"  Failed to call {getter_name}: {e}")
 
@@ -262,6 +275,9 @@ class PropertyProbe:
             if i in self._hardcoded_done:
                 continue
             repr_key, method_name, args = call
+            # Ensure the method appears in the getter list so results are recorded
+            if repr_key in self.repr_index:
+                self.repr_index[repr_key].setdefault("getters", {}).setdefault(method_name, {"probed": False})
             if repr_key not in self.repr_index or not self.repr_index[repr_key].get("instances"):
                 continue
             obj = self.repr_index[repr_key]["instances"][0]["_obj"]
@@ -274,6 +290,17 @@ class PropertyProbe:
                     self._discover(result)
                 found = True
                 self.log(f"  Hardcoded {method_name} succeeded")
+                # Record return type on the getter entry (if it exists)
+                entry = self.repr_index[repr_key]
+                getter_info = entry.get("getters", {}).get(method_name)
+                if getter_info and not getter_info.get("probed"):
+                    type_name = type(result).__name__
+                    getter_info["probed"] = True
+                    getter_info["type"] = type_name
+                    if type_name not in _PRIMITIVES:
+                        getter_info["repr"] = repr(type(result))
+                if hasattr(result, "__iter__"):
+                    self._record_element_type(result)
             except Exception as e:
                 self.log(f"  Failed to call {method_name}: {e}")
             self._hardcoded_done.add(i)
@@ -285,6 +312,21 @@ class PropertyProbe:
             ("<class 'Envelope.Envelope'>", "events_in_range", (0, 999999)),
         ]
 
+    # --- Element type recording ---
+
+    def _record_element_type(self, iterable: Any) -> None:
+        """If iterable is a vector in the repr_index, record element_repr on the vector's entry."""
+        vec_repr = repr(type(iterable))
+        vec_entry = self.repr_index.get(vec_repr)
+        if vec_entry is None or vec_entry.get("element_repr"):
+            return
+        for item in iterable:
+            item_type = type(item).__name__
+            if item_type not in _PRIMITIVES:
+                vec_entry["element_repr"] = repr(type(item))
+                self.log(f"  Recorded element_repr on {vec_repr}: {vec_entry['element_repr']}")
+            break
+
     # --- Completeness tracking ---
 
     def _update_completeness(self):
@@ -293,6 +335,7 @@ class PropertyProbe:
         A class is complete when:
         1. All its properties are probed.
         2. Every child type (property repr in the index) is also complete.
+        3. Vector classes have element_repr recorded.
 
         Getters do NOT block completeness — they may need args we can't provide.
         canonical_parent is excluded to avoid circular dependencies.
@@ -307,17 +350,20 @@ class PropertyProbe:
                 if any(not p["probed"] for p in entry.get("properties", {}).values()):
                     continue
 
+                # Vector classes need element_repr to be complete
+                name = entry.get("path", "").rsplit("/", 1)[-1]
+                if name.endswith("Vector") and name != "Vector" and not entry.get("element_repr"):
+                    continue
+
                 all_children_complete = True
                 for prop_name, p in entry.get("properties", {}).items():
                     if prop_name == "canonical_parent":
                         continue
-                    for key in ("repr", "element_repr"):
-                        child_repr = p.get(key)
-                        if child_repr and child_repr != class_repr:
-                            child_entry = self.repr_index.get(child_repr)
-                            if child_entry and not child_entry.get("complete"):
-                                all_children_complete = False
-                                break
+                    child_repr = p.get("repr")
+                    if child_repr and child_repr != class_repr:
+                        child_entry = self.repr_index.get(child_repr)
+                        if child_entry and not child_entry.get("complete"):
+                            all_children_complete = False
                     if not all_children_complete:
                         break
                 if not all_children_complete:
