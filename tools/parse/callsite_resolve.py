@@ -1,18 +1,24 @@
-"""Resolve argument names by analysing call sites in decompiled Remote Scripts.
+"""Resolve argument names by analysing definitions and call sites in decompiled Remote Scripts.
 
-Searches a local clone of gluon/AbletonLive12_MIDIRemoteScripts for actual
-invocations of unresolved Live API functions. For each function with unnamed
-args (arg1, arg2, …), finds call sites across 1200+ decompiled .py files,
-extracts the variable names passed at each positional arg, votes across all
-call sites, and picks the most common name per position.
+Searches a local clone of gluon/AbletonLive12_MIDIRemoteScripts for:
+
+1. **Function definitions** — ``def func_name(self, param1, param2)`` gives us parameter names
+   directly. When multiple definitions exist, names are voted on per position.
+
+2. **Call sites** — ``obj.func_name(value)`` gives us the variable names callers use. These are
+   collected as hints for the LLM resolution phase, not treated as resolved names.
+
+For methods with common names (append, extend, etc.), the parent object at the call site is
+compared against the class name to avoid cross-class contamination.
 
 Input:
     stubs/<version>/pipeline/unresolved.json
         Items with args that have ``needs_name: true``.
 
 Output (stdout, or --output file):
-    JSON in refinements format — same structure as refinements.llm.json,
-    with ``name``, ``name_reason``, ``_votes``, and ``_total_sites`` per arg.
+    JSON with two sections:
+    - ``refinements`` — high-confidence names from definition analysis (refinements format)
+    - ``call_site_hints`` — per-arg vote tallies from call sites (context for LLM phase)
 
 Reference data:
     doc/decompiled/AbletonLive12_MIDIRemoteScripts/
@@ -31,7 +37,7 @@ import json
 import re
 import sys
 from collections import Counter
-from os.path import dirname, join
+from os.path import dirname
 from pathlib import Path
 
 REPO_ROOT = Path(dirname(dirname(dirname(__file__))))
@@ -41,6 +47,10 @@ DECOMPILED_DIR = REPO_ROOT / "doc" / "decompiled" / "AbletonLive12_MIDIRemoteScr
 _SKIP_NAMES = {"self", "None", "True", "False"}
 # Minimum length for extracted names — single-char vars like i, j, k are loop artifacts
 _MIN_NAME_LEN = 2
+
+# Function names common enough to cause cross-class vote contamination.
+# For these, we require the call-site parent to match the class name.
+_AMBIGUOUS_NAMES = {"append", "extend", "remove", "insert", "pop", "clear", "count", "index", "copy", "sort"}
 
 
 def _extract_arg_name(node: ast.expr) -> str | None:
@@ -59,9 +69,12 @@ def _extract_arg_name(node: ast.expr) -> str | None:
             return None
         return name
 
-    # Attribute access: self.handle() is handled by Call below,
-    # but self.channel or self._channel
+    # Attribute access: self.channel, self._channel
+    # Skip chained calls like self.song().signature_denominator — the attribute describes
+    # the return value, not the parameter.
     if isinstance(node, ast.Attribute):
+        if isinstance(node.value, ast.Call):
+            return None
         attr = node.attr
         if attr.startswith("_") or len(attr) < _MIN_NAME_LEN:
             return None
@@ -82,6 +95,25 @@ def _extract_arg_name(node: ast.expr) -> str | None:
     return None
 
 
+def _extract_parent_name(node: ast.expr) -> str | None:
+    """Extract the parent object name from a method call target.
+
+    For ``obj.method()``, returns the variable/attribute name of ``obj``.
+    Used to disambiguate common method names like append/extend.
+    """
+    if not isinstance(node, ast.Attribute):
+        return None
+    value = node.value
+    if isinstance(value, ast.Name):
+        return value.id.lower()
+    if isinstance(value, ast.Attribute):
+        return value.attr.lstrip("_").lower()
+    # self.thing().method() — use the method name as parent hint
+    if isinstance(value, ast.Call) and isinstance(value.func, ast.Attribute):
+        return value.func.attr.lstrip("_").lower()
+    return None
+
+
 def _find_py_files(directory: Path) -> list[Path]:
     """Recursively find all .py files."""
     return list(directory.rglob("*.py"))
@@ -97,18 +129,11 @@ def _parse_file(path: Path) -> ast.Module | None:
 
 
 def _build_search_patterns(unresolved: dict) -> dict[str, list[str]]:
-    """Build a mapping from function name to list of unresolved paths that use it.
-
-    For module-level functions like Live.MidiMap.forward_midi_cc, we search for
-    both 'forward_midi_cc(' and 'Live.MidiMap.forward_midi_cc('.
-
-    For instance methods like Live.Clip.Clip.quantize, we search for '.quantize('.
-    """
+    """Build a mapping from function name to list of unresolved paths that use it."""
     patterns: dict[str, list[str]] = {}
     for path, entry in unresolved.items():
         if "args" not in entry:
             continue
-        # Only items with needs_name args
         has_name_needed = any(arg.get("needs_name") for arg in entry["args"].values())
         if not has_name_needed:
             continue
@@ -125,51 +150,117 @@ def _is_method(path: str) -> bool:
     """Determine if a path represents an instance method (has self as arg1)."""
     parts = path.split(".")
     # Module-level functions: Live.MidiMap.forward_midi_cc (3 parts)
-    # Module-level functions: Live.Application.encrypt_challenge2 (3 parts)
     # Instance methods: Live.Clip.Clip.quantize (4+ parts)
-    # But also: Live.Base.log (3 parts, module-level)
-    # And: Live.Application.ControlSurfaceProxy.send_midi (4 parts, instance method)
-    # Heuristic: if there are 4+ parts, it's likely an instance method
-    # For 3 parts, check if the second part looks like a class (starts with uppercase)
     if len(parts) >= 4:
         return True
-    if len(parts) == 3:
-        # Module-level functions in Live.MidiMap, Live.Application, Live.Base
-        return False
     return False
 
 
-class CallSiteCollector(ast.NodeVisitor):
-    """AST visitor that collects argument names from call sites."""
+def _class_name_from_path(path: str) -> str:
+    """Extract the class name from a LOM path, lowercased for fuzzy matching.
+
+    Live.Clip.MidiNoteVector.append -> 'midinotevector'
+    Live.Song.Song.jump_by -> 'song'
+    """
+    parts = path.split(".")
+    if len(parts) >= 4:
+        return parts[-2].lower()
+    return ""
+
+
+def _parent_matches_class(parent: str | None, class_name: str) -> bool:
+    """Check if a call-site parent name plausibly refers to the target class.
+
+    Uses substring matching: parent 'midi_note_vector' matches class 'midinotevector',
+    parent 'notes' matches class 'midinotevector' (partial).
+    """
+    if not parent or not class_name:
+        return False
+    # Normalize: strip underscores for comparison
+    parent_norm = parent.replace("_", "")
+    return parent_norm in class_name or class_name in parent_norm
+
+
+# ---------------------------------------------------------------------------
+# Definition collector — high-confidence source of arg names
+# ---------------------------------------------------------------------------
+
+
+class DefCollector(ast.NodeVisitor):
+    """AST visitor that collects parameter names from function definitions."""
 
     def __init__(self, target_funcs: set[str]):
         self.target_funcs = target_funcs
-        # func_name -> list of (arg_position, extracted_name)
-        self.hits: dict[str, list[list[str | None]]] = {f: [] for f in target_funcs}
+        # func_name -> list of param name lists (one per definition found)
+        self.hits: dict[str, list[list[str]]] = {f: [] for f in target_funcs}
+
+    def visit_FunctionDef(self, node: ast.FunctionDef) -> None:
+        if node.name in self.target_funcs:
+            # Collect non-self parameter names
+            params = []
+            for arg in node.args.args:
+                name = arg.arg
+                if name == "self":
+                    continue
+                params.append(name)
+            if params:
+                self.hits[node.name].append(params)
+        self.generic_visit(node)
+
+    visit_AsyncFunctionDef = visit_FunctionDef
+
+
+def _collect_def_sites(py_files: list[Path], target_funcs: set[str]) -> dict[str, list[list[str]]]:
+    """Scan all Python files for function definitions matching target names."""
+    merged: dict[str, list[list[str]]] = {f: [] for f in target_funcs}
+    for path in py_files:
+        tree = _parse_file(path)
+        if tree is None:
+            continue
+        collector = DefCollector(target_funcs)
+        collector.visit(tree)
+        for func, hits in collector.hits.items():
+            merged[func].extend(hits)
+    return merged
+
+
+# ---------------------------------------------------------------------------
+# Call-site collector — lower-confidence, used as hints
+# ---------------------------------------------------------------------------
+
+
+class CallSiteCollector(ast.NodeVisitor):
+    """AST visitor that collects argument names and parent context from call sites."""
+
+    def __init__(self, target_funcs: set[str]):
+        self.target_funcs = target_funcs
+        # func_name -> list of (parent_name, [arg_names])
+        self.hits: dict[str, list[tuple[str | None, list[str | None]]]] = {f: [] for f in target_funcs}
 
     def visit_Call(self, node: ast.Call) -> None:
         func_name = self._get_func_name(node.func)
         if func_name and func_name in self.target_funcs:
+            parent = _extract_parent_name(node.func)
             arg_names: list[str | None] = []
             for arg in node.args:
                 arg_names.append(_extract_arg_name(arg))
-            self.hits[func_name].append(arg_names)
+            self.hits[func_name].append((parent, arg_names))
         self.generic_visit(node)
 
     def _get_func_name(self, node: ast.expr) -> str | None:
         """Extract the function name from a call target."""
-        # Simple name: forward_midi_cc(...)
         if isinstance(node, ast.Name):
             return node.id
-        # Attribute: Live.MidiMap.forward_midi_cc(...) or self.quantize(...)
         if isinstance(node, ast.Attribute):
             return node.attr
         return None
 
 
-def _collect_call_sites(py_files: list[Path], target_funcs: set[str]) -> dict[str, list[list[str | None]]]:
+def _collect_call_sites(
+    py_files: list[Path], target_funcs: set[str]
+) -> dict[str, list[tuple[str | None, list[str | None]]]]:
     """Scan all Python files for calls to target functions."""
-    merged: dict[str, list[list[str | None]]] = {f: [] for f in target_funcs}
+    merged: dict[str, list[tuple[str | None, list[str | None]]]] = {f: [] for f in target_funcs}
     for path in py_files:
         tree = _parse_file(path)
         if tree is None:
@@ -181,22 +272,26 @@ def _collect_call_sites(py_files: list[Path], target_funcs: set[str]) -> dict[st
     return merged
 
 
-def _resolve_from_call_sites(
-    unresolved: dict,
-    call_sites: dict[str, list[list[str | None]]],
-    patterns: dict[str, list[str]],
-    min_confidence: int = 1,
-) -> dict[str, dict]:
-    """Produce refinements from call-site analysis.
+# ---------------------------------------------------------------------------
+# Resolution from definitions
+# ---------------------------------------------------------------------------
 
-    For each unresolved item, look at collected call sites for its function name,
-    align arg positions, vote on names, and emit refinements for high-confidence matches.
+
+def _resolve_from_defs(
+    unresolved: dict,
+    def_sites: dict[str, list[list[str]]],
+    patterns: dict[str, list[str]],
+) -> dict[str, dict]:
+    """Produce refinements from function definition analysis.
+
+    For each unresolved function, find definitions with matching names, vote on
+    parameter names per position, and emit refinements.
     """
     refinements: dict[str, dict] = {}
 
     for func_name, paths in patterns.items():
-        sites = call_sites.get(func_name, [])
-        if not sites:
+        defs = def_sites.get(func_name, [])
+        if not defs:
             continue
 
         for path in paths:
@@ -204,38 +299,126 @@ def _resolve_from_call_sites(
             args = entry["args"]
             is_meth = _is_method(path)
 
-            # Build arg keys in order (arg1, arg2, ... or named args)
             needs_name_args = {k: v for k, v in args.items() if v.get("needs_name")}
             if not needs_name_args:
                 continue
 
-            # Map arg keys to their expected position in call sites
-            # For instance methods, the unresolved args start at arg2 (arg1=self)
-            # and call sites don't include self, so call-site index 0 = arg2
-            # For module-level functions, arg1 maps to call-site index 0
             arg_refinement: dict[str, dict] = {}
 
             for arg_key in sorted(needs_name_args.keys()):
-                # Extract the numeric position from argN
                 m = re.match(r"arg(\d+)", arg_key)
                 if not m:
                     continue
                 arg_num = int(m.group(1))
 
                 if is_meth:
-                    # arg2 in unresolved = position 0 in call site (self excluded)
+                    # arg2 in unresolved = position 0 in def (self excluded)
+                    def_idx = arg_num - 2
+                else:
+                    def_idx = arg_num - 1
+
+                if def_idx < 0:
+                    continue
+
+                # Vote across all definitions
+                name_votes: Counter[str] = Counter()
+                total_defs = 0
+                for def_params in defs:
+                    if def_idx < len(def_params):
+                        total_defs += 1
+                        param = def_params[def_idx]
+                        if param not in _SKIP_NAMES and not param.startswith("_") and len(param) >= _MIN_NAME_LEN:
+                            name_votes[param] += 1
+
+                if not name_votes:
+                    continue
+
+                best_name, best_count = name_votes.most_common(1)[0]
+
+                arg_refinement[arg_key] = {
+                    "name": best_name,
+                    "name_reason": f"Definition analysis: {best_count}/{total_defs} defs use '{best_name}'",
+                    "_votes": dict(name_votes),
+                    "_total_defs": total_defs,
+                }
+
+            if arg_refinement:
+                refinements[path] = {"args": arg_refinement}
+
+    return refinements
+
+
+# ---------------------------------------------------------------------------
+# Call-site hints (context for LLM phase)
+# ---------------------------------------------------------------------------
+
+
+def _build_call_site_hints(
+    unresolved: dict,
+    call_sites: dict[str, list[tuple[str | None, list[str | None]]]],
+    patterns: dict[str, list[str]],
+    already_resolved: dict[str, dict],
+) -> dict[str, dict]:
+    """Collect unique call-site value names as hints for the LLM phase.
+
+    Skips args already resolved by definition analysis.
+    For ambiguous names (append, extend, ...), filters call sites by parent match.
+    """
+    hints: dict[str, dict] = {}
+
+    for func_name, paths in patterns.items():
+        all_sites = call_sites.get(func_name, [])
+        if not all_sites:
+            continue
+
+        is_ambiguous = func_name in _AMBIGUOUS_NAMES
+
+        for path in paths:
+            entry = unresolved[path]
+            args = entry["args"]
+            is_meth = _is_method(path)
+            class_name = _class_name_from_path(path)
+
+            needs_name_args = {k: v for k, v in args.items() if v.get("needs_name")}
+            if not needs_name_args:
+                continue
+
+            # Skip args already resolved by defs
+            resolved_args = set()
+            if path in already_resolved:
+                resolved_args = set(already_resolved[path].get("args", {}).keys())
+
+            # Filter sites by parent match for ambiguous names
+            if is_ambiguous:
+                sites = [(p, a) for p, a in all_sites if _parent_matches_class(p, class_name)]
+            else:
+                sites = all_sites
+
+            if not sites:
+                continue
+
+            arg_hints: dict[str, dict] = {}
+
+            for arg_key in sorted(needs_name_args.keys()):
+                if arg_key in resolved_args:
+                    continue
+
+                m = re.match(r"arg(\d+)", arg_key)
+                if not m:
+                    continue
+                arg_num = int(m.group(1))
+
+                if is_meth:
                     site_idx = arg_num - 2
                 else:
-                    # arg1 in unresolved = position 0 in call site
                     site_idx = arg_num - 1
 
                 if site_idx < 0:
                     continue
 
-                # Collect names from all call sites at this position
                 name_votes: Counter[str] = Counter()
                 total_sites = 0
-                for site_args in sites:
+                for _parent, site_args in sites:
                     if site_idx < len(site_args):
                         total_sites += 1
                         name = site_args[site_idx]
@@ -245,23 +428,23 @@ def _resolve_from_call_sites(
                 if not name_votes:
                     continue
 
-                # Pick the most common name
-                best_name, best_count = name_votes.most_common(1)[0]
-                if best_count < min_confidence:
-                    continue
-
-                arg_refinement[arg_key] = {
-                    "name": best_name,
-                    "name_reason": f"Call-site analysis: {best_count}/{total_sites} sites use '{best_name}'",
+                # Collect unique names sorted by frequency
+                sorted_names = [name for name, _count in name_votes.most_common()]
+                arg_hints[arg_key] = {
+                    "call_site_names": sorted_names,
                     "_votes": dict(name_votes),
                     "_total_sites": total_sites,
                 }
 
-            if arg_refinement:
-                refinements[path] = {"args": arg_refinement}
+            if arg_hints:
+                hints[path] = {"args": arg_hints}
 
-    return refinements
+    return hints
 
+
+# ---------------------------------------------------------------------------
+# Repo cloning and orchestration
+# ---------------------------------------------------------------------------
 
 _DECOMPILED_REPO = "https://github.com/gluon/AbletonLive12_MIDIRemoteScripts.git"
 
@@ -305,31 +488,40 @@ def resolve(version: str) -> dict:
     py_files = _find_py_files(DECOMPILED_DIR)
     print(f"Scanning {len(py_files)} Python files...", file=sys.stderr)
 
-    # Collect call sites
+    # Phase 1: Collect definitions (high confidence)
+    def_sites = _collect_def_sites(py_files, target_funcs)
+    defs_with_hits = sum(1 for defs in def_sites.values() if defs)
+    total_defs = sum(len(defs) for defs in def_sites.values())
+    print(f"Found {total_defs} definitions across {defs_with_hits}/{len(target_funcs)} functions", file=sys.stderr)
+
+    # Phase 2: Collect call sites (hints)
     call_sites = _collect_call_sites(py_files, target_funcs)
+    total_calls = sum(len(sites) for sites in call_sites.values())
+    calls_with_hits = sum(1 for sites in call_sites.values() if sites)
+    print(f"Found {total_calls} call sites across {calls_with_hits}/{len(target_funcs)} functions", file=sys.stderr)
 
-    # Count total hits
-    total_hits = sum(len(sites) for sites in call_sites.values())
-    funcs_with_hits = sum(1 for sites in call_sites.values() if sites)
-    print(f"Found {total_hits} call sites across {funcs_with_hits}/{len(target_funcs)} functions", file=sys.stderr)
+    # Resolve from definitions
+    refinements = _resolve_from_defs(unresolved, def_sites, patterns)
 
-    # Resolve
-    refinements = _resolve_from_call_sites(unresolved, call_sites, patterns)
+    # Build call-site hints for remaining args
+    call_site_hints = _build_call_site_hints(unresolved, call_sites, patterns, refinements)
 
     # Summary
     resolved_args = sum(len(r["args"]) for r in refinements.values())
+    hint_args = sum(len(h["args"]) for h in call_site_hints.values())
     total_needed = sum(
         sum(1 for a in entry["args"].values() if a.get("needs_name"))
         for entry in unresolved.values()
         if "args" in entry
     )
-    print(f"\nResolved {resolved_args}/{total_needed} arg names across {len(refinements)} functions", file=sys.stderr)
+    print(f"\nResolved {resolved_args}/{total_needed} arg names from definitions", file=sys.stderr)
+    print(f"Collected call-site hints for {hint_args} additional args", file=sys.stderr)
 
-    return {"version": version, "refinements": refinements}
+    return {"version": version, "refinements": refinements, "call_site_hints": call_site_hints}
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Resolve arg names from decompiled call sites")
+    parser = argparse.ArgumentParser(description="Resolve arg names from decompiled definitions and call sites")
     parser.add_argument("version", help="Stub version (e.g. 12.3.6)")
     parser.add_argument("--output", "-o", help="Output file (default: stdout)")
     parser.add_argument("--pretty", action="store_true", help="Pretty-print JSON output")
