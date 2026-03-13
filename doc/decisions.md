@@ -99,3 +99,8 @@ This mirrors how people think about Live's structure and matches the parent-chil
 - Raw probe notes in the reference are temporary — the goal is a clean pipeline:
   `stubs + M4L docs + probe results → parser → reference markdown`.
 - Whether probes use the APICapture Control Surface or LiveRelay is TBD.
+- **M4L probe device** — some LOM types (e.g. `ControlSurfaceProxy`) are only reachable from the Max for Live
+  process, not from a control surface script. APICapture runs in the control surface process, so it sees actual
+  `ControlSurface` objects rather than proxies. A small M4L device could probe these M4L-only types by reading
+  properties and writing results to a JSON file for the main pipeline to merge. Low priority since
+  `ControlSurfaceProxy` is currently the only known case, and it was resolved via decompiled source.
