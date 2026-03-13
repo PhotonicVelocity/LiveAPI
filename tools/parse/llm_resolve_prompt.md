@@ -2,6 +2,7 @@ You are an expert on Ableton Live's Python API (the Live Object Model / LOM). Yo
 unresolved types and parameter names in the API's type stubs.
 
 You will receive:
+
 1. A JSON dict of unresolved items from the parsed API tree, keyed by path
 2. A type skeleton of the full API — all modules, classes, enums (with values), and properties (with types where known). Use this to identify valid type names and understand class/module relationships.
 3. The MaxForLive documentation (relevant sections from Ableton's official docs for the Live Object Model)
@@ -61,21 +62,26 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
 ## Critical Rules
 
 ### For args that need a name (`needs_name: true`):
+
 - Provide `"name"` and `"name_reason"`. Do NOT include `"type"` unless `current_type` is also `"object"`.
 - The current names are `arg1`, `arg2`, `arg3`, etc. — rename them to something descriptive.
 - Key the args dict by the CURRENT arg name (e.g. `"arg2"`, not the new name).
 
 ### For args that need a type (`current_type: "object"`):
+
 - Provide `"type"` and `"type_reason"`. Do NOT include `"name"` unless the arg also has `needs_name`.
 - The arg name may already be meaningful — these items only need a type fix.
 
 ### For return types (`returns.current_type: "object"`):
+
 - Provide `"returns": {"type": "...", "type_reason": "..."}` on the path entry.
 
 ### For property types (`probed_type: null`):
+
 - Provide `"probed_type": "..."` and `"probed_type_reason": "..."` on the path entry.
 
 ### General:
+
 - Use Python type names: `str`, `bool`, `int`, `float`, `Callable`, `Any`, `list[X]`, `tuple[X, ...]`.
 - Always parameterize container types when the element type is known: `list[int]` not bare `list`.
 - For Vector class probed_types, use the Vector class name as-is (e.g. `ControlDescriptionVector`),
@@ -103,9 +109,14 @@ arg type is `WarpMarker`, name it `warp_marker`. If the description says "the no
 `note_ids`.
 
 ### Consistency rules
+
 - **Sibling methods must use the same name for the same parameter.** If `delete_device(index)` uses
   `index` (from M4L), then `duplicate_device` on the same class must also use `index`, not
   `device_index`. Check other methods on the same class before choosing a name.
+- **Module-wide consistency for the same concept.** When multiple functions in the same module take the
+  same kind of parameter, use the same name everywhere. For example, if `map_midi_cc` uses `midi_channel`,
+  then `forward_midi_cc` must also use `midi_channel` — not `channel`. Before finalizing any name, scan
+  all other items in the batch for the same module and ensure the same concept uses the same name.
 - **Vector `extend` args must be plural.** If `append` takes `routing_channel`, then `extend` takes
   `routing_channels`. Never use a singular name for an `extend` argument.
 - **Avoid bare `value` for domain-specific parameters.** If the parameter represents a specific concept
@@ -122,6 +133,7 @@ Use ALL available context to determine the correct resolution. When sources conf
 priority order — higher-priority evidence wins:
 
 ### 1. Companion name ↔ type inference (strongest)
+
 - If resolving a type and the arg already has a meaningful name, use it: `warp_marker` → `WarpMarker`,
   `note_ids` → `list[int]`, `clip` → `Clip`. Check the type skeleton to verify the class exists.
 - If resolving a name and the arg already has a specific type, derive the name from it: `WarpMarker` →
@@ -129,6 +141,7 @@ priority order — higher-priority evidence wins:
 - This is the most reliable signal because name and type were parsed from the same API source.
 
 ### 2. MaxForLive docs (strong for names)
+
 - M4L docs often document the same function with explicit parameter names. **For naming, these are the
   most authoritative source** — use the documented name exactly as written. Do not embellish, qualify,
   or rephrase it.
@@ -137,6 +150,7 @@ priority order — higher-priority evidence wins:
   signature, and companion name/type over M4L type information when they conflict.
 
 ### 3. Description text (strong)
+
 - The `description` field comes directly from the Live API and describes what the function does.
 - It often names parameters explicitly or describes what types they accept.
 - Example: "Add the notes from the given list of `MidiNoteSpecification`s" → type is
@@ -146,6 +160,7 @@ priority order — higher-priority evidence wins:
   `step_length`. Only use compound names when they appear as a single term in the docs.
 
 ### 4. C++ signature (strong for primitive types)
+
 - The `signature` field shows the Boost.Python signature with C++ argument types.
 - The `cpp_signature` field shows the underlying C++ types:
   - `TString` = `str`
@@ -157,6 +172,7 @@ priority order — higher-priority evidence wins:
     context clues to determine the actual type.
 
 ### 5. API Type Skeleton (verification + discovery)
+
 - The **API Type Skeleton** is a compact text tree showing every module, class, enum (with values), and
   property (with types where known). Format: containers end with `:` and have indented children, properties
   use `name -> Type`, enums use `Name = val1, val2, ...`. Use it to:
@@ -167,6 +183,19 @@ priority order — higher-priority evidence wins:
   - Identify property types on related classes for cross-referencing.
 
 ### 6. Pattern matching (moderate)
+
 - If similar methods on sibling classes have known types, apply the same pattern.
+
+## Final Consistency Review
+
+Before emitting your JSON, review all your resolved names as a group. For each module, check that:
+
+1. The same conceptual parameter uses the same name across all functions (e.g. all MidiMap functions
+   should agree on `midi_channel` vs `channel` — pick whichever has stronger evidence and use it
+   everywhere).
+2. Sibling methods on the same class use the same name for the same positional arg.
+3. M4L documented names were used verbatim (not shortened or rephrased).
+
+If you find inconsistencies during this review, fix them before emitting the output.
 
 Respond with ONLY the JSON object, no other text.
