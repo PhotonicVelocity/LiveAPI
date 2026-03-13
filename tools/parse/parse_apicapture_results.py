@@ -976,6 +976,13 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
         args[-1]["type"] = "Callable"
         args[-1]["name"] = "callback"
 
+    # Vector methods: append(value), extend(values)
+    if parent.name and parent.name.endswith("Vector"):
+        if name == "append" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
+            args[1]["name"] = "value"
+        elif name == "extend" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
+            args[1]["name"] = "values"
+
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
 
