@@ -57,6 +57,8 @@ _RETURN_TYPE_OVERRIDES: dict[str, str] = {
 _PROPERTY_TYPE_OVERRIDES: dict[str, str] = {
     # ControlSurfaceProxy — control_descriptions confirmed via decompiled _MxDCore/ControlSurfaceWrapper.py
     "Live.Application.ControlSurfaceProxy.control_descriptions": "ControlDescriptionVector",
+    # ControlSurfaceProxy — control_descriptions confirmed via decompiled _MxDCore/ControlSurfaceWrapper.py
+    "Live.Application.ControlSurfaceProxy.control_descriptions": "ControlDescriptionVector",
     # ControlSurfaceProxy — pad_layout is "symbol" in M4L docs = str; type_name is clearly str
     "Live.Application.ControlSurfaceProxy.pad_layout": "str",
     "Live.Application.ControlSurfaceProxy.type_name": "str",
