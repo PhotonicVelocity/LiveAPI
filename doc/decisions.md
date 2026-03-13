@@ -13,9 +13,68 @@ Architectural and formatting decisions for the LiveAPI project. Updated as decis
 - **`reference/`** is the product. Everything else exists to produce and maintain it.
 - **`tools/`** holds all introspection, probing, and parsing tooling. Keeping it in this repo (not a separate one) to
   avoid cross-repo coordination overhead.
-- **`build/`** and **`MaxForLive/`** are source material — inputs to the reference docs, not end-user deliverables.
+  - **`tools/apicapture/`** — APICapture Control Surface (runs inside Live, captures raw tree + probes properties).
+  - **`tools/parse/`** — parsing and stub generation pipeline (see [Parse Pipeline](#parse-pipeline) below).
+  - **`tools/other/`** — legacy/utility scripts not yet integrated into the main pipeline.
+  - **`tools/install.py`** — installs APICapture to Live's Remote Scripts folder.
+  - **`tools/justfile`** — shortcuts for install/build/reload workflow.
+  - **`tools/sets/`** — Ableton Live sets used with APICapture for probing.
+- **`build/`** — per-version build artifacts. Each version directory (e.g. `build/12.3.6/`) contains the full pipeline
+  output: raw capture, probe results, parsed tree, refinements, resolved tree, and generated stubs.
+- **`MaxForLive/`** — API docs parsed from Max for Live HTML documentation. Used as cross-reference for type refinement.
+- **`doc/`** — project-level documentation (this file, contributing guide, pipeline plans).
 - **`web/`** removed — replaced by MkDocs + GitHub Pages.
-- **`set/`** moved to `tools/set/` — used by introspection tooling.
+
+## Parse Pipeline
+
+The pipeline transforms raw API captures into typed Python stubs through four stages:
+
+```
+                          APICapture (inside Live)
+                                   │
+                          LiveTree.raw.json + LiveClasses.json
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │  parse_apicapture_results.py │  Stage 1: Parse & enrich
+                    └──────────────┬──────────────┘
+                          LiveTree.parsed.json
+                                   │
+              ┌────────────────────┼────────────────────┐
+              │                    │                     │
+     extract_unresolved.py   resolve_unresolved.py      │
+              │                    │                     │
+        unresolved.json      refinements.json           │
+              │                    │                     │
+              └────────────────────┘                     │
+                                   │                     │
+                    ┌──────────────┴──────────────┐      │
+                    │    apply_refinements.py      │  Stage 2: Refine
+                    └──────────────┬──────────────┘
+                          LiveTree.resolved.json
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │      generate_stubs.py       │  Stage 3: Generate
+                    └──────────────┬──────────────┘
+                             Live/*.pyi
+```
+
+**Stage 1 — Parse** (`parse_apicapture_results.py`): Reads `LiveTree.raw.json` + `LiveClasses.json`, applies
+inheritance resolution, doc parsing, signature parsing, probe data merging. Outputs `LiveTree.parsed.json`.
+
+**Stage 2 — Refine**: Three scripts work together:
+
+- `extract_unresolved.py` — scans parsed tree for `object`-typed args, `argN`-named params, `object` returns, and null
+  property types. Outputs `unresolved.json`.
+- `resolve_unresolved.py` — produces `refinements.json` from hand-curated overrides (sourced from Notes.md, MaxForLive
+  docs, and decompiled remote scripts). 201/201 items resolved.
+- `apply_refinements.py` — applies `refinements.json` to `LiveTree.parsed.json`, producing `LiveTree.resolved.json`
+  with all arg names, arg types, return types, and property types baked in.
+
+**Stage 3 — Generate** (`generate_stubs.py`): Reads `LiveTree.resolved.json` and emits `.pyi` stub files. The generator
+has no refinement logic — it renders the tree as-is. Each namespace module becomes a package directory; classes, enums,
+functions, and properties are rendered according to their node type with proper `TYPE_CHECKING` imports.
+
+All scripts live in `tools/parse/` and accept a version argument (e.g. `python tools/parse/generate_stubs.py 12.3.6`).
 
 ## Reference Format
 
@@ -99,8 +158,11 @@ This mirrors how people think about Live's structure and matches the parent-chil
 - Raw probe notes in the reference are temporary — the goal is a clean pipeline:
   `stubs + M4L docs + probe results → parser → reference markdown`.
 - Whether probes use the APICapture Control Surface or LiveRelay is TBD.
-- **M4L probe device** — some LOM types (e.g. `ControlSurfaceProxy`) are only reachable from the Max for Live
-  process, not from a control surface script. APICapture runs in the control surface process, so it sees actual
+- **LLM-assisted resolution** — `unresolved.json` includes full context (descriptions, signatures, C++ signatures) for
+  each item. A future `--llm` mode on `resolve_unresolved.py` could propose refinements for review, useful as the API
+  evolves across Live versions.
+- **M4L probe device** — some LOM types (e.g. `ControlSurfaceProxy`) are only reachable from the Max for Live process,
+  not from a control surface script. APICapture runs in the control surface process, so it sees actual
   `ControlSurface` objects rather than proxies. A small M4L device could probe these M4L-only types by reading
   properties and writing results to a JSON file for the main pipeline to merge. Low priority since
   `ControlSurfaceProxy` is currently the only known case, and it was resolved via decompiled source.
