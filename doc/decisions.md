@@ -41,9 +41,9 @@ The pipeline transforms raw API captures into typed Python stubs through four st
                                    │
               ┌────────────────────┼────────────────────┐
               │                    │                     │
-     extract_unresolved.py   resolve_unresolved.py      │
+     extract_unresolved.py    llm_resolve.py            │
               │                    │                     │
-        unresolved.json      refinements.json           │
+        unresolved.json    refinements.llm.json         │
               │                    │                     │
               └────────────────────┘                     │
                                    │                     │
@@ -65,9 +65,10 @@ inheritance resolution, doc parsing, signature parsing, probe data merging. Outp
 
 - `extract_unresolved.py` — scans parsed tree for `object`-typed args, `argN`-named params, `object` returns, and null
   property types. Outputs `unresolved.json`.
-- `resolve_unresolved.py` — produces `refinements.json` from hand-curated overrides (sourced from Notes.md, MaxForLive
-  docs, and decompiled remote scripts). 201/201 items resolved.
-- `apply_refinements.py` — applies `refinements.json` to `LiveTree.parsed.json`, producing `LiveTree.resolved.json`
+- `llm_resolve.py` — produces `refinements.llm.json` using Claude to resolve unresolved items. Sends items along with a
+  type skeleton, MaxForLive docs, and curated reference docs as context. Supports batch processing via `--prepare` /
+  `--merge` or direct API calls. System prompt is in `llm_resolve_prompt.md`.
+- `apply_refinements.py` — applies `refinements.llm.json` to `LiveTree.parsed.json`, producing `LiveTree.resolved.json`
   with all arg names, arg types, return types, and property types baked in.
 
 **Stage 3 — Generate** (`generate_stubs.py`): Reads `LiveTree.resolved.json` and emits `.pyi` stub files. The generator
@@ -152,15 +153,12 @@ This mirrors how people think about Live's structure and matches the parent-chil
 - **GitHub Pages** — deployed via GitHub Actions on push to main.
 - **Markdown stays the source of truth** — GitHub browsing still works alongside the site.
 
-## Tooling Direction (future)
+## Tooling Direction
 
 - Probing and parsing should eventually generate reference content automatically.
 - Raw probe notes in the reference are temporary — the goal is a clean pipeline:
   `stubs + M4L docs + probe results → parser → reference markdown`.
 - Whether probes use the APICapture Control Surface or LiveRelay is TBD.
-- **LLM-assisted resolution** — `unresolved.json` includes full context (descriptions, signatures, C++ signatures) for
-  each item. A future `--llm` mode on `resolve_unresolved.py` could propose refinements for review, useful as the API
-  evolves across Live versions.
 - **M4L probe device** — some LOM types (e.g. `ControlSurfaceProxy`) are only reachable from the Max for Live process,
   not from a control surface script. APICapture runs in the control surface process, so it sees actual
   `ControlSurface` objects rather than proxies. A small M4L device could probe these M4L-only types by reading

@@ -1,119 +1,122 @@
 {
   "refinements": {
     "Live.Track.DeviceContainer._live_ptr": {
-      "reason": "All sibling _live_ptr properties across the LOM are probed as int.",
-      "probed_type": "int"
+      "probed_type": "int",
+      "probed_type_reason": "All sibling _live_ptr properties across the API (Application, Browser, Clip, Device, etc.) are probed as int."
     },
     "Live.Track.RoutingChannelVector.append": {
-      "reason": "Standard vector append method; parameter is the item to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "routing_channel",
+          "name_reason": "Derived from the arg type RoutingChannel; append takes a single element so singular form is used."
         }
       }
     },
     "Live.Track.RoutingChannelVector.extend": {
-      "reason": "Standard vector extend method; parameter is the iterable to extend with.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "routing_channels",
+          "name_reason": "Derived from the arg type RoutingChannel; extend takes multiple elements so plural form is used per consistency rules."
         }
       }
     },
     "Live.Track.RoutingTypeVector.append": {
-      "reason": "Standard vector append method; parameter is the item to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "routing_type",
+          "name_reason": "Derived from the arg type RoutingType; append takes a single element so singular form is used."
         }
       }
     },
     "Live.Track.RoutingTypeVector.extend": {
-      "reason": "Standard vector extend method; parameter is the iterable to extend with.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "routing_types",
+          "name_reason": "Derived from the arg type RoutingType; extend takes multiple elements so plural form is used per consistency rules."
         }
       }
     },
     "Live.Track.Track.create_audio_clip": {
-      "reason": "M4L docs name the parameters 'file_path' and 'position'.",
       "args": {
         "arg2": {
-          "name": "file_path"
+          "name": "file_path",
+          "name_reason": "M4L docs and reference docs both name this parameter 'file_path'."
         },
         "arg3": {
-          "name": "position"
+          "name": "position",
+          "name_reason": "M4L docs name this parameter 'position'; reference docs confirm 'position: float'."
         }
       }
     },
     "Live.Track.Track.create_midi_clip": {
-      "reason": "M4L docs name the parameters 'start_time' and 'length'.",
       "args": {
         "arg2": {
-          "name": "start_time"
+          "name": "start_time",
+          "name_reason": "M4L docs name this parameter 'start_time'; reference docs confirm 'start_time: float'."
         },
         "arg3": {
-          "name": "length"
+          "name": "length",
+          "name_reason": "M4L docs name this parameter 'length'; reference docs confirm 'length: float'."
         }
       }
     },
     "Live.Track.Track.delete_clip": {
-      "reason": "M4L docs name the parameter 'clip'.",
       "args": {
         "arg2": {
-          "name": "clip"
+          "name": "clip",
+          "name_reason": "M4L docs name this parameter 'clip'; reference docs confirm 'clip: Clip'."
         }
       }
     },
     "Live.Track.Track.delete_device": {
-      "reason": "M4L docs name the parameter 'index'.",
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "index",
+          "name_reason": "M4L docs name this parameter 'index'; reference docs confirm 'index: int'."
         }
       }
     },
     "Live.Track.Track.duplicate_clip_slot": {
-      "reason": "M4L docs name the parameter 'index'.",
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "index",
+          "name_reason": "M4L docs name this parameter 'index'; reference docs confirm 'index: int'."
         }
       }
     },
     "Live.Track.Track.duplicate_device": {
-      "reason": "Description says 'at a given index in the devices list'.",
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "index",
+          "name_reason": "M4L docs and reference docs both name this parameter 'index', consistent with sibling delete_device(index)."
         }
       }
     },
     "Live.Track.Track.get_data": {
-      "reason": "C++ signature shows boost::python::api::object for both default_value and return, meaning any Python object is accepted/returned.",
       "args": {
         "default_value": {
-          "type": "Any"
+          "type": "Any",
+          "type_reason": "C++ signature is boost::python::api::object and the parameter truly accepts any default value to return when key is missing."
         }
       },
       "returns": {
-        "type": "Any"
+        "type": "Any",
+        "type_reason": "Returns whatever was previously stored via set_data, which can be any serializable Python object."
       }
     },
     "Live.Track.Track.jump_in_running_session_clip": {
-      "reason": "M4L docs name the parameter 'beats'.",
       "args": {
         "arg2": {
-          "name": "beats"
+          "name": "beats",
+          "name_reason": "M4L docs name this parameter 'beats'; reference docs confirm 'beats: float'."
         }
       }
     },
     "Live.Track.Track.set_data": {
-      "reason": "C++ signature shows boost::python::api::object, meaning any Python object is accepted.",
       "args": {
         "value": {
-          "type": "Any"
+          "type": "Any",
+          "type_reason": "C++ signature is boost::python::api::object and the parameter truly accepts any serializable Python value for persistent storage."
         }
       }
     }
