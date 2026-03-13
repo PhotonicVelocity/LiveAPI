@@ -1,0 +1,167 @@
+{
+  "refinements": {
+    "Live.MidiMap.forward_midi_cc": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "midi_channel" },
+        "arg3": { "name": "controller_number" },
+        "arg4": { "name": "controller_value" }
+      }
+    },
+    "Live.MidiMap.forward_midi_note": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "midi_channel" },
+        "arg3": { "name": "note_number" },
+        "arg4": { "name": "note_velocity" }
+      }
+    },
+    "Live.MidiMap.forward_midi_pitchbend": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "midi_channel" },
+        "arg3": { "name": "pitchbend_value" }
+      }
+    },
+    "Live.MidiMap.map_midi_note": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "parameter" },
+        "arg3": { "name": "midi_channel" },
+        "arg4": { "name": "note_number" }
+      }
+    },
+    "Live.MidiMap.map_midi_note_with_feedback_map": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "parameter" },
+        "arg3": { "name": "midi_channel" },
+        "arg4": { "name": "note_number" },
+        "arg5": { "name": "feedback_rule" }
+      }
+    },
+    "Live.MidiMap.map_midi_pitchbend": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "parameter" },
+        "arg3": { "name": "midi_channel" },
+        "arg4": { "name": "needs_takeover" }
+      }
+    },
+    "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "parameter" },
+        "arg3": { "name": "midi_channel" },
+        "arg4": { "name": "feedback_rule" },
+        "arg5": { "name": "needs_takeover" }
+      }
+    },
+    "Live.MidiMap.send_feedback_for_parameter": {
+      "args": {
+        "arg1": { "name": "midi_map_handle" },
+        "arg2": { "name": "parameter" }
+      }
+    },
+    "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
+      "probed_type": "bool"
+    },
+    "Live.RackDevice.RackDevice.copy_pad": {
+      "args": {
+        "arg2": { "name": "source_index" },
+        "arg3": { "name": "destination_index" }
+      }
+    },
+    "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
+      "probed_type": "bool"
+    },
+    "Live.Scene.Scene.set_fire_button_state": {
+      "args": {
+        "arg2": { "name": "state" }
+      }
+    },
+    "Live.Song.Song.View.select_device": {
+      "args": {
+        "arg2": { "name": "device" }
+      }
+    },
+    "Live.Song.Song.create_audio_track": {
+      "args": {
+        "Index": { "type": "int" }
+      }
+    },
+    "Live.Song.Song.create_midi_track": {
+      "args": {
+        "Index": { "type": "int" }
+      }
+    },
+    "Live.Song.Song.create_scene": {
+      "args": {
+        "arg2": { "name": "index" }
+      }
+    },
+    "Live.Song.Song.delete_return_track": {
+      "args": {
+        "arg2": { "name": "index" }
+      }
+    },
+    "Live.Song.Song.delete_scene": {
+      "args": {
+        "arg2": { "name": "index" }
+      }
+    },
+    "Live.Song.Song.delete_track": {
+      "args": {
+        "arg2": { "name": "index" }
+      }
+    },
+    "Live.Song.Song.duplicate_scene": {
+      "args": {
+        "arg2": { "name": "index" }
+      }
+    },
+    "Live.Song.Song.duplicate_track": {
+      "args": {
+        "arg2": { "name": "index" }
+      }
+    },
+    "Live.Song.Song.get_current_smpte_song_time": {
+      "args": {
+        "arg2": { "name": "format" }
+      }
+    },
+    "Live.Song.Song.get_data": {
+      "args": {
+        "default_value": { "type": "Any" }
+      },
+      "returns": { "type": "Any" }
+    },
+    "Live.Song.Song.jump_by": {
+      "args": {
+        "arg2": { "name": "amount" }
+      }
+    },
+    "Live.Song.Song.scrub_by": {
+      "args": {
+        "arg2": { "name": "amount" }
+      }
+    },
+    "Live.Song.Song.set_data": {
+      "args": {
+        "value": { "type": "Any" }
+      }
+    },
+    "Live.TakeLane.TakeLane.create_audio_clip": {
+      "args": {
+        "arg2": { "name": "file_path" },
+        "arg3": { "name": "start_time" }
+      }
+    },
+    "Live.TakeLane.TakeLane.create_midi_clip": {
+      "args": {
+        "arg2": { "name": "start_time" },
+        "arg3": { "name": "length" }
+      }
+    }
+  }
+}

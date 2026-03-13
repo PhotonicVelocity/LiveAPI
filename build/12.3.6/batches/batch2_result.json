@@ -1,0 +1,384 @@
+{
+  "refinements": {
+    "Live.Clip.Clip.View.select_envelope_parameter": {
+      "args": {
+        "arg2": {
+          "name": "parameter"
+        }
+      }
+    },
+    "Live.Clip.Clip.add_new_notes": {
+      "args": {
+        "arg2": {
+          "name": "notes",
+          "type": "tuple"
+        }
+      }
+    },
+    "Live.Clip.Clip.add_warp_marker": {
+      "args": {
+        "warp_marker": {
+          "type": "dict"
+        }
+      }
+    },
+    "Live.Clip.Clip.apply_note_modifications": {
+      "args": {
+        "arg2": {
+          "name": "notes"
+        }
+      }
+    },
+    "Live.Clip.Clip.automation_envelope": {
+      "args": {
+        "arg2": {
+          "name": "parameter"
+        }
+      }
+    },
+    "Live.Clip.Clip.clear_envelope": {
+      "args": {
+        "arg2": {
+          "name": "parameter"
+        }
+      }
+    },
+    "Live.Clip.Clip.create_automation_envelope": {
+      "args": {
+        "arg2": {
+          "name": "parameter"
+        }
+      }
+    },
+    "Live.Clip.Clip.duplicate_notes_by_id": {
+      "args": {
+        "note_ids": {
+          "type": "list"
+        },
+        "destination_time": {
+          "type": "float"
+        }
+      }
+    },
+    "Live.Clip.Clip.get_notes_by_id": {
+      "args": {
+        "note_ids": {
+          "type": "list"
+        }
+      }
+    },
+    "Live.Clip.Clip.move_playing_pos": {
+      "args": {
+        "arg2": {
+          "name": "amount"
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize": {
+      "args": {
+        "arg2": {
+          "name": "quantization_grid"
+        },
+        "arg3": {
+          "name": "amount"
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize_pitch": {
+      "args": {
+        "arg2": {
+          "name": "pitch"
+        },
+        "arg3": {
+          "name": "quantization_grid"
+        },
+        "arg4": {
+          "name": "amount"
+        }
+      }
+    },
+    "Live.Clip.Clip.remove_notes": {
+      "args": {
+        "arg2": {
+          "name": "from_time"
+        },
+        "arg3": {
+          "name": "from_pitch"
+        },
+        "arg4": {
+          "name": "time_span"
+        },
+        "arg5": {
+          "name": "pitch_span"
+        }
+      }
+    },
+    "Live.Clip.Clip.remove_notes_by_id": {
+      "args": {
+        "arg2": {
+          "name": "note_ids",
+          "type": "list"
+        }
+      }
+    },
+    "Live.Clip.Clip.replace_selected_notes": {
+      "args": {
+        "arg2": {
+          "name": "notes"
+        }
+      }
+    },
+    "Live.Clip.Clip.select_notes_by_id": {
+      "args": {
+        "arg2": {
+          "name": "note_ids",
+          "type": "list"
+        }
+      }
+    },
+    "Live.Clip.Clip.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "name": "state"
+        }
+      }
+    },
+    "Live.Clip.Clip.set_notes": {
+      "args": {
+        "arg2": {
+          "name": "notes"
+        }
+      }
+    },
+    "Live.Clip.MidiNoteVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Clip.MidiNoteVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Clip.WarpMarkerVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Clip.WarpMarkerVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.create_audio_clip": {
+      "args": {
+        "arg2": {
+          "name": "path"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.create_clip": {
+      "args": {
+        "arg2": {
+          "name": "length"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.duplicate_clip_to": {
+      "args": {
+        "arg2": {
+          "name": "target_clip_slot"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "name": "state"
+        }
+      }
+    },
+    "Live.Device.ATimeableValueVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Device.ATimeableValueVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Device.Device.store_chosen_bank": {
+      "args": {
+        "arg2": {
+          "name": "script_index"
+        },
+        "arg3": {
+          "name": "bank_index"
+        }
+      }
+    },
+    "Live.DeviceParameter.DeviceParameter.str_for_value": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.delete_events_in_range": {
+      "args": {
+        "arg2": {
+          "name": "from_time"
+        },
+        "arg3": {
+          "name": "to_time"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.events_in_range": {
+      "args": {
+        "arg2": {
+          "name": "from_time"
+        },
+        "arg3": {
+          "name": "to_time"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.insert_step": {
+      "args": {
+        "arg2": {
+          "name": "start_time"
+        },
+        "arg3": {
+          "name": "length"
+        },
+        "arg4": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.value_at_time": {
+      "args": {
+        "arg2": {
+          "name": "time"
+        }
+      }
+    },
+    "Live.Envelope.EnvelopeEventVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Envelope.EnvelopeEventVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Licensing.PythonLicensingBridge.base_product_id": {
+      "probed_type": "int"
+    },
+    "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
+      "args": {
+        "authorize_callable": {
+          "type": "Callable"
+        },
+        "authorize_later_callable": {
+          "type": "Callable"
+        }
+      }
+    },
+    "Live.Licensing.PythonLicensingBridge.in_sassafras_mode": {
+      "probed_type": "bool"
+    },
+    "Live.Licensing.PythonLicensingBridge.license_must_match_variant": {
+      "probed_type": "bool"
+    },
+    "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": {
+      "probed_type": "int"
+    },
+    "Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes": {
+      "probed_type": "bool"
+    },
+    "Live.Licensing.PythonLicensingBridge.set_network_timer": {
+      "args": {
+        "callback": {
+          "type": "Callable"
+        }
+      }
+    },
+    "Live.Listener.ListenerHandle.listener_func": {
+      "probed_type": "Callable"
+    },
+    "Live.Listener.ListenerHandle.listener_self": {
+      "probed_type": "Any"
+    },
+    "Live.Listener.ListenerHandle.name": {
+      "probed_type": "str"
+    },
+    "Live.Listener.ListenerVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Listener.ListenerVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.LomObject.LomObject._live_ptr": {
+      "probed_type": "int"
+    },
+    "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
+      "args": {
+        "arg2": {
+          "name": "clip_slot"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_name": {
+      "args": {
+        "arg2": {
+          "name": "bank_index"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_parameters": {
+      "args": {
+        "arg2": {
+          "name": "bank_index"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_value_item_icons": {
+      "args": {
+        "arg2": {
+          "name": "parameter"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": {
+      "probed_type": "bool"
+    }
+  }
+}

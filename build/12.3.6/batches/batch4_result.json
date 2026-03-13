@@ -1,0 +1,107 @@
+{
+  "refinements": {
+    "Live.Track.DeviceContainer._live_ptr": {
+      "probed_type": "int"
+    },
+    "Live.Track.RoutingChannelVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Track.RoutingChannelVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Track.RoutingTypeVector.append": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Track.RoutingTypeVector.extend": {
+      "args": {
+        "arg2": {
+          "name": "value"
+        }
+      }
+    },
+    "Live.Track.Track.create_audio_clip": {
+      "args": {
+        "arg2": {
+          "name": "file_path"
+        },
+        "arg3": {
+          "name": "position"
+        }
+      }
+    },
+    "Live.Track.Track.create_midi_clip": {
+      "args": {
+        "arg2": {
+          "name": "start_time"
+        },
+        "arg3": {
+          "name": "length"
+        }
+      }
+    },
+    "Live.Track.Track.delete_clip": {
+      "args": {
+        "arg2": {
+          "name": "clip"
+        }
+      }
+    },
+    "Live.Track.Track.delete_device": {
+      "args": {
+        "arg2": {
+          "name": "index"
+        }
+      }
+    },
+    "Live.Track.Track.duplicate_clip_slot": {
+      "args": {
+        "arg2": {
+          "name": "index"
+        }
+      }
+    },
+    "Live.Track.Track.duplicate_device": {
+      "args": {
+        "arg2": {
+          "name": "index"
+        }
+      }
+    },
+    "Live.Track.Track.get_data": {
+      "args": {
+        "default_value": {
+          "type": "Any"
+        }
+      },
+      "returns": {
+        "type": "Any"
+      }
+    },
+    "Live.Track.Track.jump_in_running_session_clip": {
+      "args": {
+        "arg2": {
+          "name": "amount"
+        }
+      }
+    },
+    "Live.Track.Track.set_data": {
+      "args": {
+        "value": {
+          "type": "Any"
+        }
+      }
+    }
+  }
+}
