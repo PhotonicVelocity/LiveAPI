@@ -9,6 +9,9 @@ dist/
 stubs/*/pipeline/
 stubs/*/Log.txt
 
+# Decompiled Remote Scripts (cloned for call-site analysis)
+doc/decompiled/
+
 # Ableton project artifacts
 Icon?
 Backup/

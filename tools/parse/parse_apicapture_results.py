@@ -1050,6 +1050,12 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                     child["probed_repr"] = probed_repr
                 merged_props += 1
 
+        # _live_ptr is always an int (internal C++ pointer handle on every LOM object)
+        live_ptr = children_by_name.get("_live_ptr")
+        if live_ptr and live_ptr.get("type") == "property" and not live_ptr.get("probed_type"):
+            live_ptr["probed_type"] = "int"
+            merged_props += 1
+
         # Constructable: stamp onto class node
         if entry.get("constructable"):
             saved_children = node.pop("children", None)
