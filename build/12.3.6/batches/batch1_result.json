@@ -3,35 +3,35 @@
     "Live.Application.Application.View.add_is_view_visible_listener": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.focus_view": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.hide_view": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.is_view_visible_has_listener": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.remove_is_view_visible_listener": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
@@ -41,7 +41,7 @@
           "name": "direction"
         },
         "arg3": {
-          "name": "identifier"
+          "name": "view"
         },
         "arg4": {
           "name": "modifier_pressed"
@@ -51,7 +51,7 @@
     "Live.Application.Application.View.show_view": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
@@ -61,7 +61,7 @@
           "name": "direction"
         },
         "arg3": {
-          "name": "identifier"
+          "name": "view"
         },
         "arg4": {
           "name": "modifier_pressed"
@@ -92,7 +92,7 @@
     "Live.Application.ControlDescriptionVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -109,7 +109,7 @@
     "Live.Application.ControlSurfaceProxy.grab_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
@@ -119,28 +119,28 @@
     "Live.Application.ControlSurfaceProxy.release_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
       "args": {
         "arg2": {
-          "name": "midi_bytes"
+          "name": "message"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "value"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
@@ -150,7 +150,7 @@
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
@@ -164,7 +164,7 @@
     "Live.Application.UnavailableFeatureVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -178,10 +178,10 @@
     "Live.Application.get_random_int": {
       "args": {
         "arg1": {
-          "name": "start"
+          "name": "min"
         },
         "arg2": {
-          "name": "stop"
+          "name": "max"
         }
       }
     },
@@ -195,7 +195,7 @@
     "Live.Base.FloatVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -209,7 +209,7 @@
     "Live.Base.IntU64Vector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -223,7 +223,7 @@
     "Live.Base.IntVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -238,7 +238,7 @@
     "Live.Base.ObjectVector.extend": {
       "args": {
         "arg2": {
-          "name": "value",
+          "name": "values",
           "type": "Any"
         }
       }
@@ -253,7 +253,7 @@
     "Live.Base.StringVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -270,7 +270,7 @@
     "Live.Base.Vector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -331,7 +331,7 @@
     "Live.Browser.BrowserItemVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },

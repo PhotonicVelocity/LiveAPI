@@ -4,35 +4,35 @@
     "Live.Application.Application.View.add_is_view_visible_listener": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.focus_view": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.hide_view": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.is_view_visible_has_listener": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
     "Live.Application.Application.View.remove_is_view_visible_listener": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
@@ -42,7 +42,7 @@
           "name": "direction"
         },
         "arg3": {
-          "name": "identifier"
+          "name": "view"
         },
         "arg4": {
           "name": "modifier_pressed"
@@ -52,7 +52,7 @@
     "Live.Application.Application.View.show_view": {
       "args": {
         "arg2": {
-          "name": "identifier"
+          "name": "view"
         }
       }
     },
@@ -62,7 +62,7 @@
           "name": "direction"
         },
         "arg3": {
-          "name": "identifier"
+          "name": "view"
         },
         "arg4": {
           "name": "modifier_pressed"
@@ -93,7 +93,7 @@
     "Live.Application.ControlDescriptionVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -110,7 +110,7 @@
     "Live.Application.ControlSurfaceProxy.grab_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
@@ -120,28 +120,28 @@
     "Live.Application.ControlSurfaceProxy.release_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
       "args": {
         "arg2": {
-          "name": "midi_bytes"
+          "name": "message"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "value"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
@@ -151,7 +151,7 @@
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
       "args": {
         "arg2": {
-          "name": "control_id"
+          "name": "control"
         }
       }
     },
@@ -165,7 +165,7 @@
     "Live.Application.UnavailableFeatureVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -179,10 +179,10 @@
     "Live.Application.get_random_int": {
       "args": {
         "arg1": {
-          "name": "start"
+          "name": "min"
         },
         "arg2": {
-          "name": "stop"
+          "name": "max"
         }
       }
     },
@@ -196,7 +196,7 @@
     "Live.Base.FloatVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -210,7 +210,7 @@
     "Live.Base.IntU64Vector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -224,7 +224,7 @@
     "Live.Base.IntVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -239,7 +239,7 @@
     "Live.Base.ObjectVector.extend": {
       "args": {
         "arg2": {
-          "name": "value",
+          "name": "values",
           "type": "Any"
         }
       }
@@ -254,7 +254,7 @@
     "Live.Base.StringVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -271,7 +271,7 @@
     "Live.Base.Vector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -332,7 +332,7 @@
     "Live.Browser.BrowserItemVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -361,14 +361,14 @@
       "args": {
         "arg2": {
           "name": "notes",
-          "type": "list[MidiNoteSpecification]"
+          "type": "Any"
         }
       }
     },
     "Live.Clip.Clip.add_warp_marker": {
       "args": {
         "warp_marker": {
-          "type": "WarpMarker"
+          "type": "Any"
         }
       }
     },
@@ -403,17 +403,17 @@
     "Live.Clip.Clip.duplicate_notes_by_id": {
       "args": {
         "note_ids": {
-          "type": "list[int]"
+          "type": "Any"
         },
         "destination_time": {
-          "type": "float"
+          "type": "Any"
         }
       }
     },
     "Live.Clip.Clip.get_notes_by_id": {
       "args": {
         "note_ids": {
-          "type": "list[int]"
+          "type": "Any"
         }
       }
     },
@@ -467,7 +467,7 @@
       "args": {
         "arg2": {
           "name": "note_ids",
-          "type": "list[int]"
+          "type": "Any"
         }
       }
     },
@@ -482,7 +482,7 @@
       "args": {
         "arg2": {
           "name": "note_ids",
-          "type": "list[int]"
+          "type": "Any"
         }
       }
     },
@@ -503,35 +503,35 @@
     "Live.Clip.MidiNoteVector.append": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "note"
         }
       }
     },
     "Live.Clip.MidiNoteVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "notes"
         }
       }
     },
     "Live.Clip.WarpMarkerVector.append": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "marker"
         }
       }
     },
     "Live.Clip.WarpMarkerVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "markers"
         }
       }
     },
     "Live.ClipSlot.ClipSlot.create_audio_clip": {
       "args": {
         "arg2": {
-          "name": "file_path"
+          "name": "path"
         }
       }
     },
@@ -559,14 +559,14 @@
     "Live.Device.ATimeableValueVector.append": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "parameter"
         }
       }
     },
     "Live.Device.ATimeableValueVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "parameters"
         }
       }
     },
@@ -590,20 +590,20 @@
     "Live.Envelope.Envelope.delete_events_in_range": {
       "args": {
         "arg2": {
-          "name": "start"
+          "name": "from_time"
         },
         "arg3": {
-          "name": "end"
+          "name": "to_time"
         }
       }
     },
     "Live.Envelope.Envelope.events_in_range": {
       "args": {
         "arg2": {
-          "name": "start"
+          "name": "from_time"
         },
         "arg3": {
-          "name": "end"
+          "name": "to_time"
         }
       }
     },
@@ -630,19 +630,19 @@
     "Live.Envelope.EnvelopeEventVector.append": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "event"
         }
       }
     },
     "Live.Envelope.EnvelopeEventVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "events"
         }
       }
     },
     "Live.Licensing.PythonLicensingBridge.base_product_id": {
-      "probed_type": "str"
+      "probed_type": "int"
     },
     "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
       "args": {
@@ -685,14 +685,14 @@
     "Live.Listener.ListenerVector.append": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "handle"
         }
       }
     },
     "Live.Listener.ListenerVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "handles"
         }
       }
     },
@@ -702,21 +702,21 @@
     "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
       "args": {
         "arg2": {
-          "name": "target"
+          "name": "clip_slot"
         }
       }
     },
     "Live.MaxDevice.MaxDevice.get_bank_name": {
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "bank_index"
         }
       }
     },
     "Live.MaxDevice.MaxDevice.get_bank_parameters": {
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "bank_index"
         }
       }
     },
@@ -736,13 +736,13 @@
           "name": "midi_map_handle"
         },
         "arg2": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg3": {
-          "name": "controller_number"
+          "name": "cc_no"
         },
         "arg4": {
-          "name": "controller_value"
+          "name": "cc_value"
         }
       }
     },
@@ -752,13 +752,13 @@
           "name": "midi_map_handle"
         },
         "arg2": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg3": {
-          "name": "note_number"
+          "name": "note_no"
         },
         "arg4": {
-          "name": "note_velocity"
+          "name": "velocity"
         }
       }
     },
@@ -768,10 +768,10 @@
           "name": "midi_map_handle"
         },
         "arg2": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg3": {
-          "name": "pitchbend_value"
+          "name": "value"
         }
       }
     },
@@ -784,10 +784,10 @@
           "name": "parameter"
         },
         "arg3": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg4": {
-          "name": "note_number"
+          "name": "note_no"
         }
       }
     },
@@ -800,10 +800,10 @@
           "name": "parameter"
         },
         "arg3": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg4": {
-          "name": "note_number"
+          "name": "note_no"
         },
         "arg5": {
           "name": "feedback_rule"
@@ -819,10 +819,10 @@
           "name": "parameter"
         },
         "arg3": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg4": {
-          "name": "avoid_takeover"
+          "name": "needs_takeover"
         }
       }
     },
@@ -835,13 +835,13 @@
           "name": "parameter"
         },
         "arg3": {
-          "name": "midi_channel"
+          "name": "channel"
         },
         "arg4": {
           "name": "feedback_rule"
         },
         "arg5": {
-          "name": "avoid_takeover"
+          "name": "needs_takeover"
         }
       }
     },
@@ -1012,7 +1012,7 @@
     "Live.Track.RoutingChannelVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -1026,7 +1026,7 @@
     "Live.Track.RoutingTypeVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -1036,7 +1036,7 @@
           "name": "file_path"
         },
         "arg3": {
-          "name": "start_time"
+          "name": "position"
         }
       }
     },
