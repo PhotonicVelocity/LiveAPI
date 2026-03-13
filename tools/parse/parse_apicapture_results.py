@@ -1145,27 +1145,27 @@ def run_pipeline(tree: TreeNode, ctx: dict[str, Any] | None = None) -> tuple[Tre
 # ------------------------------------------------------------------------------- #
 
 
-BUILD_DIR = Path(__file__).resolve().parent.parent.parent / "build"
+STUBS_DIR = Path(__file__).resolve().parent.parent.parent / "stubs"
 
 
-def resolve_build_dir(version: str) -> Path:
-    """Resolve a version string to a build directory.
+def resolve_pipeline_dir(version: str) -> Path:
+    """Resolve a version string to a pipeline directory.
 
     Accepts exact versions (12.3.6) or partial (12.3 → 12.3.0). If the exact path doesn't exist, appends .0 as a
-    fallback for minor-only versions.
+    fallback for minor-only versions. Returns the pipeline/ subdirectory where intermediates live.
     """
-    build_dir = BUILD_DIR / version
-    if build_dir.is_dir():
-        return build_dir
+    ver_dir = STUBS_DIR / version
+    if ver_dir.is_dir():
+        return ver_dir / "pipeline"
 
     # Try appending .0 for partial versions like "12.3" → "12.3.0"
-    fallback = BUILD_DIR / f"{version}.0"
+    fallback = STUBS_DIR / f"{version}.0"
     if fallback.is_dir():
-        return fallback
+        return fallback / "pipeline"
 
     # List available versions for a helpful error
-    available = sorted(p.name for p in BUILD_DIR.iterdir() if p.is_dir()) if BUILD_DIR.is_dir() else []
-    msg = f"No build directory found for version '{version}'"
+    available = sorted(p.name for p in STUBS_DIR.iterdir() if p.is_dir()) if STUBS_DIR.is_dir() else []
+    msg = f"No stubs directory found for version '{version}'"
     if available:
         msg += f"\nAvailable: {', '.join(available)}"
     raise SystemExit(msg)
@@ -1174,12 +1174,12 @@ def resolve_build_dir(version: str) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Parse and enrich APICapture results")
     parser.add_argument("version", help="Live version (e.g. 12.3.6 or 12.3)")
-    parser.add_argument("--output", "-o", help="Output path (default: LiveTree.parsed.json in build dir)")
+    parser.add_argument("--output", "-o", help="Output path (default: LiveTree.parsed.json in pipeline dir)")
     args = parser.parse_args()
 
-    build_dir = resolve_build_dir(args.version)
-    raw_path = build_dir / "LiveTree.raw.json"
-    out_path = Path(args.output).expanduser().resolve() if args.output else build_dir / "LiveTree.parsed.json"
+    pipeline_dir = resolve_pipeline_dir(args.version)
+    raw_path = pipeline_dir / "LiveTree.raw.json"
+    out_path = Path(args.output).expanduser().resolve() if args.output else pipeline_dir / "LiveTree.parsed.json"
 
     if not raw_path.exists():
         raise SystemExit(f"Input file not found: {raw_path}")
@@ -1188,7 +1188,7 @@ def main() -> None:
         data = json.load(f)
 
     ctx: dict[str, Any] = {}
-    probe_path = build_dir / "LiveClasses.json"
+    probe_path = pipeline_dir / "LiveClasses.json"
     if probe_path.exists():
         with open(probe_path, "r", encoding="utf-8") as f:
             ctx["probe_data"] = json.load(f)

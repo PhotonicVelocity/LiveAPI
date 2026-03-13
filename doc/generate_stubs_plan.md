@@ -16,7 +16,7 @@ python tools/parse/generate_stubs.py 12.3.6
 python tools/parse/generate_stubs.py 12.3.6 --input path/to/parsed.json --output path/to/Live
 ```
 
-Reads `build/{version}/LiveTree.parsed.json`, writes to `build/{version}/Live/`.
+Reads `stubs/{version}/pipeline/LiveTree.parsed.json`, writes to `stubs/{version}/Live/`.
 
 ## Output File Layout
 
@@ -388,14 +388,13 @@ __all__ = ["LimitationError", "FloatVector", "IntVector", ..., "log"]
 
 - **Create:** `tools/parse/generate_stubs.py`
 - **Reference:** `tools/other/StubGenerator.py` (v1 generator — TYPE_MAP values, import block pattern)
-- **Input:** `build/12.3.6/LiveTree.parsed.json`
-- **Reference:** `tools/parse/Notes.md` (manual type refinements — future follow-up, not for this PR)
+- **Input:** `stubs/12.3.6/pipeline/LiveTree.parsed.json`
 
 ## Verification
 
 1. `python tools/parse/generate_stubs.py 12.3.6`
-2. `find build/12.3.6/Live -type f | sort` — confirm 43 module dirs, correct file split
-3. Spot-check syntax: `python -m py_compile build/12.3.6/Live/Song/Song.pyi` (and a few others)
+2. `find stubs/12.3.6/Live -type f | sort` — confirm 43 module dirs, correct file split
+3. Spot-check syntax: `python -m py_compile stubs/12.3.6/Live/Song/Song.pyi` (and a few others)
 4. Check Song/Song.pyi has: nested View class, proper TYPE_CHECKING imports, enum default resolution
 5. Check Base/**init**.py has: LimitationError(Exception), vector classes, module-level functions
 6. Check Application/Application.pyi has: nested View with nested NavDirection enum

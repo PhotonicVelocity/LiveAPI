@@ -2,7 +2,7 @@
 Install the APICapture Remote Script into Ableton Live's User Library.
 
 Copies the apicapture package into the Remote Scripts folder and patches
-the output folder placeholder so generated files land in build/<version>/.
+the output folder placeholder so generated files land in stubs/<version>/pipeline/.
 
 This script only works for Live 11+ (User Library based).
 
@@ -50,7 +50,7 @@ if os.path.isdir(user_script_dir):
 
 shutil.copytree(src_dir, user_script_dir)
 
-outdir = os.path.join(repo_root, "build")
+outdir = os.path.join(repo_root, "stubs")
 
 with codecs.open(os.path.join(user_script_dir, "__init__.py"), "r", "utf-8") as f:
     content = f.read()

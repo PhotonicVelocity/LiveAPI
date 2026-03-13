@@ -6,13 +6,13 @@ Four-stage pipeline for capturing Live API metadata and generating typed Python 
 Stage 0: Capture (inside Live)     → LiveTree.raw.json + LiveClasses.json
 Stage 1: Parse   (external)       → LiveTree.parsed.json
 Stage 2: Refine  (external + LLM) → LiveTree.resolved.json
-Stage 3: Generate (external)      → build/<version>/Live/*.pyi
+Stage 3: Generate (external)      → stubs/<version>/Live/*.pyi
 ```
 
 ## Stage 0: Capture (runs inside Live)
 
 `apicapture/` is a MIDI Remote Script (Control Surface) that introspects the `Live` module at runtime. It produces two
-output files in `build/<version>/`:
+output files in `stubs/<version>/pipeline/`:
 
 - **`LiveTree.raw.json`** — structural tree from recursive `dir()` walking, with raw Boost.Python docstrings
 - **`LiveClasses.json`** — runtime property probe results (types, settability, listeners)
@@ -24,7 +24,7 @@ python tools/install.py
 ```
 
 This copies the `apicapture` package into Ableton's MIDI Remote Scripts directory with the output path configured to
-`build/`. After installing, start Live and select **APICapture** as a Control Surface in Preferences → Link, Tempo &
+`stubs/`. After installing, start Live and select **APICapture** as a Control Surface in Preferences → Link, Tempo &
 MIDI. Nothing runs automatically on startup — APICapture starts its tick loop and waits for trigger files.
 
 ### Triggers
@@ -139,7 +139,7 @@ All capture modules use `from __future__ import annotations` so that modern type
 python tools/parse/parse_apicapture_results.py 12.3.6
 ```
 
-Reads `LiveTree.raw.json` + `LiveClasses.json` from the build directory and produces `LiveTree.parsed.json` — a
+Reads `LiveTree.raw.json` + `LiveClasses.json` from the pipeline directory and produces `LiveTree.parsed.json` — a
 normalized, enriched tree ready for refinement.
 
 Transforms applied:
@@ -185,7 +185,7 @@ prompt is in `llm_resolve_prompt.md`.
 
 Three modes:
 
-- **`--prepare`** — splits items into batches grouped by module, writes batch files to `build/<version>/batches/` for
+- **`--prepare`** — splits items into batches grouped by module, writes batch files to `stubs/<version>/pipeline/batches/` for
   processing via the Agent tool (no API key needed)
 - **`--merge`** — merges batch result files into a single `refinements.llm.json`
 - **(default)** — calls the Anthropic API directly (requires `ANTHROPIC_API_KEY`)
@@ -201,7 +201,7 @@ types, return types, and property types baked in. The resolved tree is the final
 python tools/parse/generate_stubs.py 12.3.6
 ```
 
-Reads `LiveTree.resolved.json` and emits `.pyi` stub files in `build/<version>/Live/`. The generator has no refinement
+Reads `LiveTree.resolved.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement
 logic — it renders the tree as-is.
 
 Output layout:
@@ -241,7 +241,6 @@ tools/
 │   ├── apply_refinements.py          Stage 2: apply refinements → resolved tree
 │   └── generate_stubs.py            Stage 3: generate .pyi stubs
 ├── install.py               Install APICapture to Live's Remote Scripts
-├── justfile                 Task runner shortcuts
 ├── sets/                    Ableton Live sets used for probing
 └── other/                   Legacy/utility scripts
 ```

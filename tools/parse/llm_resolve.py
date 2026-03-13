@@ -7,7 +7,7 @@ Usage:
     # Prepare batch files for Agent tool (no API key needed):
     python tools/parse/llm_resolve.py 12.3.6 --prepare
 
-    # Then feed each batch to a subagent. Results go in build/{version}/batches/.
+    # Then feed each batch to a subagent. Results go in stubs/{version}/pipeline/batches/.
     # Merge results:
     python tools/parse/llm_resolve.py 12.3.6 --merge
 
@@ -212,7 +212,7 @@ def _parse_response(text: str) -> dict:
 
 def _load_type_skeleton(version: str) -> dict | None:
     """Load the parsed tree and build a types-only skeleton."""
-    parsed_path = join("build", version, "LiveTree.parsed.json")
+    parsed_path = join("stubs", version, "pipeline", "LiveTree.parsed.json")
     if not exists(parsed_path):
         return None
     with open(parsed_path) as f:
@@ -234,7 +234,7 @@ def prepare(version: str, input_path: str, m4l_dir: str) -> str:
     items = unresolved["unresolved"]
     batches = _batch_items(items)
 
-    batch_dir = join("build", version, "batches")
+    batch_dir = join("stubs", version, "pipeline", "batches")
     Path(batch_dir).mkdir(parents=True, exist_ok=True)
 
     system_prompt = _load_system_prompt()
@@ -334,9 +334,10 @@ def main():
     parser.add_argument("--dry-run", action="store_true", help="Print prompt without calling API")
     args = parser.parse_args()
 
-    input_path = args.input or join("build", args.version, "unresolved.json")
-    output_path = args.output or join("build", args.version, "refinements.llm.json")
-    batch_dir = join("build", args.version, "batches")
+    pipeline = join("stubs", args.version, "pipeline")
+    input_path = args.input or join(pipeline, "unresolved.json")
+    output_path = args.output or join(pipeline, "refinements.llm.json")
+    batch_dir = join(pipeline, "batches")
 
     if args.prepare:
         prepare(args.version, input_path, args.m4l_dir)
