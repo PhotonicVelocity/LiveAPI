@@ -1,4 +1,4 @@
-"""Resolve argument names by analysing definitions and call sites in decompiled Remote Scripts.
+"""Resolve argument names and collect type hints from decompiled Remote Scripts.
 
 Searches a local clone of gluon/AbletonLive12_MIDIRemoteScripts for:
 
@@ -8,17 +8,23 @@ Searches a local clone of gluon/AbletonLive12_MIDIRemoteScripts for:
 2. **Call sites** — ``obj.func_name(value)`` gives us the variable names callers use. These are
    collected as hints for the LLM resolution phase, not treated as resolved names.
 
+3. **Type usage context** — For items with unresolved types (``object``-typed args, unknown return
+   types, unprobed properties), collects code snippets showing how the member is used in practice.
+   These give the LLM phase evidence for type inference.
+
 For methods with common names (append, extend, etc.), the parent object at the call site is
 compared against the class name to avoid cross-class contamination.
 
 Input:
     stubs/<version>/pipeline/unresolved.json
-        Items with args that have ``needs_name: true``.
+        Items with args that have ``needs_name: true``, ``object``-typed args, unknown returns,
+        or unprobed properties.
 
 Output (stdout, or --output file):
-    JSON with two sections:
+    JSON with three sections:
     - ``refinements`` — high-confidence names from definition analysis (refinements format)
     - ``call_site_hints`` — per-arg vote tallies from call sites (context for LLM phase)
+    - ``type_hints`` — usage context snippets for items needing type resolution
 
 Reference data:
     doc/decompiled/AbletonLive12_MIDIRemoteScripts/
@@ -443,6 +449,124 @@ def _build_call_site_hints(
 
 
 # ---------------------------------------------------------------------------
+# Type usage context — snippets for items needing type resolution
+# ---------------------------------------------------------------------------
+
+
+def _build_type_search_targets(unresolved: dict) -> dict[str, dict]:
+    """Identify items that need type resolution and build search targets.
+
+    Returns a dict keyed by member name (e.g. 'type_name', 'get_data') with metadata
+    about what kind of type info is needed.
+    """
+    targets: dict[str, dict] = {}
+
+    for path, entry in unresolved.items():
+        parts = path.split(".")
+        member_name = parts[-1]
+
+        needs: list[str] = []
+
+        # Object-typed args (excluding needs_name-only items)
+        for ak, av in entry.get("args", {}).items():
+            if av.get("current_type") == "object" and not av.get("needs_name"):
+                needs.append(f"arg_type:{ak}")
+
+        # Unresolved return type
+        if "returns" in entry:
+            needs.append("return_type")
+
+        # Unprobed property type
+        if "probed_type" in entry:
+            needs.append("property_type")
+
+        if not needs:
+            continue
+
+        if member_name not in targets:
+            targets[member_name] = {"paths": [], "needs": []}
+        targets[member_name]["paths"].append(path)
+        # Merge needs (same member name might appear for multiple paths)
+        for n in needs:
+            if n not in targets[member_name]["needs"]:
+                targets[member_name]["needs"].append(n)
+
+    return targets
+
+
+def _collect_type_context(
+    py_files: list[Path],
+    targets: dict[str, dict],
+    max_snippets_per_target: int = 10,
+) -> dict[str, list[str]]:
+    """Search decompiled files for usage of members that need type resolution.
+
+    Returns member_name -> list of unique code snippets (the line containing the usage).
+    Uses word-boundary matching to avoid false positives (e.g. 'set_data' matching 'set_data_source').
+    """
+    # Build regex patterns with word boundaries for each target
+    target_patterns: dict[str, re.Pattern[str]] = {}
+    for name in targets:
+        # Match .member_name or def member_name — require word boundary after
+        # Use a pattern that matches the member as a distinct token
+        target_patterns[name] = re.compile(r"(?:\.|\bdef\s+)" + re.escape(name) + r"\b")
+
+    results: dict[str, set[str]] = {name: set() for name in targets}
+
+    for py_path in py_files:
+        try:
+            lines = py_path.read_text(encoding="utf-8", errors="replace").splitlines()
+        except OSError:
+            continue
+
+        for line in lines:
+            stripped = line.strip()
+            if not stripped or stripped.startswith("#"):
+                continue
+            for name, pattern in target_patterns.items():
+                if len(results[name]) < max_snippets_per_target and pattern.search(stripped):
+                    results[name].add(stripped)
+
+    return {name: sorted(snippets) for name, snippets in results.items() if snippets}
+
+
+def _build_type_hints(
+    unresolved: dict,
+    type_context: dict[str, list[str]],
+    type_targets: dict[str, dict],
+) -> dict[str, dict]:
+    """Build type_hints output: per-path usage context for items needing type resolution."""
+    hints: dict[str, dict] = {}
+
+    for member_name, target_info in type_targets.items():
+        snippets = type_context.get(member_name, [])
+        if not snippets:
+            continue
+
+        for path in target_info["paths"]:
+            entry = unresolved[path]
+            hint: dict[str, object] = {"usage_snippets": snippets}
+
+            # Tag what kind of type info is needed
+            arg_types_needed: dict[str, str] = {}
+            for ak, av in entry.get("args", {}).items():
+                if av.get("current_type") == "object" and not av.get("needs_name"):
+                    arg_types_needed[ak] = "object"
+            if arg_types_needed:
+                hint["unresolved_arg_types"] = arg_types_needed
+
+            if "returns" in entry:
+                hint["unresolved_return_type"] = entry["returns"]["current_type"]
+
+            if "probed_type" in entry:
+                hint["unresolved_property_type"] = True
+
+            hints[path] = hint
+
+    return hints
+
+
+# ---------------------------------------------------------------------------
 # Repo cloning and orchestration
 # ---------------------------------------------------------------------------
 
@@ -506,6 +630,18 @@ def resolve(version: str) -> dict:
     # Build call-site hints for remaining args
     call_site_hints = _build_call_site_hints(unresolved, call_sites, patterns, refinements)
 
+    # Phase 3: Collect type usage context for items needing type resolution
+    type_targets = _build_type_search_targets(unresolved)
+    if type_targets:
+        print(
+            f"Searching for type context for {len(type_targets)} members...",
+            file=sys.stderr,
+        )
+        type_context = _collect_type_context(py_files, type_targets)
+        type_hints = _build_type_hints(unresolved, type_context, type_targets)
+    else:
+        type_hints = {}
+
     # Summary
     resolved_args = sum(len(r["args"]) for r in refinements.values())
     hint_args = sum(len(h["args"]) for h in call_site_hints.values())
@@ -516,8 +652,14 @@ def resolve(version: str) -> dict:
     )
     print(f"\nResolved {resolved_args}/{total_needed} arg names from definitions", file=sys.stderr)
     print(f"Collected call-site hints for {hint_args} additional args", file=sys.stderr)
+    print(f"Collected type context for {len(type_hints)} items", file=sys.stderr)
 
-    return {"version": version, "refinements": refinements, "call_site_hints": call_site_hints}
+    return {
+        "version": version,
+        "refinements": refinements,
+        "call_site_hints": call_site_hints,
+        "type_hints": type_hints,
+    }
 
 
 def main() -> None:
