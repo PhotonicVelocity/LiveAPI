@@ -21,6 +21,9 @@ from os.path import join
 
 # Arg type overrides: path -> {arg_name: new_type}
 _ARG_TYPE_OVERRIDES: dict[str, dict[str, str]] = {
+    # Confirmed correct as object — ObjectVector is a generic container for python objects
+    "Live.Base.ObjectVector.append": {"arg2": "object"},
+    "Live.Base.ObjectVector.extend": {"arg2": "object"},
     # Change to specific type
     "Live.Clip.Clip.add_new_notes": {"arg2": "list[MidiNoteSpecification]"},
     "Live.Clip.Clip.add_warp_marker": {"warp_marker": "WarpMarker"},
@@ -263,10 +266,9 @@ def resolve(unresolved: dict) -> dict:
             overrides = _ARG_NAME_OVERRIDES.get(path, {})
             if arg_name in overrides:
                 new_name = overrides[arg_name]
-                if new_name != arg_name:  # Skip no-ops
-                    ref = refinements.setdefault(path, {})
-                    args = ref.setdefault("args", {})
-                    args.setdefault(arg_name, {})["name"] = new_name
+                ref = refinements.setdefault(path, {})
+                args = ref.setdefault("args", {})
+                args.setdefault(arg_name, {})["name"] = new_name
 
         elif kind == "return_type":
             if path in _RETURN_TYPE_OVERRIDES:
@@ -310,9 +312,7 @@ def main():
         if kind == "arg_type" and item["arg_name"] in _ARG_TYPE_OVERRIDES.get(path, {}):
             resolved_paths.add((path, kind, item["arg_name"]))
         elif kind == "arg_name" and item["arg_name"] in _ARG_NAME_OVERRIDES.get(path, {}):
-            new_name = _ARG_NAME_OVERRIDES[path][item["arg_name"]]
-            if new_name != item["arg_name"]:
-                resolved_paths.add((path, kind, item["arg_name"]))
+            resolved_paths.add((path, kind, item["arg_name"]))
         elif kind == "return_type" and path in _RETURN_TYPE_OVERRIDES:
             resolved_paths.add((path, kind, ""))
         elif kind == "property_type" and path in _PROPERTY_TYPE_OVERRIDES:
