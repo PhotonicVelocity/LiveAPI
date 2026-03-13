@@ -46,14 +46,48 @@ def _build_type_skeleton(tree: dict) -> str | None:
 
 
 def _build_user_prompt(items: dict[str, dict], m4l_docs: dict[str, str],
-                       type_skeleton: str | None = None) -> str:
-    """Build the user prompt with unresolved items, type skeleton, and MaxForLive docs."""
+                       type_skeleton: str | None = None,
+                       callsite_data: dict | None = None) -> str:
+    """Build the user prompt with unresolved items, type skeleton, callsite hints, and MaxForLive docs."""
     parts = []
 
     parts.append("## Unresolved Items\n")
     parts.append("```json")
     parts.append(json.dumps(items, indent=2))
     parts.append("```\n")
+
+    # Inject callsite hints for items in this batch
+    if callsite_data:
+        call_hints = callsite_data.get("call_site_hints", {})
+        type_hints = callsite_data.get("type_hints", {})
+
+        # Filter to items in this batch
+        batch_call_hints = {k: v for k, v in call_hints.items() if k in items}
+        batch_type_hints = {k: v for k, v in type_hints.items() if k in items}
+
+        if batch_call_hints or batch_type_hints:
+            parts.append("## Decompiled Remote Scripts Evidence\n")
+            parts.append("These hints were extracted from Ableton's decompiled Remote Scripts "
+                         "(1200+ Python files that call the Live API). Use them as additional "
+                         "evidence when resolving names and types.\n")
+
+        if batch_call_hints:
+            parts.append("### Call-Site Arg Name Hints\n")
+            parts.append("Variable names observed at call sites for each arg position, "
+                         "sorted by frequency. These are the names callers used when passing "
+                         "values — suggestive but not definitive.\n")
+            parts.append("```json")
+            parts.append(json.dumps(batch_call_hints, indent=2))
+            parts.append("```\n")
+
+        if batch_type_hints:
+            parts.append("### Type Usage Context\n")
+            parts.append("Code snippets showing how members with unresolved types are used "
+                         "in practice. Use these to infer types from usage patterns "
+                         "(e.g. compared to strings → str, iterated → sequence, etc.).\n")
+            parts.append("```json")
+            parts.append(json.dumps(batch_type_hints, indent=2))
+            parts.append("```\n")
 
     if type_skeleton:
         parts.append("## API Type Skeleton\n")
@@ -286,7 +320,16 @@ def _load_type_skeleton(version: str) -> str | None:
     return _build_type_skeleton(tree)
 
 
-def prepare(version: str, input_path: str, m4l_dir: str) -> str:
+def _load_callsite_data(callsite_path: str | None) -> dict | None:
+    """Load callsite hints file if provided and it exists."""
+    if not callsite_path or not exists(callsite_path):
+        return None
+    with open(callsite_path) as f:
+        return json.load(f)
+
+
+def prepare(version: str, input_path: str, m4l_dir: str,
+            callsite_path: str | None = None) -> str:
     """Write batch files to disk for use with the Agent tool.
 
     Returns the batch directory path.
@@ -296,6 +339,7 @@ def prepare(version: str, input_path: str, m4l_dir: str) -> str:
 
     all_docs = _load_m4l_docs(m4l_dir)
     type_skeleton = _load_type_skeleton(version)
+    callsite_data = _load_callsite_data(callsite_path)
     items = unresolved["items"]
     batches = _batch_items(items)
 
@@ -315,7 +359,7 @@ def prepare(version: str, input_path: str, m4l_dir: str) -> str:
             json.dump(batch, f, indent=2)
 
         # Write full prompt (system + user combined for easy copy-paste)
-        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton)
+        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton, callsite_data)
         with open(join(batch_dir, f"batch{i}_prompt.md"), "w") as f:
             f.write(user_prompt)
 
@@ -399,6 +443,8 @@ def main():
     parser.add_argument("--output", help="Path to output refinements.llm.json")
     parser.add_argument("--m4l-dir", help="Path to MaxForLive docs directory", default="MaxForLive")
     parser.add_argument("--model", help="Claude model to use", default="claude-sonnet-4-20250514")
+    parser.add_argument("--callsite-hints",
+                        help="Path to refinements.callsite.json for call-site and type hints")
     parser.add_argument("--prepare", action="store_true",
                         help="Write batch files for Agent tool, don't call API")
     parser.add_argument("--merge", action="store_true",
@@ -410,9 +456,10 @@ def main():
     input_path = args.input or join(pipeline, "unresolved.json")
     output_path = args.output or join(pipeline, "refinements.llm.json")
     batch_dir = join(pipeline, "batches")
+    callsite_path = args.callsite_hints or join(pipeline, "refinements.callsite.json")
 
     if args.prepare:
-        prepare(args.version, input_path, args.m4l_dir)
+        prepare(args.version, input_path, args.m4l_dir, callsite_path)
         return
 
     if args.merge:
@@ -426,11 +473,13 @@ def main():
 
     all_docs = _load_m4l_docs(args.m4l_dir)
     type_skeleton = _load_type_skeleton(args.version)
+    callsite_data = _load_callsite_data(callsite_path)
     items = unresolved["items"]
     batches = _batch_items(items)
     print(f"Loaded {len(items)} paths in {len(batches)} batches, "
           f"{len(all_docs)} MaxForLive docs"
-          f"{', type skeleton loaded' if type_skeleton else ''}")
+          f"{', type skeleton loaded' if type_skeleton else ''}"
+          f"{', callsite hints loaded' if callsite_data else ''}")
 
     system_prompt = _load_system_prompt()
 
@@ -438,7 +487,7 @@ def main():
         # Show first batch as a preview
         batch = batches[0]
         relevant_docs = _relevant_m4l_docs(list(batch.keys()), all_docs)
-        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton)
+        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton, callsite_data)
         print(f"\n--- System prompt ({len(system_prompt)} chars) ---")
         print(system_prompt)
         print(f"\n--- User prompt for batch 1/{len(batches)} ({len(user_prompt)} chars) ---")
@@ -450,7 +499,7 @@ def main():
     for i, batch in enumerate(batches, 1):
         modules = sorted(set(path.split(".")[1] for path in batch))
         relevant_docs = _relevant_m4l_docs(list(batch.keys()), all_docs)
-        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton)
+        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton, callsite_data)
 
         print(f"\nBatch {i}/{len(batches)}: {len(batch)} paths, "
               f"modules: {', '.join(modules)}, docs: {len(relevant_docs)}")
