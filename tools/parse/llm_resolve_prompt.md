@@ -89,9 +89,11 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
 
 ## Naming Style
 
-If the MaxForLive docs explicitly name a parameter, use that exact name — these are published names and
-should not be replaced with invented alternatives. For example, if M4L docs say the parameter is called
-`quantization`, use `quantization`, not `grid` or any other guess.
+If the MaxForLive docs explicitly name a parameter, **use that exact name verbatim** — these are published
+names and must not be shortened, lengthened, or rephrased in any way. For example, if M4L docs say the
+parameter is called `quantization_grid`, use `quantization_grid` — not `quantization`, `grid`, or any
+other variation. This applies even if the description text uses shorter phrasing; the M4L documented name
+takes precedence over description-derived names.
 
 **Do not over-qualify names from types.** If a method takes a `BrowserItem` and the docs call it `item`,
 use `item` — not `browser_item`. Only derive names from types when no documentation provides a name.
