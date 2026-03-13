@@ -453,7 +453,11 @@ def main():
     args = parser.parse_args()
 
     pipeline = join("stubs", args.version, "pipeline")
-    input_path = args.input or join(pipeline, "unresolved.json")
+    # Prefer unresolved.remaining.json (post-callsite) over unresolved.json
+    default_input = join(pipeline, "unresolved.remaining.json")
+    if not exists(default_input):
+        default_input = join(pipeline, "unresolved.json")
+    input_path = args.input or default_input
     output_path = args.output or join(pipeline, "refinements.llm.json")
     batch_dir = join(pipeline, "batches")
     callsite_path = args.callsite_hints or join(pipeline, "refinements.callsite.json")
