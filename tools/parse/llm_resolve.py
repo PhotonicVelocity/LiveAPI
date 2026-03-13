@@ -1,7 +1,7 @@
 """LLM-assisted resolution of unresolved types and arg names.
 
 Reads unresolved.json and MaxForLive documentation, sends them to Claude,
-and produces refinements.json — with no hardcoded domain knowledge.
+and produces refinements.llm.json — with no hardcoded domain knowledge.
 
 Usage:
     # Prepare batch files for Agent tool (no API key needed):

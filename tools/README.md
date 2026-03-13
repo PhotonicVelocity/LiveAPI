@@ -9,7 +9,7 @@ Stage 2: Refine  (external + LLM) → LiveTree.resolved.json
 Stage 3: Generate (external)      → stubs/<version>/Live/*.pyi
 ```
 
-## Stage 0: Capture (runs inside Live)
+## Stage 1: Capture (runs inside Live)
 
 `apicapture/` is a MIDI Remote Script (Control Surface) that introspects the `Live` module at runtime. It produces two
 output files in `stubs/<version>/pipeline/`:
@@ -133,7 +133,7 @@ earlier device are skipped. Each device is deleted after probing. Results are me
 All capture modules use `from __future__ import annotations` so that modern type hint syntax works on Live 11's Python
 3.7.3 runtime without raising `TypeError` at import time.
 
-## Stage 1: Parse (runs outside Live)
+## Stage 2: Parse (runs outside Live)
 
 ```
 python tools/parse/parse_apicapture_results.py 12.3.6
