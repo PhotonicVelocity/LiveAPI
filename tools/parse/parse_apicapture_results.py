@@ -952,7 +952,11 @@ def _resolve_returns(raw: dict[str, Any], cpp_to_py: dict[str, str]) -> dict[str
 
 
 def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent: ClassContext) -> None:
-    """Visitor: resolve raw signature parts into clean structured args and returns."""
+    """Visitor: resolve raw signature parts into clean structured args and returns.
+
+    Also applies well-known arg name patterns: arg1→self for instance methods,
+    listener callback naming, and Vector append/extend naming.
+    """
     if node.get("type") not in _FUNCTION_TYPES:
         return
     raw_args = node.get("args")
