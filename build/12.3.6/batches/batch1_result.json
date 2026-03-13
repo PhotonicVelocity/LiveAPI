@@ -71,7 +71,7 @@
     "Live.Application.Application.has_option": {
       "args": {
         "arg2": {
-          "name": "option_name"
+          "name": "option"
         }
       }
     },
@@ -109,7 +109,7 @@
     "Live.Application.ControlSurfaceProxy.grab_control": {
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id"
         }
       }
     },
@@ -119,38 +119,38 @@
     "Live.Application.ControlSurfaceProxy.release_control": {
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
       "args": {
         "arg2": {
-          "name": "midi_message"
+          "name": "midi_bytes"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
+      "args": {
+        "arg2": {
+          "name": "control_id"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.type_name": {
       "probed_type": "str"
     },
-    "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
-      "args": {
-        "arg2": {
-          "name": "control"
-        }
-      }
-    },
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id"
         }
       }
     },
@@ -178,10 +178,10 @@
     "Live.Application.get_random_int": {
       "args": {
         "arg1": {
-          "name": "min"
+          "name": "start"
         },
         "arg2": {
-          "name": "max"
+          "name": "stop"
         }
       }
     },
@@ -284,19 +284,19 @@
     "Live.Base.subst_args": {
       "args": {
         "arg1": {
-          "name": "sub1"
+          "name": "arg1"
         },
         "arg2": {
-          "name": "sub2"
+          "name": "arg2"
         },
         "arg3": {
-          "name": "sub3"
+          "name": "arg3"
         },
         "arg4": {
-          "name": "sub4"
+          "name": "arg4"
         },
         "arg5": {
-          "name": "sub5"
+          "name": "arg5"
         }
       }
     },
