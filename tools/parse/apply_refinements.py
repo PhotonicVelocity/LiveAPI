@@ -1,4 +1,4 @@
-"""Apply refinements.json to LiveTree.parsed.json, producing LiveTree.resolved.json.
+"""Apply refinements.llm.json to LiveTree.parsed.json, producing LiveTree.resolved.json.
 
 Walks the parsed tree and applies arg name/type overrides, return type overrides,
 and property type overrides in-place. The resolved tree can then be fed directly
@@ -84,7 +84,7 @@ def main():
     parser = argparse.ArgumentParser(description="Apply refinements to parsed tree")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument("--input", help="Path to LiveTree.parsed.json")
-    parser.add_argument("--refinements", help="Path to refinements.json")
+    parser.add_argument("--refinements", help="Path to refinements.llm.json")
     parser.add_argument("--output", help="Path to output LiveTree.resolved.json")
     args = parser.parse_args()
 
