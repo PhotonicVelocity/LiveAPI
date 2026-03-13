@@ -1,12 +1,12 @@
-"""Generate .pyi stub files from LiveTree.parsed.json.
+"""Generate .pyi stub files from LiveTree.resolved.json.
 
-Walks the parsed tree and emits typed Python stubs for the Ableton Live Object Model.
+Walks the resolved tree and emits typed Python stubs for the Ableton Live Object Model.
 The tree structure drives the output layout: each namespace module becomes a package
 directory, and classes/enums/functions are rendered according to their node type.
 
 Usage:
     python tools/parse/generate_stubs.py 12.3.6
-    python tools/parse/generate_stubs.py 12.3.6 --input path/to/parsed.json --output path/to/Live
+    python tools/parse/generate_stubs.py 12.3.6 --input path/to/resolved.json --output path/to/Live
 """
 
 from __future__ import annotations
@@ -66,10 +66,9 @@ _SKIP_NAMES = {"None", "Callable", "Any", "TYPE_CHECKING", "IO", "Exception"}
 
 
 class StubGenerator:
-    def __init__(self, tree: dict, output_dir: str, refinements: dict | None = None):
+    def __init__(self, tree: dict, output_dir: str):
         self.tree = tree
         self.output_dir = output_dir
-        self._refinements = refinements or {}
 
         # Indexes built in Phase 1
         self._class_to_module: dict[str, str] = {}
@@ -349,22 +348,17 @@ class StubGenerator:
         name = node["name"]
         pad = "    " * indent
 
-        # Look up refinements for this function
-        ref = self._refinements.get(path, {}) if path else {}
-        arg_refs = ref.get("args", {})
-        ret_ref = ref.get("returns", {})
-
         # Build args
         args = node.get("args", [])
         formatted_args: list[str] = []
         for arg in args:
-            formatted_args.append(self._format_arg(arg, arg_refs))
+            formatted_args.append(self._format_arg(arg))
 
         args_str = ", ".join(formatted_args)
 
-        # Return type (refinement overrides parsed type)
+        # Return type
         returns = node.get("returns")
-        ret_type = ret_ref.get("type") or (returns["type"] if returns and returns.get("type") else "None")
+        ret_type = returns["type"] if returns and returns.get("type") else "None"
 
         buf.write(f"\n\n{pad}def {name}({args_str}) -> {ret_type}:")
 
@@ -379,11 +373,7 @@ class StubGenerator:
         name = node["name"]
         pad = "    " * indent
 
-        # Check for property type refinement
-        ref = self._refinements.get(path, {}) if path else {}
-        refined_type = ref.get("probed_type")
-
-        probed_type = refined_type or node.get("probed_type")
+        probed_type = node.get("probed_type")
         type_str = self._resolve_probed_type(probed_type) if probed_type else None
 
         # Getter
@@ -457,16 +447,13 @@ class StubGenerator:
             return "None"
         return _TYPE_MAP.get(probed_type, probed_type)
 
-    def _format_arg(self, arg: dict, arg_refs: dict | None = None) -> str:
+    def _format_arg(self, arg: dict) -> str:
         """Format a function argument for the stub signature."""
         name = arg["name"]
         if name == "self":
             return "self"
 
-        # Apply refinements: name and type overrides
-        ref = (arg_refs or {}).get(name, {})
-        name = ref.get("name", name)
-        arg_type = ref.get("type", arg.get("type", "object"))
+        arg_type = arg.get("type", "object")
         default = arg.get("default")
 
         # When default references an enum, widen type to accept both enum and int
@@ -583,29 +570,21 @@ class StubGenerator:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.parsed.json")
+    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.resolved.json")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
-    parser.add_argument("--input", help="Path to LiveTree.parsed.json (default: build/{version}/LiveTree.parsed.json)")
-    parser.add_argument("--output", help="Output directory (default: build/{version}/Live)")
     parser.add_argument(
-        "--refinements", help="Path to refinements.json (default: build/{version}/refinements.json, skipped if missing)"
+        "--input", help="Path to LiveTree.resolved.json (default: build/{version}/LiveTree.resolved.json)"
     )
+    parser.add_argument("--output", help="Output directory (default: build/{version}/Live)")
     args = parser.parse_args()
 
-    input_path = args.input or join("build", args.version, "LiveTree.parsed.json")
+    input_path = args.input or join("build", args.version, "LiveTree.resolved.json")
     output_dir = args.output or join("build", args.version, "Live")
-    refinements_path = args.refinements or join("build", args.version, "refinements.json")
 
     with open(input_path) as f:
         data = json.load(f)
 
-    refinements: dict = {}
-    if exists(refinements_path):
-        with open(refinements_path) as f:
-            refinements = json.load(f).get("refinements", {})
-        print(f"Loaded {len(refinements)} refinements from {refinements_path}")
-
-    generator = StubGenerator(data["tree"], output_dir, refinements)
+    generator = StubGenerator(data["tree"], output_dir)
     generator.generate()
     print(f"Stubs written to {abspath(output_dir)}")
 
