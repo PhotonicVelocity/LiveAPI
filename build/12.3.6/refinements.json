@@ -97,6 +97,9 @@
         }
       }
     },
+    "Live.Application.ControlSurfaceProxy.control_descriptions": {
+      "probed_type": "ControlDescriptionVector"
+    },
     "Live.Application.ControlSurfaceProxy.enable_receive_midi": {
       "args": {
         "arg2": {
