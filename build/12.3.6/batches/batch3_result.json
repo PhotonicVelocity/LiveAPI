@@ -1,6 +1,7 @@
 {
   "refinements": {
     "Live.MidiMap.forward_midi_cc": {
+      "reason": "MIDI CC forwarding takes a map handle, channel, CC number, and CC value by convention matching map_midi_cc signatures.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "channel" },
@@ -9,6 +10,7 @@
       }
     },
     "Live.MidiMap.forward_midi_note": {
+      "reason": "MIDI note forwarding takes a map handle, channel, note number, and velocity by convention matching map_midi_note signatures.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "channel" },
@@ -17,6 +19,7 @@
       }
     },
     "Live.MidiMap.forward_midi_pitchbend": {
+      "reason": "MIDI pitchbend forwarding takes a map handle, channel, and pitchbend value by convention matching sibling forward_midi functions.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "channel" },
@@ -24,6 +27,7 @@
       }
     },
     "Live.MidiMap.map_midi_note": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for arg2 (parameter); remaining args are channel and note_no by pattern with map_midi_note_with_feedback_map.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
@@ -32,6 +36,7 @@
       }
     },
     "Live.MidiMap.map_midi_note_with_feedback_map": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter and NPythonMidiMap::TNoteFeedbackRule for the feedback rule; channel and note_no match map_midi_note pattern.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
@@ -41,6 +46,7 @@
       }
     },
     "Live.MidiMap.map_midi_pitchbend": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter and bool for takeover; channel is the MIDI channel.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
@@ -49,6 +55,7 @@
       }
     },
     "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter, NPythonMidiMap::TPitchBendFeedbackRule for feedback, and bool for takeover.",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
@@ -58,106 +65,127 @@
       }
     },
     "Live.MidiMap.send_feedback_for_parameter": {
+      "reason": "C++ signature shows unsigned int (map handle) and TPyHandle<ATimeableValue> (parameter).",
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" }
       }
     },
     "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
+      "reason": "M4L docs for Device describe is_using_compare_preset_b as 'bool observe' — returns whether preset B is loaded.",
       "probed_type": "bool"
     },
     "Live.RackDevice.RackDevice.copy_pad": {
+      "reason": "Description says 'copy_pad(source_index, destination_index)' and M4L docs confirm parameters source_index and destination_index.",
       "args": {
         "arg2": { "name": "source_index" },
         "arg3": { "name": "destination_index" }
       }
     },
     "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
+      "reason": "M4L docs for Device describe is_using_compare_preset_b as 'bool observe' — returns whether preset B is loaded.",
       "probed_type": "bool"
     },
     "Live.Scene.Scene.set_fire_button_state": {
+      "reason": "M4L docs name the parameter 'state' — sets the scene's fire button state.",
       "args": {
         "arg2": { "name": "state" }
       }
     },
     "Live.Song.Song.View.select_device": {
+      "reason": "M4L docs and description say 'Select the given device'; the parameter is a Device object.",
       "args": {
         "arg2": { "name": "device" }
       }
     },
     "Live.Song.Song.create_audio_track": {
+      "reason": "C++ signature shows boost::python::api::object with default None; description says 'optional given index' and M4L docs name it 'index', so type is int.",
       "args": {
         "Index": { "type": "int" }
       }
     },
     "Live.Song.Song.create_midi_track": {
+      "reason": "C++ signature shows boost::python::api::object with default None; description says 'optional given index' and M4L docs name it 'index', so type is int.",
       "args": {
         "Index": { "type": "int" }
       }
     },
     "Live.Song.Song.create_scene": {
+      "reason": "M4L docs name the parameter 'index' — determines where the scene is added.",
       "args": {
         "arg2": { "name": "index" }
       }
     },
     "Live.Song.Song.delete_return_track": {
+      "reason": "M4L docs name the parameter 'index' — the return track index to delete.",
       "args": {
         "arg2": { "name": "index" }
       }
     },
     "Live.Song.Song.delete_scene": {
+      "reason": "M4L docs name the parameter 'index' — the scene index to delete.",
       "args": {
         "arg2": { "name": "index" }
       }
     },
     "Live.Song.Song.delete_track": {
+      "reason": "M4L docs name the parameter 'index' — the track index to delete.",
       "args": {
         "arg2": { "name": "index" }
       }
     },
     "Live.Song.Song.duplicate_scene": {
+      "reason": "M4L docs name the parameter 'index' — determines which scene to duplicate.",
       "args": {
         "arg2": { "name": "index" }
       }
     },
     "Live.Song.Song.duplicate_track": {
+      "reason": "M4L docs name the parameter 'index' — determines which track to duplicate.",
       "args": {
         "arg2": { "name": "index" }
       }
     },
     "Live.Song.Song.get_current_smpte_song_time": {
+      "reason": "M4L docs name the parameter 'format' — the SMPTE time code format type.",
       "args": {
         "arg2": { "name": "format" }
       }
     },
     "Live.Song.Song.get_data": {
+      "reason": "C++ signature shows boost::python::api::object for both default_value and return; these accept/return any Python object.",
       "args": {
         "default_value": { "type": "Any" }
       },
       "returns": { "type": "Any" }
     },
     "Live.Song.Song.jump_by": {
+      "reason": "M4L docs name the parameter 'beats' — the amount to jump relative to current position.",
       "args": {
         "arg2": { "name": "beats" }
       }
     },
     "Live.Song.Song.scrub_by": {
+      "reason": "M4L docs name the parameter 'beats' — the amount to scrub relative to current position.",
       "args": {
         "arg2": { "name": "beats" }
       }
     },
     "Live.Song.Song.set_data": {
+      "reason": "C++ signature shows boost::python::api::object for value parameter; it accepts any Python object.",
       "args": {
         "value": { "type": "Any" }
       }
     },
     "Live.TakeLane.TakeLane.create_audio_clip": {
+      "reason": "M4L docs name the parameters 'file_path' and 'start_time' for creating an audio clip in arrangement.",
       "args": {
         "arg2": { "name": "file_path" },
         "arg3": { "name": "start_time" }
       }
     },
     "Live.TakeLane.TakeLane.create_midi_clip": {
+      "reason": "M4L docs name the parameters 'start_time' and 'length' for creating a MIDI clip in arrangement.",
       "args": {
         "arg2": { "name": "start_time" },
         "arg3": { "name": "length" }

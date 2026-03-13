@@ -18,6 +18,7 @@ Respond with ONLY a JSON object in this exact format:
 {
   "refinements": {
     "Live.Module.Class.method": {
+      "reason": "M4L docs name this parameter 'new_name'",
       "args": {
         "arg2": {
           "name": "new_name"
@@ -25,6 +26,7 @@ Respond with ONLY a JSON object in this exact format:
       }
     },
     "Live.Module.Class.other_method": {
+      "reason": "C++ signature shows TPyHandle<Foo>, so type is Foo",
       "args": {
         "arg2": {
           "type": "SpecificType"
@@ -32,15 +34,22 @@ Respond with ONLY a JSON object in this exact format:
       }
     },
     "Live.Module.Class.getter": {
+      "reason": "description says it returns a Foo object",
       "returns": {
         "type": "ReturnType"
       }
     },
     "Live.Module.Class.prop": {
+      "reason": "sibling _live_ptr properties are all int",
       "probed_type": "PropertyType"
     }
   }
 }
+```
+
+Each entry MUST include a `"reason"` field — a short (1 sentence) explanation of why you chose
+that name or type. Cite the specific evidence: M4L docs, C++ signature, description text,
+sibling pattern, etc.
 ```
 
 ## Critical Rules
