@@ -205,6 +205,16 @@ def merge(version: str, batch_dir: str, output_path: str) -> dict:
     return result
 
 
+def _strip_reasons(entry: dict) -> dict:
+    """Return a copy of a refinement entry with 'reason' fields removed for comparison."""
+    out = {}
+    for k, v in entry.items():
+        if k == "reason":
+            continue
+        out[k] = v
+    return out
+
+
 def validate(generated: dict, reference_path: str) -> dict:
     """Compare generated refinements against existing refinements.json."""
     with open(reference_path) as f:
@@ -224,7 +234,9 @@ def validate(generated: dict, reference_path: str) -> dict:
 
     for key in all_keys:
         ref = reference.get(key)
-        gen = gen_refs.get(key)
+        gen_raw = gen_refs.get(key)
+        gen = _strip_reasons(gen_raw) if gen_raw else None
+        reason = gen_raw.get("reason", "") if gen_raw else ""
 
         if ref and not gen:
             missing += 1
@@ -234,6 +246,8 @@ def validate(generated: dict, reference_path: str) -> dict:
             extra += 1
             print(f"  EXTRA: {key}")
             print(f"    generated: {json.dumps(gen)}")
+            if reason:
+                print(f"    reason: {reason}")
         elif ref != gen:
             mismatches += 1
             if ref and gen:
@@ -254,6 +268,8 @@ def validate(generated: dict, reference_path: str) -> dict:
             print(f"  MISMATCH: {key}")
             print(f"    expected:  {json.dumps(ref)}")
             print(f"    generated: {json.dumps(gen)}")
+            if reason:
+                print(f"    reason: {reason}")
         else:
             matches += 1
 

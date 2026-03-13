@@ -2,47 +2,53 @@
   "version": "12.3.6",
   "refinements": {
     "Live.Application.Application.View.add_is_view_visible_listener": {
+      "reason": "C++ signature shows TString for arg2; M4L docs use 'view_name' for view identifier strings.",
       "args": {
         "arg2": {
-          "name": "view"
+          "name": "view_name"
         }
       }
     },
     "Live.Application.Application.View.focus_view": {
+      "reason": "M4L docs name this parameter 'view_name'.",
       "args": {
         "arg2": {
-          "name": "view"
+          "name": "view_name"
         }
       }
     },
     "Live.Application.Application.View.hide_view": {
+      "reason": "M4L docs name this parameter 'view_name'.",
       "args": {
         "arg2": {
-          "name": "view"
+          "name": "view_name"
         }
       }
     },
     "Live.Application.Application.View.is_view_visible_has_listener": {
+      "reason": "Same pattern as add_is_view_visible_listener; M4L docs use 'view_name' for view identifier strings.",
       "args": {
         "arg2": {
-          "name": "view"
+          "name": "view_name"
         }
       }
     },
     "Live.Application.Application.View.remove_is_view_visible_listener": {
+      "reason": "Same pattern as add/has listener siblings; M4L docs use 'view_name' for view identifier strings.",
       "args": {
         "arg2": {
-          "name": "view"
+          "name": "view_name"
         }
       }
     },
     "Live.Application.Application.View.scroll_view": {
+      "reason": "M4L docs name the parameters 'direction view_name modifier_pressed'.",
       "args": {
         "arg2": {
           "name": "direction"
         },
         "arg3": {
-          "name": "view"
+          "name": "view_name"
         },
         "arg4": {
           "name": "modifier_pressed"
@@ -50,19 +56,21 @@
       }
     },
     "Live.Application.Application.View.show_view": {
+      "reason": "M4L docs name this parameter 'view_name'.",
       "args": {
         "arg2": {
-          "name": "view"
+          "name": "view_name"
         }
       }
     },
     "Live.Application.Application.View.zoom_view": {
+      "reason": "M4L docs name the parameters 'direction view_name modifier_pressed'.",
       "args": {
         "arg2": {
           "name": "direction"
         },
         "arg3": {
-          "name": "view"
+          "name": "view_name"
         },
         "arg4": {
           "name": "modifier_pressed"
@@ -70,6 +78,7 @@
       }
     },
     "Live.Application.Application.has_option": {
+      "reason": "Description says 'the given entry exists in Options.txt'; the parameter is an option name string.",
       "args": {
         "arg2": {
           "name": "option"
@@ -77,6 +86,7 @@
       }
     },
     "Live.Application.Application.press_current_dialog_button": {
+      "reason": "M4L docs name this parameter 'index'.",
       "args": {
         "arg2": {
           "name": "index"
@@ -84,6 +94,7 @@
       }
     },
     "Live.Application.ControlDescriptionVector.append": {
+      "reason": "Standard vector append pattern; the parameter is the item to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -91,6 +102,7 @@
       }
     },
     "Live.Application.ControlDescriptionVector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of items.",
       "args": {
         "arg2": {
           "name": "values"
@@ -98,9 +110,11 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.control_descriptions": {
+      "reason": "Property returns a vector of ControlDescription items; the Vector class is ControlDescriptionVector.",
       "probed_type": "ControlDescriptionVector"
     },
     "Live.Application.ControlSurfaceProxy.enable_receive_midi": {
+      "reason": "Bool parameter controls whether MIDI receive is enabled or disabled.",
       "args": {
         "arg2": {
           "name": "enabled"
@@ -108,6 +122,7 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.grab_control": {
+      "reason": "M4L docs name this parameter 'control'; the int is a control ID.",
       "args": {
         "arg2": {
           "name": "control"
@@ -115,9 +130,11 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.pad_layout": {
+      "reason": "M4L docs describe pad_layout as 'symbol read-only', meaning it is a string.",
       "probed_type": "str"
     },
     "Live.Application.ControlSurfaceProxy.release_control": {
+      "reason": "M4L docs name this parameter 'control'; the int is a control ID.",
       "args": {
         "arg2": {
           "name": "control"
@@ -125,6 +142,7 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
+      "reason": "M4L docs name this parameter 'midi_message'; shortened to 'message'.",
       "args": {
         "arg2": {
           "name": "message"
@@ -132,6 +150,7 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
+      "reason": "Function sends a value tuple to a control; the parameter is the value payload.",
       "args": {
         "arg2": {
           "name": "value"
@@ -139,6 +158,7 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
+      "reason": "Same pattern as grab_control/release_control; the int is a control ID.",
       "args": {
         "arg2": {
           "name": "control"
@@ -146,9 +166,11 @@
       }
     },
     "Live.Application.ControlSurfaceProxy.type_name": {
+      "reason": "Property name suggests a string identifier for the control surface type.",
       "probed_type": "str"
     },
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
+      "reason": "Same pattern as subscribe_to_control; the int is a control ID.",
       "args": {
         "arg2": {
           "name": "control"
@@ -156,6 +178,7 @@
       }
     },
     "Live.Application.UnavailableFeatureVector.append": {
+      "reason": "Standard vector append pattern; the parameter is the item to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -163,6 +186,7 @@
       }
     },
     "Live.Application.UnavailableFeatureVector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of items.",
       "args": {
         "arg2": {
           "name": "values"
@@ -170,6 +194,7 @@
       }
     },
     "Live.Application.encrypt_challenge2": {
+      "reason": "Description says 'the given challenge'; the int is a challenge value to hash.",
       "args": {
         "arg1": {
           "name": "challenge"
@@ -177,16 +202,18 @@
       }
     },
     "Live.Application.get_random_int": {
+      "reason": "Description says 'from the given range'; two ints define a range with begin and end.",
       "args": {
         "arg1": {
-          "name": "min"
+          "name": "begin"
         },
         "arg2": {
-          "name": "max"
+          "name": "end"
         }
       }
     },
     "Live.Base.FloatVector.append": {
+      "reason": "Standard vector append pattern; the parameter is the float value to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -194,6 +221,7 @@
       }
     },
     "Live.Base.FloatVector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
           "name": "values"
@@ -201,6 +229,7 @@
       }
     },
     "Live.Base.IntU64Vector.append": {
+      "reason": "Standard vector append pattern; the parameter is the int value to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -208,6 +237,7 @@
       }
     },
     "Live.Base.IntU64Vector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
           "name": "values"
@@ -215,6 +245,7 @@
       }
     },
     "Live.Base.IntVector.append": {
+      "reason": "Standard vector append pattern; the parameter is the int value to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -222,6 +253,7 @@
       }
     },
     "Live.Base.IntVector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
           "name": "values"
@@ -229,6 +261,7 @@
       }
     },
     "Live.Base.ObjectVector.append": {
+      "reason": "C++ signature shows boost::python::api::object; this is a generic object vector so type is Any. Arg also has generic name.",
       "args": {
         "arg2": {
           "name": "value",
@@ -237,6 +270,7 @@
       }
     },
     "Live.Base.ObjectVector.extend": {
+      "reason": "C++ signature shows boost::python::api::object; this is a generic object vector so type is Any. Arg also has generic name.",
       "args": {
         "arg2": {
           "name": "values",
@@ -245,6 +279,7 @@
       }
     },
     "Live.Base.StringVector.append": {
+      "reason": "Standard vector append pattern; the parameter is the string value to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -252,6 +287,7 @@
       }
     },
     "Live.Base.StringVector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
           "name": "values"
@@ -259,9 +295,11 @@
       }
     },
     "Live.Base.Text.text": {
+      "reason": "Text.text property stores a text string; TText C++ type maps to str in Python.",
       "probed_type": "str"
     },
     "Live.Base.Vector.append": {
+      "reason": "Standard vector append pattern; the parameter is the LOM object to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -269,6 +307,7 @@
       }
     },
     "Live.Base.Vector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of LOM objects.",
       "args": {
         "arg2": {
           "name": "values"
@@ -276,6 +315,7 @@
       }
     },
     "Live.Base.log": {
+      "reason": "Standard logging function; the parameter is the message string to log.",
       "args": {
         "arg1": {
           "name": "message"
@@ -283,6 +323,7 @@
       }
     },
     "Live.Base.subst_args": {
+      "reason": "These are positional substitution arguments for a Text template; the arg1-arg5 names are intentional and match the function's purpose.",
       "args": {
         "arg1": {
           "name": "arg1"
@@ -302,6 +343,7 @@
       }
     },
     "Live.Browser.Browser.load_item": {
+      "reason": "Description says 'the provided browser item'; naming it 'item'.",
       "args": {
         "arg2": {
           "name": "item"
@@ -309,6 +351,7 @@
       }
     },
     "Live.Browser.Browser.preview_item": {
+      "reason": "Description says 'the provided browser item'; naming it 'item'.",
       "args": {
         "arg2": {
           "name": "item"
@@ -316,6 +359,7 @@
       }
     },
     "Live.Browser.Browser.relation_to_hotswap_target": {
+      "reason": "Description says 'the given browser item'; naming it 'item'.",
       "args": {
         "arg2": {
           "name": "item"
@@ -323,6 +367,7 @@
       }
     },
     "Live.Browser.BrowserItemVector.append": {
+      "reason": "Standard vector append pattern; the parameter is the BrowserItem to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -330,6 +375,7 @@
       }
     },
     "Live.Browser.BrowserItemVector.extend": {
+      "reason": "Standard vector extend pattern; the parameter is the iterable of BrowserItems.",
       "args": {
         "arg2": {
           "name": "values"
@@ -337,6 +383,7 @@
       }
     },
     "Live.Chain.Chain.delete_device": {
+      "reason": "M4L docs name this parameter 'index'; description says 'identified by its index'.",
       "args": {
         "arg2": {
           "name": "index"
@@ -344,6 +391,7 @@
       }
     },
     "Live.Chain.Chain.duplicate_device": {
+      "reason": "Description says 'at the given index'; consistent with delete_device naming.",
       "args": {
         "arg2": {
           "name": "index"
@@ -731,6 +779,7 @@
       "probed_type": "bool"
     },
     "Live.MidiMap.forward_midi_cc": {
+      "reason": "MIDI CC forwarding takes a map handle, channel, CC number, and CC value by convention matching map_midi_cc signatures.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -747,6 +796,7 @@
       }
     },
     "Live.MidiMap.forward_midi_note": {
+      "reason": "MIDI note forwarding takes a map handle, channel, note number, and velocity by convention matching map_midi_note signatures.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -763,6 +813,7 @@
       }
     },
     "Live.MidiMap.forward_midi_pitchbend": {
+      "reason": "MIDI pitchbend forwarding takes a map handle, channel, and pitchbend value by convention matching sibling forward_midi functions.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -776,6 +827,7 @@
       }
     },
     "Live.MidiMap.map_midi_note": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for arg2 (parameter); remaining args are channel and note_no by pattern with map_midi_note_with_feedback_map.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -792,6 +844,7 @@
       }
     },
     "Live.MidiMap.map_midi_note_with_feedback_map": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter and NPythonMidiMap::TNoteFeedbackRule for the feedback rule; channel and note_no match map_midi_note pattern.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -811,6 +864,7 @@
       }
     },
     "Live.MidiMap.map_midi_pitchbend": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter and bool for takeover; channel is the MIDI channel.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -827,6 +881,7 @@
       }
     },
     "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
+      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter, NPythonMidiMap::TPitchBendFeedbackRule for feedback, and bool for takeover.",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -846,6 +901,7 @@
       }
     },
     "Live.MidiMap.send_feedback_for_parameter": {
+      "reason": "C++ signature shows unsigned int (map handle) and TPyHandle<ATimeableValue> (parameter).",
       "args": {
         "arg1": {
           "name": "midi_map_handle"
@@ -856,9 +912,11 @@
       }
     },
     "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
+      "reason": "M4L docs for Device describe is_using_compare_preset_b as 'bool observe' \u2014 returns whether preset B is loaded.",
       "probed_type": "bool"
     },
     "Live.RackDevice.RackDevice.copy_pad": {
+      "reason": "Description says 'copy_pad(source_index, destination_index)' and M4L docs confirm parameters source_index and destination_index.",
       "args": {
         "arg2": {
           "name": "source_index"
@@ -869,9 +927,11 @@
       }
     },
     "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
+      "reason": "M4L docs for Device describe is_using_compare_preset_b as 'bool observe' \u2014 returns whether preset B is loaded.",
       "probed_type": "bool"
     },
     "Live.Scene.Scene.set_fire_button_state": {
+      "reason": "M4L docs name the parameter 'state' \u2014 sets the scene's fire button state.",
       "args": {
         "arg2": {
           "name": "state"
@@ -879,6 +939,7 @@
       }
     },
     "Live.Song.Song.View.select_device": {
+      "reason": "M4L docs and description say 'Select the given device'; the parameter is a Device object.",
       "args": {
         "arg2": {
           "name": "device"
@@ -886,6 +947,7 @@
       }
     },
     "Live.Song.Song.create_audio_track": {
+      "reason": "C++ signature shows boost::python::api::object with default None; description says 'optional given index' and M4L docs name it 'index', so type is int.",
       "args": {
         "Index": {
           "type": "int"
@@ -893,6 +955,7 @@
       }
     },
     "Live.Song.Song.create_midi_track": {
+      "reason": "C++ signature shows boost::python::api::object with default None; description says 'optional given index' and M4L docs name it 'index', so type is int.",
       "args": {
         "Index": {
           "type": "int"
@@ -900,6 +963,7 @@
       }
     },
     "Live.Song.Song.create_scene": {
+      "reason": "M4L docs name the parameter 'index' \u2014 determines where the scene is added.",
       "args": {
         "arg2": {
           "name": "index"
@@ -907,6 +971,7 @@
       }
     },
     "Live.Song.Song.delete_return_track": {
+      "reason": "M4L docs name the parameter 'index' \u2014 the return track index to delete.",
       "args": {
         "arg2": {
           "name": "index"
@@ -914,6 +979,7 @@
       }
     },
     "Live.Song.Song.delete_scene": {
+      "reason": "M4L docs name the parameter 'index' \u2014 the scene index to delete.",
       "args": {
         "arg2": {
           "name": "index"
@@ -921,6 +987,7 @@
       }
     },
     "Live.Song.Song.delete_track": {
+      "reason": "M4L docs name the parameter 'index' \u2014 the track index to delete.",
       "args": {
         "arg2": {
           "name": "index"
@@ -928,6 +995,7 @@
       }
     },
     "Live.Song.Song.duplicate_scene": {
+      "reason": "M4L docs name the parameter 'index' \u2014 determines which scene to duplicate.",
       "args": {
         "arg2": {
           "name": "index"
@@ -935,6 +1003,7 @@
       }
     },
     "Live.Song.Song.duplicate_track": {
+      "reason": "M4L docs name the parameter 'index' \u2014 determines which track to duplicate.",
       "args": {
         "arg2": {
           "name": "index"
@@ -942,6 +1011,7 @@
       }
     },
     "Live.Song.Song.get_current_smpte_song_time": {
+      "reason": "M4L docs name the parameter 'format' \u2014 the SMPTE time code format type.",
       "args": {
         "arg2": {
           "name": "format"
@@ -949,6 +1019,7 @@
       }
     },
     "Live.Song.Song.get_data": {
+      "reason": "C++ signature shows boost::python::api::object for both default_value and return; these accept/return any Python object.",
       "args": {
         "default_value": {
           "type": "Any"
@@ -959,6 +1030,7 @@
       }
     },
     "Live.Song.Song.jump_by": {
+      "reason": "M4L docs name the parameter 'beats' \u2014 the amount to jump relative to current position.",
       "args": {
         "arg2": {
           "name": "beats"
@@ -966,6 +1038,7 @@
       }
     },
     "Live.Song.Song.scrub_by": {
+      "reason": "M4L docs name the parameter 'beats' \u2014 the amount to scrub relative to current position.",
       "args": {
         "arg2": {
           "name": "beats"
@@ -973,6 +1046,7 @@
       }
     },
     "Live.Song.Song.set_data": {
+      "reason": "C++ signature shows boost::python::api::object for value parameter; it accepts any Python object.",
       "args": {
         "value": {
           "type": "Any"
@@ -980,6 +1054,7 @@
       }
     },
     "Live.TakeLane.TakeLane.create_audio_clip": {
+      "reason": "M4L docs name the parameters 'file_path' and 'start_time' for creating an audio clip in arrangement.",
       "args": {
         "arg2": {
           "name": "file_path"
@@ -990,6 +1065,7 @@
       }
     },
     "Live.TakeLane.TakeLane.create_midi_clip": {
+      "reason": "M4L docs name the parameters 'start_time' and 'length' for creating a MIDI clip in arrangement.",
       "args": {
         "arg2": {
           "name": "start_time"
@@ -1000,9 +1076,11 @@
       }
     },
     "Live.Track.DeviceContainer._live_ptr": {
+      "reason": "All sibling _live_ptr properties across the LOM are probed as int.",
       "probed_type": "int"
     },
     "Live.Track.RoutingChannelVector.append": {
+      "reason": "Standard vector append method; parameter is the item to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -1010,6 +1088,7 @@
       }
     },
     "Live.Track.RoutingChannelVector.extend": {
+      "reason": "Standard vector extend method; parameter is the iterable to extend with.",
       "args": {
         "arg2": {
           "name": "values"
@@ -1017,6 +1096,7 @@
       }
     },
     "Live.Track.RoutingTypeVector.append": {
+      "reason": "Standard vector append method; parameter is the item to add.",
       "args": {
         "arg2": {
           "name": "value"
@@ -1024,6 +1104,7 @@
       }
     },
     "Live.Track.RoutingTypeVector.extend": {
+      "reason": "Standard vector extend method; parameter is the iterable to extend with.",
       "args": {
         "arg2": {
           "name": "values"
@@ -1031,6 +1112,7 @@
       }
     },
     "Live.Track.Track.create_audio_clip": {
+      "reason": "M4L docs name the parameters 'file_path' and 'position'.",
       "args": {
         "arg2": {
           "name": "file_path"
@@ -1041,6 +1123,7 @@
       }
     },
     "Live.Track.Track.create_midi_clip": {
+      "reason": "M4L docs name the parameters 'start_time' and 'length'.",
       "args": {
         "arg2": {
           "name": "start_time"
@@ -1051,6 +1134,7 @@
       }
     },
     "Live.Track.Track.delete_clip": {
+      "reason": "M4L docs name the parameter 'clip'.",
       "args": {
         "arg2": {
           "name": "clip"
@@ -1058,6 +1142,7 @@
       }
     },
     "Live.Track.Track.delete_device": {
+      "reason": "M4L docs name the parameter 'index'.",
       "args": {
         "arg2": {
           "name": "index"
@@ -1065,6 +1150,7 @@
       }
     },
     "Live.Track.Track.duplicate_clip_slot": {
+      "reason": "M4L docs name the parameter 'index'.",
       "args": {
         "arg2": {
           "name": "index"
@@ -1072,6 +1158,7 @@
       }
     },
     "Live.Track.Track.duplicate_device": {
+      "reason": "Description says 'at a given index in the devices list'.",
       "args": {
         "arg2": {
           "name": "index"
@@ -1079,6 +1166,7 @@
       }
     },
     "Live.Track.Track.get_data": {
+      "reason": "C++ signature shows boost::python::api::object for both default_value and return, meaning any Python object is accepted/returned.",
       "args": {
         "default_value": {
           "type": "Any"
@@ -1089,6 +1177,7 @@
       }
     },
     "Live.Track.Track.jump_in_running_session_clip": {
+      "reason": "M4L docs name the parameter 'beats'.",
       "args": {
         "arg2": {
           "name": "beats"
@@ -1096,6 +1185,7 @@
       }
     },
     "Live.Track.Track.set_data": {
+      "reason": "C++ signature shows boost::python::api::object, meaning any Python object is accepted.",
       "args": {
         "value": {
           "type": "Any"
