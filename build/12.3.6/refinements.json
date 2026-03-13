@@ -45,7 +45,7 @@
           "name": "identifier"
         },
         "arg4": {
-          "name": "animate"
+          "name": "modifier_pressed"
         }
       }
     },
@@ -65,7 +65,7 @@
           "name": "identifier"
         },
         "arg4": {
-          "name": "animate"
+          "name": "modifier_pressed"
         }
       }
     },
@@ -396,7 +396,7 @@
     "Live.Clip.Clip.move_playing_pos": {
       "args": {
         "arg2": {
-          "name": "amount"
+          "name": "beats"
         }
       }
     },
@@ -549,10 +549,10 @@
     "Live.Device.Device.store_chosen_bank": {
       "args": {
         "arg2": {
-          "name": "bank_index"
+          "name": "script_index"
         },
         "arg3": {
-          "name": "sub_bank_index"
+          "name": "bank_index"
         }
       }
     },
@@ -937,14 +937,14 @@
     "Live.Song.Song.jump_by": {
       "args": {
         "arg2": {
-          "name": "amount"
+          "name": "beats"
         }
       }
     },
     "Live.Song.Song.scrub_by": {
       "args": {
         "arg2": {
-          "name": "amount"
+          "name": "beats"
         }
       }
     },
@@ -961,14 +961,14 @@
           "name": "file_path"
         },
         "arg3": {
-          "name": "time"
+          "name": "start_time"
         }
       }
     },
     "Live.TakeLane.TakeLane.create_midi_clip": {
       "args": {
         "arg2": {
-          "name": "time"
+          "name": "start_time"
         },
         "arg3": {
           "name": "length"
@@ -1012,14 +1012,14 @@
           "name": "file_path"
         },
         "arg3": {
-          "name": "time"
+          "name": "start_time"
         }
       }
     },
     "Live.Track.Track.create_midi_clip": {
       "args": {
         "arg2": {
-          "name": "time"
+          "name": "start_time"
         },
         "arg3": {
           "name": "length"
@@ -1067,7 +1067,7 @@
     "Live.Track.Track.jump_in_running_session_clip": {
       "args": {
         "arg2": {
-          "name": "amount"
+          "name": "beats"
         }
       }
     },
