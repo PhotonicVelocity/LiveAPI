@@ -61,7 +61,7 @@ class APICapture(ControlSurface):
         self.log_message(f"Running Python Version: {sys.version}")
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.version = get_version_number(Live)
-        self.outdir = os.path.join(outdir, self.version)
+        self.outdir = os.path.join(outdir, self.version, "pipeline")
         self._device_probe: _device_probe_mod.DeviceProbe | None = None
         self._verbose = False
 

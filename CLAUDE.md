@@ -74,14 +74,13 @@ Serves at http://localhost:8123/LiveAPI/
   - `tracks/` — Track, Clip, ClipSlot, Envelope, MixerDevice, TakeLane
   - `devices/` — all device classes (base + subclasses)
   - `other/` — Conversions, Groove, GroovePool, TuningSystem
-- `build/` — per-version build artifacts (raw capture, probe results, parsed/resolved trees, generated stubs)
+- `stubs/` — per-version generated stubs (`<version>/Live/`) with pipeline intermediates in `<version>/pipeline/`
 - `MaxForLive/` — API docs parsed from Max for Live HTML documentation
 - `tools/` — APICapture and build tooling
   - `apicapture/` — APICapture Control Surface (runs inside Live, captures API metadata)
   - `parse/` — parsing and stub generation pipeline (see `doc/decisions.md` for full diagram)
   - `other/` — legacy/utility scripts (serve.sh, watch.py, v1 StubGenerator)
   - `install.py` — installs APICapture to Remote Scripts folder
-  - `justfile` — shortcuts for install/build/reload workflow
   - `sets/` — Ableton Live sets used with APICapture for probing
 - `doc/` — project-level documentation (decisions, contributing)
 

@@ -88,9 +88,9 @@ def main():
     parser.add_argument("--output", help="Path to output LiveTree.resolved.json")
     args = parser.parse_args()
 
-    input_path = args.input or join("build", args.version, "LiveTree.parsed.json")
-    refinements_path = args.refinements or join("build", args.version, "refinements.json")
-    output_path = args.output or join("build", args.version, "LiveTree.resolved.json")
+    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.parsed.json")
+    refinements_path = args.refinements or join("stubs", args.version, "pipeline", "refinements.llm.json")
+    output_path = args.output or join("stubs", args.version, "pipeline", "LiveTree.resolved.json")
 
     with open(input_path) as f:
         data = json.load(f)

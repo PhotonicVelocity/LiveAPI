@@ -6,7 +6,7 @@ Scans the parsed tree for:
 - Function returns typed "object"
 - Properties with null probed_type
 
-Writes build/{version}/unresolved.json with full context for each item.
+Writes stubs/{version}/pipeline/unresolved.json with full context for each item.
 
 Usage:
     python tools/parse/extract_unresolved.py 12.3.6
@@ -96,8 +96,8 @@ def main():
     parser.add_argument("--output", help="Path to output unresolved.json")
     args = parser.parse_args()
 
-    input_path = args.input or join("build", args.version, "LiveTree.parsed.json")
-    output_path = args.output or join("build", args.version, "unresolved.json")
+    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.parsed.json")
+    output_path = args.output or join("stubs", args.version, "pipeline", "unresolved.json")
 
     with open(input_path) as f:
         data = json.load(f)

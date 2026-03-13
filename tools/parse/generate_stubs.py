@@ -573,13 +573,13 @@ def main():
     parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.resolved.json")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument(
-        "--input", help="Path to LiveTree.resolved.json (default: build/{version}/LiveTree.resolved.json)"
+        "--input", help="Path to LiveTree.resolved.json (default: stubs/{version}/pipeline/LiveTree.resolved.json)"
     )
-    parser.add_argument("--output", help="Output directory (default: build/{version}/Live)")
+    parser.add_argument("--output", help="Output directory (default: stubs/{version}/Live)")
     args = parser.parse_args()
 
-    input_path = args.input or join("build", args.version, "LiveTree.resolved.json")
-    output_dir = args.output or join("build", args.version, "Live")
+    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.resolved.json")
+    output_dir = args.output or join("stubs", args.version, "Live")
 
     with open(input_path) as f:
         data = json.load(f)

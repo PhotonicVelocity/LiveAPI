@@ -17,10 +17,9 @@ Architectural and formatting decisions for the LiveAPI project. Updated as decis
   - **`tools/parse/`** — parsing and stub generation pipeline (see [Parse Pipeline](#parse-pipeline) below).
   - **`tools/other/`** — legacy/utility scripts not yet integrated into the main pipeline.
   - **`tools/install.py`** — installs APICapture to Live's Remote Scripts folder.
-  - **`tools/justfile`** — shortcuts for install/build/reload workflow.
   - **`tools/sets/`** — Ableton Live sets used with APICapture for probing.
-- **`build/`** — per-version build artifacts. Each version directory (e.g. `build/12.3.6/`) contains the full pipeline
-  output: raw capture, probe results, parsed tree, refinements, resolved tree, and generated stubs.
+- **`stubs/`** — per-version generated stubs. Each version directory (e.g. `stubs/12.3.6/`) contains `Live/` (tracked
+  final output) and `pipeline/` (gitignored intermediates: raw capture, parsed tree, refinements, etc.).
 - **`MaxForLive/`** — API docs parsed from Max for Live HTML documentation. Used as cross-reference for type refinement.
 - **`doc/`** — project-level documentation (this file, contributing guide, pipeline plans).
 - **`web/`** removed — replaced by MkDocs + GitHub Pages.
