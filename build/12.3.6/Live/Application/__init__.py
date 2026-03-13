@@ -50,7 +50,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def control_descriptions(self):
+    def control_descriptions(self) -> tuple[ControlDescription, ...]:
         ...
 
     def control_values_arrived_has_listener(self, callback: Callable) -> bool:

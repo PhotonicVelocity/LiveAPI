@@ -1659,7 +1659,8 @@
                 "type": "property",
                 "id": 4818132544,
                 "settable": false,
-                "raw_doc": null
+                "raw_doc": null,
+                "probed_type": "ControlDescriptionVector"
               },
               {
                 "name": "control_values_arrived_has_listener",
