@@ -228,6 +228,7 @@
     "Live.Base.ObjectVector.append": {
       "args": {
         "arg2": {
+          "type": "object",
           "name": "value"
         }
       }
@@ -235,6 +236,7 @@
     "Live.Base.ObjectVector.extend": {
       "args": {
         "arg2": {
+          "type": "object",
           "name": "value"
         }
       }
@@ -274,6 +276,25 @@
       "args": {
         "arg1": {
           "name": "message"
+        }
+      }
+    },
+    "Live.Base.subst_args": {
+      "args": {
+        "arg1": {
+          "name": "arg1"
+        },
+        "arg2": {
+          "name": "arg2"
+        },
+        "arg3": {
+          "name": "arg3"
+        },
+        "arg4": {
+          "name": "arg4"
+        },
+        "arg5": {
+          "name": "arg5"
         }
       }
     },
