@@ -1,14 +1,15 @@
 # APICapture Pipeline
 
-Three-stage pipeline for capturing Live API metadata and generating typed Python stubs.
+Four-stage pipeline for capturing Live API metadata and generating typed Python stubs.
 
 ```
-Stage 1: Capture (inside Live)     → LiveTree.raw.json + LiveClasses.json
-Stage 2: Parse & Merge (external)  → LiveTree.parsed.json
-Stage 3: Generate Stubs (external) → build/<version>/Live/
+Stage 0: Capture (inside Live)     → LiveTree.raw.json + LiveClasses.json
+Stage 1: Parse   (external)       → LiveTree.parsed.json
+Stage 2: Refine  (external + LLM) → LiveTree.resolved.json
+Stage 3: Generate (external)      → build/<version>/Live/*.pyi
 ```
 
-## Stage 1: Capture (runs inside Live)
+## Stage 0: Capture (runs inside Live)
 
 `apicapture/` is a MIDI Remote Script (Control Surface) that introspects the `Live` module at runtime. It produces two
 output files in `build/<version>/`:
@@ -67,13 +68,13 @@ Node types include `module`, `class`, `function`, `builtin_function_or_method`, 
 `getset_descriptor`, and `int` (for enum values).
 
 **Boost.Python quirks:** Live's C++ bindings sometimes concatenate docstrings onto `__name__` (e.g.
-`"StartupDialogServes as..."`) or corrupt return types by appending class docs. These are fixed in Stage 2.
+`"StartupDialogServes as..."`) or corrupt return types by appending class docs. These are fixed in Stage 1.
 
 ### Property Probe (`LiveClasses.json`)
 
 PropertyProbe reads live object properties to determine runtime types, settability, and listener support. It requires a
-**saved set** (`sets/`) containing pre-created objects: MIDI clips with notes, automation envelopes, audio clip with warp markers, cue points, a
-groove, a tuning system, a take lane, and a group track.
+**saved set** (`sets/`) containing pre-created objects: MIDI clips with notes, automation envelopes, audio clip with warp
+markers, cue points, a groove, a tuning system, a take lane, and a group track.
 
 For each reachable class, the probe records:
 
@@ -132,62 +133,117 @@ earlier device are skipped. Each device is deleted after probing. Results are me
 All capture modules use `from __future__ import annotations` so that modern type hint syntax works on Live 11's Python
 3.7.3 runtime without raising `TypeError` at import time.
 
-## Stage 2: Parse & Merge (runs outside Live)
+## Stage 1: Parse (runs outside Live)
 
 ```
-python tools/parse_live_raw.py build/12.3.6
+python tools/parse/parse_apicapture_results.py 12.3.6
 ```
 
-Reads `LiveTree.raw.json` (and optionally `LiveClasses.json`) from the build directory and produces
-`LiveTree.parsed.json` — a normalized, enriched tree ready for stub generation.
+Reads `LiveTree.raw.json` + `LiveClasses.json` from the build directory and produces `LiveTree.parsed.json` — a
+normalized, enriched tree ready for refinement.
 
-Current transforms:
+Transforms applied:
 
 - **Class name fix** — splits Boost.Python's concatenated name+doc strings (e.g. `"StartupDialogServes as..."` →
   name `"StartupDialog"`, doc `"Serves as..."`)
 - **Doc rewriting** — propagates class name fixes into `raw_doc` fields throughout the tree
+- **Inheritance resolution** — expands base classes into ancestor chains
+- **Member relocation** — moves inherited members to the class that actually defines them
+- **Enum parsing** — converts string-encoded enums into structured members
 - **Function doc parsing** — extracts structured `signature`, `description`, and `cpp_signature` from raw docstrings
+- **Signature parsing** — splits Python/C++ signatures into matched args/returns
+- **Type resolution** — resolves raw signature parts into clean structured args/returns using a C++ → Python type map
+- **Probe merge** — folds `LiveClasses.json` runtime types, settability, and listeners into the tree nodes
 
-Planned:
+## Stage 2: Refine (runs outside Live)
 
-- **Probe merge** — fold `LiveClasses.json` runtime types, settability, and listeners into the tree nodes
-- **Type normalization** — resolve probe types to canonical names
+Three scripts work together to resolve unresolved types and parameter names:
+
+```
+python tools/parse/extract_unresolved.py 12.3.6
+python tools/parse/llm_resolve.py 12.3.6 --prepare   # then process batches
+python tools/parse/llm_resolve.py 12.3.6 --merge
+python tools/parse/apply_refinements.py 12.3.6
+```
+
+### extract_unresolved.py
+
+Scans `LiveTree.parsed.json` for items that need refinement:
+
+- Function args typed `object` (unresolved types)
+- Function args named `arg1`, `arg2`, etc. (unnamed parameters)
+- Function returns typed `object`
+- Properties with null `probed_type`
+
+Outputs `unresolved.json` with full context for each item (path, kind, signature, description, C++ signature).
+
+### llm_resolve.py
+
+Produces `refinements.llm.json` using Claude to resolve unresolved items. Sends the unresolved items along with a type
+skeleton of the full API, MaxForLive docs, and curated per-class reference docs (`reference/`) as context. The system
+prompt is in `llm_resolve_prompt.md`.
+
+Three modes:
+
+- **`--prepare`** — splits items into batches grouped by module, writes batch files to `build/<version>/batches/` for
+  processing via the Agent tool (no API key needed)
+- **`--merge`** — merges batch result files into a single `refinements.llm.json`
+- **(default)** — calls the Anthropic API directly (requires `ANTHROPIC_API_KEY`)
+
+### apply_refinements.py
+
+Applies `refinements.llm.json` to `LiveTree.parsed.json`, producing `LiveTree.resolved.json` with all arg names, arg
+types, return types, and property types baked in. The resolved tree is the final input to stub generation.
 
 ## Stage 3: Generate Stubs (runs outside Live)
 
 ```
-python tools/generate_stubs.py build/<version>
+python tools/parse/generate_stubs.py 12.3.6
 ```
 
-Reads the enriched tree from Stage 2 and produces typed Python stubs in `build/<version>/Live/`. The stubs include:
+Reads `LiveTree.resolved.json` and emits `.pyi` stub files in `build/<version>/Live/`. The generator has no refinement
+logic — it renders the tree as-is.
 
-- Per-class modules in `Live/classes/<ClassName>.py`
-- Monolithic `Live/__init__.py` with all classes
+Output layout:
+
+- `Live/__init__.py` — imports all namespace modules
+- `Live/<Module>/<Module>.pyi` — main class (when the module has a namesake class)
+- `Live/<Module>/__init__.py` — helper classes, enums, functions
+- `Live/py.typed` — PEP 561 marker for type checking
+
+Features:
+
 - Typed method signatures with args, defaults, and return types
-- Listener callbacks typed as `Callable`
+- `@property` with setter when `settable=true`
+- `__init__` parsing from `init_doc` for constructable classes
+- `TYPE_CHECKING` imports for forward references
 - Enum classes with named int values
-- Property return types and setters from probe data
-- `py.typed` marker for PEP 561
+- Listener callbacks typed as `Callable`
 
 ## Directory Structure
 
 ```
 tools/
-├── apicapture/            The MIDI Remote Script package (Stage 1)
-│   ├── __init__.py        Control Surface entry point
-│   ├── APICapture.py      Tick loop orchestrator + trigger file polling
+├── apicapture/              The MIDI Remote Script package (Stage 0)
+│   ├── __init__.py          Control Surface entry point
+│   ├── APICapture.py        Tick loop orchestrator + trigger file polling
 │   ├── scripts/
 │   │   ├── CaptureModule.py   Raw dir() tree capture
 │   │   ├── PropertyProbe.py   Synchronous property probing
 │   │   └── DeviceProbe.py     Tick-driven device probing
 │   └── helpers/
-│       └── app.py         Version number extraction
-├── install.py             Install APICapture to Live's Remote Scripts
-├── parse_live_raw.py      Stage 2: parse and merge capture outputs (TODO: move from other/)
-├── generate_stubs.py      Stage 3: generate typed Python stubs (TODO: move from other/)
-├── justfile               Task runner shortcuts
-├── sets/                  Ableton Live sets used for probing
-└── other/                 Scripts pending review/reorganization
+│       └── app.py           Version number extraction
+├── parse/                   Stages 1–3: parsing, refinement, generation
+│   ├── parse_apicapture_results.py   Stage 1: parse raw capture → parsed tree
+│   ├── extract_unresolved.py         Stage 2: find unresolved types/names
+│   ├── llm_resolve.py               Stage 2: LLM-assisted resolution
+│   ├── llm_resolve_prompt.md         System prompt for LLM resolution
+│   ├── apply_refinements.py          Stage 2: apply refinements → resolved tree
+│   └── generate_stubs.py            Stage 3: generate .pyi stubs
+├── install.py               Install APICapture to Live's Remote Scripts
+├── justfile                 Task runner shortcuts
+├── sets/                    Ableton Live sets used for probing
+└── other/                   Legacy/utility scripts
 ```
 
 ## Credits

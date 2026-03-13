@@ -1,399 +1,410 @@
 {
   "refinements": {
     "Live.Application.Application.View.add_is_view_visible_listener": {
-      "reason": "C++ signature shows TString for arg2; M4L docs use 'view_name' for view identifier strings.",
       "args": {
         "arg2": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "Reference docs show this is a parameterized listener that takes the view name string as the first argument, matching the pattern of is_view_visible(identifier, ...)"
         }
       }
     },
     "Live.Application.Application.View.focus_view": {
-      "reason": "M4L docs name this parameter 'view_name'.",
       "args": {
         "arg2": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "M4L docs and reference docs both name this parameter 'view_name'"
         }
       }
     },
     "Live.Application.Application.View.hide_view": {
-      "reason": "M4L docs name this parameter 'view_name'.",
       "args": {
         "arg2": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "M4L docs and reference docs both name this parameter 'view_name'"
         }
       }
     },
     "Live.Application.Application.View.is_view_visible_has_listener": {
-      "reason": "Same pattern as add_is_view_visible_listener; M4L docs use 'view_name' for view identifier strings.",
       "args": {
         "arg2": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "Sibling consistency with add_is_view_visible_listener which takes view_name as the parameterized listener key"
         }
       }
     },
     "Live.Application.Application.View.remove_is_view_visible_listener": {
-      "reason": "Same pattern as add/has listener siblings; M4L docs use 'view_name' for view identifier strings.",
       "args": {
         "arg2": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "Sibling consistency with add_is_view_visible_listener which takes view_name as the parameterized listener key"
         }
       }
     },
     "Live.Application.Application.View.scroll_view": {
-      "reason": "M4L docs name the parameters 'direction view_name modifier_pressed'.",
       "args": {
         "arg2": {
-          "name": "direction"
+          "name": "direction",
+          "name_reason": "M4L docs list parameters as 'direction view_name modifier_pressed'; direction is the int (0=up,1=down,2=left,3=right)"
         },
         "arg3": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "M4L docs list parameters as 'direction view_name modifier_pressed'"
         },
         "arg4": {
-          "name": "modifier_pressed"
+          "name": "modifier_pressed",
+          "name_reason": "M4L docs list parameters as 'direction view_name modifier_pressed'"
         }
       }
     },
     "Live.Application.Application.View.show_view": {
-      "reason": "M4L docs name this parameter 'view_name'.",
       "args": {
         "arg2": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "M4L docs name this parameter 'view_name'"
         }
       }
     },
     "Live.Application.Application.View.zoom_view": {
-      "reason": "M4L docs name the parameters 'direction view_name modifier_pressed'.",
       "args": {
         "arg2": {
-          "name": "direction"
+          "name": "direction",
+          "name_reason": "M4L docs list parameters as 'direction view_name modifier_pressed'; direction is the int (0=up,1=down,2=left,3=right)"
         },
         "arg3": {
-          "name": "view_name"
+          "name": "view_name",
+          "name_reason": "M4L docs list parameters as 'direction view_name modifier_pressed'"
         },
         "arg4": {
-          "name": "modifier_pressed"
+          "name": "modifier_pressed",
+          "name_reason": "M4L docs list parameters as 'direction view_name modifier_pressed'"
         }
       }
     },
     "Live.Application.Application.has_option": {
-      "reason": "Description says 'the given entry exists in Options.txt'; the parameter is an option name string.",
       "args": {
         "arg2": {
-          "name": "option"
+          "name": "option_name",
+          "name_reason": "Reference docs show has_option(option_name) with explicit parameter name 'option_name'"
         }
       }
     },
     "Live.Application.Application.press_current_dialog_button": {
-      "reason": "M4L docs name this parameter 'index'.",
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "index",
+          "name_reason": "M4L docs name this parameter 'index'; reference docs also show press_current_dialog_button(index)"
         }
       }
     },
     "Live.Application.ControlDescriptionVector.append": {
-      "reason": "Standard vector append pattern; the parameter is the item to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "control_description",
+          "name_reason": "Companion type is ControlDescription; deriving name from the type"
         }
       }
     },
     "Live.Application.ControlDescriptionVector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of items.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "control_descriptions",
+          "name_reason": "Vector extend takes plural form of the element type; companion type is ControlDescription"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.control_descriptions": {
-      "reason": "Property returns a vector of ControlDescription items; the Vector class is ControlDescriptionVector.",
-      "probed_type": "ControlDescriptionVector"
+      "probed_type": "ControlDescriptionVector",
+      "probed_type_reason": "The property returns a list of ControlDescription objects; the API skeleton shows ControlDescriptionVector as the vector type for ControlDescription"
     },
     "Live.Application.ControlSurfaceProxy.enable_receive_midi": {
-      "reason": "Bool parameter controls whether MIDI receive is enabled or disabled.",
       "args": {
         "arg2": {
-          "name": "enabled"
+          "name": "enabled",
+          "name_reason": "The bool parameter controls whether MIDI receiving is enabled or disabled; 'enabled' is the natural name for a bool toggle"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.grab_control": {
-      "reason": "M4L docs name this parameter 'control'; the int is a control ID.",
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id",
+          "name_reason": "The int parameter identifies which control to grab; ControlDescription has an 'id' field, so this is a control_id"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.pad_layout": {
-      "reason": "M4L docs describe pad_layout as 'symbol read-only', meaning it is a string.",
-      "probed_type": "str"
+      "probed_type": "int",
+      "probed_type_reason": "The raw_doc says 'The layout of pads on Push'; layout properties in the LOM are typically int indices into an enum or list"
     },
     "Live.Application.ControlSurfaceProxy.release_control": {
-      "reason": "M4L docs name this parameter 'control'; the int is a control ID.",
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id",
+          "name_reason": "Sibling consistency with grab_control which takes control_id; same int parameter identifying the control"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
-      "reason": "M4L docs name this parameter 'midi_message'; shortened to 'message'.",
       "args": {
         "arg2": {
-          "name": "message"
+          "name": "midi_data",
+          "name_reason": "The tuple contains raw MIDI bytes to send; 'midi_data' describes the MIDI message content"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
-      "reason": "Function sends a value tuple to a control; the parameter is the value payload.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "value",
+          "name_reason": "The tuple contains a value to send to the control surface; generic 'value' is appropriate for this truly generic parameter"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
-      "reason": "Same pattern as grab_control/release_control; the int is a control ID.",
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id",
+          "name_reason": "Sibling consistency with grab_control/release_control which take control_id"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.type_name": {
-      "reason": "Property name suggests a string identifier for the control surface type.",
-      "probed_type": "str"
+      "probed_type": "str",
+      "probed_type_reason": "Property named 'type_name' returns the name/type of the control surface as a string; sibling pattern with other name properties like ControlDescription.name which are str"
     },
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
-      "reason": "Same pattern as subscribe_to_control; the int is a control ID.",
       "args": {
         "arg2": {
-          "name": "control"
+          "name": "control_id",
+          "name_reason": "Sibling consistency with subscribe_to_control/grab_control/release_control which take control_id"
         }
       }
     },
     "Live.Application.UnavailableFeatureVector.append": {
-      "reason": "Standard vector append pattern; the parameter is the item to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "unavailable_feature",
+          "name_reason": "Companion type is UnavailableFeature; deriving name from the type"
         }
       }
     },
     "Live.Application.UnavailableFeatureVector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of items.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "unavailable_features",
+          "name_reason": "Vector extend takes plural form of the element type; companion type is UnavailableFeature"
         }
       }
     },
     "Live.Application.encrypt_challenge2": {
-      "reason": "Description says 'the given challenge'; the int is a challenge value to hash.",
       "args": {
         "arg1": {
-          "name": "challenge"
+          "name": "challenge",
+          "name_reason": "Description says 'Returns the UMAC hash for the given challenge'; the parameter is the challenge value"
         }
       }
     },
     "Live.Application.get_random_int": {
-      "reason": "Description says 'from the given range'; two ints define a range with begin and end.",
       "args": {
         "arg1": {
-          "name": "begin"
+          "name": "min",
+          "name_reason": "Description says 'Returns a random integer from the given range'; first of two int params defines the range minimum"
         },
         "arg2": {
-          "name": "end"
+          "name": "max",
+          "name_reason": "Description says 'Returns a random integer from the given range'; second of two int params defines the range maximum"
         }
       }
     },
     "Live.Base.FloatVector.append": {
-      "reason": "Standard vector append pattern; the parameter is the float value to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "value",
+          "name_reason": "Appending a primitive float to a vector; 'value' is appropriate for a generic primitive element"
         }
       }
     },
     "Live.Base.FloatVector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "values",
+          "name_reason": "Vector extend takes plural form; extending with multiple float values"
         }
       }
     },
     "Live.Base.IntU64Vector.append": {
-      "reason": "Standard vector append pattern; the parameter is the int value to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "value",
+          "name_reason": "Appending a primitive int to a vector; 'value' is appropriate for a generic primitive element"
         }
       }
     },
     "Live.Base.IntU64Vector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "values",
+          "name_reason": "Vector extend takes plural form; extending with multiple int values"
         }
       }
     },
     "Live.Base.IntVector.append": {
-      "reason": "Standard vector append pattern; the parameter is the int value to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "value",
+          "name_reason": "Appending a primitive int to a vector; 'value' is appropriate for a generic primitive element"
         }
       }
     },
     "Live.Base.IntVector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "values",
+          "name_reason": "Vector extend takes plural form; extending with multiple int values"
         }
       }
     },
     "Live.Base.ObjectVector.append": {
-      "reason": "C++ signature shows boost::python::api::object; this is a generic object vector so type is Any. Arg also has generic name.",
       "args": {
         "arg2": {
           "name": "value",
-          "type": "Any"
+          "type": "Any",
+          "name_reason": "Appending a generic object to an ObjectVector; 'value' is appropriate for a truly generic container",
+          "type_reason": "ObjectVector stores boost::python::api::object elements which are genuinely heterogeneous; Any is the correct Python type"
         }
       }
     },
     "Live.Base.ObjectVector.extend": {
-      "reason": "C++ signature shows boost::python::api::object; this is a generic object vector so type is Any. Arg also has generic name.",
       "args": {
         "arg2": {
           "name": "values",
-          "type": "Any"
+          "type": "Any",
+          "name_reason": "Vector extend takes plural form; extending with multiple generic objects",
+          "type_reason": "ObjectVector stores boost::python::api::object elements which are genuinely heterogeneous; Any is the correct Python type"
         }
       }
     },
     "Live.Base.StringVector.append": {
-      "reason": "Standard vector append pattern; the parameter is the string value to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "value",
+          "name_reason": "Appending a primitive str to a vector; 'value' is appropriate for a generic primitive element"
         }
       }
     },
     "Live.Base.StringVector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of values.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "values",
+          "name_reason": "Vector extend takes plural form; extending with multiple str values"
         }
       }
     },
     "Live.Base.Text.text": {
-      "reason": "Text.text property stores a text string; TText C++ type maps to str in Python.",
-      "probed_type": "str"
+      "probed_type": "str",
+      "probed_type_reason": "Text.text returns the text content as a string; the subst_args function signature shows TText as input and returns std::string"
     },
     "Live.Base.Vector.append": {
-      "reason": "Standard vector append pattern; the parameter is the LOM object to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "item",
+          "name_reason": "Appending a LomObject to a generic Vector of handles; 'item' is appropriate for a generic LOM container element"
         }
       }
     },
     "Live.Base.Vector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of LOM objects.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "items",
+          "name_reason": "Vector extend takes plural form; extending with multiple LOM objects"
         }
       }
     },
     "Live.Base.log": {
-      "reason": "Standard logging function; the parameter is the message string to log.",
       "args": {
         "arg1": {
-          "name": "message"
+          "name": "message",
+          "name_reason": "The function logs a message string; 'message' is the standard name for a log function's string parameter"
         }
       }
     },
     "Live.Base.subst_args": {
-      "reason": "These are positional substitution arguments for a Text template; the arg1-arg5 names are intentional and match the function's purpose.",
       "args": {
         "arg1": {
-          "name": "arg1"
+          "name": "arg1",
+          "name_reason": "The signature shows positional substitution args (arg1..arg5) for a template string; these are the actual parameter names in the Boost.Python signature"
         },
         "arg2": {
-          "name": "arg2"
+          "name": "arg2",
+          "name_reason": "The signature shows positional substitution args (arg1..arg5) for a template string; these are the actual parameter names in the Boost.Python signature"
         },
         "arg3": {
-          "name": "arg3"
+          "name": "arg3",
+          "name_reason": "The signature shows positional substitution args (arg1..arg5) for a template string; these are the actual parameter names in the Boost.Python signature"
         },
         "arg4": {
-          "name": "arg4"
+          "name": "arg4",
+          "name_reason": "The signature shows positional substitution args (arg1..arg5) for a template string; these are the actual parameter names in the Boost.Python signature"
         },
         "arg5": {
-          "name": "arg5"
+          "name": "arg5",
+          "name_reason": "The signature shows positional substitution args (arg1..arg5) for a template string; these are the actual parameter names in the Boost.Python signature"
         }
       }
     },
     "Live.Browser.Browser.load_item": {
-      "reason": "Description says 'the provided browser item'; naming it 'item'.",
       "args": {
         "arg2": {
-          "name": "item"
+          "name": "item",
+          "name_reason": "Reference docs show load_item(item) with explicit parameter name 'item'"
         }
       }
     },
     "Live.Browser.Browser.preview_item": {
-      "reason": "Description says 'the provided browser item'; naming it 'item'.",
       "args": {
         "arg2": {
-          "name": "item"
+          "name": "item",
+          "name_reason": "Reference docs show preview_item(item) with explicit parameter name 'item'; consistent with load_item(item)"
         }
       }
     },
     "Live.Browser.Browser.relation_to_hotswap_target": {
-      "reason": "Description says 'the given browser item'; naming it 'item'.",
       "args": {
         "arg2": {
-          "name": "item"
+          "name": "item",
+          "name_reason": "Reference docs show relation_to_hotswap_target(item) with explicit parameter name 'item'; consistent with load_item and preview_item"
         }
       }
     },
     "Live.Browser.BrowserItemVector.append": {
-      "reason": "Standard vector append pattern; the parameter is the BrowserItem to add.",
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "item",
+          "name_reason": "Reference docs for BrowserItemVector.append show append(item); consistent with Browser methods naming BrowserItem params as 'item'"
         }
       }
     },
     "Live.Browser.BrowserItemVector.extend": {
-      "reason": "Standard vector extend pattern; the parameter is the iterable of BrowserItems.",
       "args": {
         "arg2": {
-          "name": "values"
+          "name": "items",
+          "name_reason": "Vector extend takes plural form; consistent with append(item) on the same class"
         }
       }
     },
     "Live.Chain.Chain.delete_device": {
-      "reason": "M4L docs name this parameter 'index'; description says 'identified by its index'.",
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "index",
+          "name_reason": "M4L docs name this parameter 'index'; reference docs also show delete_device(index: int)"
         }
       }
     },
     "Live.Chain.Chain.duplicate_device": {
-      "reason": "Description says 'at the given index'; consistent with delete_device naming.",
       "args": {
         "arg2": {
-          "name": "index"
+          "name": "index",
+          "name_reason": "Reference docs show duplicate_device(index: int); sibling consistency with delete_device(index)"
         }
       }
     }

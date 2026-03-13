@@ -1,194 +1,327 @@
 {
   "refinements": {
     "Live.MidiMap.forward_midi_cc": {
-      "reason": "MIDI CC forwarding takes a map handle, channel, CC number, and CC value by convention matching map_midi_cc signatures.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "channel" },
-        "arg3": { "name": "cc_no" },
-        "arg4": { "name": "cc_value" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "cc_no",
+          "name_reason": "Second arg identifies the CC number being forwarded, consistent with map_midi_cc naming."
+        },
+        "arg3": {
+          "name": "channel",
+          "name_reason": "Third int arg is the MIDI channel, consistent across all MidiMap forward/map functions."
+        },
+        "arg4": {
+          "name": "value",
+          "name_reason": "Fourth int arg is the CC value being forwarded."
+        }
       }
     },
     "Live.MidiMap.forward_midi_note": {
-      "reason": "MIDI note forwarding takes a map handle, channel, note number, and velocity by convention matching map_midi_note signatures.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "channel" },
-        "arg3": { "name": "note_no" },
-        "arg4": { "name": "velocity" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "key",
+          "name_reason": "Second arg identifies the MIDI note number (key) being forwarded."
+        },
+        "arg3": {
+          "name": "channel",
+          "name_reason": "Third int arg is the MIDI channel, consistent across all MidiMap forward/map functions."
+        },
+        "arg4": {
+          "name": "value",
+          "name_reason": "Fourth int arg is the note velocity value being forwarded."
+        }
       }
     },
     "Live.MidiMap.forward_midi_pitchbend": {
-      "reason": "MIDI pitchbend forwarding takes a map handle, channel, and pitchbend value by convention matching sibling forward_midi functions.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "channel" },
-        "arg3": { "name": "value" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "channel",
+          "name_reason": "Second unsigned int is the MIDI channel; pitchbend has no note/cc number."
+        },
+        "arg3": {
+          "name": "value",
+          "name_reason": "Third int arg is the pitchbend value being forwarded."
+        }
       }
     },
     "Live.MidiMap.map_midi_note": {
-      "reason": "C++ signature shows TPyHandle<ATimeableValue> for arg2 (parameter); remaining args are channel and note_no by pattern with map_midi_note_with_feedback_map.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "parameter" },
-        "arg3": { "name": "channel" },
-        "arg4": { "name": "note_no" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "TPyHandle<ATimeableValue> is a DeviceParameter; standard name in map functions is 'parameter'."
+        },
+        "arg3": {
+          "name": "note_no",
+          "name_reason": "Third int arg is the MIDI note number to map, consistent with map_midi_note semantics."
+        },
+        "arg4": {
+          "name": "channel",
+          "name_reason": "Fourth int arg is the MIDI channel, consistent across all MidiMap map functions."
+        }
       }
     },
     "Live.MidiMap.map_midi_note_with_feedback_map": {
-      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter and NPythonMidiMap::TNoteFeedbackRule for the feedback rule; channel and note_no match map_midi_note pattern.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "parameter" },
-        "arg3": { "name": "channel" },
-        "arg4": { "name": "note_no" },
-        "arg5": { "name": "feedback_rule" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "TPyHandle<ATimeableValue> is a DeviceParameter; consistent with map_midi_note naming."
+        },
+        "arg3": {
+          "name": "note_no",
+          "name_reason": "Third int arg is the MIDI note number, consistent with map_midi_note."
+        },
+        "arg4": {
+          "name": "channel",
+          "name_reason": "Fourth int arg is the MIDI channel, consistent with map_midi_note."
+        },
+        "arg5": {
+          "name": "feedback_rule",
+          "name_reason": "NoteFeedbackRule type; name derived from the type name, consistent with feedback_map variant pattern."
+        }
       }
     },
     "Live.MidiMap.map_midi_pitchbend": {
-      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter and bool for takeover; channel is the MIDI channel.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "parameter" },
-        "arg3": { "name": "channel" },
-        "arg4": { "name": "needs_takeover" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "TPyHandle<ATimeableValue> is a DeviceParameter; consistent with other map functions."
+        },
+        "arg3": {
+          "name": "channel",
+          "name_reason": "Third int arg is the MIDI channel; pitchbend has no note/cc number."
+        },
+        "arg4": {
+          "name": "needs_takeover",
+          "name_reason": "Bool arg controls whether the mapping uses value takeover (pickup) mode."
+        }
       }
     },
     "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
-      "reason": "C++ signature shows TPyHandle<ATimeableValue> for parameter, NPythonMidiMap::TPitchBendFeedbackRule for feedback, and bool for takeover.",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "parameter" },
-        "arg3": { "name": "channel" },
-        "arg4": { "name": "feedback_rule" },
-        "arg5": { "name": "needs_takeover" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "TPyHandle<ATimeableValue> is a DeviceParameter; consistent with other map functions."
+        },
+        "arg3": {
+          "name": "channel",
+          "name_reason": "Third int arg is the MIDI channel, consistent with map_midi_pitchbend."
+        },
+        "arg4": {
+          "name": "feedback_rule",
+          "name_reason": "PitchBendFeedbackRule type; name derived from type, consistent with feedback_map variant pattern."
+        },
+        "arg5": {
+          "name": "needs_takeover",
+          "name_reason": "Bool arg controls whether the mapping uses value takeover (pickup) mode, consistent with map_midi_pitchbend."
+        }
       }
     },
     "Live.MidiMap.send_feedback_for_parameter": {
-      "reason": "C++ signature shows unsigned int (map handle) and TPyHandle<ATimeableValue> (parameter).",
       "args": {
-        "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "parameter" }
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "First unsigned int arg in all MidiMap functions is the midi_map_handle passed to build_midi_map."
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "TPyHandle<ATimeableValue> is a DeviceParameter; function name itself says 'for_parameter'."
+        }
       }
     },
     "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
-      "reason": "M4L docs for Device describe is_using_compare_preset_b as 'bool observe' — returns whether preset B is loaded.",
-      "probed_type": "bool"
+      "probed_type": "bool",
+      "probed_type_reason": "Sibling CcControlDevice.is_using_compare_preset_b is probed as bool; doc says 'returns whether', which is boolean."
     },
     "Live.RackDevice.RackDevice.copy_pad": {
-      "reason": "Description says 'copy_pad(source_index, destination_index)' and M4L docs confirm parameters source_index and destination_index.",
       "args": {
-        "arg2": { "name": "source_index" },
-        "arg3": { "name": "destination_index" }
+        "arg2": {
+          "name": "source_index",
+          "name_reason": "Description explicitly names it: 'copy_pad(source_index, destination_index)'."
+        },
+        "arg3": {
+          "name": "destination_index",
+          "name_reason": "Description explicitly names it: 'copy_pad(source_index, destination_index)'."
+        }
       }
     },
     "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
-      "reason": "M4L docs for Device describe is_using_compare_preset_b as 'bool observe' — returns whether preset B is loaded.",
-      "probed_type": "bool"
+      "probed_type": "bool",
+      "probed_type_reason": "Sibling CcControlDevice.is_using_compare_preset_b is probed as bool; doc says 'returns whether', which is boolean."
     },
     "Live.Scene.Scene.set_fire_button_state": {
-      "reason": "M4L docs name the parameter 'state' — sets the scene's fire button state.",
       "args": {
-        "arg2": { "name": "state" }
+        "arg2": {
+          "name": "state",
+          "name_reason": "Reference docs show set_fire_button_state(state); use that exact name."
+        }
       }
     },
     "Live.Song.Song.View.select_device": {
-      "reason": "M4L docs and description say 'Select the given device'; the parameter is a Device object.",
       "args": {
-        "arg2": { "name": "device" }
+        "arg2": {
+          "name": "device",
+          "name_reason": "Reference docs show select_device(device: Device, ...); use that exact name."
+        }
       }
     },
     "Live.Song.Song.create_audio_track": {
-      "reason": "C++ signature shows boost::python::api::object with default None; description says 'optional given index' and M4L docs name it 'index', so type is int.",
       "args": {
-        "Index": { "type": "int" }
+        "Index": {
+          "type": "int",
+          "type_reason": "Description says 'at the optional given index' and index is -1 for end; boost::python::api::object wraps an int. Default is None meaning omitted."
+        }
       }
     },
     "Live.Song.Song.create_midi_track": {
-      "reason": "C++ signature shows boost::python::api::object with default None; description says 'optional given index' and M4L docs name it 'index', so type is int.",
       "args": {
-        "Index": { "type": "int" }
+        "Index": {
+          "type": "int",
+          "type_reason": "Description says 'at the optional given index' and index is -1 for end; boost::python::api::object wraps an int, consistent with create_audio_track."
+        }
       }
     },
     "Live.Song.Song.create_scene": {
-      "reason": "M4L docs name the parameter 'index' — determines where the scene is added.",
       "args": {
-        "arg2": { "name": "index" }
+        "arg2": {
+          "name": "index",
+          "name_reason": "Reference docs show create_scene(index: int); use that exact name."
+        }
       }
     },
     "Live.Song.Song.delete_return_track": {
-      "reason": "M4L docs name the parameter 'index' — the return track index to delete.",
       "args": {
-        "arg2": { "name": "index" }
+        "arg2": {
+          "name": "index",
+          "name_reason": "Reference docs show delete_return_track(index: int); use that exact name."
+        }
       }
     },
     "Live.Song.Song.delete_scene": {
-      "reason": "M4L docs name the parameter 'index' — the scene index to delete.",
       "args": {
-        "arg2": { "name": "index" }
+        "arg2": {
+          "name": "index",
+          "name_reason": "Reference docs show delete_scene(index: int); use that exact name."
+        }
       }
     },
     "Live.Song.Song.delete_track": {
-      "reason": "M4L docs name the parameter 'index' — the track index to delete.",
       "args": {
-        "arg2": { "name": "index" }
+        "arg2": {
+          "name": "index",
+          "name_reason": "Reference docs show delete_track(index: int); use that exact name."
+        }
       }
     },
     "Live.Song.Song.duplicate_scene": {
-      "reason": "M4L docs name the parameter 'index' — determines which scene to duplicate.",
       "args": {
-        "arg2": { "name": "index" }
+        "arg2": {
+          "name": "index",
+          "name_reason": "Reference docs show duplicate_scene(index: int); use that exact name."
+        }
       }
     },
     "Live.Song.Song.duplicate_track": {
-      "reason": "M4L docs name the parameter 'index' — determines which track to duplicate.",
       "args": {
-        "arg2": { "name": "index" }
+        "arg2": {
+          "name": "index",
+          "name_reason": "Reference docs show duplicate_track(index: int); use that exact name."
+        }
       }
     },
     "Live.Song.Song.get_current_smpte_song_time": {
-      "reason": "M4L docs name the parameter 'format' — the SMPTE time code format type.",
       "args": {
-        "arg2": { "name": "format" }
+        "arg2": {
+          "name": "format",
+          "name_reason": "Reference docs show get_current_smpte_song_time(format: Song.TimeFormat); use that exact name."
+        }
       }
     },
     "Live.Song.Song.get_data": {
-      "reason": "C++ signature shows boost::python::api::object for both default_value and return; these accept/return any Python object.",
       "args": {
-        "default_value": { "type": "Any" }
+        "default_value": {
+          "type": "Any",
+          "type_reason": "get_data returns arbitrary persistent data; the default_value can be any type since stored data is arbitrary."
+        }
       },
-      "returns": { "type": "Any" }
+      "returns": {
+        "type": "Any",
+        "type_reason": "get_data returns arbitrary persistent data stored via set_data; no specific type can be inferred."
+      }
     },
     "Live.Song.Song.jump_by": {
-      "reason": "M4L docs name the parameter 'beats' — the amount to jump relative to current position.",
       "args": {
-        "arg2": { "name": "beats" }
+        "arg2": {
+          "name": "beats",
+          "name_reason": "Reference docs show jump_by(beats: float); use that exact name."
+        }
       }
     },
     "Live.Song.Song.scrub_by": {
-      "reason": "M4L docs name the parameter 'beats' — the amount to scrub relative to current position.",
       "args": {
-        "arg2": { "name": "beats" }
+        "arg2": {
+          "name": "beats",
+          "name_reason": "Reference docs show scrub_by(beats: float); use that exact name."
+        }
       }
     },
     "Live.Song.Song.set_data": {
-      "reason": "C++ signature shows boost::python::api::object for value parameter; it accepts any Python object.",
       "args": {
-        "value": { "type": "Any" }
+        "value": {
+          "type": "Any",
+          "type_reason": "set_data stores arbitrary persistent data; the value can be any serializable type."
+        }
       }
     },
     "Live.TakeLane.TakeLane.create_audio_clip": {
-      "reason": "M4L docs name the parameters 'file_path' and 'start_time' for creating an audio clip in arrangement.",
       "args": {
-        "arg2": { "name": "file_path" },
-        "arg3": { "name": "start_time" }
+        "arg2": {
+          "name": "file_path",
+          "name_reason": "M4L TakeLane docs name this parameter 'file_path'."
+        },
+        "arg3": {
+          "name": "start_time",
+          "name_reason": "M4L TakeLane docs name this parameter 'start_time'."
+        }
       }
     },
     "Live.TakeLane.TakeLane.create_midi_clip": {
-      "reason": "M4L docs name the parameters 'start_time' and 'length' for creating a MIDI clip in arrangement.",
       "args": {
-        "arg2": { "name": "start_time" },
-        "arg3": { "name": "length" }
+        "arg2": {
+          "name": "start_time",
+          "name_reason": "M4L TakeLane docs name this parameter 'start_time'."
+        },
+        "arg3": {
+          "name": "length",
+          "name_reason": "M4L TakeLane docs name this parameter 'length'."
+        }
       }
     }
   }

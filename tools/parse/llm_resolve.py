@@ -14,9 +14,6 @@ Usage:
     # Or call the API directly (requires ANTHROPIC_API_KEY):
     python tools/parse/llm_resolve.py 12.3.6
 
-    # Validate output against ground truth:
-    python tools/parse/llm_resolve.py 12.3.6 --validate
-
 The system prompt lives in llm_resolve_prompt.md alongside this script.
 """
 
@@ -38,8 +35,51 @@ def _load_system_prompt() -> str:
         return f.read().strip()
 
 
-def _build_user_prompt(items: list[dict], m4l_docs: dict[str, str]) -> str:
-    """Build the user prompt with unresolved items and MaxForLive docs."""
+def _build_type_skeleton(tree: dict) -> dict | None:
+    """Build a types-only skeleton of the parsed tree for LLM context.
+
+    Includes modules, classes, enums (with values), and properties (with probed types).
+    Omits functions — those are already on the unresolved items themselves.
+    """
+    FUNCTION_TYPES = {"function", "builtin_function_or_method", "method", "method_descriptor"}
+
+    def _strip(node: dict) -> dict | None:
+        t = node.get("type")
+        if t in ("module", "class"):
+            out: dict = {"name": node["name"], "type": t}
+            if node.get("constructable"):
+                out["constructable"] = True
+            children = [_strip(c) for c in node.get("children", []) if isinstance(c, dict)]
+            children = [c for c in children if c is not None]
+            if children:
+                out["children"] = children
+            return out
+        if t == "enum":
+            out = {"name": node["name"], "type": "enum"}
+            values = [c.get("name") for c in node.get("children", [])
+                      if isinstance(c, dict) and c.get("type") == "int"]
+            if values:
+                out["values"] = values
+            return out
+        if t == "property":
+            out = {"name": node["name"]}
+            if node.get("probed_type"):
+                out["probed_type"] = node["probed_type"]
+            return out
+        if t == "str":
+            return {"name": node["name"], "type": "str", "value": node.get("value")}
+        if t == "type":
+            return {"name": node["name"], "type": "exception"}
+        if t in FUNCTION_TYPES:
+            return None
+        return None
+
+    return _strip(tree)
+
+
+def _build_user_prompt(items: list[dict], m4l_docs: dict[str, str],
+                       type_skeleton: dict | None = None) -> str:
+    """Build the user prompt with unresolved items, type skeleton, and MaxForLive docs."""
     parts = []
 
     parts.append("## Unresolved Items\n")
@@ -47,29 +87,62 @@ def _build_user_prompt(items: list[dict], m4l_docs: dict[str, str]) -> str:
     parts.append(json.dumps(items, indent=2))
     parts.append("```\n")
 
-    parts.append("## MaxForLive Documentation\n")
-    parts.append("These are the official Ableton MaxForLive docs for the Live Object Model. "
-                 "Use them to find parameter names, types, and descriptions.\n")
-    for filename, content in sorted(m4l_docs.items()):
-        parts.append(f"### {filename}\n")
-        parts.append(content)
-        parts.append("")
+    if type_skeleton:
+        parts.append("## API Type Skeleton\n")
+        parts.append("This is the complete type hierarchy of the Live API — all modules, classes, enums, "
+                     "and properties. Use it to identify valid type names and understand class relationships.\n")
+        parts.append("```json")
+        parts.append(json.dumps(type_skeleton, indent=2))
+        parts.append("```\n")
+
+    # Split into M4L docs and reference docs
+    m4l_only = {k: v for k, v in m4l_docs.items() if not k.startswith("reference/")}
+    ref_only = {k: v for k, v in m4l_docs.items() if k.startswith("reference/")}
+
+    if m4l_only:
+        parts.append("## MaxForLive Documentation\n")
+        parts.append("These are the official Ableton MaxForLive docs for the Live Object Model. "
+                     "Use them to find parameter names, types, and descriptions.\n")
+        for filename, content in sorted(m4l_only.items()):
+            parts.append(f"### {filename}\n")
+            parts.append(content)
+            parts.append("")
+
+    if ref_only:
+        parts.append("## Reference Documentation\n")
+        parts.append("These are curated API reference docs with probed function signatures, "
+                     "parameter names, and types. When these docs show explicit parameter names "
+                     "in function signatures (e.g. `load_item(item)`, `insert_step(start, length, value)`), "
+                     "use those names directly.\n")
+        for filename, content in sorted(ref_only.items()):
+            parts.append(f"### {filename}\n")
+            parts.append(content)
+            parts.append("")
 
     return "\n".join(parts)
 
 
 def _load_m4l_docs(m4l_dir: str) -> dict[str, str]:
-    """Load all MaxForLive markdown files."""
+    """Load all MaxForLive markdown files and reference docs."""
     docs = {}
     for path in sorted(glob.glob(join(m4l_dir, "*.md"))):
         filename = os.path.basename(path)
         with open(path) as f:
             docs[filename] = f.read()
+
+    # Also load reference docs (curated per-class docs with probed parameter names)
+    ref_dir = join(os.path.dirname(m4l_dir), "reference")
+    if os.path.isdir(ref_dir):
+        for path in sorted(glob.glob(join(ref_dir, "**", "*.md"), recursive=True)):
+            relpath = os.path.relpath(path, ref_dir)
+            key = f"reference/{relpath}"
+            with open(path) as f:
+                docs[key] = f.read()
     return docs
 
 
 def _relevant_m4l_docs(items: list[dict], all_docs: dict[str, str]) -> dict[str, str]:
-    """Filter M4L docs to only those relevant to the given items."""
+    """Filter M4L/reference docs to only those relevant to the given items."""
     # Collect module and class names from items
     names = set()
     for item in items:
@@ -81,7 +154,9 @@ def _relevant_m4l_docs(items: list[dict], all_docs: dict[str, str]) -> dict[str,
 
     relevant = {}
     for fn, content in all_docs.items():
-        stem = fn.replace(".md", "").lower()
+        # For reference docs like "reference/tracks/Envelope.md", use the filename stem
+        basename = os.path.basename(fn)
+        stem = basename.replace(".md", "").lower()
         if any(n in stem or stem in n for n in names):
             relevant[fn] = content
     return relevant
@@ -135,6 +210,17 @@ def _parse_response(text: str) -> dict:
     return json.loads(text)
 
 
+def _load_type_skeleton(version: str) -> dict | None:
+    """Load the parsed tree and build a types-only skeleton."""
+    parsed_path = join("build", version, "LiveTree.parsed.json")
+    if not exists(parsed_path):
+        return None
+    with open(parsed_path) as f:
+        data = json.load(f)
+    tree = data.get("tree", data)
+    return _build_type_skeleton(tree)
+
+
 def prepare(version: str, input_path: str, m4l_dir: str) -> str:
     """Write batch files to disk for use with the Agent tool.
 
@@ -144,6 +230,7 @@ def prepare(version: str, input_path: str, m4l_dir: str) -> str:
         unresolved = json.load(f)
 
     all_docs = _load_m4l_docs(m4l_dir)
+    type_skeleton = _load_type_skeleton(version)
     items = unresolved["unresolved"]
     batches = _batch_items(items)
 
@@ -163,7 +250,7 @@ def prepare(version: str, input_path: str, m4l_dir: str) -> str:
             json.dump(batch, f, indent=2)
 
         # Write full prompt (system + user combined for easy copy-paste)
-        user_prompt = _build_user_prompt(batch, relevant_docs)
+        user_prompt = _build_user_prompt(batch, relevant_docs, type_skeleton)
         with open(join(batch_dir, f"batch{i}_prompt.md"), "w") as f:
             f.write(user_prompt)
 
@@ -205,88 +292,32 @@ def merge(version: str, batch_dir: str, output_path: str) -> dict:
     return result
 
 
-def _strip_reasons(entry: dict) -> dict:
-    """Return a copy of a refinement entry with 'reason' fields removed for comparison."""
-    out = {}
-    for k, v in entry.items():
-        if k == "reason":
-            continue
-        out[k] = v
-    return out
+def summarize(generated: dict) -> None:
+    """Print a summary of the generated refinements."""
+    refs = generated.get("refinements", {})
 
+    name_fixes = 0
+    type_fixes = 0
+    return_fixes = 0
+    probed_types = 0
 
-def validate(generated: dict, reference_path: str) -> dict:
-    """Compare generated refinements against existing refinements.json."""
-    with open(reference_path) as f:
-        reference = json.load(f).get("refinements", {})
+    for entry in refs.values():
+        if "probed_type" in entry:
+            probed_types += 1
+        if "returns" in entry:
+            return_fixes += 1
+        for arg_val in entry.get("args", {}).values():
+            if isinstance(arg_val, dict):
+                if "name" in arg_val:
+                    name_fixes += 1
+                if "type" in arg_val:
+                    type_fixes += 1
 
-    gen_refs = generated.get("refinements", {})
-    all_keys = sorted(set(list(reference.keys()) + list(gen_refs.keys())))
-
-    matches = 0
-    mismatches = 0
-    missing = 0
-    extra = 0
-    extra_types = 0
-    name_diffs = 0
-    type_diffs = 0
-    structural = 0
-
-    for key in all_keys:
-        ref = reference.get(key)
-        gen_raw = gen_refs.get(key)
-        gen = _strip_reasons(gen_raw) if gen_raw else None
-        reason = gen_raw.get("reason", "") if gen_raw else ""
-
-        if ref and not gen:
-            missing += 1
-            print(f"  MISSING: {key}")
-            print(f"    expected: {json.dumps(ref)}")
-        elif gen and not ref:
-            extra += 1
-            print(f"  EXTRA: {key}")
-            print(f"    generated: {json.dumps(gen)}")
-            if reason:
-                print(f"    reason: {reason}")
-        elif ref != gen:
-            mismatches += 1
-            if ref and gen:
-                ref_args = ref.get("args", {})
-                gen_args = gen.get("args", {})
-                for arg_key in set(list(ref_args.keys()) + list(gen_args.keys())):
-                    ra = ref_args.get(arg_key, {})
-                    ga = gen_args.get(arg_key, {})
-                    if "type" in ga and "type" not in ra:
-                        extra_types += 1
-                    if ra.get("name") != ga.get("name") and ("name" in ra or "name" in ga):
-                        name_diffs += 1
-                    if ra.get("type") != ga.get("type") and "type" in ra and "type" in ga:
-                        type_diffs += 1
-                if "return_type" in gen or "property_type" in gen:
-                    structural += 1
-
-            print(f"  MISMATCH: {key}")
-            print(f"    expected:  {json.dumps(ref)}")
-            print(f"    generated: {json.dumps(gen)}")
-            if reason:
-                print(f"    reason: {reason}")
-        else:
-            matches += 1
-
-    total = len(all_keys)
-    print(f"\nValidation: {matches}/{total} exact matches, "
-          f"{mismatches} mismatches, {missing} missing, {extra} extra")
-    if extra_types:
-        print(f"  Extra types added: {extra_types}")
-    if name_diffs:
-        print(f"  Name disagreements: {name_diffs}")
-    if type_diffs:
-        print(f"  Type disagreements: {type_diffs}")
-    if structural:
-        print(f"  Structural issues: {structural}")
-
-    return {"matches": matches, "total": total, "mismatches": mismatches,
-            "missing": missing, "extra": extra}
+    print(f"\nSummary: {len(refs)} paths")
+    print(f"  arg names resolved: {name_fixes}")
+    print(f"  arg types resolved: {type_fixes}")
+    print(f"  return types resolved: {return_fixes}")
+    print(f"  property types resolved: {probed_types}")
 
 
 def main():
@@ -300,8 +331,6 @@ def main():
                         help="Write batch files for Agent tool, don't call API")
     parser.add_argument("--merge", action="store_true",
                         help="Merge batch result files into refinements.llm.json")
-    parser.add_argument("--validate", action="store_true",
-                        help="Compare output against existing refinements.json")
     parser.add_argument("--dry-run", action="store_true", help="Print prompt without calling API")
     args = parser.parse_args()
 
@@ -315,10 +344,7 @@ def main():
 
     if args.merge:
         result = merge(args.version, batch_dir, output_path)
-        if args.validate:
-            ref_path = join("build", args.version, "refinements.json")
-            if exists(ref_path):
-                validate(result, ref_path)
+        summarize(result)
         return
 
     # Direct API mode
@@ -326,11 +352,13 @@ def main():
         unresolved = json.load(f)
 
     m4l_docs = _load_m4l_docs(args.m4l_dir)
+    type_skeleton = _load_type_skeleton(args.version)
     items = unresolved["unresolved"]
-    print(f"Loaded {len(items)} unresolved items, {len(m4l_docs)} MaxForLive docs")
+    print(f"Loaded {len(items)} unresolved items, {len(m4l_docs)} MaxForLive docs"
+          f"{', type skeleton loaded' if type_skeleton else ''}")
 
     system_prompt = _load_system_prompt()
-    user_prompt = _build_user_prompt(items, m4l_docs)
+    user_prompt = _build_user_prompt(items, m4l_docs, type_skeleton)
 
     if args.dry_run:
         print(f"\n--- System prompt ({len(system_prompt)} chars) ---")
@@ -352,11 +380,7 @@ def main():
     with open(output_path, "w") as f:
         json.dump(result, f, indent=2)
     print(f"Wrote to {output_path}")
-
-    if args.validate:
-        ref_path = join("build", args.version, "refinements.json")
-        if exists(ref_path):
-            validate(result, ref_path)
+    summarize(result)
 
 
 if __name__ == "__main__":
