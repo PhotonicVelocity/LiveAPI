@@ -13,7 +13,7 @@
     "Live.Track.RoutingChannelVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -27,7 +27,7 @@
     "Live.Track.RoutingTypeVector.extend": {
       "args": {
         "arg2": {
-          "name": "value"
+          "name": "values"
         }
       }
     },
@@ -37,7 +37,7 @@
           "name": "file_path"
         },
         "arg3": {
-          "name": "start_time"
+          "name": "position"
         }
       }
     },

@@ -3,40 +3,40 @@
     "Live.MidiMap.forward_midi_cc": {
       "args": {
         "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "midi_channel" },
-        "arg3": { "name": "controller_number" },
-        "arg4": { "name": "controller_value" }
+        "arg2": { "name": "channel" },
+        "arg3": { "name": "cc_no" },
+        "arg4": { "name": "cc_value" }
       }
     },
     "Live.MidiMap.forward_midi_note": {
       "args": {
         "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "midi_channel" },
-        "arg3": { "name": "note_number" },
-        "arg4": { "name": "note_velocity" }
+        "arg2": { "name": "channel" },
+        "arg3": { "name": "note_no" },
+        "arg4": { "name": "velocity" }
       }
     },
     "Live.MidiMap.forward_midi_pitchbend": {
       "args": {
         "arg1": { "name": "midi_map_handle" },
-        "arg2": { "name": "midi_channel" },
-        "arg3": { "name": "pitchbend_value" }
+        "arg2": { "name": "channel" },
+        "arg3": { "name": "value" }
       }
     },
     "Live.MidiMap.map_midi_note": {
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
-        "arg3": { "name": "midi_channel" },
-        "arg4": { "name": "note_number" }
+        "arg3": { "name": "channel" },
+        "arg4": { "name": "note_no" }
       }
     },
     "Live.MidiMap.map_midi_note_with_feedback_map": {
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
-        "arg3": { "name": "midi_channel" },
-        "arg4": { "name": "note_number" },
+        "arg3": { "name": "channel" },
+        "arg4": { "name": "note_no" },
         "arg5": { "name": "feedback_rule" }
       }
     },
@@ -44,17 +44,17 @@
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
-        "arg3": { "name": "midi_channel" },
-        "arg4": { "name": "avoid_takeover" }
+        "arg3": { "name": "channel" },
+        "arg4": { "name": "needs_takeover" }
       }
     },
     "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
       "args": {
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
-        "arg3": { "name": "midi_channel" },
+        "arg3": { "name": "channel" },
         "arg4": { "name": "feedback_rule" },
-        "arg5": { "name": "avoid_takeover" }
+        "arg5": { "name": "needs_takeover" }
       }
     },
     "Live.MidiMap.send_feedback_for_parameter": {
