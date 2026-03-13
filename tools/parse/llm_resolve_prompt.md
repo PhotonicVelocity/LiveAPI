@@ -2,41 +2,52 @@ You are an expert on Ableton Live's Python API (the Live Object Model / LOM). Yo
 unresolved types and parameter names in the API's type stubs.
 
 You will receive:
-1. A JSON list of unresolved items from the parsed API tree
+1. A JSON dict of unresolved items from the parsed API tree, keyed by path
 2. A type skeleton of the full API — all modules, classes, enums (with values), and properties (with types where known). Use this to identify valid type names and understand class/module relationships.
-3. The MaxForLive documentation (markdown files documenting the same API from Ableton's perspective)
-4. Reference documentation (curated per-class docs with probed function signatures and parameter names)
+3. The MaxForLive documentation (relevant sections from Ableton's official docs for the Live Object Model)
 
-Each unresolved item has a `kind` field:
-- `arg_type`: An argument typed `object` that needs a more specific type
-- `arg_name`: An argument named `arg1`, `arg2`, etc. that needs a meaningful name
-- `return_type`: A return typed `object` that needs a more specific type
-- `property_type`: A property with unknown runtime type
+## Input Format
+
+Each item is keyed by its full path (e.g. `Live.Song.Song.get_data`) and has shared context fields
+(`description`, `signature`, `cpp_signature`) plus the specific fields that need resolution:
+
+- **`args`** — dict of arg names to resolve. Each arg has `current_type` and optionally `needs_name: true`.
+  - If `current_type` is `"object"`: resolve the type (provide `type` + `type_reason`).
+  - If `needs_name` is `true`: the arg has a generic `argN` name — resolve it (provide `name` + `name_reason`).
+  - An arg can need both a name and a type.
+- **`returns`** — if present with `current_type: "object"`, resolve the return type.
+- **`probed_type: null`** — a property with unknown runtime type.
 
 ## Output Format
 
-Respond with ONLY a JSON object in this exact format:
+Respond with ONLY a JSON object. The output mirrors the input structure — same paths, same nesting —
+but with resolved fields added and context fields stripped:
+
 ```json
 {
   "refinements": {
-    "Live.Module.Class.method": {
+    "Live.Song.Song.get_data": {
+      "args": {
+        "default_value": {
+          "type": "Any",
+          "type_reason": "get_data stores arbitrary data; default can be any type"
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "type_reason": "get_data returns arbitrary persistent data"
+      }
+    },
+    "Live.Song.Song.jump_by": {
       "args": {
         "arg2": {
-          "name": "new_name",
-          "name_reason": "M4L docs name this parameter 'new_name'",
-          "type": "SpecificType",
-          "type_reason": "C++ signature shows TPyHandle<Foo>, so type is Foo"
+          "name": "beats",
+          "name_reason": "Reference docs show jump_by(beats: float)"
         }
       }
     },
-    "Live.Module.Class.getter": {
-      "returns": {
-        "type": "ReturnType",
-        "type_reason": "description says it returns a Foo object"
-      }
-    },
-    "Live.Module.Class.prop": {
-      "probed_type": "PropertyType",
+    "Live.Clip.Clip._live_ptr": {
+      "probed_type": "int",
       "probed_type_reason": "sibling _live_ptr properties are all int"
     }
   }
@@ -49,22 +60,19 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
 
 ## Critical Rules
 
-### For `arg_name` items (the most common — ~164 items):
-- Provide `"name"` and `"name_reason"`. Do NOT include `"type"`.
-- The type is already correct — these items only need a name fix.
+### For args that need a name (`needs_name: true`):
+- Provide `"name"` and `"name_reason"`. Do NOT include `"type"` unless `current_type` is also `"object"`.
 - The current names are `arg1`, `arg2`, `arg3`, etc. — rename them to something descriptive.
 - Key the args dict by the CURRENT arg name (e.g. `"arg2"`, not the new name).
 
-### For `arg_type` items (~18 items):
-- Provide `"type"` and `"type_reason"`. Do NOT include `"name"`.
+### For args that need a type (`current_type: "object"`):
+- Provide `"type"` and `"type_reason"`. Do NOT include `"name"` unless the arg also has `needs_name`.
 - The arg name may already be meaningful — these items only need a type fix.
-- Exception: if the arg also has a generic `argN` name, you may include both `"name"`/`"name_reason"`
-  and `"type"`/`"type_reason"`.
 
-### For `return_type` items (~2 items):
+### For return types (`returns.current_type: "object"`):
 - Provide `"returns": {"type": "...", "type_reason": "..."}` on the path entry.
 
-### For `property_type` items (~17 items):
+### For property types (`probed_type: null`):
 - Provide `"probed_type": "..."` and `"probed_type_reason": "..."` on the path entry.
 
 ### General:
@@ -77,16 +85,13 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
   signature just means Boost.Python erased the type — the actual type is usually more specific. Use the
   companion arg name, description, and other context to infer the real type. Only fall back to `Any` if
   no other evidence exists and the parameter truly accepts arbitrary objects.
-- Combine multiple unresolved items on the same path into a single entry.
 - If you cannot determine the correct resolution for an item, omit it entirely (do not guess).
 
 ## Naming Style
 
-If the MaxForLive docs or reference docs explicitly name a parameter, use that exact name — these are
-published/probed names and should not be replaced with invented alternatives. For example, if M4L docs
-say the parameter is called `quantization`, use `quantization`, not `grid` or any other guess. If the
-reference docs show `insert_step(start, length, value)`, use `start`, `length`, `value` — not
-`start_time`, `step_length`, or any embellished form.
+If the MaxForLive docs explicitly name a parameter, use that exact name — these are published names and
+should not be replaced with invented alternatives. For example, if M4L docs say the parameter is called
+`quantization`, use `quantization`, not `grid` or any other guess.
 
 **Do not over-qualify names from types.** If a method takes a `BrowserItem` and the docs call it `item`,
 use `item` — not `browser_item`. Only derive names from types when no documentation provides a name.
@@ -121,12 +126,10 @@ priority order — higher-priority evidence wins:
   `warp_marker`, `MidiNoteSpecification` → `notes` or `midi_note_specification`.
 - This is the most reliable signal because name and type were parsed from the same API source.
 
-### 2. MaxForLive docs and Reference docs (strong for names)
-- M4L docs and reference docs often document the same function with explicit parameter names and
-  function signatures. **For naming, these are the most authoritative source** — use the documented
-  name exactly as written. Do not embellish, qualify, or rephrase it.
-- Reference docs show probed signatures like `load_item(item)` or `insert_step(start, length, value)`.
-  Use those parameter names directly.
+### 2. MaxForLive docs (strong for names)
+- M4L docs often document the same function with explicit parameter names. **For naming, these are the
+  most authoritative source** — use the documented name exactly as written. Do not embellish, qualify,
+  or rephrase it.
 - For **types**, M4L docs are less reliable — Max for Live may use different conventions than the
   Control Surface API (e.g. dicts where the CS API uses typed objects). Prefer the API's own description,
   signature, and companion name/type over M4L type information when they conflict.
@@ -152,7 +155,9 @@ priority order — higher-priority evidence wins:
     context clues to determine the actual type.
 
 ### 5. API Type Skeleton (verification + discovery)
-- The **API Type Skeleton** shows every module, class, enum, and property in the API. Use it to:
+- The **API Type Skeleton** is a compact text tree showing every module, class, enum (with values), and
+  property (with types where known). Format: containers end with `:` and have indented children, properties
+  use `name -> Type`, enums use `Name = val1, val2, ...`. Use it to:
   - Verify that a type name you're about to emit actually exists as a class or enum.
   - Find sibling classes in the same module (e.g. if resolving a `Track` method, see what other classes
     live under `Live.Track`).
