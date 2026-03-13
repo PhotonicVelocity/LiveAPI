@@ -1,0 +1,72 @@
+{
+  "refinements": {
+    "Live.Track.Track.create_audio_clip": {
+      "args": {
+        "arg2": {
+          "name": "file_path",
+          "name_reason": "M4L docs explicitly name this parameter 'file_path'"
+        },
+        "arg3": {
+          "name": "position",
+          "name_reason": "M4L docs explicitly name this parameter 'position'"
+        }
+      }
+    },
+    "Live.Track.Track.create_midi_clip": {
+      "args": {
+        "arg2": {
+          "name": "start_time",
+          "name_reason": "M4L docs explicitly name this parameter 'start_time'"
+        },
+        "arg3": {
+          "name": "length",
+          "name_reason": "M4L docs explicitly name this parameter 'length'"
+        }
+      }
+    },
+    "Live.Track.Track.duplicate_clip_slot": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Track.Track.duplicate_device": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "Sibling method delete_device uses 'index' for the same positional arg; description says 'at a given index'"
+        }
+      }
+    },
+    "Live.Track.Track.get_data": {
+      "args": {
+        "default_value": {
+          "type": "Any",
+          "type_reason": "Usage shows default_value passed as bool, int, list, and None — accepts arbitrary types"
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "type_reason": "Returns previously stored arbitrary data; usage shows bool(), list, and int returns"
+      }
+    },
+    "Live.Track.Track.jump_in_running_session_clip": {
+      "args": {
+        "arg2": {
+          "name": "beats",
+          "name_reason": "M4L docs explicitly name this parameter 'beats'"
+        }
+      }
+    },
+    "Live.Track.Track.set_data": {
+      "args": {
+        "value": {
+          "type": "Any",
+          "type_reason": "Usage shows value passed as bool, str, int, and list — stores arbitrary persistent data"
+        }
+      }
+    }
+  }
+}

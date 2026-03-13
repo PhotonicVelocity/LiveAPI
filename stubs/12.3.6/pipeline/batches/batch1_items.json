@@ -1,0 +1,546 @@
+{
+  "Live.Application.Application.View.add_is_view_visible_listener": {
+    "description": "Add a listener function or method, which will be called as soon as the\nproperty \"is_view_visible\" has changed.",
+    "signature": "add_is_view_visible_listener( (View)arg1, (object)arg2, (object)arg3) -> None :",
+    "cpp_signature": "void add_is_view_visible_listener(TPyViewData<ASongApp>,TString,boost::python::api::object)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.View.hide_view": {
+    "description": "Hide one through the identifier string specified view.",
+    "signature": "hide_view( (View)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void hide_view(TPyViewData<ASongApp>,TString)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.View.is_view_visible_has_listener": {
+    "description": "Returns true, if the given listener function or method is connected\nto the property \"is_view_visible\".",
+    "signature": "is_view_visible_has_listener( (View)arg1, (object)arg2, (object)arg3) -> bool :",
+    "cpp_signature": "bool is_view_visible_has_listener(TPyViewData<ASongApp>,TString,boost::python::api::object)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.View.remove_is_view_visible_listener": {
+    "description": "Remove a previously set listener function or method from\nproperty \"is_view_visible\".",
+    "signature": "remove_is_view_visible_listener( (View)arg1, (object)arg2, (object)arg3) -> None :",
+    "cpp_signature": "void remove_is_view_visible_listener(TPyViewData<ASongApp>,TString,boost::python::api::object)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.View.scroll_view": {
+    "description": "Scroll through the identifier string specified view into the given\ndirection, if possible. Will silently return if the specified view\ncan not perform the requested action.",
+    "signature": "scroll_view( (View)arg1, (int)arg2, (object)arg3, (bool)arg4) -> None :",
+    "cpp_signature": "void scroll_view(TPyViewData<ASongApp>,int,TString,bool)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      },
+      "arg3": {
+        "current_type": "str",
+        "needs_name": true
+      },
+      "arg4": {
+        "current_type": "bool",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.View.zoom_view": {
+    "description": "Zoom through the identifier string specified view into the given\ndirection, if possible. Will silently return if the specified view\ncan not perform the requested action.",
+    "signature": "zoom_view( (View)arg1, (int)arg2, (object)arg3, (bool)arg4) -> None :",
+    "cpp_signature": "void zoom_view(TPyViewData<ASongApp>,int,TString,bool)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      },
+      "arg3": {
+        "current_type": "str",
+        "needs_name": true
+      },
+      "arg4": {
+        "current_type": "bool",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.has_option": {
+    "description": "Returns True if the given entry exists in Options.txt, False otherwise.",
+    "signature": "has_option( (Application)arg1, (object)arg2) -> bool :",
+    "cpp_signature": "bool has_option(TPyHandle<ASongApp>,TString)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.Application.press_current_dialog_button": {
+    "description": "Press a button, by index, on the current message box.",
+    "signature": "press_current_dialog_button( (Application)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void press_current_dialog_button(TPyHandle<ASongApp>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.ControlSurfaceProxy.control_descriptions": {
+    "probed_type": null
+  },
+  "Live.Application.ControlSurfaceProxy.enable_receive_midi": {
+    "signature": "enable_receive_midi( (ControlSurfaceProxy)arg1, (bool)arg2) -> None :",
+    "cpp_signature": "void enable_receive_midi(APythonControlSurfaceProxy {lvalue},bool)",
+    "args": {
+      "arg2": {
+        "current_type": "bool",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.ControlSurfaceProxy.grab_control": {
+    "signature": "grab_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void grab_control(APythonControlSurfaceProxy {lvalue},int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.ControlSurfaceProxy.pad_layout": {
+    "probed_type": null,
+    "raw_doc": "The layout of pads on Push."
+  },
+  "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
+    "signature": "subscribe_to_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void subscribe_to_control(APythonControlSurfaceProxy {lvalue},int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.ControlSurfaceProxy.type_name": {
+    "probed_type": null
+  },
+  "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
+    "signature": "unsubscribe_from_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void unsubscribe_from_control(APythonControlSurfaceProxy {lvalue},int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.encrypt_challenge2": {
+    "description": "Returns the UMAC hash for the given challenge.",
+    "signature": "encrypt_challenge2( (int)arg1) -> int :",
+    "cpp_signature": "int encrypt_challenge2(int)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Application.get_random_int": {
+    "description": "Returns a random integer from the given range.",
+    "signature": "get_random_int( (int)arg1, (int)arg2) -> int :",
+    "cpp_signature": "int get_random_int(int,int)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs_name": true
+      },
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Base.ObjectVector.append": {
+    "signature": "append( (ObjectVector)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void append(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
+    "args": {
+      "value": {
+        "current_type": "object"
+      }
+    }
+  },
+  "Live.Base.ObjectVector.extend": {
+    "signature": "extend( (ObjectVector)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void extend(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
+    "args": {
+      "values": {
+        "current_type": "object"
+      }
+    }
+  },
+  "Live.Base.Text.text": {
+    "probed_type": null
+  },
+  "Live.Base.subst_args": {
+    "signature": "subst_args( (Text)text [, (str)arg1='' [, (str)arg2='' [, (str)arg3='' [, (str)arg4='' [, (str)arg5='']]]]]) -> str :",
+    "cpp_signature": "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> subst_args(TText [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='']]]]])",
+    "args": {
+      "arg1": {
+        "current_type": "str",
+        "needs_name": true
+      },
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      },
+      "arg3": {
+        "current_type": "str",
+        "needs_name": true
+      },
+      "arg4": {
+        "current_type": "str",
+        "needs_name": true
+      },
+      "arg5": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Browser.Browser.load_item": {
+    "description": "Loads the provided browser item.",
+    "signature": "load_item( (Browser)arg1, (BrowserItem)arg2) -> None :",
+    "cpp_signature": "void load_item(TPyHandle<ABrowserDelegate>,NPythonBrowser::TPythonBrowserItem)",
+    "args": {
+      "arg2": {
+        "current_type": "BrowserItem",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Browser.Browser.preview_item": {
+    "description": "Previews the provided browser item.",
+    "signature": "preview_item( (Browser)arg1, (BrowserItem)arg2) -> None :",
+    "cpp_signature": "void preview_item(TPyHandle<ABrowserDelegate>,NPythonBrowser::TPythonBrowserItem)",
+    "args": {
+      "arg2": {
+        "current_type": "BrowserItem",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Browser.Browser.relation_to_hotswap_target": {
+    "description": "Returns the relation between the given browser item and the current hotswap target",
+    "signature": "relation_to_hotswap_target( (Browser)arg1, (BrowserItem)arg2) -> Relation :",
+    "cpp_signature": "ableton::live_library::Relation relation_to_hotswap_target(TPyHandle<ABrowserDelegate>,NPythonBrowser::TPythonBrowserItem)",
+    "args": {
+      "arg2": {
+        "current_type": "BrowserItem",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Chain.Chain.duplicate_device": {
+    "description": "Duplicate the device at the given index in the chain.",
+    "signature": "duplicate_device( (Chain)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void duplicate_device(TChainPyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.View.select_envelope_parameter": {
+    "description": "Select the given device parameter in the envelope view.",
+    "signature": "select_envelope_parameter( (View)arg1, (DeviceParameter)arg2) -> None :",
+    "cpp_signature": "void select_envelope_parameter(TPyViewData<AClip>,TPyHandle<ATimeableValue>)",
+    "args": {
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.add_new_notes": {
+    "description": "Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification\nobjects. The objects will be used to construct new notes in the clip.",
+    "signature": "add_new_notes( (Clip)arg1, (object)arg2) -> IntU64Vector :",
+    "cpp_signature": "std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> add_new_notes(TPyHandle<AClip>,boost::python::api::object)",
+    "args": {
+      "arg2": {
+        "current_type": "object",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.add_warp_marker": {
+    "description": "Available for AudioClips only.\nAdds the specified warp marker, if possible.",
+    "signature": "add_warp_marker( (Clip)self, (object)warp_marker) -> None :",
+    "cpp_signature": "void add_warp_marker(TPyHandle<AClip>,boost::python::api::object)",
+    "args": {
+      "warp_marker": {
+        "current_type": "object"
+      }
+    }
+  },
+  "Live.Clip.Clip.apply_note_modifications": {
+    "description": "Expects a list of notes as returned from get_notes_extended. The content\nof the list will be used to modify existing notes in the clip, based on\nmatching note IDs.\nThis function should be used when modifying existing notes, e.g. changing the\nvelocity or start time. The function ensures that per-note events attached to\nthe modified notes are preserved. This is NOT the case when replacing notes\nvia a combination of remove_notes_extended and add_new_notes.\nThe given list can be a subset of the notes in the clip, but it must not\ncontain any notes that are not present in the clip.",
+    "signature": "apply_note_modifications( (Clip)arg1, (MidiNoteVector)arg2) -> None :",
+    "cpp_signature": "void apply_note_modifications(TPyHandle<AClip>,std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>>)",
+    "args": {
+      "arg2": {
+        "current_type": "MidiNoteVector",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.automation_envelope": {
+    "description": "Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track.",
+    "signature": "automation_envelope( (Clip)arg1, (DeviceParameter)arg2) -> Envelope :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AAutomation>> automation_envelope(TPyHandle<AClip>,TPyHandle<ATimeableValue>)",
+    "args": {
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.clear_envelope": {
+    "description": "Clears the envelope of this clips given parameter.",
+    "signature": "clear_envelope( (Clip)arg1, (DeviceParameter)arg2) -> None :",
+    "cpp_signature": "void clear_envelope(TPyHandle<AClip>,TPyHandle<ATimeableValue>)",
+    "args": {
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.create_automation_envelope": {
+    "description": "Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created.",
+    "signature": "create_automation_envelope( (Clip)arg1, (DeviceParameter)arg2) -> Envelope :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AAutomation>> create_automation_envelope(TPyHandle<AClip>,TPyHandle<ATimeableValue>)",
+    "args": {
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.duplicate_notes_by_id": {
+    "description": "Duplicate all notes matching the given note IDs.\nIf the optional destination_time is not provided, new notes will be inserted\nafter the last selected note. This behavior can be observed when duplicating\nnotes in the Live GUI.\nIf the transposition_amount is specified, the notes in the region will be\ntransposed by the number of semitones.\nRaises an error on audio clips.",
+    "signature": "duplicate_notes_by_id( (Clip)self, (object)note_ids [, (object)destination_time=None [, (int)transposition_amount=0]]) -> IntU64Vector :",
+    "cpp_signature": "std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> duplicate_notes_by_id(TPyHandle<AClip>,boost::python::api::object [,boost::python::api::object=None [,int=0]])",
+    "args": {
+      "note_ids": {
+        "current_type": "object"
+      },
+      "destination_time": {
+        "current_type": "object"
+      }
+    }
+  },
+  "Live.Clip.Clip.get_notes_by_id": {
+    "description": "Return a list of MIDI notes matching the given note IDs.",
+    "signature": "get_notes_by_id( (Clip)arg1, (object)note_ids) -> MidiNoteVector :",
+    "cpp_signature": "std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> get_notes_by_id(TPyHandle<AClip>,boost::python::api::object)",
+    "args": {
+      "note_ids": {
+        "current_type": "object"
+      }
+    }
+  },
+  "Live.Clip.Clip.move_playing_pos": {
+    "description": "Jump forward or backward by the specified relative amount in beats.\nWill do nothing, if the Clip is not playing.",
+    "signature": "move_playing_pos( (Clip)arg1, (float)arg2) -> None :",
+    "cpp_signature": "void move_playing_pos(TPyHandle<AClip>,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.quantize": {
+    "description": "Quantize all notes in a clip or align warp markers.",
+    "signature": "quantize( (Clip)arg1, (int)arg2, (float)arg3) -> None :",
+    "cpp_signature": "void quantize(TPyHandle<AClip>,int,float)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.quantize_pitch": {
+    "description": "Quantize all the notes of a given pitch. Raises an error on audio clips.",
+    "signature": "quantize_pitch( (Clip)arg1, (int)arg2, (int)arg3, (float)arg4) -> None :",
+    "cpp_signature": "void quantize_pitch(TPyHandle<AClip>,int,int,float)",
+    "args": {
+      "arg4": {
+        "current_type": "float",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.remove_notes": {
+    "description": "Delete all notes starting in the given pitch- and time range.",
+    "signature": "remove_notes( (Clip)arg1, (float)arg2, (int)arg3, (float)arg4, (int)arg5) -> None :",
+    "cpp_signature": "void remove_notes(TPyHandle<AClip>,double,int,double,int)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs_name": true
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs_name": true
+      },
+      "arg4": {
+        "current_type": "float",
+        "needs_name": true
+      },
+      "arg5": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.remove_notes_by_id": {
+    "description": "Delete all notes matching the given note IDs.\nThis function should NOT be used to implement modification of existing notes\n(i.e. in combination with add_new_notes), as that leads to loss of per-note\nevents. apply_note_modifications must be used instead for modifying existing\nnotes.",
+    "signature": "remove_notes_by_id( (Clip)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void remove_notes_by_id(TPyHandle<AClip>,boost::python::api::object)",
+    "args": {
+      "arg2": {
+        "current_type": "object",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.replace_selected_notes": {
+    "description": "Called with a tuple of tuples where each inner tuple represents\na note in the same format as returned by get_selected_notes. The\nnotes described that way will then be used to replace the old selection.",
+    "signature": "replace_selected_notes( (Clip)arg1, (tuple)arg2) -> None :",
+    "cpp_signature": "void replace_selected_notes(TPyHandle<AClip>,boost::python::tuple)",
+    "args": {
+      "arg2": {
+        "current_type": "tuple",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.select_notes_by_id": {
+    "description": "Selects all notes matching the given note IDs.",
+    "signature": "select_notes_by_id( (Clip)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void select_notes_by_id(TPyHandle<AClip>,boost::python::api::object)",
+    "args": {
+      "arg2": {
+        "current_type": "object",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.set_fire_button_state": {
+    "description": "Set the clip's fire button state directly. Supports all launch modes.",
+    "signature": "set_fire_button_state( (Clip)arg1, (bool)arg2) -> None :",
+    "cpp_signature": "void set_fire_button_state(TPyHandle<AClip>,bool)",
+    "args": {
+      "arg2": {
+        "current_type": "bool",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Clip.Clip.set_notes": {
+    "description": "Called with a tuple of tuples where each inner tuple represents\na note in the same format as returned by get_notes. The\nnotes described that way will then be added to the clip.",
+    "signature": "set_notes( (Clip)arg1, (tuple)arg2) -> None :",
+    "cpp_signature": "void set_notes(TPyHandle<AClip>,boost::python::tuple)",
+    "args": {
+      "arg2": {
+        "current_type": "tuple",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.ClipSlot.ClipSlot.create_audio_clip": {
+    "description": "Creates an audio clip referencing the file at the given absolute path in the slot.\nThrows an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.",
+    "signature": "create_audio_clip( (ClipSlot)arg1, (object)arg2) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_audio_clip(TPyHandle<AGroupAndClipSlotBase>,TString)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.ClipSlot.ClipSlot.duplicate_clip_to": {
+    "description": "Duplicates the slot's clip to the passed in target slot.\nOverrides the target's clip if it's not empty.\nRaises an exception if the (source) slot itself is empty, or if source and\ntarget have different track types (audio vs. MIDI). Also raises if the source\nor target slot is in a group track (so called group slot).",
+    "signature": "duplicate_clip_to( (ClipSlot)arg1, (ClipSlot)arg2) -> None :",
+    "cpp_signature": "void duplicate_clip_to(TPyHandle<AGroupAndClipSlotBase>,TPyHandle<AGroupAndClipSlotBase>)",
+    "args": {
+      "arg2": {
+        "current_type": "ClipSlot",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.ClipSlot.ClipSlot.set_fire_button_state": {
+    "description": "Set the clipslot's fire button state directly. Supports all launch modes.",
+    "signature": "set_fire_button_state( (ClipSlot)arg1, (bool)arg2) -> None :",
+    "cpp_signature": "void set_fire_button_state(TPyHandle<AGroupAndClipSlotBase>,bool)",
+    "args": {
+      "arg2": {
+        "current_type": "bool",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.Device.Device.store_chosen_bank": {
+    "description": "Set the selected bank in the device for persistency.",
+    "signature": "store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -> None :",
+    "cpp_signature": "void store_chosen_bank(TPyHandle<ADevice>,int,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs_name": true
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs_name": true
+      }
+    }
+  },
+  "Live.DeviceParameter.DeviceParameter.str_for_value": {
+    "description": "Return a string representation of the given value. To be used\nfor display purposes only. This value can include characters like 'db' or\n'hz', depending on the type of the parameter.",
+    "signature": "str_for_value( (DeviceParameter)arg1, (float)arg2) -> str :",
+    "cpp_signature": "TString str_for_value(TPyHandle<ATimeableValue>,float)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs_name": true
+      }
+    }
+  }
+}

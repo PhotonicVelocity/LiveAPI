@@ -1,0 +1,464 @@
+{
+  "refinements": {
+    "Live.Envelope.Envelope.delete_events_in_range": {
+      "args": {
+        "arg2": {
+          "name": "start",
+          "name_reason": "Description says 'specified time range'; start is the range beginning"
+        },
+        "arg3": {
+          "name": "end",
+          "name_reason": "Description says 'specified time range'; end is the range ending"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.events_in_range": {
+      "args": {
+        "arg2": {
+          "name": "start",
+          "name_reason": "Description says 'specified time range'; consistent with delete_events_in_range on same class"
+        },
+        "arg3": {
+          "name": "end",
+          "name_reason": "Description says 'specified time range'; consistent with delete_events_in_range on same class"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.insert_step": {
+      "args": {
+        "arg2": {
+          "name": "start",
+          "name_reason": "Description says 'a start time'; shortest natural name per rules"
+        },
+        "arg3": {
+          "name": "length",
+          "name_reason": "Description says 'a step length'; shortest natural name per rules"
+        },
+        "arg4": {
+          "name": "value",
+          "name_reason": "Description says 'and a value'; generic envelope value so bare 'value' is appropriate"
+        }
+      }
+    },
+    "Live.Envelope.Envelope.value_at_time": {
+      "args": {
+        "arg2": {
+          "name": "time",
+          "name_reason": "Description says 'at the specified time'"
+        }
+      }
+    },
+    "Live.Licensing.PythonLicensingBridge.base_product_id": {
+      "probed_type": "int",
+      "probed_type_reason": "raw_doc says 'Returns Live's current base product ID'; product IDs are integers"
+    },
+    "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
+      "args": {
+        "authorize_callable": {
+          "type": "Callable",
+          "type_reason": "Description says 'callables connected to its buttons'; arg name is 'authorize_callable'"
+        },
+        "authorize_later_callable": {
+          "type": "Callable",
+          "type_reason": "Description says 'callables connected to its buttons'; arg name is 'authorize_later_callable'"
+        }
+      }
+    },
+    "Live.Licensing.PythonLicensingBridge.in_sassafras_mode": {
+      "probed_type": "bool",
+      "probed_type_reason": "Property name uses 'in_' prefix indicating a boolean state check"
+    },
+    "Live.Licensing.PythonLicensingBridge.license_must_match_variant": {
+      "probed_type": "bool",
+      "probed_type_reason": "raw_doc says 'Returns a bool indicating if we require the license information...'"
+    },
+    "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": {
+      "probed_type": "int",
+      "probed_type_reason": "raw_doc says 'Returns the integer to send along with the Trial authorization request'"
+    },
+    "Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes": {
+      "probed_type": "bool",
+      "probed_type_reason": "raw_doc says 'Returns true if the set has unsaved changes'"
+    },
+    "Live.Licensing.PythonLicensingBridge.set_network_timer": {
+      "args": {
+        "callback": {
+          "type": "Callable",
+          "type_reason": "Description says 'Pass None as callback to stop' and 'callback invocation raises an exception'; clearly a callable"
+        }
+      }
+    },
+    "Live.Listener.ListenerHandle.listener_func": {
+      "probed_type": "Callable",
+      "probed_type_reason": "raw_doc says 'Returns the original function'"
+    },
+    "Live.Listener.ListenerHandle.listener_self": {
+      "probed_type": "Any",
+      "probed_type_reason": "raw_doc says 'Returns the weak reference to original self'; could be any object type"
+    },
+    "Live.Listener.ListenerHandle.name": {
+      "probed_type": "str",
+      "probed_type_reason": "raw_doc says 'Prints the name of the property'; a name is a string"
+    },
+    "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
+      "args": {
+        "arg2": {
+          "name": "clip_slot",
+          "name_reason": "M4L docs explicitly name this parameter 'clip_slot'"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_name": {
+      "args": {
+        "arg2": {
+          "name": "bank_index",
+          "name_reason": "M4L docs explicitly name this parameter 'bank_index'"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_parameters": {
+      "args": {
+        "arg2": {
+          "name": "bank_index",
+          "name_reason": "M4L docs explicitly name this parameter 'bank_index'"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_value_item_icons": {
+      "args": {
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Companion type is DeviceParameter; description says 'for a list parameter's values'"
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": {
+      "probed_type": "bool",
+      "probed_type_reason": "M4L docs say 'is_using_compare_preset_b bool observe'; returns 1 or 0"
+    },
+    "Live.MidiMap.forward_midi_cc": {
+      "args": {
+        "arg1": {
+          "name": "script_handle",
+          "name_reason": "Call-site evidence shows script_handle(11 votes) as dominant name for arg1"
+        },
+        "arg2": {
+          "name": "midi_map_handle",
+          "name_reason": "Call-site evidence shows midi_map_handle(14 votes) unanimously for arg2"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: map_midi_cc uses midi_channel, so forward_midi_cc must also use midi_channel"
+        },
+        "arg4": {
+          "name": "cc_no",
+          "name_reason": "Call-site evidence shows cc_no(3) and cc(3); cc_no is more descriptive"
+        }
+      }
+    },
+    "Live.MidiMap.forward_midi_note": {
+      "args": {
+        "arg1": {
+          "name": "script_handle",
+          "name_reason": "Consistent with forward_midi_cc arg1; call sites show script_handle and handle"
+        },
+        "arg2": {
+          "name": "midi_map_handle",
+          "name_reason": "Call-site evidence shows midi_map_handle(7 votes) unanimously for arg2"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: same concept as forward_midi_cc arg3 and map_midi_* functions"
+        },
+        "arg4": {
+          "name": "note",
+          "name_reason": "Call-site evidence shows note(3 votes) for arg4"
+        }
+      }
+    },
+    "Live.MidiMap.forward_midi_pitchbend": {
+      "args": {
+        "arg1": {
+          "name": "script_handle",
+          "name_reason": "Consistent with forward_midi_cc/forward_midi_note; call sites show script_handle(2)"
+        },
+        "arg2": {
+          "name": "midi_map_handle",
+          "name_reason": "Call-site evidence shows midi_map_handle(2 votes) unanimously for arg2"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: same concept as forward_midi_cc arg3 and map_midi_* functions"
+        }
+      }
+    },
+    "Live.MidiMap.map_midi_note": {
+      "args": {
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "Consistent with map_midi_note_with_feedback_map call-site evidence showing midi_map_handle(1)"
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Consistent with map_midi_note_with_feedback_map call-site evidence showing parameter(1)"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: same concept across all MidiMap functions"
+        },
+        "arg4": {
+          "name": "note_number",
+          "name_reason": "Parallel to map_midi_note_with_feedback_map arg4 call-site message_identifier; descriptive of note index"
+        }
+      }
+    },
+    "Live.MidiMap.map_midi_note_with_feedback_map": {
+      "args": {
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "Call-site evidence shows midi_map_handle(1); consistent with all map_midi_* functions"
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Call-site evidence shows parameter(1); consistent with all map_midi_* functions"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: same concept across all MidiMap functions"
+        },
+        "arg4": {
+          "name": "note_number",
+          "name_reason": "Consistent with map_midi_note arg4; call-site shows message_identifier(1)"
+        },
+        "arg5": {
+          "name": "feedback_rule",
+          "name_reason": "Call-site evidence shows feedback_rule(1); companion type is NoteFeedbackRule"
+        }
+      }
+    },
+    "Live.MidiMap.map_midi_pitchbend": {
+      "args": {
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "Consistent with all map_midi_* functions in MidiMap module"
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Consistent with all map_midi_* functions in MidiMap module"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: same concept across all MidiMap functions"
+        },
+        "arg4": {
+          "name": "avoid_takeover",
+          "name_reason": "Consistent with map_midi_cc bool arg; controls whether parameter takeover is avoided"
+        }
+      }
+    },
+    "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
+      "args": {
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "Call-site evidence shows midi_map_handle(5); consistent with all map_midi_* functions"
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Consistent with all map_midi_* functions; call-site shows parameter(1) and volume(2)"
+        },
+        "arg3": {
+          "name": "midi_channel",
+          "name_reason": "Module-wide consistency: same concept across all MidiMap functions"
+        },
+        "arg4": {
+          "name": "feedback_rule",
+          "name_reason": "Companion type is PitchBendFeedbackRule; call-site shows feedback_rule(1)"
+        },
+        "arg5": {
+          "name": "avoid_takeover",
+          "name_reason": "Consistent with map_midi_pitchbend bool arg; controls whether parameter takeover is avoided"
+        }
+      }
+    },
+    "Live.MidiMap.send_feedback_for_parameter": {
+      "args": {
+        "arg1": {
+          "name": "midi_map_handle",
+          "name_reason": "Call-site evidence shows midi_map_handle(8 votes) unanimously for arg1"
+        },
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Call-site evidence shows parameter(2); consistent with all map_midi_* functions"
+        }
+      }
+    },
+    "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
+      "probed_type": "bool",
+      "probed_type_reason": "M4L docs say 'is_using_compare_preset_b bool observe'; sibling MaxDevice has same property as bool"
+    },
+    "Live.RackDevice.RackDevice.copy_pad": {
+      "args": {
+        "arg2": {
+          "name": "source_index",
+          "name_reason": "M4L docs explicitly name this parameter 'source_index'"
+        },
+        "arg3": {
+          "name": "destination_index",
+          "name_reason": "M4L docs explicitly name this parameter 'destination_index'"
+        }
+      }
+    },
+    "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
+      "probed_type": "bool",
+      "probed_type_reason": "M4L docs say 'is_using_compare_preset_b bool observe'; sibling MaxDevice/PluginDevice have same property as bool"
+    },
+    "Live.Scene.Scene.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "name": "state",
+          "name_reason": "M4L docs explicitly name this parameter 'state'"
+        }
+      }
+    },
+    "Live.Song.Song.View.select_device": {
+      "args": {
+        "arg2": {
+          "name": "device",
+          "name_reason": "Description says 'Select the given device'; companion type is Device"
+        }
+      }
+    },
+    "Live.Song.Song.create_audio_track": {
+      "args": {
+        "Index": {
+          "type": "int",
+          "type_reason": "M4L docs say index is an integer position; cpp_signature confirms TString erased but description says index; optional with None default"
+        }
+      }
+    },
+    "Live.Song.Song.create_midi_track": {
+      "args": {
+        "Index": {
+          "type": "int",
+          "type_reason": "M4L docs say index is an integer position; consistent with create_audio_track; optional with None default"
+        }
+      }
+    },
+    "Live.Song.Song.create_scene": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Song.Song.delete_return_track": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Song.Song.delete_scene": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Song.Song.delete_track": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Song.Song.duplicate_scene": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Song.Song.duplicate_track": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'"
+        }
+      }
+    },
+    "Live.Song.Song.get_current_smpte_song_time": {
+      "args": {
+        "arg2": {
+          "name": "format",
+          "name_reason": "M4L docs explicitly name this parameter 'format'"
+        }
+      }
+    },
+    "Live.Song.Song.get_data": {
+      "args": {
+        "default_value": {
+          "type": "Any",
+          "type_reason": "Usage shows diverse default types (False, None, list, int); truly accepts arbitrary objects"
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "type_reason": "get_data returns arbitrary persistent data stored via set_data; usage shows bool, int, list, str, None"
+      }
+    },
+    "Live.Song.Song.jump_by": {
+      "args": {
+        "arg2": {
+          "name": "beats",
+          "name_reason": "M4L docs explicitly name this parameter 'beats'"
+        }
+      }
+    },
+    "Live.Song.Song.scrub_by": {
+      "args": {
+        "arg2": {
+          "name": "beats",
+          "name_reason": "M4L docs explicitly name this parameter 'beats'"
+        }
+      }
+    },
+    "Live.Song.Song.set_data": {
+      "args": {
+        "value": {
+          "type": "Any",
+          "type_reason": "Usage shows diverse value types (bool, int, str, list); truly accepts arbitrary objects for persistent storage"
+        }
+      }
+    },
+    "Live.TakeLane.TakeLane.create_audio_clip": {
+      "args": {
+        "arg2": {
+          "name": "file_path",
+          "name_reason": "M4L docs explicitly name this parameter 'file_path'"
+        },
+        "arg3": {
+          "name": "start_time",
+          "name_reason": "M4L docs explicitly name this parameter 'start_time'"
+        }
+      }
+    },
+    "Live.TakeLane.TakeLane.create_midi_clip": {
+      "args": {
+        "arg2": {
+          "name": "start_time",
+          "name_reason": "M4L docs explicitly name this parameter 'start_time'"
+        },
+        "arg3": {
+          "name": "length",
+          "name_reason": "M4L docs explicitly name this parameter 'length'"
+        }
+      }
+    }
+  }
+}
