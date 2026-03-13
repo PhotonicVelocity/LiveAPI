@@ -111,6 +111,9 @@
         }
       }
     },
+    "Live.Application.ControlSurfaceProxy.pad_layout": {
+      "probed_type": "str"
+    },
     "Live.Application.ControlSurfaceProxy.release_control": {
       "args": {
         "arg2": {
@@ -138,6 +141,9 @@
           "name": "control_id"
         }
       }
+    },
+    "Live.Application.ControlSurfaceProxy.type_name": {
+      "probed_type": "str"
     },
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
       "args": {
@@ -246,6 +252,9 @@
           "name": "value"
         }
       }
+    },
+    "Live.Base.Text.text": {
+      "probed_type": "str"
     },
     "Live.Base.Vector.append": {
       "args": {
@@ -608,6 +617,9 @@
         }
       }
     },
+    "Live.Licensing.PythonLicensingBridge.base_product_id": {
+      "probed_type": "str"
+    },
     "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
       "args": {
         "authorize_callable": {
@@ -618,12 +630,33 @@
         }
       }
     },
+    "Live.Licensing.PythonLicensingBridge.in_sassafras_mode": {
+      "probed_type": "bool"
+    },
+    "Live.Licensing.PythonLicensingBridge.license_must_match_variant": {
+      "probed_type": "bool"
+    },
+    "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": {
+      "probed_type": "int"
+    },
+    "Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes": {
+      "probed_type": "bool"
+    },
     "Live.Licensing.PythonLicensingBridge.set_network_timer": {
       "args": {
         "callback": {
           "type": "Callable"
         }
       }
+    },
+    "Live.Listener.ListenerHandle.listener_func": {
+      "probed_type": "Callable"
+    },
+    "Live.Listener.ListenerHandle.listener_self": {
+      "probed_type": "Any"
+    },
+    "Live.Listener.ListenerHandle.name": {
+      "probed_type": "str"
     },
     "Live.Listener.ListenerVector.append": {
       "args": {
@@ -638,6 +671,9 @@
           "name": "value"
         }
       }
+    },
+    "Live.LomObject.LomObject._live_ptr": {
+      "probed_type": "int"
     },
     "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
       "args": {
@@ -666,6 +702,9 @@
           "name": "parameter"
         }
       }
+    },
+    "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": {
+      "probed_type": "bool"
     },
     "Live.MidiMap.forward_midi_cc": {
       "args": {
@@ -792,6 +831,9 @@
         }
       }
     },
+    "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
+      "probed_type": "bool"
+    },
     "Live.RackDevice.RackDevice.copy_pad": {
       "args": {
         "arg2": {
@@ -801,6 +843,9 @@
           "name": "destination_index"
         }
       }
+    },
+    "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
+      "probed_type": "bool"
     },
     "Live.Scene.Scene.set_fire_button_state": {
       "args": {
@@ -929,6 +974,9 @@
           "name": "length"
         }
       }
+    },
+    "Live.Track.DeviceContainer._live_ptr": {
+      "probed_type": "int"
     },
     "Live.Track.RoutingChannelVector.append": {
       "args": {

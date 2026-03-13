@@ -49,6 +49,33 @@ _RETURN_TYPE_OVERRIDES: dict[str, str] = {
     "Live.Track.Track.get_data": "Any",
 }
 
+# Property type overrides: path -> probed_type
+# Inferred from MaxForLive docs, raw_doc descriptions, and sibling probed_type patterns
+_PROPERTY_TYPE_OVERRIDES: dict[str, str] = {
+    # ControlSurfaceProxy — pad_layout is "symbol" in M4L docs = str; type_name is clearly str
+    "Live.Application.ControlSurfaceProxy.pad_layout": "str",
+    "Live.Application.ControlSurfaceProxy.type_name": "str",
+    # Text.text — immutable string content
+    "Live.Base.Text.text": "str",
+    # PythonLicensingBridge — types inferred from raw_doc descriptions
+    "Live.Licensing.PythonLicensingBridge.base_product_id": "str",
+    "Live.Licensing.PythonLicensingBridge.in_sassafras_mode": "bool",
+    "Live.Licensing.PythonLicensingBridge.license_must_match_variant": "bool",
+    "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": "int",
+    "Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes": "bool",
+    # ListenerHandle — types inferred from raw_doc
+    "Live.Listener.ListenerHandle.listener_func": "Callable",
+    "Live.Listener.ListenerHandle.listener_self": "Any",
+    "Live.Listener.ListenerHandle.name": "str",
+    # _live_ptr — all other instances probed as int; these just weren't probed
+    "Live.LomObject.LomObject._live_ptr": "int",
+    "Live.Track.DeviceContainer._live_ptr": "int",
+    # is_using_compare_preset_b — all other device subclasses probed as bool
+    "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": "bool",
+    "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": "bool",
+    "Live.RackDevice.RackDevice.is_using_compare_preset_b": "bool",
+}
+
 # Arg name overrides: path -> {current_name: new_name}
 _ARG_NAME_OVERRIDES: dict[str, dict[str, str]] = {
     # Vector append/extend — arg2 -> value
@@ -247,7 +274,9 @@ def resolve(unresolved: dict) -> dict:
                 ref["returns"] = {"type": _RETURN_TYPE_OVERRIDES[path]}
 
         elif kind == "property_type":
-            pass  # Phase 2: property type inference
+            if path in _PROPERTY_TYPE_OVERRIDES:
+                ref = refinements.setdefault(path, {})
+                ref["probed_type"] = _PROPERTY_TYPE_OVERRIDES[path]
 
     return {"version": unresolved.get("version", ""), "refinements": refinements}
 
@@ -286,8 +315,8 @@ def main():
                 resolved_paths.add((path, kind, item["arg_name"]))
         elif kind == "return_type" and path in _RETURN_TYPE_OVERRIDES:
             resolved_paths.add((path, kind, ""))
-        elif kind == "property_type":
-            pass
+        elif kind == "property_type" and path in _PROPERTY_TYPE_OVERRIDES:
+            resolved_paths.add((path, kind, ""))
 
     total = len(unresolved.get("unresolved", []))
     print(f"Resolved {len(resolved_paths)} of {total} unresolved items")
