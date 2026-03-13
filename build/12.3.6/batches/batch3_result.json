@@ -45,7 +45,7 @@
         "arg1": { "name": "midi_map_handle" },
         "arg2": { "name": "parameter" },
         "arg3": { "name": "midi_channel" },
-        "arg4": { "name": "needs_takeover" }
+        "arg4": { "name": "avoid_takeover" }
       }
     },
     "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
@@ -54,7 +54,7 @@
         "arg2": { "name": "parameter" },
         "arg3": { "name": "midi_channel" },
         "arg4": { "name": "feedback_rule" },
-        "arg5": { "name": "needs_takeover" }
+        "arg5": { "name": "avoid_takeover" }
       }
     },
     "Live.MidiMap.send_feedback_for_parameter": {
@@ -138,12 +138,12 @@
     },
     "Live.Song.Song.jump_by": {
       "args": {
-        "arg2": { "name": "amount" }
+        "arg2": { "name": "beats" }
       }
     },
     "Live.Song.Song.scrub_by": {
       "args": {
-        "arg2": { "name": "amount" }
+        "arg2": { "name": "beats" }
       }
     },
     "Live.Song.Song.set_data": {

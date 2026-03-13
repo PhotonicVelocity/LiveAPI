@@ -37,7 +37,7 @@
           "name": "file_path"
         },
         "arg3": {
-          "name": "position"
+          "name": "start_time"
         }
       }
     },
@@ -92,7 +92,7 @@
     "Live.Track.Track.jump_in_running_session_clip": {
       "args": {
         "arg2": {
-          "name": "amount"
+          "name": "beats"
         }
       }
     },
