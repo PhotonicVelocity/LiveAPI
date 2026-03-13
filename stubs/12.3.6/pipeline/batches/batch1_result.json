@@ -1,0 +1,432 @@
+{
+  "refinements": {
+    "Live.Application.Application.View.add_is_view_visible_listener": {
+      "args": {
+        "arg2": {
+          "name": "view_name",
+          "name_reason": "Consistent with sibling methods hide_view and scroll_view which use 'view_name' per M4L docs; this listener tracks the same view identifier string"
+        }
+      }
+    },
+    "Live.Application.Application.View.hide_view": {
+      "args": {
+        "arg2": {
+          "name": "view_name",
+          "name_reason": "M4L docs explicitly name this parameter 'view_name'; call-site confirms 'view_name'"
+        }
+      }
+    },
+    "Live.Application.Application.View.is_view_visible_has_listener": {
+      "args": {
+        "arg2": {
+          "name": "view_name",
+          "name_reason": "Consistent with sibling View methods which all use 'view_name' per M4L docs"
+        }
+      }
+    },
+    "Live.Application.Application.View.remove_is_view_visible_listener": {
+      "args": {
+        "arg2": {
+          "name": "view_name",
+          "name_reason": "Consistent with sibling View methods which all use 'view_name' per M4L docs"
+        }
+      }
+    },
+    "Live.Application.Application.View.scroll_view": {
+      "args": {
+        "arg2": {
+          "name": "direction",
+          "name_reason": "M4L docs explicitly name this parameter 'direction'; call-site confirms with 14 votes"
+        },
+        "arg3": {
+          "name": "view_name",
+          "name_reason": "M4L docs explicitly name this parameter 'view_name'"
+        },
+        "arg4": {
+          "name": "modifier_pressed",
+          "name_reason": "M4L docs explicitly name this parameter 'modifier_pressed'"
+        }
+      }
+    },
+    "Live.Application.Application.View.zoom_view": {
+      "args": {
+        "arg2": {
+          "name": "direction",
+          "name_reason": "M4L docs explicitly name this parameter 'direction'; consistent with scroll_view"
+        },
+        "arg3": {
+          "name": "view_name",
+          "name_reason": "M4L docs explicitly name this parameter 'view_name'; consistent with scroll_view"
+        },
+        "arg4": {
+          "name": "modifier_pressed",
+          "name_reason": "M4L docs explicitly name this parameter 'modifier_pressed'; consistent with scroll_view"
+        }
+      }
+    },
+    "Live.Application.Application.has_option": {
+      "args": {
+        "arg2": {
+          "name": "option_name",
+          "name_reason": "Description says 'the given entry exists in Options.txt'; the parameter identifies an option entry by name"
+        }
+      }
+    },
+    "Live.Application.Application.press_current_dialog_button": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "M4L docs explicitly name this parameter 'index'; description confirms 'by index'"
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.control_descriptions": {
+      "probed_type": "ControlDescriptionVector",
+      "probed_type_reason": "Usage iterates items with .name attribute; ControlDescriptionVector exists in the skeleton under Live.Application and holds ControlDescription objects"
+    },
+    "Live.Application.ControlSurfaceProxy.enable_receive_midi": {
+      "args": {
+        "arg2": {
+          "name": "enabled",
+          "name_reason": "Method enables/disables MIDI receiving; the bool parameter represents the enabled state"
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.grab_control": {
+      "args": {
+        "arg2": {
+          "name": "control",
+          "name_reason": "M4L docs explicitly name this parameter 'control'; call-site confirms"
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.pad_layout": {
+      "probed_type": "str",
+      "probed_type_reason": "M4L docs show pad_layout values are string identifiers like 'note.melodic.64_notes', 'session', etc."
+    },
+    "Live.Application.ControlSurfaceProxy.subscribe_to_control": {
+      "args": {
+        "arg2": {
+          "name": "control",
+          "name_reason": "Consistent with grab_control on the same class which uses 'control' per M4L docs"
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.type_name": {
+      "probed_type": "str",
+      "probed_type_reason": "Usage returns it as a string (return self._proxy.type_name); property name implies a string identifier"
+    },
+    "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
+      "args": {
+        "arg2": {
+          "name": "control",
+          "name_reason": "Consistent with grab_control and subscribe_to_control on the same class"
+        }
+      }
+    },
+    "Live.Application.encrypt_challenge2": {
+      "args": {
+        "arg1": {
+          "name": "challenge",
+          "name_reason": "Description says 'Returns the UMAC hash for the given challenge'; the int parameter is the challenge value"
+        }
+      }
+    },
+    "Live.Application.get_random_int": {
+      "args": {
+        "arg1": {
+          "name": "min",
+          "name_reason": "Description says 'random integer from the given range'; first parameter is the range minimum"
+        },
+        "arg2": {
+          "name": "max",
+          "name_reason": "Description says 'random integer from the given range'; second parameter is the range maximum"
+        }
+      }
+    },
+    "Live.Base.ObjectVector.append": {
+      "args": {
+        "value": {
+          "type": "Any",
+          "type_reason": "ObjectVector holds boost::python::api::object elements; usage shows diverse unrelated types appended"
+        }
+      }
+    },
+    "Live.Base.ObjectVector.extend": {
+      "args": {
+        "values": {
+          "type": "Any",
+          "type_reason": "ObjectVector holds boost::python::api::object elements; usage shows diverse iterable types extended"
+        }
+      }
+    },
+    "Live.Base.Text.text": {
+      "probed_type": "str",
+      "probed_type_reason": "Usage assigns string values to .text property (e.g. consts.MessageBoxText.EMPTY_DEVICE_CHAIN, message strings)"
+    },
+    "Live.Base.subst_args": {
+      "args": {
+        "arg1": {
+          "name": "arg1",
+          "name_reason": "Positional substitution placeholders for a text template; no docs provide specific names, keeping generic argN"
+        },
+        "arg2": {
+          "name": "arg2",
+          "name_reason": "Positional substitution placeholders for a text template; no docs provide specific names, keeping generic argN"
+        },
+        "arg3": {
+          "name": "arg3",
+          "name_reason": "Positional substitution placeholders for a text template; no docs provide specific names, keeping generic argN"
+        },
+        "arg4": {
+          "name": "arg4",
+          "name_reason": "Positional substitution placeholders for a text template; no docs provide specific names, keeping generic argN"
+        },
+        "arg5": {
+          "name": "arg5",
+          "name_reason": "Positional substitution placeholders for a text template; no docs provide specific names, keeping generic argN"
+        }
+      }
+    },
+    "Live.Browser.Browser.load_item": {
+      "args": {
+        "arg2": {
+          "name": "item",
+          "name_reason": "Description says 'the provided browser item'; per naming rules use 'item' not 'browser_item' since the type is BrowserItem"
+        }
+      }
+    },
+    "Live.Browser.Browser.preview_item": {
+      "args": {
+        "arg2": {
+          "name": "item",
+          "name_reason": "Description says 'the provided browser item'; consistent with load_item on same class"
+        }
+      }
+    },
+    "Live.Browser.Browser.relation_to_hotswap_target": {
+      "args": {
+        "arg2": {
+          "name": "item",
+          "name_reason": "Description says 'the given browser item'; consistent with load_item and preview_item on same class"
+        }
+      }
+    },
+    "Live.Chain.Chain.duplicate_device": {
+      "args": {
+        "arg2": {
+          "name": "index",
+          "name_reason": "Description says 'at the given index'; consistent with M4L-documented delete_device(index) pattern"
+        }
+      }
+    },
+    "Live.Clip.Clip.View.select_envelope_parameter": {
+      "args": {
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Description says 'the given device parameter'; consistent with clear_envelope and automation_envelope on the Clip class"
+        }
+      }
+    },
+    "Live.Clip.Clip.add_new_notes": {
+      "args": {
+        "arg2": {
+          "name": "notes",
+          "name_reason": "Description says 'list of MidiNoteSpecification objects'; call-site confirms 'notes'; M4L docs key is 'notes'"
+        }
+      }
+    },
+    "Live.Clip.Clip.add_warp_marker": {
+      "args": {
+        "warp_marker": {
+          "type": "WarpMarker",
+          "type_reason": "Companion name 'warp_marker' maps to WarpMarker class which exists in the type skeleton under Live.Clip"
+        }
+      }
+    },
+    "Live.Clip.Clip.apply_note_modifications": {
+      "args": {
+        "arg2": {
+          "name": "notes",
+          "name_reason": "Description says 'list of notes as returned from get_notes_extended'; M4L docs key is 'notes'; consistent with add_new_notes"
+        }
+      }
+    },
+    "Live.Clip.Clip.automation_envelope": {
+      "args": {
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Description says 'the envelope for the given parameter'; consistent with clear_envelope and create_automation_envelope on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.clear_envelope": {
+      "args": {
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Call-site evidence uses 'parameter' (2 votes); consistent with automation_envelope and create_automation_envelope on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.create_automation_envelope": {
+      "args": {
+        "arg2": {
+          "name": "parameter",
+          "name_reason": "Description says 'for a given parameter'; consistent with automation_envelope and clear_envelope on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.duplicate_notes_by_id": {
+      "args": {
+        "note_ids": {
+          "type": "list[int]",
+          "type_reason": "M4L docs say 'list of note IDs' where each ID is an int; companion name 'note_ids' confirms list[int]"
+        },
+        "destination_time": {
+          "type": "float",
+          "type_reason": "M4L docs say 'destination_time (optional) [float/int]'; description says time value in beats; float accommodates both"
+        }
+      }
+    },
+    "Live.Clip.Clip.get_notes_by_id": {
+      "args": {
+        "note_ids": {
+          "type": "list[int]",
+          "type_reason": "M4L docs say 'list of note IDs' where each ID is an int; usage passes dict.keys() which yields ints"
+        }
+      }
+    },
+    "Live.Clip.Clip.move_playing_pos": {
+      "args": {
+        "arg2": {
+          "name": "beats",
+          "name_reason": "M4L docs explicitly name this parameter 'beats'"
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize": {
+      "args": {
+        "arg2": {
+          "name": "quantization_grid",
+          "name_reason": "M4L docs explicitly name this parameter 'quantization_grid'"
+        },
+        "arg3": {
+          "name": "amount",
+          "name_reason": "M4L docs explicitly name this parameter 'amount'"
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize_pitch": {
+      "args": {
+        "arg4": {
+          "name": "amount",
+          "name_reason": "M4L docs explicitly name this parameter 'amount'; consistent with quantize on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.remove_notes": {
+      "args": {
+        "arg2": {
+          "name": "from_time",
+          "name_reason": "Description says 'notes starting in the given pitch- and time range'; first float is the time start"
+        },
+        "arg3": {
+          "name": "from_pitch",
+          "name_reason": "Description says 'pitch- and time range'; first int is the pitch range start"
+        },
+        "arg4": {
+          "name": "time_span",
+          "name_reason": "Second float parameter defines the length of the time range"
+        },
+        "arg5": {
+          "name": "pitch_span",
+          "name_reason": "Second int parameter defines the span of the pitch range"
+        }
+      }
+    },
+    "Live.Clip.Clip.remove_notes_by_id": {
+      "args": {
+        "arg2": {
+          "name": "note_ids",
+          "name_reason": "M4L docs say 'list of note IDs'; consistent with get_notes_by_id and select_notes_by_id on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.replace_selected_notes": {
+      "args": {
+        "arg2": {
+          "name": "notes",
+          "name_reason": "Description says 'tuple of tuples where each inner tuple represents a note'; consistent with set_notes on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.select_notes_by_id": {
+      "args": {
+        "arg2": {
+          "name": "note_ids",
+          "name_reason": "M4L docs say 'list of note IDs'; consistent with remove_notes_by_id and get_notes_by_id on same class"
+        }
+      }
+    },
+    "Live.Clip.Clip.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "name": "state",
+          "name_reason": "M4L docs explicitly name this parameter 'state'"
+        }
+      }
+    },
+    "Live.Clip.Clip.set_notes": {
+      "args": {
+        "arg2": {
+          "name": "notes",
+          "name_reason": "Description says 'tuple of tuples where each inner tuple represents a note'; consistent with replace_selected_notes and add_new_notes"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.create_audio_clip": {
+      "args": {
+        "arg2": {
+          "name": "path",
+          "name_reason": "M4L docs explicitly name this parameter 'path'"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.duplicate_clip_to": {
+      "args": {
+        "arg2": {
+          "name": "target_clip_slot",
+          "name_reason": "M4L docs explicitly name this parameter 'target_clip_slot'"
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "name": "state",
+          "name_reason": "M4L docs explicitly name this parameter 'state'; consistent with Clip.set_fire_button_state"
+        }
+      }
+    },
+    "Live.Device.Device.store_chosen_bank": {
+      "args": {
+        "arg2": {
+          "name": "script_index",
+          "name_reason": "M4L docs explicitly name this parameter 'script_index'"
+        },
+        "arg3": {
+          "name": "bank_index",
+          "name_reason": "M4L docs explicitly name this parameter 'bank_index'"
+        }
+      }
+    },
+    "Live.DeviceParameter.DeviceParameter.str_for_value": {
+      "args": {
+        "arg2": {
+          "name": "value",
+          "name_reason": "M4L docs explicitly name this parameter 'value'; description says 'the given value'"
+        }
+      }
+    }
+  }
+}
