@@ -4,6 +4,10 @@
 
 This class represents the Live application.
 
+**Access via:**
+
+- `Application.get_application`
+
 ## View
 
 > `Live.Application.Application.View`

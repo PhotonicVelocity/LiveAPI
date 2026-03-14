@@ -6,6 +6,10 @@ This class represents a drum group device pad in Live.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `RackDevice.View.selected_drum_pad`
+
 ## Properties
 
 | Property           | Type         | Settable | Listenable | Description                                                 |

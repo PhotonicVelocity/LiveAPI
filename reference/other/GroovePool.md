@@ -6,6 +6,10 @@ This class represents the groove pool in Live.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Song.groove_pool`
+
 ## Properties
 
 | Property           | Type    | Settable | Listenable | Description                                  |

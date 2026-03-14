@@ -6,6 +6,11 @@ This class represents an automation or modulation envelope in Live.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Clip.automation_envelope()`
+- `Clip.create_automation_envelope()`
+
 ## Properties
 
 | Property           | Type   | Settable | Listenable | Description                               |

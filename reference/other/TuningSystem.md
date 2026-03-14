@@ -6,6 +6,10 @@ Represents a Tuning System and its properties.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Song.tuning_system`
+
 ## Properties
 
 | Property                           | Type                  | Settable | Listenable | Description                                                                      |

@@ -6,6 +6,11 @@ This class represents an series of ClipSlots in Lives Sessionview matrix.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Song.create_scene()`
+- `Song.View.selected_scene`
+
 ## Properties
 
 | Property                     | Type    | Settable | Listenable | Description                                                              |

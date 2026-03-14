@@ -185,10 +185,22 @@ class ClassInfo:
 
 
 @dataclass
-class ModuleFunctions:
-    """Module-level functions (not inside a class)."""
+class NamespaceData:
+    """Parsed data for one namespace (e.g. Live.Song)."""
 
-    functions: list[MethodInfo] = field(default_factory=list)
+    name: str
+    primary_class: ClassInfo | None
+    module_enums: list[EnumInfo]
+    module_functions: list[MethodInfo]
+    module_classes: list[ClassInfo]
+
+
+# Type alias: maps a class name (e.g. "Clip") to a list of access paths
+# like ("Song.View", "detail_clip", "property") or ("ClipSlot", "clip", "property").
+AccessMap = dict[str, list[tuple[str, str, str]]]
+
+# Members to exclude from access-via (parent references, not useful for discovery)
+ACCESS_VIA_SKIP_MEMBERS = {"canonical_parent", "_live_ptr"}
 
 
 # ---------------------------------------------------------------------------
@@ -483,6 +495,7 @@ def generate_class_markdown(
     module_enums: list[EnumInfo],
     module_functions: list[MethodInfo],
     module_classes: list[ClassInfo],
+    access_map: AccessMap | None = None,
     is_inner: bool = False,
 ) -> str:
     """Generate markdown for a single class."""
@@ -519,9 +532,22 @@ def generate_class_markdown(
         lines.append("  \n".join(flags))
         lines.append("")
 
+    # --- Access via ---
+    if access_map and cls.name in access_map:
+        entries = access_map[cls.name]
+        if entries:
+            lines.append(f"**Access via:**")
+            lines.append("")
+            for owner, member, kind in entries:
+                if kind == "method":
+                    lines.append(f"- `{owner}.{member}()`")
+                else:
+                    lines.append(f"- `{owner}.{member}`")
+            lines.append("")
+
     # --- Inner classes (View, etc.) ---
     for inner in cls.inner_classes:
-        inner_md = generate_class_markdown(inner, [], [], [], is_inner=True)
+        inner_md = generate_class_markdown(inner, [], [], [], access_map=access_map, is_inner=True)
         lines.append(inner_md)
 
     # --- Properties ---
@@ -601,7 +627,7 @@ def generate_class_markdown(
 
     # --- Module-level helper classes (non-enum, non-primary) ---
     for helper_cls in module_classes:
-        helper_md = generate_class_markdown(helper_cls, [], [], [], is_inner=True)
+        helper_md = generate_class_markdown(helper_cls, [], [], [], access_map=access_map, is_inner=True)
         lines.append(helper_md)
 
     # --- Module-level functions ---
@@ -639,10 +665,13 @@ def generate_namespace_markdown(
     module_enums: list[EnumInfo],
     module_functions: list[MethodInfo],
     module_classes: list[ClassInfo],
+    access_map: AccessMap | None = None,
 ) -> str:
     """Generate markdown for a namespace that may or may not have a primary class."""
     if primary_class:
-        return generate_class_markdown(primary_class, module_enums, module_functions, module_classes)
+        return generate_class_markdown(
+            primary_class, module_enums, module_functions, module_classes, access_map=access_map
+        )
 
     # No primary class — module is just enums, functions, and helper classes
     # Use the namespace name as the page title
@@ -650,7 +679,7 @@ def generate_namespace_markdown(
 
     if module_classes:
         for cls in module_classes:
-            cls_md = generate_class_markdown(cls, [], [], [])
+            cls_md = generate_class_markdown(cls, [], [], [], access_map=access_map)
             lines.append(cls_md)
 
     if module_enums:
@@ -701,11 +730,8 @@ def generate_namespace_markdown(
 # ---------------------------------------------------------------------------
 
 
-def process_namespace(ns_dir: Path) -> tuple[str, str]:
-    """Process a single namespace directory and return (filename, markdown content).
-
-    Returns the namespace name and generated markdown.
-    """
+def parse_namespace(ns_dir: Path) -> NamespaceData:
+    """Parse a single namespace directory and return structured data."""
     ns_name = ns_dir.name  # e.g. "Song"
     namespace = f"Live.{ns_name}"
 
@@ -738,8 +764,77 @@ def process_namespace(ns_dir: Path) -> tuple[str, str]:
     # Filter out the primary class from init_classes (it's re-exported)
     init_classes = [c for c in init_classes if c.name != ns_name]
 
-    md = generate_namespace_markdown(primary_class, init_enums, init_functions, init_classes)
-    return ns_name, md
+    return NamespaceData(
+        name=ns_name,
+        primary_class=primary_class,
+        module_enums=init_enums,
+        module_functions=init_functions,
+        module_classes=init_classes,
+    )
+
+
+def _collect_access_entries(
+    cls: ClassInfo,
+    owner_label: str,
+    entries: list[tuple[str, str, str, str]],
+) -> None:
+    """Recursively collect (target_type, owner, member, kind) from a class and its inner classes."""
+    for prop in cls.properties:
+        if prop.name in ACCESS_VIA_SKIP_MEMBERS:
+            continue
+        # The raw type string from the annotation — use it as the target type key
+        entries.append((prop.type, owner_label, prop.name, "property"))
+
+    for method in cls.methods:
+        if method.name in ACCESS_VIA_SKIP_MEMBERS:
+            continue
+        if method.return_type and method.return_type != "None":
+            entries.append((method.return_type, owner_label, method.name, "method"))
+
+    for inner in cls.inner_classes:
+        inner_label = f"{owner_label}.{inner.name}"
+        _collect_access_entries(inner, inner_label, entries)
+
+
+def build_access_map(all_ns: dict[str, NamespaceData]) -> AccessMap:
+    """Build a reverse map: type_name -> list of (owner_class, member_name, kind).
+
+    Only maps to known class names (primary classes across all namespaces).
+    """
+    # Set of all known primary class names
+    known_classes = set()
+    for ns_data in all_ns.values():
+        if ns_data.primary_class:
+            known_classes.add(ns_data.primary_class.name)
+        for mc in ns_data.module_classes:
+            if mc.live_object:
+                known_classes.add(mc.name)
+
+    # Collect all (target_type, owner, member, kind) entries
+    raw_entries: list[tuple[str, str, str, str]] = []
+    for ns_data in all_ns.values():
+        if ns_data.primary_class:
+            _collect_access_entries(ns_data.primary_class, ns_data.primary_class.name, raw_entries)
+        for mc in ns_data.module_classes:
+            _collect_access_entries(mc, mc.name, raw_entries)
+        # Module-level functions
+        for func in ns_data.module_functions:
+            if func.return_type and func.return_type != "None":
+                raw_entries.append((func.return_type, ns_data.name, func.name, "function"))
+
+    # Build the map, matching target types to known class names
+    access_map: AccessMap = {}
+    for target_type, owner, member, kind in raw_entries:
+        # Normalize: strip generics, handle simple name matching
+        type_name = target_type.strip()
+        if type_name in known_classes:
+            access_map.setdefault(type_name, []).append((owner, member, kind))
+
+    # Sort entries for stable output
+    for key in access_map:
+        access_map[key].sort()
+
+    return access_map
 
 
 def generate_index(namespaces: list[str]) -> str:
@@ -863,11 +958,27 @@ def main() -> None:
 
     print(f"Found {len(namespaces)} namespaces in {stubs_dir}")
 
-    generated_files: list[Path] = []
+    # Pass 1: parse all namespaces
+    all_ns: dict[str, NamespaceData] = {}
     for ns_name in namespaces:
         ns_dir = stubs_dir / ns_name
-        name, md = process_namespace(ns_dir)
-        out_file = output_dir / ns_relpath(name)
+        all_ns[ns_name] = parse_namespace(ns_dir)
+
+    # Build cross-reference access map
+    access_map = build_access_map(all_ns)
+
+    # Pass 2: generate markdown
+    generated_files: list[Path] = []
+    for ns_name in namespaces:
+        ns_data = all_ns[ns_name]
+        md = generate_namespace_markdown(
+            ns_data.primary_class,
+            ns_data.module_enums,
+            ns_data.module_functions,
+            ns_data.module_classes,
+            access_map=access_map,
+        )
+        out_file = output_dir / ns_relpath(ns_name)
         out_file.parent.mkdir(parents=True, exist_ok=True)
         out_file.write_text(md, encoding="utf-8")
         generated_files.append(out_file)
