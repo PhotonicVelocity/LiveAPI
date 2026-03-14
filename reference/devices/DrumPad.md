@@ -73,9 +73,9 @@ Solo/unsolo the pad.
 
 ### Methods
 
-| Method                                      | Returns | Description                                    |
-| ------------------------------------------- | ------- | ---------------------------------------------- |
-| [`delete_all_chains()`](#delete_all_chains) | `None`  | Deletes all chains associated with a drum pad. |
+| Method                                      | Returns |
+| ------------------------------------------- | ------- |
+| [`delete_all_chains()`](#delete_all_chains) | `None`  |
 
 #### `delete_all_chains()`
 

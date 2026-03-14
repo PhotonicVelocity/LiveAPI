@@ -29,12 +29,12 @@ Get the canonical parent of the envelope.
 
 ### Methods
 
-| Method                                                                                                                 | Returns               | Description                                                                    |
-| ---------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------ |
-| [`delete_events_in_range(start_time: float, end_time: float)`](#delete_events_in_rangestart_time-float-end_time-float) | `None`                | Deletes the events in the specified time range.                                |
-| [`events_in_range(start_time: float, end_time: float)`](#events_in_rangestart_time-float-end_time-float)               | `EnvelopeEventVector` | Returns the events in the specified time range.                                |
-| [`insert_step(start: float, length: float, value: float)`](#insert_stepstart-float-length-float-value-float)           | `None`                | Given a start time, a step length and a value, creates a step in the envelope. |
-| [`value_at_time(time: float)`](#value_at_timetime-float)                                                               | `float`               | Returns the parameter value at the specified time.                             |
+| Method                                                                                                                 | Returns               |
+| ---------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| [`delete_events_in_range(start_time: float, end_time: float)`](#delete_events_in_rangestart_time-float-end_time-float) | `None`                |
+| [`events_in_range(start_time: float, end_time: float)`](#events_in_rangestart_time-float-end_time-float)               | `EnvelopeEventVector` |
+| [`insert_step(start: float, length: float, value: float)`](#insert_stepstart-float-length-float-value-float)           | `None`                |
+| [`value_at_time(time: float)`](#value_at_timetime-float)                                                               | `float`               |
 
 #### `delete_events_in_range(start_time: float, end_time: float)`
 
@@ -157,10 +157,10 @@ A container for holding envelope events.
 
 #### Methods
 
-| Method                                                         | Returns | Description |
-| -------------------------------------------------------------- | ------- | ----------- |
-| [`append(value: EnvelopeEvent)`](#appendvalue-envelopeevent)   | `None`  |             |
-| [`extend(values: EnvelopeEvent)`](#extendvalues-envelopeevent) | `None`  |             |
+| Method                                                         | Returns |
+| -------------------------------------------------------------- | ------- |
+| [`append(value: EnvelopeEvent)`](#appendvalue-envelopeevent)   | `None`  |
+| [`extend(values: EnvelopeEvent)`](#extendvalues-envelopeevent) | `None`  |
 
 ##### `append(value: EnvelopeEvent)`
 

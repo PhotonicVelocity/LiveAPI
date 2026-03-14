@@ -42,10 +42,10 @@ Read/write access to the name of the TakeLane, as visible in the take lane heade
 
 ### Methods
 
-| Method                                                                                                     | Returns | Description                                                                      |
-| ---------------------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
-| [`create_audio_clip(file_path: str, start_time: float)`](#create_audio_clipfile_path-str-start_time-float) | `Clip`  | Creates an audio clip referencing the file at the given path and inserts it i... |
-| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)     | `Clip`  | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
+| Method                                                                                                     | Returns |
+| ---------------------------------------------------------------------------------------------------------- | ------- |
+| [`create_audio_clip(file_path: str, start_time: float)`](#create_audio_clipfile_path-str-start_time-float) | `Clip`  |
+| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)     | `Clip`  |
 
 #### `create_audio_clip(file_path: str, start_time: float)`
 

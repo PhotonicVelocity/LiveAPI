@@ -249,9 +249,9 @@ Return the custom float target 9 list
 
 ### Methods
 
-| Method                | Returns | Description           |
-| --------------------- | ------- | --------------------- |
-| [`resend()`](#resend) | `None`  | Resend all CC values. |
+| Method                | Returns |
+| --------------------- | ------- |
+| [`resend()`](#resend) | `None`  |
 
 #### `resend()`
 

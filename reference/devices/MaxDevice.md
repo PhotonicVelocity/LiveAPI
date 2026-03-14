@@ -177,12 +177,12 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                                                               | Returns | Description                                                                      |
-| ---------------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
-| [`get_bank_count()`](#get_bank_count)                                                                | `int`   | Get the number of parameter banks.                                               |
-| [`get_bank_name(bank_index: int)`](#get_bank_namebank_index-int)                                     | `str`   | Get the name of a parameter bank given by index.                                 |
-| [`get_bank_parameters(bank_index: int)`](#get_bank_parametersbank_index-int)                         | `list`  | Get the indices of parameters of the given bank index.                           |
-| [`get_value_item_icons(parameter: DeviceParameter)`](#get_value_item_iconsparameter-deviceparameter) | `list`  | Get a list of icon identifier strings for a list parameter's values.An empty ... |
+| Method                                                                                               | Returns |
+| ---------------------------------------------------------------------------------------------------- | ------- |
+| [`get_bank_count()`](#get_bank_count)                                                                | `int`   |
+| [`get_bank_name(bank_index: int)`](#get_bank_namebank_index-int)                                     | `str`   |
+| [`get_bank_parameters(bank_index: int)`](#get_bank_parametersbank_index-int)                         | `list`  |
+| [`get_value_item_icons(parameter: DeviceParameter)`](#get_value_item_iconsparameter-deviceparameter) | `list`  |
 
 #### `get_bank_count()`
 

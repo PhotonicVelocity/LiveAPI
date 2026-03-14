@@ -541,46 +541,46 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 
 ### Methods
 
-| Method                                                                                                                                                     | Returns    | Description                                                                      |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
-| [`begin_undo_step()`](#begin_undo_step)                                                                                                                    | `None`     |                                                                                  |
-| [`capture_and_insert_scene(CaptureMode: CaptureMode \| int = 0)`](#capture_and_insert_scenecapturemode-capturemode-int-0)                                  | `None`     | Capture currently playing clips and insert them as a new scene after the sele... |
-| [`capture_midi(Destination: CaptureDestination \| int = 0)`](#capture_mididestination-capturedestination-int-0)                                            | `None`     | Capture recently played MIDI material from audible tracks.                       |
-| [`continue_playing()`](#continue_playing)                                                                                                                  | `None`     | Continue playing the song from the current position.                             |
-| [`create_audio_track(Index: int = None)`](#create_audio_trackindex-int-none)                                                                               | `Track`    | Create a new audio track at the optional given index and return it.If the ind... |
-| [`create_midi_track(Index: int = None)`](#create_midi_trackindex-int-none)                                                                                 | `Track`    | Create a new midi track at the optional given index and return it.If the inde... |
-| [`create_return_track()`](#create_return_track)                                                                                                            | `Track`    | Create a new return track at the end and return it.                              |
-| [`create_scene(index: int)`](#create_sceneindex-int)                                                                                                       | `Scene`    | Create a new scene at the given index.                                           |
-| [`delete_return_track(index: int)`](#delete_return_trackindex-int)                                                                                         | `None`     | Delete the return track with the given index.                                    |
-| [`delete_scene(index: int)`](#delete_sceneindex-int)                                                                                                       | `None`     | Delete the scene with the given index.                                           |
-| [`delete_track(index: int)`](#delete_trackindex-int)                                                                                                       | `None`     | Delete the track with the given index.                                           |
-| [`duplicate_scene(index: int)`](#duplicate_sceneindex-int)                                                                                                 | `None`     | Duplicates a scene and selects the new one.                                      |
-| [`duplicate_track(index: int)`](#duplicate_trackindex-int)                                                                                                 | `None`     | Duplicates a track and selects the new one.                                      |
-| [`end_undo_step()`](#end_undo_step)                                                                                                                        | `None`     |                                                                                  |
-| [`find_device_position(device: Device, target: LomObject, target_position: int)`](#find_device_positiondevice-device-target-lomobject-target_position-int) | `int`      | Returns the closest possible position to the given target, where the device c... |
-| [`force_link_beat_time()`](#force_link_beat_time)                                                                                                          | `None`     | Force the Link timeline to jump to Lives current beat time.                      |
-| [`get_beats_loop_length()`](#get_beats_loop_length)                                                                                                        | `BeatTime` | Get const access to the songs loop length, using a BeatTime class with the cu... |
-| [`get_beats_loop_start()`](#get_beats_loop_start)                                                                                                          | `BeatTime` | Get const access to the songs loop start, using a BeatTime class with the cur... |
-| [`get_current_beats_song_time()`](#get_current_beats_song_time)                                                                                            | `BeatTime` | Get const access to the songs current playing position, using a BeatTime clas... |
-| [`get_current_smpte_song_time(format: int)`](#get_current_smpte_song_timeformat-int)                                                                       | `SmptTime` | Get const access to the songs current playing position, by specifying the SMP... |
-| [`get_data(key: str, default_value: Any)`](#get_datakey-str-default_value-any)                                                                             | `Any`      | Get data for the given key, that was previously stored using set_data.           |
-| [`is_cue_point_selected()`](#is_cue_point_selected)                                                                                                        | `bool`     | Return true if the global playing pos is currently on a cue point.               |
-| [`jump_by(beats: float)`](#jump_bybeats-float)                                                                                                             | `None`     | Set a new playing pos, relative to the current one.                              |
-| [`jump_to_next_cue()`](#jump_to_next_cue)                                                                                                                  | `None`     | Jump to the next cue (marker) if possible.                                       |
-| [`jump_to_prev_cue()`](#jump_to_prev_cue)                                                                                                                  | `None`     | Jump to the prior cue (marker) if possible.                                      |
-| [`move_device(device: Device, target: LomObject, target_position: int)`](#move_devicedevice-device-target-lomobject-target_position-int)                   | `int`      | Move a device into the target at the given position, where 0 moves it before ... |
-| [`play_selection()`](#play_selection)                                                                                                                      | `None`     | Start playing the current set selection, or do nothing if no selection is set.   |
-| [`re_enable_automation()`](#re_enable_automation)                                                                                                          | `None`     | Discards overrides of automated parameters.                                      |
-| [`redo()`](#redo)                                                                                                                                          | `str`      | Redo the last action that was undone.                                            |
-| [`scrub_by(beats: float)`](#scrub_bybeats-float)                                                                                                           | `None`     | Same as jump_by, but does not stop playback.                                     |
-| [`set_data(key: str, value: Any)`](#set_datakey-str-value-any)                                                                                             | `None`     | Store data for the given key in this object.                                     |
-| [`set_or_delete_cue()`](#set_or_delete_cue)                                                                                                                | `None`     | When a cue is selected, it gets deleted.                                         |
-| [`start_playing()`](#start_playing)                                                                                                                        | `None`     | Start playing from the startmarker.                                              |
-| [`stop_all_clips(Quantized: bool = True)`](#stop_all_clipsquantized-bool-true)                                                                             | `None`     | Stop all playing Clips (if any) but continue playing the Song.                   |
-| [`stop_playing()`](#stop_playing)                                                                                                                          | `None`     | Stop playing the Song.                                                           |
-| [`tap_tempo()`](#tap_tempo)                                                                                                                                | `None`     | Trigger the tap tempo function.                                                  |
-| [`trigger_session_record(record_length: float = 1.7976931348623157e+308)`](#trigger_session_recordrecord_length-float-17976931348623157e308)               | `None`     | Triggers a new session recording.                                                |
-| [`undo()`](#undo)                                                                                                                                          | `str`      | Undo the last action that was made.                                              |
+| Method                                                                                                                                                     | Returns    |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| [`begin_undo_step()`](#begin_undo_step)                                                                                                                    | `None`     |
+| [`capture_and_insert_scene(CaptureMode: CaptureMode \| int = 0)`](#capture_and_insert_scenecapturemode-capturemode-int-0)                                  | `None`     |
+| [`capture_midi(Destination: CaptureDestination \| int = 0)`](#capture_mididestination-capturedestination-int-0)                                            | `None`     |
+| [`continue_playing()`](#continue_playing)                                                                                                                  | `None`     |
+| [`create_audio_track(Index: int = None)`](#create_audio_trackindex-int-none)                                                                               | `Track`    |
+| [`create_midi_track(Index: int = None)`](#create_midi_trackindex-int-none)                                                                                 | `Track`    |
+| [`create_return_track()`](#create_return_track)                                                                                                            | `Track`    |
+| [`create_scene(index: int)`](#create_sceneindex-int)                                                                                                       | `Scene`    |
+| [`delete_return_track(index: int)`](#delete_return_trackindex-int)                                                                                         | `None`     |
+| [`delete_scene(index: int)`](#delete_sceneindex-int)                                                                                                       | `None`     |
+| [`delete_track(index: int)`](#delete_trackindex-int)                                                                                                       | `None`     |
+| [`duplicate_scene(index: int)`](#duplicate_sceneindex-int)                                                                                                 | `None`     |
+| [`duplicate_track(index: int)`](#duplicate_trackindex-int)                                                                                                 | `None`     |
+| [`end_undo_step()`](#end_undo_step)                                                                                                                        | `None`     |
+| [`find_device_position(device: Device, target: LomObject, target_position: int)`](#find_device_positiondevice-device-target-lomobject-target_position-int) | `int`      |
+| [`force_link_beat_time()`](#force_link_beat_time)                                                                                                          | `None`     |
+| [`get_beats_loop_length()`](#get_beats_loop_length)                                                                                                        | `BeatTime` |
+| [`get_beats_loop_start()`](#get_beats_loop_start)                                                                                                          | `BeatTime` |
+| [`get_current_beats_song_time()`](#get_current_beats_song_time)                                                                                            | `BeatTime` |
+| [`get_current_smpte_song_time(format: int)`](#get_current_smpte_song_timeformat-int)                                                                       | `SmptTime` |
+| [`get_data(key: str, default_value: Any)`](#get_datakey-str-default_value-any)                                                                             | `Any`      |
+| [`is_cue_point_selected()`](#is_cue_point_selected)                                                                                                        | `bool`     |
+| [`jump_by(beats: float)`](#jump_bybeats-float)                                                                                                             | `None`     |
+| [`jump_to_next_cue()`](#jump_to_next_cue)                                                                                                                  | `None`     |
+| [`jump_to_prev_cue()`](#jump_to_prev_cue)                                                                                                                  | `None`     |
+| [`move_device(device: Device, target: LomObject, target_position: int)`](#move_devicedevice-device-target-lomobject-target_position-int)                   | `int`      |
+| [`play_selection()`](#play_selection)                                                                                                                      | `None`     |
+| [`re_enable_automation()`](#re_enable_automation)                                                                                                          | `None`     |
+| [`redo()`](#redo)                                                                                                                                          | `str`      |
+| [`scrub_by(beats: float)`](#scrub_bybeats-float)                                                                                                           | `None`     |
+| [`set_data(key: str, value: Any)`](#set_datakey-str-value-any)                                                                                             | `None`     |
+| [`set_or_delete_cue()`](#set_or_delete_cue)                                                                                                                | `None`     |
+| [`start_playing()`](#start_playing)                                                                                                                        | `None`     |
+| [`stop_all_clips(Quantized: bool = True)`](#stop_all_clipsquantized-bool-true)                                                                             | `None`     |
+| [`stop_playing()`](#stop_playing)                                                                                                                          | `None`     |
+| [`tap_tempo()`](#tap_tempo)                                                                                                                                | `None`     |
+| [`trigger_session_record(record_length: float = 1.7976931348623157e+308)`](#trigger_session_recordrecord_length-float-17976931348623157e308)               | `None`     |
+| [`undo()`](#undo)                                                                                                                                          | `str`      |
 
 #### `begin_undo_step()`
 
@@ -946,9 +946,9 @@ Get/Set the current selected Track in Lives Session or Arrangerview.
 
 ### Methods
 
-| Method                                                                                                                         | Returns | Description              |
-| ------------------------------------------------------------------------------------------------------------------------------ | ------- | ------------------------ |
-| [`select_device(device: Device, ShouldAppointDevice: bool = True)`](#select_devicedevice-device-shouldappointdevice-bool-true) | `None`  | Select the given device. |
+| Method                                                                                                                         | Returns |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| [`select_device(device: Device, ShouldAppointDevice: bool = True)`](#select_devicedevice-device-shouldappointdevice-bool-true) | `None`  |
 
 #### `select_device(device: Device, ShouldAppointDevice: bool = True)`
 
@@ -1117,9 +1117,9 @@ Get/Listen to the CuePoint's time in beats.
 
 #### Methods
 
-| Method            | Returns | Description                                                                      |
-| ----------------- | ------- | -------------------------------------------------------------------------------- |
-| [`jump()`](#jump) | `None`  | When the Song is playing, set the playing-position quantized to this Cuepoint... |
+| Method            | Returns |
+| ----------------- | ------- |
+| [`jump()`](#jump) | `None`  |
 
 ##### `jump()`
 
@@ -1170,9 +1170,9 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 ## Module Functions
 
-| Function                                              | Returns | Description                                                               |
-| ----------------------------------------------------- | ------- | ------------------------------------------------------------------------- |
-| [`get_all_scales_ordered()`](#get_all_scales_ordered) | `tuple` | Get an ordered tuple of tuples of all available scale names to intervals. |
+| Function                                              | Returns |
+| ----------------------------------------------------- | ------- |
+| [`get_all_scales_ordered()`](#get_all_scales_ordered) | `tuple` |
 
 ### `get_all_scales_ordered()`
 

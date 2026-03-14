@@ -538,21 +538,21 @@ Representing the view aspects of a Track.
 
 ### Methods
 
-| Method                                                                                                                                 | Returns     | Description                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
-| [`create_audio_clip(file_path: str, position: float)`](#create_audio_clipfile_path-str-position-float)                                 | `Clip`      | Creates an audio clip referencing the file at the given path and inserts it i... |
-| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)                                 | `Clip`      | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
-| [`create_take_lane()`](#create_take_lane)                                                                                              | `LomObject` | Create a new TakeLane for this track.                                            |
-| [`delete_clip(slot: Clip)`](#delete_clipslot-clip)                                                                                     | `None`      | Delete the given clip.                                                           |
-| [`delete_device(device: int)`](#delete_devicedevice-int)                                                                               | `None`      | Delete a device identified by the index in the 'devices' list.                   |
-| [`duplicate_clip_slot(index: int)`](#duplicate_clip_slotindex-int)                                                                     | `int`       | Duplicate a clip and put it into the next free slot and return the index of t... |
-| [`duplicate_clip_to_arrangement(clip: Clip, destination_time: float)`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`      | Duplicate the given clip into the arrangement of this track at the provided d... |
-| [`duplicate_device(index: int)`](#duplicate_deviceindex-int)                                                                           | `None`      | Duplicate a device at a given index in the 'devices' list.                       |
-| [`get_data(key: str, default_value: Any)`](#get_datakey-str-default_value-any)                                                         | `Any`       | Get data for the given key, that was previously stored using set_data.           |
-| [`insert_device(DeviceName: str, DeviceIndex: int = -1)`](#insert_devicedevicename-str-deviceindex-int--1)                             | `LomObject` | Add a device at a given index in the 'devices' list.                             |
-| [`jump_in_running_session_clip(beats: float)`](#jump_in_running_session_clipbeats-float)                                               | `None`      | Jump forward or backward in the currently running Sessionclip (if any) by the... |
-| [`set_data(key: str, value: Any)`](#set_datakey-str-value-any)                                                                         | `None`      | Store data for the given key in this object.                                     |
-| [`stop_all_clips(Quantized: bool = True)`](#stop_all_clipsquantized-bool-true)                                                         | `None`      | Stop running and triggered clip and slots on this track.                         |
+| Method                                                                                                                                 | Returns     |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| [`create_audio_clip(file_path: str, position: float)`](#create_audio_clipfile_path-str-position-float)                                 | `Clip`      |
+| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)                                 | `Clip`      |
+| [`create_take_lane()`](#create_take_lane)                                                                                              | `LomObject` |
+| [`delete_clip(slot: Clip)`](#delete_clipslot-clip)                                                                                     | `None`      |
+| [`delete_device(device: int)`](#delete_devicedevice-int)                                                                               | `None`      |
+| [`duplicate_clip_slot(index: int)`](#duplicate_clip_slotindex-int)                                                                     | `int`       |
+| [`duplicate_clip_to_arrangement(clip: Clip, destination_time: float)`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`      |
+| [`duplicate_device(index: int)`](#duplicate_deviceindex-int)                                                                           | `None`      |
+| [`get_data(key: str, default_value: Any)`](#get_datakey-str-default_value-any)                                                         | `Any`       |
+| [`insert_device(DeviceName: str, DeviceIndex: int = -1)`](#insert_devicedevicename-str-deviceindex-int--1)                             | `LomObject` |
+| [`jump_in_running_session_clip(beats: float)`](#jump_in_running_session_clipbeats-float)                                               | `None`      |
+| [`set_data(key: str, value: Any)`](#set_datakey-str-value-any)                                                                         | `None`      |
+| [`stop_all_clips(Quantized: bool = True)`](#stop_all_clipsquantized-bool-true)                                                         | `None`      |
 
 #### `create_audio_clip(file_path: str, position: float)`
 
@@ -713,9 +713,9 @@ Get/Set/Listen the insertion mode of the device. While in insertion mode, loadin
 
 ### Methods
 
-| Method                                      | Returns | Description                                   |
-| ------------------------------------------- | ------- | --------------------------------------------- |
-| [`select_instrument()`](#select_instrument) | `bool`  | Selects the track's instrument if it has one. |
+| Method                                      | Returns |
+| ------------------------------------------- | ------- |
+| [`select_instrument()`](#select_instrument) | `bool`  |
 
 #### `select_instrument()`
 
@@ -810,10 +810,10 @@ A container for returning routing channels from Live.
 
 #### Methods
 
-| Method                                                           | Returns | Description |
-| ---------------------------------------------------------------- | ------- | ----------- |
-| [`append(value: RoutingChannel)`](#appendvalue-routingchannel)   | `None`  |             |
-| [`extend(values: RoutingChannel)`](#extendvalues-routingchannel) | `None`  |             |
+| Method                                                           | Returns |
+| ---------------------------------------------------------------- | ------- |
+| [`append(value: RoutingChannel)`](#appendvalue-routingchannel)   | `None`  |
+| [`extend(values: RoutingChannel)`](#extendvalues-routingchannel) | `None`  |
 
 ##### `append(value: RoutingChannel)`
 
@@ -873,10 +873,10 @@ A container for returning routing types from Live.
 
 #### Methods
 
-| Method                                                     | Returns | Description |
-| ---------------------------------------------------------- | ------- | ----------- |
-| [`append(value: RoutingType)`](#appendvalue-routingtype)   | `None`  |             |
-| [`extend(values: RoutingType)`](#extendvalues-routingtype) | `None`  |             |
+| Method                                                     | Returns |
+| ---------------------------------------------------------- | ------- |
+| [`append(value: RoutingType)`](#appendvalue-routingtype)   | `None`  |
+| [`extend(values: RoutingType)`](#extendvalues-routingtype) | `None`  |
 
 ##### `append(value: RoutingType)`
 

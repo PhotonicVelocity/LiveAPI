@@ -489,18 +489,6 @@ def format_args_detail(args: list[tuple[str, str, str | None]]) -> list[str]:
     return lines
 
 
-def truncate_summary(docstring: str, max_len: int = 80) -> str:
-    """Get a short summary from a docstring."""
-    if not docstring:
-        return ""
-    # Take first sentence
-    first = docstring.split(". ")[0].split(".\n")[0]
-    if not first.endswith("."):
-        first += "."
-    if len(first) > max_len:
-        return first[: max_len - 3] + "..."
-    return first
-
 
 def _render_class_body(
     cls: ClassInfo,
@@ -591,14 +579,13 @@ def _render_class_body(
         lines.append("")
 
         # Summary table
-        lines.append("| Method | Returns | Description |")
-        lines.append("| --- | --- | --- |")
+        lines.append("| Method | Returns |")
+        lines.append("| --- | --- |")
         for method in cls.methods:
             sig = escape_table_cell(format_args_signature(method.args))
-            summary = escape_table_cell(truncate_summary(method.docstring))
             esc_ret = escape_table_cell(method.return_type)
             anchor = slugify(f"{method.name}({format_args_signature(method.args)})")
-            lines.append(f"| [`{method.name}({sig})`](#{anchor}) | `{esc_ret}` | {summary} |")
+            lines.append(f"| [`{method.name}({sig})`](#{anchor}) | `{esc_ret}` |")
         lines.append("")
 
         # Per-method details
@@ -659,14 +646,13 @@ def _render_module_functions(functions: list[MethodInfo], heading: str, detail: 
     lines: list[str] = []
     lines.append(f"{heading} Module Functions")
     lines.append("")
-    lines.append("| Function | Returns | Description |")
-    lines.append("| --- | --- | --- |")
+    lines.append("| Function | Returns |")
+    lines.append("| --- | --- |")
     for func in functions:
         sig = escape_table_cell(format_args_signature(func.args))
-        summary = escape_table_cell(truncate_summary(func.docstring))
         esc_ret = escape_table_cell(func.return_type)
         anchor = slugify(f"{func.name}({format_args_signature(func.args)})")
-        lines.append(f"| [`{func.name}({sig})`](#{anchor}) | `{esc_ret}` | {summary} |")
+        lines.append(f"| [`{func.name}({sig})`](#{anchor}) | `{esc_ret}` |")
     lines.append("")
     for func in functions:
         sig = format_args_signature(func.args)

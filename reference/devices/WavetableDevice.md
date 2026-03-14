@@ -276,13 +276,13 @@ Get the names of all the visible modulation targets.
 
 ### Methods
 
-| Method                                                                                                                               | Returns | Description                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------- |
-| [`add_parameter_to_modulation_matrix(parameter: DeviceParameter)`](#add_parameter_to_modulation_matrixparameter-deviceparameter)     | `int`   | Add a non-pitch parameter to the modulation matrix.                          |
-| [`get_modulation_target_parameter_name(target_index: int)`](#get_modulation_target_parameter_nametarget_index-int)                   | `str`   | Get the parameter name of the modulation target at the given index.          |
-| [`get_modulation_value(target_index: int, source: int)`](#get_modulation_valuetarget_index-int-source-int)                           | `float` | Get the value of a modulation amount for the given target-source connection. |
-| [`is_parameter_modulatable(parameter: DeviceParameter)`](#is_parameter_modulatableparameter-deviceparameter)                         | `bool`  | Indicate whether the parameter is modulatable.                               |
-| [`set_modulation_value(target_index: int, source: int, value: float)`](#set_modulation_valuetarget_index-int-source-int-value-float) | `None`  | Set the value of a modulation amount for the given target-source connection. |
+| Method                                                                                                                               | Returns |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------- |
+| [`add_parameter_to_modulation_matrix(parameter: DeviceParameter)`](#add_parameter_to_modulation_matrixparameter-deviceparameter)     | `int`   |
+| [`get_modulation_target_parameter_name(target_index: int)`](#get_modulation_target_parameter_nametarget_index-int)                   | `str`   |
+| [`get_modulation_value(target_index: int, source: int)`](#get_modulation_valuetarget_index-int-source-int)                           | `float` |
+| [`is_parameter_modulatable(parameter: DeviceParameter)`](#is_parameter_modulatableparameter-deviceparameter)                         | `bool`  |
+| [`set_modulation_value(target_index: int, source: int, value: float)`](#set_modulation_valuetarget_index-int-source-int-value-float) | `None`  |
 
 #### `add_parameter_to_modulation_matrix(parameter: DeviceParameter)`
 

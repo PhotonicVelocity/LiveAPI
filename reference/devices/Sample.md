@@ -226,16 +226,16 @@ Access to the sample's warping property.
 
 ### Methods
 
-| Method                                                                             | Returns | Description                                                  |
-| ---------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------ |
-| [`beat_to_sample_time(beat_time: float)`](#beat_to_sample_timebeat_time-float)     | `float` | Converts the given beat time to sample time.                 |
-| [`clear_slices()`](#clear_slices)                                                  | `None`  | Clears all slices created in Simpler's manual mode.          |
-| [`gain_display_string()`](#gain_display_string)                                    | `str`   | Get the gain's display value as a string.                    |
-| [`insert_slice(slice_time: int)`](#insert_sliceslice_time-int)                     | `None`  | Add a slice point at the provided time if there is none.     |
-| [`move_slice(old_time: int, new_time: int)`](#move_sliceold_time-int-new_time-int) | `int`   | Move the slice point at the provided time.                   |
-| [`remove_slice(slice_time: int)`](#remove_sliceslice_time-int)                     | `None`  | Remove the slice point at the provided time if there is one. |
-| [`reset_slices()`](#reset_slices)                                                  | `None`  | Resets all edited slices to their original positions.        |
-| [`sample_to_beat_time(sample_time: float)`](#sample_to_beat_timesample_time-float) | `float` | Converts the given sample time to beat time.                 |
+| Method                                                                             | Returns |
+| ---------------------------------------------------------------------------------- | ------- |
+| [`beat_to_sample_time(beat_time: float)`](#beat_to_sample_timebeat_time-float)     | `float` |
+| [`clear_slices()`](#clear_slices)                                                  | `None`  |
+| [`gain_display_string()`](#gain_display_string)                                    | `str`   |
+| [`insert_slice(slice_time: int)`](#insert_sliceslice_time-int)                     | `None`  |
+| [`move_slice(old_time: int, new_time: int)`](#move_sliceold_time-int-new_time-int) | `int`   |
+| [`remove_slice(slice_time: int)`](#remove_sliceslice_time-int)                     | `None`  |
+| [`reset_slices()`](#reset_slices)                                                  | `None`  |
+| [`sample_to_beat_time(sample_time: float)`](#sample_to_beat_timesample_time-float) | `float` |
 
 #### `beat_to_sample_time(beat_time: float)`
 

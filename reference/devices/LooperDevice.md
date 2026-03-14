@@ -186,19 +186,19 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                                               | Returns | Description                                                                 |
-| ------------------------------------------------------------------------------------ | ------- | --------------------------------------------------------------------------- |
-| [`clear()`](#clear)                                                                  | `None`  | Erase Looper's recorded content.                                            |
-| [`double_length()`](#double_length)                                                  | `None`  | Double the length of Looper's buffer.                                       |
-| [`double_speed()`](#double_speed)                                                    | `None`  | Double the speed of Looper's playback.                                      |
-| [`export_to_clip_slot(clip_slot: ClipSlot)`](#export_to_clip_slotclip_slot-clipslot) | `None`  | Export Looper's content to a Session Clip Slot.                             |
-| [`half_length()`](#half_length)                                                      | `None`  | Halve the length of Looper's buffer.                                        |
-| [`half_speed()`](#half_speed)                                                        | `None`  | Halve the speed of Looper's playback.                                       |
-| [`overdub()`](#overdub)                                                              | `None`  | Play back while adding additional layers of incoming audio.                 |
-| [`play()`](#play)                                                                    | `None`  | Play back without overdubbing.                                              |
-| [`record()`](#record)                                                                | `None`  | Record incoming audio.                                                      |
-| [`stop()`](#stop)                                                                    | `None`  | Stop Looper's playback.                                                     |
-| [`undo()`](#undo)                                                                    | `None`  | Erase everything that was recorded since the last time Overdub was enabled. |
+| Method                                                                               | Returns |
+| ------------------------------------------------------------------------------------ | ------- |
+| [`clear()`](#clear)                                                                  | `None`  |
+| [`double_length()`](#double_length)                                                  | `None`  |
+| [`double_speed()`](#double_speed)                                                    | `None`  |
+| [`export_to_clip_slot(clip_slot: ClipSlot)`](#export_to_clip_slotclip_slot-clipslot) | `None`  |
+| [`half_length()`](#half_length)                                                      | `None`  |
+| [`half_speed()`](#half_speed)                                                        | `None`  |
+| [`overdub()`](#overdub)                                                              | `None`  |
+| [`play()`](#play)                                                                    | `None`  |
+| [`record()`](#record)                                                                | `None`  |
+| [`stop()`](#stop)                                                                    | `None`  |
+| [`undo()`](#undo)                                                                    | `None`  |
 
 #### `clear()`
 

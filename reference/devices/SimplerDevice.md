@@ -267,14 +267,14 @@ Access to the number of voices in Simpler.
 
 ### Methods
 
-| Method                                                 | Returns | Description                                                                      |
-| ------------------------------------------------------ | ------- | -------------------------------------------------------------------------------- |
-| [`crop()`](#crop)                                      | `None`  | Crop the loaded sample to the active area between start- and end marker.         |
-| [`guess_playback_length()`](#guess_playback_length)    | `float` | Return an estimated beat time for the playback length between start- and end-... |
-| [`reverse()`](#reverse)                                | `None`  | Reverse the loaded sample.                                                       |
-| [`warp_as(beat_time: float)`](#warp_asbeat_time-float) | `None`  | Warp the playback region between start- and end-marker as the given length.      |
-| [`warp_double()`](#warp_double)                        | `None`  | Doubles the tempo for region between start- and end-marker.                      |
-| [`warp_half()`](#warp_half)                            | `None`  | Halves the tempo for region between start- and end-marker.                       |
+| Method                                                 | Returns |
+| ------------------------------------------------------ | ------- |
+| [`crop()`](#crop)                                      | `None`  |
+| [`guess_playback_length()`](#guess_playback_length)    | `float` |
+| [`reverse()`](#reverse)                                | `None`  |
+| [`warp_as(beat_time: float)`](#warp_asbeat_time-float) | `None`  |
+| [`warp_double()`](#warp_double)                        | `None`  |
+| [`warp_half()`](#warp_half)                            | `None`  |
 
 #### `crop()`
 
@@ -437,9 +437,9 @@ Access to the selected slice.
 
 ## Module Functions
 
-| Function                                                        | Returns     | Description                                  |
-| --------------------------------------------------------------- | ----------- | -------------------------------------------- |
-| [`get_available_voice_numbers()`](#get_available_voice_numbers) | `IntVector` | Get a vector of valid Simpler voice numbers. |
+| Function                                                        | Returns     |
+| --------------------------------------------------------------- | ----------- |
+| [`get_available_voice_numbers()`](#get_available_voice_numbers) | `IntVector` |
 
 ### `get_available_voice_numbers()`
 

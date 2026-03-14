@@ -258,17 +258,17 @@ Access to the number of macros that are currently visible.
 
 ### Methods
 
-| Method                                                                                                   | Returns     | Description                                                                      |
-| -------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
-| [`add_macro()`](#add_macro)                                                                              | `None`      | Increases the number of visible macro controls in the rack.                      |
-| [`copy_pad(source_index: int, destination_index: int)`](#copy_padsource_index-int-destination_index-int) | `None`      | Copies all contents of a drum pad from a source pad into a destination pad.      |
-| [`delete_selected_variation()`](#delete_selected_variation)                                              | `None`      | Deletes the currently selected macro variation.Does nothing if there is no se... |
-| [`insert_chain(Index: int = -1)`](#insert_chainindex-int--1)                                             | `LomObject` | Inserts a new chain, either at the specified index or, if not index was speci... |
-| [`randomize_macros()`](#randomize_macros)                                                                | `None`      | Randomizes the values for all macro controls not excluded from randomization.    |
-| [`recall_last_used_variation()`](#recall_last_used_variation)                                            | `None`      | Recalls the macro variation that was recalled most recently.Does nothing if n... |
-| [`recall_selected_variation()`](#recall_selected_variation)                                              | `None`      | Recalls the currently selected macro variation.Does nothing if there are no v... |
-| [`remove_macro()`](#remove_macro)                                                                        | `None`      | Decreases the number of visible macro controls in the rack.                      |
-| [`store_variation()`](#store_variation)                                                                  | `None`      | Stores a new variation of the values of all currently mapped macros.             |
+| Method                                                                                                   | Returns     |
+| -------------------------------------------------------------------------------------------------------- | ----------- |
+| [`add_macro()`](#add_macro)                                                                              | `None`      |
+| [`copy_pad(source_index: int, destination_index: int)`](#copy_padsource_index-int-destination_index-int) | `None`      |
+| [`delete_selected_variation()`](#delete_selected_variation)                                              | `None`      |
+| [`insert_chain(Index: int = -1)`](#insert_chainindex-int--1)                                             | `LomObject` |
+| [`randomize_macros()`](#randomize_macros)                                                                | `None`      |
+| [`recall_last_used_variation()`](#recall_last_used_variation)                                            | `None`      |
+| [`recall_selected_variation()`](#recall_selected_variation)                                              | `None`      |
+| [`remove_macro()`](#remove_macro)                                                                        | `None`      |
+| [`store_variation()`](#store_variation)                                                                  | `None`      |
 
 #### `add_macro()`
 
