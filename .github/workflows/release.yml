@@ -77,7 +77,7 @@ jobs:
             if [ -n "${{ steps.versions.outputs.post }}" ]; then
               pkg_version="${version}.post${{ steps.versions.outputs.post }}"
             fi
-            zip_file="dist/ableton-live-stubs-${pkg_version}.zip"
+            zip_file="dist/github/ableton-live-stubs-${pkg_version}.zip"
 
             if gh release view "$tag" &>/dev/null; then
               # Update existing release — replace zip asset

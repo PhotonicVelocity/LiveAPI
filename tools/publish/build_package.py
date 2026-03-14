@@ -125,15 +125,18 @@ def build_package(live_version: str, post: int | None = None) -> None:
             check=True,
         )
 
-    # Create zip for GitHub release
+    # Create zip for GitHub release (separate from dist/ so PyPI upload doesn't pick it up)
+    release_dir = REPO_ROOT / "dist" / "github"
+    release_dir.mkdir(parents=True, exist_ok=True)
     zip_name = f"ableton-live-stubs-{version}"
-    zip_path = dist_dir / zip_name
+    zip_path = release_dir / zip_name
     shutil.make_archive(str(zip_path), "zip", stubs_src.parent, "Live")
     print(f"\nGitHub release zip: {zip_path}.zip")
 
     print(f"\nBuilt in {dist_dir}/:")
     for f in sorted(dist_dir.iterdir()):
-        print(f"  {f.name}")
+        if f.is_file():
+            print(f"  {f.name}")
 
 
 def main() -> None:
