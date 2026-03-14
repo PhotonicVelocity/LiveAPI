@@ -233,8 +233,8 @@ class PropertyProbe:
                     if type_name not in _PRIMITIVES:
                         prop_info["repr"] = repr(type(prop))
                     self._discover(prop)
-                    if hasattr(prop, "__iter__"):
-                        self._record_element_type(prop)
+                    if hasattr(prop, "__iter__") and not isinstance(prop, str):
+                        self._record_element_type(prop, prop_info)
                 elif prop_info.get("repr") and not self._is_complete(prop_info["repr"]):
                     # Re-discover incomplete child types
                     self._discover(prop)
@@ -263,8 +263,8 @@ class PropertyProbe:
                 if type_name not in _PRIMITIVES:
                     getter_info["repr"] = repr(type(result))
                 self._discover(result)
-                if hasattr(result, "__iter__"):
-                    self._record_element_type(result)
+                if hasattr(result, "__iter__") and not isinstance(result, str):
+                    self._record_element_type(result, getter_info)
             except Exception as e:
                 self.log(f"  Failed to call {getter_name}: {e}")
 
@@ -299,8 +299,8 @@ class PropertyProbe:
                     getter_info["type"] = type_name
                     if type_name not in _PRIMITIVES:
                         getter_info["repr"] = repr(type(result))
-                if hasattr(result, "__iter__"):
-                    self._record_element_type(result)
+                if hasattr(result, "__iter__") and not isinstance(result, str):
+                    self._record_element_type(result, getter_info)
             except Exception as e:
                 self.log(f"  Failed to call {method_name}: {e}")
             self._hardcoded_done.add(i)
@@ -314,17 +314,25 @@ class PropertyProbe:
 
     # --- Element type recording ---
 
-    def _record_element_type(self, iterable: Any) -> None:
-        """If iterable is a vector in the repr_index, record element_repr on the vector's entry."""
+    def _record_element_type(self, iterable: Any, prop_info: dict | None = None) -> None:
+        """Record element_repr for an iterable's element type.
+
+        If the iterable's class exists in repr_index (a Vector type), stamp
+        element_repr on the vector's entry. Otherwise stamp element_repr on
+        prop_info (the property/method that returned it).
+        """
         vec_repr = repr(type(iterable))
         vec_entry = self.repr_index.get(vec_repr)
-        if vec_entry is None or vec_entry.get("element_repr"):
-            return
+        if vec_entry is not None and vec_entry.get("element_repr"):
+            return  # already recorded on vector class
         for item in iterable:
-            item_type = type(item).__name__
-            if item_type not in _PRIMITIVES:
-                vec_entry["element_repr"] = repr(type(item))
-                self.log(f"  Recorded element_repr on {vec_repr}: {vec_entry['element_repr']}")
+            item_repr = repr(type(item))
+            if vec_entry is not None:
+                vec_entry["element_repr"] = item_repr
+                self.log(f"  Recorded element_repr on {vec_repr}: {item_repr}")
+            elif prop_info is not None and not prop_info.get("element_repr"):
+                prop_info["element_repr"] = item_repr
+                self.log(f"  Recorded element_repr on property: {item_repr}")
             break
 
     # --- Completeness tracking ---

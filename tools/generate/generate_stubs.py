@@ -75,6 +75,7 @@ class StubGenerator:
         self._module_classes: dict[str, set[str]] = {}
         self._nested_class_parent: dict[str, str] = {}  # "View" -> "Device" (nested class -> parent)
         self._enum_lookup: dict[str, int] = {}
+        self._dynamic_vector_map: dict[str, str] = {}  # "TrackVector" -> "tuple[Track, ...]"
 
     # ------------------------------------------------------------------
     # Phase 1: Indexing
@@ -107,6 +108,14 @@ class StubGenerator:
             if node_type == "enum" and node.get("members"):
                 for mname, mval in node["members"].items():
                     self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
+
+            # Build dynamic vector map from element_repr on vector class nodes
+            element_repr = node.get("element_repr")
+            if element_repr and name not in _TYPE_MAP:
+                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                if m:
+                    elem = m.group(1)
+                    self._dynamic_vector_map[name] = f"tuple[{elem}, ...]"
 
             # Recurse into children
             for child in node.get("children", []):
@@ -389,6 +398,18 @@ class StubGenerator:
             if probed_type else None
         )
 
+        # Refine plain "tuple" using element_repr recorded on the property node
+        if type_str == "tuple":
+            element_repr = node.get("element_repr")
+            if element_repr:
+                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                if m:
+                    resolved_elem = self._resolve_probed_type(
+                        m.group(1), containing_class=containing_class,
+                        probed_repr=element_repr,
+                    )
+                    type_str = f"tuple[{resolved_elem}, ...]"
+
         # Getter
         ret_annotation = f" -> {type_str}" if type_str else ""
         buf.write(f"\n\n{pad}@property")
@@ -468,7 +489,7 @@ class StubGenerator:
         """
         if not probed_type:
             return "None"
-        resolved = _TYPE_MAP.get(probed_type, probed_type)
+        resolved = _TYPE_MAP.get(probed_type) or self._dynamic_vector_map.get(probed_type) or probed_type
         if resolved in self._nested_class_parent:
             # Extract parent from probed_repr if available (e.g. "<class 'Device.View'>" -> "Device")
             parent = None

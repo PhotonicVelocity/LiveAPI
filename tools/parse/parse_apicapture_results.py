@@ -1046,7 +1046,7 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             if isinstance(child, dict) and "name" in child:
                 children_by_name[child["name"]] = child
 
-        # Properties: stamp probed_type and probed_repr
+        # Properties: stamp probed_type, probed_repr, and element_type/element_repr
         props = entry.get("properties", {})
         for prop_name, prop_info in props.items():
             if not prop_info.get("probed"):
@@ -1059,6 +1059,10 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                 probed_repr = prop_info.get("repr")
                 if probed_repr:
                     child["probed_repr"] = probed_repr
+                # Stamp element_repr recorded directly on the property (plain tuples/lists)
+                elem_repr = prop_info.get("element_repr")
+                if elem_repr:
+                    child["element_repr"] = elem_repr
                 merged_props += 1
 
         # _live_ptr is always an int (internal C++ pointer handle on every LOM object)
