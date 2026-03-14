@@ -19,17 +19,17 @@ Published as a searchable site via GitHub Pages (MkDocs + Material theme).
 
 ## Using the Stubs
 
-Pre-built stubs for each Live version are available in [`build/`](build/). Each version directory contains a `Live/`
+Pre-built stubs for each Live version are available in [`stubs/`](stubs/). Each version directory contains a `Live/`
 package with typed modules you can use for autocomplete and static analysis.
 
-To use in a Control Surface project, add the relevant `build/<version>/Live/` directory to your type checker's search
+To use in a Control Surface project, add the relevant `stubs/<version>/Live/` directory to your type checker's search
 path. The stubs include a `py.typed` marker for PEP 561 compatibility.
 
 ## Project Structure
 
 ```
 reference/     Curated per-class API docs (the primary product)
-build/         Generated stubs and capture data per Live version
+stubs/         Generated stubs per Live version (pipeline intermediates in pipeline/ subdir)
 MaxForLive/    API docs parsed from Max for Live HTML documentation
 tools/         APICapture and stub generation pipeline (see tools/README.md)
 ```

@@ -1,13 +1,16 @@
 .DS_Store
 __pycache__/
 .venv/
-.vscode/
 site/
 dist/
 .env
 
-# Build output — keep JSON/logs, exclude Live subfolders (large generated stubs/XML)
-build/**/Live/
+# Stubs — track Live/ output, ignore pipeline intermediates and symlinks
+stubs/*/pipeline/
+stubs/*/Log.txt
+
+# Decompiled Remote Scripts (cloned for call-site analysis)
+doc/decompiled/
 
 # Ableton project artifacts
 Icon?
