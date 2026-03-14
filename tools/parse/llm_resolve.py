@@ -23,6 +23,7 @@ import argparse
 import glob
 import json
 import os
+import subprocess
 import sys
 from os.path import dirname, exists, join
 from pathlib import Path
@@ -452,7 +453,7 @@ def main():
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument("--input", help="Path to unresolved.json")
     parser.add_argument("--output", help="Path to output refinements.llm.json")
-    parser.add_argument("--m4l-dir", help="Path to MaxForLive docs directory", default="MaxForLive")
+    parser.add_argument("--m4l-dir", help="Path to MaxForLive docs directory (auto-detected from version)")
     parser.add_argument("--model", help="Claude model to use", default="claude-sonnet-4-20250514")
     parser.add_argument("--callsite-hints",
                         help="Path to refinements.callsite.json for call-site and type hints")
@@ -462,6 +463,23 @@ def main():
                         help="Merge batch result files into refinements.llm.json")
     parser.add_argument("--dry-run", action="store_true", help="Print prompt without calling API")
     args = parser.parse_args()
+
+    # Auto-detect M4L docs directory from Live version, fetch if missing
+    if not args.m4l_dir:
+        major, minor = (int(x) for x in args.version.split(".")[:2])
+        if major >= 12 and minor >= 2:
+            args.m4l_dir = "doc/max-for-live-docs/9.0"
+        else:
+            args.m4l_dir = "doc/max-for-live-docs/8.0"
+
+    if not exists(args.m4l_dir):
+        print(f"M4L docs not found at {args.m4l_dir}, fetching...")
+        fetch_script = join(dirname(__file__), "..", "other", "fetch_m4l_docs.py")
+        cmd = [sys.executable, fetch_script, "-o", args.m4l_dir]
+        if args.m4l_dir.endswith("8.0"):
+            cmd.append("--legacy")
+        subprocess.run(cmd, check=True)
+        print()
 
     pipeline = join("stubs", args.version, "pipeline")
     # Prefer unresolved.remaining.json (post-callsite) over unresolved.json

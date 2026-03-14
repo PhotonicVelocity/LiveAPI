@@ -13,6 +13,9 @@ stubs/*/Log.txt
 # Decompiled Remote Scripts (cloned for call-site analysis)
 doc/decompiled/
 
+# M4L LOM docs (fetched from docs.cycling74.com by fetch_m4l_docs.py)
+doc/max-for-live-docs/
+
 # Ableton project artifacts
 Icon?
 Backup/
