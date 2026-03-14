@@ -53,7 +53,7 @@ after reinstalling. Changes to `APICapture.py` or `__init__.py` require a full L
 
 ```bash
 # Start (background, no terminal hold):
-nohup ./tools/serve.sh > /tmp/mkdocs.log 2>&1 &
+nohup ./tools/other/serve.sh > /tmp/mkdocs.log 2>&1 &
 
 # Stop:
 kill $(lsof -ti:8123)
@@ -63,8 +63,8 @@ Serves at http://localhost:8123/LiveAPI/
 
 ## Governing Docs
 
-- **Decisions** — `doc/decisions.md`: terminology, project structure, reference format, navigation, publishing, tooling
-  direction.
+- **Decisions** — `doc/decisions.md`: terminology, project structure, parse pipeline, reference format, navigation,
+  publishing, tooling direction.
 - **Reference format** — `doc/contributing.md`: page structure template and format principles.
 
 ## Project Structure
@@ -74,14 +74,14 @@ Serves at http://localhost:8123/LiveAPI/
   - `tracks/` — Track, Clip, ClipSlot, Envelope, MixerDevice, TakeLane
   - `devices/` — all device classes (base + subclasses)
   - `other/` — Conversions, Groove, GroovePool, TuningSystem
-- `build/` — auto-generated API stubs and XML dumps per Live version (11.0–12.3.5)
+- `stubs/` — per-version generated stubs (`<version>/Live/`) with pipeline intermediates in `<version>/pipeline/`
 - `MaxForLive/` — API docs parsed from Max for Live HTML documentation
 - `tools/` — APICapture and build tooling
   - `apicapture/` — APICapture Control Surface (runs inside Live, captures API metadata)
+  - `parse/` — parsing and stub generation pipeline (see `doc/decisions.md` for full diagram)
+  - `other/` — legacy/utility scripts (serve.sh, watch.py, v1 StubGenerator)
   - `install.py` — installs APICapture to Remote Scripts folder
-  - `watch.py` — tails Ableton's log file for debugging
-  - `justfile` — shortcuts for install/build/reload workflow
-  - `set/` — Ableton Live set used with APICapture
+  - `sets/` — Ableton Live sets used with APICapture for probing
 - `doc/` — project-level documentation (decisions, contributing)
 
 ## Reference Format

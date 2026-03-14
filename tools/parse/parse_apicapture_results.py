@@ -952,7 +952,11 @@ def _resolve_returns(raw: dict[str, Any], cpp_to_py: dict[str, str]) -> dict[str
 
 
 def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent: ClassContext) -> None:
-    """Visitor: resolve raw signature parts into clean structured args and returns."""
+    """Visitor: resolve raw signature parts into clean structured args and returns.
+
+    Also applies well-known arg name patterns: arg1→self for instance methods,
+    listener callback naming, and Vector append/extend naming.
+    """
     if node.get("type") not in _FUNCTION_TYPES:
         return
     raw_args = node.get("args")
@@ -975,6 +979,13 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
     if is_listener and len(args) >= 2:
         args[-1]["type"] = "Callable"
         args[-1]["name"] = "callback"
+
+    # Vector methods: append(value), extend(values)
+    if parent.name and parent.name.endswith("Vector"):
+        if name == "append" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
+            args[1]["name"] = "value"
+        elif name == "extend" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
+            args[1]["name"] = "values"
 
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
@@ -1049,6 +1060,12 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                 if probed_repr:
                     child["probed_repr"] = probed_repr
                 merged_props += 1
+
+        # _live_ptr is always an int (internal C++ pointer handle on every LOM object)
+        live_ptr = children_by_name.get("_live_ptr")
+        if live_ptr and live_ptr.get("type") == "property" and not live_ptr.get("probed_type"):
+            live_ptr["probed_type"] = "int"
+            merged_props += 1
 
         # Constructable: stamp onto class node
         if entry.get("constructable"):
@@ -1145,27 +1162,27 @@ def run_pipeline(tree: TreeNode, ctx: dict[str, Any] | None = None) -> tuple[Tre
 # ------------------------------------------------------------------------------- #
 
 
-BUILD_DIR = Path(__file__).resolve().parent.parent.parent / "build"
+STUBS_DIR = Path(__file__).resolve().parent.parent.parent / "stubs"
 
 
-def resolve_build_dir(version: str) -> Path:
-    """Resolve a version string to a build directory.
+def resolve_pipeline_dir(version: str) -> Path:
+    """Resolve a version string to a pipeline directory.
 
     Accepts exact versions (12.3.6) or partial (12.3 → 12.3.0). If the exact path doesn't exist, appends .0 as a
-    fallback for minor-only versions.
+    fallback for minor-only versions. Returns the pipeline/ subdirectory where intermediates live.
     """
-    build_dir = BUILD_DIR / version
-    if build_dir.is_dir():
-        return build_dir
+    ver_dir = STUBS_DIR / version
+    if ver_dir.is_dir():
+        return ver_dir / "pipeline"
 
     # Try appending .0 for partial versions like "12.3" → "12.3.0"
-    fallback = BUILD_DIR / f"{version}.0"
+    fallback = STUBS_DIR / f"{version}.0"
     if fallback.is_dir():
-        return fallback
+        return fallback / "pipeline"
 
     # List available versions for a helpful error
-    available = sorted(p.name for p in BUILD_DIR.iterdir() if p.is_dir()) if BUILD_DIR.is_dir() else []
-    msg = f"No build directory found for version '{version}'"
+    available = sorted(p.name for p in STUBS_DIR.iterdir() if p.is_dir()) if STUBS_DIR.is_dir() else []
+    msg = f"No stubs directory found for version '{version}'"
     if available:
         msg += f"\nAvailable: {', '.join(available)}"
     raise SystemExit(msg)
@@ -1174,12 +1191,12 @@ def resolve_build_dir(version: str) -> Path:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Parse and enrich APICapture results")
     parser.add_argument("version", help="Live version (e.g. 12.3.6 or 12.3)")
-    parser.add_argument("--output", "-o", help="Output path (default: LiveTree.parsed.json in build dir)")
+    parser.add_argument("--output", "-o", help="Output path (default: LiveTree.parsed.json in pipeline dir)")
     args = parser.parse_args()
 
-    build_dir = resolve_build_dir(args.version)
-    raw_path = build_dir / "LiveTree.raw.json"
-    out_path = Path(args.output).expanduser().resolve() if args.output else build_dir / "LiveTree.parsed.json"
+    pipeline_dir = resolve_pipeline_dir(args.version)
+    raw_path = pipeline_dir / "LiveTree.raw.json"
+    out_path = Path(args.output).expanduser().resolve() if args.output else pipeline_dir / "LiveTree.parsed.json"
 
     if not raw_path.exists():
         raise SystemExit(f"Input file not found: {raw_path}")
@@ -1188,7 +1205,7 @@ def main() -> None:
         data = json.load(f)
 
     ctx: dict[str, Any] = {}
-    probe_path = build_dir / "LiveClasses.json"
+    probe_path = pipeline_dir / "LiveClasses.json"
     if probe_path.exists():
         with open(probe_path, "r", encoding="utf-8") as f:
             ctx["probe_data"] = json.load(f)
