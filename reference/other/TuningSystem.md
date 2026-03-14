@@ -14,16 +14,16 @@ Represents a Tuning System and its properties.
 
 ### Properties
 
-| Property                           | Type                  | Settable | Listenable | Description                                                                      |
-| ---------------------------------- | --------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `canonical_parent`                 | `Song`                | `no`     | `no`       | Get the canonical parent of the TuningSystem.                                    |
-| `highest_note`                     | `PitchClassAndOctave` | `yes`    | `yes`      | Get/Set the highest note of the current tuning system, where the first entry ... |
-| `lowest_note`                      | `PitchClassAndOctave` | `yes`    | `yes`      | Get/Set the lowest note of the current tuning system, where the first entry i... |
-| `name`                             | `str`                 | `yes`    | `yes`      | Get/Set the name of the currently active tuning system.                          |
-| `note_tunings`                     | `list`                | `yes`    | `yes`      | Get/Set the currently active tuning system's note tunings, specified in Cents... |
-| `number_of_notes_in_pseudo_octave` | `int`                 | `no`     | `no`       | Get the number of notes in the pseudo octave.                                    |
-| `pseudo_octave_in_cents`           | `float`               | `no`     | `no`       | Get the pseudo octave in cents for the currently active tuning system.           |
-| `reference_pitch`                  | `ReferencePitch`      | `yes`    | `yes`      | Get/Set the reference pitch the currently active tuning system.                  |
+| Property                           | Type                  | Supports             |
+| ---------------------------------- | --------------------- | -------------------- |
+| `canonical_parent`                 | `Song`                | `get`                |
+| `highest_note`                     | `PitchClassAndOctave` | `get`/`set`/`listen` |
+| `lowest_note`                      | `PitchClassAndOctave` | `get`/`set`/`listen` |
+| `name`                             | `str`                 | `get`/`set`/`listen` |
+| `note_tunings`                     | `list`                | `get`/`set`/`listen` |
+| `number_of_notes_in_pseudo_octave` | `int`                 | `get`                |
+| `pseudo_octave_in_cents`           | `float`               | `get`                |
+| `reference_pitch`                  | `ReferencePitch`      | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -101,10 +101,10 @@ This class represents a PitchClassAndOctave type.
 
 #### Properties
 
-| Property          | Type  | Settable | Listenable | Description                                             |
-| ----------------- | ----- | -------- | ---------- | ------------------------------------------------------- |
-| `index_in_octave` | `int` | `no`     | `no`       | A PitchClassAndOctave's index within the pseudo octave. |
-| `octave`          | `int` | `no`     | `no`       | A PitchClassAndOctave's octave.                         |
+| Property          | Type  | Supports |
+| ----------------- | ----- | -------- |
+| `index_in_octave` | `int` | `get`    |
+| `octave`          | `int` | `get`    |
 
 ##### `index_in_octave`
 
@@ -132,11 +132,11 @@ This class represents a ReferencePitch type.
 
 #### Properties
 
-| Property          | Type    | Settable | Listenable | Description                                        |
-| ----------------- | ------- | -------- | ---------- | -------------------------------------------------- |
-| `frequency`       | `float` | `no`     | `no`       | A ReferencePitch's frequency in Hz.                |
-| `index_in_octave` | `int`   | `no`     | `no`       | A ReferencePitch's index within the pseudo octave. |
-| `octave`          | `int`   | `no`     | `no`       | A ReferencePitch's octave.                         |
+| Property          | Type    | Supports |
+| ----------------- | ------- | -------- |
+| `frequency`       | `float` | `get`    |
+| `index_in_octave` | `int`   | `get`    |
+| `octave`          | `int`   | `get`    |
 
 ##### `frequency`
 

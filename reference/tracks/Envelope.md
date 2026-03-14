@@ -15,9 +15,9 @@ This class represents an automation or modulation envelope in Live.
 
 ### Properties
 
-| Property           | Type   | Settable | Listenable | Description                               |
-| ------------------ | ------ | -------- | ---------- | ----------------------------------------- |
-| `canonical_parent` | `Clip` | `no`     | `no`       | Get the canonical parent of the envelope. |
+| Property           | Type   | Supports |
+| ------------------ | ------ | -------- |
+| `canonical_parent` | `Clip` | `get`    |
 
 #### `canonical_parent`
 
@@ -84,11 +84,11 @@ This is a class that represents an envelope event.
 
 #### Properties
 
-| Property               | Type                               | Settable | Listenable | Description |
-| ---------------------- | ---------------------------------- | -------- | ---------- | ----------- |
-| `control_coefficients` | `EnvelopeEventControlCoefficients` | `yes`    | `no`       |             |
-| `time`                 | `float`                            | `yes`    | `no`       |             |
-| `value`                | `float`                            | `yes`    | `no`       |             |
+| Property               | Type                               | Supports    |
+| ---------------------- | ---------------------------------- | ----------- |
+| `control_coefficients` | `EnvelopeEventControlCoefficients` | `get`/`set` |
+| `time`                 | `float`                            | `get`/`set` |
+| `value`                | `float`                            | `get`/`set` |
 
 ##### `control_coefficients`
 
@@ -118,12 +118,12 @@ This class represents the control coefficients of an envelope event.
 
 #### Properties
 
-| Property | Type    | Settable | Listenable | Description |
-| -------- | ------- | -------- | ---------- | ----------- |
-| `x1`     | `float` | `yes`    | `no`       |             |
-| `x2`     | `float` | `yes`    | `no`       |             |
-| `y1`     | `float` | `yes`    | `no`       |             |
-| `y2`     | `float` | `yes`    | `no`       |             |
+| Property | Type    | Supports    |
+| -------- | ------- | ----------- |
+| `x1`     | `float` | `get`/`set` |
+| `x2`     | `float` | `get`/`set` |
+| `y1`     | `float` | `get`/`set` |
+| `y2`     | `float` | `get`/`set` |
 
 ##### `x1`
 

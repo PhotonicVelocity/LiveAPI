@@ -12,19 +12,19 @@ This class represents the Live application.
 
 ### Properties
 
-| Property                      | Type                                  | Settable | Listenable | Description                                                                      |
-| ----------------------------- | ------------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `average_process_usage`       | `float`                               | `no`     | `yes`      | Reports Live's average CPU load.                                                 |
-| `browser`                     | `Browser`                             | `no`     | `no`       | Returns an interface to the browser.                                             |
-| `canonical_parent`            | `None`                                | `no`     | `no`       | Returns the canonical parent of the application.                                 |
-| `control_surfaces`            | `tuple[object, Ellipsis]`             | `no`     | `yes`      | Const access to a list of the control surfaces selected in preferences, in th... |
-| `current_dialog_button_count` | `int`                                 | `no`     | `no`       | Number of buttons on the current dialog.                                         |
-| `current_dialog_message`      | `str`                                 | `no`     | `no`       | Text of the last dialog that appeared; Empty if all dialogs just disappeared.    |
-| `number_of_push_apps_running` | `int`                                 | `no`     | `no`       | Returns the number of connected Push apps.                                       |
-| `open_dialog_count`           | `int`                                 | `no`     | `yes`      | The number of open dialogs in Live.                                              |
-| `peak_process_usage`          | `float`                               | `no`     | `yes`      | Reports Live's peak CPU load.                                                    |
-| `unavailable_features`        | `tuple[UnavailableFeature, Ellipsis]` | `no`     | `yes`      | List of features that are unavailable due to limitations of the current Live ... |
-| `view`                        | `View`                                | `no`     | `no`       | Returns the applications view component.                                         |
+| Property                      | Type                                  | Supports       |
+| ----------------------------- | ------------------------------------- | -------------- |
+| `average_process_usage`       | `float`                               | `get`/`listen` |
+| `browser`                     | `Browser`                             | `get`          |
+| `canonical_parent`            | `None`                                | `get`          |
+| `control_surfaces`            | `tuple[object, Ellipsis]`             | `get`/`listen` |
+| `current_dialog_button_count` | `int`                                 | `get`          |
+| `current_dialog_message`      | `str`                                 | `get`          |
+| `number_of_push_apps_running` | `int`                                 | `get`          |
+| `open_dialog_count`           | `int`                                 | `get`/`listen` |
+| `peak_process_usage`          | `float`                               | `get`/`listen` |
+| `unavailable_features`        | `tuple[UnavailableFeature, Ellipsis]` | `get`/`listen` |
+| `view`                        | `View`                                | `get`          |
 
 #### `average_process_usage`
 
@@ -221,11 +221,11 @@ This class represents the view aspects of the Live application.
 
 ### Properties
 
-| Property                | Type          | Settable | Listenable | Description                                                                      |
-| ----------------------- | ------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `browse_mode`           | `bool`        | `no`     | `yes`      | Return true if HotSwap mode is active for any target.                            |
-| `canonical_parent`      | `Application` | `no`     | `no`       | Get the canonical parent of the application view.                                |
-| `focused_document_view` | `str`         | `no`     | `yes`      | Return the name of the document view ('Session' or 'Arranger') shown in the c... |
+| Property                | Type          | Supports       |
+| ----------------------- | ------------- | -------------- |
+| `browse_mode`           | `bool`        | `get`/`listen` |
+| `canonical_parent`      | `Application` | `get`          |
+| `focused_document_view` | `str`         | `get`/`listen` |
 
 #### `browse_mode`
 
@@ -396,10 +396,10 @@ Describes a control present in a control surface proxy
 
 #### Properties
 
-| Property | Type  | Settable | Listenable | Description |
-| -------- | ----- | -------- | ---------- | ----------- |
-| `id`     | `int` | `no`     | `no`       |             |
-| `name`   | `str` | `no`     | `no`       |             |
+| Property | Type  | Supports |
+| -------- | ----- | -------- |
+| `id`     | `int` | `get`    |
+| `name`   | `str` | `get`    |
 
 ##### `id`
 
@@ -446,11 +446,11 @@ Represents a control surface running in a different process. For use by M4L
 
 #### Properties
 
-| Property               | Type                                  | Settable | Listenable | Description                 |
-| ---------------------- | ------------------------------------- | -------- | ---------- | --------------------------- |
-| `control_descriptions` | `tuple[ControlDescription, Ellipsis]` | `no`     | `no`       |                             |
-| `pad_layout`           | `str`                                 | `no`     | `yes`      | The layout of pads on Push. |
-| `type_name`            | `str`                                 | `no`     | `no`       |                             |
+| Property               | Type                                  | Supports       |
+| ---------------------- | ------------------------------------- | -------------- |
+| `control_descriptions` | `tuple[ControlDescription, Ellipsis]` | `get`          |
+| `pad_layout`           | `str`                                 | `get`/`listen` |
+| `type_name`            | `str`                                 | `get`          |
 
 ##### `control_descriptions`
 

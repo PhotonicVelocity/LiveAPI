@@ -36,13 +36,13 @@ Interface to the internal licensing services.
 
 ### Properties
 
-| Property                                | Type   | Settable | Listenable | Description                                                                      |
-| --------------------------------------- | ------ | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `base_product_id`                       | `int`  | `no`     | `no`       | Returns Live's current base product ID.                                          |
-| `in_sassafras_mode`                     | `bool` | `no`     | `no`       |                                                                                  |
-| `license_must_match_variant`            | `bool` | `no`     | `no`       | Returns a bool indicating if we require the license information returned by t... |
-| `random_number_for_trial_authorization` | `int`  | `no`     | `no`       | Returns the integer to send along with the Trial authorization request.          |
-| `set_has_unsaved_changes`               | `bool` | `no`     | `no`       | Returns true if the set has unsaved changes.                                     |
+| Property                                | Type   | Supports |
+| --------------------------------------- | ------ | -------- |
+| `base_product_id`                       | `int`  | `get`    |
+| `in_sassafras_mode`                     | `bool` | `get`    |
+| `license_must_match_variant`            | `bool` | `get`    |
+| `random_number_for_trial_authorization` | `int`  | `get`    |
+| `set_has_unsaved_changes`               | `bool` | `get`    |
 
 #### `base_product_id`
 
@@ -243,15 +243,15 @@ Returns relevant information after unlock
 
 ### Properties
 
-| Property                    | Type   | Settable | Listenable | Description |
-| --------------------------- | ------ | -------- | ---------- | ----------- |
-| `authorization_deactivated` | `bool` | `no`     | `no`       |             |
-| `authorization_expired`     | `bool` | `no`     | `no`       |             |
-| `has_max_unlock_products`   | `bool` | `no`     | `no`       |             |
-| `temp_demo_mode`            | `bool` | `no`     | `no`       |             |
-| `time_limited`              | `bool` | `no`     | `no`       |             |
-| `unlock_error`              | `bool` | `no`     | `no`       |             |
-| `unlocked`                  | `bool` | `no`     | `no`       |             |
+| Property                    | Type   | Supports |
+| --------------------------- | ------ | -------- |
+| `authorization_deactivated` | `bool` | `get`    |
+| `authorization_expired`     | `bool` | `get`    |
+| `has_max_unlock_products`   | `bool` | `get`    |
+| `temp_demo_mode`            | `bool` | `get`    |
+| `time_limited`              | `bool` | `get`    |
+| `unlock_error`              | `bool` | `get`    |
+| `unlocked`                  | `bool` | `get`    |
 
 #### `authorization_deactivated`
 

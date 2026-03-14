@@ -15,20 +15,20 @@ This class represents an series of ClipSlots in Lives Sessionview matrix.
 
 ### Properties
 
-| Property                     | Type    | Settable | Listenable | Description                                                              |
-| ---------------------------- | ------- | -------- | ---------- | ------------------------------------------------------------------------ |
-| `canonical_parent`           | `Song`  | `no`     | `no`       | Get the canonical parent of the scene.                                   |
-| `clip_slots`                 | `tuple` | `no`     | `yes`      | return a list of clipslots (see class AClipSlot) that this scene covers. |
-| `color`                      | `int`   | `yes`    | `yes`      | Get/set access to the color of the scene (RGB).                          |
-| `color_index`                | `None`  | `yes`    | `yes`      | Get/set access to the color index of the scene.                          |
-| `is_empty`                   | `bool`  | `no`     | `no`       | Returns True if all clip slots of this scene are empty.                  |
-| `is_triggered`               | `bool`  | `no`     | `yes`      | Const access to the scene's trigger state.                               |
-| `name`                       | `str`   | `yes`    | `yes`      | Get/Set the name of the scene.                                           |
-| `tempo`                      | `float` | `yes`    | `yes`      | Get/Set the tempo value of the scene.                                    |
-| `tempo_enabled`              | `bool`  | `yes`    | `yes`      | Get/Set the active state of the scene tempo.                             |
-| `time_signature_denominator` | `int`   | `yes`    | `yes`      | Get/Set the scene's time signature denominator.                          |
-| `time_signature_enabled`     | `bool`  | `yes`    | `yes`      | Get the active state of the scene time signature.                        |
-| `time_signature_numerator`   | `int`   | `yes`    | `yes`      | Get/Set the scene's time signature numerator.                            |
+| Property                     | Type    | Supports             |
+| ---------------------------- | ------- | -------------------- |
+| `canonical_parent`           | `Song`  | `get`                |
+| `clip_slots`                 | `tuple` | `get`/`listen`       |
+| `color`                      | `int`   | `get`/`set`/`listen` |
+| `color_index`                | `None`  | `get`/`set`/`listen` |
+| `is_empty`                   | `bool`  | `get`                |
+| `is_triggered`               | `bool`  | `get`/`listen`       |
+| `name`                       | `str`   | `get`/`set`/`listen` |
+| `tempo`                      | `float` | `get`/`set`/`listen` |
+| `tempo_enabled`              | `bool`  | `get`/`set`/`listen` |
+| `time_signature_denominator` | `int`   | `get`/`set`/`listen` |
+| `time_signature_enabled`     | `bool`  | `get`/`set`/`listen` |
+| `time_signature_numerator`   | `int`   | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

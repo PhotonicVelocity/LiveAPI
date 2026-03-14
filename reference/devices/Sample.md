@@ -14,31 +14,31 @@ This class represents a sample file loaded into a Simpler instance.
 
 ### Properties
 
-| Property                       | Type                          | Settable | Listenable | Description                                                                      |
-| ------------------------------ | ----------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `beats_granulation_resolution` | `int`                         | `yes`    | `yes`      | Access to the Granulation Resolution parameter in Beats Warp Mode.               |
-| `beats_transient_envelope`     | `float`                       | `yes`    | `yes`      | Access to the Transient Envelope parameter in Beats Warp Mode.                   |
-| `beats_transient_loop_mode`    | `int`                         | `yes`    | `yes`      | Access to the Transient Loop Mode parameter in Beats Warp Mode.                  |
-| `canonical_parent`             | `SimplerDevice`               | `no`     | `no`       | Access to the sample's canonical parent.                                         |
-| `complex_pro_envelope`         | `float`                       | `yes`    | `yes`      | Access to the Envelope parameter in Complex Pro Mode.                            |
-| `complex_pro_formants`         | `float`                       | `yes`    | `yes`      | Access to the Formants parameter in Complex Pro Warp Mode.                       |
-| `end_marker`                   | `int`                         | `yes`    | `yes`      | Access to the position of the sample's end marker.                               |
-| `file_path`                    | `str`                         | `no`     | `yes`      | Get the path of the sample file.                                                 |
-| `gain`                         | `float`                       | `yes`    | `yes`      | Access to the sample gain.                                                       |
-| `length`                       | `int`                         | `no`     | `no`       | Get the length of the sample file in sample frames.                              |
-| `sample_rate`                  | `float`                       | `no`     | `no`       | Access to the audio sample rate of the sample.                                   |
-| `slices`                       | `tuple`                       | `no`     | `yes`      | Access to the list of slice points in sample time in the sample.                 |
-| `slicing_beat_division`        | `int`                         | `yes`    | `yes`      | Access to sample's slicing step size.                                            |
-| `slicing_region_count`         | `int`                         | `yes`    | `yes`      | Access to sample's slicing split count.                                          |
-| `slicing_sensitivity`          | `float`                       | `yes`    | `yes`      | Access to sample's slicing sensitivity whose sensitivity is in between 0.0 an... |
-| `slicing_style`                | `int`                         | `yes`    | `yes`      | Access to sample's slicing style.                                                |
-| `start_marker`                 | `int`                         | `yes`    | `yes`      | Access to the position of the sample's start marker.                             |
-| `texture_flux`                 | `float`                       | `yes`    | `yes`      | Access to the Flux parameter in Texture Warp Mode.                               |
-| `texture_grain_size`           | `float`                       | `yes`    | `yes`      | Access to the Grain Size parameter in Texture Warp Mode.                         |
-| `tones_grain_size`             | `float`                       | `yes`    | `yes`      | Access to the Grain Size parameter in Tones Warp Mode.                           |
-| `warp_markers`                 | `tuple[WarpMarker, Ellipsis]` | `no`     | `yes`      | Get the warp markers for this sample.                                            |
-| `warp_mode`                    | `int`                         | `yes`    | `yes`      | Access to the sample's warp mode.                                                |
-| `warping`                      | `bool`                        | `yes`    | `yes`      | Access to the sample's warping property.                                         |
+| Property                       | Type                          | Supports             |
+| ------------------------------ | ----------------------------- | -------------------- |
+| `beats_granulation_resolution` | `int`                         | `get`/`set`/`listen` |
+| `beats_transient_envelope`     | `float`                       | `get`/`set`/`listen` |
+| `beats_transient_loop_mode`    | `int`                         | `get`/`set`/`listen` |
+| `canonical_parent`             | `SimplerDevice`               | `get`                |
+| `complex_pro_envelope`         | `float`                       | `get`/`set`/`listen` |
+| `complex_pro_formants`         | `float`                       | `get`/`set`/`listen` |
+| `end_marker`                   | `int`                         | `get`/`set`/`listen` |
+| `file_path`                    | `str`                         | `get`/`listen`       |
+| `gain`                         | `float`                       | `get`/`set`/`listen` |
+| `length`                       | `int`                         | `get`                |
+| `sample_rate`                  | `float`                       | `get`                |
+| `slices`                       | `tuple`                       | `get`/`listen`       |
+| `slicing_beat_division`        | `int`                         | `get`/`set`/`listen` |
+| `slicing_region_count`         | `int`                         | `get`/`set`/`listen` |
+| `slicing_sensitivity`          | `float`                       | `get`/`set`/`listen` |
+| `slicing_style`                | `int`                         | `get`/`set`/`listen` |
+| `start_marker`                 | `int`                         | `get`/`set`/`listen` |
+| `texture_flux`                 | `float`                       | `get`/`set`/`listen` |
+| `texture_grain_size`           | `float`                       | `get`/`set`/`listen` |
+| `tones_grain_size`             | `float`                       | `get`/`set`/`listen` |
+| `warp_markers`                 | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
+| `warp_mode`                    | `int`                         | `get`/`set`/`listen` |
+| `warping`                      | `bool`                        | `get`/`set`/`listen` |
 
 #### `beats_granulation_resolution`
 

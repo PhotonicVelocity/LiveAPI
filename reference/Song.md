@@ -14,66 +14,66 @@ This class represents a Live set.
 
 ### Properties
 
-| Property                                  | Type                    | Settable | Listenable | Description                                                                      |
-| ----------------------------------------- | ----------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `appointed_device`                        | `None`                  | `yes`    | `yes`      | Read, write, and listen access to the appointed Device.                          |
-| `arrangement_overdub`                     | `bool`                  | `yes`    | `yes`      | Get/Set the global arrangement overdub state.                                    |
-| `back_to_arranger`                        | `bool`                  | `yes`    | `yes`      | Get/Set if triggering a Clip in the Session, disabled the playback of Clips i... |
-| `can_capture_midi`                        | `bool`                  | `no`     | `yes`      | Get whether there currently is material to be captured on any tracks.            |
-| `can_jump_to_next_cue`                    | `bool`                  | `no`     | `yes`      | Returns true when there is a cue marker right to the playing pos that we coul... |
-| `can_jump_to_prev_cue`                    | `bool`                  | `no`     | `yes`      | Returns true when there is a cue marker left to the playing pos that we could... |
-| `can_redo`                                | `bool`                  | `no`     | `no`       | Returns true if there is an undone action that we can redo.                      |
-| `can_undo`                                | `bool`                  | `no`     | `no`       | Returns true if there is an action that we can restore.                          |
-| `canonical_parent`                        | `None`                  | `no`     | `no`       | Get the canonical parent of the song.                                            |
-| `clip_trigger_quantization`               | `Quantization`          | `yes`    | `yes`      | Get/Set access to the quantization settings that are used to fire Clips in th... |
-| `count_in_duration`                       | `int`                   | `no`     | `yes`      | Get the count in duration.                                                       |
-| `cue_points`                              | `tuple`                 | `no`     | `yes`      | Const access to a list of all cue points of the Live Song.                       |
-| `current_song_time`                       | `float`                 | `yes`    | `yes`      | Get/Set access to the songs current playing position in beats.                   |
-| `exclusive_arm`                           | `bool`                  | `no`     | `yes`      | Get if Tracks should be armed exclusively by default.                            |
-| `exclusive_solo`                          | `bool`                  | `no`     | `no`       | Get if Tracks should be soloed exclusively by default.                           |
-| `file_path`                               | `str`                   | `no`     | `no`       | Get the current Live Set's path on disk.                                         |
-| `groove_amount`                           | `float`                 | `yes`    | `yes`      | Get/Set the global groove amount, that adjust all setup grooves in all clips.    |
-| `groove_pool`                             | `GroovePool`            | `no`     | `no`       | Get the groove pool.                                                             |
-| `is_ableton_link_enabled`                 | `bool`                  | `yes`    | `yes`      | Enable/disable Ableton Link.                                                     |
-| `is_ableton_link_start_stop_sync_enabled` | `bool`                  | `yes`    | `yes`      | Enable/disable Ableton Link Start Stop Sync.                                     |
-| `is_counting_in`                          | `bool`                  | `no`     | `yes`      | Get whether currently counting in.                                               |
-| `is_playing`                              | `bool`                  | `yes`    | `yes`      | Returns true if the Song is currently playing.                                   |
-| `last_event_time`                         | `float`                 | `no`     | `no`       | Return the time of the last set event in the song.                               |
-| `loop`                                    | `bool`                  | `yes`    | `yes`      | Get/Set the looping flag that en/disables the usage of the global loop marker... |
-| `loop_length`                             | `float`                 | `yes`    | `yes`      | Get/Set the length of the global loop marker position in beats.                  |
-| `loop_start`                              | `float`                 | `yes`    | `yes`      | Get/Set the start of the global loop marker position in beats.                   |
-| `master_track`                            | `Track`                 | `no`     | `no`       | Access to the Main Track (always available).                                     |
-| `metronome`                               | `bool`                  | `yes`    | `yes`      | Get/Set if the metronom is audible.                                              |
-| `midi_recording_quantization`             | `RecordingQuantization` | `yes`    | `yes`      | Get/Set access to the settings that are used to quantize MIDI recordings.        |
-| `name`                                    | `str`                   | `no`     | `no`       | Get the current Live Set's name.                                                 |
-| `nudge_down`                              | `bool`                  | `yes`    | `yes`      | Get/Set the status of the nudge down button.                                     |
-| `nudge_up`                                | `bool`                  | `yes`    | `yes`      | Get/Set the status of the nudge up button.                                       |
-| `overdub`                                 | `bool`                  | `yes`    | `yes`      | Legacy hook for Live 8 overdub state.                                            |
-| `punch_in`                                | `bool`                  | `yes`    | `yes`      | Get/Set the flag that will enable recording as soon as the Song plays and hit... |
-| `punch_out`                               | `bool`                  | `yes`    | `yes`      | Get/Set the flag that will disable recording as soon as the Song plays and hi... |
-| `re_enable_automation_enabled`            | `bool`                  | `no`     | `yes`      | Returns true if some automated parameter has been overriden.                     |
-| `record_mode`                             | `bool`                  | `yes`    | `yes`      | Get/Set the state of the global recording flag.                                  |
-| `return_tracks`                           | `tuple`                 | `no`     | `yes`      | Const access to the list of available Return Tracks.                             |
-| `root_note`                               | `int`                   | `yes`    | `yes`      | Set and access the root (i.e.                                                    |
-| `scale_intervals`                         | `tuple[int, Ellipsis]`  | `no`     | `yes`      | Reports the current scale's intervals as a list of integers, starting with th... |
-| `scale_mode`                              | `bool`                  | `yes`    | `yes`      | Access to the Scale Mode setting in Live.                                        |
-| `scale_name`                              | `str`                   | `yes`    | `yes`      | Set and access the currently selected scale by name.                             |
-| `scenes`                                  | `tuple`                 | `no`     | `yes`      | Const access to a list of all Scenes in the Live Song.                           |
-| `select_on_launch`                        | `bool`                  | `no`     | `no`       | Get if Scenes and Clips should be selected when fired.                           |
-| `session_automation_record`               | `bool`                  | `yes`    | `yes`      | Returns true if automation recording is enabled.                                 |
-| `session_record`                          | `bool`                  | `yes`    | `yes`      | Get/Set the session record state.                                                |
-| `session_record_status`                   | `int`                   | `no`     | `yes`      | Get the session slot-recording state.                                            |
-| `signature_denominator`                   | `int`                   | `yes`    | `yes`      | Get/Set access to the global signature denominator of the Song.                  |
-| `signature_numerator`                     | `int`                   | `yes`    | `yes`      | Get/Set access to the global signature numerator of the Song.                    |
-| `song_length`                             | `float`                 | `no`     | `yes`      | Return the time of the last set event in the song, plus som extra beats that ... |
-| `start_time`                              | `float`                 | `yes`    | `yes`      | Get/Set access to the songs current start time in beats.                         |
-| `swing_amount`                            | `float`                 | `yes`    | `yes`      | Get/Set access to the amount of swing that is applied when adding or quantizi... |
-| `tempo`                                   | `float`                 | `yes`    | `yes`      | Get/Set the global project tempo.                                                |
-| `tempo_follower_enabled`                  | `bool`                  | `yes`    | `yes`      | Get/Set whether the Tempo Follower is controlling the tempo.                     |
-| `tracks`                                  | `tuple`                 | `no`     | `yes`      | Const access to a list of all Player Tracks in the Live Song, excluding the r... |
-| `tuning_system`                           | `TuningSystem`          | `no`     | `yes`      | Access the currently active tuning system.                                       |
-| `view`                                    | `View`                  | `no`     | `no`       | Representing the view aspects of a Live document: The Session and Arrangerview.  |
-| `visible_tracks`                          | `tuple`                 | `no`     | `yes`      | Const access to a list of all visible Player Tracks in the Live Song, excludi... |
+| Property                                  | Type                    | Supports             |
+| ----------------------------------------- | ----------------------- | -------------------- |
+| `appointed_device`                        | `None`                  | `get`/`set`/`listen` |
+| `arrangement_overdub`                     | `bool`                  | `get`/`set`/`listen` |
+| `back_to_arranger`                        | `bool`                  | `get`/`set`/`listen` |
+| `can_capture_midi`                        | `bool`                  | `get`/`listen`       |
+| `can_jump_to_next_cue`                    | `bool`                  | `get`/`listen`       |
+| `can_jump_to_prev_cue`                    | `bool`                  | `get`/`listen`       |
+| `can_redo`                                | `bool`                  | `get`                |
+| `can_undo`                                | `bool`                  | `get`                |
+| `canonical_parent`                        | `None`                  | `get`                |
+| `clip_trigger_quantization`               | `Quantization`          | `get`/`set`/`listen` |
+| `count_in_duration`                       | `int`                   | `get`/`listen`       |
+| `cue_points`                              | `tuple`                 | `get`/`listen`       |
+| `current_song_time`                       | `float`                 | `get`/`set`/`listen` |
+| `exclusive_arm`                           | `bool`                  | `get`/`listen`       |
+| `exclusive_solo`                          | `bool`                  | `get`                |
+| `file_path`                               | `str`                   | `get`                |
+| `groove_amount`                           | `float`                 | `get`/`set`/`listen` |
+| `groove_pool`                             | `GroovePool`            | `get`                |
+| `is_ableton_link_enabled`                 | `bool`                  | `get`/`set`/`listen` |
+| `is_ableton_link_start_stop_sync_enabled` | `bool`                  | `get`/`set`/`listen` |
+| `is_counting_in`                          | `bool`                  | `get`/`listen`       |
+| `is_playing`                              | `bool`                  | `get`/`set`/`listen` |
+| `last_event_time`                         | `float`                 | `get`                |
+| `loop`                                    | `bool`                  | `get`/`set`/`listen` |
+| `loop_length`                             | `float`                 | `get`/`set`/`listen` |
+| `loop_start`                              | `float`                 | `get`/`set`/`listen` |
+| `master_track`                            | `Track`                 | `get`                |
+| `metronome`                               | `bool`                  | `get`/`set`/`listen` |
+| `midi_recording_quantization`             | `RecordingQuantization` | `get`/`set`/`listen` |
+| `name`                                    | `str`                   | `get`                |
+| `nudge_down`                              | `bool`                  | `get`/`set`/`listen` |
+| `nudge_up`                                | `bool`                  | `get`/`set`/`listen` |
+| `overdub`                                 | `bool`                  | `get`/`set`/`listen` |
+| `punch_in`                                | `bool`                  | `get`/`set`/`listen` |
+| `punch_out`                               | `bool`                  | `get`/`set`/`listen` |
+| `re_enable_automation_enabled`            | `bool`                  | `get`/`listen`       |
+| `record_mode`                             | `bool`                  | `get`/`set`/`listen` |
+| `return_tracks`                           | `tuple`                 | `get`/`listen`       |
+| `root_note`                               | `int`                   | `get`/`set`/`listen` |
+| `scale_intervals`                         | `tuple[int, Ellipsis]`  | `get`/`listen`       |
+| `scale_mode`                              | `bool`                  | `get`/`set`/`listen` |
+| `scale_name`                              | `str`                   | `get`/`set`/`listen` |
+| `scenes`                                  | `tuple`                 | `get`/`listen`       |
+| `select_on_launch`                        | `bool`                  | `get`                |
+| `session_automation_record`               | `bool`                  | `get`/`set`/`listen` |
+| `session_record`                          | `bool`                  | `get`/`set`/`listen` |
+| `session_record_status`                   | `int`                   | `get`/`listen`       |
+| `signature_denominator`                   | `int`                   | `get`/`set`/`listen` |
+| `signature_numerator`                     | `int`                   | `get`/`set`/`listen` |
+| `song_length`                             | `float`                 | `get`/`listen`       |
+| `start_time`                              | `float`                 | `get`/`set`/`listen` |
+| `swing_amount`                            | `float`                 | `get`/`set`/`listen` |
+| `tempo`                                   | `float`                 | `get`/`set`/`listen` |
+| `tempo_follower_enabled`                  | `bool`                  | `get`/`set`/`listen` |
+| `tracks`                                  | `tuple`                 | `get`/`listen`       |
+| `tuning_system`                           | `TuningSystem`          | `get`/`listen`       |
+| `view`                                    | `View`                  | `get`                |
+| `visible_tracks`                          | `tuple`                 | `get`/`listen`       |
 
 #### `appointed_device`
 
@@ -860,17 +860,17 @@ Representing the view aspects of a Live document: The Session and Arrangerview.
 
 ### Properties
 
-| Property                | Type       | Settable | Listenable | Description                                                                      |
-| ----------------------- | ---------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `canonical_parent`      | `Song`     | `no`     | `no`       | Get the canonical parent of the song view.                                       |
-| `detail_clip`           | `Clip`     | `yes`    | `yes`      | Get/Set the Clip that is currently visible in Lives Detailview.                  |
-| `draw_mode`             | `bool`     | `yes`    | `yes`      | Get/Set if the Envelope/Note draw mode is enabled.                               |
-| `follow_song`           | `bool`     | `yes`    | `yes`      | Get/Set if the Arrangerview should scroll to show the playmarker.                |
-| `highlighted_clip_slot` | `ClipSlot` | `yes`    | `no`       | Get/Set the clip slot, defined via the selected track and scene in the Sessio... |
-| `selected_chain`        | `None`     | `yes`    | `yes`      | Get the highlighted chain if available.                                          |
-| `selected_parameter`    | `None`     | `no`     | `yes`      | Get the currently selected device parameter.                                     |
-| `selected_scene`        | `Scene`    | `yes`    | `yes`      | Get/Set the current selected scene in Lives Sessionview.                         |
-| `selected_track`        | `Track`    | `yes`    | `yes`      | Get/Set the current selected Track in Lives Session or Arrangerview.             |
+| Property                | Type       | Supports             |
+| ----------------------- | ---------- | -------------------- |
+| `canonical_parent`      | `Song`     | `get`                |
+| `detail_clip`           | `Clip`     | `get`/`set`/`listen` |
+| `draw_mode`             | `bool`     | `get`/`set`/`listen` |
+| `follow_song`           | `bool`     | `get`/`set`/`listen` |
+| `highlighted_clip_slot` | `ClipSlot` | `get`/`set`          |
+| `selected_chain`        | `None`     | `get`/`set`/`listen` |
+| `selected_parameter`    | `None`     | `get`/`listen`       |
+| `selected_scene`        | `Scene`    | `get`/`set`/`listen` |
+| `selected_track`        | `Track`    | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -1044,12 +1044,12 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
 #### Properties
 
-| Property       | Type  | Settable | Listenable | Description |
-| -------------- | ----- | -------- | ---------- | ----------- |
-| `bars`         | `int` | `yes`    | `no`       |             |
-| `beats`        | `int` | `yes`    | `no`       |             |
-| `sub_division` | `int` | `yes`    | `no`       |             |
-| `ticks`        | `int` | `yes`    | `no`       |             |
+| Property       | Type  | Supports    |
+| -------------- | ----- | ----------- |
+| `bars`         | `int` | `get`/`set` |
+| `beats`        | `int` | `get`/`set` |
+| `sub_division` | `int` | `get`/`set` |
+| `ticks`        | `int` | `get`/`set` |
 
 ##### `bars`
 
@@ -1085,11 +1085,11 @@ Represents a 'Marker' in the arrangement.
 
 #### Properties
 
-| Property           | Type    | Settable | Listenable | Description                                                              |
-| ------------------ | ------- | -------- | ---------- | ------------------------------------------------------------------------ |
-| `canonical_parent` | `Song`  | `no`     | `no`       | Get the canonical parent of the cue point.                               |
-| `name`             | `str`   | `yes`    | `yes`      | Get/Set/Listen to the name of this CuePoint, as visible in the arranger. |
-| `time`             | `float` | `no`     | `yes`      | Get/Listen to the CuePoint's time in beats.                              |
+| Property           | Type    | Supports             |
+| ------------------ | ------- | -------------------- |
+| `canonical_parent` | `Song`  | `get`                |
+| `name`             | `str`   | `get`/`set`/`listen` |
+| `time`             | `float` | `get`/`listen`       |
 
 ##### `canonical_parent`
 
@@ -1137,12 +1137,12 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 #### Properties
 
-| Property  | Type  | Settable | Listenable | Description |
-| --------- | ----- | -------- | ---------- | ----------- |
-| `frames`  | `int` | `yes`    | `no`       |             |
-| `hours`   | `int` | `yes`    | `no`       |             |
-| `minutes` | `int` | `yes`    | `no`       |             |
-| `seconds` | `int` | `yes`    | `no`       |             |
+| Property  | Type  | Supports    |
+| --------- | ----- | ----------- |
+| `frames`  | `int` | `get`/`set` |
+| `hours`   | `int` | `get`/`set` |
+| `minutes` | `int` | `get`/`set` |
+| `seconds` | `int` | `get`/`set` |
 
 ##### `frames`
 

@@ -15,13 +15,13 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 
 ### Properties
 
-| Property           | Type              | Settable | Listenable | Description                                                        |
-| ------------------ | ----------------- | -------- | ---------- | ------------------------------------------------------------------ |
-| `canonical_parent` | `Chain`           | `no`     | `no`       | Get the canonical parent of the mixer device.                      |
-| `chain_activator`  | `DeviceParameter` | `no`     | `no`       | Const access to the Chain's Activator Device Parameter.            |
-| `panning`          | `DeviceParameter` | `no`     | `no`       | Const access to the Chain's Panning Device Parameter.              |
-| `sends`            | `tuple`           | `no`     | `yes`      | Const access to the Chain's list of Send Amount Device Parameters. |
-| `volume`           | `DeviceParameter` | `no`     | `no`       | Const access to the Chain's Volume Device Parameter.               |
+| Property           | Type              | Supports       |
+| ------------------ | ----------------- | -------------- |
+| `canonical_parent` | `Chain`           | `get`          |
+| `chain_activator`  | `DeviceParameter` | `get`          |
+| `panning`          | `DeviceParameter` | `get`          |
+| `sends`            | `tuple`           | `get`/`listen` |
+| `volume`           | `DeviceParameter` | `get`          |
 
 #### `canonical_parent`
 

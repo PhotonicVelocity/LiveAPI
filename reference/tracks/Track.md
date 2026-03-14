@@ -20,65 +20,65 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 ### Properties
 
-| Property                            | Type                              | Settable | Listenable | Description                                                                      |
-| ----------------------------------- | --------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `arm`                               | `bool`                            | `yes`    | `yes`      | Arm the track for recording.                                                     |
-| `arrangement_clips`                 | `tuple`                           | `no`     | `yes`      | const access to the list of clips in arrangement viewThe list will be empty f... |
-| `available_input_routing_channels`  | `tuple[RoutingChannel, Ellipsis]` | `no`     | `yes`      | Return a list of source channels for input routing.                              |
-| `available_input_routing_types`     | `tuple[RoutingType, Ellipsis]`    | `no`     | `yes`      | Return a list of source types for input routing.                                 |
-| `available_output_routing_channels` | `tuple[RoutingChannel, Ellipsis]` | `no`     | `yes`      | Return a list of destination channels for output routing.                        |
-| `available_output_routing_types`    | `tuple[RoutingType, Ellipsis]`    | `no`     | `yes`      | Return a list of destination types for output routing.                           |
-| `back_to_arranger`                  | `bool`                            | `yes`    | `yes`      | Indicates if it's possible to go back to playing back the clips in the Arrang... |
-| `can_be_armed`                      | `bool`                            | `no`     | `no`       | return True, if this Track has a valid arm property.                             |
-| `can_be_frozen`                     | `bool`                            | `no`     | `no`       | return True, if this Track can be frozen.                                        |
-| `can_show_chains`                   | `bool`                            | `no`     | `no`       | return True, if this Track contains a rack instrument device that is capable ... |
-| `canonical_parent`                  | `Song`                            | `no`     | `no`       | Get the canonical parent of the track.                                           |
-| `clip_slots`                        | `tuple`                           | `no`     | `yes`      | const access to the list of clipslots (see class AClipSlot) for this track.      |
-| `color`                             | `int`                             | `yes`    | `yes`      | Get/set access to the color of the Track (RGB).                                  |
-| `color_index`                       | `int`                             | `yes`    | `yes`      | Get/Set access to the color index of the track.                                  |
-| `current_input_routing`             | `str`                             | `yes`    | `yes`      | Get/Set the name of the current active input routing.                            |
-| `current_input_sub_routing`         | `str`                             | `yes`    | `yes`      | Get/Set the current active input sub routing.                                    |
-| `current_monitoring_state`          | `int`                             | `yes`    | `yes`      | Get/Set the track's current monitoring state.                                    |
-| `current_output_routing`            | `str`                             | `yes`    | `yes`      | Get/Set the current active output routing.                                       |
-| `current_output_sub_routing`        | `str`                             | `yes`    | `yes`      | Get/Set the current active output sub routing.                                   |
-| `devices`                           | `tuple`                           | `no`     | `yes`      | Return const access to all available Devices that are present in the Tracks D... |
-| `fired_slot_index`                  | `int`                             | `no`     | `yes`      | const access to the index of the fired (and thus blinking) clipslot in this t... |
-| `fold_state`                        | `bool`                            | `yes`    | `no`       | Get/Set whether the track is folded or not.                                      |
-| `group_track`                       | `Track`                           | `no`     | `no`       | return the group track if is_grouped.                                            |
-| `has_audio_input`                   | `bool`                            | `no`     | `yes`      | return True, if this Track can be feed with an Audio signal.                     |
-| `has_audio_output`                  | `bool`                            | `no`     | `yes`      | return True, if this Track sends out an Audio signal.                            |
-| `has_midi_input`                    | `bool`                            | `no`     | `yes`      | return True, if this Track can be feed with an Audio signal.                     |
-| `has_midi_output`                   | `bool`                            | `no`     | `yes`      | return True, if this Track sends out MIDI events.                                |
-| `implicit_arm`                      | `bool`                            | `yes`    | `yes`      | Arm the track for recording.                                                     |
-| `input_meter_left`                  | `float`                           | `no`     | `yes`      | Momentary value of left input channel meter, 0.0 to 1.0.                         |
-| `input_meter_level`                 | `float`                           | `no`     | `yes`      | Return the MIDI or Audio meter value of the Tracks input, depending on the ty... |
-| `input_meter_right`                 | `float`                           | `no`     | `yes`      | Momentary value of right input channel meter, 0.0 to 1.0.                        |
-| `input_routing_channel`             | `RoutingChannel`                  | `yes`    | `yes`      | Get and set the current source channel for input routing.                        |
-| `input_routing_type`                | `RoutingType`                     | `yes`    | `yes`      | Get and set the current source type for input routing.                           |
-| `input_routings`                    | `tuple[str, Ellipsis]`            | `no`     | `yes`      | Const access to the list of available input routings.                            |
-| `input_sub_routings`                | `tuple[str, Ellipsis]`            | `no`     | `yes`      | Return a list of all available input sub routings.                               |
-| `is_foldable`                       | `bool`                            | `no`     | `no`       | return True if the track can be (un)folded to hide/reveal contained tracks.      |
-| `is_frozen`                         | `bool`                            | `no`     | `yes`      | return True if this Track is currently frozen.                                   |
-| `is_grouped`                        | `bool`                            | `no`     | `no`       | return True if this Track is current part of a group track.                      |
-| `is_part_of_selection`              | `bool`                            | `no`     | `no`       | return False if the track is not selected.                                       |
-| `is_showing_chains`                 | `bool`                            | `yes`    | `yes`      | Get/Set whether a track with a rack device is showing its chains in session v... |
-| `is_visible`                        | `bool`                            | `no`     | `no`       | return False if the track is hidden within a folded group track.                 |
-| `mixer_device`                      | `MixerDevice`                     | `no`     | `no`       | Return access to the special Device that every Track has: This Device contain... |
-| `mute`                              | `bool`                            | `yes`    | `yes`      | Mute/unmute the track.                                                           |
-| `muted_via_solo`                    | `bool`                            | `no`     | `yes`      | Returns true if the track is muted because another track is soloed.              |
-| `name`                              | `str`                             | `yes`    | `yes`      | Read/write access to the name of the Track, as visible in the track header.      |
-| `output_meter_left`                 | `float`                           | `no`     | `yes`      | Momentary value of left output channel meter, 0.0 to 1.0.                        |
-| `output_meter_level`                | `float`                           | `no`     | `yes`      | Return the MIDI or Audio meter value of the Track output (behind the mixer_de... |
-| `output_meter_right`                | `float`                           | `no`     | `yes`      | Momentary value of right output channel meter, 0.0 to 1.0.                       |
-| `output_routing_channel`            | `RoutingChannel`                  | `yes`    | `yes`      | Get and set the current destination channel for output routing.                  |
-| `output_routing_type`               | `RoutingType`                     | `yes`    | `yes`      | Get and set the current destination type for output routing.                     |
-| `output_routings`                   | `tuple[str, Ellipsis]`            | `no`     | `yes`      | Const access to the list of all available output routings.                       |
-| `output_sub_routings`               | `tuple[str, Ellipsis]`            | `no`     | `yes`      | Return a list of all available output sub routings.                              |
-| `performance_impact`                | `float`                           | `no`     | `yes`      | Reports the performance impact of this track.                                    |
-| `playing_slot_index`                | `int`                             | `no`     | `yes`      | const access to the index of the currently playing clip in the track.            |
-| `solo`                              | `bool`                            | `yes`    | `yes`      | Get/Set the solo status of the track.                                            |
-| `take_lanes`                        | `tuple`                           | `no`     | `yes`      | returns the take lanes.                                                          |
-| `view`                              | `View`                            | `no`     | `no`       | Representing the view aspects of a Track.                                        |
+| Property                            | Type                              | Supports             |
+| ----------------------------------- | --------------------------------- | -------------------- |
+| `arm`                               | `bool`                            | `get`/`set`/`listen` |
+| `arrangement_clips`                 | `tuple`                           | `get`/`listen`       |
+| `available_input_routing_channels`  | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
+| `available_input_routing_types`     | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
+| `available_output_routing_channels` | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
+| `available_output_routing_types`    | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
+| `back_to_arranger`                  | `bool`                            | `get`/`set`/`listen` |
+| `can_be_armed`                      | `bool`                            | `get`                |
+| `can_be_frozen`                     | `bool`                            | `get`                |
+| `can_show_chains`                   | `bool`                            | `get`                |
+| `canonical_parent`                  | `Song`                            | `get`                |
+| `clip_slots`                        | `tuple`                           | `get`/`listen`       |
+| `color`                             | `int`                             | `get`/`set`/`listen` |
+| `color_index`                       | `int`                             | `get`/`set`/`listen` |
+| `current_input_routing`             | `str`                             | `get`/`set`/`listen` |
+| `current_input_sub_routing`         | `str`                             | `get`/`set`/`listen` |
+| `current_monitoring_state`          | `int`                             | `get`/`set`/`listen` |
+| `current_output_routing`            | `str`                             | `get`/`set`/`listen` |
+| `current_output_sub_routing`        | `str`                             | `get`/`set`/`listen` |
+| `devices`                           | `tuple`                           | `get`/`listen`       |
+| `fired_slot_index`                  | `int`                             | `get`/`listen`       |
+| `fold_state`                        | `bool`                            | `get`/`set`          |
+| `group_track`                       | `Track`                           | `get`                |
+| `has_audio_input`                   | `bool`                            | `get`/`listen`       |
+| `has_audio_output`                  | `bool`                            | `get`/`listen`       |
+| `has_midi_input`                    | `bool`                            | `get`/`listen`       |
+| `has_midi_output`                   | `bool`                            | `get`/`listen`       |
+| `implicit_arm`                      | `bool`                            | `get`/`set`/`listen` |
+| `input_meter_left`                  | `float`                           | `get`/`listen`       |
+| `input_meter_level`                 | `float`                           | `get`/`listen`       |
+| `input_meter_right`                 | `float`                           | `get`/`listen`       |
+| `input_routing_channel`             | `RoutingChannel`                  | `get`/`set`/`listen` |
+| `input_routing_type`                | `RoutingType`                     | `get`/`set`/`listen` |
+| `input_routings`                    | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| `input_sub_routings`                | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| `is_foldable`                       | `bool`                            | `get`                |
+| `is_frozen`                         | `bool`                            | `get`/`listen`       |
+| `is_grouped`                        | `bool`                            | `get`                |
+| `is_part_of_selection`              | `bool`                            | `get`                |
+| `is_showing_chains`                 | `bool`                            | `get`/`set`/`listen` |
+| `is_visible`                        | `bool`                            | `get`                |
+| `mixer_device`                      | `MixerDevice`                     | `get`                |
+| `mute`                              | `bool`                            | `get`/`set`/`listen` |
+| `muted_via_solo`                    | `bool`                            | `get`/`listen`       |
+| `name`                              | `str`                             | `get`/`set`/`listen` |
+| `output_meter_left`                 | `float`                           | `get`/`listen`       |
+| `output_meter_level`                | `float`                           | `get`/`listen`       |
+| `output_meter_right`                | `float`                           | `get`/`listen`       |
+| `output_routing_channel`            | `RoutingChannel`                  | `get`/`set`/`listen` |
+| `output_routing_type`               | `RoutingType`                     | `get`/`set`/`listen` |
+| `output_routings`                   | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| `output_sub_routings`               | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| `performance_impact`                | `float`                           | `get`/`listen`       |
+| `playing_slot_index`                | `int`                             | `get`/`listen`       |
+| `solo`                              | `bool`                            | `get`/`set`/`listen` |
+| `take_lanes`                        | `tuple`                           | `get`/`listen`       |
+| `view`                              | `View`                            | `get`                |
 
 #### `arm`
 
@@ -672,12 +672,12 @@ Representing the view aspects of a Track.
 
 ### Properties
 
-| Property             | Type     | Settable | Listenable | Description                                                          |
-| -------------------- | -------- | -------- | ---------- | -------------------------------------------------------------------- |
-| `canonical_parent`   | `Track`  | `no`     | `no`       | Get the canonical parent of the track view.                          |
-| `device_insert_mode` | `bool`   | `yes`    | `yes`      | Get/Listen the device insertion mode of the track.                   |
-| `is_collapsed`       | `bool`   | `yes`    | `yes`      | Get/Set/Listen if the track is shown collapsed in the arranger view. |
-| `selected_device`    | `Device` | `no`     | `yes`      | Get/Set/Listen the insertion mode of the device.                     |
+| Property             | Type     | Supports             |
+| -------------------- | -------- | -------------------- |
+| `canonical_parent`   | `Track`  | `get`                |
+| `device_insert_mode` | `bool`   | `get`/`set`/`listen` |
+| `is_collapsed`       | `bool`   | `get`/`set`/`listen` |
+| `selected_device`    | `Device` | `get`/`listen`       |
 
 #### `canonical_parent`
 
@@ -781,10 +781,10 @@ This class represents a routing channel.
 
 #### Properties
 
-| Property       | Type                   | Settable | Listenable | Description                                         |
-| -------------- | ---------------------- | -------- | ---------- | --------------------------------------------------- |
-| `display_name` | `str`                  | `no`     | `no`       | Display name of routing channel.                    |
-| `layout`       | `RoutingChannelLayout` | `no`     | `no`       | The routing channel's Layout, e.g., mono or stereo. |
+| Property       | Type                   | Supports |
+| -------------- | ---------------------- | -------- |
+| `display_name` | `str`                  | `get`    |
+| `layout`       | `RoutingChannelLayout` | `get`    |
 
 ##### `display_name`
 
@@ -835,11 +835,11 @@ This class represents a routing type.
 
 #### Properties
 
-| Property          | Type    | Settable | Listenable | Description                                   |
-| ----------------- | ------- | -------- | ---------- | --------------------------------------------- |
-| `attached_object` | `Track` | `no`     | `no`       | Live object associated with the routing type. |
-| `category`        | `int`   | `no`     | `no`       | Category of the routing type.                 |
-| `display_name`    | `str`   | `no`     | `no`       | Display name of routing type.                 |
+| Property          | Type    | Supports |
+| ----------------- | ------- | -------- |
+| `attached_object` | `Track` | `get`    |
+| `category`        | `int`   | `get`    |
+| `display_name`    | `str`   | `get`    |
 
 ##### `attached_object`
 

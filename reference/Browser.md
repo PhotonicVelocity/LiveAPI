@@ -14,25 +14,25 @@ This class represents the live browser data base.
 
 ### Properties
 
-| Property           | Type                           | Settable | Listenable | Description                                                                |
-| ------------------ | ------------------------------ | -------- | ---------- | -------------------------------------------------------------------------- |
-| `audio_effects`    | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Audio Effects content.       |
-| `clips`            | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Clips content.               |
-| `colors`           | `tuple[BrowserItem, Ellipsis]` | `no`     | `no`       | Returns a list of browser items containing the configured colors.          |
-| `current_project`  | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Current Project content.     |
-| `drums`            | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Drums content.               |
-| `filter_type`      | `int`                          | `yes`    | `yes`      | Bang triggered when the hotswap target has changed.                        |
-| `hotswap_target`   | `None`                         | `yes`    | `yes`      | Bang triggered when the hotswap target has changed.                        |
-| `instruments`      | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Instruments content.         |
-| `legacy_libraries` | `tuple[BrowserItem, Ellipsis]` | `no`     | `no`       | Returns a list of browser items containing the installed legacy libraries. |
-| `max_for_live`     | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Max For Live content.        |
-| `midi_effects`     | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Midi Effects content.        |
-| `packs`            | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Packs content.               |
-| `plugins`          | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Plugins content.             |
-| `samples`          | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Samples content.             |
-| `sounds`           | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the Sounds content.              |
-| `user_folders`     | `tuple[BrowserItem, Ellipsis]` | `no`     | `no`       | Returns a list of browser items containing all the user folders.           |
-| `user_library`     | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the User Library content.        |
+| Property           | Type                           | Supports             |
+| ------------------ | ------------------------------ | -------------------- |
+| `audio_effects`    | `BrowserItem`                  | `get`                |
+| `clips`            | `BrowserItem`                  | `get`                |
+| `colors`           | `tuple[BrowserItem, Ellipsis]` | `get`                |
+| `current_project`  | `BrowserItem`                  | `get`                |
+| `drums`            | `BrowserItem`                  | `get`                |
+| `filter_type`      | `int`                          | `get`/`set`/`listen` |
+| `hotswap_target`   | `None`                         | `get`/`set`/`listen` |
+| `instruments`      | `BrowserItem`                  | `get`                |
+| `legacy_libraries` | `tuple[BrowserItem, Ellipsis]` | `get`                |
+| `max_for_live`     | `BrowserItem`                  | `get`                |
+| `midi_effects`     | `BrowserItem`                  | `get`                |
+| `packs`            | `BrowserItem`                  | `get`                |
+| `plugins`          | `BrowserItem`                  | `get`                |
+| `samples`          | `BrowserItem`                  | `get`                |
+| `sounds`           | `BrowserItem`                  | `get`                |
+| `user_folders`     | `tuple[BrowserItem, Ellipsis]` | `get`                |
+| `user_library`     | `BrowserItem`                  | `get`                |
 
 #### `audio_effects`
 
@@ -244,17 +244,17 @@ This class represents an item of the browser hierarchy.
 
 #### Properties
 
-| Property        | Type                           | Settable | Listenable | Description                                                      |
-| --------------- | ------------------------------ | -------- | ---------- | ---------------------------------------------------------------- |
-| `children`      | `tuple[BrowserItem, Ellipsis]` | `no`     | `no`       | Const access to the descendants of this browser item.            |
-| `is_device`     | `bool`                         | `no`     | `no`       | Indicates if the browser item represents a device.               |
-| `is_folder`     | `bool`                         | `no`     | `no`       | Indicates if the browser item represents folder.                 |
-| `is_loadable`   | `bool`                         | `no`     | `no`       | True if item can be loaded via the Browser's 'load_item' method. |
-| `is_selected`   | `bool`                         | `no`     | `no`       | True if the item is ancestor of or the actual selection.         |
-| `iter_children` | `BrowserItemIterator`          | `no`     | `no`       | Const iterable access to the descendants of this browser item.   |
-| `name`          | `str`                          | `no`     | `no`       | Const access to the canonical display name of this browser item. |
-| `source`        | `str`                          | `no`     | `no`       | Specifies where does item come from -- i.e.                      |
-| `uri`           | `str`                          | `no`     | `no`       | The uri describes a unique identifier for a browser item.        |
+| Property        | Type                           | Supports |
+| --------------- | ------------------------------ | -------- |
+| `children`      | `tuple[BrowserItem, Ellipsis]` | `get`    |
+| `is_device`     | `bool`                         | `get`    |
+| `is_folder`     | `bool`                         | `get`    |
+| `is_loadable`   | `bool`                         | `get`    |
+| `is_selected`   | `bool`                         | `get`    |
+| `iter_children` | `BrowserItemIterator`          | `get`    |
+| `name`          | `str`                          | `get`    |
+| `source`        | `str`                          | `get`    |
+| `uri`           | `str`                          | `get`    |
 
 ##### `children`
 

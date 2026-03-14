@@ -14,22 +14,22 @@ This class represents a MIDI or Audio DSP-Device in Live.
 
 ### Properties
 
-| Property                    | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `can_compare_ab`            | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`           | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`        | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `canonical_parent`          | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `class_display_name`        | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `is_active`                 | `bool`                             | `no`     | `yes`      | Return const access to whether this device is active.                            |
-| `is_using_compare_preset_b` | `bool`                             | `yes`    | `yes`      | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`             | `float`                            | `no`     | `yes`      | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`        | `int`                              | `no`     | `yes`      | Returns the latency of the device in samples.                                    |
-| `name`                      | `str`                              | `yes`    | `yes`      | Return access to the name of the device.                                         |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `no`     | `yes`      | Const access to the list of available automatable parameters for this device.    |
-| `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `view`                      | `View`                             | `no`     | `no`       | Representing the view aspects of a device.                                       |
+| Property                    | Type                               | Supports             |
+| --------------------------- | ---------------------------------- | -------------------- |
+| `can_compare_ab`            | `bool`                             | `get`                |
+| `can_have_chains`           | `bool`                             | `get`                |
+| `can_have_drum_pads`        | `bool`                             | `get`                |
+| `canonical_parent`          | `Track`                            | `get`                |
+| `class_display_name`        | `str`                              | `get`                |
+| `class_name`                | `str`                              | `get`                |
+| `is_active`                 | `bool`                             | `get`/`listen`       |
+| `is_using_compare_preset_b` | `bool`                             | `get`/`set`/`listen` |
+| `latency_in_ms`             | `float`                            | `get`/`listen`       |
+| `latency_in_samples`        | `int`                              | `get`/`listen`       |
+| `name`                      | `str`                              | `get`/`set`/`listen` |
+| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`/`listen`       |
+| `type`                      | `DeviceType`                       | `get`                |
+| `view`                      | `View`                             | `get`                |
 
 #### `can_compare_ab`
 
@@ -175,10 +175,10 @@ Representing the view aspects of a device.
 
 ### Properties
 
-| Property           | Type     | Settable | Listenable | Description                                                          |
-| ------------------ | -------- | -------- | ---------- | -------------------------------------------------------------------- |
-| `canonical_parent` | `Device` | `no`     | `no`       | Get the canonical parent of the View.                                |
-| `is_collapsed`     | `bool`   | `yes`    | `yes`      | Get/Set/Listen if the device is shown collapsed in the device chain. |
+| Property           | Type     | Supports             |
+| ------------------ | -------- | -------------------- |
+| `canonical_parent` | `Device` | `get`                |
+| `is_collapsed`     | `bool`   | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

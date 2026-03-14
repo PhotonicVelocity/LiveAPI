@@ -10,25 +10,25 @@ This class represents an Eq8 device.
 
 ### Properties
 
-| Property                    | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `can_compare_ab`            | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`           | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`        | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `canonical_parent`          | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `class_display_name`        | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `edit_mode`                 | `bool`                             | `yes`    | `yes`      | Access to Eq8's edit mode.                                                       |
-| `global_mode`               | `int`                              | `yes`    | `yes`      | Access to Eq8's global mode.                                                     |
-| `is_active`                 | `bool`                             | `no`     | `no`       | Return const access to whether this device is active.                            |
-| `is_using_compare_preset_b` | `bool`                             | `yes`    | `no`       | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`             | `float`                            | `no`     | `no`       | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`        | `int`                              | `no`     | `no`       | Returns the latency of the device in samples.                                    |
-| `name`                      | `str`                              | `yes`    | `no`       | Return access to the name of the device.                                         |
-| `oversample`                | `bool`                             | `yes`    | `yes`      | Access to Eq8's oversample value.                                                |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `no`     | `no`       | Const access to the list of available automatable parameters for this device.    |
-| `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `view`                      | `View`                             | `no`     | `no`       | Representing the view aspects of a device.                                       |
+| Property                    | Type                               | Supports             |
+| --------------------------- | ---------------------------------- | -------------------- |
+| `can_compare_ab`            | `bool`                             | `get`                |
+| `can_have_chains`           | `bool`                             | `get`                |
+| `can_have_drum_pads`        | `bool`                             | `get`                |
+| `canonical_parent`          | `Track`                            | `get`                |
+| `class_display_name`        | `str`                              | `get`                |
+| `class_name`                | `str`                              | `get`                |
+| `edit_mode`                 | `bool`                             | `get`/`set`/`listen` |
+| `global_mode`               | `int`                              | `get`/`set`/`listen` |
+| `is_active`                 | `bool`                             | `get`                |
+| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
+| `latency_in_ms`             | `float`                            | `get`                |
+| `latency_in_samples`        | `int`                              | `get`                |
+| `name`                      | `str`                              | `get`/`set`          |
+| `oversample`                | `bool`                             | `get`/`set`/`listen` |
+| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| `type`                      | `DeviceType`                       | `get`                |
+| `view`                      | `View`                             | `get`                |
 
 #### `can_compare_ab`
 
@@ -176,11 +176,11 @@ Representing the view aspects of an Eq8 device.
 
 ### Properties
 
-| Property           | Type        | Settable | Listenable | Description                                                          |
-| ------------------ | ----------- | -------- | ---------- | -------------------------------------------------------------------- |
-| `canonical_parent` | `Eq8Device` | `no`     | `no`       | Get the canonical parent of the View.                                |
-| `is_collapsed`     | `bool`      | `yes`    | `no`       | Get/Set/Listen if the device is shown collapsed in the device chain. |
-| `selected_band`    | `int`       | `yes`    | `yes`      | Access to the selected filter band.                                  |
+| Property           | Type        | Supports             |
+| ------------------ | ----------- | -------------------- |
+| `canonical_parent` | `Eq8Device` | `get`                |
+| `is_collapsed`     | `bool`      | `get`/`set`          |
+| `selected_band`    | `int`       | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

@@ -10,22 +10,22 @@ This class represents a group device chain in Live.
 
 ### Properties
 
-| Property           | Type               | Settable | Listenable | Description                                                                      |
-| ------------------ | ------------------ | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `canonical_parent` | `RackDevice`       | `no`     | `no`       | Get the canonical parent of the chain.                                           |
-| `color`            | `int`              | `yes`    | `yes`      | Access the color index of the Chain.                                             |
-| `color_index`      | `int`              | `yes`    | `yes`      | Access the color index of the Chain.                                             |
-| `devices`          | `tuple`            | `no`     | `yes`      | Return const access to all available Devices that are present in the chains.     |
-| `has_audio_input`  | `bool`             | `no`     | `no`       | return True, if this Chain can be feed with an Audio signal.                     |
-| `has_audio_output` | `bool`             | `no`     | `no`       | return True, if this Chain sends out an Audio signal.                            |
-| `has_midi_input`   | `bool`             | `no`     | `no`       | return True, if this Chain can be feed with an Audio signal.                     |
-| `has_midi_output`  | `bool`             | `no`     | `no`       | return True, if this Chain sends out MIDI events.                                |
-| `is_auto_colored`  | `bool`             | `yes`    | `yes`      | Get/set access to the auto color flag of the Chain.                              |
-| `mixer_device`     | `ChainMixerDevice` | `no`     | `no`       | Return access to the mixer device that holds the chain's mixer parameters: th... |
-| `mute`             | `bool`             | `yes`    | `yes`      | Mute/unmute the chain.                                                           |
-| `muted_via_solo`   | `bool`             | `no`     | `yes`      | Return const access to whether this chain is muted due to some other chain be... |
-| `name`             | `str`              | `yes`    | `yes`      | Read/write access to the name of the Chain, as visible in the track header.      |
-| `solo`             | `bool`             | `yes`    | `yes`      | Get/Set the solo status of the chain.                                            |
+| Property           | Type               | Supports             |
+| ------------------ | ------------------ | -------------------- |
+| `canonical_parent` | `RackDevice`       | `get`                |
+| `color`            | `int`              | `get`/`set`/`listen` |
+| `color_index`      | `int`              | `get`/`set`/`listen` |
+| `devices`          | `tuple`            | `get`/`listen`       |
+| `has_audio_input`  | `bool`             | `get`                |
+| `has_audio_output` | `bool`             | `get`                |
+| `has_midi_input`   | `bool`             | `get`                |
+| `has_midi_output`  | `bool`             | `get`                |
+| `is_auto_colored`  | `bool`             | `get`/`set`/`listen` |
+| `mixer_device`     | `ChainMixerDevice` | `get`                |
+| `mute`             | `bool`             | `get`/`set`/`listen` |
+| `muted_via_solo`   | `bool`             | `get`/`listen`       |
+| `name`             | `str`              | `get`/`set`/`listen` |
+| `solo`             | `bool`             | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

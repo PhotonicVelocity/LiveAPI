@@ -14,20 +14,20 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 
 ### Properties
 
-| Property             | Type              | Settable | Listenable | Description                                                                  |
-| -------------------- | ----------------- | -------- | ---------- | ---------------------------------------------------------------------------- |
-| `canonical_parent`   | `Track`           | `no`     | `no`       | Get the canonical parent of the mixer device.                                |
-| `crossfade_assign`   | `int`             | `yes`    | `yes`      | Player- and ReturnTracks only: Access to the Track's Crossfade Assign State. |
-| `crossfader`         | `DeviceParameter` | `no`     | `no`       | MainTrack only: Const access to the Crossfader.                              |
-| `cue_volume`         | `DeviceParameter` | `no`     | `no`       | MainTrack only: Const access to the Cue Volume Parameter.                    |
-| `left_split_stereo`  | `DeviceParameter` | `no`     | `no`       | Const access to the Track's Left Split Stereo Panning Device Parameter.      |
-| `panning`            | `DeviceParameter` | `no`     | `no`       | Const access to the Tracks Panning Device Parameter.                         |
-| `panning_mode`       | `int`             | `yes`    | `yes`      | Access to the Track's Panning Mode.                                          |
-| `right_split_stereo` | `DeviceParameter` | `no`     | `no`       | Const access to the Track's Right Split Stereo Panning Device Parameter.     |
-| `sends`              | `tuple`           | `no`     | `yes`      | Const access to the Tracks list of Send Amount Device Parameters.            |
-| `song_tempo`         | `DeviceParameter` | `no`     | `no`       | MainTrack only: Const access to the Song's Tempo.                            |
-| `track_activator`    | `DeviceParameter` | `no`     | `no`       | Const access to the Tracks Activator Device Parameter.                       |
-| `volume`             | `DeviceParameter` | `no`     | `no`       | Const access to the Tracks Volume Device Parameter.                          |
+| Property             | Type              | Supports             |
+| -------------------- | ----------------- | -------------------- |
+| `canonical_parent`   | `Track`           | `get`                |
+| `crossfade_assign`   | `int`             | `get`/`set`/`listen` |
+| `crossfader`         | `DeviceParameter` | `get`                |
+| `cue_volume`         | `DeviceParameter` | `get`                |
+| `left_split_stereo`  | `DeviceParameter` | `get`                |
+| `panning`            | `DeviceParameter` | `get`                |
+| `panning_mode`       | `int`             | `get`/`set`/`listen` |
+| `right_split_stereo` | `DeviceParameter` | `get`                |
+| `sends`              | `tuple`           | `get`/`listen`       |
+| `song_tempo`         | `DeviceParameter` | `get`                |
+| `track_activator`    | `DeviceParameter` | `get`                |
+| `volume`             | `DeviceParameter` | `get`                |
 
 #### `canonical_parent`
 

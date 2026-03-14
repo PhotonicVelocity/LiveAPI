@@ -25,22 +25,22 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 ### Properties
 
-| Property            | Type                   | Settable | Listenable | Description                                                                      |
-| ------------------- | ---------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `automation_state`  | `int`                  | `no`     | `yes`      | Returns state of type AutomationState.                                           |
-| `canonical_parent`  | `Device`               | `no`     | `no`       | Get the canonical parent of the device parameter.                                |
-| `default_value`     | `float`                | `no`     | `no`       | Return the default value for this parameter.                                     |
-| `display_value`     | `float`                | `yes`    | `yes`      | Get/Set the current value (as visible in the GUI) this parameter.                |
-| `is_enabled`        | `bool`                 | `no`     | `no`       | Returns false if the parameter has been macro mapped or disabled by Max.         |
-| `is_quantized`      | `bool`                 | `no`     | `no`       | Returns True, if this value is a boolean or integer like switch.                 |
-| `max`               | `float`                | `no`     | `no`       | Returns const access to the upper value of the allowed range for this parameter. |
-| `min`               | `float`                | `no`     | `no`       | Returns const access to the lower value of the allowed range for this parameter. |
-| `name`              | `str`                  | `no`     | `yes`      | Returns const access the name of this parameter, as visible in Lives automati... |
-| `original_name`     | `str`                  | `no`     | `no`       | Returns const access the original name of this parameter, unaffected of any r... |
-| `short_value_items` | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the list of possible values for this parameter.                           |
-| `state`             | `int`                  | `no`     | `yes`      | Returns the state of the parameter: - enabled - the parameter's value can be ... |
-| `value`             | `float`                | `yes`    | `yes`      | Get/Set the current internal value of this parameter.                            |
-| `value_items`       | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the list of possible values for this parameter.                           |
+| Property            | Type                   | Supports             |
+| ------------------- | ---------------------- | -------------------- |
+| `automation_state`  | `int`                  | `get`/`listen`       |
+| `canonical_parent`  | `Device`               | `get`                |
+| `default_value`     | `float`                | `get`                |
+| `display_value`     | `float`                | `get`/`set`/`listen` |
+| `is_enabled`        | `bool`                 | `get`                |
+| `is_quantized`      | `bool`                 | `get`                |
+| `max`               | `float`                | `get`                |
+| `min`               | `float`                | `get`                |
+| `name`              | `str`                  | `get`/`listen`       |
+| `original_name`     | `str`                  | `get`                |
+| `short_value_items` | `tuple[str, Ellipsis]` | `get`                |
+| `state`             | `int`                  | `get`/`listen`       |
+| `value`             | `float`                | `get`/`set`/`listen` |
+| `value_items`       | `tuple[str, Ellipsis]` | `get`                |
 
 #### `automation_state`
 

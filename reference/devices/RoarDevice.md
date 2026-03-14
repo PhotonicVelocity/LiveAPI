@@ -10,25 +10,25 @@ This class represents a Roar device.
 
 ### Properties
 
-| Property                    | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `can_compare_ab`            | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`           | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`        | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `canonical_parent`          | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `class_display_name`        | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `env_listen`                | `bool`                             | `yes`    | `yes`      | Return the Envelope Input Listen toggle state.                                   |
-| `is_active`                 | `bool`                             | `no`     | `no`       | Return const access to whether this device is active.                            |
-| `is_using_compare_preset_b` | `bool`                             | `yes`    | `no`       | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`             | `float`                            | `no`     | `no`       | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`        | `int`                              | `no`     | `no`       | Returns the latency of the device in samples.                                    |
-| `name`                      | `str`                              | `yes`    | `no`       | Return access to the name of the device.                                         |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `no`     | `no`       | Const access to the list of available automatable parameters for this device.    |
-| `routing_mode_index`        | `int`                              | `yes`    | `yes`      | Return the routing mode index.                                                   |
-| `routing_mode_list`         | `tuple[str, Ellipsis]`             | `no`     | `no`       | Return the routing mode list.                                                    |
-| `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `view`                      | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
+| Property                    | Type                               | Supports             |
+| --------------------------- | ---------------------------------- | -------------------- |
+| `can_compare_ab`            | `bool`                             | `get`                |
+| `can_have_chains`           | `bool`                             | `get`                |
+| `can_have_drum_pads`        | `bool`                             | `get`                |
+| `canonical_parent`          | `Track`                            | `get`                |
+| `class_display_name`        | `str`                              | `get`                |
+| `class_name`                | `str`                              | `get`                |
+| `env_listen`                | `bool`                             | `get`/`set`/`listen` |
+| `is_active`                 | `bool`                             | `get`                |
+| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
+| `latency_in_ms`             | `float`                            | `get`                |
+| `latency_in_samples`        | `int`                              | `get`                |
+| `name`                      | `str`                              | `get`/`set`          |
+| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| `routing_mode_index`        | `int`                              | `get`/`set`/`listen` |
+| `routing_mode_list`         | `tuple[str, Ellipsis]`             | `get`                |
+| `type`                      | `DeviceType`                       | `get`                |
+| `view`                      | `Device.View`                      | `get`                |
 
 #### `can_compare_ab`
 

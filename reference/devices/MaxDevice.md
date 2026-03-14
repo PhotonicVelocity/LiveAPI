@@ -10,26 +10,26 @@ This class represents a Max for Live device.
 
 ### Properties
 
-| Property                    | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `audio_inputs`              | `tuple`                            | `no`     | `yes`      | Const access to a list of all audio inputs of the device.                        |
-| `audio_outputs`             | `tuple`                            | `no`     | `yes`      | Const access to a list of all audio outputs of the device.                       |
-| `can_compare_ab`            | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`           | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`        | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `canonical_parent`          | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `class_display_name`        | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `is_active`                 | `bool`                             | `no`     | `no`       | Return const access to whether this device is active.                            |
-| `is_using_compare_preset_b` | `bool`                             | `yes`    | `no`       | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`             | `float`                            | `no`     | `no`       | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`        | `int`                              | `no`     | `no`       | Returns the latency of the device in samples.                                    |
-| `midi_inputs`               | `tuple`                            | `no`     | `yes`      | Const access to a list of all midi outputs of the device.                        |
-| `midi_outputs`              | `tuple`                            | `no`     | `yes`      | Const access to a list of all midi outputs of the device.                        |
-| `name`                      | `str`                              | `yes`    | `no`       | Return access to the name of the device.                                         |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `no`     | `no`       | Const access to the list of available automatable parameters for this device.    |
-| `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `view`                      | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
+| Property                    | Type                               | Supports       |
+| --------------------------- | ---------------------------------- | -------------- |
+| `audio_inputs`              | `tuple`                            | `get`/`listen` |
+| `audio_outputs`             | `tuple`                            | `get`/`listen` |
+| `can_compare_ab`            | `bool`                             | `get`          |
+| `can_have_chains`           | `bool`                             | `get`          |
+| `can_have_drum_pads`        | `bool`                             | `get`          |
+| `canonical_parent`          | `Track`                            | `get`          |
+| `class_display_name`        | `str`                              | `get`          |
+| `class_name`                | `str`                              | `get`          |
+| `is_active`                 | `bool`                             | `get`          |
+| `is_using_compare_preset_b` | `bool`                             | `get`/`set`    |
+| `latency_in_ms`             | `float`                            | `get`          |
+| `latency_in_samples`        | `int`                              | `get`          |
+| `midi_inputs`               | `tuple`                            | `get`/`listen` |
+| `midi_outputs`              | `tuple`                            | `get`/`listen` |
+| `name`                      | `str`                              | `get`/`set`    |
+| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`          |
+| `type`                      | `DeviceType`                       | `get`          |
+| `view`                      | `Device.View`                      | `get`          |
 
 #### `audio_inputs`
 

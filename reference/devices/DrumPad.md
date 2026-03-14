@@ -14,14 +14,14 @@ This class represents a drum group device pad in Live.
 
 ### Properties
 
-| Property           | Type         | Settable | Listenable | Description                                                 |
-| ------------------ | ------------ | -------- | ---------- | ----------------------------------------------------------- |
-| `canonical_parent` | `RackDevice` | `no`     | `no`       | Get the canonical parent of the drum pad.                   |
-| `chains`           | `tuple`      | `no`     | `yes`      | Return const access to the list of chains in this drum pad. |
-| `mute`             | `bool`       | `yes`    | `yes`      | Mute/unmute the pad.                                        |
-| `name`             | `str`        | `no`     | `yes`      | Return const access to the drum pad's name.                 |
-| `note`             | `int`        | `no`     | `no`       | Get the MIDI note of the drum pad.                          |
-| `solo`             | `bool`       | `yes`    | `yes`      | Solo/unsolo the pad.                                        |
+| Property           | Type         | Supports             |
+| ------------------ | ------------ | -------------------- |
+| `canonical_parent` | `RackDevice` | `get`                |
+| `chains`           | `tuple`      | `get`/`listen`       |
+| `mute`             | `bool`       | `get`/`set`/`listen` |
+| `name`             | `str`        | `get`/`listen`       |
+| `note`             | `int`        | `get`                |
+| `solo`             | `bool`       | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

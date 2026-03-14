@@ -14,21 +14,21 @@ This class represents an entry in Lives Session view matrix.
 
 ### Properties
 
-| Property               | Type                   | Settable | Listenable | Description                                                                      |
-| ---------------------- | ---------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `canonical_parent`     | `Track`                | `no`     | `no`       | Get the canonical parent of the ClipSlot.                                        |
-| `clip`                 | `Clip`                 | `no`     | `no`       | Returns the Clip which this clipslots currently owns.                            |
-| `color`                | `int`                  | `no`     | `yes`      | Returns the canonical color for the clip slot or None if it does not exist.      |
-| `color_index`          | `int`                  | `no`     | `yes`      | Returns the canonical color index for the clip slot or None if it does not ex... |
-| `controls_other_clips` | `bool`                 | `no`     | `yes`      | Returns true if firing this slot will fire clips in other slots.                 |
-| `has_clip`             | `bool`                 | `no`     | `yes`      | Returns true if this Clipslot owns a Clip.                                       |
-| `has_stop_button`      | `bool`                 | `yes`    | `yes`      | Get/Set if this Clip has a stop button, which will, if fired, stop any other ... |
-| `is_group_slot`        | `bool`                 | `no`     | `no`       | Returns whether this clip slot is a group track slot (group slot).               |
-| `is_playing`           | `bool`                 | `no`     | `no`       | Returns whether the clip associated with the slot is playing.                    |
-| `is_recording`         | `bool`                 | `no`     | `no`       | Returns whether the clip associated with the slot is recording.                  |
-| `is_triggered`         | `bool`                 | `no`     | `yes`      | Const access to the triggering state of the clip slot.                           |
-| `playing_status`       | `ClipSlotPlayingState` | `no`     | `yes`      | Const access to the playing state of the clip slot.                              |
-| `will_record_on_start` | `bool`                 | `no`     | `no`       | returns true if the clip slot will record on being fired.                        |
+| Property               | Type                   | Supports             |
+| ---------------------- | ---------------------- | -------------------- |
+| `canonical_parent`     | `Track`                | `get`                |
+| `clip`                 | `Clip`                 | `get`                |
+| `color`                | `int`                  | `get`/`listen`       |
+| `color_index`          | `int`                  | `get`/`listen`       |
+| `controls_other_clips` | `bool`                 | `get`/`listen`       |
+| `has_clip`             | `bool`                 | `get`/`listen`       |
+| `has_stop_button`      | `bool`                 | `get`/`set`/`listen` |
+| `is_group_slot`        | `bool`                 | `get`                |
+| `is_playing`           | `bool`                 | `get`                |
+| `is_recording`         | `bool`                 | `get`                |
+| `is_triggered`         | `bool`                 | `get`/`listen`       |
+| `playing_status`       | `ClipSlotPlayingState` | `get`/`listen`       |
+| `will_record_on_start` | `bool`                 | `get`                |
 
 #### `canonical_parent`
 

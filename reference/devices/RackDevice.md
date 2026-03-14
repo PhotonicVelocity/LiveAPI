@@ -10,35 +10,35 @@ This class represents a Rack device.
 
 ### Properties
 
-| Property                    | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `can_compare_ab`            | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`           | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`        | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `can_show_chains`           | `bool`                             | `no`     | `no`       | return True, if this Rack contains a rack instrument device that is capable o... |
-| `canonical_parent`          | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `chain_selector`            | `DeviceParameter`                  | `no`     | `no`       | Const access to the chain selector parameter.                                    |
-| `chains`                    | `tuple`                            | `no`     | `yes`      | Return const access to the list of chains in this device.                        |
-| `class_display_name`        | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `drum_pads`                 | `tuple`                            | `no`     | `yes`      | Return const access to the list of drum pads in this device.                     |
-| `has_drum_pads`             | `bool`                             | `no`     | `yes`      | Returns true if the device is a drum rack which has drum pads.                   |
-| `has_macro_mappings`        | `bool`                             | `no`     | `yes`      | Returns true if any of the rack's macros are mapped to a parameter.              |
-| `is_active`                 | `bool`                             | `no`     | `no`       | Return const access to whether this device is active.                            |
-| `is_showing_chains`         | `bool`                             | `yes`    | `yes`      | Returns True, if it is showing chains.                                           |
-| `is_using_compare_preset_b` | `bool`                             | `yes`    | `no`       | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`             | `float`                            | `no`     | `no`       | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`        | `int`                              | `no`     | `no`       | Returns the latency of the device in samples.                                    |
-| `macros_mapped`             | `tuple`                            | `no`     | `yes`      | A list of booleans, one for each macro parameter, which is True iffthat macro... |
-| `name`                      | `str`                              | `yes`    | `no`       | Return access to the name of the device.                                         |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `no`     | `no`       | Const access to the list of available automatable parameters for this device.    |
-| `return_chains`             | `tuple`                            | `no`     | `yes`      | Return const access to the list of return chains in this device.                 |
-| `selected_variation_index`  | `int`                              | `yes`    | `no`       | Access to the index of the currently selected macro variation.Throws an excep... |
-| `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `variation_count`           | `int`                              | `no`     | `yes`      | Access to the number of macro variations currently stored.                       |
-| `view`                      | `View`                             | `no`     | `no`       | Representing the view aspects of a device.                                       |
-| `visible_drum_pads`         | `tuple`                            | `no`     | `yes`      | Return const access to the list of visible drum pads in this device.             |
-| `visible_macro_count`       | `int`                              | `no`     | `yes`      | Access to the number of macros that are currently visible.                       |
+| Property                    | Type                               | Supports             |
+| --------------------------- | ---------------------------------- | -------------------- |
+| `can_compare_ab`            | `bool`                             | `get`                |
+| `can_have_chains`           | `bool`                             | `get`                |
+| `can_have_drum_pads`        | `bool`                             | `get`                |
+| `can_show_chains`           | `bool`                             | `get`                |
+| `canonical_parent`          | `Track`                            | `get`                |
+| `chain_selector`            | `DeviceParameter`                  | `get`                |
+| `chains`                    | `tuple`                            | `get`/`listen`       |
+| `class_display_name`        | `str`                              | `get`                |
+| `class_name`                | `str`                              | `get`                |
+| `drum_pads`                 | `tuple`                            | `get`/`listen`       |
+| `has_drum_pads`             | `bool`                             | `get`/`listen`       |
+| `has_macro_mappings`        | `bool`                             | `get`/`listen`       |
+| `is_active`                 | `bool`                             | `get`                |
+| `is_showing_chains`         | `bool`                             | `get`/`set`/`listen` |
+| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
+| `latency_in_ms`             | `float`                            | `get`                |
+| `latency_in_samples`        | `int`                              | `get`                |
+| `macros_mapped`             | `tuple`                            | `get`/`listen`       |
+| `name`                      | `str`                              | `get`/`set`          |
+| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| `return_chains`             | `tuple`                            | `get`/`listen`       |
+| `selected_variation_index`  | `int`                              | `get`/`set`          |
+| `type`                      | `DeviceType`                       | `get`                |
+| `variation_count`           | `int`                              | `get`/`listen`       |
+| `view`                      | `View`                             | `get`                |
+| `visible_drum_pads`         | `tuple`                            | `get`/`listen`       |
+| `visible_macro_count`       | `int`                              | `get`/`listen`       |
 
 #### `can_compare_ab`
 
@@ -339,14 +339,14 @@ Representing the view aspects of a rack device.
 
 ### Properties
 
-| Property                    | Type         | Settable | Listenable | Description                                                             |
-| --------------------------- | ------------ | -------- | ---------- | ----------------------------------------------------------------------- |
-| `canonical_parent`          | `RackDevice` | `no`     | `no`       | Get the canonical parent of the View.                                   |
-| `drum_pads_scroll_position` | `int`        | `yes`    | `yes`      | Access to the index of the lowest visible row of pads.                  |
-| `is_collapsed`              | `bool`       | `yes`    | `no`       | Get/Set/Listen if the device is shown collapsed in the device chain.    |
-| `is_showing_chain_devices`  | `bool`       | `yes`    | `yes`      | Return whether the devices in the currently selected chain are visible. |
-| `selected_chain`            | `None`       | `yes`    | `yes`      | Return access to the currently selected chain.                          |
-| `selected_drum_pad`         | `DrumPad`    | `yes`    | `yes`      | Return access to the currently selected drum pad.                       |
+| Property                    | Type         | Supports             |
+| --------------------------- | ------------ | -------------------- |
+| `canonical_parent`          | `RackDevice` | `get`                |
+| `drum_pads_scroll_position` | `int`        | `get`/`set`/`listen` |
+| `is_collapsed`              | `bool`       | `get`/`set`          |
+| `is_showing_chain_devices`  | `bool`       | `get`/`set`/`listen` |
+| `selected_chain`            | `None`       | `get`/`set`/`listen` |
+| `selected_drum_pad`         | `DrumPad`    | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

@@ -10,34 +10,34 @@ This class represents a CcControl device.
 
 ### Properties
 
-| Property                      | Type                   | Settable | Listenable | Description                             |
-| ----------------------------- | ---------------------- | -------- | ---------- | --------------------------------------- |
-| `custom_bool_target`          | `int`                  | `yes`    | `yes`      | Return the custom bool target.          |
-| `custom_bool_target_list`     | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom bool target list.     |
-| `custom_float_target_0`       | `int`                  | `yes`    | `yes`      | Return the custom float target 0.       |
-| `custom_float_target_0_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 0 list.  |
-| `custom_float_target_1`       | `int`                  | `yes`    | `yes`      | Return the custom float target 1.       |
-| `custom_float_target_10`      | `int`                  | `yes`    | `yes`      | Return the custom float target 10.      |
-| `custom_float_target_10_list` | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 10 list. |
-| `custom_float_target_11`      | `int`                  | `yes`    | `yes`      | Return the custom float target 11.      |
-| `custom_float_target_11_list` | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 11 list. |
-| `custom_float_target_1_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 1 list.  |
-| `custom_float_target_2`       | `int`                  | `yes`    | `yes`      | Return the custom float target 2.       |
-| `custom_float_target_2_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 2 list.  |
-| `custom_float_target_3`       | `int`                  | `yes`    | `yes`      | Return the custom float target 3.       |
-| `custom_float_target_3_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 3 list.  |
-| `custom_float_target_4`       | `int`                  | `yes`    | `yes`      | Return the custom float target 4.       |
-| `custom_float_target_4_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 4 list.  |
-| `custom_float_target_5`       | `int`                  | `yes`    | `yes`      | Return the custom float target 5.       |
-| `custom_float_target_5_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 5 list.  |
-| `custom_float_target_6`       | `int`                  | `yes`    | `yes`      | Return the custom float target 6.       |
-| `custom_float_target_6_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 6 list.  |
-| `custom_float_target_7`       | `int`                  | `yes`    | `yes`      | Return the custom float target 7.       |
-| `custom_float_target_7_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 7 list.  |
-| `custom_float_target_8`       | `int`                  | `yes`    | `yes`      | Return the custom float target 8.       |
-| `custom_float_target_8_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 8 list.  |
-| `custom_float_target_9`       | `int`                  | `yes`    | `yes`      | Return the custom float target 9.       |
-| `custom_float_target_9_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 9 list.  |
+| Property                      | Type                   | Supports             |
+| ----------------------------- | ---------------------- | -------------------- |
+| `custom_bool_target`          | `int`                  | `get`/`set`/`listen` |
+| `custom_bool_target_list`     | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_0`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_0_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_1`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_10`      | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_10_list` | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_11`      | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_11_list` | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_1_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_2`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_2_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_3`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_3_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_4`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_4_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_5`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_5_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_6`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_6_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_7`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_7_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_8`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_8_list`  | `tuple[str, Ellipsis]` | `get`                |
+| `custom_float_target_9`       | `int`                  | `get`/`set`/`listen` |
+| `custom_float_target_9_list`  | `tuple[str, Ellipsis]` | `get`                |
 
 #### `custom_bool_target`
 

@@ -8,11 +8,11 @@ This class represents a Python listener when connected to a Live property.
 
 ### Properties
 
-| Property        | Type       | Settable | Listenable | Description                                                            |
-| --------------- | ---------- | -------- | ---------- | ---------------------------------------------------------------------- |
-| `listener_func` | `Callable` | `no`     | `no`       | Returns the original function.                                         |
-| `listener_self` | `Any`      | `no`     | `no`       | Returns the weak reference to original self, if it was a bound method. |
-| `name`          | `str`      | `no`     | `no`       | Prints the name of the property that this listener is connected to.    |
+| Property        | Type       | Supports |
+| --------------- | ---------- | -------- |
+| `listener_func` | `Callable` | `get`    |
+| `listener_self` | `Any`      | `get`    |
+| `name`          | `str`      | `get`    |
 
 #### `listener_func`
 

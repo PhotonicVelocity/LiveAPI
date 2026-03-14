@@ -137,9 +137,9 @@ A translatable, immutable string.
 
 ### Properties
 
-| Property | Type  | Settable | Listenable | Description |
-| -------- | ----- | -------- | ---------- | ----------- |
-| `text`   | `str` | `no`     | `no`       |             |
+| Property | Type  | Supports |
+| -------- | ----- | -------- |
+| `text`   | `str` | `get`    |
 
 #### `text`
 
@@ -157,9 +157,9 @@ A timer that will trigger a callback after a certain inverval. The timer can be 
 
 ### Properties
 
-| Property  | Type   | Settable | Listenable | Description |
-| --------- | ------ | -------- | ---------- | ----------- |
-| `running` | `bool` | `no`     | `no`       |             |
+| Property  | Type   | Supports |
+| --------- | ------ | -------- |
+| `running` | `bool` | `get`    |
 
 #### `running`
 

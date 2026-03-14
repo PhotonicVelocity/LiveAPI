@@ -549,14 +549,16 @@ def _render_class_body(
         lines.append("")
 
         # Summary table
-        lines.append("| Property | Type | Settable | Listenable | Description |")
-        lines.append("| --- | --- | --- | --- | --- |")
+        lines.append("| Property | Type | Supports |")
+        lines.append("| --- | --- | --- |")
         for prop in cls.properties:
-            settable = "yes" if prop.settable else "no"
-            listenable = "yes" if prop.listenable else "no"
-            summary = escape_table_cell(truncate_summary(prop.docstring))
+            supports = ["`get`"]
+            if prop.settable:
+                supports.append("`set`")
+            if prop.listenable:
+                supports.append("`listen`")
             esc_type = escape_table_cell(prop.type)
-            lines.append(f"| `{prop.name}` | `{esc_type}` | `{settable}` | `{listenable}` | {summary} |")
+            lines.append(f"| `{prop.name}` | `{esc_type}` | {'/'.join(supports)} |")
         lines.append("")
 
         # Per-property details

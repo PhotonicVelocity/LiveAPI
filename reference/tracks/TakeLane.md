@@ -10,11 +10,11 @@ This class represents a take lane in Live.
 
 ### Properties
 
-| Property            | Type    | Settable | Listenable | Description                                                                      |
-| ------------------- | ------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `arrangement_clips` | `tuple` | `no`     | `yes`      | Read-only access to the arrangement clips in the take lane.                      |
-| `canonical_parent`  | `Track` | `no`     | `no`       | Get the canonical parent of the take lane.                                       |
-| `name`              | `str`   | `yes`    | `yes`      | Read/write access to the name of the TakeLane, as visible in the take lane he... |
+| Property            | Type    | Supports             |
+| ------------------- | ------- | -------------------- |
+| `arrangement_clips` | `tuple` | `get`/`listen`       |
+| `canonical_parent`  | `Track` | `get`                |
+| `name`              | `str`   | `get`/`set`/`listen` |
 
 #### `arrangement_clips`
 

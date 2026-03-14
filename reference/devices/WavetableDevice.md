@@ -10,37 +10,37 @@ This class represents a Wavetable device.
 
 ### Properties
 
-| Property                          | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `can_compare_ab`                  | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`                 | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`              | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `canonical_parent`                | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `class_display_name`              | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                      | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `filter_routing`                  | `int`                              | `yes`    | `yes`      | Return the current filter routing.                                               |
-| `is_active`                       | `bool`                             | `no`     | `no`       | Return const access to whether this device is active.                            |
-| `is_using_compare_preset_b`       | `bool`                             | `yes`    | `no`       | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`                   | `float`                            | `no`     | `no`       | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`              | `int`                              | `no`     | `no`       | Returns the latency of the device in samples.                                    |
-| `mono_poly`                       | `int`                              | `yes`    | `yes`      | Return the current voicing mode.                                                 |
-| `name`                            | `str`                              | `yes`    | `no`       | Return access to the name of the device.                                         |
-| `oscillator_1_effect_mode`        | `int`                              | `yes`    | `yes`      | Return the current effect mode of the oscillator 1.                              |
-| `oscillator_1_wavetable_category` | `int`                              | `yes`    | `yes`      | Return the current wavetable category of the oscillator 1.                       |
-| `oscillator_1_wavetable_index`    | `int`                              | `yes`    | `yes`      | Return the current wavetable index of the oscillator 1.                          |
-| `oscillator_1_wavetables`         | `tuple[str, Ellipsis]`             | `no`     | `yes`      | Get a vector of oscillator 1's wavetable names.                                  |
-| `oscillator_2_effect_mode`        | `int`                              | `yes`    | `yes`      | Return the current effect mode of the oscillator 2.                              |
-| `oscillator_2_wavetable_category` | `int`                              | `yes`    | `yes`      | Return the current wavetable category of the oscillator 2.                       |
-| `oscillator_2_wavetable_index`    | `int`                              | `yes`    | `yes`      | Return the current wavetable index of the oscillator 2.                          |
-| `oscillator_2_wavetables`         | `tuple[str, Ellipsis]`             | `no`     | `yes`      | Get a vector of oscillator 2's wavetable names.                                  |
-| `oscillator_wavetable_categories` | `tuple[str, Ellipsis]`             | `no`     | `no`       | Get a vector of the available wavetable categories.                              |
-| `parameters`                      | `tuple[DeviceParameter, Ellipsis]` | `no`     | `no`       | Const access to the list of available automatable parameters for this device.    |
-| `poly_voices`                     | `int`                              | `yes`    | `yes`      | Return the current number of polyphonic voices.                                  |
-| `type`                            | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `unison_mode`                     | `int`                              | `yes`    | `yes`      | Return the current unison mode.                                                  |
-| `unison_voice_count`              | `int`                              | `yes`    | `yes`      | Return the current number of unison voices.                                      |
-| `view`                            | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
-| `visible_modulation_target_names` | `tuple[str, Ellipsis]`             | `no`     | `yes`      | Get the names of all the visible modulation targets.                             |
+| Property                          | Type                               | Supports             |
+| --------------------------------- | ---------------------------------- | -------------------- |
+| `can_compare_ab`                  | `bool`                             | `get`                |
+| `can_have_chains`                 | `bool`                             | `get`                |
+| `can_have_drum_pads`              | `bool`                             | `get`                |
+| `canonical_parent`                | `Track`                            | `get`                |
+| `class_display_name`              | `str`                              | `get`                |
+| `class_name`                      | `str`                              | `get`                |
+| `filter_routing`                  | `int`                              | `get`/`set`/`listen` |
+| `is_active`                       | `bool`                             | `get`                |
+| `is_using_compare_preset_b`       | `bool`                             | `get`/`set`          |
+| `latency_in_ms`                   | `float`                            | `get`                |
+| `latency_in_samples`              | `int`                              | `get`                |
+| `mono_poly`                       | `int`                              | `get`/`set`/`listen` |
+| `name`                            | `str`                              | `get`/`set`          |
+| `oscillator_1_effect_mode`        | `int`                              | `get`/`set`/`listen` |
+| `oscillator_1_wavetable_category` | `int`                              | `get`/`set`/`listen` |
+| `oscillator_1_wavetable_index`    | `int`                              | `get`/`set`/`listen` |
+| `oscillator_1_wavetables`         | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| `oscillator_2_effect_mode`        | `int`                              | `get`/`set`/`listen` |
+| `oscillator_2_wavetable_category` | `int`                              | `get`/`set`/`listen` |
+| `oscillator_2_wavetable_index`    | `int`                              | `get`/`set`/`listen` |
+| `oscillator_2_wavetables`         | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| `oscillator_wavetable_categories` | `tuple[str, Ellipsis]`             | `get`                |
+| `parameters`                      | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| `poly_voices`                     | `int`                              | `get`/`set`/`listen` |
+| `type`                            | `DeviceType`                       | `get`                |
+| `unison_mode`                     | `int`                              | `get`/`set`/`listen` |
+| `unison_voice_count`              | `int`                              | `get`/`set`/`listen` |
+| `view`                            | `Device.View`                      | `get`                |
+| `visible_modulation_target_names` | `tuple[str, Ellipsis]`             | `get`/`listen`       |
 
 #### `can_compare_ab`
 

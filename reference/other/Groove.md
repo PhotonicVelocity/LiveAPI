@@ -10,15 +10,15 @@ This class represents a groove in Live.
 
 ### Properties
 
-| Property              | Type         | Settable | Listenable | Description                                                   |
-| --------------------- | ------------ | -------- | ---------- | ------------------------------------------------------------- |
-| `base`                | `Base`       | `yes`    | `no`       | Get/set the groove's base grid.                               |
-| `canonical_parent`    | `GroovePool` | `no`     | `no`       | Get the canonical parent of the groove.                       |
-| `name`                | `str`        | `yes`    | `yes`      | Read/write/listen access to the groove's name.                |
-| `quantization_amount` | `float`      | `yes`    | `yes`      | Read/write/listen access to the groove's quantization amount. |
-| `random_amount`       | `float`      | `yes`    | `yes`      | Read/write/listen access to the groove's random amount.       |
-| `timing_amount`       | `float`      | `yes`    | `yes`      | Read/write/listen access to the groove's timing amount.       |
-| `velocity_amount`     | `float`      | `yes`    | `yes`      | Read/write/listen access to the groove's velocity amount.     |
+| Property              | Type         | Supports             |
+| --------------------- | ------------ | -------------------- |
+| `base`                | `Base`       | `get`/`set`          |
+| `canonical_parent`    | `GroovePool` | `get`                |
+| `name`                | `str`        | `get`/`set`/`listen` |
+| `quantization_amount` | `float`      | `get`/`set`/`listen` |
+| `random_amount`       | `float`      | `get`/`set`/`listen` |
+| `timing_amount`       | `float`      | `get`/`set`/`listen` |
+| `velocity_amount`     | `float`      | `get`/`set`/`listen` |
 
 #### `base`
 

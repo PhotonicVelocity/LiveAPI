@@ -22,56 +22,56 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 ### Properties
 
-| Property                | Type                          | Settable | Listenable | Description                                                                      |
-| ----------------------- | ----------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `automation_envelopes`  | `tuple`                       | `no`     | `no`       | Const access to a list of all automation envelopes for this clip.                |
-| `available_warp_modes`  | `tuple[int, Ellipsis]`        | `no`     | `no`       | Available for AudioClips only.                                                   |
-| `canonical_parent`      | `ClipSlot`                    | `no`     | `no`       | Get the canonical parent of the Clip.                                            |
-| `color`                 | `int`                         | `yes`    | `yes`      | Get/set access to the color of the Clip (RGB).                                   |
-| `color_index`           | `int`                         | `yes`    | `yes`      | Get/set access to the color index of the Clip.                                   |
-| `end_marker`            | `float`                       | `yes`    | `yes`      | Get/Set the Clips end marker pos in beats/seconds (unit depends on warping).     |
-| `end_time`              | `float`                       | `no`     | `yes`      | Get the clip's end time.                                                         |
-| `file_path`             | `str`                         | `no`     | `yes`      | Get the path of the file represented by the Audio Clip.                          |
-| `gain`                  | `float`                       | `yes`    | `yes`      | Available for AudioClips only.                                                   |
-| `gain_display_string`   | `str`                         | `no`     | `no`       | Return a string with the gain as dB value.                                       |
-| `groove`                | `None`                        | `yes`    | `yes`      | Get the groove associated with this clip.                                        |
-| `has_envelopes`         | `bool`                        | `no`     | `yes`      | Will notify if the clip gets his first envelope or the last envelope is removed. |
-| `has_groove`            | `bool`                        | `no`     | `no`       | Returns true if a groove is associated with this clip.                           |
-| `is_arrangement_clip`   | `bool`                        | `no`     | `no`       | return true if this Clip is an Arrangement Clip.                                 |
-| `is_audio_clip`         | `bool`                        | `no`     | `no`       | Return true if this Clip is an Audio Clip.                                       |
-| `is_midi_clip`          | `bool`                        | `no`     | `no`       | return true if this Clip is a MIDI Clip.                                         |
-| `is_overdubbing`        | `bool`                        | `no`     | `yes`      | returns true if the Clip is recording overdubs.                                  |
-| `is_playing`            | `bool`                        | `yes`    | `no`       | Get/Set if this Clip is currently playing.                                       |
-| `is_recording`          | `bool`                        | `no`     | `yes`      | returns true if the Clip was triggered to record or is recording.                |
-| `is_session_clip`       | `bool`                        | `no`     | `no`       | return true if this Clip is a Session Clip.                                      |
-| `is_take_lane_clip`     | `bool`                        | `no`     | `no`       | return true if this Clip is a Take Lane Clip.                                    |
-| `is_triggered`          | `bool`                        | `no`     | `no`       | returns true if the Clip was triggered or is playing.                            |
-| `launch_mode`           | `int`                         | `yes`    | `yes`      | Get/Set access to the launch mode setting of the Clip.                           |
-| `launch_quantization`   | `int`                         | `yes`    | `yes`      | Get/Set access to the launch quantization setting of the Clip.                   |
-| `legato`                | `bool`                        | `yes`    | `yes`      | Get/Set access to the legato setting of the Clip.                                |
-| `length`                | `float`                       | `no`     | `no`       | Get to the Clips length in beats/seconds (unit depends on warping).              |
-| `loop_end`              | `float`                       | `yes`    | `yes`      | Get/Set the loop end pos of this Clip in beats/seconds (unit depends on warpi... |
-| `loop_start`            | `float`                       | `yes`    | `yes`      | Get/Set the Clips loopstart pos in beats/seconds (unit depends on warping).      |
-| `looping`               | `bool`                        | `yes`    | `yes`      | Get/Set the Clips 'loop is enabled' flag .Only Warped Audio Clips or MIDI Cli... |
-| `muted`                 | `bool`                        | `yes`    | `yes`      | Read/write access to the mute state of the Clip.                                 |
-| `name`                  | `str`                         | `yes`    | `yes`      | Read/write access to the name of the Clip.                                       |
-| `pitch_coarse`          | `int`                         | `yes`    | `yes`      | Available for AudioClips only.                                                   |
-| `pitch_fine`            | `float`                       | `yes`    | `yes`      | Available for AudioClips only.                                                   |
-| `playing_position`      | `float`                       | `no`     | `yes`      | Constant access to the current playing position of the clip.                     |
-| `position`              | `float`                       | `yes`    | `yes`      | Get/Set the loop position of this Clip in beats/seconds (unit depends on warp... |
-| `ram_mode`              | `bool`                        | `yes`    | `yes`      | Available for AudioClips only.                                                   |
-| `sample_length`         | `int`                         | `no`     | `no`       | Available for AudioClips only.                                                   |
-| `sample_rate`           | `float`                       | `no`     | `no`       | Available for AudioClips only.                                                   |
-| `signature_denominator` | `int`                         | `yes`    | `yes`      | Get/Set access to the global signature denominator of the Clip.                  |
-| `signature_numerator`   | `int`                         | `yes`    | `yes`      | Get/Set access to the global signature numerator of the Clip.                    |
-| `start_marker`          | `float`                       | `yes`    | `yes`      | Get/Set the Clips start marker pos in beats/seconds (unit depends on warping).   |
-| `start_time`            | `float`                       | `no`     | `yes`      | Get the clip's start time offset.                                                |
-| `velocity_amount`       | `float`                       | `yes`    | `yes`      | Get/Set access to the velocity to volume amount of the Clip.                     |
-| `view`                  | `View`                        | `no`     | `no`       | Get the view of the Clip.                                                        |
-| `warp_markers`          | `tuple[WarpMarker, Ellipsis]` | `no`     | `yes`      | Available for AudioClips only.                                                   |
-| `warp_mode`             | `int`                         | `yes`    | `yes`      | Available for AudioClips only.                                                   |
-| `warping`               | `bool`                        | `yes`    | `yes`      | Available for AudioClips only.                                                   |
-| `will_record_on_start`  | `bool`                        | `no`     | `no`       | returns true if the Clip will record on being started.                           |
+| Property                | Type                          | Supports             |
+| ----------------------- | ----------------------------- | -------------------- |
+| `automation_envelopes`  | `tuple`                       | `get`                |
+| `available_warp_modes`  | `tuple[int, Ellipsis]`        | `get`                |
+| `canonical_parent`      | `ClipSlot`                    | `get`                |
+| `color`                 | `int`                         | `get`/`set`/`listen` |
+| `color_index`           | `int`                         | `get`/`set`/`listen` |
+| `end_marker`            | `float`                       | `get`/`set`/`listen` |
+| `end_time`              | `float`                       | `get`/`listen`       |
+| `file_path`             | `str`                         | `get`/`listen`       |
+| `gain`                  | `float`                       | `get`/`set`/`listen` |
+| `gain_display_string`   | `str`                         | `get`                |
+| `groove`                | `None`                        | `get`/`set`/`listen` |
+| `has_envelopes`         | `bool`                        | `get`/`listen`       |
+| `has_groove`            | `bool`                        | `get`                |
+| `is_arrangement_clip`   | `bool`                        | `get`                |
+| `is_audio_clip`         | `bool`                        | `get`                |
+| `is_midi_clip`          | `bool`                        | `get`                |
+| `is_overdubbing`        | `bool`                        | `get`/`listen`       |
+| `is_playing`            | `bool`                        | `get`/`set`          |
+| `is_recording`          | `bool`                        | `get`/`listen`       |
+| `is_session_clip`       | `bool`                        | `get`                |
+| `is_take_lane_clip`     | `bool`                        | `get`                |
+| `is_triggered`          | `bool`                        | `get`                |
+| `launch_mode`           | `int`                         | `get`/`set`/`listen` |
+| `launch_quantization`   | `int`                         | `get`/`set`/`listen` |
+| `legato`                | `bool`                        | `get`/`set`/`listen` |
+| `length`                | `float`                       | `get`                |
+| `loop_end`              | `float`                       | `get`/`set`/`listen` |
+| `loop_start`            | `float`                       | `get`/`set`/`listen` |
+| `looping`               | `bool`                        | `get`/`set`/`listen` |
+| `muted`                 | `bool`                        | `get`/`set`/`listen` |
+| `name`                  | `str`                         | `get`/`set`/`listen` |
+| `pitch_coarse`          | `int`                         | `get`/`set`/`listen` |
+| `pitch_fine`            | `float`                       | `get`/`set`/`listen` |
+| `playing_position`      | `float`                       | `get`/`listen`       |
+| `position`              | `float`                       | `get`/`set`/`listen` |
+| `ram_mode`              | `bool`                        | `get`/`set`/`listen` |
+| `sample_length`         | `int`                         | `get`                |
+| `sample_rate`           | `float`                       | `get`                |
+| `signature_denominator` | `int`                         | `get`/`set`/`listen` |
+| `signature_numerator`   | `int`                         | `get`/`set`/`listen` |
+| `start_marker`          | `float`                       | `get`/`set`/`listen` |
+| `start_time`            | `float`                       | `get`/`listen`       |
+| `velocity_amount`       | `float`                       | `get`/`set`/`listen` |
+| `view`                  | `View`                        | `get`                |
+| `warp_markers`          | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
+| `warp_mode`             | `int`                         | `get`/`set`/`listen` |
+| `warping`               | `bool`                        | `get`/`set`/`listen` |
+| `will_record_on_start`  | `bool`                        | `get`                |
 
 #### `automation_envelopes`
 
@@ -823,11 +823,11 @@ Representing the view aspects of a Clip.
 
 ### Properties
 
-| Property            | Type               | Settable | Listenable | Description                                         |
-| ------------------- | ------------------ | -------- | ---------- | --------------------------------------------------- |
-| `canonical_parent`  | `Clip`             | `no`     | `no`       | Get the canonical parent of the clip view.          |
-| `grid_is_triplet`   | `bool`             | `yes`    | `no`       | Get/set wether the grid is showing in triplet mode. |
-| `grid_quantization` | `GridQuantization` | `yes`    | `no`       | Get/set clip grid quantization resolution.          |
+| Property            | Type               | Supports    |
+| ------------------- | ------------------ | ----------- |
+| `canonical_parent`  | `Clip`             | `get`       |
+| `grid_is_triplet`   | `bool`             | `get`/`set` |
+| `grid_quantization` | `GridQuantization` | `get`/`set` |
 
 #### `canonical_parent`
 
@@ -958,17 +958,17 @@ An object representing a MIDI Note
 
 #### Properties
 
-| Property             | Type    | Settable | Listenable | Description                                                           |
-| -------------------- | ------- | -------- | ---------- | --------------------------------------------------------------------- |
-| `duration`           | `float` | `yes`    | `no`       |                                                                       |
-| `mute`               | `bool`  | `yes`    | `no`       |                                                                       |
-| `note_id`            | `int`   | `no`     | `no`       | A numerical ID that's unique within the originating clip of the note. |
-| `pitch`              | `int`   | `yes`    | `no`       |                                                                       |
-| `probability`        | `float` | `yes`    | `no`       |                                                                       |
-| `release_velocity`   | `float` | `yes`    | `no`       |                                                                       |
-| `start_time`         | `float` | `yes`    | `no`       |                                                                       |
-| `velocity`           | `float` | `yes`    | `no`       |                                                                       |
-| `velocity_deviation` | `float` | `yes`    | `no`       |                                                                       |
+| Property             | Type    | Supports    |
+| -------------------- | ------- | ----------- |
+| `duration`           | `float` | `get`/`set` |
+| `mute`               | `bool`  | `get`/`set` |
+| `note_id`            | `int`   | `get`       |
+| `pitch`              | `int`   | `get`/`set` |
+| `probability`        | `float` | `get`/`set` |
+| `release_velocity`   | `float` | `get`/`set` |
+| `start_time`         | `float` | `get`/`set` |
+| `velocity`           | `float` | `get`/`set` |
+| `velocity_deviation` | `float` | `get`/`set` |
 
 ##### `duration`
 
@@ -1069,10 +1069,10 @@ This class represents a WarpMarker type.
 
 #### Properties
 
-| Property      | Type    | Settable | Listenable | Description                 |
-| ------------- | ------- | -------- | ---------- | --------------------------- |
-| `beat_time`   | `float` | `no`     | `no`       | A WarpMarker's beat time.   |
-| `sample_time` | `float` | `no`     | `no`       | A WarpMarker's sample time. |
+| Property      | Type    | Supports |
+| ------------- | ------- | -------- |
+| `beat_time`   | `float` | `get`    |
+| `sample_time` | `float` | `get`    |
 
 ##### `beat_time`
 

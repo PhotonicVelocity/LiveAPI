@@ -10,13 +10,13 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property       | Type    | Settable | Listenable | Description |
-| -------------- | ------- | -------- | ---------- | ----------- |
-| `cc_no`        | `int`   | `yes`    | `no`       |             |
-| `cc_value_map` | `tuple` | `yes`    | `no`       |             |
-| `channel`      | `int`   | `yes`    | `no`       |             |
-| `delay_in_ms`  | `float` | `yes`    | `no`       |             |
-| `enabled`      | `bool`  | `yes`    | `no`       |             |
+| Property       | Type    | Supports    |
+| -------------- | ------- | ----------- |
+| `cc_no`        | `int`   | `get`/`set` |
+| `cc_value_map` | `tuple` | `get`/`set` |
+| `channel`      | `int`   | `get`/`set` |
+| `delay_in_ms`  | `float` | `get`/`set` |
+| `enabled`      | `bool`  | `get`/`set` |
 
 #### `cc_no`
 
@@ -58,13 +58,13 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property      | Type    | Settable | Listenable | Description |
-| ------------- | ------- | -------- | ---------- | ----------- |
-| `channel`     | `int`   | `yes`    | `no`       |             |
-| `delay_in_ms` | `float` | `yes`    | `no`       |             |
-| `enabled`     | `bool`  | `yes`    | `no`       |             |
-| `note_no`     | `int`   | `yes`    | `no`       |             |
-| `vel_map`     | `tuple` | `yes`    | `no`       |             |
+| Property      | Type    | Supports    |
+| ------------- | ------- | ----------- |
+| `channel`     | `int`   | `get`/`set` |
+| `delay_in_ms` | `float` | `get`/`set` |
+| `enabled`     | `bool`  | `get`/`set` |
+| `note_no`     | `int`   | `get`/`set` |
+| `vel_map`     | `tuple` | `get`/`set` |
 
 #### `channel`
 
@@ -106,12 +106,12 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property         | Type    | Settable | Listenable | Description |
-| ---------------- | ------- | -------- | ---------- | ----------- |
-| `channel`        | `int`   | `yes`    | `no`       |             |
-| `delay_in_ms`    | `float` | `yes`    | `no`       |             |
-| `enabled`        | `bool`  | `yes`    | `no`       |             |
-| `value_pair_map` | `tuple` | `yes`    | `no`       |             |
+| Property         | Type    | Supports    |
+| ---------------- | ------- | ----------- |
+| `channel`        | `int`   | `get`/`set` |
+| `delay_in_ms`    | `float` | `get`/`set` |
+| `enabled`        | `bool`  | `get`/`set` |
+| `value_pair_map` | `tuple` | `get`/`set` |
 
 #### `channel`
 

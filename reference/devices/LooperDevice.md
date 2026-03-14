@@ -10,27 +10,27 @@ This class represents a Looper device.
 
 ### Properties
 
-| Property                    | Type                               | Settable | Listenable | Description                                                                      |
-| --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `can_compare_ab`            | `bool`                             | `no`     | `no`       | Returns true if the Device has the capability to AB compare.                     |
-| `can_have_chains`           | `bool`                             | `no`     | `no`       | Returns true if the device is a rack.                                            |
-| `can_have_drum_pads`        | `bool`                             | `no`     | `no`       | Returns true if the device is a drum rack.                                       |
-| `canonical_parent`          | `Track`                            | `no`     | `no`       | Get the canonical parent of the Device.                                          |
-| `class_display_name`        | `str`                              | `no`     | `no`       | Return const access to the name of the device's class name as displayed in Li... |
-| `class_name`                | `str`                              | `no`     | `no`       | Return const access to the name of the device's class.                           |
-| `is_active`                 | `bool`                             | `no`     | `no`       | Return const access to whether this device is active.                            |
-| `is_using_compare_preset_b` | `bool`                             | `yes`    | `no`       | Returns whether the Device has loaded the preset in compare slot B.              |
-| `latency_in_ms`             | `float`                            | `no`     | `no`       | Returns the latency of the device in ms.                                         |
-| `latency_in_samples`        | `int`                              | `no`     | `no`       | Returns the latency of the device in samples.                                    |
-| `loop_length`               | `float`                            | `no`     | `yes`      | The length of Looper's buffer.                                                   |
-| `name`                      | `str`                              | `yes`    | `no`       | Return access to the name of the device.                                         |
-| `overdub_after_record`      | `bool`                             | `yes`    | `yes`      | If true, Looper will switch to overdub after recording, when recording a fixe... |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `no`     | `no`       | Const access to the list of available automatable parameters for this device.    |
-| `record_length_index`       | `int`                              | `yes`    | `yes`      | Access to the Record Length chooser entry index.                                 |
-| `record_length_list`        | `tuple[str, Ellipsis]`             | `no`     | `no`       | Read-only access to the list of Record Length chooser entry strings.             |
-| `tempo`                     | `float`                            | `no`     | `yes`      | The tempo of Looper's buffer.                                                    |
-| `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
-| `view`                      | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
+| Property                    | Type                               | Supports             |
+| --------------------------- | ---------------------------------- | -------------------- |
+| `can_compare_ab`            | `bool`                             | `get`                |
+| `can_have_chains`           | `bool`                             | `get`                |
+| `can_have_drum_pads`        | `bool`                             | `get`                |
+| `canonical_parent`          | `Track`                            | `get`                |
+| `class_display_name`        | `str`                              | `get`                |
+| `class_name`                | `str`                              | `get`                |
+| `is_active`                 | `bool`                             | `get`                |
+| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
+| `latency_in_ms`             | `float`                            | `get`                |
+| `latency_in_samples`        | `int`                              | `get`                |
+| `loop_length`               | `float`                            | `get`/`listen`       |
+| `name`                      | `str`                              | `get`/`set`          |
+| `overdub_after_record`      | `bool`                             | `get`/`set`/`listen` |
+| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| `record_length_index`       | `int`                              | `get`/`set`/`listen` |
+| `record_length_list`        | `tuple[str, Ellipsis]`             | `get`                |
+| `tempo`                     | `float`                            | `get`/`listen`       |
+| `type`                      | `DeviceType`                       | `get`                |
+| `view`                      | `Device.View`                      | `get`                |
 
 #### `can_compare_ab`
 
