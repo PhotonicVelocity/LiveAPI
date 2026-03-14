@@ -1,50 +1,104 @@
-name: Release API Stubs
+name: Release Stubs
 
 on:
   push:
     branches: [main]
-    paths: ["build/**"]
+    paths: ["stubs/*/Live/**"]
+
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Live version to release (e.g. 12.3.6)"
+        required: true
+      post:
+        description: "Post-release number (leave empty for initial release)"
+        required: false
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: pypi
     steps:
       - uses: actions/checkout@v4
 
-      - name: Create releases for new versions
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install build tools
+        run: pip install build
+
+      - name: Detect versions to release
+        id: versions
+        env:
+          GH_TOKEN: ${{ github.token }}
+          INPUT_VERSION: ${{ inputs.version }}
+          INPUT_POST: ${{ inputs.post }}
+        run: |
+          if [ -n "$INPUT_VERSION" ]; then
+            # Manual dispatch — single version
+            echo "versions=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
+            echo "post=$INPUT_POST" >> "$GITHUB_OUTPUT"
+          else
+            # Push trigger — find versions with stubs that don't have releases yet
+            existing=$(gh release list --limit 100 --json tagName -q '.[].tagName')
+            versions=""
+            for dir in stubs/*/Live/; do
+              version=$(basename "$(dirname "$dir")")
+              [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
+              [ -f "$dir/__init__.pyi" ] || continue
+              echo "$existing" | grep -qx "v${version}" && continue
+              versions="${versions:+$versions }$version"
+            done
+            echo "versions=$versions" >> "$GITHUB_OUTPUT"
+            echo "post=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build and release
+        if: steps.versions.outputs.versions != ''
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          existing=$(gh release list --limit 100 --json tagName -q '.[].tagName')
+          for version in ${{ steps.versions.outputs.versions }}; do
+            post_arg=""
+            if [ -n "${{ steps.versions.outputs.post }}" ]; then
+              post_arg="--post ${{ steps.versions.outputs.post }}"
+            fi
 
-          for dir in build/*/; do
-            version=$(basename "$dir")
+            python tools/publish/build_package.py "$version" $post_arg
 
-            # Skip non-version directories
-            [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
+            # GitHub release
+            tag="v${version}"
+            pkg_version="${version}"
+            if [ -n "${{ steps.versions.outputs.post }}" ]; then
+              pkg_version="${version}.post${{ steps.versions.outputs.post }}"
+            fi
+            zip_file="dist/ableton-live-stubs-${pkg_version}.zip"
 
-            # Skip if release already exists
-            echo "$existing" | grep -qx "$version" && continue
+            if gh release view "$tag" &>/dev/null; then
+              # Update existing release — replace zip asset
+              gh release upload "$tag" "$zip_file" --clobber
+              echo "Updated release $tag with new assets"
+            else
+              gh release create "$tag" "$zip_file" \
+                --title "Live ${version} API Stubs" \
+                --notes "Python type stubs for Ableton Live ${version}.
 
-            # Skip if no stubs generated
-            [ -f "$dir/Live/__init__.py" ] || continue
+          Install via pip:
+          \`\`\`
+          pip install ableton-live-stubs==${pkg_version}
+          \`\`\`
 
-            # Zip only the Live/ subdirectory (stubs)
-            (cd "$dir" && zip -r "../../Live-${version}-stubs.zip" Live/)
-
-            gh release create "$version" \
-              "Live-${version}-stubs.zip" \
-              --title "Live ${version} API Stubs" \
-              --notes "Auto-generated Python API stubs for Ableton Live ${version}.
-
-          Use these for type checking and autocomplete when developing Remote Scripts
-          or Max for Live Python code.
-
-          Download and add to your project's type checking path."
-
-            rm "Live-${version}-stubs.zip"
-            echo "Created release for Live ${version}"
+          Or download the zip and add to your type checker's search path.
+          See [README](https://github.com/PhotonicVelocity/LiveAPI#using-the-stubs) for details."
+              echo "Created release $tag"
+            fi
           done
+
+      - name: Publish to PyPI
+        if: steps.versions.outputs.versions != ''
+        uses: pypa/gh-action-pypi-publish@release/v1
