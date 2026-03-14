@@ -14,10 +14,10 @@ This class represents the groove pool in Live.
 
 ### Properties
 
-| Property           | Type    | Supports       |
-| ------------------ | ------- | -------------- |
-| `canonical_parent` | `Song`  | `get`          |
-| `grooves`          | `tuple` | `get`/`listen` |
+| Property                                | Type    | Supports       |
+| --------------------------------------- | ------- | -------------- |
+| [`canonical_parent`](#canonical_parent) | `Song`  | `get`          |
+| [`grooves`](#grooves)                   | `tuple` | `get`/`listen` |
 
 #### `canonical_parent`
 

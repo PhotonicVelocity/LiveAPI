@@ -10,25 +10,25 @@ This class represents a Roar device.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `env_listen`                | `bool`                             | `get`/`set`/`listen` |
-| `is_active`                 | `bool`                             | `get`                |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
-| `latency_in_ms`             | `float`                            | `get`                |
-| `latency_in_samples`        | `int`                              | `get`                |
-| `name`                      | `str`                              | `get`/`set`          |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `routing_mode_index`        | `int`                              | `get`/`set`/`listen` |
-| `routing_mode_list`         | `tuple[str, Ellipsis]`             | `get`                |
-| `type`                      | `DeviceType`                       | `get`                |
-| `view`                      | `Device.View`                      | `get`                |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`env_listen`](#env_listen)                               | `bool`                             | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
+| [`name`](#name)                                           | `str`                              | `get`/`set`          |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`routing_mode_index`](#routing_mode_index)               | `int`                              | `get`/`set`/`listen` |
+| [`routing_mode_list`](#routing_mode_list)                 | `tuple[str, Ellipsis]`             | `get`                |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`view`](#view)                                           | `Device.View`                      | `get`                |
 
 #### `can_compare_ab`
 

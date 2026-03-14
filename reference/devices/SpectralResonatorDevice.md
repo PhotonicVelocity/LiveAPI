@@ -10,34 +10,34 @@ This class represents a Spectral Resonator device.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `frequency_dial_mode`       | `int`                              | `get`/`set`/`listen` |
-| `frequency_dial_mode_list`  | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `is_active`                 | `bool`                             | `get`                |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
-| `latency_in_ms`             | `float`                            | `get`                |
-| `latency_in_samples`        | `int`                              | `get`                |
-| `midi_gate`                 | `int`                              | `get`/`set`/`listen` |
-| `midi_gate_list`            | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `mod_mode`                  | `int`                              | `get`/`set`/`listen` |
-| `mod_mode_list`             | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `mono_poly`                 | `int`                              | `get`/`set`/`listen` |
-| `mono_poly_list`            | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `name`                      | `str`                              | `get`/`set`          |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `pitch_bend_range`          | `int`                              | `get`/`set`/`listen` |
-| `pitch_mode`                | `int`                              | `get`/`set`/`listen` |
-| `pitch_mode_list`           | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `polyphony`                 | `int`                              | `get`/`set`/`listen` |
-| `type`                      | `DeviceType`                       | `get`                |
-| `view`                      | `Device.View`                      | `get`                |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`frequency_dial_mode`](#frequency_dial_mode)             | `int`                              | `get`/`set`/`listen` |
+| [`frequency_dial_mode_list`](#frequency_dial_mode_list)   | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
+| [`midi_gate`](#midi_gate)                                 | `int`                              | `get`/`set`/`listen` |
+| [`midi_gate_list`](#midi_gate_list)                       | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`mod_mode`](#mod_mode)                                   | `int`                              | `get`/`set`/`listen` |
+| [`mod_mode_list`](#mod_mode_list)                         | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`mono_poly`](#mono_poly)                                 | `int`                              | `get`/`set`/`listen` |
+| [`mono_poly_list`](#mono_poly_list)                       | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                              | `get`/`set`          |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                              | `get`/`set`/`listen` |
+| [`pitch_mode`](#pitch_mode)                               | `int`                              | `get`/`set`/`listen` |
+| [`pitch_mode_list`](#pitch_mode_list)                     | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`polyphony`](#polyphony)                                 | `int`                              | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`view`](#view)                                           | `Device.View`                      | `get`                |
 
 #### `can_compare_ab`
 

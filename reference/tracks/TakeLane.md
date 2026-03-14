@@ -10,11 +10,11 @@ This class represents a take lane in Live.
 
 ### Properties
 
-| Property            | Type    | Supports             |
-| ------------------- | ------- | -------------------- |
-| `arrangement_clips` | `tuple` | `get`/`listen`       |
-| `canonical_parent`  | `Track` | `get`                |
-| `name`              | `str`   | `get`/`set`/`listen` |
+| Property                                  | Type    | Supports             |
+| ----------------------------------------- | ------- | -------------------- |
+| [`arrangement_clips`](#arrangement_clips) | `tuple` | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)   | `Track` | `get`                |
+| [`name`](#name)                           | `str`   | `get`/`set`/`listen` |
 
 #### `arrangement_clips`
 
@@ -42,10 +42,10 @@ Read/write access to the name of the TakeLane, as visible in the take lane heade
 
 ### Methods
 
-| Method                                                 | Returns | Description                                                                      |
-| ------------------------------------------------------ | ------- | -------------------------------------------------------------------------------- |
-| `create_audio_clip(file_path: str, start_time: float)` | `Clip`  | Creates an audio clip referencing the file at the given path and inserts it i... |
-| `create_midi_clip(start_time: float, length: float)`   | `Clip`  | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
+| Method                                                                                                     | Returns | Description                                                                      |
+| ---------------------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| [`create_audio_clip(file_path: str, start_time: float)`](#create_audio_clipfile_path-str-start_time-float) | `Clip`  | Creates an audio clip referencing the file at the given path and inserts it i... |
+| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)     | `Clip`  | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
 
 #### `create_audio_clip(file_path: str, start_time: float)`
 

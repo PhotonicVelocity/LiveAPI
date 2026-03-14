@@ -10,27 +10,27 @@ This class represents a Looper device.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `is_active`                 | `bool`                             | `get`                |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
-| `latency_in_ms`             | `float`                            | `get`                |
-| `latency_in_samples`        | `int`                              | `get`                |
-| `loop_length`               | `float`                            | `get`/`listen`       |
-| `name`                      | `str`                              | `get`/`set`          |
-| `overdub_after_record`      | `bool`                             | `get`/`set`/`listen` |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `record_length_index`       | `int`                              | `get`/`set`/`listen` |
-| `record_length_list`        | `tuple[str, Ellipsis]`             | `get`                |
-| `tempo`                     | `float`                            | `get`/`listen`       |
-| `type`                      | `DeviceType`                       | `get`                |
-| `view`                      | `Device.View`                      | `get`                |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
+| [`loop_length`](#loop_length)                             | `float`                            | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                              | `get`/`set`          |
+| [`overdub_after_record`](#overdub_after_record)           | `bool`                             | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`record_length_index`](#record_length_index)             | `int`                              | `get`/`set`/`listen` |
+| [`record_length_list`](#record_length_list)               | `tuple[str, Ellipsis]`             | `get`                |
+| [`tempo`](#tempo)                                         | `float`                            | `get`/`listen`       |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`view`](#view)                                           | `Device.View`                      | `get`                |
 
 #### `can_compare_ab`
 
@@ -186,19 +186,19 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                     | Returns | Description                                                                 |
-| ------------------------------------------ | ------- | --------------------------------------------------------------------------- |
-| `clear()`                                  | `None`  | Erase Looper's recorded content.                                            |
-| `double_length()`                          | `None`  | Double the length of Looper's buffer.                                       |
-| `double_speed()`                           | `None`  | Double the speed of Looper's playback.                                      |
-| `export_to_clip_slot(clip_slot: ClipSlot)` | `None`  | Export Looper's content to a Session Clip Slot.                             |
-| `half_length()`                            | `None`  | Halve the length of Looper's buffer.                                        |
-| `half_speed()`                             | `None`  | Halve the speed of Looper's playback.                                       |
-| `overdub()`                                | `None`  | Play back while adding additional layers of incoming audio.                 |
-| `play()`                                   | `None`  | Play back without overdubbing.                                              |
-| `record()`                                 | `None`  | Record incoming audio.                                                      |
-| `stop()`                                   | `None`  | Stop Looper's playback.                                                     |
-| `undo()`                                   | `None`  | Erase everything that was recorded since the last time Overdub was enabled. |
+| Method                                                                               | Returns | Description                                                                 |
+| ------------------------------------------------------------------------------------ | ------- | --------------------------------------------------------------------------- |
+| [`clear()`](#clear)                                                                  | `None`  | Erase Looper's recorded content.                                            |
+| [`double_length()`](#double_length)                                                  | `None`  | Double the length of Looper's buffer.                                       |
+| [`double_speed()`](#double_speed)                                                    | `None`  | Double the speed of Looper's playback.                                      |
+| [`export_to_clip_slot(clip_slot: ClipSlot)`](#export_to_clip_slotclip_slot-clipslot) | `None`  | Export Looper's content to a Session Clip Slot.                             |
+| [`half_length()`](#half_length)                                                      | `None`  | Halve the length of Looper's buffer.                                        |
+| [`half_speed()`](#half_speed)                                                        | `None`  | Halve the speed of Looper's playback.                                       |
+| [`overdub()`](#overdub)                                                              | `None`  | Play back while adding additional layers of incoming audio.                 |
+| [`play()`](#play)                                                                    | `None`  | Play back without overdubbing.                                              |
+| [`record()`](#record)                                                                | `None`  | Record incoming audio.                                                      |
+| [`stop()`](#stop)                                                                    | `None`  | Stop Looper's playback.                                                     |
+| [`undo()`](#undo)                                                                    | `None`  | Erase everything that was recorded since the last time Overdub was enabled. |
 
 #### `clear()`
 

@@ -14,31 +14,31 @@ This class represents a sample file loaded into a Simpler instance.
 
 ### Properties
 
-| Property                       | Type                          | Supports             |
-| ------------------------------ | ----------------------------- | -------------------- |
-| `beats_granulation_resolution` | `int`                         | `get`/`set`/`listen` |
-| `beats_transient_envelope`     | `float`                       | `get`/`set`/`listen` |
-| `beats_transient_loop_mode`    | `int`                         | `get`/`set`/`listen` |
-| `canonical_parent`             | `SimplerDevice`               | `get`                |
-| `complex_pro_envelope`         | `float`                       | `get`/`set`/`listen` |
-| `complex_pro_formants`         | `float`                       | `get`/`set`/`listen` |
-| `end_marker`                   | `int`                         | `get`/`set`/`listen` |
-| `file_path`                    | `str`                         | `get`/`listen`       |
-| `gain`                         | `float`                       | `get`/`set`/`listen` |
-| `length`                       | `int`                         | `get`                |
-| `sample_rate`                  | `float`                       | `get`                |
-| `slices`                       | `tuple`                       | `get`/`listen`       |
-| `slicing_beat_division`        | `int`                         | `get`/`set`/`listen` |
-| `slicing_region_count`         | `int`                         | `get`/`set`/`listen` |
-| `slicing_sensitivity`          | `float`                       | `get`/`set`/`listen` |
-| `slicing_style`                | `int`                         | `get`/`set`/`listen` |
-| `start_marker`                 | `int`                         | `get`/`set`/`listen` |
-| `texture_flux`                 | `float`                       | `get`/`set`/`listen` |
-| `texture_grain_size`           | `float`                       | `get`/`set`/`listen` |
-| `tones_grain_size`             | `float`                       | `get`/`set`/`listen` |
-| `warp_markers`                 | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
-| `warp_mode`                    | `int`                         | `get`/`set`/`listen` |
-| `warping`                      | `bool`                        | `get`/`set`/`listen` |
+| Property                                                        | Type                          | Supports             |
+| --------------------------------------------------------------- | ----------------------------- | -------------------- |
+| [`beats_granulation_resolution`](#beats_granulation_resolution) | `int`                         | `get`/`set`/`listen` |
+| [`beats_transient_envelope`](#beats_transient_envelope)         | `float`                       | `get`/`set`/`listen` |
+| [`beats_transient_loop_mode`](#beats_transient_loop_mode)       | `int`                         | `get`/`set`/`listen` |
+| [`canonical_parent`](#canonical_parent)                         | `SimplerDevice`               | `get`                |
+| [`complex_pro_envelope`](#complex_pro_envelope)                 | `float`                       | `get`/`set`/`listen` |
+| [`complex_pro_formants`](#complex_pro_formants)                 | `float`                       | `get`/`set`/`listen` |
+| [`end_marker`](#end_marker)                                     | `int`                         | `get`/`set`/`listen` |
+| [`file_path`](#file_path)                                       | `str`                         | `get`/`listen`       |
+| [`gain`](#gain)                                                 | `float`                       | `get`/`set`/`listen` |
+| [`length`](#length)                                             | `int`                         | `get`                |
+| [`sample_rate`](#sample_rate)                                   | `float`                       | `get`                |
+| [`slices`](#slices)                                             | `tuple`                       | `get`/`listen`       |
+| [`slicing_beat_division`](#slicing_beat_division)               | `int`                         | `get`/`set`/`listen` |
+| [`slicing_region_count`](#slicing_region_count)                 | `int`                         | `get`/`set`/`listen` |
+| [`slicing_sensitivity`](#slicing_sensitivity)                   | `float`                       | `get`/`set`/`listen` |
+| [`slicing_style`](#slicing_style)                               | `int`                         | `get`/`set`/`listen` |
+| [`start_marker`](#start_marker)                                 | `int`                         | `get`/`set`/`listen` |
+| [`texture_flux`](#texture_flux)                                 | `float`                       | `get`/`set`/`listen` |
+| [`texture_grain_size`](#texture_grain_size)                     | `float`                       | `get`/`set`/`listen` |
+| [`tones_grain_size`](#tones_grain_size)                         | `float`                       | `get`/`set`/`listen` |
+| [`warp_markers`](#warp_markers)                                 | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
+| [`warp_mode`](#warp_mode)                                       | `int`                         | `get`/`set`/`listen` |
+| [`warping`](#warping)                                           | `bool`                        | `get`/`set`/`listen` |
 
 #### `beats_granulation_resolution`
 
@@ -226,16 +226,16 @@ Access to the sample's warping property.
 
 ### Methods
 
-| Method                                     | Returns | Description                                                  |
-| ------------------------------------------ | ------- | ------------------------------------------------------------ |
-| `beat_to_sample_time(beat_time: float)`    | `float` | Converts the given beat time to sample time.                 |
-| `clear_slices()`                           | `None`  | Clears all slices created in Simpler's manual mode.          |
-| `gain_display_string()`                    | `str`   | Get the gain's display value as a string.                    |
-| `insert_slice(slice_time: int)`            | `None`  | Add a slice point at the provided time if there is none.     |
-| `move_slice(old_time: int, new_time: int)` | `int`   | Move the slice point at the provided time.                   |
-| `remove_slice(slice_time: int)`            | `None`  | Remove the slice point at the provided time if there is one. |
-| `reset_slices()`                           | `None`  | Resets all edited slices to their original positions.        |
-| `sample_to_beat_time(sample_time: float)`  | `float` | Converts the given sample time to beat time.                 |
+| Method                                                                             | Returns | Description                                                  |
+| ---------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------ |
+| [`beat_to_sample_time(beat_time: float)`](#beat_to_sample_timebeat_time-float)     | `float` | Converts the given beat time to sample time.                 |
+| [`clear_slices()`](#clear_slices)                                                  | `None`  | Clears all slices created in Simpler's manual mode.          |
+| [`gain_display_string()`](#gain_display_string)                                    | `str`   | Get the gain's display value as a string.                    |
+| [`insert_slice(slice_time: int)`](#insert_sliceslice_time-int)                     | `None`  | Add a slice point at the provided time if there is none.     |
+| [`move_slice(old_time: int, new_time: int)`](#move_sliceold_time-int-new_time-int) | `int`   | Move the slice point at the provided time.                   |
+| [`remove_slice(slice_time: int)`](#remove_sliceslice_time-int)                     | `None`  | Remove the slice point at the provided time if there is one. |
+| [`reset_slices()`](#reset_slices)                                                  | `None`  | Resets all edited slices to their original positions.        |
+| [`sample_to_beat_time(sample_time: float)`](#sample_to_beat_timesample_time-float) | `float` | Converts the given sample time to beat time.                 |
 
 #### `beat_to_sample_time(beat_time: float)`
 

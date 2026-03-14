@@ -10,35 +10,35 @@ This class represents a Rack device.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `can_show_chains`           | `bool`                             | `get`                |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `chain_selector`            | `DeviceParameter`                  | `get`                |
-| `chains`                    | `tuple`                            | `get`/`listen`       |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `drum_pads`                 | `tuple`                            | `get`/`listen`       |
-| `has_drum_pads`             | `bool`                             | `get`/`listen`       |
-| `has_macro_mappings`        | `bool`                             | `get`/`listen`       |
-| `is_active`                 | `bool`                             | `get`                |
-| `is_showing_chains`         | `bool`                             | `get`/`set`/`listen` |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
-| `latency_in_ms`             | `float`                            | `get`                |
-| `latency_in_samples`        | `int`                              | `get`                |
-| `macros_mapped`             | `tuple`                            | `get`/`listen`       |
-| `name`                      | `str`                              | `get`/`set`          |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `return_chains`             | `tuple`                            | `get`/`listen`       |
-| `selected_variation_index`  | `int`                              | `get`/`set`          |
-| `type`                      | `DeviceType`                       | `get`                |
-| `variation_count`           | `int`                              | `get`/`listen`       |
-| `view`                      | `View`                             | `get`                |
-| `visible_drum_pads`         | `tuple`                            | `get`/`listen`       |
-| `visible_macro_count`       | `int`                              | `get`/`listen`       |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`can_show_chains`](#can_show_chains)                     | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`chain_selector`](#chain_selector)                       | `DeviceParameter`                  | `get`                |
+| [`chains`](#chains)                                       | `tuple`                            | `get`/`listen`       |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`drum_pads`](#drum_pads)                                 | `tuple`                            | `get`/`listen`       |
+| [`has_drum_pads`](#has_drum_pads)                         | `bool`                             | `get`/`listen`       |
+| [`has_macro_mappings`](#has_macro_mappings)               | `bool`                             | `get`/`listen`       |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
+| [`is_showing_chains`](#is_showing_chains)                 | `bool`                             | `get`/`set`/`listen` |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
+| [`macros_mapped`](#macros_mapped)                         | `tuple`                            | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                              | `get`/`set`          |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`return_chains`](#return_chains)                         | `tuple`                            | `get`/`listen`       |
+| [`selected_variation_index`](#selected_variation_index)   | `int`                              | `get`/`set`          |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`variation_count`](#variation_count)                     | `int`                              | `get`/`listen`       |
+| [`view`](#view)                                           | `View`                             | `get`                |
+| [`visible_drum_pads`](#visible_drum_pads)                 | `tuple`                            | `get`/`listen`       |
+| [`visible_macro_count`](#visible_macro_count)             | `int`                              | `get`/`listen`       |
 
 #### `can_compare_ab`
 
@@ -258,17 +258,17 @@ Access to the number of macros that are currently visible.
 
 ### Methods
 
-| Method                                                | Returns     | Description                                                                      |
-| ----------------------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
-| `add_macro()`                                         | `None`      | Increases the number of visible macro controls in the rack.                      |
-| `copy_pad(source_index: int, destination_index: int)` | `None`      | Copies all contents of a drum pad from a source pad into a destination pad.      |
-| `delete_selected_variation()`                         | `None`      | Deletes the currently selected macro variation.Does nothing if there is no se... |
-| `insert_chain(Index: int = -1)`                       | `LomObject` | Inserts a new chain, either at the specified index or, if not index was speci... |
-| `randomize_macros()`                                  | `None`      | Randomizes the values for all macro controls not excluded from randomization.    |
-| `recall_last_used_variation()`                        | `None`      | Recalls the macro variation that was recalled most recently.Does nothing if n... |
-| `recall_selected_variation()`                         | `None`      | Recalls the currently selected macro variation.Does nothing if there are no v... |
-| `remove_macro()`                                      | `None`      | Decreases the number of visible macro controls in the rack.                      |
-| `store_variation()`                                   | `None`      | Stores a new variation of the values of all currently mapped macros.             |
+| Method                                                                                                   | Returns     | Description                                                                      |
+| -------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
+| [`add_macro()`](#add_macro)                                                                              | `None`      | Increases the number of visible macro controls in the rack.                      |
+| [`copy_pad(source_index: int, destination_index: int)`](#copy_padsource_index-int-destination_index-int) | `None`      | Copies all contents of a drum pad from a source pad into a destination pad.      |
+| [`delete_selected_variation()`](#delete_selected_variation)                                              | `None`      | Deletes the currently selected macro variation.Does nothing if there is no se... |
+| [`insert_chain(Index: int = -1)`](#insert_chainindex-int--1)                                             | `LomObject` | Inserts a new chain, either at the specified index or, if not index was speci... |
+| [`randomize_macros()`](#randomize_macros)                                                                | `None`      | Randomizes the values for all macro controls not excluded from randomization.    |
+| [`recall_last_used_variation()`](#recall_last_used_variation)                                            | `None`      | Recalls the macro variation that was recalled most recently.Does nothing if n... |
+| [`recall_selected_variation()`](#recall_selected_variation)                                              | `None`      | Recalls the currently selected macro variation.Does nothing if there are no v... |
+| [`remove_macro()`](#remove_macro)                                                                        | `None`      | Decreases the number of visible macro controls in the rack.                      |
+| [`store_variation()`](#store_variation)                                                                  | `None`      | Stores a new variation of the values of all currently mapped macros.             |
 
 #### `add_macro()`
 
@@ -339,14 +339,14 @@ Representing the view aspects of a rack device.
 
 ### Properties
 
-| Property                    | Type         | Supports             |
-| --------------------------- | ------------ | -------------------- |
-| `canonical_parent`          | `RackDevice` | `get`                |
-| `drum_pads_scroll_position` | `int`        | `get`/`set`/`listen` |
-| `is_collapsed`              | `bool`       | `get`/`set`          |
-| `is_showing_chain_devices`  | `bool`       | `get`/`set`/`listen` |
-| `selected_chain`            | `None`       | `get`/`set`/`listen` |
-| `selected_drum_pad`         | `DrumPad`    | `get`/`set`/`listen` |
+| Property                                                  | Type         | Supports             |
+| --------------------------------------------------------- | ------------ | -------------------- |
+| [`canonical_parent`](#canonical_parent)                   | `RackDevice` | `get`                |
+| [`drum_pads_scroll_position`](#drum_pads_scroll_position) | `int`        | `get`/`set`/`listen` |
+| [`is_collapsed`](#is_collapsed)                           | `bool`       | `get`/`set`          |
+| [`is_showing_chain_devices`](#is_showing_chain_devices)   | `bool`       | `get`/`set`/`listen` |
+| [`selected_chain`](#selected_chain)                       | `None`       | `get`/`set`/`listen` |
+| [`selected_drum_pad`](#selected_drum_pad)                 | `DrumPad`    | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 

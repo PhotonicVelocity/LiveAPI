@@ -14,22 +14,22 @@ This class represents a MIDI or Audio DSP-Device in Live.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `is_active`                 | `bool`                             | `get`/`listen`       |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`/`listen` |
-| `latency_in_ms`             | `float`                            | `get`/`listen`       |
-| `latency_in_samples`        | `int`                              | `get`/`listen`       |
-| `name`                      | `str`                              | `get`/`set`/`listen` |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`/`listen`       |
-| `type`                      | `DeviceType`                       | `get`                |
-| `view`                      | `View`                             | `get`                |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`/`listen`       |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`/`listen` |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`/`listen`       |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                              | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`/`listen`       |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`view`](#view)                                           | `View`                             | `get`                |
 
 #### `can_compare_ab`
 
@@ -145,10 +145,10 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                  | Returns | Description                                                   |
-| ------------------------------------------------------- | ------- | ------------------------------------------------------------- |
-| `save_preset_to_compare_ab_slot()`                      | `None`  | Saves the current state of the device to the compare AB slot. |
-| `store_chosen_bank(script_index: int, bank_index: int)` | `None`  | Set the selected bank in the device for persistency.          |
+| Method                                                                                                       | Returns | Description                                                   |
+| ------------------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------- |
+| [`save_preset_to_compare_ab_slot()`](#save_preset_to_compare_ab_slot)                                        | `None`  | Saves the current state of the device to the compare AB slot. |
+| [`store_chosen_bank(script_index: int, bank_index: int)`](#store_chosen_bankscript_index-int-bank_index-int) | `None`  | Set the selected bank in the device for persistency.          |
 
 #### `save_preset_to_compare_ab_slot()`
 
@@ -175,10 +175,10 @@ Representing the view aspects of a device.
 
 ### Properties
 
-| Property           | Type     | Supports             |
-| ------------------ | -------- | -------------------- |
-| `canonical_parent` | `Device` | `get`                |
-| `is_collapsed`     | `bool`   | `get`/`set`/`listen` |
+| Property                                | Type     | Supports             |
+| --------------------------------------- | -------- | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `Device` | `get`                |
+| [`is_collapsed`](#is_collapsed)         | `bool`   | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -217,10 +217,10 @@ The type of the device.
 
 #### Methods
 
-| Method                            | Returns | Description |
-| --------------------------------- | ------- | ----------- |
-| `append(value: DeviceParameter)`  | `None`  |             |
-| `extend(values: DeviceParameter)` | `None`  |             |
+| Method                                                             | Returns | Description |
+| ------------------------------------------------------------------ | ------- | ----------- |
+| [`append(value: DeviceParameter)`](#appendvalue-deviceparameter)   | `None`  |             |
+| [`extend(values: DeviceParameter)`](#extendvalues-deviceparameter) | `None`  |             |
 
 ##### `append(value: DeviceParameter)`
 

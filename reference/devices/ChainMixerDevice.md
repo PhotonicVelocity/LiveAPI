@@ -15,13 +15,13 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 
 ### Properties
 
-| Property           | Type              | Supports       |
-| ------------------ | ----------------- | -------------- |
-| `canonical_parent` | `Chain`           | `get`          |
-| `chain_activator`  | `DeviceParameter` | `get`          |
-| `panning`          | `DeviceParameter` | `get`          |
-| `sends`            | `tuple`           | `get`/`listen` |
-| `volume`           | `DeviceParameter` | `get`          |
+| Property                                | Type              | Supports       |
+| --------------------------------------- | ----------------- | -------------- |
+| [`canonical_parent`](#canonical_parent) | `Chain`           | `get`          |
+| [`chain_activator`](#chain_activator)   | `DeviceParameter` | `get`          |
+| [`panning`](#panning)                   | `DeviceParameter` | `get`          |
+| [`sends`](#sends)                       | `tuple`           | `get`/`listen` |
+| [`volume`](#volume)                     | `DeviceParameter` | `get`          |
 
 #### `canonical_parent`
 

@@ -12,19 +12,19 @@ This class represents the Live application.
 
 ### Properties
 
-| Property                      | Type                                  | Supports       |
-| ----------------------------- | ------------------------------------- | -------------- |
-| `average_process_usage`       | `float`                               | `get`/`listen` |
-| `browser`                     | `Browser`                             | `get`          |
-| `canonical_parent`            | `None`                                | `get`          |
-| `control_surfaces`            | `tuple[object, Ellipsis]`             | `get`/`listen` |
-| `current_dialog_button_count` | `int`                                 | `get`          |
-| `current_dialog_message`      | `str`                                 | `get`          |
-| `number_of_push_apps_running` | `int`                                 | `get`          |
-| `open_dialog_count`           | `int`                                 | `get`/`listen` |
-| `peak_process_usage`          | `float`                               | `get`/`listen` |
-| `unavailable_features`        | `tuple[UnavailableFeature, Ellipsis]` | `get`/`listen` |
-| `view`                        | `View`                                | `get`          |
+| Property                                                      | Type                                  | Supports       |
+| ------------------------------------------------------------- | ------------------------------------- | -------------- |
+| [`average_process_usage`](#average_process_usage)             | `float`                               | `get`/`listen` |
+| [`browser`](#browser)                                         | `Browser`                             | `get`          |
+| [`canonical_parent`](#canonical_parent)                       | `None`                                | `get`          |
+| [`control_surfaces`](#control_surfaces)                       | `tuple[object, Ellipsis]`             | `get`/`listen` |
+| [`current_dialog_button_count`](#current_dialog_button_count) | `int`                                 | `get`          |
+| [`current_dialog_message`](#current_dialog_message)           | `str`                                 | `get`          |
+| [`number_of_push_apps_running`](#number_of_push_apps_running) | `int`                                 | `get`          |
+| [`open_dialog_count`](#open_dialog_count)                     | `int`                                 | `get`/`listen` |
+| [`peak_process_usage`](#peak_process_usage)                   | `float`                               | `get`/`listen` |
+| [`unavailable_features`](#unavailable_features)               | `tuple[UnavailableFeature, Ellipsis]` | `get`/`listen` |
+| [`view`](#view)                                               | `View`                                | `get`          |
 
 #### `average_process_usage`
 
@@ -116,19 +116,19 @@ Returns the applications view component.
 
 ### Methods
 
-| Method                                                                                                                                                                                 | Returns | Description                                                             |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------------- |
-| `get_bugfix_version()`                                                                                                                                                                 | `int`   | Returns an integer representing the bugfix version of Live.             |
-| `get_build_id()`                                                                                                                                                                       | `str`   | Returns a string identifying the build.                                 |
-| `get_document()`                                                                                                                                                                       | `Song`  | Returns the current Live Set.                                           |
-| `get_major_version()`                                                                                                                                                                  | `int`   | Returns an integer representing the major version of Live.              |
-| `get_minor_version()`                                                                                                                                                                  | `int`   | Returns an integer representing the minor version of Live.              |
-| `get_variant()`                                                                                                                                                                        | `str`   | Returns one of the strings in Live.Application.Variants.                |
-| `get_version_string()`                                                                                                                                                                 | `str`   | Returns the full version string of Live.                                |
-| `has_option(section_name: str)`                                                                                                                                                        | `bool`  | Returns True if the given entry exists in Options.txt, False otherwise. |
-| `press_current_dialog_button(index: int)`                                                                                                                                              | `None`  | Press a button, by index, on the current message box.                   |
-| `show_message(text: Text, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False)`                                                           | `int`   | Shows a message box, returning the position of the pressed button.      |
-| `show_on_the_fly_message(message: str, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType \| int = 0)` | `int`   | Same as show_message, but for when there is no predefined Text object.  |
+| Method                                                                                                                                                                                                                                                                                                                                                 | Returns | Description                                                             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------- |
+| [`get_bugfix_version()`](#get_bugfix_version)                                                                                                                                                                                                                                                                                                          | `int`   | Returns an integer representing the bugfix version of Live.             |
+| [`get_build_id()`](#get_build_id)                                                                                                                                                                                                                                                                                                                      | `str`   | Returns a string identifying the build.                                 |
+| [`get_document()`](#get_document)                                                                                                                                                                                                                                                                                                                      | `Song`  | Returns the current Live Set.                                           |
+| [`get_major_version()`](#get_major_version)                                                                                                                                                                                                                                                                                                            | `int`   | Returns an integer representing the major version of Live.              |
+| [`get_minor_version()`](#get_minor_version)                                                                                                                                                                                                                                                                                                            | `int`   | Returns an integer representing the minor version of Live.              |
+| [`get_variant()`](#get_variant)                                                                                                                                                                                                                                                                                                                        | `str`   | Returns one of the strings in Live.Application.Variants.                |
+| [`get_version_string()`](#get_version_string)                                                                                                                                                                                                                                                                                                          | `str`   | Returns the full version string of Live.                                |
+| [`has_option(section_name: str)`](#has_optionsection_name-str)                                                                                                                                                                                                                                                                                         | `bool`  | Returns True if the given entry exists in Options.txt, False otherwise. |
+| [`press_current_dialog_button(index: int)`](#press_current_dialog_buttonindex-int)                                                                                                                                                                                                                                                                     | `None`  | Press a button, by index, on the current message box.                   |
+| [`show_message(text: Text, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False)`](#show_messagetext-text-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false)                                                                                                              | `int`   | Shows a message box, returning the position of the pressed button.      |
+| [`show_on_the_fly_message(message: str, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType \| int = 0)`](#show_on_the_fly_messagemessage-str-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false-push_dialog_type-pushdialogtype-int-0) | `int`   | Same as show_message, but for when there is no predefined Text object.  |
 
 #### `get_bugfix_version()`
 
@@ -221,11 +221,11 @@ This class represents the view aspects of the Live application.
 
 ### Properties
 
-| Property                | Type          | Supports       |
-| ----------------------- | ------------- | -------------- |
-| `browse_mode`           | `bool`        | `get`/`listen` |
-| `canonical_parent`      | `Application` | `get`          |
-| `focused_document_view` | `str`         | `get`/`listen` |
+| Property                                          | Type          | Supports       |
+| ------------------------------------------------- | ------------- | -------------- |
+| [`browse_mode`](#browse_mode)                     | `bool`        | `get`/`listen` |
+| [`canonical_parent`](#canonical_parent)           | `Application` | `get`          |
+| [`focused_document_view`](#focused_document_view) | `str`         | `get`/`listen` |
 
 #### `browse_mode`
 
@@ -253,16 +253,16 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 ### Methods
 
-| Method                                                                | Returns        | Description                                                                      |
-| --------------------------------------------------------------------- | -------------- | -------------------------------------------------------------------------------- |
-| `available_main_views()`                                              | `StringVector` | Return a list of strings with the available subcomponent views, which is to b... |
-| `focus_view(view: str)`                                               | `None`         | Show and focus one through the identifier string specified view.                 |
-| `hide_view(view_name: str)`                                           | `None`         | Hide one through the identifier string specified view.                           |
-| `is_view_visible(identifier: str, main_window_only: bool = True)`     | `bool`         | Return true if the through the identifier string specified view is currently ... |
-| `scroll_view(direction: int, view_name: str, modifier_pressed: bool)` | `None`         | Scroll through the identifier string specified view into the given direction,... |
-| `show_view(view: str)`                                                | `None`         | Show one through the identifier string specified view.                           |
-| `toggle_browse()`                                                     | `None`         | Reveals the device chain, the browser and starts hot swap for the selected de... |
-| `zoom_view(direction: int, view_name: str, modifier_pressed: bool)`   | `None`         | Zoom through the identifier string specified view into the given direction, i... |
+| Method                                                                                                                                 | Returns        | Description                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------- | -------------- | -------------------------------------------------------------------------------- |
+| [`available_main_views()`](#available_main_views)                                                                                      | `StringVector` | Return a list of strings with the available subcomponent views, which is to b... |
+| [`focus_view(view: str)`](#focus_viewview-str)                                                                                         | `None`         | Show and focus one through the identifier string specified view.                 |
+| [`hide_view(view_name: str)`](#hide_viewview_name-str)                                                                                 | `None`         | Hide one through the identifier string specified view.                           |
+| [`is_view_visible(identifier: str, main_window_only: bool = True)`](#is_view_visibleidentifier-str-main_window_only-bool-true)         | `bool`         | Return true if the through the identifier string specified view is currently ... |
+| [`scroll_view(direction: int, view_name: str, modifier_pressed: bool)`](#scroll_viewdirection-int-view_name-str-modifier_pressed-bool) | `None`         | Scroll through the identifier string specified view into the given direction,... |
+| [`show_view(view: str)`](#show_viewview-str)                                                                                           | `None`         | Show one through the identifier string specified view.                           |
+| [`toggle_browse()`](#toggle_browse)                                                                                                    | `None`         | Reveals the device chain, the browser and starts hot swap for the selected de... |
+| [`zoom_view(direction: int, view_name: str, modifier_pressed: bool)`](#zoom_viewdirection-int-view_name-str-modifier_pressed-bool)     | `None`         | Zoom through the identifier string specified view into the given direction, i... |
 
 #### `available_main_views()`
 
@@ -396,10 +396,10 @@ Describes a control present in a control surface proxy
 
 #### Properties
 
-| Property | Type  | Supports |
-| -------- | ----- | -------- |
-| `id`     | `int` | `get`    |
-| `name`   | `str` | `get`    |
+| Property        | Type  | Supports |
+| --------------- | ----- | -------- |
+| [`id`](#id)     | `int` | `get`    |
+| [`name`](#name) | `str` | `get`    |
 
 ##### `id`
 
@@ -421,10 +421,10 @@ A container for returning control descriptions.
 
 #### Methods
 
-| Method                               | Returns | Description |
-| ------------------------------------ | ------- | ----------- |
-| `append(value: ControlDescription)`  | `None`  |             |
-| `extend(values: ControlDescription)` | `None`  |             |
+| Method                                                                   | Returns | Description |
+| ------------------------------------------------------------------------ | ------- | ----------- |
+| [`append(value: ControlDescription)`](#appendvalue-controldescription)   | `None`  |             |
+| [`extend(values: ControlDescription)`](#extendvalues-controldescription) | `None`  |             |
 
 ##### `append(value: ControlDescription)`
 
@@ -446,11 +446,11 @@ Represents a control surface running in a different process. For use by M4L
 
 #### Properties
 
-| Property               | Type                                  | Supports       |
-| ---------------------- | ------------------------------------- | -------------- |
-| `control_descriptions` | `tuple[ControlDescription, Ellipsis]` | `get`          |
-| `pad_layout`           | `str`                                 | `get`/`listen` |
-| `type_name`            | `str`                                 | `get`          |
+| Property                                        | Type                                  | Supports       |
+| ----------------------------------------------- | ------------------------------------- | -------------- |
+| [`control_descriptions`](#control_descriptions) | `tuple[ControlDescription, Ellipsis]` | `get`          |
+| [`pad_layout`](#pad_layout)                     | `str`                                 | `get`/`listen` |
+| [`type_name`](#type_name)                       | `str`                                 | `get`          |
 
 ##### `control_descriptions`
 
@@ -474,17 +474,17 @@ The layout of pads on Push.
 
 #### Methods
 
-| Method                                   | Returns | Description |
-| ---------------------------------------- | ------- | ----------- |
-| `enable_receive_midi(enabled: bool)`     | `None`  |             |
-| `fetch_received_midi_messages()`         | `tuple` |             |
-| `fetch_received_values()`                | `tuple` |             |
-| `grab_control(control: int)`             | `None`  |             |
-| `release_control(control: int)`          | `None`  |             |
-| `send_midi(midi_event_bytes: tuple)`     | `None`  |             |
-| `send_value(value: tuple)`               | `None`  |             |
-| `subscribe_to_control(control: int)`     | `None`  |             |
-| `unsubscribe_from_control(control: int)` | `None`  |             |
+| Method                                                                           | Returns | Description |
+| -------------------------------------------------------------------------------- | ------- | ----------- |
+| [`enable_receive_midi(enabled: bool)`](#enable_receive_midienabled-bool)         | `None`  |             |
+| [`fetch_received_midi_messages()`](#fetch_received_midi_messages)                | `tuple` |             |
+| [`fetch_received_values()`](#fetch_received_values)                              | `tuple` |             |
+| [`grab_control(control: int)`](#grab_controlcontrol-int)                         | `None`  |             |
+| [`release_control(control: int)`](#release_controlcontrol-int)                   | `None`  |             |
+| [`send_midi(midi_event_bytes: tuple)`](#send_midimidi_event_bytes-tuple)         | `None`  |             |
+| [`send_value(value: tuple)`](#send_valuevalue-tuple)                             | `None`  |             |
+| [`subscribe_to_control(control: int)`](#subscribe_to_controlcontrol-int)         | `None`  |             |
+| [`unsubscribe_from_control(control: int)`](#unsubscribe_from_controlcontrol-int) | `None`  |             |
 
 ##### `enable_receive_midi(enabled: bool)`
 
@@ -544,10 +544,10 @@ A container for returning unavailable features.
 
 #### Methods
 
-| Method                               | Returns | Description |
-| ------------------------------------ | ------- | ----------- |
-| `append(value: UnavailableFeature)`  | `None`  |             |
-| `extend(values: UnavailableFeature)` | `None`  |             |
+| Method                                                                   | Returns | Description |
+| ------------------------------------------------------------------------ | ------- | ----------- |
+| [`append(value: UnavailableFeature)`](#appendvalue-unavailablefeature)   | `None`  |             |
+| [`extend(values: UnavailableFeature)`](#extendvalues-unavailablefeature) | `None`  |             |
 
 ##### `append(value: UnavailableFeature)`
 
@@ -563,13 +563,13 @@ A container for returning unavailable features.
 
 ## Module Functions
 
-| Function                                                            | Returns       | Description                                                 |
-| ------------------------------------------------------------------- | ------------- | ----------------------------------------------------------- |
-| `combine_apcs()`                                                    | `bool`        | Returns true if multiple APCs should be combined.           |
-| `encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0)` | `tuple`       | Returns an encrypted challenge based on the TEA algortithm. |
-| `encrypt_challenge2(challenge: int)`                                | `int`         | Returns the UMAC hash for the given challenge.              |
-| `get_application()`                                                 | `Application` | Returns the application instance.                           |
-| `get_random_int(min_value: int, max_value: int)`                    | `int`         | Returns a random integer from the given range.              |
+| Function                                                                                                                         | Returns       | Description                                                 |
+| -------------------------------------------------------------------------------------------------------------------------------- | ------------- | ----------------------------------------------------------- |
+| [`combine_apcs()`](#combine_apcs)                                                                                                | `bool`        | Returns true if multiple APCs should be combined.           |
+| [`encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0)`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple`       | Returns an encrypted challenge based on the TEA algortithm. |
+| [`encrypt_challenge2(challenge: int)`](#encrypt_challenge2challenge-int)                                                         | `int`         | Returns the UMAC hash for the given challenge.              |
+| [`get_application()`](#get_application)                                                                                          | `Application` | Returns the application instance.                           |
+| [`get_random_int(min_value: int, max_value: int)`](#get_random_intmin_value-int-max_value-int)                                   | `int`         | Returns a random integer from the given range.              |
 
 ### `combine_apcs()`
 

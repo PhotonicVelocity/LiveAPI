@@ -444,6 +444,18 @@ def parse_stub_file(path: Path, namespace: str) -> tuple[list[ClassInfo], list[E
 # ---------------------------------------------------------------------------
 
 
+def slugify(text: str) -> str:
+    """Generate a MkDocs-compatible anchor slug from heading text.
+
+    Replicates Python-Markdown's default toc slugify: lowercase, strip
+    non-alphanumeric chars (except hyphens/underscores), spaces to hyphens.
+    """
+    text = text.lower()
+    text = re.sub(r"[^\w\s-]", "", text)
+    text = re.sub(r"[\s]+", "-", text)
+    return text.strip("-")
+
+
 def escape_table_cell(text: str) -> str:
     """Escape characters that break markdown table cells."""
     return text.replace("|", "\\|")
@@ -558,7 +570,7 @@ def _render_class_body(
             if prop.listenable:
                 supports.append("`listen`")
             esc_type = escape_table_cell(prop.type)
-            lines.append(f"| `{prop.name}` | `{esc_type}` | {'/'.join(supports)} |")
+            lines.append(f"| [`{prop.name}`](#{prop.name}) | `{esc_type}` | {'/'.join(supports)} |")
         lines.append("")
 
         # Per-property details
@@ -585,7 +597,8 @@ def _render_class_body(
             sig = escape_table_cell(format_args_signature(method.args))
             summary = escape_table_cell(truncate_summary(method.docstring))
             esc_ret = escape_table_cell(method.return_type)
-            lines.append(f"| `{method.name}({sig})` | `{esc_ret}` | {summary} |")
+            anchor = slugify(f"{method.name}({format_args_signature(method.args)})")
+            lines.append(f"| [`{method.name}({sig})`](#{anchor}) | `{esc_ret}` | {summary} |")
         lines.append("")
 
         # Per-method details
@@ -652,7 +665,8 @@ def _render_module_functions(functions: list[MethodInfo], heading: str, detail: 
         sig = escape_table_cell(format_args_signature(func.args))
         summary = escape_table_cell(truncate_summary(func.docstring))
         esc_ret = escape_table_cell(func.return_type)
-        lines.append(f"| `{func.name}({sig})` | `{esc_ret}` | {summary} |")
+        anchor = slugify(f"{func.name}({format_args_signature(func.args)})")
+        lines.append(f"| [`{func.name}({sig})`](#{anchor}) | `{esc_ret}` | {summary} |")
     lines.append("")
     for func in functions:
         sig = format_args_signature(func.args)

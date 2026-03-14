@@ -14,21 +14,21 @@ This class represents an entry in Lives Session view matrix.
 
 ### Properties
 
-| Property               | Type                   | Supports             |
-| ---------------------- | ---------------------- | -------------------- |
-| `canonical_parent`     | `Track`                | `get`                |
-| `clip`                 | `Clip`                 | `get`                |
-| `color`                | `int`                  | `get`/`listen`       |
-| `color_index`          | `int`                  | `get`/`listen`       |
-| `controls_other_clips` | `bool`                 | `get`/`listen`       |
-| `has_clip`             | `bool`                 | `get`/`listen`       |
-| `has_stop_button`      | `bool`                 | `get`/`set`/`listen` |
-| `is_group_slot`        | `bool`                 | `get`                |
-| `is_playing`           | `bool`                 | `get`                |
-| `is_recording`         | `bool`                 | `get`                |
-| `is_triggered`         | `bool`                 | `get`/`listen`       |
-| `playing_status`       | `ClipSlotPlayingState` | `get`/`listen`       |
-| `will_record_on_start` | `bool`                 | `get`                |
+| Property                                        | Type                   | Supports             |
+| ----------------------------------------------- | ---------------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)         | `Track`                | `get`                |
+| [`clip`](#clip)                                 | `Clip`                 | `get`                |
+| [`color`](#color)                               | `int`                  | `get`/`listen`       |
+| [`color_index`](#color_index)                   | `int`                  | `get`/`listen`       |
+| [`controls_other_clips`](#controls_other_clips) | `bool`                 | `get`/`listen`       |
+| [`has_clip`](#has_clip)                         | `bool`                 | `get`/`listen`       |
+| [`has_stop_button`](#has_stop_button)           | `bool`                 | `get`/`set`/`listen` |
+| [`is_group_slot`](#is_group_slot)               | `bool`                 | `get`                |
+| [`is_playing`](#is_playing)                     | `bool`                 | `get`                |
+| [`is_recording`](#is_recording)                 | `bool`                 | `get`                |
+| [`is_triggered`](#is_triggered)                 | `bool`                 | `get`/`listen`       |
+| [`playing_status`](#playing_status)             | `ClipSlotPlayingState` | `get`/`listen`       |
+| [`will_record_on_start`](#will_record_on_start) | `bool`                 | `get`                |
 
 #### `canonical_parent`
 
@@ -136,15 +136,15 @@ returns true if the clip slot will record on being fired.
 
 ### Methods
 
-| Method                                          | Returns | Description                                                                      |
-| ----------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
-| `create_audio_clip(path: str)`                  | `Clip`  | Creates an audio clip referencing the file at the given absolute path in the ... |
-| `create_clip(pages: float)`                     | `Clip`  | Creates an empty clip with the given length in the slot.                         |
-| `delete_clip()`                                 | `None`  | Removes the clip contained in the slot.                                          |
-| `duplicate_clip_to(target_clip_slot: ClipSlot)` | `None`  | Duplicates the slot's clip to the passed in target slot.                         |
-| `fire()`                                        | `None`  | Fire a Clip if this Clipslot owns one, else trigger the stop button, if we ha... |
-| `set_fire_button_state(state: bool)`            | `None`  | Set the clipslot's fire button state directly.                                   |
-| `stop()`                                        | `None`  | Stop playing the contained Clip, if there is a Clip and its currently playing.   |
+| Method                                                                                         | Returns | Description                                                                      |
+| ---------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| [`create_audio_clip(path: str)`](#create_audio_clippath-str)                                   | `Clip`  | Creates an audio clip referencing the file at the given absolute path in the ... |
+| [`create_clip(pages: float)`](#create_clippages-float)                                         | `Clip`  | Creates an empty clip with the given length in the slot.                         |
+| [`delete_clip()`](#delete_clip)                                                                | `None`  | Removes the clip contained in the slot.                                          |
+| [`duplicate_clip_to(target_clip_slot: ClipSlot)`](#duplicate_clip_totarget_clip_slot-clipslot) | `None`  | Duplicates the slot's clip to the passed in target slot.                         |
+| [`fire()`](#fire)                                                                              | `None`  | Fire a Clip if this Clipslot owns one, else trigger the stop button, if we ha... |
+| [`set_fire_button_state(state: bool)`](#set_fire_button_statestate-bool)                       | `None`  | Set the clipslot's fire button state directly.                                   |
+| [`stop()`](#stop)                                                                              | `None`  | Stop playing the contained Clip, if there is a Clip and its currently playing.   |
 
 #### `create_audio_clip(path: str)`
 

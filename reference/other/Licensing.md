@@ -8,11 +8,11 @@ A modal dialog showing a message and a progress animation.
 
 ### Methods
 
-| Method                         | Returns | Description |
-| ------------------------------ | ------- | ----------- |
-| `end_modal_loop()`             | `None`  |             |
-| `run_in_modal_loop()`          | `None`  |             |
-| `set_status_message(msg: str)` | `None`  |             |
+| Method                                                       | Returns | Description |
+| ------------------------------------------------------------ | ------- | ----------- |
+| [`end_modal_loop()`](#end_modal_loop)                        | `None`  |             |
+| [`run_in_modal_loop()`](#run_in_modal_loop)                  | `None`  |             |
+| [`set_status_message(msg: str)`](#set_status_messagemsg-str) | `None`  |             |
 
 #### `end_modal_loop()`
 
@@ -36,13 +36,13 @@ Interface to the internal licensing services.
 
 ### Properties
 
-| Property                                | Type   | Supports |
-| --------------------------------------- | ------ | -------- |
-| `base_product_id`                       | `int`  | `get`    |
-| `in_sassafras_mode`                     | `bool` | `get`    |
-| `license_must_match_variant`            | `bool` | `get`    |
-| `random_number_for_trial_authorization` | `int`  | `get`    |
-| `set_has_unsaved_changes`               | `bool` | `get`    |
+| Property                                                                          | Type   | Supports |
+| --------------------------------------------------------------------------------- | ------ | -------- |
+| [`base_product_id`](#base_product_id)                                             | `int`  | `get`    |
+| [`in_sassafras_mode`](#in_sassafras_mode)                                         | `bool` | `get`    |
+| [`license_must_match_variant`](#license_must_match_variant)                       | `bool` | `get`    |
+| [`random_number_for_trial_authorization`](#random_number_for_trial_authorization) | `int`  | `get`    |
+| [`set_has_unsaved_changes`](#set_has_unsaved_changes)                             | `bool` | `get`    |
 
 #### `base_product_id`
 
@@ -84,23 +84,23 @@ Returns true if the set has unsaved changes.
 
 ### Methods
 
-| Method                                                                                 | Returns          | Description                                                                      |
-| -------------------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
-| `authorize_with_sassafras()`                                                           | `None`           |                                                                                  |
-| `create_new_live_set()`                                                                | `None`           | Creates a new live set and discards unsaved changes.                             |
-| `deauthenticate_user()`                                                                | `None`           | Deletes the current session ID.                                                  |
-| `get_progress_dialog()`                                                                | `ProgressDialog` | Retrieves an instance of ProgressDialog.                                         |
-| `get_session_id()`                                                                     | `str`            | Retrieve stored session ID.                                                      |
-| `get_startup_dialog(authorize_callable: Callable, authorize_later_callable: Callable)` | `StartupDialog`  | Retrieves an instance of the startup dialog with the passed callables connect... |
-| `get_trial_time_left()`                                                                | `str`            | Returns remaining time on a trial as a formatted string.                         |
-| `invoke_pack_installation_callback()`                                                  | `None`           | Call package installation callback.                                              |
-| `load_and_convert_legacy_unlock_cfg()`                                                 | `dict`           | Loads the Unlock.cfg file and returns either an empty dict or one that can be... |
-| `process_license_response(license_response_lines: list)`                               | `UnlockStatus`   | Processes a list of strings, each representing a server response to a product... |
-| `process_trial_response(trial_response_line: str)`                                     | `bool`           | Process the server's response to a Trial authorization.                          |
-| `request_exit(exit_code: int = 0)`                                                     | `None`           |                                                                                  |
-| `save_current_set()`                                                                   | `None`           | Saves the current Live session.                                                  |
-| `set_network_timer(callback: Callable, interval_in_ms: int)`                           | `None`           | Starts or stops a timer meant for driving network operations.                    |
-| `store_session_id(session_id: str)`                                                    | `None`           | Securely stores the user's session ID (aka cookie, aka credentials).             |
+| Method                                                                                                                                                                     | Returns          | Description                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
+| [`authorize_with_sassafras()`](#authorize_with_sassafras)                                                                                                                  | `None`           |                                                                                  |
+| [`create_new_live_set()`](#create_new_live_set)                                                                                                                            | `None`           | Creates a new live set and discards unsaved changes.                             |
+| [`deauthenticate_user()`](#deauthenticate_user)                                                                                                                            | `None`           | Deletes the current session ID.                                                  |
+| [`get_progress_dialog()`](#get_progress_dialog)                                                                                                                            | `ProgressDialog` | Retrieves an instance of ProgressDialog.                                         |
+| [`get_session_id()`](#get_session_id)                                                                                                                                      | `str`            | Retrieve stored session ID.                                                      |
+| [`get_startup_dialog(authorize_callable: Callable, authorize_later_callable: Callable)`](#get_startup_dialogauthorize_callable-callable-authorize_later_callable-callable) | `StartupDialog`  | Retrieves an instance of the startup dialog with the passed callables connect... |
+| [`get_trial_time_left()`](#get_trial_time_left)                                                                                                                            | `str`            | Returns remaining time on a trial as a formatted string.                         |
+| [`invoke_pack_installation_callback()`](#invoke_pack_installation_callback)                                                                                                | `None`           | Call package installation callback.                                              |
+| [`load_and_convert_legacy_unlock_cfg()`](#load_and_convert_legacy_unlock_cfg)                                                                                              | `dict`           | Loads the Unlock.cfg file and returns either an empty dict or one that can be... |
+| [`process_license_response(license_response_lines: list)`](#process_license_responselicense_response_lines-list)                                                           | `UnlockStatus`   | Processes a list of strings, each representing a server response to a product... |
+| [`process_trial_response(trial_response_line: str)`](#process_trial_responsetrial_response_line-str)                                                                       | `bool`           | Process the server's response to a Trial authorization.                          |
+| [`request_exit(exit_code: int = 0)`](#request_exitexit_code-int-0)                                                                                                         | `None`           |                                                                                  |
+| [`save_current_set()`](#save_current_set)                                                                                                                                  | `None`           | Saves the current Live session.                                                  |
+| [`set_network_timer(callback: Callable, interval_in_ms: int)`](#set_network_timercallback-callable-interval_in_ms-int)                                                     | `None`           | Starts or stops a timer meant for driving network operations.                    |
+| [`store_session_id(session_id: str)`](#store_session_idsession_id-str)                                                                                                     | `None`           | Securely stores the user's session ID (aka cookie, aka credentials).             |
 
 #### `authorize_with_sassafras()`
 
@@ -210,11 +210,11 @@ Serves as an entry point for the user to authorize Live on first launch.
 
 ### Methods
 
-| Method                                                                      | Returns | Description |
-| --------------------------------------------------------------------------- | ------- | ----------- |
-| `end_modal_loop()`                                                          | `None`  |             |
-| `run_in_modal_loop(show_only_offline_auth_instructions: bool)`              | `None`  |             |
-| `set_notification_message(notification_text: str, show_progress_bar: bool)` | `None`  |             |
+| Method                                                                                                                                               | Returns | Description |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------- |
+| [`end_modal_loop()`](#end_modal_loop)                                                                                                                | `None`  |             |
+| [`run_in_modal_loop(show_only_offline_auth_instructions: bool)`](#run_in_modal_loopshow_only_offline_auth_instructions-bool)                         | `None`  |             |
+| [`set_notification_message(notification_text: str, show_progress_bar: bool)`](#set_notification_messagenotification_text-str-show_progress_bar-bool) | `None`  |             |
 
 #### `end_modal_loop()`
 
@@ -243,15 +243,15 @@ Returns relevant information after unlock
 
 ### Properties
 
-| Property                    | Type   | Supports |
-| --------------------------- | ------ | -------- |
-| `authorization_deactivated` | `bool` | `get`    |
-| `authorization_expired`     | `bool` | `get`    |
-| `has_max_unlock_products`   | `bool` | `get`    |
-| `temp_demo_mode`            | `bool` | `get`    |
-| `time_limited`              | `bool` | `get`    |
-| `unlock_error`              | `bool` | `get`    |
-| `unlocked`                  | `bool` | `get`    |
+| Property                                                  | Type   | Supports |
+| --------------------------------------------------------- | ------ | -------- |
+| [`authorization_deactivated`](#authorization_deactivated) | `bool` | `get`    |
+| [`authorization_expired`](#authorization_expired)         | `bool` | `get`    |
+| [`has_max_unlock_products`](#has_max_unlock_products)     | `bool` | `get`    |
+| [`temp_demo_mode`](#temp_demo_mode)                       | `bool` | `get`    |
+| [`time_limited`](#time_limited)                           | `bool` | `get`    |
+| [`unlock_error`](#unlock_error)                           | `bool` | `get`    |
+| [`unlocked`](#unlocked)                                   | `bool` | `get`    |
 
 #### `authorization_deactivated`
 
@@ -307,14 +307,14 @@ Returns relevant information after unlock
 
 ## Module Functions
 
-| Function                                                        | Returns | Description                                                                       |
-| --------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------- |
-| `authorization_clock_days_ahead()`                              | `int`   | Advances the current date by the number of days specified by \_AuthClockDaysAh... |
-| `get_authorization_page_url(reauthorize: bool, is_trial: bool)` | `str`   | Retrieves the appopriate URL on ableton.com where the unser can initiate the ...  |
-| `get_purchase_live_url()`                                       | `str`   | Returns the environment-aware purchase URL for purchasing Live licenses.          |
-| `get_services_url()`                                            | `str`   | Returns the URL against which service calls (e.g.                                 |
-| `get_unlock_dir()`                                              | `tuple` | Returns a tuple containing the unlock file directory and a flag indicating if...  |
-| `launch_web_browser(url: str)`                                  | `None`  | Opens a web browser at the specified URL on the user's computer.                  |
+| Function                                                                                                                     | Returns | Description                                                                       |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------- | --------------------------------------------------------------------------------- |
+| [`authorization_clock_days_ahead()`](#authorization_clock_days_ahead)                                                        | `int`   | Advances the current date by the number of days specified by \_AuthClockDaysAh... |
+| [`get_authorization_page_url(reauthorize: bool, is_trial: bool)`](#get_authorization_page_urlreauthorize-bool-is_trial-bool) | `str`   | Retrieves the appopriate URL on ableton.com where the unser can initiate the ...  |
+| [`get_purchase_live_url()`](#get_purchase_live_url)                                                                          | `str`   | Returns the environment-aware purchase URL for purchasing Live licenses.          |
+| [`get_services_url()`](#get_services_url)                                                                                    | `str`   | Returns the URL against which service calls (e.g.                                 |
+| [`get_unlock_dir()`](#get_unlock_dir)                                                                                        | `tuple` | Returns a tuple containing the unlock file directory and a flag indicating if...  |
+| [`launch_web_browser(url: str)`](#launch_web_browserurl-str)                                                                 | `None`  | Opens a web browser at the specified URL on the user's computer.                  |
 
 ### `authorization_clock_days_ahead()`
 

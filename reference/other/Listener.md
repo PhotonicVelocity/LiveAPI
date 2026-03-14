@@ -8,11 +8,11 @@ This class represents a Python listener when connected to a Live property.
 
 ### Properties
 
-| Property        | Type       | Supports |
-| --------------- | ---------- | -------- |
-| `listener_func` | `Callable` | `get`    |
-| `listener_self` | `Any`      | `get`    |
-| `name`          | `str`      | `get`    |
+| Property                          | Type       | Supports |
+| --------------------------------- | ---------- | -------- |
+| [`listener_func`](#listener_func) | `Callable` | `get`    |
+| [`listener_self`](#listener_self) | `Any`      | `get`    |
+| [`name`](#name)                   | `str`      | `get`    |
 
 #### `listener_func`
 
@@ -40,9 +40,9 @@ Prints the name of the property that this listener is connected to
 
 ### Methods
 
-| Method         | Returns | Description                                 |
-| -------------- | ------- | ------------------------------------------- |
-| `disconnect()` | `None`  | Disconnects the listener from its property. |
+| Method                        | Returns | Description                                 |
+| ----------------------------- | ------- | ------------------------------------------- |
+| [`disconnect()`](#disconnect) | `None`  | Disconnects the listener from its property. |
 
 #### `disconnect()`
 
@@ -58,10 +58,10 @@ A read only container for accessing a list of listeners.
 
 ### Methods
 
-| Method                           | Returns | Description |
-| -------------------------------- | ------- | ----------- |
-| `append(value: ListenerHandle)`  | `None`  |             |
-| `extend(values: ListenerHandle)` | `None`  |             |
+| Method                                                           | Returns | Description |
+| ---------------------------------------------------------------- | ------- | ----------- |
+| [`append(value: ListenerHandle)`](#appendvalue-listenerhandle)   | `None`  |             |
+| [`extend(values: ListenerHandle)`](#extendvalues-listenerhandle) | `None`  |             |
 
 #### `append(value: ListenerHandle)`
 

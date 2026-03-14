@@ -14,16 +14,16 @@ Represents a Tuning System and its properties.
 
 ### Properties
 
-| Property                           | Type                  | Supports             |
-| ---------------------------------- | --------------------- | -------------------- |
-| `canonical_parent`                 | `Song`                | `get`                |
-| `highest_note`                     | `PitchClassAndOctave` | `get`/`set`/`listen` |
-| `lowest_note`                      | `PitchClassAndOctave` | `get`/`set`/`listen` |
-| `name`                             | `str`                 | `get`/`set`/`listen` |
-| `note_tunings`                     | `list`                | `get`/`set`/`listen` |
-| `number_of_notes_in_pseudo_octave` | `int`                 | `get`                |
-| `pseudo_octave_in_cents`           | `float`               | `get`                |
-| `reference_pitch`                  | `ReferencePitch`      | `get`/`set`/`listen` |
+| Property                                                                | Type                  | Supports             |
+| ----------------------------------------------------------------------- | --------------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)                                 | `Song`                | `get`                |
+| [`highest_note`](#highest_note)                                         | `PitchClassAndOctave` | `get`/`set`/`listen` |
+| [`lowest_note`](#lowest_note)                                           | `PitchClassAndOctave` | `get`/`set`/`listen` |
+| [`name`](#name)                                                         | `str`                 | `get`/`set`/`listen` |
+| [`note_tunings`](#note_tunings)                                         | `list`                | `get`/`set`/`listen` |
+| [`number_of_notes_in_pseudo_octave`](#number_of_notes_in_pseudo_octave) | `int`                 | `get`                |
+| [`pseudo_octave_in_cents`](#pseudo_octave_in_cents)                     | `float`               | `get`                |
+| [`reference_pitch`](#reference_pitch)                                   | `ReferencePitch`      | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -101,10 +101,10 @@ This class represents a PitchClassAndOctave type.
 
 #### Properties
 
-| Property          | Type  | Supports |
-| ----------------- | ----- | -------- |
-| `index_in_octave` | `int` | `get`    |
-| `octave`          | `int` | `get`    |
+| Property                              | Type  | Supports |
+| ------------------------------------- | ----- | -------- |
+| [`index_in_octave`](#index_in_octave) | `int` | `get`    |
+| [`octave`](#octave)                   | `int` | `get`    |
 
 ##### `index_in_octave`
 
@@ -132,11 +132,11 @@ This class represents a ReferencePitch type.
 
 #### Properties
 
-| Property          | Type    | Supports |
-| ----------------- | ------- | -------- |
-| `frequency`       | `float` | `get`    |
-| `index_in_octave` | `int`   | `get`    |
-| `octave`          | `int`   | `get`    |
+| Property                              | Type    | Supports |
+| ------------------------------------- | ------- | -------- |
+| [`frequency`](#frequency)             | `float` | `get`    |
+| [`index_in_octave`](#index_in_octave) | `int`   | `get`    |
+| [`octave`](#octave)                   | `int`   | `get`    |
 
 ##### `frequency`
 

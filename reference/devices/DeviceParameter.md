@@ -25,22 +25,22 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 ### Properties
 
-| Property            | Type                   | Supports             |
-| ------------------- | ---------------------- | -------------------- |
-| `automation_state`  | `int`                  | `get`/`listen`       |
-| `canonical_parent`  | `Device`               | `get`                |
-| `default_value`     | `float`                | `get`                |
-| `display_value`     | `float`                | `get`/`set`/`listen` |
-| `is_enabled`        | `bool`                 | `get`                |
-| `is_quantized`      | `bool`                 | `get`                |
-| `max`               | `float`                | `get`                |
-| `min`               | `float`                | `get`                |
-| `name`              | `str`                  | `get`/`listen`       |
-| `original_name`     | `str`                  | `get`                |
-| `short_value_items` | `tuple[str, Ellipsis]` | `get`                |
-| `state`             | `int`                  | `get`/`listen`       |
-| `value`             | `float`                | `get`/`set`/`listen` |
-| `value_items`       | `tuple[str, Ellipsis]` | `get`                |
+| Property                                  | Type                   | Supports             |
+| ----------------------------------------- | ---------------------- | -------------------- |
+| [`automation_state`](#automation_state)   | `int`                  | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)   | `Device`               | `get`                |
+| [`default_value`](#default_value)         | `float`                | `get`                |
+| [`display_value`](#display_value)         | `float`                | `get`/`set`/`listen` |
+| [`is_enabled`](#is_enabled)               | `bool`                 | `get`                |
+| [`is_quantized`](#is_quantized)           | `bool`                 | `get`                |
+| [`max`](#max)                             | `float`                | `get`                |
+| [`min`](#min)                             | `float`                | `get`                |
+| [`name`](#name)                           | `str`                  | `get`/`listen`       |
+| [`original_name`](#original_name)         | `str`                  | `get`                |
+| [`short_value_items`](#short_value_items) | `tuple[str, Ellipsis]` | `get`                |
+| [`state`](#state)                         | `int`                  | `get`/`listen`       |
+| [`value`](#value)                         | `float`                | `get`/`set`/`listen` |
+| [`value_items`](#value_items)             | `tuple[str, Ellipsis]` | `get`                |
 
 #### `automation_state`
 
@@ -156,12 +156,12 @@ Return the list of possible values for this parameter. Raises an error if 'is_qu
 
 ### Methods
 
-| Method                        | Returns | Description                                                                      |
-| ----------------------------- | ------- | -------------------------------------------------------------------------------- |
-| `begin_gesture()`             | `None`  | Notify the begin of a modification of the parameter, when a sequence of modif... |
-| `end_gesture()`               | `None`  | Notify the end of a modification of the parameter.                               |
-| `re_enable_automation()`      | `None`  | Reenable automation for this parameter.                                          |
-| `str_for_value(value: float)` | `str`   | Return a string representation of the given value.                               |
+| Method                                                     | Returns | Description                                                                      |
+| ---------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| [`begin_gesture()`](#begin_gesture)                        | `None`  | Notify the begin of a modification of the parameter, when a sequence of modif... |
+| [`end_gesture()`](#end_gesture)                            | `None`  | Notify the end of a modification of the parameter.                               |
+| [`re_enable_automation()`](#re_enable_automation)          | `None`  | Reenable automation for this parameter.                                          |
+| [`str_for_value(value: float)`](#str_for_valuevalue-float) | `str`   | Return a string representation of the given value.                               |
 
 #### `begin_gesture()`
 

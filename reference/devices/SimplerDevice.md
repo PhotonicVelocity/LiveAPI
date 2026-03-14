@@ -10,36 +10,36 @@ This class represents a Simpler device.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `can_warp_as`               | `bool`                             | `get`/`listen`       |
-| `can_warp_double`           | `bool`                             | `get`/`listen`       |
-| `can_warp_half`             | `bool`                             | `get`/`listen`       |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `is_active`                 | `bool`                             | `get`                |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
-| `latency_in_ms`             | `float`                            | `get`                |
-| `latency_in_samples`        | `int`                              | `get`                |
-| `multi_sample_mode`         | `bool`                             | `get`/`listen`       |
-| `name`                      | `str`                              | `get`/`set`          |
-| `note_pitch_bend_range`     | `int`                              | `get`/`set`/`listen` |
-| `pad_slicing`               | `bool`                             | `get`/`set`/`listen` |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `pitch_bend_range`          | `int`                              | `get`/`set`/`listen` |
-| `playback_mode`             | `int`                              | `get`/`set`/`listen` |
-| `playing_position`          | `float`                            | `get`/`listen`       |
-| `playing_position_enabled`  | `bool`                             | `get`/`listen`       |
-| `retrigger`                 | `bool`                             | `get`/`set`/`listen` |
-| `sample`                    | `Sample`                           | `get`/`listen`       |
-| `slicing_playback_mode`     | `int`                              | `get`/`set`/`listen` |
-| `type`                      | `DeviceType`                       | `get`                |
-| `view`                      | `View`                             | `get`                |
-| `voices`                    | `int`                              | `get`/`set`/`listen` |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`can_warp_as`](#can_warp_as)                             | `bool`                             | `get`/`listen`       |
+| [`can_warp_double`](#can_warp_double)                     | `bool`                             | `get`/`listen`       |
+| [`can_warp_half`](#can_warp_half)                         | `bool`                             | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
+| [`multi_sample_mode`](#multi_sample_mode)                 | `bool`                             | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                              | `get`/`set`          |
+| [`note_pitch_bend_range`](#note_pitch_bend_range)         | `int`                              | `get`/`set`/`listen` |
+| [`pad_slicing`](#pad_slicing)                             | `bool`                             | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                              | `get`/`set`/`listen` |
+| [`playback_mode`](#playback_mode)                         | `int`                              | `get`/`set`/`listen` |
+| [`playing_position`](#playing_position)                   | `float`                            | `get`/`listen`       |
+| [`playing_position_enabled`](#playing_position_enabled)   | `bool`                             | `get`/`listen`       |
+| [`retrigger`](#retrigger)                                 | `bool`                             | `get`/`set`/`listen` |
+| [`sample`](#sample)                                       | `Sample`                           | `get`/`listen`       |
+| [`slicing_playback_mode`](#slicing_playback_mode)         | `int`                              | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`view`](#view)                                           | `View`                             | `get`                |
+| [`voices`](#voices)                                       | `int`                              | `get`/`set`/`listen` |
 
 #### `can_compare_ab`
 
@@ -267,14 +267,14 @@ Access to the number of voices in Simpler.
 
 ### Methods
 
-| Method                      | Returns | Description                                                                      |
-| --------------------------- | ------- | -------------------------------------------------------------------------------- |
-| `crop()`                    | `None`  | Crop the loaded sample to the active area between start- and end marker.         |
-| `guess_playback_length()`   | `float` | Return an estimated beat time for the playback length between start- and end-... |
-| `reverse()`                 | `None`  | Reverse the loaded sample.                                                       |
-| `warp_as(beat_time: float)` | `None`  | Warp the playback region between start- and end-marker as the given length.      |
-| `warp_double()`             | `None`  | Doubles the tempo for region between start- and end-marker.                      |
-| `warp_half()`               | `None`  | Halves the tempo for region between start- and end-marker.                       |
+| Method                                                 | Returns | Description                                                                      |
+| ------------------------------------------------------ | ------- | -------------------------------------------------------------------------------- |
+| [`crop()`](#crop)                                      | `None`  | Crop the loaded sample to the active area between start- and end marker.         |
+| [`guess_playback_length()`](#guess_playback_length)    | `float` | Return an estimated beat time for the playback length between start- and end-... |
+| [`reverse()`](#reverse)                                | `None`  | Reverse the loaded sample.                                                       |
+| [`warp_as(beat_time: float)`](#warp_asbeat_time-float) | `None`  | Warp the playback region between start- and end-marker as the given length.      |
+| [`warp_double()`](#warp_double)                        | `None`  | Doubles the tempo for region between start- and end-marker.                      |
+| [`warp_half()`](#warp_half)                            | `None`  | Halves the tempo for region between start- and end-marker.                       |
 
 #### `crop()`
 
@@ -324,18 +324,18 @@ Representing the view aspects of a simpler device.
 
 ### Properties
 
-| Property              | Type            | Supports             |
-| --------------------- | --------------- | -------------------- |
-| `canonical_parent`    | `SimplerDevice` | `get`                |
-| `is_collapsed`        | `bool`          | `get`/`set`          |
-| `sample_end`          | `int`           | `get`/`listen`       |
-| `sample_env_fade_in`  | `int`           | `get`/`listen`       |
-| `sample_env_fade_out` | `int`           | `get`/`listen`       |
-| `sample_loop_end`     | `int`           | `get`/`listen`       |
-| `sample_loop_fade`    | `int`           | `get`/`listen`       |
-| `sample_loop_start`   | `int`           | `get`/`listen`       |
-| `sample_start`        | `int`           | `get`/`listen`       |
-| `selected_slice`      | `int`           | `get`/`set`/`listen` |
+| Property                                      | Type            | Supports             |
+| --------------------------------------------- | --------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)       | `SimplerDevice` | `get`                |
+| [`is_collapsed`](#is_collapsed)               | `bool`          | `get`/`set`          |
+| [`sample_end`](#sample_end)                   | `int`           | `get`/`listen`       |
+| [`sample_env_fade_in`](#sample_env_fade_in)   | `int`           | `get`/`listen`       |
+| [`sample_env_fade_out`](#sample_env_fade_out) | `int`           | `get`/`listen`       |
+| [`sample_loop_end`](#sample_loop_end)         | `int`           | `get`/`listen`       |
+| [`sample_loop_fade`](#sample_loop_fade)       | `int`           | `get`/`listen`       |
+| [`sample_loop_start`](#sample_loop_start)     | `int`           | `get`/`listen`       |
+| [`sample_start`](#sample_start)               | `int`           | `get`/`listen`       |
+| [`selected_slice`](#selected_slice)           | `int`           | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -437,9 +437,9 @@ Access to the selected slice.
 
 ## Module Functions
 
-| Function                        | Returns     | Description                                  |
-| ------------------------------- | ----------- | -------------------------------------------- |
-| `get_available_voice_numbers()` | `IntVector` | Get a vector of valid Simpler voice numbers. |
+| Function                                                        | Returns     | Description                                  |
+| --------------------------------------------------------------- | ----------- | -------------------------------------------- |
+| [`get_available_voice_numbers()`](#get_available_voice_numbers) | `IntVector` | Get a vector of valid Simpler voice numbers. |
 
 ### `get_available_voice_numbers()`
 

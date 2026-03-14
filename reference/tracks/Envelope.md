@@ -15,9 +15,9 @@ This class represents an automation or modulation envelope in Live.
 
 ### Properties
 
-| Property           | Type   | Supports |
-| ------------------ | ------ | -------- |
-| `canonical_parent` | `Clip` | `get`    |
+| Property                                | Type   | Supports |
+| --------------------------------------- | ------ | -------- |
+| [`canonical_parent`](#canonical_parent) | `Clip` | `get`    |
 
 #### `canonical_parent`
 
@@ -29,12 +29,12 @@ Get the canonical parent of the envelope.
 
 ### Methods
 
-| Method                                                       | Returns               | Description                                                                    |
-| ------------------------------------------------------------ | --------------------- | ------------------------------------------------------------------------------ |
-| `delete_events_in_range(start_time: float, end_time: float)` | `None`                | Deletes the events in the specified time range.                                |
-| `events_in_range(start_time: float, end_time: float)`        | `EnvelopeEventVector` | Returns the events in the specified time range.                                |
-| `insert_step(start: float, length: float, value: float)`     | `None`                | Given a start time, a step length and a value, creates a step in the envelope. |
-| `value_at_time(time: float)`                                 | `float`               | Returns the parameter value at the specified time.                             |
+| Method                                                                                                                 | Returns               | Description                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------ |
+| [`delete_events_in_range(start_time: float, end_time: float)`](#delete_events_in_rangestart_time-float-end_time-float) | `None`                | Deletes the events in the specified time range.                                |
+| [`events_in_range(start_time: float, end_time: float)`](#events_in_rangestart_time-float-end_time-float)               | `EnvelopeEventVector` | Returns the events in the specified time range.                                |
+| [`insert_step(start: float, length: float, value: float)`](#insert_stepstart-float-length-float-value-float)           | `None`                | Given a start time, a step length and a value, creates a step in the envelope. |
+| [`value_at_time(time: float)`](#value_at_timetime-float)                                                               | `float`               | Returns the parameter value at the specified time.                             |
 
 #### `delete_events_in_range(start_time: float, end_time: float)`
 
@@ -84,11 +84,11 @@ This is a class that represents an envelope event.
 
 #### Properties
 
-| Property               | Type                               | Supports    |
-| ---------------------- | ---------------------------------- | ----------- |
-| `control_coefficients` | `EnvelopeEventControlCoefficients` | `get`/`set` |
-| `time`                 | `float`                            | `get`/`set` |
-| `value`                | `float`                            | `get`/`set` |
+| Property                                        | Type                               | Supports    |
+| ----------------------------------------------- | ---------------------------------- | ----------- |
+| [`control_coefficients`](#control_coefficients) | `EnvelopeEventControlCoefficients` | `get`/`set` |
+| [`time`](#time)                                 | `float`                            | `get`/`set` |
+| [`value`](#value)                               | `float`                            | `get`/`set` |
 
 ##### `control_coefficients`
 
@@ -118,12 +118,12 @@ This class represents the control coefficients of an envelope event.
 
 #### Properties
 
-| Property | Type    | Supports    |
-| -------- | ------- | ----------- |
-| `x1`     | `float` | `get`/`set` |
-| `x2`     | `float` | `get`/`set` |
-| `y1`     | `float` | `get`/`set` |
-| `y2`     | `float` | `get`/`set` |
+| Property    | Type    | Supports    |
+| ----------- | ------- | ----------- |
+| [`x1`](#x1) | `float` | `get`/`set` |
+| [`x2`](#x2) | `float` | `get`/`set` |
+| [`y1`](#y1) | `float` | `get`/`set` |
+| [`y2`](#y2) | `float` | `get`/`set` |
 
 ##### `x1`
 
@@ -157,10 +157,10 @@ A container for holding envelope events.
 
 #### Methods
 
-| Method                          | Returns | Description |
-| ------------------------------- | ------- | ----------- |
-| `append(value: EnvelopeEvent)`  | `None`  |             |
-| `extend(values: EnvelopeEvent)` | `None`  |             |
+| Method                                                         | Returns | Description |
+| -------------------------------------------------------------- | ------- | ----------- |
+| [`append(value: EnvelopeEvent)`](#appendvalue-envelopeevent)   | `None`  |             |
+| [`extend(values: EnvelopeEvent)`](#extendvalues-envelopeevent) | `None`  |             |
 
 ##### `append(value: EnvelopeEvent)`
 

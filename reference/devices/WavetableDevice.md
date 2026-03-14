@@ -10,37 +10,37 @@ This class represents a Wavetable device.
 
 ### Properties
 
-| Property                          | Type                               | Supports             |
-| --------------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`                  | `bool`                             | `get`                |
-| `can_have_chains`                 | `bool`                             | `get`                |
-| `can_have_drum_pads`              | `bool`                             | `get`                |
-| `canonical_parent`                | `Track`                            | `get`                |
-| `class_display_name`              | `str`                              | `get`                |
-| `class_name`                      | `str`                              | `get`                |
-| `filter_routing`                  | `int`                              | `get`/`set`/`listen` |
-| `is_active`                       | `bool`                             | `get`                |
-| `is_using_compare_preset_b`       | `bool`                             | `get`/`set`          |
-| `latency_in_ms`                   | `float`                            | `get`                |
-| `latency_in_samples`              | `int`                              | `get`                |
-| `mono_poly`                       | `int`                              | `get`/`set`/`listen` |
-| `name`                            | `str`                              | `get`/`set`          |
-| `oscillator_1_effect_mode`        | `int`                              | `get`/`set`/`listen` |
-| `oscillator_1_wavetable_category` | `int`                              | `get`/`set`/`listen` |
-| `oscillator_1_wavetable_index`    | `int`                              | `get`/`set`/`listen` |
-| `oscillator_1_wavetables`         | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `oscillator_2_effect_mode`        | `int`                              | `get`/`set`/`listen` |
-| `oscillator_2_wavetable_category` | `int`                              | `get`/`set`/`listen` |
-| `oscillator_2_wavetable_index`    | `int`                              | `get`/`set`/`listen` |
-| `oscillator_2_wavetables`         | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `oscillator_wavetable_categories` | `tuple[str, Ellipsis]`             | `get`                |
-| `parameters`                      | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `poly_voices`                     | `int`                              | `get`/`set`/`listen` |
-| `type`                            | `DeviceType`                       | `get`                |
-| `unison_mode`                     | `int`                              | `get`/`set`/`listen` |
-| `unison_voice_count`              | `int`                              | `get`/`set`/`listen` |
-| `view`                            | `Device.View`                      | `get`                |
-| `visible_modulation_target_names` | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| Property                                                              | Type                               | Supports             |
+| --------------------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                                   | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                                 | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)                           | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                               | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)                           | `str`                              | `get`                |
+| [`class_name`](#class_name)                                           | `str`                              | `get`                |
+| [`filter_routing`](#filter_routing)                                   | `int`                              | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                             | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b)             | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                                     | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)                           | `int`                              | `get`                |
+| [`mono_poly`](#mono_poly)                                             | `int`                              | `get`/`set`/`listen` |
+| [`name`](#name)                                                       | `str`                              | `get`/`set`          |
+| [`oscillator_1_effect_mode`](#oscillator_1_effect_mode)               | `int`                              | `get`/`set`/`listen` |
+| [`oscillator_1_wavetable_category`](#oscillator_1_wavetable_category) | `int`                              | `get`/`set`/`listen` |
+| [`oscillator_1_wavetable_index`](#oscillator_1_wavetable_index)       | `int`                              | `get`/`set`/`listen` |
+| [`oscillator_1_wavetables`](#oscillator_1_wavetables)                 | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`oscillator_2_effect_mode`](#oscillator_2_effect_mode)               | `int`                              | `get`/`set`/`listen` |
+| [`oscillator_2_wavetable_category`](#oscillator_2_wavetable_category) | `int`                              | `get`/`set`/`listen` |
+| [`oscillator_2_wavetable_index`](#oscillator_2_wavetable_index)       | `int`                              | `get`/`set`/`listen` |
+| [`oscillator_2_wavetables`](#oscillator_2_wavetables)                 | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`oscillator_wavetable_categories`](#oscillator_wavetable_categories) | `tuple[str, Ellipsis]`             | `get`                |
+| [`parameters`](#parameters)                                           | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`poly_voices`](#poly_voices)                                         | `int`                              | `get`/`set`/`listen` |
+| [`type`](#type)                                                       | `DeviceType`                       | `get`                |
+| [`unison_mode`](#unison_mode)                                         | `int`                              | `get`/`set`/`listen` |
+| [`unison_voice_count`](#unison_voice_count)                           | `int`                              | `get`/`set`/`listen` |
+| [`view`](#view)                                                       | `Device.View`                      | `get`                |
+| [`visible_modulation_target_names`](#visible_modulation_target_names) | `tuple[str, Ellipsis]`             | `get`/`listen`       |
 
 #### `can_compare_ab`
 
@@ -276,13 +276,13 @@ Get the names of all the visible modulation targets.
 
 ### Methods
 
-| Method                                                               | Returns | Description                                                                  |
-| -------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
-| `add_parameter_to_modulation_matrix(parameter: DeviceParameter)`     | `int`   | Add a non-pitch parameter to the modulation matrix.                          |
-| `get_modulation_target_parameter_name(target_index: int)`            | `str`   | Get the parameter name of the modulation target at the given index.          |
-| `get_modulation_value(target_index: int, source: int)`               | `float` | Get the value of a modulation amount for the given target-source connection. |
-| `is_parameter_modulatable(parameter: DeviceParameter)`               | `bool`  | Indicate whether the parameter is modulatable.                               |
-| `set_modulation_value(target_index: int, source: int, value: float)` | `None`  | Set the value of a modulation amount for the given target-source connection. |
+| Method                                                                                                                               | Returns | Description                                                                  |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------- |
+| [`add_parameter_to_modulation_matrix(parameter: DeviceParameter)`](#add_parameter_to_modulation_matrixparameter-deviceparameter)     | `int`   | Add a non-pitch parameter to the modulation matrix.                          |
+| [`get_modulation_target_parameter_name(target_index: int)`](#get_modulation_target_parameter_nametarget_index-int)                   | `str`   | Get the parameter name of the modulation target at the given index.          |
+| [`get_modulation_value(target_index: int, source: int)`](#get_modulation_valuetarget_index-int-source-int)                           | `float` | Get the value of a modulation amount for the given target-source connection. |
+| [`is_parameter_modulatable(parameter: DeviceParameter)`](#is_parameter_modulatableparameter-deviceparameter)                         | `bool`  | Indicate whether the parameter is modulatable.                               |
+| [`set_modulation_value(target_index: int, source: int, value: float)`](#set_modulation_valuetarget_index-int-source-int-value-float) | `None`  | Set the value of a modulation amount for the given target-source connection. |
 
 #### `add_parameter_to_modulation_matrix(parameter: DeviceParameter)`
 

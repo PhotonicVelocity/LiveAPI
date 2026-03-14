@@ -20,65 +20,65 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 ### Properties
 
-| Property                            | Type                              | Supports             |
-| ----------------------------------- | --------------------------------- | -------------------- |
-| `arm`                               | `bool`                            | `get`/`set`/`listen` |
-| `arrangement_clips`                 | `tuple`                           | `get`/`listen`       |
-| `available_input_routing_channels`  | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
-| `available_input_routing_types`     | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
-| `available_output_routing_channels` | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
-| `available_output_routing_types`    | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
-| `back_to_arranger`                  | `bool`                            | `get`/`set`/`listen` |
-| `can_be_armed`                      | `bool`                            | `get`                |
-| `can_be_frozen`                     | `bool`                            | `get`                |
-| `can_show_chains`                   | `bool`                            | `get`                |
-| `canonical_parent`                  | `Song`                            | `get`                |
-| `clip_slots`                        | `tuple`                           | `get`/`listen`       |
-| `color`                             | `int`                             | `get`/`set`/`listen` |
-| `color_index`                       | `int`                             | `get`/`set`/`listen` |
-| `current_input_routing`             | `str`                             | `get`/`set`/`listen` |
-| `current_input_sub_routing`         | `str`                             | `get`/`set`/`listen` |
-| `current_monitoring_state`          | `int`                             | `get`/`set`/`listen` |
-| `current_output_routing`            | `str`                             | `get`/`set`/`listen` |
-| `current_output_sub_routing`        | `str`                             | `get`/`set`/`listen` |
-| `devices`                           | `tuple`                           | `get`/`listen`       |
-| `fired_slot_index`                  | `int`                             | `get`/`listen`       |
-| `fold_state`                        | `bool`                            | `get`/`set`          |
-| `group_track`                       | `Track`                           | `get`                |
-| `has_audio_input`                   | `bool`                            | `get`/`listen`       |
-| `has_audio_output`                  | `bool`                            | `get`/`listen`       |
-| `has_midi_input`                    | `bool`                            | `get`/`listen`       |
-| `has_midi_output`                   | `bool`                            | `get`/`listen`       |
-| `implicit_arm`                      | `bool`                            | `get`/`set`/`listen` |
-| `input_meter_left`                  | `float`                           | `get`/`listen`       |
-| `input_meter_level`                 | `float`                           | `get`/`listen`       |
-| `input_meter_right`                 | `float`                           | `get`/`listen`       |
-| `input_routing_channel`             | `RoutingChannel`                  | `get`/`set`/`listen` |
-| `input_routing_type`                | `RoutingType`                     | `get`/`set`/`listen` |
-| `input_routings`                    | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| `input_sub_routings`                | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| `is_foldable`                       | `bool`                            | `get`                |
-| `is_frozen`                         | `bool`                            | `get`/`listen`       |
-| `is_grouped`                        | `bool`                            | `get`                |
-| `is_part_of_selection`              | `bool`                            | `get`                |
-| `is_showing_chains`                 | `bool`                            | `get`/`set`/`listen` |
-| `is_visible`                        | `bool`                            | `get`                |
-| `mixer_device`                      | `MixerDevice`                     | `get`                |
-| `mute`                              | `bool`                            | `get`/`set`/`listen` |
-| `muted_via_solo`                    | `bool`                            | `get`/`listen`       |
-| `name`                              | `str`                             | `get`/`set`/`listen` |
-| `output_meter_left`                 | `float`                           | `get`/`listen`       |
-| `output_meter_level`                | `float`                           | `get`/`listen`       |
-| `output_meter_right`                | `float`                           | `get`/`listen`       |
-| `output_routing_channel`            | `RoutingChannel`                  | `get`/`set`/`listen` |
-| `output_routing_type`               | `RoutingType`                     | `get`/`set`/`listen` |
-| `output_routings`                   | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| `output_sub_routings`               | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| `performance_impact`                | `float`                           | `get`/`listen`       |
-| `playing_slot_index`                | `int`                             | `get`/`listen`       |
-| `solo`                              | `bool`                            | `get`/`set`/`listen` |
-| `take_lanes`                        | `tuple`                           | `get`/`listen`       |
-| `view`                              | `View`                            | `get`                |
+| Property                                                                  | Type                              | Supports             |
+| ------------------------------------------------------------------------- | --------------------------------- | -------------------- |
+| [`arm`](#arm)                                                             | `bool`                            | `get`/`set`/`listen` |
+| [`arrangement_clips`](#arrangement_clips)                                 | `tuple`                           | `get`/`listen`       |
+| [`available_input_routing_channels`](#available_input_routing_channels)   | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
+| [`available_input_routing_types`](#available_input_routing_types)         | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
+| [`available_output_routing_channels`](#available_output_routing_channels) | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
+| [`available_output_routing_types`](#available_output_routing_types)       | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
+| [`back_to_arranger`](#back_to_arranger)                                   | `bool`                            | `get`/`set`/`listen` |
+| [`can_be_armed`](#can_be_armed)                                           | `bool`                            | `get`                |
+| [`can_be_frozen`](#can_be_frozen)                                         | `bool`                            | `get`                |
+| [`can_show_chains`](#can_show_chains)                                     | `bool`                            | `get`                |
+| [`canonical_parent`](#canonical_parent)                                   | `Song`                            | `get`                |
+| [`clip_slots`](#clip_slots)                                               | `tuple`                           | `get`/`listen`       |
+| [`color`](#color)                                                         | `int`                             | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                                             | `int`                             | `get`/`set`/`listen` |
+| [`current_input_routing`](#current_input_routing)                         | `str`                             | `get`/`set`/`listen` |
+| [`current_input_sub_routing`](#current_input_sub_routing)                 | `str`                             | `get`/`set`/`listen` |
+| [`current_monitoring_state`](#current_monitoring_state)                   | `int`                             | `get`/`set`/`listen` |
+| [`current_output_routing`](#current_output_routing)                       | `str`                             | `get`/`set`/`listen` |
+| [`current_output_sub_routing`](#current_output_sub_routing)               | `str`                             | `get`/`set`/`listen` |
+| [`devices`](#devices)                                                     | `tuple`                           | `get`/`listen`       |
+| [`fired_slot_index`](#fired_slot_index)                                   | `int`                             | `get`/`listen`       |
+| [`fold_state`](#fold_state)                                               | `bool`                            | `get`/`set`          |
+| [`group_track`](#group_track)                                             | `Track`                           | `get`                |
+| [`has_audio_input`](#has_audio_input)                                     | `bool`                            | `get`/`listen`       |
+| [`has_audio_output`](#has_audio_output)                                   | `bool`                            | `get`/`listen`       |
+| [`has_midi_input`](#has_midi_input)                                       | `bool`                            | `get`/`listen`       |
+| [`has_midi_output`](#has_midi_output)                                     | `bool`                            | `get`/`listen`       |
+| [`implicit_arm`](#implicit_arm)                                           | `bool`                            | `get`/`set`/`listen` |
+| [`input_meter_left`](#input_meter_left)                                   | `float`                           | `get`/`listen`       |
+| [`input_meter_level`](#input_meter_level)                                 | `float`                           | `get`/`listen`       |
+| [`input_meter_right`](#input_meter_right)                                 | `float`                           | `get`/`listen`       |
+| [`input_routing_channel`](#input_routing_channel)                         | `RoutingChannel`                  | `get`/`set`/`listen` |
+| [`input_routing_type`](#input_routing_type)                               | `RoutingType`                     | `get`/`set`/`listen` |
+| [`input_routings`](#input_routings)                                       | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| [`input_sub_routings`](#input_sub_routings)                               | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| [`is_foldable`](#is_foldable)                                             | `bool`                            | `get`                |
+| [`is_frozen`](#is_frozen)                                                 | `bool`                            | `get`/`listen`       |
+| [`is_grouped`](#is_grouped)                                               | `bool`                            | `get`                |
+| [`is_part_of_selection`](#is_part_of_selection)                           | `bool`                            | `get`                |
+| [`is_showing_chains`](#is_showing_chains)                                 | `bool`                            | `get`/`set`/`listen` |
+| [`is_visible`](#is_visible)                                               | `bool`                            | `get`                |
+| [`mixer_device`](#mixer_device)                                           | `MixerDevice`                     | `get`                |
+| [`mute`](#mute)                                                           | `bool`                            | `get`/`set`/`listen` |
+| [`muted_via_solo`](#muted_via_solo)                                       | `bool`                            | `get`/`listen`       |
+| [`name`](#name)                                                           | `str`                             | `get`/`set`/`listen` |
+| [`output_meter_left`](#output_meter_left)                                 | `float`                           | `get`/`listen`       |
+| [`output_meter_level`](#output_meter_level)                               | `float`                           | `get`/`listen`       |
+| [`output_meter_right`](#output_meter_right)                               | `float`                           | `get`/`listen`       |
+| [`output_routing_channel`](#output_routing_channel)                       | `RoutingChannel`                  | `get`/`set`/`listen` |
+| [`output_routing_type`](#output_routing_type)                             | `RoutingType`                     | `get`/`set`/`listen` |
+| [`output_routings`](#output_routings)                                     | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| [`output_sub_routings`](#output_sub_routings)                             | `tuple[str, Ellipsis]`            | `get`/`listen`       |
+| [`performance_impact`](#performance_impact)                               | `float`                           | `get`/`listen`       |
+| [`playing_slot_index`](#playing_slot_index)                               | `int`                             | `get`/`listen`       |
+| [`solo`](#solo)                                                           | `bool`                            | `get`/`set`/`listen` |
+| [`take_lanes`](#take_lanes)                                               | `tuple`                           | `get`/`listen`       |
+| [`view`](#view)                                                           | `View`                            | `get`                |
 
 #### `arm`
 
@@ -538,21 +538,21 @@ Representing the view aspects of a Track.
 
 ### Methods
 
-| Method                                                               | Returns     | Description                                                                      |
-| -------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
-| `create_audio_clip(file_path: str, position: float)`                 | `Clip`      | Creates an audio clip referencing the file at the given path and inserts it i... |
-| `create_midi_clip(start_time: float, length: float)`                 | `Clip`      | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
-| `create_take_lane()`                                                 | `LomObject` | Create a new TakeLane for this track.                                            |
-| `delete_clip(slot: Clip)`                                            | `None`      | Delete the given clip.                                                           |
-| `delete_device(device: int)`                                         | `None`      | Delete a device identified by the index in the 'devices' list.                   |
-| `duplicate_clip_slot(index: int)`                                    | `int`       | Duplicate a clip and put it into the next free slot and return the index of t... |
-| `duplicate_clip_to_arrangement(clip: Clip, destination_time: float)` | `Clip`      | Duplicate the given clip into the arrangement of this track at the provided d... |
-| `duplicate_device(index: int)`                                       | `None`      | Duplicate a device at a given index in the 'devices' list.                       |
-| `get_data(key: str, default_value: Any)`                             | `Any`       | Get data for the given key, that was previously stored using set_data.           |
-| `insert_device(DeviceName: str, DeviceIndex: int = -1)`              | `LomObject` | Add a device at a given index in the 'devices' list.                             |
-| `jump_in_running_session_clip(beats: float)`                         | `None`      | Jump forward or backward in the currently running Sessionclip (if any) by the... |
-| `set_data(key: str, value: Any)`                                     | `None`      | Store data for the given key in this object.                                     |
-| `stop_all_clips(Quantized: bool = True)`                             | `None`      | Stop running and triggered clip and slots on this track.                         |
+| Method                                                                                                                                 | Returns     | Description                                                                      |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------- |
+| [`create_audio_clip(file_path: str, position: float)`](#create_audio_clipfile_path-str-position-float)                                 | `Clip`      | Creates an audio clip referencing the file at the given path and inserts it i... |
+| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)                                 | `Clip`      | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
+| [`create_take_lane()`](#create_take_lane)                                                                                              | `LomObject` | Create a new TakeLane for this track.                                            |
+| [`delete_clip(slot: Clip)`](#delete_clipslot-clip)                                                                                     | `None`      | Delete the given clip.                                                           |
+| [`delete_device(device: int)`](#delete_devicedevice-int)                                                                               | `None`      | Delete a device identified by the index in the 'devices' list.                   |
+| [`duplicate_clip_slot(index: int)`](#duplicate_clip_slotindex-int)                                                                     | `int`       | Duplicate a clip and put it into the next free slot and return the index of t... |
+| [`duplicate_clip_to_arrangement(clip: Clip, destination_time: float)`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`      | Duplicate the given clip into the arrangement of this track at the provided d... |
+| [`duplicate_device(index: int)`](#duplicate_deviceindex-int)                                                                           | `None`      | Duplicate a device at a given index in the 'devices' list.                       |
+| [`get_data(key: str, default_value: Any)`](#get_datakey-str-default_value-any)                                                         | `Any`       | Get data for the given key, that was previously stored using set_data.           |
+| [`insert_device(DeviceName: str, DeviceIndex: int = -1)`](#insert_devicedevicename-str-deviceindex-int--1)                             | `LomObject` | Add a device at a given index in the 'devices' list.                             |
+| [`jump_in_running_session_clip(beats: float)`](#jump_in_running_session_clipbeats-float)                                               | `None`      | Jump forward or backward in the currently running Sessionclip (if any) by the... |
+| [`set_data(key: str, value: Any)`](#set_datakey-str-value-any)                                                                         | `None`      | Store data for the given key in this object.                                     |
+| [`stop_all_clips(Quantized: bool = True)`](#stop_all_clipsquantized-bool-true)                                                         | `None`      | Stop running and triggered clip and slots on this track.                         |
 
 #### `create_audio_clip(file_path: str, position: float)`
 
@@ -672,12 +672,12 @@ Representing the view aspects of a Track.
 
 ### Properties
 
-| Property             | Type     | Supports             |
-| -------------------- | -------- | -------------------- |
-| `canonical_parent`   | `Track`  | `get`                |
-| `device_insert_mode` | `bool`   | `get`/`set`/`listen` |
-| `is_collapsed`       | `bool`   | `get`/`set`/`listen` |
-| `selected_device`    | `Device` | `get`/`listen`       |
+| Property                                    | Type     | Supports             |
+| ------------------------------------------- | -------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)     | `Track`  | `get`                |
+| [`device_insert_mode`](#device_insert_mode) | `bool`   | `get`/`set`/`listen` |
+| [`is_collapsed`](#is_collapsed)             | `bool`   | `get`/`set`/`listen` |
+| [`selected_device`](#selected_device)       | `Device` | `get`/`listen`       |
 
 #### `canonical_parent`
 
@@ -713,9 +713,9 @@ Get/Set/Listen the insertion mode of the device. While in insertion mode, loadin
 
 ### Methods
 
-| Method                | Returns | Description                                   |
-| --------------------- | ------- | --------------------------------------------- |
-| `select_instrument()` | `bool`  | Selects the track's instrument if it has one. |
+| Method                                      | Returns | Description                                   |
+| ------------------------------------------- | ------- | --------------------------------------------- |
+| [`select_instrument()`](#select_instrument) | `bool`  | Selects the track's instrument if it has one. |
 
 #### `select_instrument()`
 
@@ -781,10 +781,10 @@ This class represents a routing channel.
 
 #### Properties
 
-| Property       | Type                   | Supports |
-| -------------- | ---------------------- | -------- |
-| `display_name` | `str`                  | `get`    |
-| `layout`       | `RoutingChannelLayout` | `get`    |
+| Property                        | Type                   | Supports |
+| ------------------------------- | ---------------------- | -------- |
+| [`display_name`](#display_name) | `str`                  | `get`    |
+| [`layout`](#layout)             | `RoutingChannelLayout` | `get`    |
 
 ##### `display_name`
 
@@ -810,10 +810,10 @@ A container for returning routing channels from Live.
 
 #### Methods
 
-| Method                           | Returns | Description |
-| -------------------------------- | ------- | ----------- |
-| `append(value: RoutingChannel)`  | `None`  |             |
-| `extend(values: RoutingChannel)` | `None`  |             |
+| Method                                                           | Returns | Description |
+| ---------------------------------------------------------------- | ------- | ----------- |
+| [`append(value: RoutingChannel)`](#appendvalue-routingchannel)   | `None`  |             |
+| [`extend(values: RoutingChannel)`](#extendvalues-routingchannel) | `None`  |             |
 
 ##### `append(value: RoutingChannel)`
 
@@ -835,11 +835,11 @@ This class represents a routing type.
 
 #### Properties
 
-| Property          | Type    | Supports |
-| ----------------- | ------- | -------- |
-| `attached_object` | `Track` | `get`    |
-| `category`        | `int`   | `get`    |
-| `display_name`    | `str`   | `get`    |
+| Property                              | Type    | Supports |
+| ------------------------------------- | ------- | -------- |
+| [`attached_object`](#attached_object) | `Track` | `get`    |
+| [`category`](#category)               | `int`   | `get`    |
+| [`display_name`](#display_name)       | `str`   | `get`    |
 
 ##### `attached_object`
 
@@ -873,10 +873,10 @@ A container for returning routing types from Live.
 
 #### Methods
 
-| Method                        | Returns | Description |
-| ----------------------------- | ------- | ----------- |
-| `append(value: RoutingType)`  | `None`  |             |
-| `extend(values: RoutingType)` | `None`  |             |
+| Method                                                     | Returns | Description |
+| ---------------------------------------------------------- | ------- | ----------- |
+| [`append(value: RoutingType)`](#appendvalue-routingtype)   | `None`  |             |
+| [`extend(values: RoutingType)`](#extendvalues-routingtype) | `None`  |             |
 
 ##### `append(value: RoutingType)`
 

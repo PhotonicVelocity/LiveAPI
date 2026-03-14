@@ -10,25 +10,25 @@ This class represents a drum group device chain in Live.
 
 ### Properties
 
-| Property           | Type               | Supports             |
-| ------------------ | ------------------ | -------------------- |
-| `canonical_parent` | `RackDevice`       | `get`                |
-| `choke_group`      | `int`              | `get`/`set`/`listen` |
-| `color`            | `int`              | `get`/`set`          |
-| `color_index`      | `int`              | `get`/`set`          |
-| `devices`          | `tuple`            | `get`                |
-| `has_audio_input`  | `bool`             | `get`                |
-| `has_audio_output` | `bool`             | `get`                |
-| `has_midi_input`   | `bool`             | `get`                |
-| `has_midi_output`  | `bool`             | `get`                |
-| `in_note`          | `int`              | `get`/`set`/`listen` |
-| `is_auto_colored`  | `bool`             | `get`/`set`          |
-| `mixer_device`     | `ChainMixerDevice` | `get`                |
-| `mute`             | `bool`             | `get`/`set`          |
-| `muted_via_solo`   | `bool`             | `get`                |
-| `name`             | `str`              | `get`/`set`          |
-| `out_note`         | `int`              | `get`/`set`/`listen` |
-| `solo`             | `bool`             | `get`/`set`          |
+| Property                                | Type               | Supports             |
+| --------------------------------------- | ------------------ | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `RackDevice`       | `get`                |
+| [`choke_group`](#choke_group)           | `int`              | `get`/`set`/`listen` |
+| [`color`](#color)                       | `int`              | `get`/`set`          |
+| [`color_index`](#color_index)           | `int`              | `get`/`set`          |
+| [`devices`](#devices)                   | `tuple`            | `get`                |
+| [`has_audio_input`](#has_audio_input)   | `bool`             | `get`                |
+| [`has_audio_output`](#has_audio_output) | `bool`             | `get`                |
+| [`has_midi_input`](#has_midi_input)     | `bool`             | `get`                |
+| [`has_midi_output`](#has_midi_output)   | `bool`             | `get`                |
+| [`in_note`](#in_note)                   | `int`              | `get`/`set`/`listen` |
+| [`is_auto_colored`](#is_auto_colored)   | `bool`             | `get`/`set`          |
+| [`mixer_device`](#mixer_device)         | `ChainMixerDevice` | `get`                |
+| [`mute`](#mute)                         | `bool`             | `get`/`set`          |
+| [`muted_via_solo`](#muted_via_solo)     | `bool`             | `get`                |
+| [`name`](#name)                         | `str`              | `get`/`set`          |
+| [`out_note`](#out_note)                 | `int`              | `get`/`set`/`listen` |
+| [`solo`](#solo)                         | `bool`             | `get`/`set`          |
 
 #### `canonical_parent`
 

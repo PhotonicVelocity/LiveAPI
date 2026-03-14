@@ -14,25 +14,25 @@ This class represents the live browser data base.
 
 ### Properties
 
-| Property           | Type                           | Supports             |
-| ------------------ | ------------------------------ | -------------------- |
-| `audio_effects`    | `BrowserItem`                  | `get`                |
-| `clips`            | `BrowserItem`                  | `get`                |
-| `colors`           | `tuple[BrowserItem, Ellipsis]` | `get`                |
-| `current_project`  | `BrowserItem`                  | `get`                |
-| `drums`            | `BrowserItem`                  | `get`                |
-| `filter_type`      | `int`                          | `get`/`set`/`listen` |
-| `hotswap_target`   | `None`                         | `get`/`set`/`listen` |
-| `instruments`      | `BrowserItem`                  | `get`                |
-| `legacy_libraries` | `tuple[BrowserItem, Ellipsis]` | `get`                |
-| `max_for_live`     | `BrowserItem`                  | `get`                |
-| `midi_effects`     | `BrowserItem`                  | `get`                |
-| `packs`            | `BrowserItem`                  | `get`                |
-| `plugins`          | `BrowserItem`                  | `get`                |
-| `samples`          | `BrowserItem`                  | `get`                |
-| `sounds`           | `BrowserItem`                  | `get`                |
-| `user_folders`     | `tuple[BrowserItem, Ellipsis]` | `get`                |
-| `user_library`     | `BrowserItem`                  | `get`                |
+| Property                                | Type                           | Supports             |
+| --------------------------------------- | ------------------------------ | -------------------- |
+| [`audio_effects`](#audio_effects)       | `BrowserItem`                  | `get`                |
+| [`clips`](#clips)                       | `BrowserItem`                  | `get`                |
+| [`colors`](#colors)                     | `tuple[BrowserItem, Ellipsis]` | `get`                |
+| [`current_project`](#current_project)   | `BrowserItem`                  | `get`                |
+| [`drums`](#drums)                       | `BrowserItem`                  | `get`                |
+| [`filter_type`](#filter_type)           | `int`                          | `get`/`set`/`listen` |
+| [`hotswap_target`](#hotswap_target)     | `None`                         | `get`/`set`/`listen` |
+| [`instruments`](#instruments)           | `BrowserItem`                  | `get`                |
+| [`legacy_libraries`](#legacy_libraries) | `tuple[BrowserItem, Ellipsis]` | `get`                |
+| [`max_for_live`](#max_for_live)         | `BrowserItem`                  | `get`                |
+| [`midi_effects`](#midi_effects)         | `BrowserItem`                  | `get`                |
+| [`packs`](#packs)                       | `BrowserItem`                  | `get`                |
+| [`plugins`](#plugins)                   | `BrowserItem`                  | `get`                |
+| [`samples`](#samples)                   | `BrowserItem`                  | `get`                |
+| [`sounds`](#sounds)                     | `BrowserItem`                  | `get`                |
+| [`user_folders`](#user_folders)         | `tuple[BrowserItem, Ellipsis]` | `get`                |
+| [`user_library`](#user_library)         | `BrowserItem`                  | `get`                |
 
 #### `audio_effects`
 
@@ -172,12 +172,12 @@ Returns a browser item with access to all the User Library content.
 
 ### Methods
 
-| Method                                          | Returns    | Description                                                                      |
-| ----------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
-| `load_item(item: BrowserItem)`                  | `None`     | Loads the provided browser item.                                                 |
-| `preview_item(item: BrowserItem)`               | `None`     | Previews the provided browser item.                                              |
-| `relation_to_hotswap_target(item: BrowserItem)` | `Relation` | Returns the relation between the given browser item and the current hotswap t... |
-| `stop_preview()`                                | `None`     | Stop the current preview.                                                        |
+| Method                                                                                         | Returns    | Description                                                                      |
+| ---------------------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
+| [`load_item(item: BrowserItem)`](#load_itemitem-browseritem)                                   | `None`     | Loads the provided browser item.                                                 |
+| [`preview_item(item: BrowserItem)`](#preview_itemitem-browseritem)                             | `None`     | Previews the provided browser item.                                              |
+| [`relation_to_hotswap_target(item: BrowserItem)`](#relation_to_hotswap_targetitem-browseritem) | `Relation` | Returns the relation between the given browser item and the current hotswap t... |
+| [`stop_preview()`](#stop_preview)                                                              | `None`     | Stop the current preview.                                                        |
 
 #### `load_item(item: BrowserItem)`
 
@@ -244,17 +244,17 @@ This class represents an item of the browser hierarchy.
 
 #### Properties
 
-| Property        | Type                           | Supports |
-| --------------- | ------------------------------ | -------- |
-| `children`      | `tuple[BrowserItem, Ellipsis]` | `get`    |
-| `is_device`     | `bool`                         | `get`    |
-| `is_folder`     | `bool`                         | `get`    |
-| `is_loadable`   | `bool`                         | `get`    |
-| `is_selected`   | `bool`                         | `get`    |
-| `iter_children` | `BrowserItemIterator`          | `get`    |
-| `name`          | `str`                          | `get`    |
-| `source`        | `str`                          | `get`    |
-| `uri`           | `str`                          | `get`    |
+| Property                          | Type                           | Supports |
+| --------------------------------- | ------------------------------ | -------- |
+| [`children`](#children)           | `tuple[BrowserItem, Ellipsis]` | `get`    |
+| [`is_device`](#is_device)         | `bool`                         | `get`    |
+| [`is_folder`](#is_folder)         | `bool`                         | `get`    |
+| [`is_loadable`](#is_loadable)     | `bool`                         | `get`    |
+| [`is_selected`](#is_selected)     | `bool`                         | `get`    |
+| [`iter_children`](#iter_children) | `BrowserItemIterator`          | `get`    |
+| [`name`](#name)                   | `str`                          | `get`    |
+| [`source`](#source)               | `str`                          | `get`    |
+| [`uri`](#uri)                     | `str`                          | `get`    |
 
 ##### `children`
 
@@ -342,10 +342,10 @@ A container for returning browser items from Live.
 
 #### Methods
 
-| Method                        | Returns | Description |
-| ----------------------------- | ------- | ----------- |
-| `append(value: BrowserItem)`  | `None`  |             |
-| `extend(values: BrowserItem)` | `None`  |             |
+| Method                                                     | Returns | Description |
+| ---------------------------------------------------------- | ------- | ----------- |
+| [`append(value: BrowserItem)`](#appendvalue-browseritem)   | `None`  |             |
+| [`extend(values: BrowserItem)`](#extendvalues-browseritem) | `None`  |             |
 
 ##### `append(value: BrowserItem)`
 

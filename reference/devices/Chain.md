@@ -10,22 +10,22 @@ This class represents a group device chain in Live.
 
 ### Properties
 
-| Property           | Type               | Supports             |
-| ------------------ | ------------------ | -------------------- |
-| `canonical_parent` | `RackDevice`       | `get`                |
-| `color`            | `int`              | `get`/`set`/`listen` |
-| `color_index`      | `int`              | `get`/`set`/`listen` |
-| `devices`          | `tuple`            | `get`/`listen`       |
-| `has_audio_input`  | `bool`             | `get`                |
-| `has_audio_output` | `bool`             | `get`                |
-| `has_midi_input`   | `bool`             | `get`                |
-| `has_midi_output`  | `bool`             | `get`                |
-| `is_auto_colored`  | `bool`             | `get`/`set`/`listen` |
-| `mixer_device`     | `ChainMixerDevice` | `get`                |
-| `mute`             | `bool`             | `get`/`set`/`listen` |
-| `muted_via_solo`   | `bool`             | `get`/`listen`       |
-| `name`             | `str`              | `get`/`set`/`listen` |
-| `solo`             | `bool`             | `get`/`set`/`listen` |
+| Property                                | Type               | Supports             |
+| --------------------------------------- | ------------------ | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `RackDevice`       | `get`                |
+| [`color`](#color)                       | `int`              | `get`/`set`/`listen` |
+| [`color_index`](#color_index)           | `int`              | `get`/`set`/`listen` |
+| [`devices`](#devices)                   | `tuple`            | `get`/`listen`       |
+| [`has_audio_input`](#has_audio_input)   | `bool`             | `get`                |
+| [`has_audio_output`](#has_audio_output) | `bool`             | `get`                |
+| [`has_midi_input`](#has_midi_input)     | `bool`             | `get`                |
+| [`has_midi_output`](#has_midi_output)   | `bool`             | `get`                |
+| [`is_auto_colored`](#is_auto_colored)   | `bool`             | `get`/`set`/`listen` |
+| [`mixer_device`](#mixer_device)         | `ChainMixerDevice` | `get`                |
+| [`mute`](#mute)                         | `bool`             | `get`/`set`/`listen` |
+| [`muted_via_solo`](#muted_via_solo)     | `bool`             | `get`/`listen`       |
+| [`name`](#name)                         | `str`              | `get`/`set`/`listen` |
+| [`solo`](#solo)                         | `bool`             | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -141,11 +141,11 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 ### Methods
 
-| Method                                                  | Returns     | Description                                             |
-| ------------------------------------------------------- | ----------- | ------------------------------------------------------- |
-| `delete_device(device: int)`                            | `None`      | Remove a device identified by its index from the chain. |
-| `duplicate_device(index: int)`                          | `None`      | Duplicate the device at the given index in the chain.   |
-| `insert_device(DeviceName: str, DeviceIndex: int = -1)` | `LomObject` | Add a device at a given index in the chain.             |
+| Method                                                                                                     | Returns     | Description                                             |
+| ---------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------- |
+| [`delete_device(device: int)`](#delete_devicedevice-int)                                                   | `None`      | Remove a device identified by its index from the chain. |
+| [`duplicate_device(index: int)`](#duplicate_deviceindex-int)                                               | `None`      | Duplicate the device at the given index in the chain.   |
+| [`insert_device(DeviceName: str, DeviceIndex: int = -1)`](#insert_devicedevicename-str-deviceindex-int--1) | `LomObject` | Add a device at a given index in the chain.             |
 
 #### `delete_device(device: int)`
 

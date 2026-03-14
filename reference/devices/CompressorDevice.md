@@ -10,26 +10,26 @@ This class represents a Compressor device.
 
 ### Properties
 
-| Property                           | Type                               | Supports             |
-| ---------------------------------- | ---------------------------------- | -------------------- |
-| `available_input_routing_channels` | `tuple[RoutingChannel, Ellipsis]`  | `get`/`listen`       |
-| `available_input_routing_types`    | `tuple[RoutingType, Ellipsis]`     | `get`/`listen`       |
-| `can_compare_ab`                   | `bool`                             | `get`                |
-| `can_have_chains`                  | `bool`                             | `get`                |
-| `can_have_drum_pads`               | `bool`                             | `get`                |
-| `canonical_parent`                 | `Track`                            | `get`                |
-| `class_display_name`               | `str`                              | `get`                |
-| `class_name`                       | `str`                              | `get`                |
-| `input_routing_channel`            | `RoutingChannel`                   | `get`/`set`/`listen` |
-| `input_routing_type`               | `RoutingType`                      | `get`/`set`/`listen` |
-| `is_active`                        | `bool`                             | `get`                |
-| `is_using_compare_preset_b`        | `bool`                             | `get`/`set`          |
-| `latency_in_ms`                    | `float`                            | `get`                |
-| `latency_in_samples`               | `int`                              | `get`                |
-| `name`                             | `str`                              | `get`/`set`          |
-| `parameters`                       | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `type`                             | `DeviceType`                       | `get`                |
-| `view`                             | `Device.View`                      | `get`                |
+| Property                                                                | Type                               | Supports             |
+| ----------------------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`available_input_routing_channels`](#available_input_routing_channels) | `tuple[RoutingChannel, Ellipsis]`  | `get`/`listen`       |
+| [`available_input_routing_types`](#available_input_routing_types)       | `tuple[RoutingType, Ellipsis]`     | `get`/`listen`       |
+| [`can_compare_ab`](#can_compare_ab)                                     | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                                   | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)                             | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                                 | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)                             | `str`                              | `get`                |
+| [`class_name`](#class_name)                                             | `str`                              | `get`                |
+| [`input_routing_channel`](#input_routing_channel)                       | `RoutingChannel`                   | `get`/`set`/`listen` |
+| [`input_routing_type`](#input_routing_type)                             | `RoutingType`                      | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                               | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b)               | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                                       | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)                             | `int`                              | `get`                |
+| [`name`](#name)                                                         | `str`                              | `get`/`set`          |
+| [`parameters`](#parameters)                                             | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`type`](#type)                                                         | `DeviceType`                       | `get`                |
+| [`view`](#view)                                                         | `Device.View`                      | `get`                |
 
 #### `available_input_routing_channels`
 

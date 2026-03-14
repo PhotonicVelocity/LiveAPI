@@ -22,56 +22,56 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 ### Properties
 
-| Property                | Type                          | Supports             |
-| ----------------------- | ----------------------------- | -------------------- |
-| `automation_envelopes`  | `tuple`                       | `get`                |
-| `available_warp_modes`  | `tuple[int, Ellipsis]`        | `get`                |
-| `canonical_parent`      | `ClipSlot`                    | `get`                |
-| `color`                 | `int`                         | `get`/`set`/`listen` |
-| `color_index`           | `int`                         | `get`/`set`/`listen` |
-| `end_marker`            | `float`                       | `get`/`set`/`listen` |
-| `end_time`              | `float`                       | `get`/`listen`       |
-| `file_path`             | `str`                         | `get`/`listen`       |
-| `gain`                  | `float`                       | `get`/`set`/`listen` |
-| `gain_display_string`   | `str`                         | `get`                |
-| `groove`                | `None`                        | `get`/`set`/`listen` |
-| `has_envelopes`         | `bool`                        | `get`/`listen`       |
-| `has_groove`            | `bool`                        | `get`                |
-| `is_arrangement_clip`   | `bool`                        | `get`                |
-| `is_audio_clip`         | `bool`                        | `get`                |
-| `is_midi_clip`          | `bool`                        | `get`                |
-| `is_overdubbing`        | `bool`                        | `get`/`listen`       |
-| `is_playing`            | `bool`                        | `get`/`set`          |
-| `is_recording`          | `bool`                        | `get`/`listen`       |
-| `is_session_clip`       | `bool`                        | `get`                |
-| `is_take_lane_clip`     | `bool`                        | `get`                |
-| `is_triggered`          | `bool`                        | `get`                |
-| `launch_mode`           | `int`                         | `get`/`set`/`listen` |
-| `launch_quantization`   | `int`                         | `get`/`set`/`listen` |
-| `legato`                | `bool`                        | `get`/`set`/`listen` |
-| `length`                | `float`                       | `get`                |
-| `loop_end`              | `float`                       | `get`/`set`/`listen` |
-| `loop_start`            | `float`                       | `get`/`set`/`listen` |
-| `looping`               | `bool`                        | `get`/`set`/`listen` |
-| `muted`                 | `bool`                        | `get`/`set`/`listen` |
-| `name`                  | `str`                         | `get`/`set`/`listen` |
-| `pitch_coarse`          | `int`                         | `get`/`set`/`listen` |
-| `pitch_fine`            | `float`                       | `get`/`set`/`listen` |
-| `playing_position`      | `float`                       | `get`/`listen`       |
-| `position`              | `float`                       | `get`/`set`/`listen` |
-| `ram_mode`              | `bool`                        | `get`/`set`/`listen` |
-| `sample_length`         | `int`                         | `get`                |
-| `sample_rate`           | `float`                       | `get`                |
-| `signature_denominator` | `int`                         | `get`/`set`/`listen` |
-| `signature_numerator`   | `int`                         | `get`/`set`/`listen` |
-| `start_marker`          | `float`                       | `get`/`set`/`listen` |
-| `start_time`            | `float`                       | `get`/`listen`       |
-| `velocity_amount`       | `float`                       | `get`/`set`/`listen` |
-| `view`                  | `View`                        | `get`                |
-| `warp_markers`          | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
-| `warp_mode`             | `int`                         | `get`/`set`/`listen` |
-| `warping`               | `bool`                        | `get`/`set`/`listen` |
-| `will_record_on_start`  | `bool`                        | `get`                |
+| Property                                          | Type                          | Supports             |
+| ------------------------------------------------- | ----------------------------- | -------------------- |
+| [`automation_envelopes`](#automation_envelopes)   | `tuple`                       | `get`                |
+| [`available_warp_modes`](#available_warp_modes)   | `tuple[int, Ellipsis]`        | `get`                |
+| [`canonical_parent`](#canonical_parent)           | `ClipSlot`                    | `get`                |
+| [`color`](#color)                                 | `int`                         | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                     | `int`                         | `get`/`set`/`listen` |
+| [`end_marker`](#end_marker)                       | `float`                       | `get`/`set`/`listen` |
+| [`end_time`](#end_time)                           | `float`                       | `get`/`listen`       |
+| [`file_path`](#file_path)                         | `str`                         | `get`/`listen`       |
+| [`gain`](#gain)                                   | `float`                       | `get`/`set`/`listen` |
+| [`gain_display_string`](#gain_display_string)     | `str`                         | `get`                |
+| [`groove`](#groove)                               | `None`                        | `get`/`set`/`listen` |
+| [`has_envelopes`](#has_envelopes)                 | `bool`                        | `get`/`listen`       |
+| [`has_groove`](#has_groove)                       | `bool`                        | `get`                |
+| [`is_arrangement_clip`](#is_arrangement_clip)     | `bool`                        | `get`                |
+| [`is_audio_clip`](#is_audio_clip)                 | `bool`                        | `get`                |
+| [`is_midi_clip`](#is_midi_clip)                   | `bool`                        | `get`                |
+| [`is_overdubbing`](#is_overdubbing)               | `bool`                        | `get`/`listen`       |
+| [`is_playing`](#is_playing)                       | `bool`                        | `get`/`set`          |
+| [`is_recording`](#is_recording)                   | `bool`                        | `get`/`listen`       |
+| [`is_session_clip`](#is_session_clip)             | `bool`                        | `get`                |
+| [`is_take_lane_clip`](#is_take_lane_clip)         | `bool`                        | `get`                |
+| [`is_triggered`](#is_triggered)                   | `bool`                        | `get`                |
+| [`launch_mode`](#launch_mode)                     | `int`                         | `get`/`set`/`listen` |
+| [`launch_quantization`](#launch_quantization)     | `int`                         | `get`/`set`/`listen` |
+| [`legato`](#legato)                               | `bool`                        | `get`/`set`/`listen` |
+| [`length`](#length)                               | `float`                       | `get`                |
+| [`loop_end`](#loop_end)                           | `float`                       | `get`/`set`/`listen` |
+| [`loop_start`](#loop_start)                       | `float`                       | `get`/`set`/`listen` |
+| [`looping`](#looping)                             | `bool`                        | `get`/`set`/`listen` |
+| [`muted`](#muted)                                 | `bool`                        | `get`/`set`/`listen` |
+| [`name`](#name)                                   | `str`                         | `get`/`set`/`listen` |
+| [`pitch_coarse`](#pitch_coarse)                   | `int`                         | `get`/`set`/`listen` |
+| [`pitch_fine`](#pitch_fine)                       | `float`                       | `get`/`set`/`listen` |
+| [`playing_position`](#playing_position)           | `float`                       | `get`/`listen`       |
+| [`position`](#position)                           | `float`                       | `get`/`set`/`listen` |
+| [`ram_mode`](#ram_mode)                           | `bool`                        | `get`/`set`/`listen` |
+| [`sample_length`](#sample_length)                 | `int`                         | `get`                |
+| [`sample_rate`](#sample_rate)                     | `float`                       | `get`                |
+| [`signature_denominator`](#signature_denominator) | `int`                         | `get`/`set`/`listen` |
+| [`signature_numerator`](#signature_numerator)     | `int`                         | `get`/`set`/`listen` |
+| [`start_marker`](#start_marker)                   | `float`                       | `get`/`set`/`listen` |
+| [`start_time`](#start_time)                       | `float`                       | `get`/`listen`       |
+| [`velocity_amount`](#velocity_amount)             | `float`                       | `get`/`set`/`listen` |
+| [`view`](#view)                                   | `View`                        | `get`                |
+| [`warp_markers`](#warp_markers)                   | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
+| [`warp_mode`](#warp_mode)                         | `int`                         | `get`/`set`/`listen` |
+| [`warping`](#warping)                             | `bool`                        | `get`/`set`/`listen` |
+| [`will_record_on_start`](#will_record_on_start)   | `bool`                        | `get`                |
 
 #### `automation_envelopes`
 
@@ -459,47 +459,47 @@ returns true if the Clip will record on being started.
 
 ### Methods
 
-| Method                                                                                                                                 | Returns          | Description                                                                      |
-| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
-| `add_new_notes(notes: object)`                                                                                                         | `IntU64Vector`   | Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification... |
-| `add_warp_marker(warp_marker: WarpMarker)`                                                                                             | `None`           | Available for AudioClips only.                                                   |
-| `apply_note_modifications(notes: MidiNoteVector)`                                                                                      | `None`           | Expects a list of notes as returned from get_notes_extended.                     |
-| `automation_envelope(parameter: DeviceParameter)`                                                                                      | `Envelope`       | Return the envelope for the given parameter.Returns None if the envelope does... |
-| `beat_to_sample_time(beat_time: float)`                                                                                                | `float`          | Available for AudioClips only.                                                   |
-| `clear_all_envelopes()`                                                                                                                | `None`           | Clears all envelopes for this clip.                                              |
-| `clear_envelope(parameter: DeviceParameter)`                                                                                           | `None`           | Clears the envelope of this clips given parameter.                               |
-| `create_automation_envelope(parameter: DeviceParameter)`                                                                               | `Envelope`       | Creates an envelope for a given parameter and returns it.This should only be ... |
-| `crop()`                                                                                                                               | `None`           | Crops the clip.                                                                  |
-| `deselect_all_notes()`                                                                                                                 | `None`           | De-selects all notes present in the clip.                                        |
-| `duplicate_loop()`                                                                                                                     | `None`           | Make the loop two times longer and duplicates notes and envelopes.               |
-| `duplicate_notes_by_id(note_ids: list[int], destination_time: float = None, transposition_amount: int = 0)`                            | `IntU64Vector`   | Duplicate all notes matching the given note IDs.                                 |
-| `duplicate_region(region_start: float, region_length: float, destination_time: float, pitch: int = -1, transposition_amount: int = 0)` | `None`           | Duplicate the notes in the specified region to the destination_time.             |
-| `fire()`                                                                                                                               | `None`           | (Re)Start playing this Clip.                                                     |
-| `get_all_notes_extended()`                                                                                                             | `MidiNoteVector` | Returns a list of all MIDI notes from the clip, regardless of their position ... |
-| `get_notes(from_time: float, from_pitch: int, time_span: float, pitch_span: int)`                                                      | `tuple`          | Returns a tuple of tuples where each inner tuple represents a note starting i... |
-| `get_notes_by_id(note_ids: list[int])`                                                                                                 | `MidiNoteVector` | Return a list of MIDI notes matching the given note IDs.                         |
-| `get_notes_extended(from_pitch: int, pitch_span: int, from_time: float, time_span: float)`                                             | `MidiNoteVector` | Returns a list of MIDI notes from the given pitch and time range.                |
-| `get_selected_notes()`                                                                                                                 | `tuple`          | Returns a tuple of tuples where each inner tuple represents a selected note.     |
-| `get_selected_notes_extended()`                                                                                                        | `MidiNoteVector` | Returns a list of all MIDI notes from the clip that are currently selected.      |
-| `move_playing_pos(beats: float)`                                                                                                       | `None`           | Jump forward or backward by the specified relative amount in beats.              |
-| `move_warp_marker(marker_beat_time: float, beat_time_distance: float)`                                                                 | `None`           | Available for AudioClips only.                                                   |
-| `note_number_to_name(midi_pitch: int)`                                                                                                 | `str`            | Return a human-readable name for the given MIDI note number.                     |
-| `quantize(quantization_grid: int, amount: float)`                                                                                      | `None`           | Quantize all notes in a clip or align warp markers.                              |
-| `quantize_pitch(note: int, source: int, amount: float)`                                                                                | `None`           | Quantize all the notes of a given pitch.                                         |
-| `remove_notes(start_time: float, pitch: int, length: float, pitch_span: int)`                                                          | `None`           | Delete all notes starting in the given pitch- and time range.                    |
-| `remove_notes_by_id(note_ids: object)`                                                                                                 | `None`           | Delete all notes matching the given note IDs.                                    |
-| `remove_notes_extended(from_pitch: int, pitch_span: int, from_time: float, time_span: float)`                                          | `None`           | Delete all notes starting in the given pitch and time range.                     |
-| `remove_warp_marker(beat_time: float)`                                                                                                 | `None`           | Available for AudioClips only.                                                   |
-| `replace_selected_notes(notes: tuple)`                                                                                                 | `None`           | Called with a tuple of tuples where each inner tuple represents a note in the... |
-| `sample_to_beat_time(sample_time: float)`                                                                                              | `float`          | Available for AudioClips only.                                                   |
-| `scrub(scrub_position: float)`                                                                                                         | `None`           | Scrubs inside a clip.                                                            |
-| `seconds_to_sample_time(seconds: float)`                                                                                               | `float`          | Available for AudioClips only.                                                   |
-| `select_all_notes()`                                                                                                                   | `None`           | Selects all notes present in the clip.                                           |
-| `select_notes_by_id(note_ids: object)`                                                                                                 | `None`           | Selects all notes matching the given note IDs.                                   |
-| `set_fire_button_state(state: bool)`                                                                                                   | `None`           | Set the clip's fire button state directly.                                       |
-| `set_notes(notes: tuple)`                                                                                                              | `None`           | Called with a tuple of tuples where each inner tuple represents a note in the... |
-| `stop()`                                                                                                                               | `None`           | Stop playing this Clip.                                                          |
-| `stop_scrub()`                                                                                                                         | `None`           | Stops the current scrub.                                                         |
+| Method                                                                                                                                                                                                                                                           | Returns          | Description                                                                      |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
+| [`add_new_notes(notes: object)`](#add_new_notesnotes-object)                                                                                                                                                                                                     | `IntU64Vector`   | Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification... |
+| [`add_warp_marker(warp_marker: WarpMarker)`](#add_warp_markerwarp_marker-warpmarker)                                                                                                                                                                             | `None`           | Available for AudioClips only.                                                   |
+| [`apply_note_modifications(notes: MidiNoteVector)`](#apply_note_modificationsnotes-midinotevector)                                                                                                                                                               | `None`           | Expects a list of notes as returned from get_notes_extended.                     |
+| [`automation_envelope(parameter: DeviceParameter)`](#automation_envelopeparameter-deviceparameter)                                                                                                                                                               | `Envelope`       | Return the envelope for the given parameter.Returns None if the envelope does... |
+| [`beat_to_sample_time(beat_time: float)`](#beat_to_sample_timebeat_time-float)                                                                                                                                                                                   | `float`          | Available for AudioClips only.                                                   |
+| [`clear_all_envelopes()`](#clear_all_envelopes)                                                                                                                                                                                                                  | `None`           | Clears all envelopes for this clip.                                              |
+| [`clear_envelope(parameter: DeviceParameter)`](#clear_envelopeparameter-deviceparameter)                                                                                                                                                                         | `None`           | Clears the envelope of this clips given parameter.                               |
+| [`create_automation_envelope(parameter: DeviceParameter)`](#create_automation_envelopeparameter-deviceparameter)                                                                                                                                                 | `Envelope`       | Creates an envelope for a given parameter and returns it.This should only be ... |
+| [`crop()`](#crop)                                                                                                                                                                                                                                                | `None`           | Crops the clip.                                                                  |
+| [`deselect_all_notes()`](#deselect_all_notes)                                                                                                                                                                                                                    | `None`           | De-selects all notes present in the clip.                                        |
+| [`duplicate_loop()`](#duplicate_loop)                                                                                                                                                                                                                            | `None`           | Make the loop two times longer and duplicates notes and envelopes.               |
+| [`duplicate_notes_by_id(note_ids: list[int], destination_time: float = None, transposition_amount: int = 0)`](#duplicate_notes_by_idnote_ids-listint-destination_time-float-none-transposition_amount-int-0)                                                     | `IntU64Vector`   | Duplicate all notes matching the given note IDs.                                 |
+| [`duplicate_region(region_start: float, region_length: float, destination_time: float, pitch: int = -1, transposition_amount: int = 0)`](#duplicate_regionregion_start-float-region_length-float-destination_time-float-pitch-int--1-transposition_amount-int-0) | `None`           | Duplicate the notes in the specified region to the destination_time.             |
+| [`fire()`](#fire)                                                                                                                                                                                                                                                | `None`           | (Re)Start playing this Clip.                                                     |
+| [`get_all_notes_extended()`](#get_all_notes_extended)                                                                                                                                                                                                            | `MidiNoteVector` | Returns a list of all MIDI notes from the clip, regardless of their position ... |
+| [`get_notes(from_time: float, from_pitch: int, time_span: float, pitch_span: int)`](#get_notesfrom_time-float-from_pitch-int-time_span-float-pitch_span-int)                                                                                                     | `tuple`          | Returns a tuple of tuples where each inner tuple represents a note starting i... |
+| [`get_notes_by_id(note_ids: list[int])`](#get_notes_by_idnote_ids-listint)                                                                                                                                                                                       | `MidiNoteVector` | Return a list of MIDI notes matching the given note IDs.                         |
+| [`get_notes_extended(from_pitch: int, pitch_span: int, from_time: float, time_span: float)`](#get_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                                                                                   | `MidiNoteVector` | Returns a list of MIDI notes from the given pitch and time range.                |
+| [`get_selected_notes()`](#get_selected_notes)                                                                                                                                                                                                                    | `tuple`          | Returns a tuple of tuples where each inner tuple represents a selected note.     |
+| [`get_selected_notes_extended()`](#get_selected_notes_extended)                                                                                                                                                                                                  | `MidiNoteVector` | Returns a list of all MIDI notes from the clip that are currently selected.      |
+| [`move_playing_pos(beats: float)`](#move_playing_posbeats-float)                                                                                                                                                                                                 | `None`           | Jump forward or backward by the specified relative amount in beats.              |
+| [`move_warp_marker(marker_beat_time: float, beat_time_distance: float)`](#move_warp_markermarker_beat_time-float-beat_time_distance-float)                                                                                                                       | `None`           | Available for AudioClips only.                                                   |
+| [`note_number_to_name(midi_pitch: int)`](#note_number_to_namemidi_pitch-int)                                                                                                                                                                                     | `str`            | Return a human-readable name for the given MIDI note number.                     |
+| [`quantize(quantization_grid: int, amount: float)`](#quantizequantization_grid-int-amount-float)                                                                                                                                                                 | `None`           | Quantize all notes in a clip or align warp markers.                              |
+| [`quantize_pitch(note: int, source: int, amount: float)`](#quantize_pitchnote-int-source-int-amount-float)                                                                                                                                                       | `None`           | Quantize all the notes of a given pitch.                                         |
+| [`remove_notes(start_time: float, pitch: int, length: float, pitch_span: int)`](#remove_notesstart_time-float-pitch-int-length-float-pitch_span-int)                                                                                                             | `None`           | Delete all notes starting in the given pitch- and time range.                    |
+| [`remove_notes_by_id(note_ids: object)`](#remove_notes_by_idnote_ids-object)                                                                                                                                                                                     | `None`           | Delete all notes matching the given note IDs.                                    |
+| [`remove_notes_extended(from_pitch: int, pitch_span: int, from_time: float, time_span: float)`](#remove_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                                                                             | `None`           | Delete all notes starting in the given pitch and time range.                     |
+| [`remove_warp_marker(beat_time: float)`](#remove_warp_markerbeat_time-float)                                                                                                                                                                                     | `None`           | Available for AudioClips only.                                                   |
+| [`replace_selected_notes(notes: tuple)`](#replace_selected_notesnotes-tuple)                                                                                                                                                                                     | `None`           | Called with a tuple of tuples where each inner tuple represents a note in the... |
+| [`sample_to_beat_time(sample_time: float)`](#sample_to_beat_timesample_time-float)                                                                                                                                                                               | `float`          | Available for AudioClips only.                                                   |
+| [`scrub(scrub_position: float)`](#scrubscrub_position-float)                                                                                                                                                                                                     | `None`           | Scrubs inside a clip.                                                            |
+| [`seconds_to_sample_time(seconds: float)`](#seconds_to_sample_timeseconds-float)                                                                                                                                                                                 | `float`          | Available for AudioClips only.                                                   |
+| [`select_all_notes()`](#select_all_notes)                                                                                                                                                                                                                        | `None`           | Selects all notes present in the clip.                                           |
+| [`select_notes_by_id(note_ids: object)`](#select_notes_by_idnote_ids-object)                                                                                                                                                                                     | `None`           | Selects all notes matching the given note IDs.                                   |
+| [`set_fire_button_state(state: bool)`](#set_fire_button_statestate-bool)                                                                                                                                                                                         | `None`           | Set the clip's fire button state directly.                                       |
+| [`set_notes(notes: tuple)`](#set_notesnotes-tuple)                                                                                                                                                                                                               | `None`           | Called with a tuple of tuples where each inner tuple represents a note in the... |
+| [`stop()`](#stop)                                                                                                                                                                                                                                                | `None`           | Stop playing this Clip.                                                          |
+| [`stop_scrub()`](#stop_scrub)                                                                                                                                                                                                                                    | `None`           | Stops the current scrub.                                                         |
 
 #### `add_new_notes(notes: object)`
 
@@ -823,11 +823,11 @@ Representing the view aspects of a Clip.
 
 ### Properties
 
-| Property            | Type               | Supports    |
-| ------------------- | ------------------ | ----------- |
-| `canonical_parent`  | `Clip`             | `get`       |
-| `grid_is_triplet`   | `bool`             | `get`/`set` |
-| `grid_quantization` | `GridQuantization` | `get`/`set` |
+| Property                                  | Type               | Supports    |
+| ----------------------------------------- | ------------------ | ----------- |
+| [`canonical_parent`](#canonical_parent)   | `Clip`             | `get`       |
+| [`grid_is_triplet`](#grid_is_triplet)     | `bool`             | `get`/`set` |
+| [`grid_quantization`](#grid_quantization) | `GridQuantization` | `get`/`set` |
 
 #### `canonical_parent`
 
@@ -855,12 +855,12 @@ Get/set clip grid quantization resolution.
 
 ### Methods
 
-| Method                                                  | Returns | Description                                             |
-| ------------------------------------------------------- | ------- | ------------------------------------------------------- |
-| `hide_envelope()`                                       | `None`  | Hide the envelope view.                                 |
-| `select_envelope_parameter(parameter: DeviceParameter)` | `None`  | Select the given device parameter in the envelope view. |
-| `show_envelope()`                                       | `None`  | Show the envelope view.                                 |
-| `show_loop()`                                           | `None`  | Show the entire loop in the detail view.                |
+| Method                                                                                                         | Returns | Description                                             |
+| -------------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------- |
+| [`hide_envelope()`](#hide_envelope)                                                                            | `None`  | Hide the envelope view.                                 |
+| [`select_envelope_parameter(parameter: DeviceParameter)`](#select_envelope_parameterparameter-deviceparameter) | `None`  | Select the given device parameter in the envelope view. |
+| [`show_envelope()`](#show_envelope)                                                                            | `None`  | Show the envelope view.                                 |
+| [`show_loop()`](#show_loop)                                                                                    | `None`  | Show the entire loop in the detail view.                |
 
 #### `hide_envelope()`
 
@@ -958,17 +958,17 @@ An object representing a MIDI Note
 
 #### Properties
 
-| Property             | Type    | Supports    |
-| -------------------- | ------- | ----------- |
-| `duration`           | `float` | `get`/`set` |
-| `mute`               | `bool`  | `get`/`set` |
-| `note_id`            | `int`   | `get`       |
-| `pitch`              | `int`   | `get`/`set` |
-| `probability`        | `float` | `get`/`set` |
-| `release_velocity`   | `float` | `get`/`set` |
-| `start_time`         | `float` | `get`/`set` |
-| `velocity`           | `float` | `get`/`set` |
-| `velocity_deviation` | `float` | `get`/`set` |
+| Property                                    | Type    | Supports    |
+| ------------------------------------------- | ------- | ----------- |
+| [`duration`](#duration)                     | `float` | `get`/`set` |
+| [`mute`](#mute)                             | `bool`  | `get`/`set` |
+| [`note_id`](#note_id)                       | `int`   | `get`       |
+| [`pitch`](#pitch)                           | `int`   | `get`/`set` |
+| [`probability`](#probability)               | `float` | `get`/`set` |
+| [`release_velocity`](#release_velocity)     | `float` | `get`/`set` |
+| [`start_time`](#start_time)                 | `float` | `get`/`set` |
+| [`velocity`](#velocity)                     | `float` | `get`/`set` |
+| [`velocity_deviation`](#velocity_deviation) | `float` | `get`/`set` |
 
 ##### `duration`
 
@@ -1042,10 +1042,10 @@ A container for holding MIDI notes from Live.
 
 #### Methods
 
-| Method                     | Returns | Description |
-| -------------------------- | ------- | ----------- |
-| `append(value: MidiNote)`  | `None`  |             |
-| `extend(values: MidiNote)` | `None`  |             |
+| Method                                               | Returns | Description |
+| ---------------------------------------------------- | ------- | ----------- |
+| [`append(value: MidiNote)`](#appendvalue-midinote)   | `None`  |             |
+| [`extend(values: MidiNote)`](#extendvalues-midinote) | `None`  |             |
 
 ##### `append(value: MidiNote)`
 
@@ -1069,10 +1069,10 @@ This class represents a WarpMarker type.
 
 #### Properties
 
-| Property      | Type    | Supports |
-| ------------- | ------- | -------- |
-| `beat_time`   | `float` | `get`    |
-| `sample_time` | `float` | `get`    |
+| Property                      | Type    | Supports |
+| ----------------------------- | ------- | -------- |
+| [`beat_time`](#beat_time)     | `float` | `get`    |
+| [`sample_time`](#sample_time) | `float` | `get`    |
 
 ##### `beat_time`
 
@@ -1098,10 +1098,10 @@ A container for returning warp markers from Live.
 
 #### Methods
 
-| Method                       | Returns | Description |
-| ---------------------------- | ------- | ----------- |
-| `append(value: WarpMarker)`  | `None`  |             |
-| `extend(values: WarpMarker)` | `None`  |             |
+| Method                                                   | Returns | Description |
+| -------------------------------------------------------- | ------- | ----------- |
+| [`append(value: WarpMarker)`](#appendvalue-warpmarker)   | `None`  |             |
+| [`extend(values: WarpMarker)`](#extendvalues-warpmarker) | `None`  |             |
 
 ##### `append(value: WarpMarker)`
 

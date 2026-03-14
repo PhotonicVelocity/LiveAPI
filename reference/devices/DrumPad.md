@@ -14,14 +14,14 @@ This class represents a drum group device pad in Live.
 
 ### Properties
 
-| Property           | Type         | Supports             |
-| ------------------ | ------------ | -------------------- |
-| `canonical_parent` | `RackDevice` | `get`                |
-| `chains`           | `tuple`      | `get`/`listen`       |
-| `mute`             | `bool`       | `get`/`set`/`listen` |
-| `name`             | `str`        | `get`/`listen`       |
-| `note`             | `int`        | `get`                |
-| `solo`             | `bool`       | `get`/`set`/`listen` |
+| Property                                | Type         | Supports             |
+| --------------------------------------- | ------------ | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `RackDevice` | `get`                |
+| [`chains`](#chains)                     | `tuple`      | `get`/`listen`       |
+| [`mute`](#mute)                         | `bool`       | `get`/`set`/`listen` |
+| [`name`](#name)                         | `str`        | `get`/`listen`       |
+| [`note`](#note)                         | `int`        | `get`                |
+| [`solo`](#solo)                         | `bool`       | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -73,9 +73,9 @@ Solo/unsolo the pad.
 
 ### Methods
 
-| Method                | Returns | Description                                    |
-| --------------------- | ------- | ---------------------------------------------- |
-| `delete_all_chains()` | `None`  | Deletes all chains associated with a drum pad. |
+| Method                                      | Returns | Description                                    |
+| ------------------------------------------- | ------- | ---------------------------------------------- |
+| [`delete_all_chains()`](#delete_all_chains) | `None`  | Deletes all chains associated with a drum pad. |
 
 #### `delete_all_chains()`
 

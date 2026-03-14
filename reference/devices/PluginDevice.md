@@ -10,24 +10,24 @@ This class represents a plugin device.
 
 ### Properties
 
-| Property                    | Type                               | Supports             |
-| --------------------------- | ---------------------------------- | -------------------- |
-| `can_compare_ab`            | `bool`                             | `get`                |
-| `can_have_chains`           | `bool`                             | `get`                |
-| `can_have_drum_pads`        | `bool`                             | `get`                |
-| `canonical_parent`          | `Track`                            | `get`                |
-| `class_display_name`        | `str`                              | `get`                |
-| `class_name`                | `str`                              | `get`                |
-| `is_active`                 | `bool`                             | `get`                |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`          |
-| `latency_in_ms`             | `float`                            | `get`                |
-| `latency_in_samples`        | `int`                              | `get`                |
-| `name`                      | `str`                              | `get`/`set`          |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| `presets`                   | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| `selected_preset_index`     | `int`                              | `get`/`set`/`listen` |
-| `type`                      | `DeviceType`                       | `get`                |
-| `view`                      | `Device.View`                      | `get`                |
+| Property                                                  | Type                               | Supports             |
+| --------------------------------------------------------- | ---------------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
+| [`class_name`](#class_name)                               | `str`                              | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
+| [`name`](#name)                                           | `str`                              | `get`/`set`          |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
+| [`presets`](#presets)                                     | `tuple[str, Ellipsis]`             | `get`/`listen`       |
+| [`selected_preset_index`](#selected_preset_index)         | `int`                              | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`                       | `get`                |
+| [`view`](#view)                                           | `Device.View`                      | `get`                |
 
 #### `can_compare_ab`
 
@@ -159,9 +159,9 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                               | Returns        | Description                                                      |
-| ---------------------------------------------------- | -------------- | ---------------------------------------------------------------- |
-| `get_parameter_names(begin: int = 0, end: int = -1)` | `StringVector` | Get the range of plugin parameter names, bound by begin and end. |
+| Method                                                                                             | Returns        | Description                                                      |
+| -------------------------------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------- |
+| [`get_parameter_names(begin: int = 0, end: int = -1)`](#get_parameter_namesbegin-int-0-end-int--1) | `StringVector` | Get the range of plugin parameter names, bound by begin and end. |
 
 #### `get_parameter_names(begin: int = 0, end: int = -1)`
 

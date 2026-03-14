@@ -10,15 +10,15 @@ This class represents a groove in Live.
 
 ### Properties
 
-| Property              | Type         | Supports             |
-| --------------------- | ------------ | -------------------- |
-| `base`                | `Base`       | `get`/`set`          |
-| `canonical_parent`    | `GroovePool` | `get`                |
-| `name`                | `str`        | `get`/`set`/`listen` |
-| `quantization_amount` | `float`      | `get`/`set`/`listen` |
-| `random_amount`       | `float`      | `get`/`set`/`listen` |
-| `timing_amount`       | `float`      | `get`/`set`/`listen` |
-| `velocity_amount`     | `float`      | `get`/`set`/`listen` |
+| Property                                      | Type         | Supports             |
+| --------------------------------------------- | ------------ | -------------------- |
+| [`base`](#base)                               | `Base`       | `get`/`set`          |
+| [`canonical_parent`](#canonical_parent)       | `GroovePool` | `get`                |
+| [`name`](#name)                               | `str`        | `get`/`set`/`listen` |
+| [`quantization_amount`](#quantization_amount) | `float`      | `get`/`set`/`listen` |
+| [`random_amount`](#random_amount)             | `float`      | `get`/`set`/`listen` |
+| [`timing_amount`](#timing_amount)             | `float`      | `get`/`set`/`listen` |
+| [`velocity_amount`](#velocity_amount)         | `float`      | `get`/`set`/`listen` |
 
 #### `base`
 

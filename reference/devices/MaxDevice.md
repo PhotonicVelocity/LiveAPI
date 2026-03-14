@@ -10,26 +10,26 @@ This class represents a Max for Live device.
 
 ### Properties
 
-| Property                    | Type                               | Supports       |
-| --------------------------- | ---------------------------------- | -------------- |
-| `audio_inputs`              | `tuple`                            | `get`/`listen` |
-| `audio_outputs`             | `tuple`                            | `get`/`listen` |
-| `can_compare_ab`            | `bool`                             | `get`          |
-| `can_have_chains`           | `bool`                             | `get`          |
-| `can_have_drum_pads`        | `bool`                             | `get`          |
-| `canonical_parent`          | `Track`                            | `get`          |
-| `class_display_name`        | `str`                              | `get`          |
-| `class_name`                | `str`                              | `get`          |
-| `is_active`                 | `bool`                             | `get`          |
-| `is_using_compare_preset_b` | `bool`                             | `get`/`set`    |
-| `latency_in_ms`             | `float`                            | `get`          |
-| `latency_in_samples`        | `int`                              | `get`          |
-| `midi_inputs`               | `tuple`                            | `get`/`listen` |
-| `midi_outputs`              | `tuple`                            | `get`/`listen` |
-| `name`                      | `str`                              | `get`/`set`    |
-| `parameters`                | `tuple[DeviceParameter, Ellipsis]` | `get`          |
-| `type`                      | `DeviceType`                       | `get`          |
-| `view`                      | `Device.View`                      | `get`          |
+| Property                                                  | Type                               | Supports       |
+| --------------------------------------------------------- | ---------------------------------- | -------------- |
+| [`audio_inputs`](#audio_inputs)                           | `tuple`                            | `get`/`listen` |
+| [`audio_outputs`](#audio_outputs)                         | `tuple`                            | `get`/`listen` |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`          |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`          |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`          |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`          |
+| [`class_display_name`](#class_display_name)               | `str`                              | `get`          |
+| [`class_name`](#class_name)                               | `str`                              | `get`          |
+| [`is_active`](#is_active)                                 | `bool`                             | `get`          |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`    |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`          |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`          |
+| [`midi_inputs`](#midi_inputs)                             | `tuple`                            | `get`/`listen` |
+| [`midi_outputs`](#midi_outputs)                           | `tuple`                            | `get`/`listen` |
+| [`name`](#name)                                           | `str`                              | `get`/`set`    |
+| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`          |
+| [`type`](#type)                                           | `DeviceType`                       | `get`          |
+| [`view`](#view)                                           | `Device.View`                      | `get`          |
 
 #### `audio_inputs`
 
@@ -177,12 +177,12 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                             | Returns | Description                                                                      |
-| -------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
-| `get_bank_count()`                                 | `int`   | Get the number of parameter banks.                                               |
-| `get_bank_name(bank_index: int)`                   | `str`   | Get the name of a parameter bank given by index.                                 |
-| `get_bank_parameters(bank_index: int)`             | `list`  | Get the indices of parameters of the given bank index.                           |
-| `get_value_item_icons(parameter: DeviceParameter)` | `list`  | Get a list of icon identifier strings for a list parameter's values.An empty ... |
+| Method                                                                                               | Returns | Description                                                                      |
+| ---------------------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
+| [`get_bank_count()`](#get_bank_count)                                                                | `int`   | Get the number of parameter banks.                                               |
+| [`get_bank_name(bank_index: int)`](#get_bank_namebank_index-int)                                     | `str`   | Get the name of a parameter bank given by index.                                 |
+| [`get_bank_parameters(bank_index: int)`](#get_bank_parametersbank_index-int)                         | `list`  | Get the indices of parameters of the given bank index.                           |
+| [`get_value_item_icons(parameter: DeviceParameter)`](#get_value_item_iconsparameter-deviceparameter) | `list`  | Get a list of icon identifier strings for a list parameter's values.An empty ... |
 
 #### `get_bank_count()`
 
