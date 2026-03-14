@@ -4,11 +4,15 @@
 
 This class represents a Rack device.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.RackDevice.RackDevice.View`
 
 Representing the view aspects of a rack device.
+
+**Live Object:** `yes`
 
 ### Properties
 

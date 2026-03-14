@@ -4,6 +4,8 @@
 
 This class represents an automation or modulation envelope in Live.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property           | Type   | Settable | Listenable | Description                               |

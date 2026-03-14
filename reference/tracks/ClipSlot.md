@@ -4,6 +4,8 @@
 
 This class represents an entry in Lives Session view matrix.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property               | Type                   | Settable | Listenable | Description                                                                      |

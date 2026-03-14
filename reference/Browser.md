@@ -4,6 +4,8 @@
 
 This class represents the live browser data base.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property           | Type                           | Settable | Listenable | Description                                                                |

@@ -4,6 +4,8 @@
 
 This class represents a sample file loaded into a Simpler instance.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                       | Type                          | Settable | Listenable | Description                                                                      |

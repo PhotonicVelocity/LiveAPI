@@ -4,6 +4,8 @@
 
 This class represents a plugin device.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |

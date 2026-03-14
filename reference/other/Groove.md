@@ -4,6 +4,8 @@
 
 This class represents a groove in Live.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property              | Type         | Settable | Listenable | Description                                                   |

@@ -176,6 +176,7 @@ class ClassInfo:
     namespace: str  # e.g. "Live.Song"
     docstring: str
     constructable: bool
+    live_object: bool  # True if class has _live_ptr (is a Live Object)
     init_args: list[tuple[str, str, str | None]]
     properties: list[PropertyInfo] = field(default_factory=list)
     methods: list[MethodInfo] = field(default_factory=list)
@@ -327,6 +328,7 @@ def parse_class(node: ast.ClassDef, namespace: str) -> ClassInfo:
     settable = extract_settable_properties(node)
 
     constructable = False
+    live_object = False
     init_args: list[tuple[str, str, str | None]] = []
 
     properties: list[PropertyInfo] = []
@@ -340,6 +342,8 @@ def parse_class(node: ast.ClassDef, namespace: str) -> ClassInfo:
                 if item.name == "__init__":
                     constructable = True
                     init_args = parse_function_args(item)
+                if item.name == "_live_ptr":
+                    live_object = True
                 continue
 
             # Skip listener boilerplate
@@ -388,6 +392,7 @@ def parse_class(node: ast.ClassDef, namespace: str) -> ClassInfo:
         namespace=namespace,
         docstring=docstring,
         constructable=constructable,
+        live_object=live_object,
         init_args=init_args,
         properties=properties,
         methods=methods,
@@ -501,12 +506,17 @@ def generate_class_markdown(
         lines.append(cls.docstring)
         lines.append("")
 
-    if cls.constructable:
-        if cls.init_args:
-            sig = format_args_signature(cls.init_args)
-            lines.append(f"**Constructor:** `{cls.name}({sig})`")
-        else:
-            lines.append(f"**Constructor:** `{cls.name}()`")
+    if cls.live_object or cls.constructable:
+        flags = []
+        if cls.live_object:
+            flags.append("**Live Object:** `yes`")
+        if cls.constructable:
+            if cls.init_args:
+                sig = format_args_signature(cls.init_args)
+                flags.append(f"**Constructor:** `{cls.name}({sig})`")
+            else:
+                flags.append(f"**Constructor:** `{cls.name}()`")
+        lines.append("  \n".join(flags))
         lines.append("")
 
     # --- Inner classes (View, etc.) ---

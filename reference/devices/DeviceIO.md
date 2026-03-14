@@ -4,6 +4,8 @@
 
 This class represents a specific input or output bus of a device.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                                   | Type                              | Settable | Listenable | Description                                                                      |

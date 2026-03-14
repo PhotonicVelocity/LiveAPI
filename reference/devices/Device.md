@@ -4,11 +4,15 @@
 
 This class represents a MIDI or Audio DSP-Device in Live.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.Device.Device.View`
 
 Representing the view aspects of a device.
+
+**Live Object:** `yes`
 
 ### Properties
 
