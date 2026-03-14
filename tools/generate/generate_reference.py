@@ -427,10 +427,9 @@ def parse_stub_file(path: Path, namespace: str) -> tuple[list[ClassInfo], list[E
 # ---------------------------------------------------------------------------
 
 
-def format_type(t: str) -> str:
-    """Format a type string for display, stripping None unions from optional params."""
-    # Clean up 'X | None' for display
-    return t
+def escape_table_cell(text: str) -> str:
+    """Escape characters that break markdown table cells."""
+    return text.replace("|", "\\|")
 
 
 def format_args_signature(args: list[tuple[str, str, str | None]]) -> str:
@@ -526,8 +525,9 @@ def generate_class_markdown(
         for prop in cls.properties:
             settable = "yes" if prop.settable else "no"
             listenable = "yes" if prop.listenable else "no"
-            summary = truncate_summary(prop.docstring)
-            lines.append(f"| `{prop.name}` | `{prop.type}` | `{settable}` | `{listenable}` | {summary} |")
+            summary = escape_table_cell(truncate_summary(prop.docstring))
+            esc_type = escape_table_cell(prop.type)
+            lines.append(f"| `{prop.name}` | `{esc_type}` | `{settable}` | `{listenable}` | {summary} |")
         lines.append("")
 
         # Per-property details
@@ -551,9 +551,10 @@ def generate_class_markdown(
         lines.append(f"| Method | Returns | Description |")
         lines.append(f"| --- | --- | --- |")
         for method in cls.methods:
-            sig = format_args_signature(method.args)
-            summary = truncate_summary(method.docstring)
-            lines.append(f"| `{method.name}({sig})` | `{method.return_type}` | {summary} |")
+            sig = escape_table_cell(format_args_signature(method.args))
+            summary = escape_table_cell(truncate_summary(method.docstring))
+            esc_ret = escape_table_cell(method.return_type)
+            lines.append(f"| `{method.name}({sig})` | `{esc_ret}` | {summary} |")
         lines.append("")
 
         # Per-method details
@@ -600,9 +601,10 @@ def generate_class_markdown(
         lines.append(f"| Function | Returns | Description |")
         lines.append(f"| --- | --- | --- |")
         for func in module_functions:
-            sig = format_args_signature(func.args)
-            summary = truncate_summary(func.docstring)
-            lines.append(f"| `{func.name}({sig})` | `{func.return_type}` | {summary} |")
+            sig = escape_table_cell(format_args_signature(func.args))
+            summary = escape_table_cell(truncate_summary(func.docstring))
+            esc_ret = escape_table_cell(func.return_type)
+            lines.append(f"| `{func.name}({sig})` | `{esc_ret}` | {summary} |")
         lines.append("")
 
         for func in module_functions:
@@ -662,9 +664,10 @@ def generate_namespace_markdown(
         lines.append("| Function | Returns | Description |")
         lines.append("| --- | --- | --- |")
         for func in module_functions:
-            sig = format_args_signature(func.args)
-            summary = truncate_summary(func.docstring)
-            lines.append(f"| `{func.name}({sig})` | `{func.return_type}` | {summary} |")
+            sig = escape_table_cell(format_args_signature(func.args))
+            summary = escape_table_cell(truncate_summary(func.docstring))
+            esc_ret = escape_table_cell(func.return_type)
+            lines.append(f"| `{func.name}({sig})` | `{esc_ret}` | {summary} |")
         lines.append("")
         for func in module_functions:
             sig = format_args_signature(func.args)

@@ -641,10 +641,10 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 ## Methods
 
 | Method                                                                          | Returns    | Description                                                                      |
-| ------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| ------------------------------------------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
 | `begin_undo_step()`                                                             | `None`     |                                                                                  |
-| `capture_and_insert_scene(CaptureMode: CaptureMode                              | int = 0)`  | `None`                                                                           | Capture currently playing clips and insert them as a new scene after the sele... |
-| `capture_midi(Destination: CaptureDestination                                   | int = 0)`  | `None`                                                                           | Capture recently played MIDI material from audible tracks.                       |
+| `capture_and_insert_scene(CaptureMode: CaptureMode \| int = 0)`                 | `None`     | Capture currently playing clips and insert them as a new scene after the sele... |
+| `capture_midi(Destination: CaptureDestination \| int = 0)`                      | `None`     | Capture recently played MIDI material from audible tracks.                       |
 | `continue_playing()`                                                            | `None`     | Continue playing the song from the current position.                             |
 | `create_audio_track(Index: int = None)`                                         | `Track`    | Create a new audio track at the optional given index and return it.If the ind... |
 | `create_midi_track(Index: int = None)`                                          | `Track`    | Create a new midi track at the optional given index and return it.If the inde... |
