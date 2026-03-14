@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 .vscode/
 site/
+dist/
 .env
 
 # Build output — keep JSON/logs, exclude Live subfolders (large generated stubs/XML)
