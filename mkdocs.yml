@@ -59,6 +59,7 @@ nav:
       - devices/Device.md
       - devices/DeviceParameter.md
       - devices/Chain.md
+      - devices/ChainMixerDevice.md
       - devices/DrumChain.md
       - devices/DrumPad.md
       - devices/RackDevice.md
@@ -82,7 +83,12 @@ nav:
       - devices/WavetableDevice.md
   - Other:
       - Browser.md
+      - other/Base.md
       - other/Conversions.md
       - other/Groove.md
       - other/GroovePool.md
+      - other/Licensing.md
+      - other/Listener.md
+      - other/LomObject.md
+      - other/MidiMap.md
       - other/TuningSystem.md

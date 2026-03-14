@@ -28,6 +28,112 @@ LISTENER_PATTERNS = re.compile(
 # Internal/private members to skip
 SKIP_MEMBERS = {"_live_ptr", "__init__", "__module__", "__qualname__"}
 
+# ---------------------------------------------------------------------------
+# Directory layout — mirrors the old reference/ structure
+# ---------------------------------------------------------------------------
+
+# Namespace -> subdirectory mapping. Namespaces not listed here go to root.
+CATEGORY_MAP: dict[str, str] = {
+    # tracks/
+    "Track": "tracks",
+    "Clip": "tracks",
+    "ClipSlot": "tracks",
+    "Envelope": "tracks",
+    "MixerDevice": "tracks",
+    "TakeLane": "tracks",
+    # devices/
+    "Device": "devices",
+    "DeviceParameter": "devices",
+    "DeviceIO": "devices",
+    "Chain": "devices",
+    "ChainMixerDevice": "devices",
+    "DrumChain": "devices",
+    "DrumPad": "devices",
+    "RackDevice": "devices",
+    "CcControlDevice": "devices",
+    "CompressorDevice": "devices",
+    "DriftDevice": "devices",
+    "DrumCellDevice": "devices",
+    "Eq8Device": "devices",
+    "HybridReverbDevice": "devices",
+    "LooperDevice": "devices",
+    "MaxDevice": "devices",
+    "MeldDevice": "devices",
+    "PluginDevice": "devices",
+    "RoarDevice": "devices",
+    "Sample": "devices",
+    "ShifterDevice": "devices",
+    "SimplerDevice": "devices",
+    "SpectralResonatorDevice": "devices",
+    "WavetableDevice": "devices",
+    # other/
+    "Conversions": "other",
+    "Groove": "other",
+    "GroovePool": "other",
+    "TuningSystem": "other",
+    "Base": "other",
+    "Licensing": "other",
+    "Listener": "other",
+    "LomObject": "other",
+    "MidiMap": "other",
+}
+
+# Ordered nav structure for mkdocs — groups and their members.
+# Namespaces within each group are written in display order.
+NAV_STRUCTURE: list[tuple[str | None, list[str]]] = [
+    (None, ["Application", "Song", "Scene"]),
+    ("Tracks", ["Track", "Clip", "ClipSlot", "Envelope", "MixerDevice", "TakeLane"]),
+    (
+        "Devices",
+        ["Device", "DeviceParameter", "Chain", "ChainMixerDevice", "DrumChain", "DrumPad", "RackDevice"],
+    ),
+    (
+        "Device Subclasses",
+        [
+            "CcControlDevice",
+            "CompressorDevice",
+            "DeviceIO",
+            "DriftDevice",
+            "DrumCellDevice",
+            "Eq8Device",
+            "HybridReverbDevice",
+            "LooperDevice",
+            "MaxDevice",
+            "MeldDevice",
+            "PluginDevice",
+            "RoarDevice",
+            "Sample",
+            "ShifterDevice",
+            "SimplerDevice",
+            "SpectralResonatorDevice",
+            "WavetableDevice",
+        ],
+    ),
+    (
+        "Other",
+        [
+            "Browser",
+            "Base",
+            "Conversions",
+            "Groove",
+            "GroovePool",
+            "Licensing",
+            "Listener",
+            "LomObject",
+            "MidiMap",
+            "TuningSystem",
+        ],
+    ),
+]
+
+
+def ns_relpath(ns_name: str) -> str:
+    """Return the relative path (from reference/) for a namespace's .md file."""
+    subdir = CATEGORY_MAP.get(ns_name)
+    if subdir:
+        return f"{subdir}/{ns_name}.md"
+    return f"{ns_name}.md"
+
 
 # ---------------------------------------------------------------------------
 # Data structures
@@ -628,25 +734,93 @@ def generate_index(namespaces: list[str]) -> str:
     lines = [
         "# Live Object Model Reference",
         "",
-        "> Generated from Ableton Live API stubs.",
+        "Comprehensive reference for the Ableton Live Object Model (LOM) — the object hierarchy exposed by Live's",
+        "Python runtime to Control Surface scripts, Max for Live devices, and external clients.",
         "",
-        "This reference documents the classes, properties, methods, and enums exposed by Ableton Live's Python runtime",
-        "(the Live Object Model).",
+        "## About",
         "",
-        "## Namespaces",
+        "Ableton does not publicly document the Live Python API. This reference is auto-generated from",
+        "API stubs produced by running introspection inside Live.",
         "",
-        "| Namespace | Description |",
-        "| --- | --- |",
+        "## How to Read",
+        "",
+        "Each page documents one LOM class with:",
+        "",
+        "- **Summary tables** — quick overview of all properties and methods",
+        "- **Detail sections** — per-member descriptions with type info",
+        "- **Enums** — value tables for enum types defined in each namespace",
+        "",
+        "Use the sidebar navigation to browse by LOM hierarchy, or search for a specific class or member.",
+        "",
     ]
-    for ns in sorted(namespaces):
-        lines.append(f"| [{ns}]({ns}.md) | `Live.{ns}` |")
-    lines.append("")
+
+    # Build grouped listing
+    for group_name, members in NAV_STRUCTURE:
+        present = [m for m in members if m in namespaces]
+        if not present:
+            continue
+        if group_name:
+            lines.append(f"## {group_name}")
+        else:
+            lines.append("## Core")
+        lines.append("")
+        lines.append("| Class | Namespace |")
+        lines.append("| --- | --- |")
+        for ns in present:
+            rel = ns_relpath(ns)
+            lines.append(f"| [{ns}]({rel}) | `Live.{ns}` |")
+        lines.append("")
+
+    # Any namespaces not in the nav structure
+    all_in_nav = {m for _, members in NAV_STRUCTURE for m in members}
+    extras = sorted(set(namespaces) - all_in_nav)
+    if extras:
+        lines.append("## Other Namespaces")
+        lines.append("")
+        lines.append("| Class | Namespace |")
+        lines.append("| --- | --- |")
+        for ns in extras:
+            rel = ns_relpath(ns)
+            lines.append(f"| [{ns}]({rel}) | `Live.{ns}` |")
+        lines.append("")
+
     return "\n".join(lines)
 
 
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
+
+def generate_mkdocs_nav(namespaces: list[str]) -> list[str]:
+    """Generate the nav section lines for mkdocs.yml."""
+    lines = [
+        "nav:",
+        "  - index.md",
+    ]
+
+    for group_name, members in NAV_STRUCTURE:
+        present = [m for m in members if m in namespaces]
+        if not present:
+            continue
+        if group_name is None:
+            # Root-level entries
+            for ns in present:
+                lines.append(f"  - {ns_relpath(ns)}")
+        else:
+            lines.append(f"  - {group_name}:")
+            for ns in present:
+                lines.append(f"      - {ns_relpath(ns)}")
+
+    # Any namespaces not covered by the nav structure
+    all_in_nav = {m for _, members in NAV_STRUCTURE for m in members}
+    extras = sorted(set(namespaces) - all_in_nav)
+    if extras:
+        lines.append("  - Other:")
+        for ns in extras:
+            lines.append(f"      - {ns_relpath(ns)}")
+
+    return lines
 
 
 def main() -> None:
@@ -664,6 +838,10 @@ def main() -> None:
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    # Create subdirectories
+    for subdir in ("tracks", "devices", "other"):
+        (output_dir / subdir).mkdir(parents=True, exist_ok=True)
+
     # Find all namespace directories (those containing .pyi files)
     namespaces: list[str] = []
     for item in sorted(stubs_dir.iterdir()):
@@ -676,7 +854,8 @@ def main() -> None:
     for ns_name in namespaces:
         ns_dir = stubs_dir / ns_name
         name, md = process_namespace(ns_dir)
-        out_file = output_dir / f"{name}.md"
+        out_file = output_dir / ns_relpath(name)
+        out_file.parent.mkdir(parents=True, exist_ok=True)
         out_file.write_text(md, encoding="utf-8")
         generated_files.append(out_file)
         print(f"  Generated {out_file}")
@@ -704,7 +883,11 @@ def main() -> None:
         except subprocess.CalledProcessError as e:
             print(f"  Warning: prettier failed on {f}: {e.stderr}")
 
+    # Print nav section for mkdocs.yml
+    nav_lines = generate_mkdocs_nav(namespaces)
     print(f"\nDone! Generated {len(generated_files)} files in {output_dir}/")
+    print("\n--- Suggested mkdocs.yml nav section ---")
+    print("\n".join(nav_lines))
 
 
 if __name__ == "__main__":
