@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 site/
 dist/
+release/
 .env
 
 # Stubs — track Live/ output, ignore pipeline intermediates and symlinks

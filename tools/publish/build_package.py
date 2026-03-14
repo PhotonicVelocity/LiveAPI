@@ -125,8 +125,8 @@ def build_package(live_version: str, post: int | None = None) -> None:
             check=True,
         )
 
-    # Create zip for GitHub release (separate from dist/ so PyPI upload doesn't pick it up)
-    release_dir = REPO_ROOT / "dist" / "github"
+    # Create zip for GitHub release (outside dist/ so PyPI upload doesn't pick it up)
+    release_dir = REPO_ROOT / "release"
     release_dir.mkdir(parents=True, exist_ok=True)
     zip_name = f"ableton-live-stubs-{version}"
     zip_path = release_dir / zip_name
