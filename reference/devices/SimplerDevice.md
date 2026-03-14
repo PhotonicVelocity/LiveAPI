@@ -267,14 +267,14 @@ Access to the number of voices in Simpler.
 
 ### Methods
 
-| Method                                                 | Returns |
-| ------------------------------------------------------ | ------- |
-| [`crop()`](#crop)                                      | `None`  |
-| [`guess_playback_length()`](#guess_playback_length)    | `float` |
-| [`reverse()`](#reverse)                                | `None`  |
-| [`warp_as(beat_time: float)`](#warp_asbeat_time-float) | `None`  |
-| [`warp_double()`](#warp_double)                        | `None`  |
-| [`warp_half()`](#warp_half)                            | `None`  |
+| Method                                              | Returns |
+| --------------------------------------------------- | ------- |
+| [`crop()`](#crop)                                   | `None`  |
+| [`guess_playback_length()`](#guess_playback_length) | `float` |
+| [`reverse()`](#reverse)                             | `None`  |
+| [`warp_as()`](#warp_asbeat_time-float)              | `None`  |
+| [`warp_double()`](#warp_double)                     | `None`  |
+| [`warp_half()`](#warp_half)                         | `None`  |
 
 #### `crop()`
 

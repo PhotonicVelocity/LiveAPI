@@ -159,9 +159,9 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                                                             | Returns        |
-| -------------------------------------------------------------------------------------------------- | -------------- |
-| [`get_parameter_names(begin: int = 0, end: int = -1)`](#get_parameter_namesbegin-int-0-end-int--1) | `StringVector` |
+| Method                                                                | Returns        |
+| --------------------------------------------------------------------- | -------------- |
+| [`get_parameter_names()`](#get_parameter_namesbegin-int-0-end-int--1) | `StringVector` |
 
 #### `get_parameter_names(begin: int = 0, end: int = -1)`
 

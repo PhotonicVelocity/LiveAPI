@@ -141,11 +141,11 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 ### Methods
 
-| Method                                                                                                     | Returns     |
-| ---------------------------------------------------------------------------------------------------------- | ----------- |
-| [`delete_device(device: int)`](#delete_devicedevice-int)                                                   | `None`      |
-| [`duplicate_device(index: int)`](#duplicate_deviceindex-int)                                               | `None`      |
-| [`insert_device(DeviceName: str, DeviceIndex: int = -1)`](#insert_devicedevicename-str-deviceindex-int--1) | `LomObject` |
+| Method                                                               | Returns     |
+| -------------------------------------------------------------------- | ----------- |
+| [`delete_device()`](#delete_devicedevice-int)                        | `None`      |
+| [`duplicate_device()`](#duplicate_deviceindex-int)                   | `None`      |
+| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1) | `LomObject` |
 
 #### `delete_device(device: int)`
 

@@ -8,11 +8,11 @@ A modal dialog showing a message and a progress animation.
 
 ### Methods
 
-| Method                                                       | Returns |
-| ------------------------------------------------------------ | ------- |
-| [`end_modal_loop()`](#end_modal_loop)                        | `None`  |
-| [`run_in_modal_loop()`](#run_in_modal_loop)                  | `None`  |
-| [`set_status_message(msg: str)`](#set_status_messagemsg-str) | `None`  |
+| Method                                               | Returns |
+| ---------------------------------------------------- | ------- |
+| [`end_modal_loop()`](#end_modal_loop)                | `None`  |
+| [`run_in_modal_loop()`](#run_in_modal_loop)          | `None`  |
+| [`set_status_message()`](#set_status_messagemsg-str) | `None`  |
 
 #### `end_modal_loop()`
 
@@ -84,23 +84,23 @@ Returns true if the set has unsaved changes.
 
 ### Methods
 
-| Method                                                                                                                                                                     | Returns          |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| [`authorize_with_sassafras()`](#authorize_with_sassafras)                                                                                                                  | `None`           |
-| [`create_new_live_set()`](#create_new_live_set)                                                                                                                            | `None`           |
-| [`deauthenticate_user()`](#deauthenticate_user)                                                                                                                            | `None`           |
-| [`get_progress_dialog()`](#get_progress_dialog)                                                                                                                            | `ProgressDialog` |
-| [`get_session_id()`](#get_session_id)                                                                                                                                      | `str`            |
-| [`get_startup_dialog(authorize_callable: Callable, authorize_later_callable: Callable)`](#get_startup_dialogauthorize_callable-callable-authorize_later_callable-callable) | `StartupDialog`  |
-| [`get_trial_time_left()`](#get_trial_time_left)                                                                                                                            | `str`            |
-| [`invoke_pack_installation_callback()`](#invoke_pack_installation_callback)                                                                                                | `None`           |
-| [`load_and_convert_legacy_unlock_cfg()`](#load_and_convert_legacy_unlock_cfg)                                                                                              | `dict`           |
-| [`process_license_response(license_response_lines: list)`](#process_license_responselicense_response_lines-list)                                                           | `UnlockStatus`   |
-| [`process_trial_response(trial_response_line: str)`](#process_trial_responsetrial_response_line-str)                                                                       | `bool`           |
-| [`request_exit(exit_code: int = 0)`](#request_exitexit_code-int-0)                                                                                                         | `None`           |
-| [`save_current_set()`](#save_current_set)                                                                                                                                  | `None`           |
-| [`set_network_timer(callback: Callable, interval_in_ms: int)`](#set_network_timercallback-callable-interval_in_ms-int)                                                     | `None`           |
-| [`store_session_id(session_id: str)`](#store_session_idsession_id-str)                                                                                                     | `None`           |
+| Method                                                                                                     | Returns          |
+| ---------------------------------------------------------------------------------------------------------- | ---------------- |
+| [`authorize_with_sassafras()`](#authorize_with_sassafras)                                                  | `None`           |
+| [`create_new_live_set()`](#create_new_live_set)                                                            | `None`           |
+| [`deauthenticate_user()`](#deauthenticate_user)                                                            | `None`           |
+| [`get_progress_dialog()`](#get_progress_dialog)                                                            | `ProgressDialog` |
+| [`get_session_id()`](#get_session_id)                                                                      | `str`            |
+| [`get_startup_dialog()`](#get_startup_dialogauthorize_callable-callable-authorize_later_callable-callable) | `StartupDialog`  |
+| [`get_trial_time_left()`](#get_trial_time_left)                                                            | `str`            |
+| [`invoke_pack_installation_callback()`](#invoke_pack_installation_callback)                                | `None`           |
+| [`load_and_convert_legacy_unlock_cfg()`](#load_and_convert_legacy_unlock_cfg)                              | `dict`           |
+| [`process_license_response()`](#process_license_responselicense_response_lines-list)                       | `UnlockStatus`   |
+| [`process_trial_response()`](#process_trial_responsetrial_response_line-str)                               | `bool`           |
+| [`request_exit()`](#request_exitexit_code-int-0)                                                           | `None`           |
+| [`save_current_set()`](#save_current_set)                                                                  | `None`           |
+| [`set_network_timer()`](#set_network_timercallback-callable-interval_in_ms-int)                            | `None`           |
+| [`store_session_id()`](#store_session_idsession_id-str)                                                    | `None`           |
 
 #### `authorize_with_sassafras()`
 
@@ -210,11 +210,11 @@ Serves as an entry point for the user to authorize Live on first launch.
 
 ### Methods
 
-| Method                                                                                                                                               | Returns |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`end_modal_loop()`](#end_modal_loop)                                                                                                                | `None`  |
-| [`run_in_modal_loop(show_only_offline_auth_instructions: bool)`](#run_in_modal_loopshow_only_offline_auth_instructions-bool)                         | `None`  |
-| [`set_notification_message(notification_text: str, show_progress_bar: bool)`](#set_notification_messagenotification_text-str-show_progress_bar-bool) | `None`  |
+| Method                                                                                                | Returns |
+| ----------------------------------------------------------------------------------------------------- | ------- |
+| [`end_modal_loop()`](#end_modal_loop)                                                                 | `None`  |
+| [`run_in_modal_loop()`](#run_in_modal_loopshow_only_offline_auth_instructions-bool)                   | `None`  |
+| [`set_notification_message()`](#set_notification_messagenotification_text-str-show_progress_bar-bool) | `None`  |
 
 #### `end_modal_loop()`
 
@@ -307,14 +307,14 @@ Returns relevant information after unlock
 
 ## Module Functions
 
-| Function                                                                                                                     | Returns |
-| ---------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`authorization_clock_days_ahead()`](#authorization_clock_days_ahead)                                                        | `int`   |
-| [`get_authorization_page_url(reauthorize: bool, is_trial: bool)`](#get_authorization_page_urlreauthorize-bool-is_trial-bool) | `str`   |
-| [`get_purchase_live_url()`](#get_purchase_live_url)                                                                          | `str`   |
-| [`get_services_url()`](#get_services_url)                                                                                    | `str`   |
-| [`get_unlock_dir()`](#get_unlock_dir)                                                                                        | `tuple` |
-| [`launch_web_browser(url: str)`](#launch_web_browserurl-str)                                                                 | `None`  |
+| Function                                                                                    | Returns |
+| ------------------------------------------------------------------------------------------- | ------- |
+| [`authorization_clock_days_ahead()`](#authorization_clock_days_ahead)                       | `int`   |
+| [`get_authorization_page_url()`](#get_authorization_page_urlreauthorize-bool-is_trial-bool) | `str`   |
+| [`get_purchase_live_url()`](#get_purchase_live_url)                                         | `str`   |
+| [`get_services_url()`](#get_services_url)                                                   | `str`   |
+| [`get_unlock_dir()`](#get_unlock_dir)                                                       | `tuple` |
+| [`launch_web_browser()`](#launch_web_browserurl-str)                                        | `None`  |
 
 ### `authorization_clock_days_ahead()`
 

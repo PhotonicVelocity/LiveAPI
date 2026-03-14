@@ -258,17 +258,17 @@ Access to the number of macros that are currently visible.
 
 ### Methods
 
-| Method                                                                                                   | Returns     |
-| -------------------------------------------------------------------------------------------------------- | ----------- |
-| [`add_macro()`](#add_macro)                                                                              | `None`      |
-| [`copy_pad(source_index: int, destination_index: int)`](#copy_padsource_index-int-destination_index-int) | `None`      |
-| [`delete_selected_variation()`](#delete_selected_variation)                                              | `None`      |
-| [`insert_chain(Index: int = -1)`](#insert_chainindex-int--1)                                             | `LomObject` |
-| [`randomize_macros()`](#randomize_macros)                                                                | `None`      |
-| [`recall_last_used_variation()`](#recall_last_used_variation)                                            | `None`      |
-| [`recall_selected_variation()`](#recall_selected_variation)                                              | `None`      |
-| [`remove_macro()`](#remove_macro)                                                                        | `None`      |
-| [`store_variation()`](#store_variation)                                                                  | `None`      |
+| Method                                                          | Returns     |
+| --------------------------------------------------------------- | ----------- |
+| [`add_macro()`](#add_macro)                                     | `None`      |
+| [`copy_pad()`](#copy_padsource_index-int-destination_index-int) | `None`      |
+| [`delete_selected_variation()`](#delete_selected_variation)     | `None`      |
+| [`insert_chain()`](#insert_chainindex-int--1)                   | `LomObject` |
+| [`randomize_macros()`](#randomize_macros)                       | `None`      |
+| [`recall_last_used_variation()`](#recall_last_used_variation)   | `None`      |
+| [`recall_selected_variation()`](#recall_selected_variation)     | `None`      |
+| [`remove_macro()`](#remove_macro)                               | `None`      |
+| [`store_variation()`](#store_variation)                         | `None`      |
 
 #### `add_macro()`
 

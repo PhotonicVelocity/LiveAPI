@@ -29,12 +29,12 @@ Get the canonical parent of the envelope.
 
 ### Methods
 
-| Method                                                                                                                 | Returns               |
-| ---------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| [`delete_events_in_range(start_time: float, end_time: float)`](#delete_events_in_rangestart_time-float-end_time-float) | `None`                |
-| [`events_in_range(start_time: float, end_time: float)`](#events_in_rangestart_time-float-end_time-float)               | `EnvelopeEventVector` |
-| [`insert_step(start: float, length: float, value: float)`](#insert_stepstart-float-length-float-value-float)           | `None`                |
-| [`value_at_time(time: float)`](#value_at_timetime-float)                                                               | `float`               |
+| Method                                                                               | Returns               |
+| ------------------------------------------------------------------------------------ | --------------------- |
+| [`delete_events_in_range()`](#delete_events_in_rangestart_time-float-end_time-float) | `None`                |
+| [`events_in_range()`](#events_in_rangestart_time-float-end_time-float)               | `EnvelopeEventVector` |
+| [`insert_step()`](#insert_stepstart-float-length-float-value-float)                  | `None`                |
+| [`value_at_time()`](#value_at_timetime-float)                                        | `float`               |
 
 #### `delete_events_in_range(start_time: float, end_time: float)`
 
@@ -157,10 +157,10 @@ A container for holding envelope events.
 
 #### Methods
 
-| Method                                                         | Returns |
-| -------------------------------------------------------------- | ------- |
-| [`append(value: EnvelopeEvent)`](#appendvalue-envelopeevent)   | `None`  |
-| [`extend(values: EnvelopeEvent)`](#extendvalues-envelopeevent) | `None`  |
+| Method                                    | Returns |
+| ----------------------------------------- | ------- |
+| [`append()`](#appendvalue-envelopeevent)  | `None`  |
+| [`extend()`](#extendvalues-envelopeevent) | `None`  |
 
 ##### `append(value: EnvelopeEvent)`
 

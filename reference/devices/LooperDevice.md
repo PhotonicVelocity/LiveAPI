@@ -186,19 +186,19 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                                               | Returns |
-| ------------------------------------------------------------------------------------ | ------- |
-| [`clear()`](#clear)                                                                  | `None`  |
-| [`double_length()`](#double_length)                                                  | `None`  |
-| [`double_speed()`](#double_speed)                                                    | `None`  |
-| [`export_to_clip_slot(clip_slot: ClipSlot)`](#export_to_clip_slotclip_slot-clipslot) | `None`  |
-| [`half_length()`](#half_length)                                                      | `None`  |
-| [`half_speed()`](#half_speed)                                                        | `None`  |
-| [`overdub()`](#overdub)                                                              | `None`  |
-| [`play()`](#play)                                                                    | `None`  |
-| [`record()`](#record)                                                                | `None`  |
-| [`stop()`](#stop)                                                                    | `None`  |
-| [`undo()`](#undo)                                                                    | `None`  |
+| Method                                                            | Returns |
+| ----------------------------------------------------------------- | ------- |
+| [`clear()`](#clear)                                               | `None`  |
+| [`double_length()`](#double_length)                               | `None`  |
+| [`double_speed()`](#double_speed)                                 | `None`  |
+| [`export_to_clip_slot()`](#export_to_clip_slotclip_slot-clipslot) | `None`  |
+| [`half_length()`](#half_length)                                   | `None`  |
+| [`half_speed()`](#half_speed)                                     | `None`  |
+| [`overdub()`](#overdub)                                           | `None`  |
+| [`play()`](#play)                                                 | `None`  |
+| [`record()`](#record)                                             | `None`  |
+| [`stop()`](#stop)                                                 | `None`  |
+| [`undo()`](#undo)                                                 | `None`  |
 
 #### `clear()`
 

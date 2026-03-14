@@ -136,15 +136,15 @@ returns true if the clip slot will record on being fired.
 
 ### Methods
 
-| Method                                                                                         | Returns |
-| ---------------------------------------------------------------------------------------------- | ------- |
-| [`create_audio_clip(path: str)`](#create_audio_clippath-str)                                   | `Clip`  |
-| [`create_clip(pages: float)`](#create_clippages-float)                                         | `Clip`  |
-| [`delete_clip()`](#delete_clip)                                                                | `None`  |
-| [`duplicate_clip_to(target_clip_slot: ClipSlot)`](#duplicate_clip_totarget_clip_slot-clipslot) | `None`  |
-| [`fire()`](#fire)                                                                              | `None`  |
-| [`set_fire_button_state(state: bool)`](#set_fire_button_statestate-bool)                       | `None`  |
-| [`stop()`](#stop)                                                                              | `None`  |
+| Method                                                               | Returns |
+| -------------------------------------------------------------------- | ------- |
+| [`create_audio_clip()`](#create_audio_clippath-str)                  | `Clip`  |
+| [`create_clip()`](#create_clippages-float)                           | `Clip`  |
+| [`delete_clip()`](#delete_clip)                                      | `None`  |
+| [`duplicate_clip_to()`](#duplicate_clip_totarget_clip_slot-clipslot) | `None`  |
+| [`fire()`](#fire)                                                    | `None`  |
+| [`set_fire_button_state()`](#set_fire_button_statestate-bool)        | `None`  |
+| [`stop()`](#stop)                                                    | `None`  |
 
 #### `create_audio_clip(path: str)`
 

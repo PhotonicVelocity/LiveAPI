@@ -58,10 +58,10 @@ A read only container for accessing a list of listeners.
 
 ### Methods
 
-| Method                                                           | Returns |
-| ---------------------------------------------------------------- | ------- |
-| [`append(value: ListenerHandle)`](#appendvalue-listenerhandle)   | `None`  |
-| [`extend(values: ListenerHandle)`](#extendvalues-listenerhandle) | `None`  |
+| Method                                     | Returns |
+| ------------------------------------------ | ------- |
+| [`append()`](#appendvalue-listenerhandle)  | `None`  |
+| [`extend()`](#extendvalues-listenerhandle) | `None`  |
 
 #### `append(value: ListenerHandle)`
 

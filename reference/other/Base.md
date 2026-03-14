@@ -8,10 +8,10 @@ A simple container for returning floats from Live.
 
 ### Methods
 
-| Method                                         | Returns |
-| ---------------------------------------------- | ------- |
-| [`append(value: float)`](#appendvalue-float)   | `None`  |
-| [`extend(values: float)`](#extendvalues-float) | `None`  |
+| Method                            | Returns |
+| --------------------------------- | ------- |
+| [`append()`](#appendvalue-float)  | `None`  |
+| [`extend()`](#extendvalues-float) | `None`  |
 
 #### `append(value: float)`
 
@@ -33,10 +33,10 @@ A simple container for returning unsigned long integers from Live.
 
 ### Methods
 
-| Method                                     | Returns |
-| ------------------------------------------ | ------- |
-| [`append(value: int)`](#appendvalue-int)   | `None`  |
-| [`extend(values: int)`](#extendvalues-int) | `None`  |
+| Method                          | Returns |
+| ------------------------------- | ------- |
+| [`append()`](#appendvalue-int)  | `None`  |
+| [`extend()`](#extendvalues-int) | `None`  |
 
 #### `append(value: int)`
 
@@ -58,10 +58,10 @@ A simple container for returning integers from Live.
 
 ### Methods
 
-| Method                                     | Returns |
-| ------------------------------------------ | ------- |
-| [`append(value: int)`](#appendvalue-int)   | `None`  |
-| [`extend(values: int)`](#extendvalues-int) | `None`  |
+| Method                          | Returns |
+| ------------------------------- | ------- |
+| [`append()`](#appendvalue-int)  | `None`  |
+| [`extend()`](#extendvalues-int) | `None`  |
 
 #### `append(value: int)`
 
@@ -87,10 +87,10 @@ A simple read only container for returning python objects.
 
 ### Methods
 
-| Method                                     | Returns |
-| ------------------------------------------ | ------- |
-| [`append(value: Any)`](#appendvalue-any)   | `None`  |
-| [`extend(values: Any)`](#extendvalues-any) | `None`  |
+| Method                          | Returns |
+| ------------------------------- | ------- |
+| [`append()`](#appendvalue-any)  | `None`  |
+| [`extend()`](#extendvalues-any) | `None`  |
 
 #### `append(value: Any)`
 
@@ -112,10 +112,10 @@ A simple container for returning strings from Live.
 
 ### Methods
 
-| Method                                     | Returns |
-| ------------------------------------------ | ------- |
-| [`append(value: str)`](#appendvalue-str)   | `None`  |
-| [`extend(values: str)`](#extendvalues-str) | `None`  |
+| Method                          | Returns |
+| ------------------------------- | ------- |
+| [`append()`](#appendvalue-str)  | `None`  |
+| [`extend()`](#extendvalues-str) | `None`  |
 
 #### `append(value: str)`
 
@@ -195,10 +195,10 @@ A simple read only container for returning objects from Live.
 
 ### Methods
 
-| Method                                                 | Returns |
-| ------------------------------------------------------ | ------- |
-| [`append(value: LomObject)`](#appendvalue-lomobject)   | `None`  |
-| [`extend(values: LomObject)`](#extendvalues-lomobject) | `None`  |
+| Method                                | Returns |
+| ------------------------------------- | ------- |
+| [`append()`](#appendvalue-lomobject)  | `None`  |
+| [`extend()`](#extendvalues-lomobject) | `None`  |
 
 #### `append(value: LomObject)`
 
@@ -214,11 +214,11 @@ A simple read only container for returning objects from Live.
 
 ## Module Functions
 
-| Function                                                                                                                                                            | Returns |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`get_text(classname: str, textname: str)`](#get_textclassname-str-textname-str)                                                                                    | `Text`  |
-| [`log(string: str)`](#logstring-str)                                                                                                                                | `None`  |
-| [`subst_args(text: Text, arg1: str = , arg2: str = , arg3: str = , arg4: str = , arg5: str = )`](#subst_argstext-text-arg1-str-arg2-str-arg3-str-arg4-str-arg5-str) | `str`   |
+| Function                                                                            | Returns |
+| ----------------------------------------------------------------------------------- | ------- |
+| [`get_text()`](#get_textclassname-str-textname-str)                                 | `Text`  |
+| [`log()`](#logstring-str)                                                           | `None`  |
+| [`subst_args()`](#subst_argstext-text-arg1-str-arg2-str-arg3-str-arg4-str-arg5-str) | `str`   |
 
 ### `get_text(classname: str, textname: str)`
 

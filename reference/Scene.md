@@ -128,11 +128,11 @@ Get/Set the scene's time signature numerator. The song will use the scene's time
 
 ### Methods
 
-| Method                                                                                                                                           | Returns |
-| ------------------------------------------------------------------------------------------------------------------------------------------------ | ------- |
-| [`fire(force_legato: bool = False, can_select_scene_on_launch: bool = True)`](#fireforce_legato-bool-false-can_select_scene_on_launch-bool-true) | `None`  |
-| [`fire_as_selected(force_legato: bool = False)`](#fire_as_selectedforce_legato-bool-false)                                                       | `None`  |
-| [`set_fire_button_state(state: bool)`](#set_fire_button_statestate-bool)                                                                         | `None`  |
+| Method                                                                        | Returns |
+| ----------------------------------------------------------------------------- | ------- |
+| [`fire()`](#fireforce_legato-bool-false-can_select_scene_on_launch-bool-true) | `None`  |
+| [`fire_as_selected()`](#fire_as_selectedforce_legato-bool-false)              | `None`  |
+| [`set_fire_button_state()`](#set_fire_button_statestate-bool)                 | `None`  |
 
 #### `fire(force_legato: bool = False, can_select_scene_on_launch: bool = True)`
 

@@ -172,12 +172,12 @@ Returns a browser item with access to all the User Library content.
 
 ### Methods
 
-| Method                                                                                         | Returns    |
-| ---------------------------------------------------------------------------------------------- | ---------- |
-| [`load_item(item: BrowserItem)`](#load_itemitem-browseritem)                                   | `None`     |
-| [`preview_item(item: BrowserItem)`](#preview_itemitem-browseritem)                             | `None`     |
-| [`relation_to_hotswap_target(item: BrowserItem)`](#relation_to_hotswap_targetitem-browseritem) | `Relation` |
-| [`stop_preview()`](#stop_preview)                                                              | `None`     |
+| Method                                                                        | Returns    |
+| ----------------------------------------------------------------------------- | ---------- |
+| [`load_item()`](#load_itemitem-browseritem)                                   | `None`     |
+| [`preview_item()`](#preview_itemitem-browseritem)                             | `None`     |
+| [`relation_to_hotswap_target()`](#relation_to_hotswap_targetitem-browseritem) | `Relation` |
+| [`stop_preview()`](#stop_preview)                                             | `None`     |
 
 #### `load_item(item: BrowserItem)`
 
@@ -342,10 +342,10 @@ A container for returning browser items from Live.
 
 #### Methods
 
-| Method                                                     | Returns |
-| ---------------------------------------------------------- | ------- |
-| [`append(value: BrowserItem)`](#appendvalue-browseritem)   | `None`  |
-| [`extend(values: BrowserItem)`](#extendvalues-browseritem) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-browseritem)  | `None`  |
+| [`extend()`](#extendvalues-browseritem) | `None`  |
 
 ##### `append(value: BrowserItem)`
 

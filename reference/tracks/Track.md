@@ -538,21 +538,21 @@ Representing the view aspects of a Track.
 
 ### Methods
 
-| Method                                                                                                                                 | Returns     |
-| -------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [`create_audio_clip(file_path: str, position: float)`](#create_audio_clipfile_path-str-position-float)                                 | `Clip`      |
-| [`create_midi_clip(start_time: float, length: float)`](#create_midi_clipstart_time-float-length-float)                                 | `Clip`      |
-| [`create_take_lane()`](#create_take_lane)                                                                                              | `LomObject` |
-| [`delete_clip(slot: Clip)`](#delete_clipslot-clip)                                                                                     | `None`      |
-| [`delete_device(device: int)`](#delete_devicedevice-int)                                                                               | `None`      |
-| [`duplicate_clip_slot(index: int)`](#duplicate_clip_slotindex-int)                                                                     | `int`       |
-| [`duplicate_clip_to_arrangement(clip: Clip, destination_time: float)`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`      |
-| [`duplicate_device(index: int)`](#duplicate_deviceindex-int)                                                                           | `None`      |
-| [`get_data(key: str, default_value: Any)`](#get_datakey-str-default_value-any)                                                         | `Any`       |
-| [`insert_device(DeviceName: str, DeviceIndex: int = -1)`](#insert_devicedevicename-str-deviceindex-int--1)                             | `LomObject` |
-| [`jump_in_running_session_clip(beats: float)`](#jump_in_running_session_clipbeats-float)                                               | `None`      |
-| [`set_data(key: str, value: Any)`](#set_datakey-str-value-any)                                                                         | `None`      |
-| [`stop_all_clips(Quantized: bool = True)`](#stop_all_clipsquantized-bool-true)                                                         | `None`      |
+| Method                                                                                              | Returns     |
+| --------------------------------------------------------------------------------------------------- | ----------- |
+| [`create_audio_clip()`](#create_audio_clipfile_path-str-position-float)                             | `Clip`      |
+| [`create_midi_clip()`](#create_midi_clipstart_time-float-length-float)                              | `Clip`      |
+| [`create_take_lane()`](#create_take_lane)                                                           | `LomObject` |
+| [`delete_clip()`](#delete_clipslot-clip)                                                            | `None`      |
+| [`delete_device()`](#delete_devicedevice-int)                                                       | `None`      |
+| [`duplicate_clip_slot()`](#duplicate_clip_slotindex-int)                                            | `int`       |
+| [`duplicate_clip_to_arrangement()`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`      |
+| [`duplicate_device()`](#duplicate_deviceindex-int)                                                  | `None`      |
+| [`get_data()`](#get_datakey-str-default_value-any)                                                  | `Any`       |
+| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1)                                | `LomObject` |
+| [`jump_in_running_session_clip()`](#jump_in_running_session_clipbeats-float)                        | `None`      |
+| [`set_data()`](#set_datakey-str-value-any)                                                          | `None`      |
+| [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                            | `None`      |
 
 #### `create_audio_clip(file_path: str, position: float)`
 
@@ -810,10 +810,10 @@ A container for returning routing channels from Live.
 
 #### Methods
 
-| Method                                                           | Returns |
-| ---------------------------------------------------------------- | ------- |
-| [`append(value: RoutingChannel)`](#appendvalue-routingchannel)   | `None`  |
-| [`extend(values: RoutingChannel)`](#extendvalues-routingchannel) | `None`  |
+| Method                                     | Returns |
+| ------------------------------------------ | ------- |
+| [`append()`](#appendvalue-routingchannel)  | `None`  |
+| [`extend()`](#extendvalues-routingchannel) | `None`  |
 
 ##### `append(value: RoutingChannel)`
 
@@ -873,10 +873,10 @@ A container for returning routing types from Live.
 
 #### Methods
 
-| Method                                                     | Returns |
-| ---------------------------------------------------------- | ------- |
-| [`append(value: RoutingType)`](#appendvalue-routingtype)   | `None`  |
-| [`extend(values: RoutingType)`](#extendvalues-routingtype) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-routingtype)  | `None`  |
+| [`extend()`](#extendvalues-routingtype) | `None`  |
 
 ##### `append(value: RoutingType)`
 

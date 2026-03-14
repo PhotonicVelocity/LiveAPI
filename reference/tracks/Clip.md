@@ -459,47 +459,47 @@ returns true if the Clip will record on being started.
 
 ### Methods
 
-| Method                                                                                                                                                                                                                                                           | Returns          |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
-| [`add_new_notes(notes: object)`](#add_new_notesnotes-object)                                                                                                                                                                                                     | `IntU64Vector`   |
-| [`add_warp_marker(warp_marker: WarpMarker)`](#add_warp_markerwarp_marker-warpmarker)                                                                                                                                                                             | `None`           |
-| [`apply_note_modifications(notes: MidiNoteVector)`](#apply_note_modificationsnotes-midinotevector)                                                                                                                                                               | `None`           |
-| [`automation_envelope(parameter: DeviceParameter)`](#automation_envelopeparameter-deviceparameter)                                                                                                                                                               | `Envelope`       |
-| [`beat_to_sample_time(beat_time: float)`](#beat_to_sample_timebeat_time-float)                                                                                                                                                                                   | `float`          |
-| [`clear_all_envelopes()`](#clear_all_envelopes)                                                                                                                                                                                                                  | `None`           |
-| [`clear_envelope(parameter: DeviceParameter)`](#clear_envelopeparameter-deviceparameter)                                                                                                                                                                         | `None`           |
-| [`create_automation_envelope(parameter: DeviceParameter)`](#create_automation_envelopeparameter-deviceparameter)                                                                                                                                                 | `Envelope`       |
-| [`crop()`](#crop)                                                                                                                                                                                                                                                | `None`           |
-| [`deselect_all_notes()`](#deselect_all_notes)                                                                                                                                                                                                                    | `None`           |
-| [`duplicate_loop()`](#duplicate_loop)                                                                                                                                                                                                                            | `None`           |
-| [`duplicate_notes_by_id(note_ids: list[int], destination_time: float = None, transposition_amount: int = 0)`](#duplicate_notes_by_idnote_ids-listint-destination_time-float-none-transposition_amount-int-0)                                                     | `IntU64Vector`   |
-| [`duplicate_region(region_start: float, region_length: float, destination_time: float, pitch: int = -1, transposition_amount: int = 0)`](#duplicate_regionregion_start-float-region_length-float-destination_time-float-pitch-int--1-transposition_amount-int-0) | `None`           |
-| [`fire()`](#fire)                                                                                                                                                                                                                                                | `None`           |
-| [`get_all_notes_extended()`](#get_all_notes_extended)                                                                                                                                                                                                            | `MidiNoteVector` |
-| [`get_notes(from_time: float, from_pitch: int, time_span: float, pitch_span: int)`](#get_notesfrom_time-float-from_pitch-int-time_span-float-pitch_span-int)                                                                                                     | `tuple`          |
-| [`get_notes_by_id(note_ids: list[int])`](#get_notes_by_idnote_ids-listint)                                                                                                                                                                                       | `MidiNoteVector` |
-| [`get_notes_extended(from_pitch: int, pitch_span: int, from_time: float, time_span: float)`](#get_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                                                                                   | `MidiNoteVector` |
-| [`get_selected_notes()`](#get_selected_notes)                                                                                                                                                                                                                    | `tuple`          |
-| [`get_selected_notes_extended()`](#get_selected_notes_extended)                                                                                                                                                                                                  | `MidiNoteVector` |
-| [`move_playing_pos(beats: float)`](#move_playing_posbeats-float)                                                                                                                                                                                                 | `None`           |
-| [`move_warp_marker(marker_beat_time: float, beat_time_distance: float)`](#move_warp_markermarker_beat_time-float-beat_time_distance-float)                                                                                                                       | `None`           |
-| [`note_number_to_name(midi_pitch: int)`](#note_number_to_namemidi_pitch-int)                                                                                                                                                                                     | `str`            |
-| [`quantize(quantization_grid: int, amount: float)`](#quantizequantization_grid-int-amount-float)                                                                                                                                                                 | `None`           |
-| [`quantize_pitch(note: int, source: int, amount: float)`](#quantize_pitchnote-int-source-int-amount-float)                                                                                                                                                       | `None`           |
-| [`remove_notes(start_time: float, pitch: int, length: float, pitch_span: int)`](#remove_notesstart_time-float-pitch-int-length-float-pitch_span-int)                                                                                                             | `None`           |
-| [`remove_notes_by_id(note_ids: object)`](#remove_notes_by_idnote_ids-object)                                                                                                                                                                                     | `None`           |
-| [`remove_notes_extended(from_pitch: int, pitch_span: int, from_time: float, time_span: float)`](#remove_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                                                                             | `None`           |
-| [`remove_warp_marker(beat_time: float)`](#remove_warp_markerbeat_time-float)                                                                                                                                                                                     | `None`           |
-| [`replace_selected_notes(notes: tuple)`](#replace_selected_notesnotes-tuple)                                                                                                                                                                                     | `None`           |
-| [`sample_to_beat_time(sample_time: float)`](#sample_to_beat_timesample_time-float)                                                                                                                                                                               | `float`          |
-| [`scrub(scrub_position: float)`](#scrubscrub_position-float)                                                                                                                                                                                                     | `None`           |
-| [`seconds_to_sample_time(seconds: float)`](#seconds_to_sample_timeseconds-float)                                                                                                                                                                                 | `float`          |
-| [`select_all_notes()`](#select_all_notes)                                                                                                                                                                                                                        | `None`           |
-| [`select_notes_by_id(note_ids: object)`](#select_notes_by_idnote_ids-object)                                                                                                                                                                                     | `None`           |
-| [`set_fire_button_state(state: bool)`](#set_fire_button_statestate-bool)                                                                                                                                                                                         | `None`           |
-| [`set_notes(notes: tuple)`](#set_notesnotes-tuple)                                                                                                                                                                                                               | `None`           |
-| [`stop()`](#stop)                                                                                                                                                                                                                                                | `None`           |
-| [`stop_scrub()`](#stop_scrub)                                                                                                                                                                                                                                    | `None`           |
+| Method                                                                                                                                         | Returns          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| [`add_new_notes()`](#add_new_notesnotes-object)                                                                                                | `IntU64Vector`   |
+| [`add_warp_marker()`](#add_warp_markerwarp_marker-warpmarker)                                                                                  | `None`           |
+| [`apply_note_modifications()`](#apply_note_modificationsnotes-midinotevector)                                                                  | `None`           |
+| [`automation_envelope()`](#automation_envelopeparameter-deviceparameter)                                                                       | `Envelope`       |
+| [`beat_to_sample_time()`](#beat_to_sample_timebeat_time-float)                                                                                 | `float`          |
+| [`clear_all_envelopes()`](#clear_all_envelopes)                                                                                                | `None`           |
+| [`clear_envelope()`](#clear_envelopeparameter-deviceparameter)                                                                                 | `None`           |
+| [`create_automation_envelope()`](#create_automation_envelopeparameter-deviceparameter)                                                         | `Envelope`       |
+| [`crop()`](#crop)                                                                                                                              | `None`           |
+| [`deselect_all_notes()`](#deselect_all_notes)                                                                                                  | `None`           |
+| [`duplicate_loop()`](#duplicate_loop)                                                                                                          | `None`           |
+| [`duplicate_notes_by_id()`](#duplicate_notes_by_idnote_ids-listint-destination_time-float-none-transposition_amount-int-0)                     | `IntU64Vector`   |
+| [`duplicate_region()`](#duplicate_regionregion_start-float-region_length-float-destination_time-float-pitch-int--1-transposition_amount-int-0) | `None`           |
+| [`fire()`](#fire)                                                                                                                              | `None`           |
+| [`get_all_notes_extended()`](#get_all_notes_extended)                                                                                          | `MidiNoteVector` |
+| [`get_notes()`](#get_notesfrom_time-float-from_pitch-int-time_span-float-pitch_span-int)                                                       | `tuple`          |
+| [`get_notes_by_id()`](#get_notes_by_idnote_ids-listint)                                                                                        | `MidiNoteVector` |
+| [`get_notes_extended()`](#get_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                                     | `MidiNoteVector` |
+| [`get_selected_notes()`](#get_selected_notes)                                                                                                  | `tuple`          |
+| [`get_selected_notes_extended()`](#get_selected_notes_extended)                                                                                | `MidiNoteVector` |
+| [`move_playing_pos()`](#move_playing_posbeats-float)                                                                                           | `None`           |
+| [`move_warp_marker()`](#move_warp_markermarker_beat_time-float-beat_time_distance-float)                                                       | `None`           |
+| [`note_number_to_name()`](#note_number_to_namemidi_pitch-int)                                                                                  | `str`            |
+| [`quantize()`](#quantizequantization_grid-int-amount-float)                                                                                    | `None`           |
+| [`quantize_pitch()`](#quantize_pitchnote-int-source-int-amount-float)                                                                          | `None`           |
+| [`remove_notes()`](#remove_notesstart_time-float-pitch-int-length-float-pitch_span-int)                                                        | `None`           |
+| [`remove_notes_by_id()`](#remove_notes_by_idnote_ids-object)                                                                                   | `None`           |
+| [`remove_notes_extended()`](#remove_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                               | `None`           |
+| [`remove_warp_marker()`](#remove_warp_markerbeat_time-float)                                                                                   | `None`           |
+| [`replace_selected_notes()`](#replace_selected_notesnotes-tuple)                                                                               | `None`           |
+| [`sample_to_beat_time()`](#sample_to_beat_timesample_time-float)                                                                               | `float`          |
+| [`scrub()`](#scrubscrub_position-float)                                                                                                        | `None`           |
+| [`seconds_to_sample_time()`](#seconds_to_sample_timeseconds-float)                                                                             | `float`          |
+| [`select_all_notes()`](#select_all_notes)                                                                                                      | `None`           |
+| [`select_notes_by_id()`](#select_notes_by_idnote_ids-object)                                                                                   | `None`           |
+| [`set_fire_button_state()`](#set_fire_button_statestate-bool)                                                                                  | `None`           |
+| [`set_notes()`](#set_notesnotes-tuple)                                                                                                         | `None`           |
+| [`stop()`](#stop)                                                                                                                              | `None`           |
+| [`stop_scrub()`](#stop_scrub)                                                                                                                  | `None`           |
 
 #### `add_new_notes(notes: object)`
 
@@ -855,12 +855,12 @@ Get/set clip grid quantization resolution.
 
 ### Methods
 
-| Method                                                                                                         | Returns |
-| -------------------------------------------------------------------------------------------------------------- | ------- |
-| [`hide_envelope()`](#hide_envelope)                                                                            | `None`  |
-| [`select_envelope_parameter(parameter: DeviceParameter)`](#select_envelope_parameterparameter-deviceparameter) | `None`  |
-| [`show_envelope()`](#show_envelope)                                                                            | `None`  |
-| [`show_loop()`](#show_loop)                                                                                    | `None`  |
+| Method                                                                               | Returns |
+| ------------------------------------------------------------------------------------ | ------- |
+| [`hide_envelope()`](#hide_envelope)                                                  | `None`  |
+| [`select_envelope_parameter()`](#select_envelope_parameterparameter-deviceparameter) | `None`  |
+| [`show_envelope()`](#show_envelope)                                                  | `None`  |
+| [`show_loop()`](#show_loop)                                                          | `None`  |
 
 #### `hide_envelope()`
 
@@ -1042,10 +1042,10 @@ A container for holding MIDI notes from Live.
 
 #### Methods
 
-| Method                                               | Returns |
-| ---------------------------------------------------- | ------- |
-| [`append(value: MidiNote)`](#appendvalue-midinote)   | `None`  |
-| [`extend(values: MidiNote)`](#extendvalues-midinote) | `None`  |
+| Method                               | Returns |
+| ------------------------------------ | ------- |
+| [`append()`](#appendvalue-midinote)  | `None`  |
+| [`extend()`](#extendvalues-midinote) | `None`  |
 
 ##### `append(value: MidiNote)`
 
@@ -1098,10 +1098,10 @@ A container for returning warp markers from Live.
 
 #### Methods
 
-| Method                                                   | Returns |
-| -------------------------------------------------------- | ------- |
-| [`append(value: WarpMarker)`](#appendvalue-warpmarker)   | `None`  |
-| [`extend(values: WarpMarker)`](#extendvalues-warpmarker) | `None`  |
+| Method                                 | Returns |
+| -------------------------------------- | ------- |
+| [`append()`](#appendvalue-warpmarker)  | `None`  |
+| [`extend()`](#extendvalues-warpmarker) | `None`  |
 
 ##### `append(value: WarpMarker)`
 

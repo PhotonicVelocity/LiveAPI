@@ -582,10 +582,9 @@ def _render_class_body(
         lines.append("| Method | Returns |")
         lines.append("| --- | --- |")
         for method in cls.methods:
-            sig = escape_table_cell(format_args_signature(method.args))
             esc_ret = escape_table_cell(method.return_type)
             anchor = slugify(f"{method.name}({format_args_signature(method.args)})")
-            lines.append(f"| [`{method.name}({sig})`](#{anchor}) | `{esc_ret}` |")
+            lines.append(f"| [`{method.name}()`](#{anchor}) | `{esc_ret}` |")
         lines.append("")
 
         # Per-method details
@@ -649,10 +648,9 @@ def _render_module_functions(functions: list[MethodInfo], heading: str, detail: 
     lines.append("| Function | Returns |")
     lines.append("| --- | --- |")
     for func in functions:
-        sig = escape_table_cell(format_args_signature(func.args))
         esc_ret = escape_table_cell(func.return_type)
         anchor = slugify(f"{func.name}({format_args_signature(func.args)})")
-        lines.append(f"| [`{func.name}({sig})`](#{anchor}) | `{esc_ret}` |")
+        lines.append(f"| [`{func.name}()`](#{anchor}) | `{esc_ret}` |")
     lines.append("")
     for func in functions:
         sig = format_args_signature(func.args)

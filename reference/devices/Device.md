@@ -145,10 +145,10 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                                                                       | Returns |
-| ------------------------------------------------------------------------------------------------------------ | ------- |
-| [`save_preset_to_compare_ab_slot()`](#save_preset_to_compare_ab_slot)                                        | `None`  |
-| [`store_chosen_bank(script_index: int, bank_index: int)`](#store_chosen_bankscript_index-int-bank_index-int) | `None`  |
+| Method                                                                     | Returns |
+| -------------------------------------------------------------------------- | ------- |
+| [`save_preset_to_compare_ab_slot()`](#save_preset_to_compare_ab_slot)      | `None`  |
+| [`store_chosen_bank()`](#store_chosen_bankscript_index-int-bank_index-int) | `None`  |
 
 #### `save_preset_to_compare_ab_slot()`
 
@@ -217,10 +217,10 @@ The type of the device.
 
 #### Methods
 
-| Method                                                             | Returns |
-| ------------------------------------------------------------------ | ------- |
-| [`append(value: DeviceParameter)`](#appendvalue-deviceparameter)   | `None`  |
-| [`extend(values: DeviceParameter)`](#extendvalues-deviceparameter) | `None`  |
+| Method                                      | Returns |
+| ------------------------------------------- | ------- |
+| [`append()`](#appendvalue-deviceparameter)  | `None`  |
+| [`extend()`](#extendvalues-deviceparameter) | `None`  |
 
 ##### `append(value: DeviceParameter)`
 

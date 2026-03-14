@@ -156,12 +156,12 @@ Return the list of possible values for this parameter. Raises an error if 'is_qu
 
 ### Methods
 
-| Method                                                     | Returns |
-| ---------------------------------------------------------- | ------- |
-| [`begin_gesture()`](#begin_gesture)                        | `None`  |
-| [`end_gesture()`](#end_gesture)                            | `None`  |
-| [`re_enable_automation()`](#re_enable_automation)          | `None`  |
-| [`str_for_value(value: float)`](#str_for_valuevalue-float) | `str`   |
+| Method                                            | Returns |
+| ------------------------------------------------- | ------- |
+| [`begin_gesture()`](#begin_gesture)               | `None`  |
+| [`end_gesture()`](#end_gesture)                   | `None`  |
+| [`re_enable_automation()`](#re_enable_automation) | `None`  |
+| [`str_for_value()`](#str_for_valuevalue-float)    | `str`   |
 
 #### `begin_gesture()`
 
