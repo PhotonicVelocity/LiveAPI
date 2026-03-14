@@ -490,29 +490,27 @@ def truncate_summary(docstring: str, max_len: int = 80) -> str:
     return first
 
 
-def generate_class_markdown(
+def _render_class_body(
     cls: ClassInfo,
-    module_enums: list[EnumInfo],
-    module_functions: list[MethodInfo],
-    module_classes: list[ClassInfo],
+    heading_level: int,
     access_map: AccessMap | None = None,
-    is_inner: bool = False,
-) -> str:
-    """Generate markdown for a single class."""
+    title: str | None = None,
+    skip_enums: bool = False,
+) -> list[str]:
+    """Render a class section (heading, description, properties, methods, enums).
+
+    Does NOT handle inner classes, module-level enums/functions/types — the
+    page-level function is responsible for those.
+    """
+    h = "#" * heading_level
+    sub = "#" * (heading_level + 1)
+    detail = "#" * (heading_level + 2)
     lines: list[str] = []
-    heading = "##" if is_inner else "#"
-    sub = "###" if is_inner else "##"
-    detail = "####" if is_inner else "###"
 
-    if is_inner:
-        lines.append(f"{heading} {cls.name}")
-        lines.append("")
-        lines.append(f"> `{cls.namespace}.{cls.name}`")
-    else:
-        lines.append(f"# {cls.name}")
-        lines.append("")
-        lines.append(f"> `{cls.namespace}.{cls.name}`")
-
+    # --- Heading & description ---
+    lines.append(f"{h} {title or cls.name}")
+    lines.append("")
+    lines.append(f"> `{cls.namespace}.{cls.name}`")
     lines.append("")
 
     if cls.docstring:
@@ -536,7 +534,7 @@ def generate_class_markdown(
     if access_map and cls.name in access_map:
         entries = access_map[cls.name]
         if entries:
-            lines.append(f"**Access via:**")
+            lines.append("**Access via:**")
             lines.append("")
             for owner, member, kind in entries:
                 if kind == "method":
@@ -545,19 +543,14 @@ def generate_class_markdown(
                     lines.append(f"- `{owner}.{member}`")
             lines.append("")
 
-    # --- Inner classes (View, etc.) ---
-    for inner in cls.inner_classes:
-        inner_md = generate_class_markdown(inner, [], [], [], access_map=access_map, is_inner=True)
-        lines.append(inner_md)
-
     # --- Properties ---
     if cls.properties:
         lines.append(f"{sub} Properties")
         lines.append("")
 
         # Summary table
-        lines.append(f"| Property | Type | Settable | Listenable | Description |")
-        lines.append(f"| --- | --- | --- | --- | --- |")
+        lines.append("| Property | Type | Settable | Listenable | Description |")
+        lines.append("| --- | --- | --- | --- | --- |")
         for prop in cls.properties:
             settable = "yes" if prop.settable else "no"
             listenable = "yes" if prop.listenable else "no"
@@ -584,8 +577,8 @@ def generate_class_markdown(
         lines.append("")
 
         # Summary table
-        lines.append(f"| Method | Returns | Description |")
-        lines.append(f"| --- | --- | --- |")
+        lines.append("| Method | Returns | Description |")
+        lines.append("| --- | --- | --- |")
         for method in cls.methods:
             sig = escape_table_cell(format_args_signature(method.args))
             summary = escape_table_cell(truncate_summary(method.docstring))
@@ -600,7 +593,7 @@ def generate_class_markdown(
             lines.append("")
             lines.append(f"- **Returns:** `{method.return_type}`")
             if method.args:
-                lines.append(f"- **Args:**")
+                lines.append("- **Args:**")
                 for arg_line in format_args_detail(method.args):
                     lines.append(arg_line)
             lines.append("")
@@ -608,12 +601,11 @@ def generate_class_markdown(
                 lines.append(method.docstring)
                 lines.append("")
 
-    # --- Enums (from the class itself) ---
-    all_enums = cls.enums + [e for e in module_enums]
-    if all_enums:
+    # --- Class-level enums (e.g. enums inside View) ---
+    if not skip_enums and cls.enums:
         lines.append(f"{sub} Enums")
         lines.append("")
-        for enum in all_enums:
+        for enum in cls.enums:
             lines.append(f"{detail} `{enum.name}`")
             lines.append("")
             if enum.docstring:
@@ -625,102 +617,129 @@ def generate_class_markdown(
                 lines.append(f"| `{val.value}` | `{val.name}` |")
             lines.append("")
 
-    # --- Module-level helper classes (non-enum, non-primary) ---
-    for helper_cls in module_classes:
-        helper_md = generate_class_markdown(helper_cls, [], [], [], access_map=access_map, is_inner=True)
-        lines.append(helper_md)
+    return lines
 
-    # --- Module-level functions ---
-    if module_functions:
-        lines.append(f"{sub} Module Functions")
+
+def _render_enums_section(enums: list[EnumInfo], heading: str, detail: str) -> list[str]:
+    """Render a module-level Enums section."""
+    lines: list[str] = []
+    lines.append(f"{heading} Enums")
+    lines.append("")
+    for enum in enums:
+        lines.append(f"{detail} `{enum.name}`")
         lines.append("")
-        lines.append(f"| Function | Returns | Description |")
-        lines.append(f"| --- | --- | --- |")
-        for func in module_functions:
-            sig = escape_table_cell(format_args_signature(func.args))
-            summary = escape_table_cell(truncate_summary(func.docstring))
-            esc_ret = escape_table_cell(func.return_type)
-            lines.append(f"| `{func.name}({sig})` | `{esc_ret}` | {summary} |")
+        if enum.docstring:
+            lines.append(enum.docstring)
+            lines.append("")
+        lines.append("| Value | Name |")
+        lines.append("| --- | --- |")
+        for val in enum.values:
+            lines.append(f"| `{val.value}` | `{val.name}` |")
         lines.append("")
+    return lines
 
-        for func in module_functions:
-            sig = format_args_signature(func.args)
-            lines.append(f"{detail} `{func.name}({sig})`")
+
+def _render_module_functions(functions: list[MethodInfo], heading: str, detail: str) -> list[str]:
+    """Render a Module Functions section."""
+    lines: list[str] = []
+    lines.append(f"{heading} Module Functions")
+    lines.append("")
+    lines.append("| Function | Returns | Description |")
+    lines.append("| --- | --- | --- |")
+    for func in functions:
+        sig = escape_table_cell(format_args_signature(func.args))
+        summary = escape_table_cell(truncate_summary(func.docstring))
+        esc_ret = escape_table_cell(func.return_type)
+        lines.append(f"| `{func.name}({sig})` | `{esc_ret}` | {summary} |")
+    lines.append("")
+    for func in functions:
+        sig = format_args_signature(func.args)
+        lines.append(f"{detail} `{func.name}({sig})`")
+        lines.append("")
+        lines.append(f"- **Returns:** `{func.return_type}`")
+        if func.args:
+            lines.append("- **Args:**")
+            for arg_line in format_args_detail(func.args):
+                lines.append(arg_line)
+        lines.append("")
+        if func.docstring:
+            lines.append(func.docstring)
             lines.append("")
-            lines.append(f"- **Returns:** `{func.return_type}`")
-            if func.args:
-                lines.append(f"- **Args:**")
-                for arg_line in format_args_detail(func.args):
-                    lines.append(arg_line)
-            lines.append("")
-            if func.docstring:
-                lines.append(func.docstring)
-                lines.append("")
-
-    return "\n".join(lines)
+    return lines
 
 
-def generate_namespace_markdown(
+def generate_page_markdown(
+    ns_name: str,
     primary_class: ClassInfo | None,
     module_enums: list[EnumInfo],
     module_functions: list[MethodInfo],
     module_classes: list[ClassInfo],
     access_map: AccessMap | None = None,
 ) -> str:
-    """Generate markdown for a namespace that may or may not have a primary class."""
-    if primary_class:
-        return generate_class_markdown(
-            primary_class, module_enums, module_functions, module_classes, access_map=access_map
-        )
+    """Generate the full markdown page for a namespace.
 
-    # No primary class — module is just enums, functions, and helper classes
-    # Use the namespace name as the page title
+    Layout:
+        # Namespace (Module)
+        ## ClassName (Class)          — primary class with properties/methods
+        ## ClassName.View (Subclass)  — inner classes rendered after the primary class
+        ## Enums                      — class-level + module-level enums combined
+        ## Types                      — module-level helper classes
+        ## Module Functions           — module-level standalone functions
+    """
     lines: list[str] = []
 
-    if module_classes:
-        for cls in module_classes:
-            cls_md = generate_class_markdown(cls, [], [], [], access_map=access_map)
-            lines.append(cls_md)
+    # --- Module title ---
+    lines.append(f"# {ns_name} (Module)")
+    lines.append("")
 
-    if module_enums:
-        lines.append("## Enums")
-        lines.append("")
-        for enum in module_enums:
-            lines.append(f"### `{enum.name}`")
-            lines.append("")
-            if enum.docstring:
-                lines.append(enum.docstring)
-                lines.append("")
-            lines.append("| Value | Name |")
-            lines.append("| --- | --- |")
-            for val in enum.values:
-                lines.append(f"| `{val.value}` | `{val.name}` |")
-            lines.append("")
+    if primary_class:
+        # --- Primary class (properties/methods, enums hoisted to module level) ---
+        lines.extend(
+            _render_class_body(
+                primary_class, 2, access_map, title=f"{primary_class.name} (Class)", skip_enums=True
+            )
+        )
 
-    if module_functions:
-        lines.append("## Module Functions")
-        lines.append("")
-        lines.append("| Function | Returns | Description |")
-        lines.append("| --- | --- | --- |")
-        for func in module_functions:
-            sig = escape_table_cell(format_args_signature(func.args))
-            summary = escape_table_cell(truncate_summary(func.docstring))
-            esc_ret = escape_table_cell(func.return_type)
-            lines.append(f"| `{func.name}({sig})` | `{esc_ret}` | {summary} |")
-        lines.append("")
-        for func in module_functions:
-            sig = format_args_signature(func.args)
-            lines.append(f"### `{func.name}({sig})`")
+        # --- Inner classes (View, etc.) rendered AFTER the primary class ---
+        for inner in primary_class.inner_classes:
+            title = f"{primary_class.name}.{inner.name} (Subclass)"
+            lines.extend(_render_class_body(inner, 2, access_map, title=title))
+
+        # --- Enums — combine class-level and module-level ---
+        all_enums = list(primary_class.enums) + list(module_enums)
+        if all_enums:
+            lines.extend(_render_enums_section(all_enums, "##", "###"))
+
+        # --- Types — module-level helper classes ---
+        if module_classes:
+            lines.append("## Types")
             lines.append("")
-            lines.append(f"- **Returns:** `{func.return_type}`")
-            if func.args:
-                lines.append(f"- **Args:**")
-                for arg_line in format_args_detail(func.args):
-                    lines.append(arg_line)
-            lines.append("")
-            if func.docstring:
-                lines.append(func.docstring)
-                lines.append("")
+            for type_cls in module_classes:
+                lines.extend(_render_class_body(type_cls, 3, access_map))
+
+        # --- Module functions ---
+        if module_functions:
+            lines.extend(_render_module_functions(module_functions, "##", "###"))
+
+    else:
+        # No primary class — module with types, enums, and/or functions
+        all_enums = list(module_enums)
+
+        if module_classes:
+            for cls in module_classes:
+                all_enums.extend(cls.enums)
+                lines.extend(
+                    _render_class_body(cls, 2, access_map, title=f"{cls.name} (Class)", skip_enums=True)
+                )
+                for inner in cls.inner_classes:
+                    title = f"{cls.name}.{inner.name} (Subclass)"
+                    lines.extend(_render_class_body(inner, 2, access_map, title=title))
+
+        if all_enums:
+            lines.extend(_render_enums_section(all_enums, "##", "###"))
+
+        if module_functions:
+            lines.extend(_render_module_functions(module_functions, "##", "###"))
 
     return "\n".join(lines)
 
@@ -971,7 +990,8 @@ def main() -> None:
     generated_files: list[Path] = []
     for ns_name in namespaces:
         ns_data = all_ns[ns_name]
-        md = generate_namespace_markdown(
+        md = generate_page_markdown(
+            ns_data.name,
             ns_data.primary_class,
             ns_data.module_enums,
             ns_data.module_functions,

@@ -1,4 +1,6 @@
-# Browser
+# Browser (Module)
+
+## Browser (Class)
 
 > `Live.Browser.Browser`
 
@@ -10,7 +12,7 @@ This class represents the live browser data base.
 
 - `Application.browser`
 
-## Properties
+### Properties
 
 | Property           | Type                           | Settable | Listenable | Description                                                                |
 | ------------------ | ------------------------------ | -------- | ---------- | -------------------------------------------------------------------------- |
@@ -32,7 +34,7 @@ This class represents the live browser data base.
 | `user_folders`     | `tuple[BrowserItem, Ellipsis]` | `no`     | `no`       | Returns a list of browser items containing all the user folders.           |
 | `user_library`     | `BrowserItem`                  | `no`     | `no`       | Returns a browser item with access to all the User Library content.        |
 
-### `audio_effects`
+#### `audio_effects`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -40,7 +42,7 @@ This class represents the live browser data base.
 
 Returns a browser item with access to all the Audio Effects content.
 
-### `clips`
+#### `clips`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -48,7 +50,7 @@ Returns a browser item with access to all the Audio Effects content.
 
 Returns a browser item with access to all the Clips content.
 
-### `colors`
+#### `colors`
 
 - **Type:** `tuple[BrowserItem, Ellipsis]`
 - **Settable:** `no`
@@ -56,7 +58,7 @@ Returns a browser item with access to all the Clips content.
 
 Returns a list of browser items containing the configured colors.
 
-### `current_project`
+#### `current_project`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -64,7 +66,7 @@ Returns a list of browser items containing the configured colors.
 
 Returns a browser item with access to all the Current Project content.
 
-### `drums`
+#### `drums`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -72,7 +74,7 @@ Returns a browser item with access to all the Current Project content.
 
 Returns a browser item with access to all the Drums content.
 
-### `filter_type`
+#### `filter_type`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -80,7 +82,7 @@ Returns a browser item with access to all the Drums content.
 
 Bang triggered when the hotswap target has changed.
 
-### `hotswap_target`
+#### `hotswap_target`
 
 - **Type:** `None`
 - **Settable:** `yes`
@@ -88,7 +90,7 @@ Bang triggered when the hotswap target has changed.
 
 Bang triggered when the hotswap target has changed.
 
-### `instruments`
+#### `instruments`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -96,7 +98,7 @@ Bang triggered when the hotswap target has changed.
 
 Returns a browser item with access to all the Instruments content.
 
-### `legacy_libraries`
+#### `legacy_libraries`
 
 - **Type:** `tuple[BrowserItem, Ellipsis]`
 - **Settable:** `no`
@@ -104,7 +106,7 @@ Returns a browser item with access to all the Instruments content.
 
 Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed.
 
-### `max_for_live`
+#### `max_for_live`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -112,7 +114,7 @@ Returns a list of browser items containing the installed legacy libraries. The l
 
 Returns a browser item with access to all the Max For Live content.
 
-### `midi_effects`
+#### `midi_effects`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -120,7 +122,7 @@ Returns a browser item with access to all the Max For Live content.
 
 Returns a browser item with access to all the Midi Effects content.
 
-### `packs`
+#### `packs`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -128,7 +130,7 @@ Returns a browser item with access to all the Midi Effects content.
 
 Returns a browser item with access to all the Packs content.
 
-### `plugins`
+#### `plugins`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -136,7 +138,7 @@ Returns a browser item with access to all the Packs content.
 
 Returns a browser item with access to all the Plugins content.
 
-### `samples`
+#### `samples`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -144,7 +146,7 @@ Returns a browser item with access to all the Plugins content.
 
 Returns a browser item with access to all the Samples content.
 
-### `sounds`
+#### `sounds`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -152,7 +154,7 @@ Returns a browser item with access to all the Samples content.
 
 Returns a browser item with access to all the Sounds content.
 
-### `user_folders`
+#### `user_folders`
 
 - **Type:** `tuple[BrowserItem, Ellipsis]`
 - **Settable:** `no`
@@ -160,7 +162,7 @@ Returns a browser item with access to all the Sounds content.
 
 Returns a list of browser items containing all the user folders.
 
-### `user_library`
+#### `user_library`
 
 - **Type:** `BrowserItem`
 - **Settable:** `no`
@@ -168,7 +170,7 @@ Returns a list of browser items containing all the user folders.
 
 Returns a browser item with access to all the User Library content.
 
-## Methods
+### Methods
 
 | Method                                          | Returns    | Description                                                                      |
 | ----------------------------------------------- | ---------- | -------------------------------------------------------------------------------- |
@@ -177,7 +179,7 @@ Returns a browser item with access to all the User Library content.
 | `relation_to_hotswap_target(item: BrowserItem)` | `Relation` | Returns the relation between the given browser item and the current hotswap t... |
 | `stop_preview()`                                | `None`     | Stop the current preview.                                                        |
 
-### `load_item(item: BrowserItem)`
+#### `load_item(item: BrowserItem)`
 
 - **Returns:** `None`
 - **Args:**
@@ -185,7 +187,7 @@ Returns a browser item with access to all the User Library content.
 
 Loads the provided browser item.
 
-### `preview_item(item: BrowserItem)`
+#### `preview_item(item: BrowserItem)`
 
 - **Returns:** `None`
 - **Args:**
@@ -193,7 +195,7 @@ Loads the provided browser item.
 
 Previews the provided browser item.
 
-### `relation_to_hotswap_target(item: BrowserItem)`
+#### `relation_to_hotswap_target(item: BrowserItem)`
 
 - **Returns:** `Relation`
 - **Args:**
@@ -201,7 +203,7 @@ Previews the provided browser item.
 
 Returns the relation between the given browser item and the current hotswap target
 
-### `stop_preview()`
+#### `stop_preview()`
 
 - **Returns:** `None`
 
@@ -232,13 +234,15 @@ Stop the current preview.
 | `2`   | `descendant` |
 | `3`   | `none`       |
 
-## BrowserItem
+## Types
+
+### BrowserItem
 
 > `Live.Browser.BrowserItem`
 
 This class represents an item of the browser hierarchy.
 
-### Properties
+#### Properties
 
 | Property        | Type                           | Settable | Listenable | Description                                                      |
 | --------------- | ------------------------------ | -------- | ---------- | ---------------------------------------------------------------- |
@@ -252,7 +256,7 @@ This class represents an item of the browser hierarchy.
 | `source`        | `str`                          | `no`     | `no`       | Specifies where does item come from -- i.e.                      |
 | `uri`           | `str`                          | `no`     | `no`       | The uri describes a unique identifier for a browser item.        |
 
-#### `children`
+##### `children`
 
 - **Type:** `tuple[BrowserItem, Ellipsis]`
 - **Settable:** `no`
@@ -260,7 +264,7 @@ This class represents an item of the browser hierarchy.
 
 Const access to the descendants of this browser item.
 
-#### `is_device`
+##### `is_device`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -268,7 +272,7 @@ Const access to the descendants of this browser item.
 
 Indicates if the browser item represents a device.
 
-#### `is_folder`
+##### `is_folder`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -276,7 +280,7 @@ Indicates if the browser item represents a device.
 
 Indicates if the browser item represents folder.
 
-#### `is_loadable`
+##### `is_loadable`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -284,7 +288,7 @@ Indicates if the browser item represents folder.
 
 True if item can be loaded via the Browser's 'load_item' method.
 
-#### `is_selected`
+##### `is_selected`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -292,7 +296,7 @@ True if item can be loaded via the Browser's 'load_item' method.
 
 True if the item is ancestor of or the actual selection.
 
-#### `iter_children`
+##### `iter_children`
 
 - **Type:** `BrowserItemIterator`
 - **Settable:** `no`
@@ -300,7 +304,7 @@ True if the item is ancestor of or the actual selection.
 
 Const iterable access to the descendants of this browser item.
 
-#### `name`
+##### `name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -308,7 +312,7 @@ Const iterable access to the descendants of this browser item.
 
 Const access to the canonical display name of this browser item.
 
-#### `source`
+##### `source`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -316,7 +320,7 @@ Const access to the canonical display name of this browser item.
 
 Specifies where does item come from -- i.e. Live pack, user library...
 
-#### `uri`
+##### `uri`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -324,32 +328,32 @@ Specifies where does item come from -- i.e. Live pack, user library...
 
 The uri describes a unique identifier for a browser item.
 
-## BrowserItemIterator
+### BrowserItemIterator
 
 > `Live.Browser.BrowserItemIterator`
 
 This class iterates over children of another BrowserItem.
 
-## BrowserItemVector
+### BrowserItemVector
 
 > `Live.Browser.BrowserItemVector`
 
 A container for returning browser items from Live.
 
-### Methods
+#### Methods
 
 | Method                        | Returns | Description |
 | ----------------------------- | ------- | ----------- |
 | `append(value: BrowserItem)`  | `None`  |             |
 | `extend(values: BrowserItem)` | `None`  |             |
 
-#### `append(value: BrowserItem)`
+##### `append(value: BrowserItem)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: BrowserItem`
 
-#### `extend(values: BrowserItem)`
+##### `extend(values: BrowserItem)`
 
 - **Returns:** `None`
 - **Args:**

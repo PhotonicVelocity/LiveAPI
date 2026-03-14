@@ -1,4 +1,6 @@
-# DrumCellDevice
+# DrumCellDevice (Module)
+
+## DrumCellDevice (Class)
 
 > `Live.DrumCellDevice.DrumCellDevice`
 
@@ -6,7 +8,7 @@ This class represents a DrumCell device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |
 | --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -26,7 +28,7 @@ This class represents a DrumCell device.
 | `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
 | `view`                      | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
 
-### `can_compare_ab`
+#### `can_compare_ab`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -34,7 +36,7 @@ This class represents a DrumCell device.
 
 Returns true if the Device has the capability to AB compare.
 
-### `can_have_chains`
+#### `can_have_chains`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -42,7 +44,7 @@ Returns true if the Device has the capability to AB compare.
 
 Returns true if the device is a rack.
 
-### `can_have_drum_pads`
+#### `can_have_drum_pads`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -50,7 +52,7 @@ Returns true if the device is a rack.
 
 Returns true if the device is a drum rack.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -58,7 +60,7 @@ Returns true if the device is a drum rack.
 
 Get the canonical parent of the Device.
 
-### `class_display_name`
+#### `class_display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -66,7 +68,7 @@ Get the canonical parent of the Device.
 
 Return const access to the name of the device's class name as displayed in Live's browser and device chain
 
-### `class_name`
+#### `class_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -74,7 +76,7 @@ Return const access to the name of the device's class name as displayed in Live'
 
 Return const access to the name of the device's class.
 
-### `gain`
+#### `gain`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -82,7 +84,7 @@ Return const access to the name of the device's class.
 
 Return the Gain value
 
-### `is_active`
+#### `is_active`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -90,7 +92,7 @@ Return the Gain value
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
-### `is_using_compare_preset_b`
+#### `is_using_compare_preset_b`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -98,7 +100,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
-### `latency_in_ms`
+#### `latency_in_ms`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -106,7 +108,7 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 Returns the latency of the device in ms.
 
-### `latency_in_samples`
+#### `latency_in_samples`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -114,7 +116,7 @@ Returns the latency of the device in ms.
 
 Returns the latency of the device in samples.
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -122,7 +124,7 @@ Returns the latency of the device in samples.
 
 Return access to the name of the device.
 
-### `parameters`
+#### `parameters`
 
 - **Type:** `tuple[DeviceParameter, Ellipsis]`
 - **Settable:** `no`
@@ -130,7 +132,7 @@ Return access to the name of the device.
 
 Const access to the list of available automatable parameters for this device.
 
-### `type`
+#### `type`
 
 - **Type:** `DeviceType`
 - **Settable:** `no`
@@ -138,7 +140,7 @@ Const access to the list of available automatable parameters for this device.
 
 Return the type of the device.
 
-### `view`
+#### `view`
 
 - **Type:** `Device.View`
 - **Settable:** `no`

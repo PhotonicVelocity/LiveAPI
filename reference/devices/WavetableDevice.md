@@ -1,4 +1,6 @@
-# WavetableDevice
+# WavetableDevice (Module)
+
+## WavetableDevice (Class)
 
 > `Live.WavetableDevice.WavetableDevice`
 
@@ -6,7 +8,7 @@ This class represents a Wavetable device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                          | Type                               | Settable | Listenable | Description                                                                      |
 | --------------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -40,7 +42,7 @@ This class represents a Wavetable device.
 | `view`                            | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
 | `visible_modulation_target_names` | `tuple[str, Ellipsis]`             | `no`     | `yes`      | Get the names of all the visible modulation targets.                             |
 
-### `can_compare_ab`
+#### `can_compare_ab`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -48,7 +50,7 @@ This class represents a Wavetable device.
 
 Returns true if the Device has the capability to AB compare.
 
-### `can_have_chains`
+#### `can_have_chains`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -56,7 +58,7 @@ Returns true if the Device has the capability to AB compare.
 
 Returns true if the device is a rack.
 
-### `can_have_drum_pads`
+#### `can_have_drum_pads`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -64,7 +66,7 @@ Returns true if the device is a rack.
 
 Returns true if the device is a drum rack.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -72,7 +74,7 @@ Returns true if the device is a drum rack.
 
 Get the canonical parent of the Device.
 
-### `class_display_name`
+#### `class_display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -80,7 +82,7 @@ Get the canonical parent of the Device.
 
 Return const access to the name of the device's class name as displayed in Live's browser and device chain
 
-### `class_name`
+#### `class_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -88,7 +90,7 @@ Return const access to the name of the device's class name as displayed in Live'
 
 Return const access to the name of the device's class.
 
-### `filter_routing`
+#### `filter_routing`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -96,7 +98,7 @@ Return const access to the name of the device's class.
 
 Return the current filter routing.
 
-### `is_active`
+#### `is_active`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -104,7 +106,7 @@ Return the current filter routing.
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
-### `is_using_compare_preset_b`
+#### `is_using_compare_preset_b`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -112,7 +114,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
-### `latency_in_ms`
+#### `latency_in_ms`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -120,7 +122,7 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 Returns the latency of the device in ms.
 
-### `latency_in_samples`
+#### `latency_in_samples`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -128,7 +130,7 @@ Returns the latency of the device in ms.
 
 Returns the latency of the device in samples.
 
-### `mono_poly`
+#### `mono_poly`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -136,7 +138,7 @@ Returns the latency of the device in samples.
 
 Return the current voicing mode.
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -144,7 +146,7 @@ Return the current voicing mode.
 
 Return access to the name of the device.
 
-### `oscillator_1_effect_mode`
+#### `oscillator_1_effect_mode`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -152,7 +154,7 @@ Return access to the name of the device.
 
 Return the current effect mode of the oscillator 1.
 
-### `oscillator_1_wavetable_category`
+#### `oscillator_1_wavetable_category`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -160,7 +162,7 @@ Return the current effect mode of the oscillator 1.
 
 Return the current wavetable category of the oscillator 1.
 
-### `oscillator_1_wavetable_index`
+#### `oscillator_1_wavetable_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -168,7 +170,7 @@ Return the current wavetable category of the oscillator 1.
 
 Return the current wavetable index of the oscillator 1.
 
-### `oscillator_1_wavetables`
+#### `oscillator_1_wavetables`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -176,7 +178,7 @@ Return the current wavetable index of the oscillator 1.
 
 Get a vector of oscillator 1's wavetable names.
 
-### `oscillator_2_effect_mode`
+#### `oscillator_2_effect_mode`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -184,7 +186,7 @@ Get a vector of oscillator 1's wavetable names.
 
 Return the current effect mode of the oscillator 2.
 
-### `oscillator_2_wavetable_category`
+#### `oscillator_2_wavetable_category`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -192,7 +194,7 @@ Return the current effect mode of the oscillator 2.
 
 Return the current wavetable category of the oscillator 2.
 
-### `oscillator_2_wavetable_index`
+#### `oscillator_2_wavetable_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -200,7 +202,7 @@ Return the current wavetable category of the oscillator 2.
 
 Return the current wavetable index of the oscillator 2.
 
-### `oscillator_2_wavetables`
+#### `oscillator_2_wavetables`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -208,7 +210,7 @@ Return the current wavetable index of the oscillator 2.
 
 Get a vector of oscillator 2's wavetable names.
 
-### `oscillator_wavetable_categories`
+#### `oscillator_wavetable_categories`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -216,7 +218,7 @@ Get a vector of oscillator 2's wavetable names.
 
 Get a vector of the available wavetable categories.
 
-### `parameters`
+#### `parameters`
 
 - **Type:** `tuple[DeviceParameter, Ellipsis]`
 - **Settable:** `no`
@@ -224,7 +226,7 @@ Get a vector of the available wavetable categories.
 
 Const access to the list of available automatable parameters for this device.
 
-### `poly_voices`
+#### `poly_voices`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -232,7 +234,7 @@ Const access to the list of available automatable parameters for this device.
 
 Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
 
-### `type`
+#### `type`
 
 - **Type:** `DeviceType`
 - **Settable:** `no`
@@ -240,7 +242,7 @@ Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
 
 Return the type of the device.
 
-### `unison_mode`
+#### `unison_mode`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -248,7 +250,7 @@ Return the type of the device.
 
 Return the current unison mode.
 
-### `unison_voice_count`
+#### `unison_voice_count`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -256,7 +258,7 @@ Return the current unison mode.
 
 Return the current number of unison voices.
 
-### `view`
+#### `view`
 
 - **Type:** `Device.View`
 - **Settable:** `no`
@@ -264,7 +266,7 @@ Return the current number of unison voices.
 
 Representing the view aspects of a device.
 
-### `visible_modulation_target_names`
+#### `visible_modulation_target_names`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -272,7 +274,7 @@ Representing the view aspects of a device.
 
 Get the names of all the visible modulation targets.
 
-## Methods
+### Methods
 
 | Method                                                               | Returns | Description                                                                  |
 | -------------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
@@ -282,7 +284,7 @@ Get the names of all the visible modulation targets.
 | `is_parameter_modulatable(parameter: DeviceParameter)`               | `bool`  | Indicate whether the parameter is modulatable.                               |
 | `set_modulation_value(target_index: int, source: int, value: float)` | `None`  | Set the value of a modulation amount for the given target-source connection. |
 
-### `add_parameter_to_modulation_matrix(parameter: DeviceParameter)`
+#### `add_parameter_to_modulation_matrix(parameter: DeviceParameter)`
 
 - **Returns:** `int`
 - **Args:**
@@ -290,7 +292,7 @@ Get the names of all the visible modulation targets.
 
 Add a non-pitch parameter to the modulation matrix.
 
-### `get_modulation_target_parameter_name(target_index: int)`
+#### `get_modulation_target_parameter_name(target_index: int)`
 
 - **Returns:** `str`
 - **Args:**
@@ -298,7 +300,7 @@ Add a non-pitch parameter to the modulation matrix.
 
 Get the parameter name of the modulation target at the given index.
 
-### `get_modulation_value(target_index: int, source: int)`
+#### `get_modulation_value(target_index: int, source: int)`
 
 - **Returns:** `float`
 - **Args:**
@@ -307,7 +309,7 @@ Get the parameter name of the modulation target at the given index.
 
 Get the value of a modulation amount for the given target-source connection.
 
-### `is_parameter_modulatable(parameter: DeviceParameter)`
+#### `is_parameter_modulatable(parameter: DeviceParameter)`
 
 - **Returns:** `bool`
 - **Args:**
@@ -315,7 +317,7 @@ Get the value of a modulation amount for the given target-source connection.
 
 Indicate whether the parameter is modulatable. Note that pitch parameters only exist in python and must be handled there.
 
-### `set_modulation_value(target_index: int, source: int, value: float)`
+#### `set_modulation_value(target_index: int, source: int, value: float)`
 
 - **Returns:** `None`
 - **Args:**

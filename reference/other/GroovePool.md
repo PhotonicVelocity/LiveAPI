@@ -1,4 +1,6 @@
-# GroovePool
+# GroovePool (Module)
+
+## GroovePool (Class)
 
 > `Live.GroovePool.GroovePool`
 
@@ -10,14 +12,14 @@ This class represents the groove pool in Live.
 
 - `Song.groove_pool`
 
-## Properties
+### Properties
 
 | Property           | Type    | Settable | Listenable | Description                                  |
 | ------------------ | ------- | -------- | ---------- | -------------------------------------------- |
 | `canonical_parent` | `Song`  | `no`     | `no`       | Get the canonical parent of the groove pool. |
 | `grooves`          | `tuple` | `no`     | `yes`      | Access to the list of grooves.               |
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Song`
 - **Settable:** `no`
@@ -25,7 +27,7 @@ This class represents the groove pool in Live.
 
 Get the canonical parent of the groove pool.
 
-### `grooves`
+#### `grooves`
 
 - **Type:** `tuple`
 - **Settable:** `no`

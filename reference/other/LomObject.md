@@ -1,4 +1,6 @@
-# LomObject
+# LomObject (Module)
+
+## LomObject (Class)
 
 > `Live.LomObject.LomObject`
 

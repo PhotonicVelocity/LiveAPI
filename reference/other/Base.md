@@ -1,151 +1,153 @@
-# FloatVector
+# Base (Module)
+
+## FloatVector (Class)
 
 > `Live.Base.FloatVector`
 
 A simple container for returning floats from Live.
 
-## Methods
+### Methods
 
 | Method                  | Returns | Description |
 | ----------------------- | ------- | ----------- |
 | `append(value: float)`  | `None`  |             |
 | `extend(values: float)` | `None`  |             |
 
-### `append(value: float)`
+#### `append(value: float)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: float`
 
-### `extend(values: float)`
+#### `extend(values: float)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: float`
 
-# IntU64Vector
+## IntU64Vector (Class)
 
 > `Live.Base.IntU64Vector`
 
 A simple container for returning unsigned long integers from Live.
 
-## Methods
+### Methods
 
 | Method                | Returns | Description |
 | --------------------- | ------- | ----------- |
 | `append(value: int)`  | `None`  |             |
 | `extend(values: int)` | `None`  |             |
 
-### `append(value: int)`
+#### `append(value: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: int`
 
-### `extend(values: int)`
+#### `extend(values: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: int`
 
-# IntVector
+## IntVector (Class)
 
 > `Live.Base.IntVector`
 
 A simple container for returning integers from Live.
 
-## Methods
+### Methods
 
 | Method                | Returns | Description |
 | --------------------- | ------- | ----------- |
 | `append(value: int)`  | `None`  |             |
 | `extend(values: int)` | `None`  |             |
 
-### `append(value: int)`
+#### `append(value: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: int`
 
-### `extend(values: int)`
+#### `extend(values: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: int`
 
-# LimitationError
+## LimitationError (Class)
 
 > `Live.Base.LimitationError`
 
-# ObjectVector
+## ObjectVector (Class)
 
 > `Live.Base.ObjectVector`
 
 A simple read only container for returning python objects.
 
-## Methods
+### Methods
 
 | Method                | Returns | Description |
 | --------------------- | ------- | ----------- |
 | `append(value: Any)`  | `None`  |             |
 | `extend(values: Any)` | `None`  |             |
 
-### `append(value: Any)`
+#### `append(value: Any)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: Any`
 
-### `extend(values: Any)`
+#### `extend(values: Any)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: Any`
 
-# StringVector
+## StringVector (Class)
 
 > `Live.Base.StringVector`
 
 A simple container for returning strings from Live.
 
-## Methods
+### Methods
 
 | Method                | Returns | Description |
 | --------------------- | ------- | ----------- |
 | `append(value: str)`  | `None`  |             |
 | `extend(values: str)` | `None`  |             |
 
-### `append(value: str)`
+#### `append(value: str)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: str`
 
-### `extend(values: str)`
+#### `extend(values: str)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: str`
 
-# Text
+## Text (Class)
 
 > `Live.Base.Text`
 
 A translatable, immutable string.
 
-## Properties
+### Properties
 
 | Property | Type  | Settable | Listenable | Description |
 | -------- | ----- | -------- | ---------- | ----------- |
 | `text`   | `str` | `no`     | `no`       |             |
 
-### `text`
+#### `text`
 
 - **Type:** `str`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-# Timer
+## Timer (Class)
 
 > `Live.Base.Timer`
 
@@ -153,19 +155,19 @@ A timer that will trigger a callback after a certain inverval. The timer can be 
 
 **Constructor:** `Timer(callback: object, interval: int, repeat: bool = False, start: bool = False)`
 
-## Properties
+### Properties
 
 | Property  | Type   | Settable | Listenable | Description |
 | --------- | ------ | -------- | ---------- | ----------- |
 | `running` | `bool` | `no`     | `no`       |             |
 
-### `running`
+#### `running`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-## Methods
+### Methods
 
 | Method      | Returns | Description |
 | ----------- | ------- | ----------- |
@@ -173,38 +175,38 @@ A timer that will trigger a callback after a certain inverval. The timer can be 
 | `start()`   | `None`  |             |
 | `stop()`    | `None`  |             |
 
-### `restart()`
+#### `restart()`
 
 - **Returns:** `None`
 
-### `start()`
+#### `start()`
 
 - **Returns:** `None`
 
-### `stop()`
+#### `stop()`
 
 - **Returns:** `None`
 
-# Vector
+## Vector (Class)
 
 > `Live.Base.Vector`
 
 A simple read only container for returning objects from Live.
 
-## Methods
+### Methods
 
 | Method                      | Returns | Description |
 | --------------------------- | ------- | ----------- |
 | `append(value: LomObject)`  | `None`  |             |
 | `extend(values: LomObject)` | `None`  |             |
 
-### `append(value: LomObject)`
+#### `append(value: LomObject)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: LomObject`
 
-### `extend(values: LomObject)`
+#### `extend(values: LomObject)`
 
 - **Returns:** `None`
 - **Args:**

@@ -1,4 +1,6 @@
-# MixerDevice
+# MixerDevice (Module)
+
+## MixerDevice (Class)
 
 > `Live.MixerDevice.MixerDevice`
 
@@ -10,7 +12,7 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 
 - `Track.mixer_device`
 
-## Properties
+### Properties
 
 | Property             | Type              | Settable | Listenable | Description                                                                  |
 | -------------------- | ----------------- | -------- | ---------- | ---------------------------------------------------------------------------- |
@@ -27,7 +29,7 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 | `track_activator`    | `DeviceParameter` | `no`     | `no`       | Const access to the Tracks Activator Device Parameter.                       |
 | `volume`             | `DeviceParameter` | `no`     | `no`       | Const access to the Tracks Volume Device Parameter.                          |
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -35,7 +37,7 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 
 Get the canonical parent of the mixer device.
 
-### `crossfade_assign`
+#### `crossfade_assign`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -43,7 +45,7 @@ Get the canonical parent of the mixer device.
 
 Player- and ReturnTracks only: Access to the Track's Crossfade Assign State.
 
-### `crossfader`
+#### `crossfader`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -51,7 +53,7 @@ Player- and ReturnTracks only: Access to the Track's Crossfade Assign State.
 
 MainTrack only: Const access to the Crossfader.
 
-### `cue_volume`
+#### `cue_volume`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -59,7 +61,7 @@ MainTrack only: Const access to the Crossfader.
 
 MainTrack only: Const access to the Cue Volume Parameter.
 
-### `left_split_stereo`
+#### `left_split_stereo`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -67,7 +69,7 @@ MainTrack only: Const access to the Cue Volume Parameter.
 
 Const access to the Track's Left Split Stereo Panning Device Parameter.
 
-### `panning`
+#### `panning`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -75,7 +77,7 @@ Const access to the Track's Left Split Stereo Panning Device Parameter.
 
 Const access to the Tracks Panning Device Parameter.
 
-### `panning_mode`
+#### `panning_mode`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -83,7 +85,7 @@ Const access to the Tracks Panning Device Parameter.
 
 Access to the Track's Panning Mode.
 
-### `right_split_stereo`
+#### `right_split_stereo`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -91,7 +93,7 @@ Access to the Track's Panning Mode.
 
 Const access to the Track's Right Split Stereo Panning Device Parameter.
 
-### `sends`
+#### `sends`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -99,7 +101,7 @@ Const access to the Track's Right Split Stereo Panning Device Parameter.
 
 Const access to the Tracks list of Send Amount Device Parameters.
 
-### `song_tempo`
+#### `song_tempo`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -107,7 +109,7 @@ Const access to the Tracks list of Send Amount Device Parameters.
 
 MainTrack only: Const access to the Song's Tempo.
 
-### `track_activator`
+#### `track_activator`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -115,7 +117,7 @@ MainTrack only: Const access to the Song's Tempo.
 
 Const access to the Tracks Activator Device Parameter.
 
-### `volume`
+#### `volume`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`

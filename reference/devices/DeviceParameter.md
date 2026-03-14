@@ -1,4 +1,6 @@
-# DeviceParameter
+# DeviceParameter (Module)
+
+## DeviceParameter (Class)
 
 > `Live.DeviceParameter.DeviceParameter`
 
@@ -21,7 +23,7 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 - `MixerDevice.volume`
 - `RackDevice.chain_selector`
 
-## Properties
+### Properties
 
 | Property            | Type                   | Settable | Listenable | Description                                                                      |
 | ------------------- | ---------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -40,7 +42,7 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 | `value`             | `float`                | `yes`    | `yes`      | Get/Set the current internal value of this parameter.                            |
 | `value_items`       | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the list of possible values for this parameter.                           |
 
-### `automation_state`
+#### `automation_state`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -48,7 +50,7 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 Returns state of type AutomationState.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Device`
 - **Settable:** `no`
@@ -56,7 +58,7 @@ Returns state of type AutomationState.
 
 Get the canonical parent of the device parameter.
 
-### `default_value`
+#### `default_value`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -64,7 +66,7 @@ Get the canonical parent of the device parameter.
 
 Return the default value for this parameter. A Default value is only available for non-quantized parameter types (see 'is_quantized').
 
-### `display_value`
+#### `display_value`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -72,7 +74,7 @@ Return the default value for this parameter. A Default value is only available f
 
 Get/Set the current value (as visible in the GUI) this parameter. The value must be inside the min/max properties of this device.
 
-### `is_enabled`
+#### `is_enabled`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -80,7 +82,7 @@ Get/Set the current value (as visible in the GUI) this parameter. The value must
 
 Returns false if the parameter has been macro mapped or disabled by Max.
 
-### `is_quantized`
+#### `is_quantized`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -88,7 +90,7 @@ Returns false if the parameter has been macro mapped or disabled by Max.
 
 Returns True, if this value is a boolean or integer like switch. Non quantized values are continues float values.
 
-### `max`
+#### `max`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -96,7 +98,7 @@ Returns True, if this value is a boolean or integer like switch. Non quantized v
 
 Returns const access to the upper value of the allowed range for this parameter
 
-### `min`
+#### `min`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -104,7 +106,7 @@ Returns const access to the upper value of the allowed range for this parameter
 
 Returns const access to the lower value of the allowed range for this parameter
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -112,7 +114,7 @@ Returns const access to the lower value of the allowed range for this parameter
 
 Returns const access the name of this parameter, as visible in Lives automation choosers.
 
-### `original_name`
+#### `original_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -120,7 +122,7 @@ Returns const access the name of this parameter, as visible in Lives automation 
 
 Returns const access the original name of this parameter, unaffected of any renamings.
 
-### `short_value_items`
+#### `short_value_items`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -128,7 +130,7 @@ Returns const access the original name of this parameter, unaffected of any rena
 
 Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
 
-### `state`
+#### `state`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -136,7 +138,7 @@ Return the list of possible values for this parameter. Like value_items, but pre
 
 Returns the state of the parameter: - enabled - the parameter's value can be changed, - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled, - disabled - the parameter's value cannot be changed.
 
-### `value`
+#### `value`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -144,7 +146,7 @@ Returns the state of the parameter: - enabled - the parameter's value can be cha
 
 Get/Set the current internal value of this parameter. The value must be inside the min/max properties of this device.
 
-### `value_items`
+#### `value_items`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -152,7 +154,7 @@ Get/Set the current internal value of this parameter. The value must be inside t
 
 Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
 
-## Methods
+### Methods
 
 | Method                        | Returns | Description                                                                      |
 | ----------------------------- | ------- | -------------------------------------------------------------------------------- |
@@ -161,25 +163,25 @@ Return the list of possible values for this parameter. Raises an error if 'is_qu
 | `re_enable_automation()`      | `None`  | Reenable automation for this parameter.                                          |
 | `str_for_value(value: float)` | `str`   | Return a string representation of the given value.                               |
 
-### `begin_gesture()`
+#### `begin_gesture()`
 
 - **Returns:** `None`
 
 Notify the begin of a modification of the parameter, when a sequence of modifications have to be consider a consistent group -- for Sexample, when recording automation.
 
-### `end_gesture()`
+#### `end_gesture()`
 
 - **Returns:** `None`
 
 Notify the end of a modification of the parameter. See begin_gesture.
 
-### `re_enable_automation()`
+#### `re_enable_automation()`
 
 - **Returns:** `None`
 
 Reenable automation for this parameter.
 
-### `str_for_value(value: float)`
+#### `str_for_value(value: float)`
 
 - **Returns:** `str`
 - **Args:**

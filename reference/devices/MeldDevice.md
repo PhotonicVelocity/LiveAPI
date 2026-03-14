@@ -1,4 +1,6 @@
-# MeldDevice
+# MeldDevice (Module)
+
+## MeldDevice (Class)
 
 > `Live.MeldDevice.MeldDevice`
 
@@ -6,7 +8,7 @@ This class represents a Meld device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |
 | --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -29,7 +31,7 @@ This class represents a Meld device.
 | `unison_voices`             | `int`                              | `yes`    | `yes`      | Return the Unison Voice count.                                                   |
 | `view`                      | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
 
-### `can_compare_ab`
+#### `can_compare_ab`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -37,7 +39,7 @@ This class represents a Meld device.
 
 Returns true if the Device has the capability to AB compare.
 
-### `can_have_chains`
+#### `can_have_chains`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -45,7 +47,7 @@ Returns true if the Device has the capability to AB compare.
 
 Returns true if the device is a rack.
 
-### `can_have_drum_pads`
+#### `can_have_drum_pads`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -53,7 +55,7 @@ Returns true if the device is a rack.
 
 Returns true if the device is a drum rack.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -61,7 +63,7 @@ Returns true if the device is a drum rack.
 
 Get the canonical parent of the Device.
 
-### `class_display_name`
+#### `class_display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -69,7 +71,7 @@ Get the canonical parent of the Device.
 
 Return const access to the name of the device's class name as displayed in Live's browser and device chain
 
-### `class_name`
+#### `class_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -77,7 +79,7 @@ Return const access to the name of the device's class name as displayed in Live'
 
 Return const access to the name of the device's class.
 
-### `is_active`
+#### `is_active`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -85,7 +87,7 @@ Return const access to the name of the device's class.
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
-### `is_using_compare_preset_b`
+#### `is_using_compare_preset_b`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -93,7 +95,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
-### `latency_in_ms`
+#### `latency_in_ms`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -101,7 +103,7 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 Returns the latency of the device in ms.
 
-### `latency_in_samples`
+#### `latency_in_samples`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -109,7 +111,7 @@ Returns the latency of the device in ms.
 
 Returns the latency of the device in samples.
 
-### `mono_poly`
+#### `mono_poly`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -117,7 +119,7 @@ Returns the latency of the device in samples.
 
 Returns the mode of Polyphony
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -125,7 +127,7 @@ Returns the mode of Polyphony
 
 Return access to the name of the device.
 
-### `parameters`
+#### `parameters`
 
 - **Type:** `tuple[DeviceParameter, Ellipsis]`
 - **Settable:** `no`
@@ -133,7 +135,7 @@ Return access to the name of the device.
 
 Const access to the list of available automatable parameters for this device.
 
-### `poly_voices`
+#### `poly_voices`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -141,7 +143,7 @@ Const access to the list of available automatable parameters for this device.
 
 Return the Poly Voice count
 
-### `selected_engine`
+#### `selected_engine`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -149,7 +151,7 @@ Return the Poly Voice count
 
 Return what Voice Engine is selected
 
-### `type`
+#### `type`
 
 - **Type:** `DeviceType`
 - **Settable:** `no`
@@ -157,7 +159,7 @@ Return what Voice Engine is selected
 
 Return the type of the device.
 
-### `unison_voices`
+#### `unison_voices`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -165,7 +167,7 @@ Return the type of the device.
 
 Return the Unison Voice count
 
-### `view`
+#### `view`
 
 - **Type:** `Device.View`
 - **Settable:** `no`

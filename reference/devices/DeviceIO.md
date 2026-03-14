@@ -1,4 +1,6 @@
-# DeviceIO
+# DeviceIO (Module)
+
+## DeviceIO (Class)
 
 > `Live.DeviceIO.DeviceIO`
 
@@ -6,7 +8,7 @@ This class represents a specific input or output bus of a device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                                   | Type                              | Settable | Listenable | Description                                                                      |
 | ------------------------------------------ | --------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -17,7 +19,7 @@ This class represents a specific input or output bus of a device.
 | `routing_channel`                          | `RoutingChannel`                  | `yes`    | `yes`      | Get and set the current routing channel.                                         |
 | `routing_type`                             | `RoutingType`                     | `yes`    | `yes`      | Get and set the current routing type.                                            |
 
-### `available_routing_channels`
+#### `available_routing_channels`
 
 - **Type:** `tuple[RoutingChannel, Ellipsis]`
 - **Settable:** `no`
@@ -25,7 +27,7 @@ This class represents a specific input or output bus of a device.
 
 Return a list of channels for this IO endpoint.
 
-### `available_routing_types`
+#### `available_routing_types`
 
 - **Type:** `tuple[RoutingType, Ellipsis]`
 - **Settable:** `no`
@@ -33,7 +35,7 @@ Return a list of channels for this IO endpoint.
 
 Return a list of available routing types for this IO endpoint.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `MaxDevice`
 - **Settable:** `no`
@@ -41,7 +43,7 @@ Return a list of available routing types for this IO endpoint.
 
 Get the canonical parent of the device IO.
 
-### `default_external_routing_channel_is_none`
+#### `default_external_routing_channel_is_none`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -49,7 +51,7 @@ Get the canonical parent of the device IO.
 
 Get and set whether the default routing channel for External routing types is none.
 
-### `routing_channel`
+#### `routing_channel`
 
 - **Type:** `RoutingChannel`
 - **Settable:** `yes`
@@ -57,7 +59,7 @@ Get and set whether the default routing channel for External routing types is no
 
 Get and set the current routing channel. Raises ValueError if the channel isn't one of the current values in available_routing_channels.
 
-### `routing_type`
+#### `routing_type`
 
 - **Type:** `RoutingType`
 - **Settable:** `yes`

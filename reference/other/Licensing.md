@@ -1,10 +1,12 @@
-# ProgressDialog
+# Licensing (Module)
+
+## ProgressDialog (Class)
 
 > `Live.Licensing.ProgressDialog`
 
 A modal dialog showing a message and a progress animation.
 
-## Methods
+### Methods
 
 | Method                         | Returns | Description |
 | ------------------------------ | ------- | ----------- |
@@ -12,27 +14,27 @@ A modal dialog showing a message and a progress animation.
 | `run_in_modal_loop()`          | `None`  |             |
 | `set_status_message(msg: str)` | `None`  |             |
 
-### `end_modal_loop()`
+#### `end_modal_loop()`
 
 - **Returns:** `None`
 
-### `run_in_modal_loop()`
+#### `run_in_modal_loop()`
 
 - **Returns:** `None`
 
-### `set_status_message(msg: str)`
+#### `set_status_message(msg: str)`
 
 - **Returns:** `None`
 - **Args:**
   - `msg: str`
 
-# PythonLicensingBridge
+## PythonLicensingBridge (Class)
 
 > `Live.Licensing.PythonLicensingBridge`
 
 Interface to the internal licensing services.
 
-## Properties
+### Properties
 
 | Property                                | Type   | Settable | Listenable | Description                                                                      |
 | --------------------------------------- | ------ | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -42,7 +44,7 @@ Interface to the internal licensing services.
 | `random_number_for_trial_authorization` | `int`  | `no`     | `no`       | Returns the integer to send along with the Trial authorization request.          |
 | `set_has_unsaved_changes`               | `bool` | `no`     | `no`       | Returns true if the set has unsaved changes.                                     |
 
-### `base_product_id`
+#### `base_product_id`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -50,13 +52,13 @@ Interface to the internal licensing services.
 
 Returns Live's current base product ID.
 
-### `in_sassafras_mode`
+#### `in_sassafras_mode`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `license_must_match_variant`
+#### `license_must_match_variant`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -64,7 +66,7 @@ Returns Live's current base product ID.
 
 Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
 
-### `random_number_for_trial_authorization`
+#### `random_number_for_trial_authorization`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -72,7 +74,7 @@ Returns a bool indicating if we require the license information returned by the 
 
 Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
 
-### `set_has_unsaved_changes`
+#### `set_has_unsaved_changes`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -80,7 +82,7 @@ Returns the integer to send along with the Trial authorization request. This sam
 
 Returns true if the set has unsaved changes.
 
-## Methods
+### Methods
 
 | Method                                                                                 | Returns          | Description                                                                      |
 | -------------------------------------------------------------------------------------- | ---------------- | -------------------------------------------------------------------------------- |
@@ -100,35 +102,35 @@ Returns true if the set has unsaved changes.
 | `set_network_timer(callback: Callable, interval_in_ms: int)`                           | `None`           | Starts or stops a timer meant for driving network operations.                    |
 | `store_session_id(session_id: str)`                                                    | `None`           | Securely stores the user's session ID (aka cookie, aka credentials).             |
 
-### `authorize_with_sassafras()`
+#### `authorize_with_sassafras()`
 
 - **Returns:** `None`
 
-### `create_new_live_set()`
+#### `create_new_live_set()`
 
 - **Returns:** `None`
 
 Creates a new live set and discards unsaved changes.
 
-### `deauthenticate_user()`
+#### `deauthenticate_user()`
 
 - **Returns:** `None`
 
 Deletes the current session ID.
 
-### `get_progress_dialog()`
+#### `get_progress_dialog()`
 
 - **Returns:** `ProgressDialog`
 
 Retrieves an instance of ProgressDialog.
 
-### `get_session_id()`
+#### `get_session_id()`
 
 - **Returns:** `str`
 
 Retrieve stored session ID.
 
-### `get_startup_dialog(authorize_callable: Callable, authorize_later_callable: Callable)`
+#### `get_startup_dialog(authorize_callable: Callable, authorize_later_callable: Callable)`
 
 - **Returns:** `StartupDialog`
 - **Args:**
@@ -137,25 +139,25 @@ Retrieve stored session ID.
 
 Retrieves an instance of the startup dialog with the passed callables connected to its buttons.
 
-### `get_trial_time_left()`
+#### `get_trial_time_left()`
 
 - **Returns:** `str`
 
 Returns remaining time on a trial as a formatted string.
 
-### `invoke_pack_installation_callback()`
+#### `invoke_pack_installation_callback()`
 
 - **Returns:** `None`
 
 Call package installation callback.
 
-### `load_and_convert_legacy_unlock_cfg()`
+#### `load_and_convert_legacy_unlock_cfg()`
 
 - **Returns:** `dict`
 
 Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object.
 
-### `process_license_response(license_response_lines: list)`
+#### `process_license_response(license_response_lines: list)`
 
 - **Returns:** `UnlockStatus`
 - **Args:**
@@ -163,7 +165,7 @@ Loads the Unlock.cfg file and returns either an empty dict or one that can be co
 
 Processes a list of strings, each representing a server response to a product authorization.
 
-### `process_trial_response(trial_response_line: str)`
+#### `process_trial_response(trial_response_line: str)`
 
 - **Returns:** `bool`
 - **Args:**
@@ -171,19 +173,19 @@ Processes a list of strings, each representing a server response to a product au
 
 Process the server's response to a Trial authorization.
 
-### `request_exit(exit_code: int = 0)`
+#### `request_exit(exit_code: int = 0)`
 
 - **Returns:** `None`
 - **Args:**
   - `exit_code: int = 0`
 
-### `save_current_set()`
+#### `save_current_set()`
 
 - **Returns:** `None`
 
 Saves the current Live session.
 
-### `set_network_timer(callback: Callable, interval_in_ms: int)`
+#### `set_network_timer(callback: Callable, interval_in_ms: int)`
 
 - **Returns:** `None`
 - **Args:**
@@ -192,7 +194,7 @@ Saves the current Live session.
 
 Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped.
 
-### `store_session_id(session_id: str)`
+#### `store_session_id(session_id: str)`
 
 - **Returns:** `None`
 - **Args:**
@@ -200,13 +202,13 @@ Starts or stops a timer meant for driving network operations. Pass None as callb
 
 Securely stores the user's session ID (aka cookie, aka credentials).
 
-# StartupDialog
+## StartupDialog (Class)
 
 > `Live.Licensing.StartupDialog`
 
 Serves as an entry point for the user to authorize Live on first launch.
 
-## Methods
+### Methods
 
 | Method                                                                      | Returns | Description |
 | --------------------------------------------------------------------------- | ------- | ----------- |
@@ -214,24 +216,24 @@ Serves as an entry point for the user to authorize Live on first launch.
 | `run_in_modal_loop(show_only_offline_auth_instructions: bool)`              | `None`  |             |
 | `set_notification_message(notification_text: str, show_progress_bar: bool)` | `None`  |             |
 
-### `end_modal_loop()`
+#### `end_modal_loop()`
 
 - **Returns:** `None`
 
-### `run_in_modal_loop(show_only_offline_auth_instructions: bool)`
+#### `run_in_modal_loop(show_only_offline_auth_instructions: bool)`
 
 - **Returns:** `None`
 - **Args:**
   - `show_only_offline_auth_instructions: bool`
 
-### `set_notification_message(notification_text: str, show_progress_bar: bool)`
+#### `set_notification_message(notification_text: str, show_progress_bar: bool)`
 
 - **Returns:** `None`
 - **Args:**
   - `notification_text: str`
   - `show_progress_bar: bool`
 
-# UnlockStatus
+## UnlockStatus (Class)
 
 > `Live.Licensing.UnlockStatus`
 
@@ -239,7 +241,7 @@ Returns relevant information after unlock
 
 **Constructor:** `UnlockStatus()`
 
-## Properties
+### Properties
 
 | Property                    | Type   | Settable | Listenable | Description |
 | --------------------------- | ------ | -------- | ---------- | ----------- |
@@ -251,43 +253,43 @@ Returns relevant information after unlock
 | `unlock_error`              | `bool` | `no`     | `no`       |             |
 | `unlocked`                  | `bool` | `no`     | `no`       |             |
 
-### `authorization_deactivated`
+#### `authorization_deactivated`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `authorization_expired`
+#### `authorization_expired`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `has_max_unlock_products`
+#### `has_max_unlock_products`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `temp_demo_mode`
+#### `temp_demo_mode`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `time_limited`
+#### `time_limited`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `unlock_error`
+#### `unlock_error`
 
 - **Type:** `bool`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### `unlocked`
+#### `unlocked`
 
 - **Type:** `bool`
 - **Settable:** `no`

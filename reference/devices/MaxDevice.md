@@ -1,4 +1,6 @@
-# MaxDevice
+# MaxDevice (Module)
+
+## MaxDevice (Class)
 
 > `Live.MaxDevice.MaxDevice`
 
@@ -6,7 +8,7 @@ This class represents a Max for Live device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |
 | --------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -29,7 +31,7 @@ This class represents a Max for Live device.
 | `type`                      | `DeviceType`                       | `no`     | `no`       | Return the type of the device.                                                   |
 | `view`                      | `Device.View`                      | `no`     | `no`       | Representing the view aspects of a device.                                       |
 
-### `audio_inputs`
+#### `audio_inputs`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -37,7 +39,7 @@ This class represents a Max for Live device.
 
 Const access to a list of all audio inputs of the device.
 
-### `audio_outputs`
+#### `audio_outputs`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -45,7 +47,7 @@ Const access to a list of all audio inputs of the device.
 
 Const access to a list of all audio outputs of the device.
 
-### `can_compare_ab`
+#### `can_compare_ab`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -53,7 +55,7 @@ Const access to a list of all audio outputs of the device.
 
 Returns true if the Device has the capability to AB compare.
 
-### `can_have_chains`
+#### `can_have_chains`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -61,7 +63,7 @@ Returns true if the Device has the capability to AB compare.
 
 Returns true if the device is a rack.
 
-### `can_have_drum_pads`
+#### `can_have_drum_pads`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -69,7 +71,7 @@ Returns true if the device is a rack.
 
 Returns true if the device is a drum rack.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -77,7 +79,7 @@ Returns true if the device is a drum rack.
 
 Get the canonical parent of the Device.
 
-### `class_display_name`
+#### `class_display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -85,7 +87,7 @@ Get the canonical parent of the Device.
 
 Return const access to the name of the device's class name as displayed in Live's browser and device chain
 
-### `class_name`
+#### `class_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -93,7 +95,7 @@ Return const access to the name of the device's class name as displayed in Live'
 
 Return const access to the name of the device's class.
 
-### `is_active`
+#### `is_active`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -101,7 +103,7 @@ Return const access to the name of the device's class.
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
-### `is_using_compare_preset_b`
+#### `is_using_compare_preset_b`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -109,7 +111,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
-### `latency_in_ms`
+#### `latency_in_ms`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -117,7 +119,7 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 Returns the latency of the device in ms.
 
-### `latency_in_samples`
+#### `latency_in_samples`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -125,7 +127,7 @@ Returns the latency of the device in ms.
 
 Returns the latency of the device in samples.
 
-### `midi_inputs`
+#### `midi_inputs`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -133,7 +135,7 @@ Returns the latency of the device in samples.
 
 Const access to a list of all midi outputs of the device.
 
-### `midi_outputs`
+#### `midi_outputs`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -141,7 +143,7 @@ Const access to a list of all midi outputs of the device.
 
 Const access to a list of all midi outputs of the device.
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -149,7 +151,7 @@ Const access to a list of all midi outputs of the device.
 
 Return access to the name of the device.
 
-### `parameters`
+#### `parameters`
 
 - **Type:** `tuple[DeviceParameter, Ellipsis]`
 - **Settable:** `no`
@@ -157,7 +159,7 @@ Return access to the name of the device.
 
 Const access to the list of available automatable parameters for this device.
 
-### `type`
+#### `type`
 
 - **Type:** `DeviceType`
 - **Settable:** `no`
@@ -165,7 +167,7 @@ Const access to the list of available automatable parameters for this device.
 
 Return the type of the device.
 
-### `view`
+#### `view`
 
 - **Type:** `Device.View`
 - **Settable:** `no`
@@ -173,7 +175,7 @@ Return the type of the device.
 
 Representing the view aspects of a device.
 
-## Methods
+### Methods
 
 | Method                                             | Returns | Description                                                                      |
 | -------------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
@@ -182,13 +184,13 @@ Representing the view aspects of a device.
 | `get_bank_parameters(bank_index: int)`             | `list`  | Get the indices of parameters of the given bank index.                           |
 | `get_value_item_icons(parameter: DeviceParameter)` | `list`  | Get a list of icon identifier strings for a list parameter's values.An empty ... |
 
-### `get_bank_count()`
+#### `get_bank_count()`
 
 - **Returns:** `int`
 
 Get the number of parameter banks. This is related to hardware control surfaces.
 
-### `get_bank_name(bank_index: int)`
+#### `get_bank_name(bank_index: int)`
 
 - **Returns:** `str`
 - **Args:**
@@ -196,7 +198,7 @@ Get the number of parameter banks. This is related to hardware control surfaces.
 
 Get the name of a parameter bank given by index. This is related to hardware control surfaces.
 
-### `get_bank_parameters(bank_index: int)`
+#### `get_bank_parameters(bank_index: int)`
 
 - **Returns:** `list`
 - **Args:**
@@ -204,7 +206,7 @@ Get the name of a parameter bank given by index. This is related to hardware con
 
 Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces.
 
-### `get_value_item_icons(parameter: DeviceParameter)`
+#### `get_value_item_icons(parameter: DeviceParameter)`
 
 - **Returns:** `list`
 - **Args:**

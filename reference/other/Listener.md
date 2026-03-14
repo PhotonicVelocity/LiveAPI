@@ -1,10 +1,12 @@
-# ListenerHandle
+# Listener (Module)
+
+## ListenerHandle (Class)
 
 > `Live.Listener.ListenerHandle`
 
 This class represents a Python listener when connected to a Live property.
 
-## Properties
+### Properties
 
 | Property        | Type       | Settable | Listenable | Description                                                            |
 | --------------- | ---------- | -------- | ---------- | ---------------------------------------------------------------------- |
@@ -12,7 +14,7 @@ This class represents a Python listener when connected to a Live property.
 | `listener_self` | `Any`      | `no`     | `no`       | Returns the weak reference to original self, if it was a bound method. |
 | `name`          | `str`      | `no`     | `no`       | Prints the name of the property that this listener is connected to.    |
 
-### `listener_func`
+#### `listener_func`
 
 - **Type:** `Callable`
 - **Settable:** `no`
@@ -20,7 +22,7 @@ This class represents a Python listener when connected to a Live property.
 
 Returns the original function
 
-### `listener_self`
+#### `listener_self`
 
 - **Type:** `Any`
 - **Settable:** `no`
@@ -28,7 +30,7 @@ Returns the original function
 
 Returns the weak reference to original self, if it was a bound method
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -36,38 +38,38 @@ Returns the weak reference to original self, if it was a bound method
 
 Prints the name of the property that this listener is connected to
 
-## Methods
+### Methods
 
 | Method         | Returns | Description                                 |
 | -------------- | ------- | ------------------------------------------- |
 | `disconnect()` | `None`  | Disconnects the listener from its property. |
 
-### `disconnect()`
+#### `disconnect()`
 
 - **Returns:** `None`
 
 Disconnects the listener from its property
 
-# ListenerVector
+## ListenerVector (Class)
 
 > `Live.Listener.ListenerVector`
 
 A read only container for accessing a list of listeners.
 
-## Methods
+### Methods
 
 | Method                           | Returns | Description |
 | -------------------------------- | ------- | ----------- |
 | `append(value: ListenerHandle)`  | `None`  |             |
 | `extend(values: ListenerHandle)` | `None`  |             |
 
-### `append(value: ListenerHandle)`
+#### `append(value: ListenerHandle)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: ListenerHandle`
 
-### `extend(values: ListenerHandle)`
+#### `extend(values: ListenerHandle)`
 
 - **Returns:** `None`
 - **Args:**

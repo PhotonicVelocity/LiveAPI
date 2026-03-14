@@ -1,4 +1,6 @@
-# ClipSlot
+# ClipSlot (Module)
+
+## ClipSlot (Class)
 
 > `Live.ClipSlot.ClipSlot`
 
@@ -10,7 +12,7 @@ This class represents an entry in Lives Session view matrix.
 
 - `Song.View.highlighted_clip_slot`
 
-## Properties
+### Properties
 
 | Property               | Type                   | Settable | Listenable | Description                                                                      |
 | ---------------------- | ---------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -28,7 +30,7 @@ This class represents an entry in Lives Session view matrix.
 | `playing_status`       | `ClipSlotPlayingState` | `no`     | `yes`      | Const access to the playing state of the clip slot.                              |
 | `will_record_on_start` | `bool`                 | `no`     | `no`       | returns true if the clip slot will record on being fired.                        |
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -36,7 +38,7 @@ This class represents an entry in Lives Session view matrix.
 
 Get the canonical parent of the ClipSlot.
 
-### `clip`
+#### `clip`
 
 - **Type:** `Clip`
 - **Settable:** `no`
@@ -44,7 +46,7 @@ Get the canonical parent of the ClipSlot.
 
 Returns the Clip which this clipslots currently owns. Might be None.
 
-### `color`
+#### `color`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -52,7 +54,7 @@ Returns the Clip which this clipslots currently owns. Might be None.
 
 Returns the canonical color for the clip slot or None if it does not exist.
 
-### `color_index`
+#### `color_index`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -60,7 +62,7 @@ Returns the canonical color for the clip slot or None if it does not exist.
 
 Returns the canonical color index for the clip slot or None if it does not exist.
 
-### `controls_other_clips`
+#### `controls_other_clips`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -68,7 +70,7 @@ Returns the canonical color index for the clip slot or None if it does not exist
 
 Returns true if firing this slot will fire clips in other slots. Can only be true for slots in group tracks.
 
-### `has_clip`
+#### `has_clip`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -76,7 +78,7 @@ Returns true if firing this slot will fire clips in other slots. Can only be tru
 
 Returns true if this Clipslot owns a Clip.
 
-### `has_stop_button`
+#### `has_stop_button`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -84,7 +86,7 @@ Returns true if this Clipslot owns a Clip.
 
 Get/Set if this Clip has a stop button, which will, if fired, stop any other Clip that is currently playing the Track we do belong to.
 
-### `is_group_slot`
+#### `is_group_slot`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -92,7 +94,7 @@ Get/Set if this Clip has a stop button, which will, if fired, stop any other Cli
 
 Returns whether this clip slot is a group track slot (group slot).
 
-### `is_playing`
+#### `is_playing`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -100,7 +102,7 @@ Returns whether this clip slot is a group track slot (group slot).
 
 Returns whether the clip associated with the slot is playing.
 
-### `is_recording`
+#### `is_recording`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -108,7 +110,7 @@ Returns whether the clip associated with the slot is playing.
 
 Returns whether the clip associated with the slot is recording.
 
-### `is_triggered`
+#### `is_triggered`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -116,7 +118,7 @@ Returns whether the clip associated with the slot is recording.
 
 Const access to the triggering state of the clip slot.
 
-### `playing_status`
+#### `playing_status`
 
 - **Type:** `ClipSlotPlayingState`
 - **Settable:** `no`
@@ -124,7 +126,7 @@ Const access to the triggering state of the clip slot.
 
 Const access to the playing state of the clip slot. Can be either stopped, playing, or recording.
 
-### `will_record_on_start`
+#### `will_record_on_start`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -132,7 +134,7 @@ Const access to the playing state of the clip slot. Can be either stopped, playi
 
 returns true if the clip slot will record on being fired.
 
-## Methods
+### Methods
 
 | Method                                          | Returns | Description                                                                      |
 | ----------------------------------------------- | ------- | -------------------------------------------------------------------------------- |
@@ -144,7 +146,7 @@ returns true if the clip slot will record on being fired.
 | `set_fire_button_state(state: bool)`            | `None`  | Set the clipslot's fire button state directly.                                   |
 | `stop()`                                        | `None`  | Stop playing the contained Clip, if there is a Clip and its currently playing.   |
 
-### `create_audio_clip(path: str)`
+#### `create_audio_clip(path: str)`
 
 - **Returns:** `Clip`
 - **Args:**
@@ -152,7 +154,7 @@ returns true if the clip slot will record on being fired.
 
 Creates an audio clip referencing the file at the given absolute path in the slot. Throws an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.
 
-### `create_clip(pages: float)`
+#### `create_clip(pages: float)`
 
 - **Returns:** `Clip`
 - **Args:**
@@ -160,13 +162,13 @@ Creates an audio clip referencing the file at the given absolute path in the slo
 
 Creates an empty clip with the given length in the slot. Throws an error when called on non-empty slots or slots in non-MIDI tracks.
 
-### `delete_clip()`
+#### `delete_clip()`
 
 - **Returns:** `None`
 
 Removes the clip contained in the slot. Raises an exception if the slot was empty.
 
-### `duplicate_clip_to(target_clip_slot: ClipSlot)`
+#### `duplicate_clip_to(target_clip_slot: ClipSlot)`
 
 - **Returns:** `None`
 - **Args:**
@@ -174,13 +176,13 @@ Removes the clip contained in the slot. Raises an exception if the slot was empt
 
 Duplicates the slot's clip to the passed in target slot. Overrides the target's clip if it's not empty. Raises an exception if the (source) slot itself is empty, or if source and target have different track types (audio vs. MIDI). Also raises if the source or target slot is in a group track (so called group slot).
 
-### `fire()`
+#### `fire()`
 
 - **Returns:** `None`
 
 Fire a Clip if this Clipslot owns one, else trigger the stop button, if we have one.
 
-### `set_fire_button_state(state: bool)`
+#### `set_fire_button_state(state: bool)`
 
 - **Returns:** `None`
 - **Args:**
@@ -188,7 +190,7 @@ Fire a Clip if this Clipslot owns one, else trigger the stop button, if we have 
 
 Set the clipslot's fire button state directly. Supports all launch modes.
 
-### `stop()`
+#### `stop()`
 
 - **Returns:** `None`
 

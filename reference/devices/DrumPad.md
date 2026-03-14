@@ -1,4 +1,6 @@
-# DrumPad
+# DrumPad (Module)
+
+## DrumPad (Class)
 
 > `Live.DrumPad.DrumPad`
 
@@ -10,7 +12,7 @@ This class represents a drum group device pad in Live.
 
 - `RackDevice.View.selected_drum_pad`
 
-## Properties
+### Properties
 
 | Property           | Type         | Settable | Listenable | Description                                                 |
 | ------------------ | ------------ | -------- | ---------- | ----------------------------------------------------------- |
@@ -21,7 +23,7 @@ This class represents a drum group device pad in Live.
 | `note`             | `int`        | `no`     | `no`       | Get the MIDI note of the drum pad.                          |
 | `solo`             | `bool`       | `yes`    | `yes`      | Solo/unsolo the pad.                                        |
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `RackDevice`
 - **Settable:** `no`
@@ -29,7 +31,7 @@ This class represents a drum group device pad in Live.
 
 Get the canonical parent of the drum pad.
 
-### `chains`
+#### `chains`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -37,7 +39,7 @@ Get the canonical parent of the drum pad.
 
 Return const access to the list of chains in this drum pad.
 
-### `mute`
+#### `mute`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -45,7 +47,7 @@ Return const access to the list of chains in this drum pad.
 
 Mute/unmute the pad.
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -53,7 +55,7 @@ Mute/unmute the pad.
 
 Return const access to the drum pad's name. It depends on the contained chains.
 
-### `note`
+#### `note`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -61,7 +63,7 @@ Return const access to the drum pad's name. It depends on the contained chains.
 
 Get the MIDI note of the drum pad.
 
-### `solo`
+#### `solo`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -69,13 +71,13 @@ Get the MIDI note of the drum pad.
 
 Solo/unsolo the pad.
 
-## Methods
+### Methods
 
 | Method                | Returns | Description                                    |
 | --------------------- | ------- | ---------------------------------------------- |
 | `delete_all_chains()` | `None`  | Deletes all chains associated with a drum pad. |
 
-### `delete_all_chains()`
+#### `delete_all_chains()`
 
 - **Returns:** `None`
 

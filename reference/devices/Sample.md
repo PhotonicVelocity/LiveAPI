@@ -1,4 +1,6 @@
-# Sample
+# Sample (Module)
+
+## Sample (Class)
 
 > `Live.Sample.Sample`
 
@@ -10,7 +12,7 @@ This class represents a sample file loaded into a Simpler instance.
 
 - `SimplerDevice.sample`
 
-## Properties
+### Properties
 
 | Property                       | Type                          | Settable | Listenable | Description                                                                      |
 | ------------------------------ | ----------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -38,7 +40,7 @@ This class represents a sample file loaded into a Simpler instance.
 | `warp_mode`                    | `int`                         | `yes`    | `yes`      | Access to the sample's warp mode.                                                |
 | `warping`                      | `bool`                        | `yes`    | `yes`      | Access to the sample's warping property.                                         |
 
-### `beats_granulation_resolution`
+#### `beats_granulation_resolution`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -46,7 +48,7 @@ This class represents a sample file loaded into a Simpler instance.
 
 Access to the Granulation Resolution parameter in Beats Warp Mode.
 
-### `beats_transient_envelope`
+#### `beats_transient_envelope`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -54,7 +56,7 @@ Access to the Granulation Resolution parameter in Beats Warp Mode.
 
 Access to the Transient Envelope parameter in Beats Warp Mode.
 
-### `beats_transient_loop_mode`
+#### `beats_transient_loop_mode`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -62,7 +64,7 @@ Access to the Transient Envelope parameter in Beats Warp Mode.
 
 Access to the Transient Loop Mode parameter in Beats Warp Mode.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `SimplerDevice`
 - **Settable:** `no`
@@ -70,7 +72,7 @@ Access to the Transient Loop Mode parameter in Beats Warp Mode.
 
 Access to the sample's canonical parent.
 
-### `complex_pro_envelope`
+#### `complex_pro_envelope`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -78,7 +80,7 @@ Access to the sample's canonical parent.
 
 Access to the Envelope parameter in Complex Pro Mode.
 
-### `complex_pro_formants`
+#### `complex_pro_formants`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -86,7 +88,7 @@ Access to the Envelope parameter in Complex Pro Mode.
 
 Access to the Formants parameter in Complex Pro Warp Mode.
 
-### `end_marker`
+#### `end_marker`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -94,7 +96,7 @@ Access to the Formants parameter in Complex Pro Warp Mode.
 
 Access to the position of the sample's end marker.
 
-### `file_path`
+#### `file_path`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -102,7 +104,7 @@ Access to the position of the sample's end marker.
 
 Get the path of the sample file.
 
-### `gain`
+#### `gain`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -110,7 +112,7 @@ Get the path of the sample file.
 
 Access to the sample gain.
 
-### `length`
+#### `length`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -118,7 +120,7 @@ Access to the sample gain.
 
 Get the length of the sample file in sample frames.
 
-### `sample_rate`
+#### `sample_rate`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -126,7 +128,7 @@ Get the length of the sample file in sample frames.
 
 Access to the audio sample rate of the sample.
 
-### `slices`
+#### `slices`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -134,7 +136,7 @@ Access to the audio sample rate of the sample.
 
 Access to the list of slice points in sample time in the sample.
 
-### `slicing_beat_division`
+#### `slicing_beat_division`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -142,7 +144,7 @@ Access to the list of slice points in sample time in the sample.
 
 Access to sample's slicing step size.
 
-### `slicing_region_count`
+#### `slicing_region_count`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -150,7 +152,7 @@ Access to sample's slicing step size.
 
 Access to sample's slicing split count.
 
-### `slicing_sensitivity`
+#### `slicing_sensitivity`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -158,7 +160,7 @@ Access to sample's slicing split count.
 
 Access to sample's slicing sensitivity whose sensitivity is in between 0.0 and 1.0. The higher the sensitivity, the more slices will be available.
 
-### `slicing_style`
+#### `slicing_style`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -166,7 +168,7 @@ Access to sample's slicing sensitivity whose sensitivity is in between 0.0 and 1
 
 Access to sample's slicing style.
 
-### `start_marker`
+#### `start_marker`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -174,7 +176,7 @@ Access to sample's slicing style.
 
 Access to the position of the sample's start marker.
 
-### `texture_flux`
+#### `texture_flux`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -182,7 +184,7 @@ Access to the position of the sample's start marker.
 
 Access to the Flux parameter in Texture Warp Mode.
 
-### `texture_grain_size`
+#### `texture_grain_size`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -190,7 +192,7 @@ Access to the Flux parameter in Texture Warp Mode.
 
 Access to the Grain Size parameter in Texture Warp Mode.
 
-### `tones_grain_size`
+#### `tones_grain_size`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -198,7 +200,7 @@ Access to the Grain Size parameter in Texture Warp Mode.
 
 Access to the Grain Size parameter in Tones Warp Mode.
 
-### `warp_markers`
+#### `warp_markers`
 
 - **Type:** `tuple[WarpMarker, Ellipsis]`
 - **Settable:** `no`
@@ -206,7 +208,7 @@ Access to the Grain Size parameter in Tones Warp Mode.
 
 Get the warp markers for this sample.
 
-### `warp_mode`
+#### `warp_mode`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -214,7 +216,7 @@ Get the warp markers for this sample.
 
 Access to the sample's warp mode.
 
-### `warping`
+#### `warping`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -222,7 +224,7 @@ Access to the sample's warp mode.
 
 Access to the sample's warping property.
 
-## Methods
+### Methods
 
 | Method                                     | Returns | Description                                                  |
 | ------------------------------------------ | ------- | ------------------------------------------------------------ |
@@ -235,7 +237,7 @@ Access to the sample's warping property.
 | `reset_slices()`                           | `None`  | Resets all edited slices to their original positions.        |
 | `sample_to_beat_time(sample_time: float)`  | `float` | Converts the given sample time to beat time.                 |
 
-### `beat_to_sample_time(beat_time: float)`
+#### `beat_to_sample_time(beat_time: float)`
 
 - **Returns:** `float`
 - **Args:**
@@ -243,19 +245,19 @@ Access to the sample's warping property.
 
 Converts the given beat time to sample time. Raises an error if the sample is not warped.
 
-### `clear_slices()`
+#### `clear_slices()`
 
 - **Returns:** `None`
 
 Clears all slices created in Simpler's manual mode.
 
-### `gain_display_string()`
+#### `gain_display_string()`
 
 - **Returns:** `str`
 
 Get the gain's display value as a string.
 
-### `insert_slice(slice_time: int)`
+#### `insert_slice(slice_time: int)`
 
 - **Returns:** `None`
 - **Args:**
@@ -263,7 +265,7 @@ Get the gain's display value as a string.
 
 Add a slice point at the provided time if there is none.
 
-### `move_slice(old_time: int, new_time: int)`
+#### `move_slice(old_time: int, new_time: int)`
 
 - **Returns:** `int`
 - **Args:**
@@ -272,7 +274,7 @@ Add a slice point at the provided time if there is none.
 
 Move the slice point at the provided time.
 
-### `remove_slice(slice_time: int)`
+#### `remove_slice(slice_time: int)`
 
 - **Returns:** `None`
 - **Args:**
@@ -280,13 +282,13 @@ Move the slice point at the provided time.
 
 Remove the slice point at the provided time if there is one.
 
-### `reset_slices()`
+#### `reset_slices()`
 
 - **Returns:** `None`
 
 Resets all edited slices to their original positions.
 
-### `sample_to_beat_time(sample_time: float)`
+#### `sample_to_beat_time(sample_time: float)`
 
 - **Returns:** `float`
 - **Args:**

@@ -1,4 +1,6 @@
-# CcControlDevice
+# CcControlDevice (Module)
+
+## CcControlDevice (Class)
 
 > `Live.CcControlDevice.CcControlDevice`
 
@@ -6,7 +8,7 @@ This class represents a CcControl device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                      | Type                   | Settable | Listenable | Description                             |
 | ----------------------------- | ---------------------- | -------- | ---------- | --------------------------------------- |
@@ -37,7 +39,7 @@ This class represents a CcControl device.
 | `custom_float_target_9`       | `int`                  | `yes`    | `yes`      | Return the custom float target 9.       |
 | `custom_float_target_9_list`  | `tuple[str, Ellipsis]` | `no`     | `no`       | Return the custom float target 9 list.  |
 
-### `custom_bool_target`
+#### `custom_bool_target`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -45,7 +47,7 @@ This class represents a CcControl device.
 
 Return the custom bool target
 
-### `custom_bool_target_list`
+#### `custom_bool_target_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -53,7 +55,7 @@ Return the custom bool target
 
 Return the custom bool target list
 
-### `custom_float_target_0`
+#### `custom_float_target_0`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -61,7 +63,7 @@ Return the custom bool target list
 
 Return the custom float target 0
 
-### `custom_float_target_0_list`
+#### `custom_float_target_0_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -69,7 +71,7 @@ Return the custom float target 0
 
 Return the custom float target 0 list
 
-### `custom_float_target_1`
+#### `custom_float_target_1`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -77,7 +79,7 @@ Return the custom float target 0 list
 
 Return the custom float target 1
 
-### `custom_float_target_10`
+#### `custom_float_target_10`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -85,7 +87,7 @@ Return the custom float target 1
 
 Return the custom float target 10
 
-### `custom_float_target_10_list`
+#### `custom_float_target_10_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -93,7 +95,7 @@ Return the custom float target 10
 
 Return the custom float target 10 list
 
-### `custom_float_target_11`
+#### `custom_float_target_11`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -101,7 +103,7 @@ Return the custom float target 10 list
 
 Return the custom float target 11
 
-### `custom_float_target_11_list`
+#### `custom_float_target_11_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -109,7 +111,7 @@ Return the custom float target 11
 
 Return the custom float target 11 list
 
-### `custom_float_target_1_list`
+#### `custom_float_target_1_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -117,7 +119,7 @@ Return the custom float target 11 list
 
 Return the custom float target 1 list
 
-### `custom_float_target_2`
+#### `custom_float_target_2`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -125,7 +127,7 @@ Return the custom float target 1 list
 
 Return the custom float target 2
 
-### `custom_float_target_2_list`
+#### `custom_float_target_2_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -133,7 +135,7 @@ Return the custom float target 2
 
 Return the custom float target 2 list
 
-### `custom_float_target_3`
+#### `custom_float_target_3`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -141,7 +143,7 @@ Return the custom float target 2 list
 
 Return the custom float target 3
 
-### `custom_float_target_3_list`
+#### `custom_float_target_3_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -149,7 +151,7 @@ Return the custom float target 3
 
 Return the custom float target 3 list
 
-### `custom_float_target_4`
+#### `custom_float_target_4`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -157,7 +159,7 @@ Return the custom float target 3 list
 
 Return the custom float target 4
 
-### `custom_float_target_4_list`
+#### `custom_float_target_4_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -165,7 +167,7 @@ Return the custom float target 4
 
 Return the custom float target 4 list
 
-### `custom_float_target_5`
+#### `custom_float_target_5`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -173,7 +175,7 @@ Return the custom float target 4 list
 
 Return the custom float target 5
 
-### `custom_float_target_5_list`
+#### `custom_float_target_5_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -181,7 +183,7 @@ Return the custom float target 5
 
 Return the custom float target 5 list
 
-### `custom_float_target_6`
+#### `custom_float_target_6`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -189,7 +191,7 @@ Return the custom float target 5 list
 
 Return the custom float target 6
 
-### `custom_float_target_6_list`
+#### `custom_float_target_6_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -197,7 +199,7 @@ Return the custom float target 6
 
 Return the custom float target 6 list
 
-### `custom_float_target_7`
+#### `custom_float_target_7`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -205,7 +207,7 @@ Return the custom float target 6 list
 
 Return the custom float target 7
 
-### `custom_float_target_7_list`
+#### `custom_float_target_7_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -213,7 +215,7 @@ Return the custom float target 7
 
 Return the custom float target 7 list
 
-### `custom_float_target_8`
+#### `custom_float_target_8`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -221,7 +223,7 @@ Return the custom float target 7 list
 
 Return the custom float target 8
 
-### `custom_float_target_8_list`
+#### `custom_float_target_8_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -229,7 +231,7 @@ Return the custom float target 8
 
 Return the custom float target 8 list
 
-### `custom_float_target_9`
+#### `custom_float_target_9`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -237,7 +239,7 @@ Return the custom float target 8 list
 
 Return the custom float target 9
 
-### `custom_float_target_9_list`
+#### `custom_float_target_9_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -245,13 +247,13 @@ Return the custom float target 9
 
 Return the custom float target 9 list
 
-## Methods
+### Methods
 
 | Method     | Returns | Description           |
 | ---------- | ------- | --------------------- |
 | `resend()` | `None`  | Resend all CC values. |
 
-### `resend()`
+#### `resend()`
 
 - **Returns:** `None`
 

@@ -1,4 +1,6 @@
-# Groove
+# Groove (Module)
+
+## Groove (Class)
 
 > `Live.Groove.Groove`
 
@@ -6,7 +8,7 @@ This class represents a groove in Live.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property              | Type         | Settable | Listenable | Description                                                   |
 | --------------------- | ------------ | -------- | ---------- | ------------------------------------------------------------- |
@@ -18,7 +20,7 @@ This class represents a groove in Live.
 | `timing_amount`       | `float`      | `yes`    | `yes`      | Read/write/listen access to the groove's timing amount.       |
 | `velocity_amount`     | `float`      | `yes`    | `yes`      | Read/write/listen access to the groove's velocity amount.     |
 
-### `base`
+#### `base`
 
 - **Type:** `Base`
 - **Settable:** `yes`
@@ -26,7 +28,7 @@ This class represents a groove in Live.
 
 Get/set the groove's base grid.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `GroovePool`
 - **Settable:** `no`
@@ -34,7 +36,7 @@ Get/set the groove's base grid.
 
 Get the canonical parent of the groove.
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -42,7 +44,7 @@ Get the canonical parent of the groove.
 
 Read/write/listen access to the groove's name
 
-### `quantization_amount`
+#### `quantization_amount`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -50,7 +52,7 @@ Read/write/listen access to the groove's name
 
 Read/write/listen access to the groove's quantization amount.
 
-### `random_amount`
+#### `random_amount`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -58,7 +60,7 @@ Read/write/listen access to the groove's quantization amount.
 
 Read/write/listen access to the groove's random amount.
 
-### `timing_amount`
+#### `timing_amount`
 
 - **Type:** `float`
 - **Settable:** `yes`
@@ -66,7 +68,7 @@ Read/write/listen access to the groove's random amount.
 
 Read/write/listen access to the groove's timing amount.
 
-### `velocity_amount`
+#### `velocity_amount`
 
 - **Type:** `float`
 - **Settable:** `yes`

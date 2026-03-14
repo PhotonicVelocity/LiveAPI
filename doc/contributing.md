@@ -5,38 +5,25 @@
 ## Page Structure
 
 ```markdown
-# ClassName
+# Namespace (Module)
+
+## ClassName (Class)
 
 > `Live.Namespace.ClassName`
 
 General class description — what this represents in Live, when you'd interact with it.
 
 ??? note "Raw probe notes (temporary)"
-    Unprocessed probe findings that haven't been distilled into member descriptions yet.
-    These will be moved to probe scripts/data files as the tooling matures.
+Unprocessed probe findings that haven't been distilled into member descriptions yet.
+These will be moved to probe scripts/data files as the tooling matures.
 
-## Children
-
-| Child | Returns | Shape | Listenable | Summary |
-| ----- | ------- | ----- | ---------- | ------- |
-| ...   | ...     | ...   | ...        | ...     |
-
-### `child_name`
-
-- **Returns:** `Type`
-- **Shape:** `single` | `list`
-- **Listenable:** `yes` | `no`
-- **Since:** `<11` | `11.0` | `12.0` | etc.
-
-Description of the child, including any quirks.
-
-## Properties
+### Properties
 
 | Property | Type | Settable | Listenable | Summary |
 | -------- | ---- | -------- | ---------- | ------- |
 | ...      | ...  | ...      | ...        | ...     |
 
-### `property_name`
+#### `property_name`
 
 - **Type:** `int` (get) · `int` (set)
 - **Listenable:** `yes` | `no`
@@ -45,20 +32,22 @@ Description of the child, including any quirks.
 Description of what this property represents.
 
 **Quirks:**
+
 - Setting to `None` raises `InternalError` (C++ type mismatch).
 - Value snaps to nearest palette color.
 
 **Limitations:**
+
 - Read-only on group tracks.
 - Only meaningful when `some_flag` is `True`.
 
-## Methods
+### Methods
 
 | Method | Returns | Summary |
 | ------ | ------- | ------- |
 | ...    | ...     | ...     |
 
-### `method_name(arg1, arg2)`
+#### `method_name(arg1, arg2)`
 
 - **Returns:** `Type`
 - **Args:**
@@ -70,11 +59,25 @@ Description of what this property represents.
 Description of what this method does.
 
 **Quirks:**
+
 - Ignores the object it's called on; always acts on the selected scene.
 
 **Limitations:**
+
 - Only works on MIDI tracks.
 - Raises if the slot is non-empty.
+
+## ClassName.View (Subclass)
+
+> `Live.Namespace.ClassName.View`
+
+### Properties
+
+...
+
+### Methods
+
+...
 
 ## Enums
 
@@ -85,6 +88,22 @@ Description of what this method does.
 | `0`   | ...  | ...         |
 | `1`   | ...  | ...         |
 
+## Types
+
+### TypeName
+
+> `Live.Namespace.TypeName`
+
+#### Properties
+
+...
+
+## Module Functions
+
+### `function_name(arg1, arg2)`
+
+...
+
 ## Open Questions
 
 - Unresolved behavior to probe later.
@@ -92,7 +111,7 @@ Description of what this method does.
 
 ## Format Principles
 
-- **Page title** is the class name (`# Song`), with full path in a blockquote (`> Live.Song.Song`).
+- **Page title** is the module name with descriptor (`# Song (Module)`), with the primary class as `## Song (Class)`.
 - **Summary tables** at the top of each section for quick scanning. Keep them narrow — details go in the per-member sections.
 - **Descriptions** are the primary content. Probe findings should be distilled into descriptions, quirks, and limitations
   — not kept as raw notes. The reference is the final product, not a probe log.

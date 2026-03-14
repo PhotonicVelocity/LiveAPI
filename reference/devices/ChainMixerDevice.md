@@ -1,4 +1,6 @@
-# ChainMixerDevice
+# ChainMixerDevice (Module)
+
+## ChainMixerDevice (Class)
 
 > `Live.ChainMixerDevice.ChainMixerDevice`
 
@@ -11,7 +13,7 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 - `Chain.mixer_device`
 - `DrumChain.mixer_device`
 
-## Properties
+### Properties
 
 | Property           | Type              | Settable | Listenable | Description                                                        |
 | ------------------ | ----------------- | -------- | ---------- | ------------------------------------------------------------------ |
@@ -21,7 +23,7 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 | `sends`            | `tuple`           | `no`     | `yes`      | Const access to the Chain's list of Send Amount Device Parameters. |
 | `volume`           | `DeviceParameter` | `no`     | `no`       | Const access to the Chain's Volume Device Parameter.               |
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Chain`
 - **Settable:** `no`
@@ -29,7 +31,7 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 
 Get the canonical parent of the mixer device.
 
-### `chain_activator`
+#### `chain_activator`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -37,7 +39,7 @@ Get the canonical parent of the mixer device.
 
 Const access to the Chain's Activator Device Parameter.
 
-### `panning`
+#### `panning`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`
@@ -45,7 +47,7 @@ Const access to the Chain's Activator Device Parameter.
 
 Const access to the Chain's Panning Device Parameter.
 
-### `sends`
+#### `sends`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -53,7 +55,7 @@ Const access to the Chain's Panning Device Parameter.
 
 Const access to the Chain's list of Send Amount Device Parameters.
 
-### `volume`
+#### `volume`
 
 - **Type:** `DeviceParameter`
 - **Settable:** `no`

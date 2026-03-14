@@ -1,4 +1,6 @@
-# CCFeedbackRule
+# MidiMap (Module)
+
+## CCFeedbackRule (Class)
 
 > `Live.MidiMap.CCFeedbackRule`
 
@@ -6,7 +8,7 @@ Structure to define feedback properties of MIDI mappings.
 
 **Constructor:** `CCFeedbackRule()`
 
-## Properties
+### Properties
 
 | Property       | Type    | Settable | Listenable | Description |
 | -------------- | ------- | -------- | ---------- | ----------- |
@@ -16,37 +18,37 @@ Structure to define feedback properties of MIDI mappings.
 | `delay_in_ms`  | `float` | `yes`    | `no`       |             |
 | `enabled`      | `bool`  | `yes`    | `no`       |             |
 
-### `cc_no`
+#### `cc_no`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `cc_value_map`
+#### `cc_value_map`
 
 - **Type:** `tuple`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `channel`
+#### `channel`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `delay_in_ms`
+#### `delay_in_ms`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `enabled`
+#### `enabled`
 
 - **Type:** `bool`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-# NoteFeedbackRule
+## NoteFeedbackRule (Class)
 
 > `Live.MidiMap.NoteFeedbackRule`
 
@@ -54,7 +56,7 @@ Structure to define feedback properties of MIDI mappings.
 
 **Constructor:** `NoteFeedbackRule()`
 
-## Properties
+### Properties
 
 | Property      | Type    | Settable | Listenable | Description |
 | ------------- | ------- | -------- | ---------- | ----------- |
@@ -64,37 +66,37 @@ Structure to define feedback properties of MIDI mappings.
 | `note_no`     | `int`   | `yes`    | `no`       |             |
 | `vel_map`     | `tuple` | `yes`    | `no`       |             |
 
-### `channel`
+#### `channel`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `delay_in_ms`
+#### `delay_in_ms`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `enabled`
+#### `enabled`
 
 - **Type:** `bool`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `note_no`
+#### `note_no`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `vel_map`
+#### `vel_map`
 
 - **Type:** `tuple`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-# PitchBendFeedbackRule
+## PitchBendFeedbackRule (Class)
 
 > `Live.MidiMap.PitchBendFeedbackRule`
 
@@ -102,7 +104,7 @@ Structure to define feedback properties of MIDI mappings.
 
 **Constructor:** `PitchBendFeedbackRule()`
 
-## Properties
+### Properties
 
 | Property         | Type    | Settable | Listenable | Description |
 | ---------------- | ------- | -------- | ---------- | ----------- |
@@ -111,25 +113,25 @@ Structure to define feedback properties of MIDI mappings.
 | `enabled`        | `bool`  | `yes`    | `no`       |             |
 | `value_pair_map` | `tuple` | `yes`    | `no`       |             |
 
-### `channel`
+#### `channel`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `delay_in_ms`
+#### `delay_in_ms`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `enabled`
+#### `enabled`
 
 - **Type:** `bool`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### `value_pair_map`
+#### `value_pair_map`
 
 - **Type:** `tuple`
 - **Settable:** `yes`

@@ -1,4 +1,6 @@
-# TakeLane
+# TakeLane (Module)
+
+## TakeLane (Class)
 
 > `Live.TakeLane.TakeLane`
 
@@ -6,7 +8,7 @@ This class represents a take lane in Live.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property            | Type    | Settable | Listenable | Description                                                                      |
 | ------------------- | ------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -14,7 +16,7 @@ This class represents a take lane in Live.
 | `canonical_parent`  | `Track` | `no`     | `no`       | Get the canonical parent of the take lane.                                       |
 | `name`              | `str`   | `yes`    | `yes`      | Read/write access to the name of the TakeLane, as visible in the take lane he... |
 
-### `arrangement_clips`
+#### `arrangement_clips`
 
 - **Type:** `tuple`
 - **Settable:** `no`
@@ -22,7 +24,7 @@ This class represents a take lane in Live.
 
 Read-only access to the arrangement clips in the take lane.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -30,7 +32,7 @@ Read-only access to the arrangement clips in the take lane.
 
 Get the canonical parent of the take lane.
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -38,14 +40,14 @@ Get the canonical parent of the take lane.
 
 Read/write access to the name of the TakeLane, as visible in the take lane header.
 
-## Methods
+### Methods
 
 | Method                                                 | Returns | Description                                                                      |
 | ------------------------------------------------------ | ------- | -------------------------------------------------------------------------------- |
 | `create_audio_clip(file_path: str, start_time: float)` | `Clip`  | Creates an audio clip referencing the file at the given path and inserts it i... |
 | `create_midi_clip(start_time: float, length: float)`   | `Clip`  | Creates an empty MIDI clip and inserts it into the arrangement at the specifi... |
 
-### `create_audio_clip(file_path: str, start_time: float)`
+#### `create_audio_clip(file_path: str, start_time: float)`
 
 - **Returns:** `Clip`
 - **Args:**
@@ -54,7 +56,7 @@ Read/write access to the name of the TakeLane, as visible in the take lane heade
 
 Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time. Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
 
-### `create_midi_clip(start_time: float, length: float)`
+#### `create_midi_clip(start_time: float, length: float)`
 
 - **Returns:** `Clip`
 - **Args:**

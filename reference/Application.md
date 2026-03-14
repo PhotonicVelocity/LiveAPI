@@ -1,4 +1,6 @@
-# Application
+# Application (Module)
+
+## Application (Class)
 
 > `Live.Application.Application`
 
@@ -8,7 +10,208 @@ This class represents the Live application.
 
 - `Application.get_application`
 
-## View
+### Properties
+
+| Property                      | Type                                  | Settable | Listenable | Description                                                                      |
+| ----------------------------- | ------------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
+| `average_process_usage`       | `float`                               | `no`     | `yes`      | Reports Live's average CPU load.                                                 |
+| `browser`                     | `Browser`                             | `no`     | `no`       | Returns an interface to the browser.                                             |
+| `canonical_parent`            | `None`                                | `no`     | `no`       | Returns the canonical parent of the application.                                 |
+| `control_surfaces`            | `tuple[object, Ellipsis]`             | `no`     | `yes`      | Const access to a list of the control surfaces selected in preferences, in th... |
+| `current_dialog_button_count` | `int`                                 | `no`     | `no`       | Number of buttons on the current dialog.                                         |
+| `current_dialog_message`      | `str`                                 | `no`     | `no`       | Text of the last dialog that appeared; Empty if all dialogs just disappeared.    |
+| `number_of_push_apps_running` | `int`                                 | `no`     | `no`       | Returns the number of connected Push apps.                                       |
+| `open_dialog_count`           | `int`                                 | `no`     | `yes`      | The number of open dialogs in Live.                                              |
+| `peak_process_usage`          | `float`                               | `no`     | `yes`      | Reports Live's peak CPU load.                                                    |
+| `unavailable_features`        | `tuple[UnavailableFeature, Ellipsis]` | `no`     | `yes`      | List of features that are unavailable due to limitations of the current Live ... |
+| `view`                        | `View`                                | `no`     | `no`       | Returns the applications view component.                                         |
+
+#### `average_process_usage`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Reports Live's average CPU load.
+
+#### `browser`
+
+- **Type:** `Browser`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns an interface to the browser.
+
+#### `canonical_parent`
+
+- **Type:** `None`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the canonical parent of the application.
+
+#### `control_surfaces`
+
+- **Type:** `tuple[object, Ellipsis]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Const access to a list of the control surfaces selected in preferences, in the same order. The list contains None if no control surface is active at that index.
+
+#### `current_dialog_button_count`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Number of buttons on the current dialog.
+
+#### `current_dialog_message`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Text of the last dialog that appeared; Empty if all dialogs just disappeared.
+
+#### `number_of_push_apps_running`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the number of connected Push apps.
+
+#### `open_dialog_count`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+The number of open dialogs in Live. 0 if not dialog is open.
+
+#### `peak_process_usage`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Reports Live's peak CPU load.
+
+#### `unavailable_features`
+
+- **Type:** `tuple[UnavailableFeature, Ellipsis]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+List of features that are unavailable due to limitations of the current Live edition.
+
+#### `view`
+
+- **Type:** `View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the applications view component.
+
+### Methods
+
+| Method                                                                                                                                                                                 | Returns | Description                                                             |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------------- |
+| `get_bugfix_version()`                                                                                                                                                                 | `int`   | Returns an integer representing the bugfix version of Live.             |
+| `get_build_id()`                                                                                                                                                                       | `str`   | Returns a string identifying the build.                                 |
+| `get_document()`                                                                                                                                                                       | `Song`  | Returns the current Live Set.                                           |
+| `get_major_version()`                                                                                                                                                                  | `int`   | Returns an integer representing the major version of Live.              |
+| `get_minor_version()`                                                                                                                                                                  | `int`   | Returns an integer representing the minor version of Live.              |
+| `get_variant()`                                                                                                                                                                        | `str`   | Returns one of the strings in Live.Application.Variants.                |
+| `get_version_string()`                                                                                                                                                                 | `str`   | Returns the full version string of Live.                                |
+| `has_option(section_name: str)`                                                                                                                                                        | `bool`  | Returns True if the given entry exists in Options.txt, False otherwise. |
+| `press_current_dialog_button(index: int)`                                                                                                                                              | `None`  | Press a button, by index, on the current message box.                   |
+| `show_message(text: Text, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False)`                                                           | `int`   | Shows a message box, returning the position of the pressed button.      |
+| `show_on_the_fly_message(message: str, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType \| int = 0)` | `int`   | Same as show_message, but for when there is no predefined Text object.  |
+
+#### `get_bugfix_version()`
+
+- **Returns:** `int`
+
+Returns an integer representing the bugfix version of Live.
+
+#### `get_build_id()`
+
+- **Returns:** `str`
+
+Returns a string identifying the build.
+
+#### `get_document()`
+
+- **Returns:** `Song`
+
+Returns the current Live Set.
+
+#### `get_major_version()`
+
+- **Returns:** `int`
+
+Returns an integer representing the major version of Live.
+
+#### `get_minor_version()`
+
+- **Returns:** `int`
+
+Returns an integer representing the minor version of Live.
+
+#### `get_variant()`
+
+- **Returns:** `str`
+
+Returns one of the strings in Live.Application.Variants.
+
+#### `get_version_string()`
+
+- **Returns:** `str`
+
+Returns the full version string of Live.
+
+#### `has_option(section_name: str)`
+
+- **Returns:** `bool`
+- **Args:**
+  - `section_name: str`
+
+Returns True if the given entry exists in Options.txt, False otherwise.
+
+#### `press_current_dialog_button(index: int)`
+
+- **Returns:** `None`
+- **Args:**
+  - `index: int`
+
+Press a button, by index, on the current message box.
+
+#### `show_message(text: Text, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False)`
+
+- **Returns:** `int`
+- **Args:**
+  - `text: Text`
+  - `buttons: MessageButtons | int = 0`
+  - `enable_markup: bool = False`
+  - `show_success_icon: bool = False`
+
+Shows a message box, returning the position of the pressed button.
+
+#### `show_on_the_fly_message(message: str, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = 0)`
+
+- **Returns:** `int`
+- **Args:**
+  - `message: str`
+  - `buttons: MessageButtons | int = 0`
+  - `enable_markup: bool = False`
+  - `show_success_icon: bool = False`
+  - `push_dialog_type: PushDialogType | int = 0`
+
+Same as show_message, but for when there is no predefined Text object.
+
+## Application.View (Subclass)
 
 > `Live.Application.Application.View`
 
@@ -137,207 +340,6 @@ Zoom through the identifier string specified view into the given direction, if p
 | `2`   | `left`  |
 | `3`   | `right` |
 
-## Properties
-
-| Property                      | Type                                  | Settable | Listenable | Description                                                                      |
-| ----------------------------- | ------------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
-| `average_process_usage`       | `float`                               | `no`     | `yes`      | Reports Live's average CPU load.                                                 |
-| `browser`                     | `Browser`                             | `no`     | `no`       | Returns an interface to the browser.                                             |
-| `canonical_parent`            | `None`                                | `no`     | `no`       | Returns the canonical parent of the application.                                 |
-| `control_surfaces`            | `tuple[object, Ellipsis]`             | `no`     | `yes`      | Const access to a list of the control surfaces selected in preferences, in th... |
-| `current_dialog_button_count` | `int`                                 | `no`     | `no`       | Number of buttons on the current dialog.                                         |
-| `current_dialog_message`      | `str`                                 | `no`     | `no`       | Text of the last dialog that appeared; Empty if all dialogs just disappeared.    |
-| `number_of_push_apps_running` | `int`                                 | `no`     | `no`       | Returns the number of connected Push apps.                                       |
-| `open_dialog_count`           | `int`                                 | `no`     | `yes`      | The number of open dialogs in Live.                                              |
-| `peak_process_usage`          | `float`                               | `no`     | `yes`      | Reports Live's peak CPU load.                                                    |
-| `unavailable_features`        | `tuple[UnavailableFeature, Ellipsis]` | `no`     | `yes`      | List of features that are unavailable due to limitations of the current Live ... |
-| `view`                        | `View`                                | `no`     | `no`       | Returns the applications view component.                                         |
-
-### `average_process_usage`
-
-- **Type:** `float`
-- **Settable:** `no`
-- **Listenable:** `yes`
-
-Reports Live's average CPU load.
-
-### `browser`
-
-- **Type:** `Browser`
-- **Settable:** `no`
-- **Listenable:** `no`
-
-Returns an interface to the browser.
-
-### `canonical_parent`
-
-- **Type:** `None`
-- **Settable:** `no`
-- **Listenable:** `no`
-
-Returns the canonical parent of the application.
-
-### `control_surfaces`
-
-- **Type:** `tuple[object, Ellipsis]`
-- **Settable:** `no`
-- **Listenable:** `yes`
-
-Const access to a list of the control surfaces selected in preferences, in the same order. The list contains None if no control surface is active at that index.
-
-### `current_dialog_button_count`
-
-- **Type:** `int`
-- **Settable:** `no`
-- **Listenable:** `no`
-
-Number of buttons on the current dialog.
-
-### `current_dialog_message`
-
-- **Type:** `str`
-- **Settable:** `no`
-- **Listenable:** `no`
-
-Text of the last dialog that appeared; Empty if all dialogs just disappeared.
-
-### `number_of_push_apps_running`
-
-- **Type:** `int`
-- **Settable:** `no`
-- **Listenable:** `no`
-
-Returns the number of connected Push apps.
-
-### `open_dialog_count`
-
-- **Type:** `int`
-- **Settable:** `no`
-- **Listenable:** `yes`
-
-The number of open dialogs in Live. 0 if not dialog is open.
-
-### `peak_process_usage`
-
-- **Type:** `float`
-- **Settable:** `no`
-- **Listenable:** `yes`
-
-Reports Live's peak CPU load.
-
-### `unavailable_features`
-
-- **Type:** `tuple[UnavailableFeature, Ellipsis]`
-- **Settable:** `no`
-- **Listenable:** `yes`
-
-List of features that are unavailable due to limitations of the current Live edition.
-
-### `view`
-
-- **Type:** `View`
-- **Settable:** `no`
-- **Listenable:** `no`
-
-Returns the applications view component.
-
-## Methods
-
-| Method                                                                                                                                                                                 | Returns | Description                                                             |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ----------------------------------------------------------------------- |
-| `get_bugfix_version()`                                                                                                                                                                 | `int`   | Returns an integer representing the bugfix version of Live.             |
-| `get_build_id()`                                                                                                                                                                       | `str`   | Returns a string identifying the build.                                 |
-| `get_document()`                                                                                                                                                                       | `Song`  | Returns the current Live Set.                                           |
-| `get_major_version()`                                                                                                                                                                  | `int`   | Returns an integer representing the major version of Live.              |
-| `get_minor_version()`                                                                                                                                                                  | `int`   | Returns an integer representing the minor version of Live.              |
-| `get_variant()`                                                                                                                                                                        | `str`   | Returns one of the strings in Live.Application.Variants.                |
-| `get_version_string()`                                                                                                                                                                 | `str`   | Returns the full version string of Live.                                |
-| `has_option(section_name: str)`                                                                                                                                                        | `bool`  | Returns True if the given entry exists in Options.txt, False otherwise. |
-| `press_current_dialog_button(index: int)`                                                                                                                                              | `None`  | Press a button, by index, on the current message box.                   |
-| `show_message(text: Text, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False)`                                                           | `int`   | Shows a message box, returning the position of the pressed button.      |
-| `show_on_the_fly_message(message: str, buttons: MessageButtons \| int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType \| int = 0)` | `int`   | Same as show_message, but for when there is no predefined Text object.  |
-
-### `get_bugfix_version()`
-
-- **Returns:** `int`
-
-Returns an integer representing the bugfix version of Live.
-
-### `get_build_id()`
-
-- **Returns:** `str`
-
-Returns a string identifying the build.
-
-### `get_document()`
-
-- **Returns:** `Song`
-
-Returns the current Live Set.
-
-### `get_major_version()`
-
-- **Returns:** `int`
-
-Returns an integer representing the major version of Live.
-
-### `get_minor_version()`
-
-- **Returns:** `int`
-
-Returns an integer representing the minor version of Live.
-
-### `get_variant()`
-
-- **Returns:** `str`
-
-Returns one of the strings in Live.Application.Variants.
-
-### `get_version_string()`
-
-- **Returns:** `str`
-
-Returns the full version string of Live.
-
-### `has_option(section_name: str)`
-
-- **Returns:** `bool`
-- **Args:**
-  - `section_name: str`
-
-Returns True if the given entry exists in Options.txt, False otherwise.
-
-### `press_current_dialog_button(index: int)`
-
-- **Returns:** `None`
-- **Args:**
-  - `index: int`
-
-Press a button, by index, on the current message box.
-
-### `show_message(text: Text, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False)`
-
-- **Returns:** `int`
-- **Args:**
-  - `text: Text`
-  - `buttons: MessageButtons | int = 0`
-  - `enable_markup: bool = False`
-  - `show_success_icon: bool = False`
-
-Shows a message box, returning the position of the pressed button.
-
-### `show_on_the_fly_message(message: str, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = 0)`
-
-- **Returns:** `int`
-- **Args:**
-  - `message: str`
-  - `buttons: MessageButtons | int = 0`
-  - `enable_markup: bool = False`
-  - `show_success_icon: bool = False`
-  - `push_dialog_type: PushDialogType | int = 0`
-
-Same as show_message, but for when there is no predefined Text object.
-
 ## Enums
 
 ### `MessageButtons`
@@ -382,7 +384,9 @@ Holds strings representing what type of Live is running.
 | `Suite`    | `SUITE`    |
 | `Trial`    | `TRIAL`    |
 
-## ControlDescription
+## Types
+
+### ControlDescription
 
 > `Live.Application.ControlDescription`
 
@@ -390,57 +394,57 @@ Describes a control present in a control surface proxy
 
 **Constructor:** `ControlDescription()`
 
-### Properties
+#### Properties
 
 | Property | Type  | Settable | Listenable | Description |
 | -------- | ----- | -------- | ---------- | ----------- |
 | `id`     | `int` | `no`     | `no`       |             |
 | `name`   | `str` | `no`     | `no`       |             |
 
-#### `id`
+##### `id`
 
 - **Type:** `int`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-#### `name`
+##### `name`
 
 - **Type:** `str`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-## ControlDescriptionVector
+### ControlDescriptionVector
 
 > `Live.Application.ControlDescriptionVector`
 
 A container for returning control descriptions.
 
-### Methods
+#### Methods
 
 | Method                               | Returns | Description |
 | ------------------------------------ | ------- | ----------- |
 | `append(value: ControlDescription)`  | `None`  |             |
 | `extend(values: ControlDescription)` | `None`  |             |
 
-#### `append(value: ControlDescription)`
+##### `append(value: ControlDescription)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: ControlDescription`
 
-#### `extend(values: ControlDescription)`
+##### `extend(values: ControlDescription)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: ControlDescription`
 
-## ControlSurfaceProxy
+### ControlSurfaceProxy
 
 > `Live.Application.ControlSurfaceProxy`
 
 Represents a control surface running in a different process. For use by M4L
 
-### Properties
+#### Properties
 
 | Property               | Type                                  | Settable | Listenable | Description                 |
 | ---------------------- | ------------------------------------- | -------- | ---------- | --------------------------- |
@@ -448,13 +452,13 @@ Represents a control surface running in a different process. For use by M4L
 | `pad_layout`           | `str`                                 | `no`     | `yes`      | The layout of pads on Push. |
 | `type_name`            | `str`                                 | `no`     | `no`       |                             |
 
-#### `control_descriptions`
+##### `control_descriptions`
 
 - **Type:** `tuple[ControlDescription, Ellipsis]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-#### `pad_layout`
+##### `pad_layout`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -462,13 +466,13 @@ Represents a control surface running in a different process. For use by M4L
 
 The layout of pads on Push.
 
-#### `type_name`
+##### `type_name`
 
 - **Type:** `str`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### Methods
+#### Methods
 
 | Method                                   | Returns | Description |
 | ---------------------------------------- | ------- | ----------- |
@@ -482,76 +486,76 @@ The layout of pads on Push.
 | `subscribe_to_control(control: int)`     | `None`  |             |
 | `unsubscribe_from_control(control: int)` | `None`  |             |
 
-#### `enable_receive_midi(enabled: bool)`
+##### `enable_receive_midi(enabled: bool)`
 
 - **Returns:** `None`
 - **Args:**
   - `enabled: bool`
 
-#### `fetch_received_midi_messages()`
+##### `fetch_received_midi_messages()`
 
 - **Returns:** `tuple`
 
-#### `fetch_received_values()`
+##### `fetch_received_values()`
 
 - **Returns:** `tuple`
 
-#### `grab_control(control: int)`
+##### `grab_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-#### `release_control(control: int)`
+##### `release_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-#### `send_midi(midi_event_bytes: tuple)`
+##### `send_midi(midi_event_bytes: tuple)`
 
 - **Returns:** `None`
 - **Args:**
   - `midi_event_bytes: tuple`
 
-#### `send_value(value: tuple)`
+##### `send_value(value: tuple)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: tuple`
 
-#### `subscribe_to_control(control: int)`
+##### `subscribe_to_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-#### `unsubscribe_from_control(control: int)`
+##### `unsubscribe_from_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-## UnavailableFeatureVector
+### UnavailableFeatureVector
 
 > `Live.Application.UnavailableFeatureVector`
 
 A container for returning unavailable features.
 
-### Methods
+#### Methods
 
 | Method                               | Returns | Description |
 | ------------------------------------ | ------- | ----------- |
 | `append(value: UnavailableFeature)`  | `None`  |             |
 | `extend(values: UnavailableFeature)` | `None`  |             |
 
-#### `append(value: UnavailableFeature)`
+##### `append(value: UnavailableFeature)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: UnavailableFeature`
 
-#### `extend(values: UnavailableFeature)`
+##### `extend(values: UnavailableFeature)`
 
 - **Returns:** `None`
 - **Args:**

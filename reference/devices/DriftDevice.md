@@ -1,4 +1,6 @@
-# DriftDevice
+# DriftDevice (Module)
+
+## DriftDevice (Class)
 
 > `Live.DriftDevice.DriftDevice`
 
@@ -6,7 +8,7 @@ This class represents a Drift device.
 
 **Live Object:** `yes`
 
-## Properties
+### Properties
 
 | Property                           | Type                               | Settable | Listenable | Description                                                                      |
 | ---------------------------------- | ---------------------------------- | -------- | ---------- | -------------------------------------------------------------------------------- |
@@ -54,7 +56,7 @@ This class represents a Drift device.
 | `voice_mode_index`                 | `int`                              | `yes`    | `yes`      | Return the voice mode index.                                                     |
 | `voice_mode_list`                  | `tuple[str, Ellipsis]`             | `no`     | `no`       | Return the voice mode list.                                                      |
 
-### `can_compare_ab`
+#### `can_compare_ab`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -62,7 +64,7 @@ This class represents a Drift device.
 
 Returns true if the Device has the capability to AB compare.
 
-### `can_have_chains`
+#### `can_have_chains`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -70,7 +72,7 @@ Returns true if the Device has the capability to AB compare.
 
 Returns true if the device is a rack.
 
-### `can_have_drum_pads`
+#### `can_have_drum_pads`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -78,7 +80,7 @@ Returns true if the device is a rack.
 
 Returns true if the device is a drum rack.
 
-### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -86,7 +88,7 @@ Returns true if the device is a drum rack.
 
 Get the canonical parent of the Device.
 
-### `class_display_name`
+#### `class_display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -94,7 +96,7 @@ Get the canonical parent of the Device.
 
 Return const access to the name of the device's class name as displayed in Live's browser and device chain
 
-### `class_name`
+#### `class_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -102,7 +104,7 @@ Return const access to the name of the device's class name as displayed in Live'
 
 Return const access to the name of the device's class.
 
-### `is_active`
+#### `is_active`
 
 - **Type:** `bool`
 - **Settable:** `no`
@@ -110,7 +112,7 @@ Return const access to the name of the device's class.
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
-### `is_using_compare_preset_b`
+#### `is_using_compare_preset_b`
 
 - **Type:** `bool`
 - **Settable:** `yes`
@@ -118,7 +120,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
-### `latency_in_ms`
+#### `latency_in_ms`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -126,7 +128,7 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 Returns the latency of the device in ms.
 
-### `latency_in_samples`
+#### `latency_in_samples`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -134,7 +136,7 @@ Returns the latency of the device in ms.
 
 Returns the latency of the device in samples.
 
-### `mod_matrix_filter_source_1_index`
+#### `mod_matrix_filter_source_1_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -142,7 +144,7 @@ Returns the latency of the device in samples.
 
 Return the filter mod source 1 index
 
-### `mod_matrix_filter_source_1_list`
+#### `mod_matrix_filter_source_1_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -150,7 +152,7 @@ Return the filter mod source 1 index
 
 Return the filter mod source 1 list
 
-### `mod_matrix_filter_source_2_index`
+#### `mod_matrix_filter_source_2_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -158,7 +160,7 @@ Return the filter mod source 1 list
 
 Return the filter mod source 2 index
 
-### `mod_matrix_filter_source_2_list`
+#### `mod_matrix_filter_source_2_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -166,7 +168,7 @@ Return the filter mod source 2 index
 
 Return the filter mod source 2 list
 
-### `mod_matrix_lfo_source_index`
+#### `mod_matrix_lfo_source_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -174,7 +176,7 @@ Return the filter mod source 2 list
 
 Return the lfo mod source index
 
-### `mod_matrix_lfo_source_list`
+#### `mod_matrix_lfo_source_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -182,7 +184,7 @@ Return the lfo mod source index
 
 Return the lfo mod source list
 
-### `mod_matrix_pitch_source_1_index`
+#### `mod_matrix_pitch_source_1_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -190,7 +192,7 @@ Return the lfo mod source list
 
 Return the pitch mod source 1 index
 
-### `mod_matrix_pitch_source_1_list`
+#### `mod_matrix_pitch_source_1_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -198,7 +200,7 @@ Return the pitch mod source 1 index
 
 Return the pitch mod source 1 list
 
-### `mod_matrix_pitch_source_2_index`
+#### `mod_matrix_pitch_source_2_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -206,7 +208,7 @@ Return the pitch mod source 1 list
 
 Return the pitch mod source 2 index
 
-### `mod_matrix_pitch_source_2_list`
+#### `mod_matrix_pitch_source_2_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -214,7 +216,7 @@ Return the pitch mod source 2 index
 
 Return the pitch mod source 2 list
 
-### `mod_matrix_shape_source_index`
+#### `mod_matrix_shape_source_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -222,7 +224,7 @@ Return the pitch mod source 2 list
 
 Return the shape mod source index
 
-### `mod_matrix_shape_source_list`
+#### `mod_matrix_shape_source_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -230,7 +232,7 @@ Return the shape mod source index
 
 Return the shape mod source list
 
-### `mod_matrix_source_1_index`
+#### `mod_matrix_source_1_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -238,7 +240,7 @@ Return the shape mod source list
 
 Return the custom mod source 1 index
 
-### `mod_matrix_source_1_list`
+#### `mod_matrix_source_1_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -246,7 +248,7 @@ Return the custom mod source 1 index
 
 Return the custom mod source 1 list
 
-### `mod_matrix_source_2_index`
+#### `mod_matrix_source_2_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -254,7 +256,7 @@ Return the custom mod source 1 list
 
 Return the custom mod source 2 index
 
-### `mod_matrix_source_2_list`
+#### `mod_matrix_source_2_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -262,7 +264,7 @@ Return the custom mod source 2 index
 
 Return the custom mod source 2 list
 
-### `mod_matrix_source_3_index`
+#### `mod_matrix_source_3_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -270,7 +272,7 @@ Return the custom mod source 2 list
 
 Return the custom mod source 3 index
 
-### `mod_matrix_source_3_list`
+#### `mod_matrix_source_3_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -278,7 +280,7 @@ Return the custom mod source 3 index
 
 Return the custom mod source 3 list
 
-### `mod_matrix_target_1_index`
+#### `mod_matrix_target_1_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -286,7 +288,7 @@ Return the custom mod source 3 list
 
 Return the custom mod target 1 index
 
-### `mod_matrix_target_1_list`
+#### `mod_matrix_target_1_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -294,7 +296,7 @@ Return the custom mod target 1 index
 
 Return the custom mod target 1 list
 
-### `mod_matrix_target_2_index`
+#### `mod_matrix_target_2_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -302,7 +304,7 @@ Return the custom mod target 1 list
 
 Return the custom mod target 2 index
 
-### `mod_matrix_target_2_list`
+#### `mod_matrix_target_2_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -310,7 +312,7 @@ Return the custom mod target 2 index
 
 Return the custom mod target 2 list
 
-### `mod_matrix_target_3_index`
+#### `mod_matrix_target_3_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -318,7 +320,7 @@ Return the custom mod target 2 list
 
 Return the custom mod target 3 index
 
-### `mod_matrix_target_3_list`
+#### `mod_matrix_target_3_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -326,7 +328,7 @@ Return the custom mod target 3 index
 
 Return the custom mod target 3 list
 
-### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -334,7 +336,7 @@ Return the custom mod target 3 list
 
 Return access to the name of the device.
 
-### `parameters`
+#### `parameters`
 
 - **Type:** `tuple[DeviceParameter, Ellipsis]`
 - **Settable:** `no`
@@ -342,7 +344,7 @@ Return access to the name of the device.
 
 Const access to the list of available automatable parameters for this device.
 
-### `pitch_bend_range`
+#### `pitch_bend_range`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -350,7 +352,7 @@ Const access to the list of available automatable parameters for this device.
 
 Return the Pitch Bend Range
 
-### `type`
+#### `type`
 
 - **Type:** `DeviceType`
 - **Settable:** `no`
@@ -358,7 +360,7 @@ Return the Pitch Bend Range
 
 Return the type of the device.
 
-### `view`
+#### `view`
 
 - **Type:** `Device.View`
 - **Settable:** `no`
@@ -366,7 +368,7 @@ Return the type of the device.
 
 Representing the view aspects of a device.
 
-### `voice_count_index`
+#### `voice_count_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -374,7 +376,7 @@ Representing the view aspects of a device.
 
 Return the voice count index
 
-### `voice_count_list`
+#### `voice_count_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
@@ -382,7 +384,7 @@ Return the voice count index
 
 Return the voice count list
 
-### `voice_mode_index`
+#### `voice_mode_index`
 
 - **Type:** `int`
 - **Settable:** `yes`
@@ -390,7 +392,7 @@ Return the voice count list
 
 Return the voice mode index
 
-### `voice_mode_list`
+#### `voice_mode_list`
 
 - **Type:** `tuple[str, Ellipsis]`
 - **Settable:** `no`
