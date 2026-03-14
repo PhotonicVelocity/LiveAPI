@@ -4,11 +4,15 @@
 
 This class represents a Clip in Live. It can be either an Audio Clip or a MIDI Clip, in an Arrangement or the Session, depending on the Track (Slot) it lives in.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.Clip.Clip.View`
 
 Representing the view aspects of a Clip.
+
+**Live Object:** `yes`
 
 ### Properties
 

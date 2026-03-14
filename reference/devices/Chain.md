@@ -4,6 +4,8 @@
 
 This class represents a group device chain in Live.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property           | Type               | Settable | Listenable | Description                                                                      |

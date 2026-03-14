@@ -4,6 +4,8 @@
 
 Represents a Tuning System and its properties.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                           | Type                  | Settable | Listenable | Description                                                                      |

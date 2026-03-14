@@ -10,6 +10,8 @@ This class represents the Live application.
 
 This class represents the view aspects of the Live application.
 
+**Live Object:** `yes`
+
 ### Properties
 
 | Property                | Type          | Settable | Listenable | Description                                                                      |

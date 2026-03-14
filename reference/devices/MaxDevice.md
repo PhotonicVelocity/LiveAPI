@@ -4,6 +4,8 @@
 
 This class represents a Max for Live device.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |

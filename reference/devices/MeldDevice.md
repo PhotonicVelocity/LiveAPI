@@ -4,6 +4,8 @@
 
 This class represents a Meld device.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |

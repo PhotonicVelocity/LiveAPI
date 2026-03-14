@@ -4,11 +4,15 @@
 
 This class represents a Simpler device.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.SimplerDevice.SimplerDevice.View`
 
 Representing the view aspects of a simpler device.
+
+**Live Object:** `yes`
 
 ### Properties
 

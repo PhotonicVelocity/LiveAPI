@@ -4,11 +4,15 @@
 
 This class represents a track in Live. It can be either an Audio track, a MIDI Track, a Return Track or the Main track. The Main Track and at least one Audio or MIDI track will be always present. Return Tracks are optional.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.Track.Track.View`
 
 Representing the view aspects of a Track.
+
+**Live Object:** `yes`
 
 ### Properties
 
@@ -752,6 +756,8 @@ Stop running and triggered clip and slots on this track.
 > `Live.Track.DeviceContainer`
 
 This class is a common super class of Track and Chain
+
+**Live Object:** `yes`
 
 ## RoutingChannel
 

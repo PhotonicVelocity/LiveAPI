@@ -4,11 +4,15 @@
 
 This class represents a Live set.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.Song.Song.View`
 
 Representing the view aspects of a Live document: The Session and Arrangerview.
+
+**Live Object:** `yes`
 
 ### Properties
 
@@ -1068,6 +1072,8 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 > `Live.Song.CuePoint`
 
 Represents a 'Marker' in the arrangement.
+
+**Live Object:** `yes`
 
 ### Properties
 

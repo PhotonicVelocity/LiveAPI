@@ -4,6 +4,8 @@
 
 This class represents a Spectral Resonator device.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                    | Type                               | Settable | Listenable | Description                                                                      |

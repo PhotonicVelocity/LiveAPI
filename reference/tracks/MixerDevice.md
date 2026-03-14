@@ -4,6 +4,8 @@
 
 This class represents a Mixer Device in Live, which gives you access to the Volume and Panning properties of a Track.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property             | Type              | Settable | Listenable | Description                                                                  |

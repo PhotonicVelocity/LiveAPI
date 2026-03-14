@@ -4,6 +4,8 @@
 
 This class represents a take lane in Live.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property            | Type    | Settable | Listenable | Description                                                                      |

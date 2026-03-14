@@ -4,6 +4,8 @@
 
 This class represents a drum group device pad in Live.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property           | Type         | Settable | Listenable | Description                                                 |

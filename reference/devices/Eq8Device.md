@@ -4,11 +4,15 @@
 
 This class represents an Eq8 device.
 
+**Live Object:** `yes`
+
 ## View
 
 > `Live.Eq8Device.Eq8Device.View`
 
 Representing the view aspects of an Eq8 device.
+
+**Live Object:** `yes`
 
 ### Properties
 

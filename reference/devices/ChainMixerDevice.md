@@ -4,6 +4,8 @@
 
 This class represents a Chain's Mixer Device in Live, which gives you access to the Volume, Panning, and Send properties of a Chain.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property           | Type              | Settable | Listenable | Description                                                        |

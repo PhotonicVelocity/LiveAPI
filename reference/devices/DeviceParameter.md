@@ -4,6 +4,8 @@
 
 This class represents a (automatable) parameter within a MIDI or Audio DSP-Device.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property            | Type                   | Settable | Listenable | Description                                                                      |

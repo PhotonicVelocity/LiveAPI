@@ -4,6 +4,8 @@
 
 This class represents an series of ClipSlots in Lives Sessionview matrix.
 
+**Live Object:** `yes`
+
 ## Properties
 
 | Property                     | Type    | Settable | Listenable | Description                                                              |
