@@ -30,7 +30,7 @@ build-backend = "hatchling.build"
 [project]
 name = "ableton-live-stubs"
 version = "{version}"
-description = "PEP 561 type stubs for Ableton Live's Python API"
+description = "PEP 561 type stubs for Ableton Live's Python API (for MIDI Remote Script developers)"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
@@ -53,7 +53,11 @@ packages = ["Live-stubs"]
 README_TEMPLATE = """\
 # ableton-live-stubs
 
-PEP 561 type stubs for Ableton Live {live_version}'s Python API.
+PEP 561 type stubs for Ableton Live {live_version}'s Python API (`Live.*` modules).
+
+These stubs are for developers building **MIDI Remote Scripts** (Control Surfaces) that run inside
+Ableton Live's embedded Python runtime. They provide type information for the `Live` module that Live
+exposes to scripts at runtime but is not available for static analysis outside of Live.
 
 ## Installation
 
@@ -69,6 +73,7 @@ No configuration needed.
 ```python
 from Live.Application import Application
 from Live.Song import Song
+from Live.Track import Track
 ```
 
 ## Manual setup (without pip)
@@ -83,6 +88,17 @@ and add the extracted `Live/` directory to your type checker's search path:
   "extraPaths": ["path/to/Live-stubs"]
 }}
 ```
+
+## Version matching
+
+Each release of `ableton-live-stubs` corresponds to a specific Ableton Live version. Install the
+version that matches your target Live version — the API surface changes between releases.
+
+## Documentation
+
+For detailed API documentation — including property restrictions (e.g. which track/clip types support
+a given property), valid input ranges, and observable properties — see the
+[LiveAPI reference](https://photonicvelocity.github.io/LiveAPI/).
 
 ## Source
 

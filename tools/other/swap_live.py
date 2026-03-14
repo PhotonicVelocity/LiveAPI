@@ -29,7 +29,7 @@ import sys
 import tempfile
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+REPO_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))
 
 # Load .env if env vars aren't already set
 _env_path = os.path.join(REPO_ROOT, ".env")
@@ -150,6 +150,17 @@ class LocalSource:
         else:
             print(f"No .app, .tar, .tar.gz, or .zip found for {version}", file=sys.stderr)
             sys.exit(1)
+
+    def download(self, major: str, version: str, dest_dir: str) -> None:
+        fmt = self._find_format(major, version, APP_NAMES.get(major, ""))
+        if fmt not in ARCHIVE_EXTS:
+            print(f"No archive found for {version} (only archives can be downloaded)", file=sys.stderr)
+            sys.exit(1)
+        src = os.path.join(self.base, major, f"Live {version}{fmt}")
+        os.makedirs(os.path.join(dest_dir, major), exist_ok=True)
+        dst = os.path.join(dest_dir, major, f"Live {version}{fmt}")
+        print(f"Copying {src} → {dst}")
+        shutil.copy2(src, dst)
 
     def describe(self, major: str, version: str, app_name: str) -> str:
         fmt = self._find_format(major, version, app_name)
@@ -274,6 +285,16 @@ class RemoteSource:
             print(f"No .app, .tar, .tar.gz, or .zip found for {version} on remote", file=sys.stderr)
             sys.exit(1)
 
+    def download(self, major: str, version: str, dest_dir: str) -> None:
+        fmt = self._find_format(major, version, APP_NAMES.get(major, ""))
+        if fmt not in ARCHIVE_EXTS:
+            print(f"No archive found for {version} on remote (only archives can be downloaded)", file=sys.stderr)
+            sys.exit(1)
+        remote_path = f"{self.base}/{major}/Live {version}{fmt}"
+        os.makedirs(os.path.join(dest_dir, major), exist_ok=True)
+        local_path = os.path.join(dest_dir, major, f"Live {version}{fmt}")
+        self._rsync(remote_path, local_path)
+
     def describe(self, major: str, version: str, app_name: str) -> str:
         fmt = self._find_format(major, version, app_name)
         base = f"{self.host}:{self.base}/{major}"
@@ -315,6 +336,8 @@ def main() -> None:
     parser.add_argument("version", nargs="?", help="Version to install (e.g. 12.3.5)")
     parser.add_argument("--list", action="store_true", help="List available versions")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be installed without doing it")
+    parser.add_argument("--download-to", metavar="DIR",
+                        help="Download the archive to DIR/{major}/ without installing")
     parser.add_argument(
         "--source",
         help="Version source: local path or user@host:/path (default: NAS_HOST:NAS_BASE from .env)",
@@ -370,6 +393,10 @@ def main() -> None:
         print(source.describe(major, target, app_name))
         return
 
+    if args.download_to:
+        source.download(major, target, args.download_to)
+        return
+
     # Check Live isn't running
     pgrep = subprocess.run(["pgrep", "-x", "Live"], capture_output=True)
     if pgrep.returncode == 0:
@@ -401,8 +428,8 @@ def main() -> None:
     # Reinstall APICapture Remote Script
     print("Reinstalling APICapture...")
     install = subprocess.run(
-        [sys.executable, os.path.join(SCRIPT_DIR, "install.py"), "--name", "APICapture"],
-        cwd=SCRIPT_DIR,
+        [sys.executable, os.path.join(REPO_ROOT, "tools", "install.py"), "--name", "APICapture"],
+        cwd=REPO_ROOT,
     )
     if install.returncode != 0:
         print("APICapture install failed", file=sys.stderr)

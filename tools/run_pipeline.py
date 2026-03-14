@@ -13,6 +13,7 @@ Requires:
 Usage:
     python tools/run_pipeline.py 12.3.6
     python tools/run_pipeline.py 12.3.6 --swap                # quit Live, swap version, relaunch
+    python tools/run_pipeline.py 12.3.6 --swap --source /path  # swap from local archives
     python tools/run_pipeline.py 12.3.6 --skip-capture        # skip Stage 1, reuse existing raw data
     python tools/run_pipeline.py 12.3.6 --skip-llm            # stop before LLM step
     python tools/run_pipeline.py 12.3.6 --skip-generate       # stop before stub generation
@@ -155,7 +156,7 @@ def _wait_for_apicapture_ready(target: str, timeout: float) -> None:
     sys.exit(1)
 
 
-def _swap_and_launch(target: str) -> None:
+def _swap_and_launch(target: str, source: str | None = None) -> None:
     """Quit Live, swap to the target version, and open the saved set."""
     major = target.split(".")[0]
     installed = _get_installed_version(target)
@@ -173,10 +174,10 @@ def _swap_and_launch(target: str) -> None:
 
     if needs_swap:
         print(f"Swapping to Live {target}...", flush=True)
-        result = subprocess.run(
-            [sys.executable, join(TOOLS_DIR, "other", "swap_live.py"), target],
-            timeout=600,
-        )
+        swap_cmd = [sys.executable, join(TOOLS_DIR, "other", "swap_live.py"), target]
+        if source:
+            swap_cmd.extend(["--source", source])
+        result = subprocess.run(swap_cmd, timeout=600)
         if result.returncode != 0:
             print("  Swap failed", file=sys.stderr)
             sys.exit(1)
@@ -252,6 +253,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Run the full stub generation pipeline (Stages 1 + 2 + 3)")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument("--swap", action="store_true", help="Quit Live, swap to target version, and relaunch")
+    parser.add_argument("--source", help="Version source for --swap (local path or user@host:/path)")
     parser.add_argument("--skip-capture", action="store_true", help="Skip Stage 1 (reuse existing raw data)")
     parser.add_argument("--skip-llm", action="store_true", help="Stop before the LLM resolution step")
     parser.add_argument("--skip-generate", action="store_true", help="Stop before stub generation")
@@ -267,7 +269,7 @@ def main() -> None:
 
     if not args.skip_capture:
         if args.swap:
-            _swap_and_launch(v)
+            _swap_and_launch(v, source=args.source)
         else:
             installed = _get_installed_version(v)
             if installed is None:
