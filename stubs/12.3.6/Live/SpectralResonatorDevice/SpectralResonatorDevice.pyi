@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable
 if TYPE_CHECKING:
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
-    from Live.Track import Track, View
+    from Live.Track import Track
 
 
 
@@ -15,84 +15,84 @@ class SpectralResonatorDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_frequency_dial_mode_list_listener(self, callback: Callable) -> None:
+    def add_frequency_dial_mode_list_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "frequency_dial_mode_list" has changed.
         """
         ...
 
-    def add_frequency_dial_mode_listener(self, callback: Callable) -> None:
+    def add_frequency_dial_mode_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "frequency_dial_mode" has changed.
         """
         ...
 
-    def add_midi_gate_list_listener(self, callback: Callable) -> None:
+    def add_midi_gate_list_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "midi_gate_list" has changed.
         """
         ...
 
-    def add_midi_gate_listener(self, callback: Callable) -> None:
+    def add_midi_gate_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "midi_gate" has changed.
         """
         ...
 
-    def add_mod_mode_list_listener(self, callback: Callable) -> None:
+    def add_mod_mode_list_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_mode_list" has changed.
         """
         ...
 
-    def add_mod_mode_listener(self, callback: Callable) -> None:
+    def add_mod_mode_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_mode" has changed.
         """
         ...
 
-    def add_mono_poly_list_listener(self, callback: Callable) -> None:
+    def add_mono_poly_list_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mono_poly_list" has changed.
         """
         ...
 
-    def add_mono_poly_listener(self, callback: Callable) -> None:
+    def add_mono_poly_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mono_poly" has changed.
         """
         ...
 
-    def add_pitch_bend_range_listener(self, callback: Callable) -> None:
+    def add_pitch_bend_range_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_bend_range" has changed.
         """
         ...
 
-    def add_pitch_mode_list_listener(self, callback: Callable) -> None:
+    def add_pitch_mode_list_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_mode_list" has changed.
         """
         ...
 
-    def add_pitch_mode_listener(self, callback: Callable) -> None:
+    def add_pitch_mode_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_mode" has changed.
         """
         ...
 
-    def add_polyphony_listener(self, callback: Callable) -> None:
+    def add_polyphony_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "polyphony" has changed.
@@ -137,7 +137,7 @@ class SpectralResonatorDevice:
     @frequency_dial_mode.setter
     def frequency_dial_mode(self, value: int) -> None: ...
 
-    def frequency_dial_mode_has_listener(self, callback: Callable) -> bool:
+    def frequency_dial_mode_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "frequency_dial_mode".
@@ -149,7 +149,7 @@ class SpectralResonatorDevice:
         """Return the current frequency dial mode list"""
         ...
 
-    def frequency_dial_mode_list_has_listener(self, callback: Callable) -> bool:
+    def frequency_dial_mode_list_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "frequency_dial_mode_list".
@@ -187,7 +187,7 @@ class SpectralResonatorDevice:
     @midi_gate.setter
     def midi_gate(self, value: int) -> None: ...
 
-    def midi_gate_has_listener(self, callback: Callable) -> bool:
+    def midi_gate_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "midi_gate".
@@ -199,7 +199,7 @@ class SpectralResonatorDevice:
         """Return the current midi gate list"""
         ...
 
-    def midi_gate_list_has_listener(self, callback: Callable) -> bool:
+    def midi_gate_list_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "midi_gate_list".
@@ -214,7 +214,7 @@ class SpectralResonatorDevice:
     @mod_mode.setter
     def mod_mode(self, value: int) -> None: ...
 
-    def mod_mode_has_listener(self, callback: Callable) -> bool:
+    def mod_mode_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_mode".
@@ -226,7 +226,7 @@ class SpectralResonatorDevice:
         """Return the current mod mode list"""
         ...
 
-    def mod_mode_list_has_listener(self, callback: Callable) -> bool:
+    def mod_mode_list_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_mode_list".
@@ -241,7 +241,7 @@ class SpectralResonatorDevice:
     @mono_poly.setter
     def mono_poly(self, value: int) -> None: ...
 
-    def mono_poly_has_listener(self, callback: Callable) -> bool:
+    def mono_poly_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mono_poly".
@@ -253,7 +253,7 @@ class SpectralResonatorDevice:
         """Return the current mono poly mode list"""
         ...
 
-    def mono_poly_list_has_listener(self, callback: Callable) -> bool:
+    def mono_poly_list_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mono_poly_list".
@@ -281,7 +281,7 @@ class SpectralResonatorDevice:
     @pitch_bend_range.setter
     def pitch_bend_range(self, value: int) -> None: ...
 
-    def pitch_bend_range_has_listener(self, callback: Callable) -> bool:
+    def pitch_bend_range_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_bend_range".
@@ -296,7 +296,7 @@ class SpectralResonatorDevice:
     @pitch_mode.setter
     def pitch_mode(self, value: int) -> None: ...
 
-    def pitch_mode_has_listener(self, callback: Callable) -> bool:
+    def pitch_mode_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_mode".
@@ -308,7 +308,7 @@ class SpectralResonatorDevice:
         """Return the current pitch mode list"""
         ...
 
-    def pitch_mode_list_has_listener(self, callback: Callable) -> bool:
+    def pitch_mode_list_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_mode_list".
@@ -323,91 +323,91 @@ class SpectralResonatorDevice:
     @polyphony.setter
     def polyphony(self, value: int) -> None: ...
 
-    def polyphony_has_listener(self, callback: Callable) -> bool:
+    def polyphony_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "polyphony".
         """
         ...
 
-    def remove_frequency_dial_mode_list_listener(self, callback: Callable) -> None:
+    def remove_frequency_dial_mode_list_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "frequency_dial_mode_list".
         """
         ...
 
-    def remove_frequency_dial_mode_listener(self, callback: Callable) -> None:
+    def remove_frequency_dial_mode_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "frequency_dial_mode".
         """
         ...
 
-    def remove_midi_gate_list_listener(self, callback: Callable) -> None:
+    def remove_midi_gate_list_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "midi_gate_list".
         """
         ...
 
-    def remove_midi_gate_listener(self, callback: Callable) -> None:
+    def remove_midi_gate_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "midi_gate".
         """
         ...
 
-    def remove_mod_mode_list_listener(self, callback: Callable) -> None:
+    def remove_mod_mode_list_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_mode_list".
         """
         ...
 
-    def remove_mod_mode_listener(self, callback: Callable) -> None:
+    def remove_mod_mode_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_mode".
         """
         ...
 
-    def remove_mono_poly_list_listener(self, callback: Callable) -> None:
+    def remove_mono_poly_list_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "mono_poly_list".
         """
         ...
 
-    def remove_mono_poly_listener(self, callback: Callable) -> None:
+    def remove_mono_poly_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "mono_poly".
         """
         ...
 
-    def remove_pitch_bend_range_listener(self, callback: Callable) -> None:
+    def remove_pitch_bend_range_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_bend_range".
         """
         ...
 
-    def remove_pitch_mode_list_listener(self, callback: Callable) -> None:
+    def remove_pitch_mode_list_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_mode_list".
         """
         ...
 
-    def remove_pitch_mode_listener(self, callback: Callable) -> None:
+    def remove_pitch_mode_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_mode".
         """
         ...
 
-    def remove_polyphony_listener(self, callback: Callable) -> None:
+    def remove_polyphony_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "polyphony".
@@ -420,7 +420,7 @@ class SpectralResonatorDevice:
         ...
 
     @property
-    def view(self) -> View:
+    def view(self) -> Device.View:
         """Representing the view aspects of a device."""
         ...
 

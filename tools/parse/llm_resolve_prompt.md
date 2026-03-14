@@ -15,7 +15,8 @@ Each item is keyed by its full path (e.g. `Live.Song.Song.get_data`) and has sha
 - **`args`** — dict of arg names to resolve. Each arg has `current_type` and optionally `needs_name: true`.
   - If `current_type` is `"object"`: resolve the type (provide `type` + `type_reason`).
   - If `needs_name` is `true`: the arg has a generic `argN` name — resolve it (provide `name` + `name_reason`).
-  - An arg can need both a name and a type.
+  - **An arg can need both a name and a type — you MUST resolve both.** If `needs_name` is `true` AND
+    `current_type` is `"object"`, provide `name`, `name_reason`, `type`, and `type_reason` together.
 - **`returns`** — if present with `current_type: "object"`, resolve the return type.
 - **`probed_type: null`** — a property with unknown runtime type.
 
@@ -61,15 +62,20 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
 
 ## Critical Rules
 
-### For args that need a name (`needs_name: true`):
+### For args that need BOTH a name and a type (`needs_name: true` AND `current_type: "object"`):
 
-- Provide `"name"` and `"name_reason"`. Do NOT include `"type"` unless `current_type` is also `"object"`.
+- Provide ALL FOUR fields: `"name"`, `"name_reason"`, `"type"`, and `"type_reason"`.
+- Do not resolve only one — both must be present in the output.
+
+### For args that need only a name (`needs_name: true`, type is already known):
+
+- Provide `"name"` and `"name_reason"`. Do NOT include `"type"`.
 - The current names are `arg1`, `arg2`, `arg3`, etc. — rename them to something descriptive.
 - Key the args dict by the CURRENT arg name (e.g. `"arg2"`, not the new name).
 
-### For args that need a type (`current_type: "object"`):
+### For args that need only a type (`current_type: "object"`, name is already meaningful):
 
-- Provide `"type"` and `"type_reason"`. Do NOT include `"name"` unless the arg also has `needs_name`.
+- Provide `"type"` and `"type_reason"`. Do NOT include `"name"`.
 - The arg name may already be meaningful — these items only need a type fix.
 
 ### For return types (`returns.current_type: "object"`):

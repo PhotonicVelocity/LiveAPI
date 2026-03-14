@@ -99,7 +99,7 @@ def main():
     if exists(refinements_path):
         with open(refinements_path) as f:
             refinements = json.load(f).get("refinements", {})
-        print(f"Loaded {len(refinements)} refinements from {refinements_path}")
+        print(f"Loaded refinements for {len(refinements)} paths from {refinements_path}")
     else:
         print(f"No refinements file at {refinements_path}, copying tree as-is")
 
@@ -110,7 +110,7 @@ def main():
         json.dump(data, f, indent=2)
 
     total = sum(stats.values())
-    print(f"Applied {total} refinements to {output_path}")
+    print(f"Applied {total} individual changes to {output_path}")
     for kind, count in sorted(stats.items()):
         if count:
             print(f"  {kind}: {count}")
