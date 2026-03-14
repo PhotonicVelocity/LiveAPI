@@ -27,21 +27,21 @@ class Track:
         def _live_ptr(self) -> int:
             ...
 
-        def add_device_insert_mode_listener(self, callback: Callable) -> None:
+        def add_device_insert_mode_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "device_insert_mode" has changed.
             """
             ...
 
-        def add_is_collapsed_listener(self, callback: Callable) -> None:
+        def add_is_collapsed_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_collapsed" has changed.
             """
             ...
 
-        def add_selected_device_listener(self, callback: Callable) -> None:
+        def add_selected_device_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_device" has changed.
@@ -61,7 +61,7 @@ class Track:
         @device_insert_mode.setter
         def device_insert_mode(self, value: bool) -> None: ...
 
-        def device_insert_mode_has_listener(self, callback: Callable) -> bool:
+        def device_insert_mode_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "device_insert_mode".
@@ -76,28 +76,28 @@ class Track:
         @is_collapsed.setter
         def is_collapsed(self, value: bool) -> None: ...
 
-        def is_collapsed_has_listener(self, callback: Callable) -> bool:
+        def is_collapsed_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_collapsed".
             """
             ...
 
-        def remove_device_insert_mode_listener(self, callback: Callable) -> None:
+        def remove_device_insert_mode_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "device_insert_mode".
             """
             ...
 
-        def remove_is_collapsed_listener(self, callback: Callable) -> None:
+        def remove_is_collapsed_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "is_collapsed".
             """
             ...
 
-        def remove_selected_device_listener(self, callback: Callable) -> None:
+        def remove_selected_device_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_device".
@@ -113,7 +113,7 @@ class Track:
             """Get/Set/Listen the insertion mode of the device.  While in insertion mode, loading new devices from the browser will place devices at the selected position."""
             ...
 
-        def selected_device_has_listener(self, callback: Callable) -> bool:
+        def selected_device_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_device".
@@ -124,322 +124,322 @@ class Track:
     def _live_ptr(self) -> int:
         ...
 
-    def add_arm_listener(self, callback: Callable) -> None:
+    def add_arm_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "arm" has changed.
         """
         ...
 
-    def add_arrangement_clips_listener(self, callback: Callable) -> None:
+    def add_arrangement_clips_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "arrangement_clips" has changed.
         """
         ...
 
-    def add_available_input_routing_channels_listener(self, callback: Callable) -> None:
+    def add_available_input_routing_channels_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_input_routing_channels" has changed.
         """
         ...
 
-    def add_available_input_routing_types_listener(self, callback: Callable) -> None:
+    def add_available_input_routing_types_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_input_routing_types" has changed.
         """
         ...
 
-    def add_available_output_routing_channels_listener(self, callback: Callable) -> None:
+    def add_available_output_routing_channels_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_output_routing_channels" has changed.
         """
         ...
 
-    def add_available_output_routing_types_listener(self, callback: Callable) -> None:
+    def add_available_output_routing_types_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_output_routing_types" has changed.
         """
         ...
 
-    def add_back_to_arranger_listener(self, callback: Callable) -> None:
+    def add_back_to_arranger_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "back_to_arranger" has changed.
         """
         ...
 
-    def add_clip_slots_listener(self, callback: Callable) -> None:
+    def add_clip_slots_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "clip_slots" has changed.
         """
         ...
 
-    def add_color_index_listener(self, callback: Callable) -> None:
+    def add_color_index_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color_index" has changed.
         """
         ...
 
-    def add_color_listener(self, callback: Callable) -> None:
+    def add_color_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color" has changed.
         """
         ...
 
-    def add_current_input_routing_listener(self, callback: Callable) -> None:
+    def add_current_input_routing_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "current_input_routing" has changed.
         """
         ...
 
-    def add_current_input_sub_routing_listener(self, callback: Callable) -> None:
+    def add_current_input_sub_routing_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "current_input_sub_routing" has changed.
         """
         ...
 
-    def add_current_monitoring_state_listener(self, callback: Callable) -> None:
+    def add_current_monitoring_state_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "current_monitoring_state" has changed.
         """
         ...
 
-    def add_current_output_routing_listener(self, callback: Callable) -> None:
+    def add_current_output_routing_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "current_output_routing" has changed.
         """
         ...
 
-    def add_current_output_sub_routing_listener(self, callback: Callable) -> None:
+    def add_current_output_sub_routing_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "current_output_sub_routing" has changed.
         """
         ...
 
-    def add_data_listener(self, callback: Callable) -> None:
+    def add_data_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "data" has changed.
         """
         ...
 
-    def add_devices_listener(self, callback: Callable) -> None:
+    def add_devices_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "devices" has changed.
         """
         ...
 
-    def add_fired_slot_index_listener(self, callback: Callable) -> None:
+    def add_fired_slot_index_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "fired_slot_index" has changed.
         """
         ...
 
-    def add_has_audio_input_listener(self, callback: Callable) -> None:
+    def add_has_audio_input_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_audio_input" has changed.
         """
         ...
 
-    def add_has_audio_output_listener(self, callback: Callable) -> None:
+    def add_has_audio_output_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_audio_output" has changed.
         """
         ...
 
-    def add_has_midi_input_listener(self, callback: Callable) -> None:
+    def add_has_midi_input_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_midi_input" has changed.
         """
         ...
 
-    def add_has_midi_output_listener(self, callback: Callable) -> None:
+    def add_has_midi_output_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_midi_output" has changed.
         """
         ...
 
-    def add_implicit_arm_listener(self, callback: Callable) -> None:
+    def add_implicit_arm_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "implicit_arm" has changed.
         """
         ...
 
-    def add_input_meter_left_listener(self, callback: Callable) -> None:
+    def add_input_meter_left_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_meter_left" has changed.
         """
         ...
 
-    def add_input_meter_level_listener(self, callback: Callable) -> None:
+    def add_input_meter_level_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_meter_level" has changed.
         """
         ...
 
-    def add_input_meter_right_listener(self, callback: Callable) -> None:
+    def add_input_meter_right_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_meter_right" has changed.
         """
         ...
 
-    def add_input_routing_channel_listener(self, callback: Callable) -> None:
+    def add_input_routing_channel_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_routing_channel" has changed.
         """
         ...
 
-    def add_input_routing_type_listener(self, callback: Callable) -> None:
+    def add_input_routing_type_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_routing_type" has changed.
         """
         ...
 
-    def add_input_routings_listener(self, callback: Callable) -> None:
+    def add_input_routings_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_routings" has changed.
         """
         ...
 
-    def add_input_sub_routings_listener(self, callback: Callable) -> None:
+    def add_input_sub_routings_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_sub_routings" has changed.
         """
         ...
 
-    def add_is_frozen_listener(self, callback: Callable) -> None:
+    def add_is_frozen_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_frozen" has changed.
         """
         ...
 
-    def add_is_showing_chains_listener(self, callback: Callable) -> None:
+    def add_is_showing_chains_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_showing_chains" has changed.
         """
         ...
 
-    def add_mute_listener(self, callback: Callable) -> None:
+    def add_mute_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mute" has changed.
         """
         ...
 
-    def add_muted_via_solo_listener(self, callback: Callable) -> None:
+    def add_muted_via_solo_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "muted_via_solo" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable) -> None:
+    def add_name_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_output_meter_left_listener(self, callback: Callable) -> None:
+    def add_output_meter_left_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_meter_left" has changed.
         """
         ...
 
-    def add_output_meter_level_listener(self, callback: Callable) -> None:
+    def add_output_meter_level_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_meter_level" has changed.
         """
         ...
 
-    def add_output_meter_right_listener(self, callback: Callable) -> None:
+    def add_output_meter_right_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_meter_right" has changed.
         """
         ...
 
-    def add_output_routing_channel_listener(self, callback: Callable) -> None:
+    def add_output_routing_channel_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_routing_channel" has changed.
         """
         ...
 
-    def add_output_routing_type_listener(self, callback: Callable) -> None:
+    def add_output_routing_type_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_routing_type" has changed.
         """
         ...
 
-    def add_output_routings_listener(self, callback: Callable) -> None:
+    def add_output_routings_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_routings" has changed.
         """
         ...
 
-    def add_output_sub_routings_listener(self, callback: Callable) -> None:
+    def add_output_sub_routings_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "output_sub_routings" has changed.
         """
         ...
 
-    def add_performance_impact_listener(self, callback: Callable) -> None:
+    def add_performance_impact_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "performance_impact" has changed.
         """
         ...
 
-    def add_playing_slot_index_listener(self, callback: Callable) -> None:
+    def add_playing_slot_index_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_slot_index" has changed.
         """
         ...
 
-    def add_solo_listener(self, callback: Callable) -> None:
+    def add_solo_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "solo" has changed.
         """
         ...
 
-    def add_take_lanes_listener(self, callback: Callable) -> None:
+    def add_take_lanes_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "take_lanes" has changed.
@@ -454,7 +454,7 @@ class Track:
     @arm.setter
     def arm(self, value: bool) -> None: ...
 
-    def arm_has_listener(self, callback: Callable) -> bool:
+    def arm_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "arm".
@@ -466,7 +466,7 @@ class Track:
         """const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks."""
         ...
 
-    def arrangement_clips_has_listener(self, callback: Callable) -> bool:
+    def arrangement_clips_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "arrangement_clips".
@@ -478,7 +478,7 @@ class Track:
         """Return a list of source channels for input routing."""
         ...
 
-    def available_input_routing_channels_has_listener(self, callback: Callable) -> bool:
+    def available_input_routing_channels_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_input_routing_channels".
@@ -490,7 +490,7 @@ class Track:
         """Return a list of source types for input routing."""
         ...
 
-    def available_input_routing_types_has_listener(self, callback: Callable) -> bool:
+    def available_input_routing_types_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_input_routing_types".
@@ -502,7 +502,7 @@ class Track:
         """Return a list of destination channels for output routing."""
         ...
 
-    def available_output_routing_channels_has_listener(self, callback: Callable) -> bool:
+    def available_output_routing_channels_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_output_routing_channels".
@@ -514,7 +514,7 @@ class Track:
         """Return a list of destination types for output routing."""
         ...
 
-    def available_output_routing_types_has_listener(self, callback: Callable) -> bool:
+    def available_output_routing_types_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_output_routing_types".
@@ -529,7 +529,7 @@ class Track:
     @back_to_arranger.setter
     def back_to_arranger(self, value: bool) -> None: ...
 
-    def back_to_arranger_has_listener(self, callback: Callable) -> bool:
+    def back_to_arranger_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "back_to_arranger".
@@ -567,7 +567,7 @@ class Track:
         """
         ...
 
-    def clip_slots_has_listener(self, callback: Callable) -> bool:
+    def clip_slots_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "clip_slots".
@@ -582,7 +582,7 @@ class Track:
     @color.setter
     def color(self, value: int) -> None: ...
 
-    def color_has_listener(self, callback: Callable) -> bool:
+    def color_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color".
@@ -597,21 +597,21 @@ class Track:
     @color_index.setter
     def color_index(self, value: int) -> None: ...
 
-    def color_index_has_listener(self, callback: Callable) -> bool:
+    def color_index_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color_index".
         """
         ...
 
-    def create_audio_clip(self, file_path: str, start_time: float) -> Clip:
+    def create_audio_clip(self, file_path: str | None, position: float | None) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
         """
         ...
 
-    def create_midi_clip(self, start_time: float, length: float) -> Clip:
+    def create_midi_clip(self, start_time: float | None, length: float | None) -> Clip:
         """
         Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
@@ -633,7 +633,7 @@ class Track:
     @current_input_routing.setter
     def current_input_routing(self, value: str) -> None: ...
 
-    def current_input_routing_has_listener(self, callback: Callable) -> bool:
+    def current_input_routing_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "current_input_routing".
@@ -651,7 +651,7 @@ class Track:
     @current_input_sub_routing.setter
     def current_input_sub_routing(self, value: str) -> None: ...
 
-    def current_input_sub_routing_has_listener(self, callback: Callable) -> bool:
+    def current_input_sub_routing_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "current_input_sub_routing".
@@ -666,7 +666,7 @@ class Track:
     @current_monitoring_state.setter
     def current_monitoring_state(self, value: int) -> None: ...
 
-    def current_monitoring_state_has_listener(self, callback: Callable) -> bool:
+    def current_monitoring_state_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "current_monitoring_state".
@@ -684,7 +684,7 @@ class Track:
     @current_output_routing.setter
     def current_output_routing(self, value: str) -> None: ...
 
-    def current_output_routing_has_listener(self, callback: Callable) -> bool:
+    def current_output_routing_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "current_output_routing".
@@ -702,25 +702,25 @@ class Track:
     @current_output_sub_routing.setter
     def current_output_sub_routing(self, value: str) -> None: ...
 
-    def current_output_sub_routing_has_listener(self, callback: Callable) -> bool:
+    def current_output_sub_routing_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "current_output_sub_routing".
         """
         ...
 
-    def data_has_listener(self, callback: Callable) -> bool:
+    def data_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "data".
         """
         ...
 
-    def delete_clip(self, clip: Clip) -> None:
+    def delete_clip(self, slot: Clip | None) -> None:
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, index: int) -> None:
+    def delete_device(self, device: int | None) -> None:
         """Delete a device identified by the index in the 'devices' list."""
         ...
 
@@ -733,14 +733,14 @@ class Track:
         """
         ...
 
-    def devices_has_listener(self, callback: Callable) -> bool:
+    def devices_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "devices".
         """
         ...
 
-    def duplicate_clip_slot(self, index: int) -> int:
+    def duplicate_clip_slot(self, index: int | None) -> int:
         """
         Duplicate a clip and put it into the next free slot and return the index
         of the destination slot. A new scene is created if no free slot is
@@ -749,7 +749,7 @@ class Track:
         """
         ...
 
-    def duplicate_clip_to_arrangement(self, clip: Clip, destination_time: float) -> Clip:
+    def duplicate_clip_to_arrangement(self, clip: Clip | None, destination_time: float | None) -> Clip:
         """
         Duplicate the given clip into the arrangement of this track at the provided
         destination time and return it. When the type of the clip and the type of the
@@ -757,7 +757,7 @@ class Track:
         """
         ...
 
-    def duplicate_device(self, index: int) -> None:
+    def duplicate_device(self, index: int | None) -> None:
         """Duplicate a device at a given index in the 'devices' list."""
         ...
 
@@ -769,7 +769,7 @@ class Track:
         """
         ...
 
-    def fired_slot_index_has_listener(self, callback: Callable) -> bool:
+    def fired_slot_index_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "fired_slot_index".
@@ -784,7 +784,7 @@ class Track:
     @fold_state.setter
     def fold_state(self, value: bool) -> None: ...
 
-    def get_data(self, key: str, default_value: Any) -> Any:
+    def get_data(self, key: str | None, default_value: Any | None) -> Any:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -801,7 +801,7 @@ class Track:
         """
         ...
 
-    def has_audio_input_has_listener(self, callback: Callable) -> bool:
+    def has_audio_input_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_audio_input".
@@ -816,7 +816,7 @@ class Track:
         """
         ...
 
-    def has_audio_output_has_listener(self, callback: Callable) -> bool:
+    def has_audio_output_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_audio_output".
@@ -831,7 +831,7 @@ class Track:
         """
         ...
 
-    def has_midi_input_has_listener(self, callback: Callable) -> bool:
+    def has_midi_input_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_midi_input".
@@ -846,7 +846,7 @@ class Track:
         """
         ...
 
-    def has_midi_output_has_listener(self, callback: Callable) -> bool:
+    def has_midi_output_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_midi_output".
@@ -861,7 +861,7 @@ class Track:
     @implicit_arm.setter
     def implicit_arm(self, value: bool) -> None: ...
 
-    def implicit_arm_has_listener(self, callback: Callable) -> bool:
+    def implicit_arm_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "implicit_arm".
@@ -873,7 +873,7 @@ class Track:
         """Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only."""
         ...
 
-    def input_meter_left_has_listener(self, callback: Callable) -> bool:
+    def input_meter_left_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_meter_left".
@@ -889,7 +889,7 @@ class Track:
         """
         ...
 
-    def input_meter_level_has_listener(self, callback: Callable) -> bool:
+    def input_meter_level_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_meter_level".
@@ -901,7 +901,7 @@ class Track:
         """Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only."""
         ...
 
-    def input_meter_right_has_listener(self, callback: Callable) -> bool:
+    def input_meter_right_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_meter_right".
@@ -920,7 +920,7 @@ class Track:
     @input_routing_channel.setter
     def input_routing_channel(self, value: RoutingChannel) -> None: ...
 
-    def input_routing_channel_has_listener(self, callback: Callable) -> bool:
+    def input_routing_channel_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_routing_channel".
@@ -939,7 +939,7 @@ class Track:
     @input_routing_type.setter
     def input_routing_type(self, value: RoutingType) -> None: ...
 
-    def input_routing_type_has_listener(self, callback: Callable) -> bool:
+    def input_routing_type_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_routing_type".
@@ -951,7 +951,7 @@ class Track:
         """Const access to the list of available input routings."""
         ...
 
-    def input_routings_has_listener(self, callback: Callable) -> bool:
+    def input_routings_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_routings".
@@ -963,14 +963,14 @@ class Track:
         """Return a list of all available input sub routings."""
         ...
 
-    def input_sub_routings_has_listener(self, callback: Callable) -> bool:
+    def input_sub_routings_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_sub_routings".
         """
         ...
 
-    def insert_device(self, DeviceName: str, DeviceIndex: int = -1) -> LomObject:
+    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> LomObject:
         """Add a device at a given index in the 'devices' list. At end if -1."""
         ...
 
@@ -984,7 +984,7 @@ class Track:
         """return True if this Track is currently frozen. No changes should be applied to the track's devices or clips while it is frozen."""
         ...
 
-    def is_frozen_has_listener(self, callback: Callable) -> bool:
+    def is_frozen_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_frozen".
@@ -1009,7 +1009,7 @@ class Track:
     @is_showing_chains.setter
     def is_showing_chains(self, value: bool) -> None: ...
 
-    def is_showing_chains_has_listener(self, callback: Callable) -> bool:
+    def is_showing_chains_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_showing_chains".
@@ -1021,7 +1021,7 @@ class Track:
         """return False if the track is hidden within a folded group track."""
         ...
 
-    def jump_in_running_session_clip(self, beats: float) -> None:
+    def jump_in_running_session_clip(self, beats: float | None) -> None:
         """
         Jump forward or backward in the currently running Sessionclip (if any)
         by the specified relative amount in beats. Does nothing if no Session Clip
@@ -1050,7 +1050,7 @@ class Track:
     @mute.setter
     def mute(self, value: bool) -> None: ...
 
-    def mute_has_listener(self, callback: Callable) -> bool:
+    def mute_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mute".
@@ -1062,7 +1062,7 @@ class Track:
         """Returns true if the track is muted because another track is soloed."""
         ...
 
-    def muted_via_solo_has_listener(self, callback: Callable) -> bool:
+    def muted_via_solo_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "muted_via_solo".
@@ -1077,7 +1077,7 @@ class Track:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable) -> bool:
+    def name_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -1092,7 +1092,7 @@ class Track:
         """
         ...
 
-    def output_meter_left_has_listener(self, callback: Callable) -> bool:
+    def output_meter_left_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_meter_left".
@@ -1108,7 +1108,7 @@ class Track:
         """
         ...
 
-    def output_meter_level_has_listener(self, callback: Callable) -> bool:
+    def output_meter_level_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_meter_level".
@@ -1123,7 +1123,7 @@ class Track:
         """
         ...
 
-    def output_meter_right_has_listener(self, callback: Callable) -> bool:
+    def output_meter_right_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_meter_right".
@@ -1142,7 +1142,7 @@ class Track:
     @output_routing_channel.setter
     def output_routing_channel(self, value: RoutingChannel) -> None: ...
 
-    def output_routing_channel_has_listener(self, callback: Callable) -> bool:
+    def output_routing_channel_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_routing_channel".
@@ -1161,7 +1161,7 @@ class Track:
     @output_routing_type.setter
     def output_routing_type(self, value: RoutingType) -> None: ...
 
-    def output_routing_type_has_listener(self, callback: Callable) -> bool:
+    def output_routing_type_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_routing_type".
@@ -1173,7 +1173,7 @@ class Track:
         """Const access to the list of all available output routings."""
         ...
 
-    def output_routings_has_listener(self, callback: Callable) -> bool:
+    def output_routings_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_routings".
@@ -1185,7 +1185,7 @@ class Track:
         """Return a list of all available output sub routings."""
         ...
 
-    def output_sub_routings_has_listener(self, callback: Callable) -> bool:
+    def output_sub_routings_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "output_sub_routings".
@@ -1197,7 +1197,7 @@ class Track:
         """Reports the performance impact of this track."""
         ...
 
-    def performance_impact_has_listener(self, callback: Callable) -> bool:
+    def performance_impact_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "performance_impact".
@@ -1212,336 +1212,336 @@ class Track:
         """
         ...
 
-    def playing_slot_index_has_listener(self, callback: Callable) -> bool:
+    def playing_slot_index_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playing_slot_index".
         """
         ...
 
-    def remove_arm_listener(self, callback: Callable) -> None:
+    def remove_arm_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "arm".
         """
         ...
 
-    def remove_arrangement_clips_listener(self, callback: Callable) -> None:
+    def remove_arrangement_clips_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "arrangement_clips".
         """
         ...
 
-    def remove_available_input_routing_channels_listener(self, callback: Callable) -> None:
+    def remove_available_input_routing_channels_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "available_input_routing_channels".
         """
         ...
 
-    def remove_available_input_routing_types_listener(self, callback: Callable) -> None:
+    def remove_available_input_routing_types_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "available_input_routing_types".
         """
         ...
 
-    def remove_available_output_routing_channels_listener(self, callback: Callable) -> None:
+    def remove_available_output_routing_channels_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "available_output_routing_channels".
         """
         ...
 
-    def remove_available_output_routing_types_listener(self, callback: Callable) -> None:
+    def remove_available_output_routing_types_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "available_output_routing_types".
         """
         ...
 
-    def remove_back_to_arranger_listener(self, callback: Callable) -> None:
+    def remove_back_to_arranger_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "back_to_arranger".
         """
         ...
 
-    def remove_clip_slots_listener(self, callback: Callable) -> None:
+    def remove_clip_slots_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "clip_slots".
         """
         ...
 
-    def remove_color_index_listener(self, callback: Callable) -> None:
+    def remove_color_index_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "color_index".
         """
         ...
 
-    def remove_color_listener(self, callback: Callable) -> None:
+    def remove_color_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "color".
         """
         ...
 
-    def remove_current_input_routing_listener(self, callback: Callable) -> None:
+    def remove_current_input_routing_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "current_input_routing".
         """
         ...
 
-    def remove_current_input_sub_routing_listener(self, callback: Callable) -> None:
+    def remove_current_input_sub_routing_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "current_input_sub_routing".
         """
         ...
 
-    def remove_current_monitoring_state_listener(self, callback: Callable) -> None:
+    def remove_current_monitoring_state_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "current_monitoring_state".
         """
         ...
 
-    def remove_current_output_routing_listener(self, callback: Callable) -> None:
+    def remove_current_output_routing_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "current_output_routing".
         """
         ...
 
-    def remove_current_output_sub_routing_listener(self, callback: Callable) -> None:
+    def remove_current_output_sub_routing_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "current_output_sub_routing".
         """
         ...
 
-    def remove_data_listener(self, callback: Callable) -> None:
+    def remove_data_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "data".
         """
         ...
 
-    def remove_devices_listener(self, callback: Callable) -> None:
+    def remove_devices_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "devices".
         """
         ...
 
-    def remove_fired_slot_index_listener(self, callback: Callable) -> None:
+    def remove_fired_slot_index_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "fired_slot_index".
         """
         ...
 
-    def remove_has_audio_input_listener(self, callback: Callable) -> None:
+    def remove_has_audio_input_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "has_audio_input".
         """
         ...
 
-    def remove_has_audio_output_listener(self, callback: Callable) -> None:
+    def remove_has_audio_output_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "has_audio_output".
         """
         ...
 
-    def remove_has_midi_input_listener(self, callback: Callable) -> None:
+    def remove_has_midi_input_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "has_midi_input".
         """
         ...
 
-    def remove_has_midi_output_listener(self, callback: Callable) -> None:
+    def remove_has_midi_output_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "has_midi_output".
         """
         ...
 
-    def remove_implicit_arm_listener(self, callback: Callable) -> None:
+    def remove_implicit_arm_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "implicit_arm".
         """
         ...
 
-    def remove_input_meter_left_listener(self, callback: Callable) -> None:
+    def remove_input_meter_left_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_meter_left".
         """
         ...
 
-    def remove_input_meter_level_listener(self, callback: Callable) -> None:
+    def remove_input_meter_level_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_meter_level".
         """
         ...
 
-    def remove_input_meter_right_listener(self, callback: Callable) -> None:
+    def remove_input_meter_right_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_meter_right".
         """
         ...
 
-    def remove_input_routing_channel_listener(self, callback: Callable) -> None:
+    def remove_input_routing_channel_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_routing_channel".
         """
         ...
 
-    def remove_input_routing_type_listener(self, callback: Callable) -> None:
+    def remove_input_routing_type_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_routing_type".
         """
         ...
 
-    def remove_input_routings_listener(self, callback: Callable) -> None:
+    def remove_input_routings_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_routings".
         """
         ...
 
-    def remove_input_sub_routings_listener(self, callback: Callable) -> None:
+    def remove_input_sub_routings_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "input_sub_routings".
         """
         ...
 
-    def remove_is_frozen_listener(self, callback: Callable) -> None:
+    def remove_is_frozen_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "is_frozen".
         """
         ...
 
-    def remove_is_showing_chains_listener(self, callback: Callable) -> None:
+    def remove_is_showing_chains_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "is_showing_chains".
         """
         ...
 
-    def remove_mute_listener(self, callback: Callable) -> None:
+    def remove_mute_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "mute".
         """
         ...
 
-    def remove_muted_via_solo_listener(self, callback: Callable) -> None:
+    def remove_muted_via_solo_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "muted_via_solo".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable) -> None:
+    def remove_name_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_output_meter_left_listener(self, callback: Callable) -> None:
+    def remove_output_meter_left_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_meter_left".
         """
         ...
 
-    def remove_output_meter_level_listener(self, callback: Callable) -> None:
+    def remove_output_meter_level_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_meter_level".
         """
         ...
 
-    def remove_output_meter_right_listener(self, callback: Callable) -> None:
+    def remove_output_meter_right_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_meter_right".
         """
         ...
 
-    def remove_output_routing_channel_listener(self, callback: Callable) -> None:
+    def remove_output_routing_channel_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_routing_channel".
         """
         ...
 
-    def remove_output_routing_type_listener(self, callback: Callable) -> None:
+    def remove_output_routing_type_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_routing_type".
         """
         ...
 
-    def remove_output_routings_listener(self, callback: Callable) -> None:
+    def remove_output_routings_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_routings".
         """
         ...
 
-    def remove_output_sub_routings_listener(self, callback: Callable) -> None:
+    def remove_output_sub_routings_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "output_sub_routings".
         """
         ...
 
-    def remove_performance_impact_listener(self, callback: Callable) -> None:
+    def remove_performance_impact_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "performance_impact".
         """
         ...
 
-    def remove_playing_slot_index_listener(self, callback: Callable) -> None:
+    def remove_playing_slot_index_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "playing_slot_index".
         """
         ...
 
-    def remove_solo_listener(self, callback: Callable) -> None:
+    def remove_solo_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "solo".
         """
         ...
 
-    def remove_take_lanes_listener(self, callback: Callable) -> None:
+    def remove_take_lanes_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "take_lanes".
         """
         ...
 
-    def set_data(self, key: str, value: Any) -> None:
+    def set_data(self, key: str | None, value: Any | None) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 
@@ -1557,7 +1557,7 @@ class Track:
     @solo.setter
     def solo(self, value: bool) -> None: ...
 
-    def solo_has_listener(self, callback: Callable) -> bool:
+    def solo_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "solo".
@@ -1573,7 +1573,7 @@ class Track:
         """returns the take lanes."""
         ...
 
-    def take_lanes_has_listener(self, callback: Callable) -> bool:
+    def take_lanes_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "take_lanes".

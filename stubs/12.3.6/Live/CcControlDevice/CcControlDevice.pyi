@@ -9,91 +9,91 @@ class CcControlDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_custom_bool_target_listener(self, callback: Callable) -> None:
+    def add_custom_bool_target_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_bool_target" has changed.
         """
         ...
 
-    def add_custom_float_target_0_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_0_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_0" has changed.
         """
         ...
 
-    def add_custom_float_target_10_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_10_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_10" has changed.
         """
         ...
 
-    def add_custom_float_target_11_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_11_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_11" has changed.
         """
         ...
 
-    def add_custom_float_target_1_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_1_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_1" has changed.
         """
         ...
 
-    def add_custom_float_target_2_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_2_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_2" has changed.
         """
         ...
 
-    def add_custom_float_target_3_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_3_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_3" has changed.
         """
         ...
 
-    def add_custom_float_target_4_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_4_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_4" has changed.
         """
         ...
 
-    def add_custom_float_target_5_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_5_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_5" has changed.
         """
         ...
 
-    def add_custom_float_target_6_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_6_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_6" has changed.
         """
         ...
 
-    def add_custom_float_target_7_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_7_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_7" has changed.
         """
         ...
 
-    def add_custom_float_target_8_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_8_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_8" has changed.
         """
         ...
 
-    def add_custom_float_target_9_listener(self, callback: Callable) -> None:
+    def add_custom_float_target_9_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "custom_float_target_9" has changed.
@@ -108,7 +108,7 @@ class CcControlDevice:
     @custom_bool_target.setter
     def custom_bool_target(self, value: int) -> None: ...
 
-    def custom_bool_target_has_listener(self, callback: Callable) -> bool:
+    def custom_bool_target_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_bool_target".
@@ -128,7 +128,7 @@ class CcControlDevice:
     @custom_float_target_0.setter
     def custom_float_target_0(self, value: int) -> None: ...
 
-    def custom_float_target_0_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_0_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_0".
@@ -156,7 +156,7 @@ class CcControlDevice:
     @custom_float_target_10.setter
     def custom_float_target_10(self, value: int) -> None: ...
 
-    def custom_float_target_10_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_10_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_10".
@@ -176,7 +176,7 @@ class CcControlDevice:
     @custom_float_target_11.setter
     def custom_float_target_11(self, value: int) -> None: ...
 
-    def custom_float_target_11_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_11_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_11".
@@ -188,7 +188,7 @@ class CcControlDevice:
         """Return the custom float target 11 list"""
         ...
 
-    def custom_float_target_1_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_1_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_1".
@@ -208,7 +208,7 @@ class CcControlDevice:
     @custom_float_target_2.setter
     def custom_float_target_2(self, value: int) -> None: ...
 
-    def custom_float_target_2_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_2_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_2".
@@ -228,7 +228,7 @@ class CcControlDevice:
     @custom_float_target_3.setter
     def custom_float_target_3(self, value: int) -> None: ...
 
-    def custom_float_target_3_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_3_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_3".
@@ -248,7 +248,7 @@ class CcControlDevice:
     @custom_float_target_4.setter
     def custom_float_target_4(self, value: int) -> None: ...
 
-    def custom_float_target_4_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_4_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_4".
@@ -268,7 +268,7 @@ class CcControlDevice:
     @custom_float_target_5.setter
     def custom_float_target_5(self, value: int) -> None: ...
 
-    def custom_float_target_5_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_5_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_5".
@@ -288,7 +288,7 @@ class CcControlDevice:
     @custom_float_target_6.setter
     def custom_float_target_6(self, value: int) -> None: ...
 
-    def custom_float_target_6_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_6_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_6".
@@ -308,7 +308,7 @@ class CcControlDevice:
     @custom_float_target_7.setter
     def custom_float_target_7(self, value: int) -> None: ...
 
-    def custom_float_target_7_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_7_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_7".
@@ -328,7 +328,7 @@ class CcControlDevice:
     @custom_float_target_8.setter
     def custom_float_target_8(self, value: int) -> None: ...
 
-    def custom_float_target_8_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_8_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_8".
@@ -348,7 +348,7 @@ class CcControlDevice:
     @custom_float_target_9.setter
     def custom_float_target_9(self, value: int) -> None: ...
 
-    def custom_float_target_9_has_listener(self, callback: Callable) -> bool:
+    def custom_float_target_9_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "custom_float_target_9".
@@ -360,91 +360,91 @@ class CcControlDevice:
         """Return the custom float target 9 list"""
         ...
 
-    def remove_custom_bool_target_listener(self, callback: Callable) -> None:
+    def remove_custom_bool_target_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_bool_target".
         """
         ...
 
-    def remove_custom_float_target_0_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_0_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_0".
         """
         ...
 
-    def remove_custom_float_target_10_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_10_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_10".
         """
         ...
 
-    def remove_custom_float_target_11_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_11_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_11".
         """
         ...
 
-    def remove_custom_float_target_1_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_1_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_1".
         """
         ...
 
-    def remove_custom_float_target_2_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_2_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_2".
         """
         ...
 
-    def remove_custom_float_target_3_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_3_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_3".
         """
         ...
 
-    def remove_custom_float_target_4_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_4_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_4".
         """
         ...
 
-    def remove_custom_float_target_5_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_5_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_5".
         """
         ...
 
-    def remove_custom_float_target_6_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_6_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_6".
         """
         ...
 
-    def remove_custom_float_target_7_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_7_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_7".
         """
         ...
 
-    def remove_custom_float_target_8_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_8_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_8".
         """
         ...
 
-    def remove_custom_float_target_9_listener(self, callback: Callable) -> None:
+    def remove_custom_float_target_9_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "custom_float_target_9".

@@ -13,70 +13,70 @@ class Scene:
     def _live_ptr(self) -> int:
         ...
 
-    def add_clip_slots_listener(self, callback: Callable) -> None:
+    def add_clip_slots_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "clip_slots" has changed.
         """
         ...
 
-    def add_color_index_listener(self, callback: Callable) -> None:
+    def add_color_index_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color_index" has changed.
         """
         ...
 
-    def add_color_listener(self, callback: Callable) -> None:
+    def add_color_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color" has changed.
         """
         ...
 
-    def add_is_triggered_listener(self, callback: Callable) -> None:
+    def add_is_triggered_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_triggered" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable) -> None:
+    def add_name_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_tempo_enabled_listener(self, callback: Callable) -> None:
+    def add_tempo_enabled_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tempo_enabled" has changed.
         """
         ...
 
-    def add_tempo_listener(self, callback: Callable) -> None:
+    def add_tempo_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tempo" has changed.
         """
         ...
 
-    def add_time_signature_denominator_listener(self, callback: Callable) -> None:
+    def add_time_signature_denominator_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "time_signature_denominator" has changed.
         """
         ...
 
-    def add_time_signature_enabled_listener(self, callback: Callable) -> None:
+    def add_time_signature_enabled_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "time_signature_enabled" has changed.
         """
         ...
 
-    def add_time_signature_numerator_listener(self, callback: Callable) -> None:
+    def add_time_signature_numerator_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "time_signature_numerator" has changed.
@@ -93,7 +93,7 @@ class Scene:
         """return a list of clipslots (see class AClipSlot) that this scene covers."""
         ...
 
-    def clip_slots_has_listener(self, callback: Callable) -> bool:
+    def clip_slots_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "clip_slots".
@@ -108,7 +108,7 @@ class Scene:
     @color.setter
     def color(self, value: int) -> None: ...
 
-    def color_has_listener(self, callback: Callable) -> bool:
+    def color_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color".
@@ -123,7 +123,7 @@ class Scene:
     @color_index.setter
     def color_index(self, value: None) -> None: ...
 
-    def color_index_has_listener(self, callback: Callable) -> bool:
+    def color_index_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color_index".
@@ -154,7 +154,7 @@ class Scene:
         """Const access to the scene's trigger state."""
         ...
 
-    def is_triggered_has_listener(self, callback: Callable) -> bool:
+    def is_triggered_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_triggered".
@@ -169,84 +169,84 @@ class Scene:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable) -> bool:
+    def name_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def remove_clip_slots_listener(self, callback: Callable) -> None:
+    def remove_clip_slots_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "clip_slots".
         """
         ...
 
-    def remove_color_index_listener(self, callback: Callable) -> None:
+    def remove_color_index_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "color_index".
         """
         ...
 
-    def remove_color_listener(self, callback: Callable) -> None:
+    def remove_color_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "color".
         """
         ...
 
-    def remove_is_triggered_listener(self, callback: Callable) -> None:
+    def remove_is_triggered_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "is_triggered".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable) -> None:
+    def remove_name_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_tempo_enabled_listener(self, callback: Callable) -> None:
+    def remove_tempo_enabled_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "tempo_enabled".
         """
         ...
 
-    def remove_tempo_listener(self, callback: Callable) -> None:
+    def remove_tempo_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "tempo".
         """
         ...
 
-    def remove_time_signature_denominator_listener(self, callback: Callable) -> None:
+    def remove_time_signature_denominator_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "time_signature_denominator".
         """
         ...
 
-    def remove_time_signature_enabled_listener(self, callback: Callable) -> None:
+    def remove_time_signature_enabled_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "time_signature_enabled".
         """
         ...
 
-    def remove_time_signature_numerator_listener(self, callback: Callable) -> None:
+    def remove_time_signature_numerator_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "time_signature_numerator".
         """
         ...
 
-    def set_fire_button_state(self, state: bool) -> None:
+    def set_fire_button_state(self, state: bool | None) -> None:
         """Set the scene's fire button state directly. Supports all launch modes."""
         ...
 
@@ -273,14 +273,14 @@ class Scene:
     @tempo_enabled.setter
     def tempo_enabled(self, value: bool) -> None: ...
 
-    def tempo_enabled_has_listener(self, callback: Callable) -> bool:
+    def tempo_enabled_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tempo_enabled".
         """
         ...
 
-    def tempo_has_listener(self, callback: Callable) -> bool:
+    def tempo_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tempo".
@@ -299,7 +299,7 @@ class Scene:
     @time_signature_denominator.setter
     def time_signature_denominator(self, value: int) -> None: ...
 
-    def time_signature_denominator_has_listener(self, callback: Callable) -> bool:
+    def time_signature_denominator_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "time_signature_denominator".
@@ -317,7 +317,7 @@ class Scene:
     @time_signature_enabled.setter
     def time_signature_enabled(self, value: bool) -> None: ...
 
-    def time_signature_enabled_has_listener(self, callback: Callable) -> bool:
+    def time_signature_enabled_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "time_signature_enabled".
@@ -336,7 +336,7 @@ class Scene:
     @time_signature_numerator.setter
     def time_signature_numerator(self, value: int) -> None: ...
 
-    def time_signature_numerator_has_listener(self, callback: Callable) -> bool:
+    def time_signature_numerator_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "time_signature_numerator".

@@ -20,28 +20,28 @@ class RackDevice:
         def _live_ptr(self) -> int:
             ...
 
-        def add_drum_pads_scroll_position_listener(self, callback: Callable) -> None:
+        def add_drum_pads_scroll_position_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "drum_pads_scroll_position" has changed.
             """
             ...
 
-        def add_is_showing_chain_devices_listener(self, callback: Callable) -> None:
+        def add_is_showing_chain_devices_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_showing_chain_devices" has changed.
             """
             ...
 
-        def add_selected_chain_listener(self, callback: Callable) -> None:
+        def add_selected_chain_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_chain" has changed.
             """
             ...
 
-        def add_selected_drum_pad_listener(self, callback: Callable) -> None:
+        def add_selected_drum_pad_listener(self, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_drum_pad" has changed.
@@ -61,7 +61,7 @@ class RackDevice:
         @drum_pads_scroll_position.setter
         def drum_pads_scroll_position(self, value: int) -> None: ...
 
-        def drum_pads_scroll_position_has_listener(self, callback: Callable) -> bool:
+        def drum_pads_scroll_position_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "drum_pads_scroll_position".
@@ -84,35 +84,35 @@ class RackDevice:
         @is_showing_chain_devices.setter
         def is_showing_chain_devices(self, value: bool) -> None: ...
 
-        def is_showing_chain_devices_has_listener(self, callback: Callable) -> bool:
+        def is_showing_chain_devices_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_showing_chain_devices".
             """
             ...
 
-        def remove_drum_pads_scroll_position_listener(self, callback: Callable) -> None:
+        def remove_drum_pads_scroll_position_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "drum_pads_scroll_position".
             """
             ...
 
-        def remove_is_showing_chain_devices_listener(self, callback: Callable) -> None:
+        def remove_is_showing_chain_devices_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "is_showing_chain_devices".
             """
             ...
 
-        def remove_selected_chain_listener(self, callback: Callable) -> None:
+        def remove_selected_chain_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_chain".
             """
             ...
 
-        def remove_selected_drum_pad_listener(self, callback: Callable) -> None:
+        def remove_selected_drum_pad_listener(self, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_drum_pad".
@@ -127,7 +127,7 @@ class RackDevice:
         @selected_chain.setter
         def selected_chain(self, value: None) -> None: ...
 
-        def selected_chain_has_listener(self, callback: Callable) -> bool:
+        def selected_chain_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_chain".
@@ -142,7 +142,7 @@ class RackDevice:
         @selected_drum_pad.setter
         def selected_drum_pad(self, value: DrumPad) -> None: ...
 
-        def selected_drum_pad_has_listener(self, callback: Callable) -> bool:
+        def selected_drum_pad_has_listener(self, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_drum_pad".
@@ -153,35 +153,35 @@ class RackDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_chains_listener(self, callback: Callable) -> None:
+    def add_chains_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "chains" has changed.
         """
         ...
 
-    def add_drum_pads_listener(self, callback: Callable) -> None:
+    def add_drum_pads_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "drum_pads" has changed.
         """
         ...
 
-    def add_has_drum_pads_listener(self, callback: Callable) -> None:
+    def add_has_drum_pads_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_drum_pads" has changed.
         """
         ...
 
-    def add_has_macro_mappings_listener(self, callback: Callable) -> None:
+    def add_has_macro_mappings_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_macro_mappings" has changed.
         """
         ...
 
-    def add_is_showing_chains_listener(self, callback: Callable) -> None:
+    def add_is_showing_chains_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_showing_chains" has changed.
@@ -192,35 +192,35 @@ class RackDevice:
         """Increases the number of visible macro controls in the rack. Throws an exception if the maximum number of macro controls is reached."""
         ...
 
-    def add_macros_mapped_listener(self, callback: Callable) -> None:
+    def add_macros_mapped_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "macros_mapped" has changed.
         """
         ...
 
-    def add_return_chains_listener(self, callback: Callable) -> None:
+    def add_return_chains_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "return_chains" has changed.
         """
         ...
 
-    def add_variation_count_listener(self, callback: Callable) -> None:
+    def add_variation_count_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "variation_count" has changed.
         """
         ...
 
-    def add_visible_drum_pads_listener(self, callback: Callable) -> None:
+    def add_visible_drum_pads_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "visible_drum_pads" has changed.
         """
         ...
 
-    def add_visible_macro_count_listener(self, callback: Callable) -> None:
+    def add_visible_macro_count_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "visible_macro_count" has changed.
@@ -262,7 +262,7 @@ class RackDevice:
         """Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
-    def chains_has_listener(self, callback: Callable) -> bool:
+    def chains_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "chains".
@@ -279,7 +279,7 @@ class RackDevice:
         """Return const access to the name of the device's class."""
         ...
 
-    def copy_pad(self, source_index: int, destination_index: int) -> None:
+    def copy_pad(self, source_index: int | None, destination_index: int | None) -> None:
         """Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127."""
         ...
 
@@ -292,7 +292,7 @@ class RackDevice:
         """Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false."""
         ...
 
-    def drum_pads_has_listener(self, callback: Callable) -> bool:
+    def drum_pads_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "drum_pads".
@@ -304,7 +304,7 @@ class RackDevice:
         """Returns true if the device is a drum rack which has drum pads. Throws an exception if can_have_drum_pads is false."""
         ...
 
-    def has_drum_pads_has_listener(self, callback: Callable) -> bool:
+    def has_drum_pads_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_drum_pads".
@@ -316,7 +316,7 @@ class RackDevice:
         """Returns true if any of the rack's macros are mapped to a parameter."""
         ...
 
-    def has_macro_mappings_has_listener(self, callback: Callable) -> bool:
+    def has_macro_mappings_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_macro_mappings".
@@ -340,7 +340,7 @@ class RackDevice:
     @is_showing_chains.setter
     def is_showing_chains(self, value: bool) -> None: ...
 
-    def is_showing_chains_has_listener(self, callback: Callable) -> bool:
+    def is_showing_chains_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_showing_chains".
@@ -370,7 +370,7 @@ class RackDevice:
         """A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something"""
         ...
 
-    def macros_mapped_has_listener(self, callback: Callable) -> bool:
+    def macros_mapped_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "macros_mapped".
@@ -402,35 +402,35 @@ class RackDevice:
         """Recalls the currently selected macro variation.Does nothing if there are no variations."""
         ...
 
-    def remove_chains_listener(self, callback: Callable) -> None:
+    def remove_chains_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "chains".
         """
         ...
 
-    def remove_drum_pads_listener(self, callback: Callable) -> None:
+    def remove_drum_pads_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "drum_pads".
         """
         ...
 
-    def remove_has_drum_pads_listener(self, callback: Callable) -> None:
+    def remove_has_drum_pads_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "has_drum_pads".
         """
         ...
 
-    def remove_has_macro_mappings_listener(self, callback: Callable) -> None:
+    def remove_has_macro_mappings_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "has_macro_mappings".
         """
         ...
 
-    def remove_is_showing_chains_listener(self, callback: Callable) -> None:
+    def remove_is_showing_chains_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "is_showing_chains".
@@ -441,35 +441,35 @@ class RackDevice:
         """Decreases the number of visible macro controls in the rack. Throws an exception if the minimum number of macro controls is reached."""
         ...
 
-    def remove_macros_mapped_listener(self, callback: Callable) -> None:
+    def remove_macros_mapped_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "macros_mapped".
         """
         ...
 
-    def remove_return_chains_listener(self, callback: Callable) -> None:
+    def remove_return_chains_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "return_chains".
         """
         ...
 
-    def remove_variation_count_listener(self, callback: Callable) -> None:
+    def remove_variation_count_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "variation_count".
         """
         ...
 
-    def remove_visible_drum_pads_listener(self, callback: Callable) -> None:
+    def remove_visible_drum_pads_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "visible_drum_pads".
         """
         ...
 
-    def remove_visible_macro_count_listener(self, callback: Callable) -> None:
+    def remove_visible_macro_count_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "visible_macro_count".
@@ -481,7 +481,7 @@ class RackDevice:
         """Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
-    def return_chains_has_listener(self, callback: Callable) -> bool:
+    def return_chains_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "return_chains".
@@ -510,7 +510,7 @@ class RackDevice:
         """Access to the number of macro variations currently stored."""
         ...
 
-    def variation_count_has_listener(self, callback: Callable) -> bool:
+    def variation_count_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "variation_count".
@@ -527,7 +527,7 @@ class RackDevice:
         """Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false."""
         ...
 
-    def visible_drum_pads_has_listener(self, callback: Callable) -> bool:
+    def visible_drum_pads_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "visible_drum_pads".
@@ -539,7 +539,7 @@ class RackDevice:
         """Access to the number of macros that are currently visible."""
         ...
 
-    def visible_macro_count_has_listener(self, callback: Callable) -> bool:
+    def visible_macro_count_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "visible_macro_count".

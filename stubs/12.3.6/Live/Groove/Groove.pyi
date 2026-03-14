@@ -14,35 +14,35 @@ class Groove:
     def _live_ptr(self) -> int:
         ...
 
-    def add_name_listener(self, callback: Callable) -> None:
+    def add_name_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_quantization_amount_listener(self, callback: Callable) -> None:
+    def add_quantization_amount_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "quantization_amount" has changed.
         """
         ...
 
-    def add_random_amount_listener(self, callback: Callable) -> None:
+    def add_random_amount_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "random_amount" has changed.
         """
         ...
 
-    def add_timing_amount_listener(self, callback: Callable) -> None:
+    def add_timing_amount_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "timing_amount" has changed.
         """
         ...
 
-    def add_velocity_amount_listener(self, callback: Callable) -> None:
+    def add_velocity_amount_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "velocity_amount" has changed.
@@ -70,7 +70,7 @@ class Groove:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable) -> bool:
+    def name_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -85,7 +85,7 @@ class Groove:
     @quantization_amount.setter
     def quantization_amount(self, value: float) -> None: ...
 
-    def quantization_amount_has_listener(self, callback: Callable) -> bool:
+    def quantization_amount_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "quantization_amount".
@@ -100,42 +100,42 @@ class Groove:
     @random_amount.setter
     def random_amount(self, value: float) -> None: ...
 
-    def random_amount_has_listener(self, callback: Callable) -> bool:
+    def random_amount_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "random_amount".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable) -> None:
+    def remove_name_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_quantization_amount_listener(self, callback: Callable) -> None:
+    def remove_quantization_amount_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "quantization_amount".
         """
         ...
 
-    def remove_random_amount_listener(self, callback: Callable) -> None:
+    def remove_random_amount_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "random_amount".
         """
         ...
 
-    def remove_timing_amount_listener(self, callback: Callable) -> None:
+    def remove_timing_amount_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "timing_amount".
         """
         ...
 
-    def remove_velocity_amount_listener(self, callback: Callable) -> None:
+    def remove_velocity_amount_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "velocity_amount".
@@ -150,7 +150,7 @@ class Groove:
     @timing_amount.setter
     def timing_amount(self, value: float) -> None: ...
 
-    def timing_amount_has_listener(self, callback: Callable) -> bool:
+    def timing_amount_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "timing_amount".
@@ -165,7 +165,7 @@ class Groove:
     @velocity_amount.setter
     def velocity_amount(self, value: float) -> None: ...
 
-    def velocity_amount_has_listener(self, callback: Callable) -> bool:
+    def velocity_amount_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "velocity_amount".

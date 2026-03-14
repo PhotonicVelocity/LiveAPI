@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable
 if TYPE_CHECKING:
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
-    from Live.Track import Track, View
+    from Live.Track import Track
 
 
 
@@ -15,7 +15,7 @@ class DrumCellDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_gain_listener(self, callback: Callable) -> None:
+    def add_gain_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "gain" has changed.
@@ -60,7 +60,7 @@ class DrumCellDevice:
     @gain.setter
     def gain(self, value: float) -> None: ...
 
-    def gain_has_listener(self, callback: Callable) -> bool:
+    def gain_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "gain".
@@ -103,7 +103,7 @@ class DrumCellDevice:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_gain_listener(self, callback: Callable) -> None:
+    def remove_gain_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "gain".
@@ -116,7 +116,7 @@ class DrumCellDevice:
         ...
 
     @property
-    def view(self) -> View:
+    def view(self) -> Device.View:
         """Representing the view aspects of a device."""
         ...
 

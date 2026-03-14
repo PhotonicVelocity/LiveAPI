@@ -271,40 +271,50 @@ def _parse_response(text: str) -> dict:
 
 
 def _fix_malformed_refinements(refinements: dict, items: dict[str, dict]) -> int:
-    """Fix refinements where type/type_reason ended up at root level instead of under args.
+    """Fix common LLM malformations in refinement output.
 
-    The LLM sometimes returns {"type": "int", "type_reason": "..."} instead of
-    {"args": {"ArgName": {"type": "int", "type_reason": "..."}}}. We detect this by
-    checking for unexpected top-level keys and cross-referencing the unresolved items
-    to find the correct arg name.
+    Catches two patterns:
+    1. type/type_reason at the root level instead of under args
+    2. type/type_reason as siblings of arg entries inside args dict instead of inside an arg entry
 
     Returns the number of entries fixed.
     """
     VALID_KEYS = {"args", "returns", "probed_type", "probed_type_reason"}
-
     fixed = 0
     for path, entry in list(refinements.items()):
+        # Fix 1: type/type_reason at root level
         bad_keys = set(entry.keys()) - VALID_KEYS
-        if not bad_keys:
-            continue
+        if bad_keys:
+            unresolved = items.get(path, {})
+            object_args = [
+                aname for aname, aval in unresolved.get("args", {}).items()
+                if aval.get("current_type") == "object"
+            ]
 
-        # Look up the unresolved item to find an arg with current_type "object"
-        unresolved = items.get(path, {})
-        object_args = [
-            aname for aname, aval in unresolved.get("args", {}).items()
-            if aval.get("current_type") == "object"
-        ]
+            if object_args and "type" in entry:
+                arg_name = object_args[0]
+                arg_entry = {"type": entry.pop("type")}
+                if "type_reason" in entry:
+                    arg_entry["type_reason"] = entry.pop("type_reason")
+                entry.setdefault("args", {})[arg_name] = arg_entry
+                fixed += 1
+                print(f"  Fixed malformed entry: {path} (moved type from root to args.{arg_name})")
+            else:
+                print(f"  Warning: unexpected keys {bad_keys} in {path}, could not auto-fix")
 
-        if object_args and "type" in entry:
-            arg_name = object_args[0]
-            arg_entry = {"type": entry.pop("type")}
-            if "type_reason" in entry:
-                arg_entry["type_reason"] = entry.pop("type_reason")
-            entry.setdefault("args", {})[arg_name] = arg_entry
-            fixed += 1
-            print(f"  Fixed malformed entry: {path} (moved type under args.{arg_name})")
-        else:
-            print(f"  Warning: unexpected keys {bad_keys} in {path}, could not auto-fix")
+        # Fix 2: type/type_reason as siblings of arg entries inside args dict
+        # e.g. {"args": {"arg2": {"name": "notes"}, "type": "list[X]", "type_reason": "..."}}
+        args_dict = entry.get("args", {})
+        if "type" in args_dict and isinstance(args_dict["type"], str):
+            # Find the actual arg entry (the one that's a dict, not a string)
+            arg_entries = {k: v for k, v in args_dict.items() if isinstance(v, dict)}
+            if len(arg_entries) == 1:
+                arg_name = next(iter(arg_entries))
+                arg_entries[arg_name]["type"] = args_dict.pop("type")
+                if "type_reason" in args_dict:
+                    arg_entries[arg_name]["type_reason"] = args_dict.pop("type_reason")
+                fixed += 1
+                print(f"  Fixed malformed entry: {path} (moved type from args to args.{arg_name})")
 
     return fixed
 
@@ -434,6 +444,7 @@ def summarize(generated: dict) -> None:
     print(f"  arg types resolved: {type_fixes}")
     print(f"  return types resolved: {return_fixes}")
     print(f"  property types resolved: {probed_types}")
+    print(f"  total fixes: {name_fixes + type_fixes + return_fixes + probed_types}")
 
 
 def main():

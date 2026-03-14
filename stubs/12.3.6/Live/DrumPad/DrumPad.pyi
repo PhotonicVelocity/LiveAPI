@@ -13,28 +13,28 @@ class DrumPad:
     def _live_ptr(self) -> int:
         ...
 
-    def add_chains_listener(self, callback: Callable) -> None:
+    def add_chains_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "chains" has changed.
         """
         ...
 
-    def add_mute_listener(self, callback: Callable) -> None:
+    def add_mute_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mute" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable) -> None:
+    def add_name_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_solo_listener(self, callback: Callable) -> None:
+    def add_solo_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "solo" has changed.
@@ -51,7 +51,7 @@ class DrumPad:
         """Return const access to the list of chains in this drum pad."""
         ...
 
-    def chains_has_listener(self, callback: Callable) -> bool:
+    def chains_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "chains".
@@ -70,7 +70,7 @@ class DrumPad:
     @mute.setter
     def mute(self, value: bool) -> None: ...
 
-    def mute_has_listener(self, callback: Callable) -> bool:
+    def mute_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mute".
@@ -82,7 +82,7 @@ class DrumPad:
         """Return const access to the drum pad's name. It depends on the contained chains."""
         ...
 
-    def name_has_listener(self, callback: Callable) -> bool:
+    def name_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -94,28 +94,28 @@ class DrumPad:
         """Get the MIDI note of the drum pad."""
         ...
 
-    def remove_chains_listener(self, callback: Callable) -> None:
+    def remove_chains_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "chains".
         """
         ...
 
-    def remove_mute_listener(self, callback: Callable) -> None:
+    def remove_mute_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "mute".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable) -> None:
+    def remove_name_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_solo_listener(self, callback: Callable) -> None:
+    def remove_solo_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "solo".
@@ -130,7 +130,7 @@ class DrumPad:
     @solo.setter
     def solo(self, value: bool) -> None: ...
 
-    def solo_has_listener(self, callback: Callable) -> bool:
+    def solo_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "solo".

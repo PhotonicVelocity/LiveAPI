@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable
 if TYPE_CHECKING:
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
-    from Live.Track import Track, View
+    from Live.Track import Track
 
 
 
@@ -15,35 +15,35 @@ class MaxDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_audio_inputs_listener(self, callback: Callable) -> None:
+    def add_audio_inputs_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "audio_inputs" has changed.
         """
         ...
 
-    def add_audio_outputs_listener(self, callback: Callable) -> None:
+    def add_audio_outputs_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "audio_outputs" has changed.
         """
         ...
 
-    def add_bank_parameters_changed_listener(self, callback: Callable) -> None:
+    def add_bank_parameters_changed_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "bank_parameters_changed" has changed.
         """
         ...
 
-    def add_midi_inputs_listener(self, callback: Callable) -> None:
+    def add_midi_inputs_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "midi_inputs" has changed.
         """
         ...
 
-    def add_midi_outputs_listener(self, callback: Callable) -> None:
+    def add_midi_outputs_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "midi_outputs" has changed.
@@ -55,7 +55,7 @@ class MaxDevice:
         """Const access to a list of all audio inputs of the device."""
         ...
 
-    def audio_inputs_has_listener(self, callback: Callable) -> bool:
+    def audio_inputs_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "audio_inputs".
@@ -67,14 +67,14 @@ class MaxDevice:
         """Const access to a list of all audio outputs of the device."""
         ...
 
-    def audio_outputs_has_listener(self, callback: Callable) -> bool:
+    def audio_outputs_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "audio_outputs".
         """
         ...
 
-    def bank_parameters_changed_has_listener(self, callback: Callable) -> bool:
+    def bank_parameters_changed_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "bank_parameters_changed".
@@ -115,15 +115,15 @@ class MaxDevice:
         """Get the number of parameter banks. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_name(self, index: int) -> str:
+    def get_bank_name(self, bank_index: int | None) -> str:
         """Get the name of a parameter bank given by index. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_parameters(self, index: int) -> list:
+    def get_bank_parameters(self, bank_index: int | None) -> list:
         """Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces."""
         ...
 
-    def get_value_item_icons(self, parameter: DeviceParameter) -> list:
+    def get_value_item_icons(self, parameter: DeviceParameter | None) -> list:
         """Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces."""
         ...
 
@@ -155,7 +155,7 @@ class MaxDevice:
         """Const access to a list of all midi outputs of the device."""
         ...
 
-    def midi_inputs_has_listener(self, callback: Callable) -> bool:
+    def midi_inputs_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "midi_inputs".
@@ -167,7 +167,7 @@ class MaxDevice:
         """Const access to a list of all midi outputs of the device."""
         ...
 
-    def midi_outputs_has_listener(self, callback: Callable) -> bool:
+    def midi_outputs_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "midi_outputs".
@@ -187,35 +187,35 @@ class MaxDevice:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_audio_inputs_listener(self, callback: Callable) -> None:
+    def remove_audio_inputs_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "audio_inputs".
         """
         ...
 
-    def remove_audio_outputs_listener(self, callback: Callable) -> None:
+    def remove_audio_outputs_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "audio_outputs".
         """
         ...
 
-    def remove_bank_parameters_changed_listener(self, callback: Callable) -> None:
+    def remove_bank_parameters_changed_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "bank_parameters_changed".
         """
         ...
 
-    def remove_midi_inputs_listener(self, callback: Callable) -> None:
+    def remove_midi_inputs_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "midi_inputs".
         """
         ...
 
-    def remove_midi_outputs_listener(self, callback: Callable) -> None:
+    def remove_midi_outputs_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "midi_outputs".
@@ -228,7 +228,7 @@ class MaxDevice:
         ...
 
     @property
-    def view(self) -> View:
+    def view(self) -> Device.View:
         """Representing the view aspects of a device."""
         ...
 

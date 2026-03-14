@@ -1,15 +1,14 @@
 # APICapture Pipeline
 
-Four-stage pipeline for capturing Live API metadata and generating typed Python stubs.
+Three-stage pipeline for capturing Live API metadata and generating typed Python stubs.
 
 ```
-Stage 0: Capture (inside Live)     → LiveTree.raw.json + LiveClasses.json
-Stage 1: Parse   (external)       → LiveTree.parsed.json
-Stage 2: Refine  (external + LLM) → LiveTree.resolved.json
-Stage 3: Generate (external)      → stubs/<version>/Live/*.pyi
+Stage 1: Capture + Probe  (inside Live)                → LiveTree.raw.json + LiveClasses.json
+Stage 2: Parse & Refine   (external + decompiled + LLM) → LiveTree.resolved.json
+Stage 3: Generate         (external)                   → stubs/<version>/Live/*.pyi
 ```
 
-## Stage 1: Capture (runs inside Live)
+## Stage 1: Capture + Probe (runs inside Live)
 
 `apicapture/` is a MIDI Remote Script (Control Surface) that introspects the `Live` module at runtime. It produces two
 output files in `stubs/<version>/pipeline/`:
@@ -68,7 +67,7 @@ Node types include `module`, `class`, `function`, `builtin_function_or_method`, 
 `getset_descriptor`, and `int` (for enum values).
 
 **Boost.Python quirks:** Live's C++ bindings sometimes concatenate docstrings onto `__name__` (e.g.
-`"StartupDialogServes as..."`) or corrupt return types by appending class docs. These are fixed in Stage 1.
+`"StartupDialogServes as..."`) or corrupt return types by appending class docs. These are fixed in Stage 2 (parse).
 
 ### Property Probe (`LiveClasses.json`)
 
@@ -133,11 +132,46 @@ earlier device are skipped. Each device is deleted after probing. Results are me
 All capture modules use `from __future__ import annotations` so that modern type hint syntax works on Live 11's Python
 3.7.3 runtime without raising `TypeError` at import time.
 
-## Stage 2: Parse (runs outside Live)
+## Stage 2: Parse & Refine (runs outside Live)
 
-```
+Five scripts turn raw capture data into a fully resolved tree. Full pipeline for 12.3.6:
+
+```bash
+# 1. Parse raw capture into structured tree
 python tools/parse/parse_apicapture_results.py 12.3.6
+
+# 2. Extract unresolved items from parsed tree
+python tools/parse/extract_unresolved.py 12.3.6
+
+# 3. Deterministic name resolution from decompiled Remote Scripts
+python tools/parse/callsite_resolve.py 12.3.6 --pretty -o stubs/12.3.6/pipeline/refinements.callsite.json
+
+# 4. Apply callsite refinements → intermediate tree
+python tools/parse/apply_refinements.py 12.3.6 \
+  --refinements stubs/12.3.6/pipeline/refinements.callsite.json \
+  --output stubs/12.3.6/pipeline/LiveTree.callsite_resolved.json
+
+# 5. Re-extract remaining unresolved items from the callsite-resolved tree
+python tools/parse/extract_unresolved.py 12.3.6 \
+  --input stubs/12.3.6/pipeline/LiveTree.callsite_resolved.json \
+  --output stubs/12.3.6/pipeline/unresolved.remaining.json
+
+# 6. LLM-assisted resolution of remaining items
+set -a && source .env && set +a && python tools/parse/llm_resolve.py 12.3.6 \
+  --input stubs/12.3.6/pipeline/unresolved.remaining.json    # option A: direct API call
+python tools/parse/llm_resolve.py 12.3.6 \
+  --input stubs/12.3.6/pipeline/unresolved.remaining.json \
+  --prepare                                                  # option B: write batch files
+python tools/parse/llm_resolve.py 12.3.6 --merge             #           then merge results
+
+# 7. Apply LLM refinements to produce the final resolved tree
+python tools/parse/apply_refinements.py 12.3.6 \
+  --input stubs/12.3.6/pipeline/LiveTree.callsite_resolved.json \
+  --refinements stubs/12.3.6/pipeline/refinements.llm.json \
+  --output stubs/12.3.6/pipeline/LiveTree.resolved.json
 ```
+
+### parse_apicapture_results.py
 
 Reads `LiveTree.raw.json` + `LiveClasses.json` from the pipeline directory and produces `LiveTree.parsed.json` — a
 normalized, enriched tree ready for refinement.
@@ -155,17 +189,6 @@ Transforms applied:
 - **Type resolution** — resolves raw signature parts into clean structured args/returns using a C++ → Python type map
 - **Probe merge** — folds `LiveClasses.json` runtime types, settability, and listeners into the tree nodes
 
-## Stage 2: Refine (runs outside Live)
-
-Three scripts work together to resolve unresolved types and parameter names:
-
-```
-python tools/parse/extract_unresolved.py 12.3.6
-python tools/parse/llm_resolve.py 12.3.6 --prepare   # then process batches
-python tools/parse/llm_resolve.py 12.3.6 --merge
-python tools/parse/apply_refinements.py 12.3.6
-```
-
 ### extract_unresolved.py
 
 Scans `LiveTree.parsed.json` for items that need refinement:
@@ -175,18 +198,47 @@ Scans `LiveTree.parsed.json` for items that need refinement:
 - Function returns typed `object`
 - Properties with null `probed_type`
 
-Outputs `unresolved.json` with full context for each item (path, kind, signature, description, C++ signature).
+Outputs `unresolved.json` keyed by path, with full context for each item (kind, signature, description, C++ signature).
+The structure mirrors `refinements.llm.json` so the LLM can add resolved fields directly.
+
+### callsite_resolve.py
+
+Deterministic resolution by analysing decompiled Ableton Remote Scripts
+([gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts)). The repo is
+auto-cloned on first run into `doc/decompiled/` (shallow clone, ~50 MB, gitignored).
+
+Searches 1200+ decompiled `.py` files for:
+
+1. **Function definitions** — `def func_name(self, param1, param2)` gives parameter names directly. When multiple
+   definitions exist, names are voted on per position.
+2. **Call sites** — `obj.func_name(value)` gives variable names callers use, collected as hints for the LLM phase.
+3. **Type usage context** — code snippets showing how members with unresolved types are used in practice.
+
+For methods with common names (`append`, `extend`, etc.), the parent object at the call site is compared against the
+class name to avoid cross-class contamination.
+
+Outputs JSON with three sections:
+
+- `refinements` — high-confidence names from definition analysis (applied directly)
+- `call_site_hints` — per-arg vote tallies from call sites (context for LLM phase)
+- `type_hints` — usage context snippets for items needing type resolution
+
+### build_type_skeleton.py
+
+Builds a compact text skeleton of the full API from `LiveTree.parsed.json` — all modules, classes, enums (with values),
+and properties (with probed types). Functions are omitted since they're already present on the unresolved items. Used as
+LLM context for type resolution; can also be run standalone to inspect the tree structure.
 
 ### llm_resolve.py
 
-Produces `refinements.llm.json` using Claude to resolve unresolved items. Sends the unresolved items along with a type
-skeleton of the full API, MaxForLive docs, and curated per-class reference docs (`reference/`) as context. The system
-prompt is in `llm_resolve_prompt.md`.
+Produces `refinements.llm.json` using Claude to resolve remaining unresolved items. Sends unresolved items along with
+the type skeleton, call-site hints, MaxForLive docs, and curated per-class reference docs (`reference/`) as context. The
+system prompt is in `llm_resolve_prompt.md`.
 
 Three modes:
 
-- **`--prepare`** — splits items into batches grouped by module, writes batch files to `stubs/<version>/pipeline/batches/` for
-  processing via the Agent tool (no API key needed)
+- **`--prepare`** — splits items into batches grouped by module, writes batch files to
+  `stubs/<version>/pipeline/batches/` for processing via the Agent tool (no API key needed)
 - **`--merge`** — merges batch result files into a single `refinements.llm.json`
 - **(default)** — calls the Anthropic API directly (requires `ANTHROPIC_API_KEY`)
 
@@ -233,9 +285,11 @@ tools/
 │   │   └── DeviceProbe.py     Tick-driven device probing
 │   └── helpers/
 │       └── app.py           Version number extraction
-├── parse/                   Stages 1–3: parsing, refinement, generation
-│   ├── parse_apicapture_results.py   Stage 1: parse raw capture → parsed tree
+├── parse/                   Stages 2–3: parsing, refinement, generation
+│   ├── parse_apicapture_results.py   Stage 2: parse raw capture → parsed tree
 │   ├── extract_unresolved.py         Stage 2: find unresolved types/names
+│   ├── callsite_resolve.py           Stage 2: deterministic name resolution from decompiled scripts
+│   ├── build_type_skeleton.py        Stage 2: compact API skeleton for LLM context
 │   ├── llm_resolve.py               Stage 2: LLM-assisted resolution
 │   ├── llm_resolve_prompt.md         System prompt for LLM resolution
 │   ├── apply_refinements.py          Stage 2: apply refinements → resolved tree

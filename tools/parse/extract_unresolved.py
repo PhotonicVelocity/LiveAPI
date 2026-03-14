@@ -122,22 +122,18 @@ def main():
 
     # Summary
     items = result["items"]
-    n_args = sum(len(v.get("args", {})) for v in items.values())
+    all_args = [a for v in items.values() for a in v.get("args", {}).values()]
+    n_names = sum(1 for a in all_args if a.get("needs_name"))
+    n_arg_types = sum(1 for a in all_args if a.get("current_type") == "object")
     n_returns = sum(1 for v in items.values() if "returns" in v)
     n_props = sum(1 for v in items.values() if "probed_type" in v)
-    n_names = sum(
-        1 for v in items.values() for a in v.get("args", {}).values() if a.get("needs_name")
-    )
-    n_types = n_args - n_names + sum(
-        1 for v in items.values() for a in v.get("args", {}).values()
-        if a.get("current_type") == "object" and not a.get("needs_name")
-    )
 
     print(f"Wrote {len(items)} paths to {output_path}")
     print(f"  arg names to resolve: {n_names}")
-    print(f"  arg types to resolve: {sum(1 for v in items.values() for a in v.get('args', {}).values() if a.get('current_type') == 'object')}")
+    print(f"  arg types to resolve: {n_arg_types}")
     print(f"  return types to resolve: {n_returns}")
     print(f"  property types to resolve: {n_props}")
+    print(f"  total: {n_names + n_arg_types + n_returns + n_props}")
 
 
 if __name__ == "__main__":

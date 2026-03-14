@@ -18,7 +18,7 @@ class ChainMixerDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_sends_listener(self, callback: Callable) -> None:
+    def add_sends_listener(self, callback: Callable | None) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "sends" has changed.
@@ -40,7 +40,7 @@ class ChainMixerDevice:
         """Const access to the Chain's Panning Device Parameter."""
         ...
 
-    def remove_sends_listener(self, callback: Callable) -> None:
+    def remove_sends_listener(self, callback: Callable | None) -> None:
         """
         Remove a previously set listener function or method from
         property "sends".
@@ -52,7 +52,7 @@ class ChainMixerDevice:
         """Const access to the Chain's list of Send Amount Device Parameters."""
         ...
 
-    def sends_has_listener(self, callback: Callable) -> bool:
+    def sends_has_listener(self, callback: Callable | None) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "sends".
