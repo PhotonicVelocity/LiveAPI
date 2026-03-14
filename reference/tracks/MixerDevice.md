@@ -6,6 +6,10 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Track.mixer_device`
+
 ## Properties
 
 | Property             | Type              | Settable | Listenable | Description                                                                  |

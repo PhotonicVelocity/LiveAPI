@@ -6,6 +6,10 @@ This class represents a MIDI or Audio DSP-Device in Live.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Track.View.selected_device`
+
 ## View
 
 > `Live.Device.Device.View`

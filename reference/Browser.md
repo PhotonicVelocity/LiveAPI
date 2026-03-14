@@ -6,6 +6,10 @@ This class represents the live browser data base.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Application.browser`
+
 ## Properties
 
 | Property           | Type                           | Settable | Listenable | Description                                                                |

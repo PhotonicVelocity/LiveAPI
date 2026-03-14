@@ -6,6 +6,10 @@ This class represents a Live set.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Application.get_document()`
+
 ## View
 
 > `Live.Song.Song.View`

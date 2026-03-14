@@ -6,6 +6,16 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `RoutingType.attached_object`
+- `Song.create_audio_track()`
+- `Song.create_midi_track()`
+- `Song.create_return_track()`
+- `Song.master_track`
+- `Song.View.selected_track`
+- `Track.group_track`
+
 ## View
 
 > `Live.Track.Track.View`

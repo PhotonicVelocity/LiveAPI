@@ -6,6 +6,18 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `ClipSlot.clip`
+- `ClipSlot.create_audio_clip()`
+- `ClipSlot.create_clip()`
+- `Song.View.detail_clip`
+- `TakeLane.create_audio_clip()`
+- `TakeLane.create_midi_clip()`
+- `Track.create_audio_clip()`
+- `Track.create_midi_clip()`
+- `Track.duplicate_clip_to_arrangement()`
+
 ## View
 
 > `Live.Clip.Clip.View`

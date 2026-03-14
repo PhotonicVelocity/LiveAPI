@@ -6,6 +6,11 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Chain.mixer_device`
+- `DrumChain.mixer_device`
+
 ## Properties
 
 | Property           | Type              | Settable | Listenable | Description                                                        |

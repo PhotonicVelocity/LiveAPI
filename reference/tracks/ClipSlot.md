@@ -6,6 +6,10 @@ This class represents an entry in Lives Session view matrix.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Song.View.highlighted_clip_slot`
+
 ## Properties
 
 | Property               | Type                   | Settable | Listenable | Description                                                                      |

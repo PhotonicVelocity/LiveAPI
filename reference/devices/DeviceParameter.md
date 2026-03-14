@@ -6,6 +6,21 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `ChainMixerDevice.chain_activator`
+- `ChainMixerDevice.panning`
+- `ChainMixerDevice.volume`
+- `MixerDevice.crossfader`
+- `MixerDevice.cue_volume`
+- `MixerDevice.left_split_stereo`
+- `MixerDevice.panning`
+- `MixerDevice.right_split_stereo`
+- `MixerDevice.song_tempo`
+- `MixerDevice.track_activator`
+- `MixerDevice.volume`
+- `RackDevice.chain_selector`
+
 ## Properties
 
 | Property            | Type                   | Settable | Listenable | Description                                                                      |

@@ -6,6 +6,10 @@ This class represents a sample file loaded into a Simpler instance.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `SimplerDevice.sample`
+
 ## Properties
 
 | Property                       | Type                          | Settable | Listenable | Description                                                                      |
