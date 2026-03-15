@@ -2,7 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from . import BeatTime, CaptureDestination, CaptureMode, Quantization, RecordingQuantization, SmptTime
+    from . import BeatTime, CaptureDestination, CaptureMode, CuePoint, Quantization, RecordingQuantization, SmptTime
+    from Live.Base import Vector
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
@@ -80,12 +81,12 @@ class Song:
             ...
 
         @property
-        def detail_clip(self) -> Clip:
+        def detail_clip(self) -> None:
             """Get/Set the Clip that is currently visible in Lives Detailview."""
             ...
 
         @detail_clip.setter
-        def detail_clip(self, value: Clip) -> None: ...
+        def detail_clip(self, value: None) -> None: ...
 
         def detail_clip_has_listener(self, callback: Callable | None) -> bool:
             """
@@ -181,7 +182,7 @@ class Song:
             """
             ...
 
-        def select_device(self, device: Device | None, ShouldAppointDevice: bool = True) -> None:
+        def select_device(self, arg2: Device | None, ShouldAppointDevice: bool = True) -> None:
             """Select the given device."""
             ...
 
@@ -750,7 +751,7 @@ class Song:
         """
         ...
 
-    def create_audio_track(self, Index: int | None = None) -> Track:
+    def create_audio_track(self, Index: object | None = None) -> Track:
         """
         Create a new audio track at the optional given index and return it.If the index is -1,
         the new track is added at the end. It will create a default audio track if possible.
@@ -758,7 +759,7 @@ class Song:
         """
         ...
 
-    def create_midi_track(self, Index: int | None = None) -> Track:
+    def create_midi_track(self, Index: object | None = None) -> Track:
         """
         Create a new midi track at the optional given index and return it.If the index is -1,
         the new track is added at the end.It will create a default midi track if possible.
@@ -774,7 +775,7 @@ class Song:
         """
         ...
 
-    def create_scene(self, index: int | None) -> Scene:
+    def create_scene(self, arg2: int | None) -> Scene:
         """
         Create a new scene at the given index. If the index is -1,
         the new scene is added at the end. If the index is invalid or
@@ -783,7 +784,7 @@ class Song:
         ...
 
     @property
-    def cue_points(self) -> tuple:
+    def cue_points(self) -> Vector[CuePoint]:
         """Const access to a list of all cue points of the Live Song."""
         ...
 
@@ -816,35 +817,35 @@ class Song:
         """
         ...
 
-    def delete_return_track(self, index: int | None) -> None:
+    def delete_return_track(self, arg2: int | None) -> None:
         """
         Delete the return track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_scene(self, index: int | None) -> None:
+    def delete_scene(self, arg2: int | None) -> None:
         """
         Delete the scene with the given index. If no scene with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_track(self, index: int | None) -> None:
+    def delete_track(self, arg2: int | None) -> None:
         """
         Delete the track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def duplicate_scene(self, index: int | None) -> None:
+    def duplicate_scene(self, arg2: int | None) -> None:
         """
         Duplicates a scene and selects the new one.
         Raises a limitation error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def duplicate_track(self, index: int | None) -> None:
+    def duplicate_track(self, arg2: int | None) -> None:
         """
         Duplicates a track and selects the new one.
         If the track is inside a folded group track, the group track is unfolded.
@@ -913,14 +914,14 @@ class Song:
         """
         ...
 
-    def get_current_smpte_song_time(self, format: int | None) -> SmptTime:
+    def get_current_smpte_song_time(self, arg2: int | None) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.
         """
         ...
 
-    def get_data(self, key: str | None, default_value: Any | None) -> Any:
+    def get_data(self, key: str | None, default_value: object | None) -> object:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -1008,7 +1009,7 @@ class Song:
         """
         ...
 
-    def jump_by(self, beats: float | None) -> None:
+    def jump_by(self, arg2: float | None) -> None:
         """Set a new playing pos, relative to the current one."""
         ...
 
@@ -1594,7 +1595,7 @@ class Song:
         ...
 
     @property
-    def return_tracks(self) -> tuple:
+    def return_tracks(self) -> Vector[Track]:
         """Const access to the list of available Return Tracks."""
         ...
 
@@ -1628,7 +1629,7 @@ class Song:
         ...
 
     @property
-    def scale_intervals(self) -> tuple[int, ...]:
+    def scale_intervals(self) -> Vector[int]:
         """Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)"""
         ...
 
@@ -1680,7 +1681,7 @@ class Song:
         ...
 
     @property
-    def scenes(self) -> tuple:
+    def scenes(self) -> Vector[Scene]:
         """Const access to a list of all Scenes in the Live Song."""
         ...
 
@@ -1691,7 +1692,7 @@ class Song:
         """
         ...
 
-    def scrub_by(self, beats: float | None) -> None:
+    def scrub_by(self, arg2: float | None) -> None:
         """Same as jump_by, but does not stop playback."""
         ...
 
@@ -1742,7 +1743,7 @@ class Song:
         """
         ...
 
-    def set_data(self, key: str | None, value: Any | None) -> None:
+    def set_data(self, key: str | None, value: object | None) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 
@@ -1878,7 +1879,7 @@ class Song:
         ...
 
     @property
-    def tracks(self) -> tuple:
+    def tracks(self) -> Vector[Track]:
         """
         Const access to a list of all Player Tracks in the Live Song, excluding
         the return and Main Track (see also Song.send_tracks and Song.master_track).
@@ -1922,7 +1923,7 @@ class Song:
         ...
 
     @property
-    def visible_tracks(self) -> tuple:
+    def visible_tracks(self) -> Vector[Track]:
         """
         Const access to a list of all visible Player Tracks in the Live Song, excluding
         the return and Main Track (see also Song.send_tracks and Song.master_track).

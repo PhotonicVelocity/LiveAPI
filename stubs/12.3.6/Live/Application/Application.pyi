@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import MessageButtons, PushDialogType, UnavailableFeature, Variants
-    from Live.Base import StringVector, Text
+    from Live.Base import StringVector, Text, Vector
     from Live.Browser import Browser
     from Live.Song import Song
 
@@ -39,7 +39,7 @@ class Application:
             """
             ...
 
-        def add_is_view_visible_listener(self, view_name: str | None, callback: Callable | None) -> None:
+        def add_is_view_visible_listener(self, arg2: str | None, callback: Callable | None) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_view_visible" has changed.
@@ -98,7 +98,7 @@ class Application:
             """
             ...
 
-        def hide_view(self, view_name: str | None) -> None:
+        def hide_view(self, arg2: str | None) -> None:
             """Hide one through the identifier string specified view."""
             ...
 
@@ -110,7 +110,7 @@ class Application:
             """
             ...
 
-        def is_view_visible_has_listener(self, view_name: str | None, callback: Callable | None) -> bool:
+        def is_view_visible_has_listener(self, arg2: str | None, callback: Callable | None) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_view_visible".
@@ -131,7 +131,7 @@ class Application:
             """
             ...
 
-        def remove_is_view_visible_listener(self, view_name: str | None, callback: Callable | None) -> None:
+        def remove_is_view_visible_listener(self, arg2: str | None, callback: Callable | None) -> None:
             """
             Remove a previously set listener function or method from
             property "is_view_visible".
@@ -145,7 +145,7 @@ class Application:
             """
             ...
 
-        def scroll_view(self, direction: int | None, view_name: str | None, modifier_pressed: bool | None) -> None:
+        def scroll_view(self, arg2: int | None, arg3: str | None, arg4: bool | None) -> None:
             """
             Scroll through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -174,7 +174,7 @@ class Application:
             """
             ...
 
-        def zoom_view(self, direction: int | None, view_name: str | None, modifier_pressed: bool | None) -> None:
+        def zoom_view(self, arg2: int | None, arg3: str | None, arg4: bool | None) -> None:
             """
             Zoom through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -240,7 +240,7 @@ class Application:
         ...
 
     @property
-    def control_surfaces(self) -> tuple[object, ...]:
+    def control_surfaces(self) -> Vector[APICapture]:
         """
         Const access to a list of the control surfaces selected in preferences, in the same order.
         The list contains None if no control surface is active at that index.
@@ -292,7 +292,7 @@ class Application:
         """Returns the full version string of Live."""
         ...
 
-    def has_option(self, section_name: str | None) -> bool:
+    def has_option(self, arg2: str | None) -> bool:
         """Returns True if the given entry exists in Options.txt, False otherwise."""
         ...
 
@@ -325,7 +325,7 @@ class Application:
         """
         ...
 
-    def press_current_dialog_button(self, index: int | None) -> None:
+    def press_current_dialog_button(self, arg2: int | None) -> None:
         """Press a button, by index, on the current message box."""
         ...
 
@@ -373,7 +373,7 @@ class Application:
         ...
 
     @property
-    def unavailable_features(self) -> tuple[UnavailableFeature, ...]:
+    def unavailable_features(self) -> Vector[UnavailableFeature]:
         """List of features that are unavailable due to limitations of the current Live edition."""
         ...
 

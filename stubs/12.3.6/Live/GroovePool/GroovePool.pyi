@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
+    from Live.Groove import Groove
     from Live.Song import Song
 
 
@@ -26,7 +28,7 @@ class GroovePool:
         ...
 
     @property
-    def grooves(self) -> tuple:
+    def grooves(self) -> Vector[Groove]:
         """Access to the list of grooves"""
         ...
 

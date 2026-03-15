@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.Track import RoutingChannel, RoutingType, Track
@@ -44,7 +45,7 @@ class CompressorDevice:
         ...
 
     @property
-    def available_input_routing_channels(self) -> tuple[RoutingChannel, ...]:
+    def available_input_routing_channels(self) -> Vector[RoutingChannel]:
         """Return a list of source channels for input routing in the sidechain."""
         ...
 
@@ -56,7 +57,7 @@ class CompressorDevice:
         ...
 
     @property
-    def available_input_routing_types(self) -> tuple[RoutingType, ...]:
+    def available_input_routing_types(self) -> Vector[RoutingType]:
         """Return a list of source types for input routing in the sidechain."""
         ...
 
@@ -167,7 +168,7 @@ class CompressorDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 

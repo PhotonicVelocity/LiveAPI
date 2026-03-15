@@ -317,20 +317,19 @@ class PropertyProbe:
     def _record_element_type(self, iterable: Any, prop_info: dict | None = None) -> None:
         """Record element_repr for an iterable's element type.
 
-        If the iterable's class exists in repr_index (a Vector type), stamp
-        element_repr on the vector's entry. Otherwise stamp element_repr on
-        prop_info (the property/method that returned it).
+        Stamps element_repr on the vector class entry in repr_index (first
+        time only) AND on prop_info so each property knows its own element
+        type. This is essential for generic containers like Vector that hold
+        different types per property.
         """
         vec_repr = repr(type(iterable))
         vec_entry = self.repr_index.get(vec_repr)
-        if vec_entry is not None and vec_entry.get("element_repr"):
-            return  # already recorded on vector class
         for item in iterable:
             item_repr = repr(type(item))
-            if vec_entry is not None:
+            if vec_entry is not None and not vec_entry.get("element_repr"):
                 vec_entry["element_repr"] = item_repr
                 self.log(f"  Recorded element_repr on {vec_repr}: {item_repr}")
-            elif prop_info is not None and not prop_info.get("element_repr"):
+            if prop_info is not None and not prop_info.get("element_repr"):
                 prop_info["element_repr"] = item_repr
                 self.log(f"  Recorded element_repr on property: {item_repr}")
             break

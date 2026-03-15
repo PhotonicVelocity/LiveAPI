@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
     from Live.Song import Song
@@ -131,7 +132,7 @@ class MixerDevice:
         ...
 
     @property
-    def sends(self) -> tuple:
+    def sends(self) -> Vector[DeviceParameter]:
         """Const access to the Tracks list of Send Amount Device Parameters."""
         ...
 

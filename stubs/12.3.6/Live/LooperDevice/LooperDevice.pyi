@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device, DeviceType
@@ -87,7 +88,7 @@ class LooperDevice:
         """Double the speed of Looper's playback."""
         ...
 
-    def export_to_clip_slot(self, clip_slot: ClipSlot | None) -> None:
+    def export_to_clip_slot(self, arg2: ClipSlot | None) -> None:
         """Export Looper's content to a Session Clip Slot."""
         ...
 
@@ -162,7 +163,7 @@ class LooperDevice:
         ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -190,7 +191,7 @@ class LooperDevice:
         ...
 
     @property
-    def record_length_list(self) -> tuple[str, ...]:
+    def record_length_list(self) -> Vector[str]:
         """Read-only access to the list of Record Length chooser entry strings."""
         ...
 

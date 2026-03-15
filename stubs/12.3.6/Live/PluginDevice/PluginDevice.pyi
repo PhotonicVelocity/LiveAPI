@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import StringVector
+    from Live.Base import StringVector, Vector
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.Track import Track
@@ -73,12 +73,9 @@ class PluginDevice:
         ...
 
     @property
-    def is_using_compare_preset_b(self) -> bool:
+    def is_using_compare_preset_b(self):
         """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
         ...
-
-    @is_using_compare_preset_b.setter
-    def is_using_compare_preset_b(self, value: bool) -> None: ...
 
     @property
     def latency_in_ms(self) -> float:
@@ -99,12 +96,12 @@ class PluginDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
     @property
-    def presets(self) -> tuple[str, ...]:
+    def presets(self) -> Vector[str]:
         """Get the list of presets the plugin offers."""
         ...
 

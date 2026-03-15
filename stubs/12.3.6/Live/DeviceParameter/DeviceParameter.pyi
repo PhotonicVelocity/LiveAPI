@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import AutomationState
+    from Live.Base import Vector
     from Live.Device import Device
 
 
@@ -195,7 +196,7 @@ class DeviceParameter:
         ...
 
     @property
-    def short_value_items(self) -> tuple[str, ...]:
+    def short_value_items(self) -> Vector[str]:
         """Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False."""
         ...
 
@@ -216,7 +217,7 @@ class DeviceParameter:
         """
         ...
 
-    def str_for_value(self, value: float | None) -> str:
+    def str_for_value(self, arg2: float | None) -> str:
         """
         Return a string representation of the given value. To be used
         for display purposes only. This value can include characters like 'db' or
@@ -243,7 +244,7 @@ class DeviceParameter:
         ...
 
     @property
-    def value_items(self) -> tuple[str, ...]:
+    def value_items(self) -> Vector[str]:
         """Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False."""
         ...
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
@@ -107,7 +108,7 @@ class RoarDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -141,7 +142,7 @@ class RoarDevice:
         ...
 
     @property
-    def routing_mode_list(self) -> tuple[str, ...]:
+    def routing_mode_list(self) -> Vector[str]:
         """Return the routing mode list"""
         ...
 

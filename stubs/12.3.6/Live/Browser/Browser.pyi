@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import BrowserItem, Relation
+    from Live.Base import Vector
 
 
 
@@ -45,7 +46,7 @@ class Browser:
         ...
 
     @property
-    def colors(self) -> tuple[BrowserItem, ...]:
+    def colors(self) -> Vector[BrowserItem]:
         """Returns a list of browser items containing the configured colors."""
         ...
 
@@ -102,11 +103,11 @@ class Browser:
         ...
 
     @property
-    def legacy_libraries(self) -> tuple[BrowserItem, ...]:
+    def legacy_libraries(self) -> Vector[BrowserItem]:
         """Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed."""
         ...
 
-    def load_item(self, item: BrowserItem | None) -> None:
+    def load_item(self, arg2: BrowserItem | None) -> None:
         """Loads the provided browser item."""
         ...
 
@@ -130,11 +131,11 @@ class Browser:
         """Returns a browser item with access to all the Plugins content."""
         ...
 
-    def preview_item(self, item: BrowserItem | None) -> None:
+    def preview_item(self, arg2: BrowserItem | None) -> None:
         """Previews the provided browser item."""
         ...
 
-    def relation_to_hotswap_target(self, item: BrowserItem | None) -> Relation:
+    def relation_to_hotswap_target(self, arg2: BrowserItem | None) -> Relation:
         """Returns the relation between the given browser item and the current hotswap target"""
         ...
 
@@ -174,7 +175,7 @@ class Browser:
         ...
 
     @property
-    def user_folders(self) -> tuple[BrowserItem, ...]:
+    def user_folders(self) -> Vector[BrowserItem]:
         """Returns a list of browser items containing all the user folders."""
         ...
 

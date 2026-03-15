@@ -1,12 +1,14 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 
 if TYPE_CHECKING:
     from Live.LomObject import LomObject
 
 
 
-class FloatVector:
+class FloatVector(Vector[float]):
     """A simple container for returning floats from Live."""
 
     def append(self, value: float | None) -> None:
@@ -15,7 +17,7 @@ class FloatVector:
     def extend(self, values: float | None) -> None:
         ...
 
-class IntU64Vector:
+class IntU64Vector(Vector[int]):
     """A simple container for returning unsigned long integers from Live."""
 
     def append(self, value: int | None) -> None:
@@ -24,7 +26,7 @@ class IntU64Vector:
     def extend(self, values: int | None) -> None:
         ...
 
-class IntVector:
+class IntVector(Vector[int]):
     """A simple container for returning integers from Live."""
 
     def append(self, value: int | None) -> None:
@@ -35,16 +37,16 @@ class IntVector:
 
 class LimitationError(Exception): ...
 
-class ObjectVector:
+class ObjectVector(Vector):
     """A simple read only container for returning python objects."""
 
-    def append(self, value: Any | None) -> None:
+    def append(self, value: object | None) -> None:
         ...
 
-    def extend(self, values: Any | None) -> None:
+    def extend(self, values: object | None) -> None:
         ...
 
-class StringVector:
+class StringVector(Vector[str]):
     """A simple container for returning strings from Live."""
 
     def append(self, value: str | None) -> None:
@@ -57,7 +59,7 @@ class Text:
     """A translatable, immutable string."""
 
     @property
-    def text(self) -> str:
+    def text(self):
         ...
 
 class Timer:
@@ -78,8 +80,24 @@ class Timer:
     def stop(self) -> None:
         ...
 
-class Vector:
+class Vector(Generic[T]):
     """A simple read only container for returning objects from Live."""
+
+    def __iter__(self) -> Iterator[T]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> T: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> Vector[T]: ...
+
+    def __getitem__(self, index: int | slice) -> T | Vector[T]: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: LomObject | None) -> None:
         ...

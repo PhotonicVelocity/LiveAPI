@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import VoiceCount
+    from Live.Base import Vector
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.Track import Track
@@ -281,7 +282,7 @@ class WavetableDevice:
         ...
 
     @property
-    def oscillator_1_wavetables(self) -> tuple[str, ...]:
+    def oscillator_1_wavetables(self) -> Vector[str]:
         """Get a vector of oscillator 1's wavetable names."""
         ...
 
@@ -338,7 +339,7 @@ class WavetableDevice:
         ...
 
     @property
-    def oscillator_2_wavetables(self) -> tuple[str, ...]:
+    def oscillator_2_wavetables(self) -> Vector[str]:
         """Get a vector of oscillator 2's wavetable names."""
         ...
 
@@ -350,12 +351,12 @@ class WavetableDevice:
         ...
 
     @property
-    def oscillator_wavetable_categories(self) -> tuple[str, ...]:
+    def oscillator_wavetable_categories(self) -> Vector[str]:
         """Get a vector of the available wavetable categories."""
         ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -524,7 +525,7 @@ class WavetableDevice:
         ...
 
     @property
-    def visible_modulation_target_names(self) -> tuple[str, ...]:
+    def visible_modulation_target_names(self) -> Vector[str]:
         """Get the names of all the visible modulation targets."""
         ...
 

@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import GridQuantization, MidiNote, MidiNoteSpecification, MidiNoteVector, WarpMarker
-    from Live.Base import IntU64Vector
+    from Live.Base import IntU64Vector, Vector
     from Live.ClipSlot import ClipSlot
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
@@ -50,7 +50,7 @@ class Clip:
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, parameter: DeviceParameter | None) -> None:
+        def select_envelope_parameter(self, arg2: DeviceParameter | None) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -199,7 +199,7 @@ class Clip:
         """
         ...
 
-    def add_new_notes(self, notes: object | None) -> IntU64Vector:
+    def add_new_notes(self, arg2: object | None) -> IntU64Vector:
         """
         Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification
         objects. The objects will be used to construct new notes in the clip.
@@ -290,7 +290,7 @@ class Clip:
         """
         ...
 
-    def add_warp_marker(self, warp_marker: WarpMarker | None) -> None:
+    def add_warp_marker(self, warp_marker: object | None) -> None:
         """
         Available for AudioClips only.
         Adds the specified warp marker, if possible.
@@ -318,7 +318,7 @@ class Clip:
         """
         ...
 
-    def apply_note_modifications(self, notes: MidiNoteVector | None) -> None:
+    def apply_note_modifications(self, arg2: MidiNoteVector | None) -> None:
         """
         Expects a list of notes as returned from get_notes_extended. The content
         of the list will be used to modify existing notes in the clip, based on
@@ -332,17 +332,17 @@ class Clip:
         """
         ...
 
-    def automation_envelope(self, parameter: DeviceParameter | None) -> Envelope:
+    def automation_envelope(self, arg2: DeviceParameter | None) -> Envelope:
         """Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track."""
         ...
 
     @property
-    def automation_envelopes(self) -> tuple:
+    def automation_envelopes(self) -> Vector[Envelope]:
         """Const access to a list of all automation envelopes for this clip."""
         ...
 
     @property
-    def available_warp_modes(self) -> tuple[int, ...]:
+    def available_warp_modes(self) -> Vector[int]:
         """
         Available for AudioClips only.
         Get/Set the available warp modes, that can be used.
@@ -365,7 +365,7 @@ class Clip:
         """Clears all envelopes for this clip."""
         ...
 
-    def clear_envelope(self, parameter: DeviceParameter | None) -> None:
+    def clear_envelope(self, arg2: DeviceParameter | None) -> None:
         """Clears the envelope of this clips given parameter."""
         ...
 
@@ -399,7 +399,7 @@ class Clip:
         """
         ...
 
-    def create_automation_envelope(self, parameter: DeviceParameter | None) -> Envelope:
+    def create_automation_envelope(self, arg2: DeviceParameter | None) -> Envelope:
         """Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created."""
         ...
 
@@ -422,7 +422,7 @@ class Clip:
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: list[int] | None, destination_time: float | None = None, transposition_amount: int = 0) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: object | None, destination_time: object | None = None, transposition_amount: int = 0) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -528,7 +528,7 @@ class Clip:
         """
         ...
 
-    def get_notes_by_id(self, note_ids: list[int] | None) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: object | None) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
@@ -776,7 +776,7 @@ class Clip:
         """
         ...
 
-    def move_playing_pos(self, beats: float | None) -> None:
+    def move_playing_pos(self, arg2: float | None) -> None:
         """
         Jump forward or backward by the specified relative amount in beats.
         Will do nothing, if the Clip is not playing.
@@ -911,11 +911,11 @@ class Clip:
         """
         ...
 
-    def quantize(self, quantization_grid: int | None, amount: float | None) -> None:
+    def quantize(self, arg2: int | None, arg3: float | None) -> None:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, note: int | None, source: int | None, amount: float | None) -> None:
+    def quantize_pitch(self, note: int | None, source: int | None, arg4: float | None) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 
@@ -1070,11 +1070,11 @@ class Clip:
         """
         ...
 
-    def remove_notes(self, start_time: float | None, pitch: int | None, length: float | None, pitch_span: int | None) -> None:
+    def remove_notes(self, arg2: float | None, arg3: int | None, arg4: float | None, arg5: int | None) -> None:
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: object | None) -> None:
+    def remove_notes_by_id(self, arg2: object | None) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1206,7 +1206,7 @@ class Clip:
         """
         ...
 
-    def replace_selected_notes(self, notes: tuple | None) -> None:
+    def replace_selected_notes(self, arg2: tuple | None) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_selected_notes. The
@@ -1257,15 +1257,15 @@ class Clip:
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: object | None) -> None:
+    def select_notes_by_id(self, arg2: object | None) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 
-    def set_fire_button_state(self, state: bool | None) -> None:
+    def set_fire_button_state(self, arg2: bool | None) -> None:
         """Set the clip's fire button state directly. Supports all launch modes."""
         ...
 
-    def set_notes(self, notes: tuple | None) -> None:
+    def set_notes(self, arg2: tuple | None) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_notes. The
@@ -1359,7 +1359,7 @@ class Clip:
         ...
 
     @property
-    def warp_markers(self) -> tuple[WarpMarker, ...]:
+    def warp_markers(self) -> Vector[WarpMarker]:
         """
         Available for AudioClips only.
         Get the warp markers for this audio clip.

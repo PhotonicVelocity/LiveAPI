@@ -3,7 +3,9 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import RoutingChannel, RoutingType
+    from Live.Base import Vector
     from Live.Clip import Clip
+    from Live.ClipSlot import ClipSlot
     from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.MixerDevice import MixerDevice
@@ -462,7 +464,7 @@ class Track:
         ...
 
     @property
-    def arrangement_clips(self) -> tuple:
+    def arrangement_clips(self) -> Vector:
         """const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks."""
         ...
 
@@ -474,7 +476,7 @@ class Track:
         ...
 
     @property
-    def available_input_routing_channels(self) -> tuple[RoutingChannel, ...]:
+    def available_input_routing_channels(self) -> Vector[RoutingChannel]:
         """Return a list of source channels for input routing."""
         ...
 
@@ -486,7 +488,7 @@ class Track:
         ...
 
     @property
-    def available_input_routing_types(self) -> tuple[RoutingType, ...]:
+    def available_input_routing_types(self) -> Vector[RoutingType]:
         """Return a list of source types for input routing."""
         ...
 
@@ -498,7 +500,7 @@ class Track:
         ...
 
     @property
-    def available_output_routing_channels(self) -> tuple[RoutingChannel, ...]:
+    def available_output_routing_channels(self) -> Vector[RoutingChannel]:
         """Return a list of destination channels for output routing."""
         ...
 
@@ -510,7 +512,7 @@ class Track:
         ...
 
     @property
-    def available_output_routing_types(self) -> tuple[RoutingType, ...]:
+    def available_output_routing_types(self) -> Vector[RoutingType]:
         """Return a list of destination types for output routing."""
         ...
 
@@ -560,7 +562,7 @@ class Track:
         ...
 
     @property
-    def clip_slots(self) -> tuple:
+    def clip_slots(self) -> Vector[ClipSlot]:
         """
         const access to the list of clipslots (see class AClipSlot) for this track.
         The list will be empty for the main and sendtracks.
@@ -604,14 +606,14 @@ class Track:
         """
         ...
 
-    def create_audio_clip(self, file_path: str | None, position: float | None) -> Clip:
+    def create_audio_clip(self, arg2: str | None, arg3: float | None) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
         """
         ...
 
-    def create_midi_clip(self, start_time: float | None, length: float | None) -> Clip:
+    def create_midi_clip(self, arg2: float | None, arg3: float | None) -> Clip:
         """
         Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
@@ -725,7 +727,7 @@ class Track:
         ...
 
     @property
-    def devices(self) -> tuple:
+    def devices(self) -> Vector[Device]:
         """
         Return const access to all available Devices that are present in the Tracks
         Devicechain. This tuple will also include the 'mixer_device' that every Track
@@ -740,7 +742,7 @@ class Track:
         """
         ...
 
-    def duplicate_clip_slot(self, index: int | None) -> int:
+    def duplicate_clip_slot(self, arg2: int | None) -> int:
         """
         Duplicate a clip and put it into the next free slot and return the index
         of the destination slot. A new scene is created if no free slot is
@@ -757,7 +759,7 @@ class Track:
         """
         ...
 
-    def duplicate_device(self, index: int | None) -> None:
+    def duplicate_device(self, arg2: int | None) -> None:
         """Duplicate a device at a given index in the 'devices' list."""
         ...
 
@@ -784,7 +786,7 @@ class Track:
     @fold_state.setter
     def fold_state(self, value: bool) -> None: ...
 
-    def get_data(self, key: str | None, default_value: Any | None) -> Any:
+    def get_data(self, key: str | None, default_value: object | None) -> object:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -947,7 +949,7 @@ class Track:
         ...
 
     @property
-    def input_routings(self) -> tuple[str, ...]:
+    def input_routings(self) -> Vector[str]:
         """Const access to the list of available input routings."""
         ...
 
@@ -959,7 +961,7 @@ class Track:
         ...
 
     @property
-    def input_sub_routings(self) -> tuple[str, ...]:
+    def input_sub_routings(self) -> Vector[str]:
         """Return a list of all available input sub routings."""
         ...
 
@@ -1021,7 +1023,7 @@ class Track:
         """return False if the track is hidden within a folded group track."""
         ...
 
-    def jump_in_running_session_clip(self, beats: float | None) -> None:
+    def jump_in_running_session_clip(self, arg2: float | None) -> None:
         """
         Jump forward or backward in the currently running Sessionclip (if any)
         by the specified relative amount in beats. Does nothing if no Session Clip
@@ -1169,7 +1171,7 @@ class Track:
         ...
 
     @property
-    def output_routings(self) -> tuple[str, ...]:
+    def output_routings(self) -> Vector[str]:
         """Const access to the list of all available output routings."""
         ...
 
@@ -1181,7 +1183,7 @@ class Track:
         ...
 
     @property
-    def output_sub_routings(self) -> tuple[str, ...]:
+    def output_sub_routings(self) -> Vector[str]:
         """Return a list of all available output sub routings."""
         ...
 
@@ -1541,7 +1543,7 @@ class Track:
         """
         ...
 
-    def set_data(self, key: str | None, value: Any | None) -> None:
+    def set_data(self, key: str | None, value: object | None) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 
@@ -1569,7 +1571,7 @@ class Track:
         ...
 
     @property
-    def take_lanes(self) -> tuple:
+    def take_lanes(self) -> Vector:
         """returns the take lanes."""
         ...
 

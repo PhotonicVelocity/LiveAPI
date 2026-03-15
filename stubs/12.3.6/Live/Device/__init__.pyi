@@ -1,13 +1,16 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 from .Device import Device
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.DeviceParameter import DeviceParameter
 
 
 
-class ATimeableValueVector:
+class ATimeableValueVector(Vector[DeviceParameter]):
 
     def append(self, value: DeviceParameter | None) -> None:
         ...

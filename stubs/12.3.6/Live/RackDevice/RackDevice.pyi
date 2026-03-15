@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
@@ -258,7 +259,7 @@ class RackDevice:
         ...
 
     @property
-    def chains(self) -> tuple:
+    def chains(self) -> Vector:
         """Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
@@ -279,7 +280,7 @@ class RackDevice:
         """Return const access to the name of the device's class."""
         ...
 
-    def copy_pad(self, source_index: int | None, destination_index: int | None) -> None:
+    def copy_pad(self, arg2: int | None, arg3: int | None) -> None:
         """Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127."""
         ...
 
@@ -288,7 +289,7 @@ class RackDevice:
         ...
 
     @property
-    def drum_pads(self) -> tuple:
+    def drum_pads(self) -> Vector[DrumPad]:
         """Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false."""
         ...
 
@@ -348,12 +349,9 @@ class RackDevice:
         ...
 
     @property
-    def is_using_compare_preset_b(self) -> bool:
+    def is_using_compare_preset_b(self):
         """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
         ...
-
-    @is_using_compare_preset_b.setter
-    def is_using_compare_preset_b(self, value: bool) -> None: ...
 
     @property
     def latency_in_ms(self) -> float:
@@ -386,7 +384,7 @@ class RackDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -477,7 +475,7 @@ class RackDevice:
         ...
 
     @property
-    def return_chains(self) -> tuple:
+    def return_chains(self) -> Vector:
         """Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
@@ -523,7 +521,7 @@ class RackDevice:
         ...
 
     @property
-    def visible_drum_pads(self) -> tuple:
+    def visible_drum_pads(self) -> Vector[DrumPad]:
         """Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false."""
         ...
 

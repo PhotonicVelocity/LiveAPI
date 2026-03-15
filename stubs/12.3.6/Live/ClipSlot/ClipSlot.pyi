@@ -113,7 +113,7 @@ class ClipSlot:
         """
         ...
 
-    def create_audio_clip(self, path: str | None) -> Clip:
+    def create_audio_clip(self, arg2: str | None) -> Clip:
         """
         Creates an audio clip referencing the file at the given absolute path in the slot.
         Throws an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.
@@ -134,7 +134,7 @@ class ClipSlot:
         """
         ...
 
-    def duplicate_clip_to(self, target_clip_slot: ClipSlot | None) -> None:
+    def duplicate_clip_to(self, arg2: ClipSlot | None) -> None:
         """
         Duplicates the slot's clip to the passed in target slot.
         Overrides the target's clip if it's not empty.
@@ -272,7 +272,7 @@ class ClipSlot:
         """
         ...
 
-    def set_fire_button_state(self, state: bool | None) -> None:
+    def set_fire_button_state(self, arg2: bool | None) -> None:
         """Set the clipslot's fire button state directly. Supports all launch modes."""
         ...
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Clip import WarpMarker
     from Live.Envelope import Envelope
     from Live.SimplerDevice import SimplerDevice
@@ -595,7 +596,7 @@ class Sample:
         ...
 
     @property
-    def warp_markers(self) -> tuple[WarpMarker, ...]:
+    def warp_markers(self) -> Vector[WarpMarker]:
         """Get the warp markers for this sample."""
         ...
 

@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Chain import Chain
     from Live.ChainMixerDevice import ChainMixerDevice
     from Live.RackDevice import RackDevice
@@ -74,7 +75,7 @@ class DrumChain:
     def color_index(self, value: int) -> None: ...
 
     @property
-    def devices(self) -> tuple:
+    def devices(self) -> Vector[RackDevice]:
         """Return const access to all available Devices that are present in the chains"""
         ...
 

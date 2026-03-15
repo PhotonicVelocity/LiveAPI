@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Clip import Clip
     from Live.Track import Track
 
@@ -29,7 +30,7 @@ class TakeLane:
         ...
 
     @property
-    def arrangement_clips(self) -> tuple:
+    def arrangement_clips(self) -> Vector:
         """Read-only access to the arrangement clips in the take lane."""
         ...
 
@@ -45,14 +46,14 @@ class TakeLane:
         """Get the canonical parent of the take lane."""
         ...
 
-    def create_audio_clip(self, file_path: str | None, start_time: float | None) -> Clip:
+    def create_audio_clip(self, arg2: str | None, arg3: float | None) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
         """
         ...
 
-    def create_midi_clip(self, start_time: float | None, length: float | None) -> Clip:
+    def create_midi_clip(self, arg2: float | None, arg3: float | None) -> Clip:
         """
         Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.

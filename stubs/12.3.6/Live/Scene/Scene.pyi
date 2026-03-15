@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
+    from Live.ClipSlot import ClipSlot
     from Live.Song import Song
 
 
@@ -89,7 +91,7 @@ class Scene:
         ...
 
     @property
-    def clip_slots(self) -> tuple:
+    def clip_slots(self) -> Vector[ClipSlot]:
         """return a list of clipslots (see class AClipSlot) that this scene covers."""
         ...
 
@@ -246,7 +248,7 @@ class Scene:
         """
         ...
 
-    def set_fire_button_state(self, state: bool | None) -> None:
+    def set_fire_button_state(self, arg2: bool | None) -> None:
         """Set the scene's fire button state directly. Supports all launch modes."""
         ...
 

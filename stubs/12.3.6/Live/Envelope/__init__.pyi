@@ -1,6 +1,12 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 from .Envelope import Envelope
+
+if TYPE_CHECKING:
+    from Live.Base import Vector
+
 
 
 class EnvelopeEvent:
@@ -62,7 +68,7 @@ class EnvelopeEventControlCoefficients:
     @y2.setter
     def y2(self, value: float) -> None: ...
 
-class EnvelopeEventVector:
+class EnvelopeEventVector(Vector[EnvelopeEvent]):
     """A container for holding envelope events."""
 
     def append(self, value: EnvelopeEvent | None) -> None:

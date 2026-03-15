@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import DeviceType
+    from Live.Base import Vector
     from Live.DeviceParameter import DeviceParameter
     from Live.Track import Track
 
@@ -195,7 +196,7 @@ class Device:
         ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -252,7 +253,7 @@ class Device:
         """Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws."""
         ...
 
-    def store_chosen_bank(self, script_index: int | None, bank_index: int | None) -> None:
+    def store_chosen_bank(self, arg2: int | None, arg3: int | None) -> None:
         """Set the selected bank in the device for persistency."""
         ...
 

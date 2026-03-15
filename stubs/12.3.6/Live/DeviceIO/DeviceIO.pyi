@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.MaxDevice import MaxDevice
     from Live.Track import RoutingChannel, RoutingType
 
@@ -43,7 +44,7 @@ class DeviceIO:
         ...
 
     @property
-    def available_routing_channels(self) -> tuple[RoutingChannel, ...]:
+    def available_routing_channels(self) -> Vector[RoutingChannel]:
         """Return a list of channels for this IO endpoint."""
         ...
 
@@ -55,7 +56,7 @@ class DeviceIO:
         ...
 
     @property
-    def available_routing_types(self) -> tuple[RoutingType, ...]:
+    def available_routing_types(self) -> Vector[RoutingType]:
         """Return a list of available routing types for this IO endpoint."""
         ...
 

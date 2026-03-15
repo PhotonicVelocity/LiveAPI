@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.Track import Track
@@ -91,7 +92,7 @@ class ShifterDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> Vector[DeviceParameter]:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -126,7 +127,7 @@ class ShifterDevice:
         ...
 
     @property
-    def pitch_mode_list(self) -> tuple[str, ...]:
+    def pitch_mode_list(self) -> Vector[str]:
         """Return the current pitch mode list"""
         ...
 

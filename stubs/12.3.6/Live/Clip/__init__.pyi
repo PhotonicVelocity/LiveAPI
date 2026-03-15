@@ -1,6 +1,12 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 from .Clip import Clip
+
+if TYPE_CHECKING:
+    from Live.Base import Vector
+
 
 
 class ClipLaunchQuantization:
@@ -114,7 +120,7 @@ class MidiNoteSpecification:
 
     def __init__(self, pitch: int, start_time: float, duration: float, velocity: float = 100.0, mute: bool = False, probability: float = 1.0, velocity_deviation: float = 0.0, release_velocity: float = 64.0) -> None: ...
 
-class MidiNoteVector:
+class MidiNoteVector(Vector[MidiNote]):
     """A container for holding MIDI notes from Live."""
 
     def append(self, value: MidiNote | None) -> None:
@@ -138,7 +144,7 @@ class WarpMarker:
         """A WarpMarker's sample time."""
         ...
 
-class WarpMarkerVector:
+class WarpMarkerVector(Vector[WarpMarker]):
     """A container for returning warp markers from Live."""
 
     def append(self, value: WarpMarker | None) -> None:

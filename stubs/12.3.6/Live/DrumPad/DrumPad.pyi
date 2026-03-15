@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.RackDevice import RackDevice
 
 
@@ -47,7 +48,7 @@ class DrumPad:
         ...
 
     @property
-    def chains(self) -> tuple:
+    def chains(self) -> Vector:
         """Return const access to the list of chains in this drum pad."""
         ...
 
