@@ -3,9 +3,15 @@
 Three-stage pipeline for capturing Live API metadata and generating typed Python stubs.
 
 ```
-Stage 1: Capture + Probe  (inside Live)                → LiveTree.raw.json + LiveClasses.json
+Stage 1: Capture + Probe  (inside Live)                 → LiveTree.raw.json + LiveClasses.json
+- Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
+- Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
 Stage 2: Parse & Refine   (external + decompiled + LLM) → LiveTree.resolved.json
-Stage 3: Generate         (external)                   → stubs/<version>/Live/*.pyi
+- Parses raw capture into structured tree, merges probe results, extracts unresolved items (LiveTree.parsed.json)
+- Deterministic name resolution from decompiled Remote Scripts + usage hints (refinements.callsite.json)
+- LLM-guided refinement of unresolved items using tree structure, docstrings, usage hints, and M4L docs (refinements.llm.json)
+Stage 3: Generate         (external)                    → stubs/<version>/Live/*.pyi
+- Renders resolved tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
 ```
 
 ## Stage 1: Capture + Probe (runs inside Live)

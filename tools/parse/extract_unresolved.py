@@ -3,8 +3,10 @@
 Scans the parsed tree for:
 - Function args typed "object" (unresolved types)
 - Function args named "arg1", "arg2", etc. (unnamed parameters)
+- Function args/returns typed "tuple" (need detailed tuple structure)
 - Function returns typed "object"
 - Properties with null probed_type
+- Iterable properties missing element_repr
 
 Output is keyed by path and mirrors the refinements.llm.json structure, with shared
 context per function and per-arg details. This means the LLM just adds resolved fields
@@ -63,17 +65,21 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
         if aname == "self":
             continue
 
-        if atype == "object":
-            args_out.setdefault(aname, {})["current_type"] = "object"
+        needs: list[str] = []
 
+        if atype in ("object", "tuple"):
+            needs.append("type")
         if _ARGX_RE.match(aname):
+            needs.append("name")
+
+        if needs:
             entry = args_out.setdefault(aname, {})
             entry["current_type"] = atype
-            entry["needs_name"] = True
+            entry["needs"] = needs
 
     returns = node.get("returns")
-    if returns and returns.get("type") == "object":
-        returns_out = {"current_type": "object"}
+    if returns and returns.get("type") in ("object", "tuple"):
+        returns_out = {"current_type": returns["type"], "needs": ["type"]}
 
     if not args_out and not returns_out:
         return
@@ -96,14 +102,14 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
 def _check_property(node: dict, path: str, items: dict[str, dict]) -> None:
     """Check a property node for missing probed_type or missing element type."""
     if not node.get("probed_type"):
-        entry: dict = {"probed_type": None}
+        entry: dict = {"probed_type": None, "needs": ["probed_type"]}
         if node.get("raw_doc"):
             entry["raw_doc"] = node["raw_doc"]
         items[path] = entry
     elif node.get("iterable") and not node.get("element_repr"):
         entry = {
             "probed_type": node["probed_type"],
-            "needs_element_type": True,
+            "needs": ["element_repr"],
         }
         if node.get("raw_doc"):
             entry["raw_doc"] = node["raw_doc"]
@@ -128,22 +134,23 @@ def main():
     with open(output_path, "w") as f:
         json.dump(result, f, indent=2)
 
-    # Summary
+    # Summary — count each "needs" entry across all items
     items = result["items"]
-    all_args = [a for v in items.values() for a in v.get("args", {}).values()]
-    n_names = sum(1 for a in all_args if a.get("needs_name"))
-    n_arg_types = sum(1 for a in all_args if a.get("current_type") == "object")
-    n_returns = sum(1 for v in items.values() if "returns" in v)
-    n_props = sum(1 for v in items.values() if "probed_type" in v and not v.get("needs_element_type"))
-    n_elem = sum(1 for v in items.values() if v.get("needs_element_type"))
+    counts: dict[str, int] = {}
+    for entry in items.values():
+        for need in entry.get("needs", []):
+            counts[need] = counts.get(need, 0) + 1
+        if "returns" in entry:
+            for need in entry["returns"].get("needs", []):
+                counts[f"return_{need}"] = counts.get(f"return_{need}", 0) + 1
+        for arg_val in entry.get("args", {}).values():
+            for need in arg_val.get("needs", []):
+                counts[f"arg_{need}"] = counts.get(f"arg_{need}", 0) + 1
 
     print(f"Wrote {len(items)} paths to {output_path}")
-    print(f"  arg names to resolve: {n_names}")
-    print(f"  arg types to resolve: {n_arg_types}")
-    print(f"  return types to resolve: {n_returns}")
-    print(f"  property types to resolve: {n_props}")
-    print(f"  element types to resolve: {n_elem}")
-    print(f"  total: {n_names + n_arg_types + n_returns + n_props + n_elem}")
+    for kind, count in sorted(counts.items()):
+        print(f"  {kind}: {count}")
+    print(f"  total: {sum(counts.values())}")
 
 
 if __name__ == "__main__":

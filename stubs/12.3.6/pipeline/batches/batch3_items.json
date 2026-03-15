@@ -1,0 +1,111 @@
+{
+  "Live.Track.Track.create_audio_clip": {
+    "description": "Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.\nThrows an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.",
+    "signature": "create_audio_clip( (Track)arg1, (object)arg2, (float)arg3) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_audio_clip(TTrackPyHandle,TString,double)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.create_midi_clip": {
+    "description": "Creates an empty MIDI clip and inserts it into the arrangement at the specified time.\nThrows an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.",
+    "signature": "create_midi_clip( (Track)arg1, (float)arg2, (float)arg3) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_midi_clip(TTrackPyHandle,double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.duplicate_clip_slot": {
+    "description": "Duplicate a clip and put it into the next free slot and return the index\nof the destination slot. A new scene is created if no free slot is\navailable. If creating the new scene would exceed the limitations,\na runtime error is raised.",
+    "signature": "duplicate_clip_slot( (Track)arg1, (int)arg2) -> int :",
+    "cpp_signature": "int duplicate_clip_slot(TTrackPyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.duplicate_device": {
+    "description": "Duplicate a device at a given index in the 'devices' list.",
+    "signature": "duplicate_device( (Track)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void duplicate_device(TTrackPyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.get_data": {
+    "description": "Get data for the given key, that was previously stored using set_data.",
+    "signature": "get_data( (Track)arg1, (object)key, (object)default_value) -> object :",
+    "cpp_signature": "boost::python::api::object get_data(TTrackPyHandle,TString,boost::python::api::object)",
+    "args": {
+      "default_value": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    },
+    "returns": {
+      "current_type": "object",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.Track.Track.jump_in_running_session_clip": {
+    "description": "Jump forward or backward in the currently running Sessionclip (if any)\nby the specified relative amount in beats. Does nothing if no Session Clip\nis currently running.",
+    "signature": "jump_in_running_session_clip( (Track)arg1, (float)arg2) -> None :",
+    "cpp_signature": "void jump_in_running_session_clip(TTrackPyHandle,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.set_data": {
+    "description": "Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.",
+    "signature": "set_data( (Track)arg1, (object)key, (object)value) -> None :",
+    "cpp_signature": "void set_data(TTrackPyHandle,TString,boost::python::api::object)",
+    "args": {
+      "value": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  }
+}
