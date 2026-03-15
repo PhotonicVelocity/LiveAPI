@@ -234,6 +234,7 @@ class PropertyProbe:
                         prop_info["repr"] = repr(type(prop))
                     self._discover(prop)
                     if hasattr(prop, "__iter__") and not isinstance(prop, str):
+                        prop_info["iterable"] = True
                         self._record_element_type(prop, prop_info)
                 elif prop_info.get("repr") and not self._is_complete(prop_info["repr"]):
                     # Re-discover incomplete child types
@@ -264,6 +265,7 @@ class PropertyProbe:
                     getter_info["repr"] = repr(type(result))
                 self._discover(result)
                 if hasattr(result, "__iter__") and not isinstance(result, str):
+                    getter_info["iterable"] = True
                     self._record_element_type(result, getter_info)
             except Exception as e:
                 self.log(f"  Failed to call {getter_name}: {e}")
@@ -300,6 +302,8 @@ class PropertyProbe:
                     if type_name not in _PRIMITIVES:
                         getter_info["repr"] = repr(type(result))
                 if hasattr(result, "__iter__") and not isinstance(result, str):
+                    if getter_info:
+                        getter_info["iterable"] = True
                     self._record_element_type(result, getter_info)
             except Exception as e:
                 self.log(f"  Failed to call {method_name}: {e}")
