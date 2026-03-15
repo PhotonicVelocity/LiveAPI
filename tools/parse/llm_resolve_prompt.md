@@ -51,6 +51,10 @@ but with resolved fields added and context fields stripped:
     "Live.Clip.Clip._live_ptr": {
       "probed_type": "int",
       "probed_type_reason": "sibling _live_ptr properties are all int"
+    },
+    "Live.Track.Track.devices": {
+      "element_repr": "<class 'Device.Device'>",
+      "element_repr_reason": "docstring says 'a list of Device instances'"
     }
   }
 }
@@ -86,9 +90,23 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
 
 - Provide `"probed_type": "..."` and `"probed_type_reason": "..."` on the path entry.
 
+### For missing element types (`needs_element_type: true`):
+
+- These are iterable properties (vectors/lists) where the container type is known but the element type is not.
+- The item will have `"probed_type"` (the container's runtime type) and `"needs_element_type": true`.
+- Provide `"element_repr": "..."` and `"element_repr_reason": "..."` on the path entry.
+- The `element_repr` should be a `<class '...'>` repr string for the element type, e.g.
+  `"<class 'Track.Track'>"` or `"<class 'DeviceParameter.DeviceParameter'>"`.
+- Use the property name, raw docstring, parent class context, and any usage snippets to determine what element 
+  type the vector contains. For example, `Song.tracks` → `<class 'Track.Track'>`,
+  `Track.devices` → `<class 'Device.Device'>`.
+- If you cannot determine the element type, omit the item entirely.
+
 ### General:
 
 - Use Python type names: `str`, `bool`, `int`, `float`, `Callable`, `Any`, `list[X]`, `tuple[X, ...]`.
+- For `element_repr` fields, use the `<class '...'>` repr format (e.g. `<class 'Track.Track'>`), NOT
+  Python type names. This matches the repr format used throughout the parsed tree.
 - Always parameterize container types when the element type is known: `list[int]` not bare `list`.
 - For Vector class probed_types, use the Vector class name as-is (e.g. `ControlDescriptionVector`),
   not a parameterized form — these are distinct LOM types, not generic Python containers.

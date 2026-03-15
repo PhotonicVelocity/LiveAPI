@@ -236,7 +236,7 @@ def _call_llm(system: str, user: str, model: str = "claude-sonnet-4-20250514",
               max_retries: int = 3) -> str:
     """Call the Anthropic API and return the response text. Retries on rate limits."""
     import time
-    import anthropic
+    import anthropic  # type: ignore[import-not-found]
 
     client = anthropic.Anthropic()
     for attempt in range(max_retries + 1):
@@ -280,7 +280,7 @@ def _fix_malformed_refinements(refinements: dict, items: dict[str, dict]) -> int
 
     Returns the number of entries fixed.
     """
-    VALID_KEYS = {"args", "returns", "probed_type", "probed_type_reason"}
+    VALID_KEYS = {"args", "returns", "probed_type", "probed_type_reason", "element_repr", "element_repr_reason"}
     fixed = 0
     for path, entry in list(refinements.items()):
         # Fix 1: type/type_reason at root level
@@ -379,7 +379,7 @@ def prepare(version: str, input_path: str, m4l_dir: str,
 
     print(f"\nWrote {len(batches)} batches to {batch_dir}/")
     print(f"System prompt: {batch_dir}/system_prompt.md")
-    print(f"\nTo run with Agent tool, feed each batch{i}_prompt.md as the user message")
+    print(f"\nTo run with Agent tool, feed each batch{{N}}_prompt.md as the user message")
     print(f"with system_prompt.md as context. Save results as batch{{N}}_result.json.")
     return batch_dir
 
@@ -427,10 +427,13 @@ def summarize(generated: dict) -> None:
     type_fixes = 0
     return_fixes = 0
     probed_types = 0
+    element_types = 0
 
     for entry in refs.values():
         if "probed_type" in entry:
             probed_types += 1
+        if "element_repr" in entry:
+            element_types += 1
         if "returns" in entry:
             return_fixes += 1
         for arg_val in entry.get("args", {}).values():
@@ -440,12 +443,14 @@ def summarize(generated: dict) -> None:
                 if "type" in arg_val:
                     type_fixes += 1
 
+    total = name_fixes + type_fixes + return_fixes + probed_types + element_types
     print(f"\nSummary: {len(refs)} paths")
     print(f"  arg names resolved: {name_fixes}")
     print(f"  arg types resolved: {type_fixes}")
     print(f"  return types resolved: {return_fixes}")
     print(f"  property types resolved: {probed_types}")
-    print(f"  total fixes: {name_fixes + type_fixes + return_fixes + probed_types}")
+    print(f"  element types resolved: {element_types}")
+    print(f"  total fixes: {total}")
 
 
 def main():

@@ -213,7 +213,7 @@ class DefCollector(ast.NodeVisitor):
                 self.hits[node.name].append(params)
         self.generic_visit(node)
 
-    visit_AsyncFunctionDef = visit_FunctionDef
+    visit_AsyncFunctionDef = visit_FunctionDef  # type: ignore[assignment]
 
 
 def _collect_def_sites(py_files: list[Path], target_funcs: set[str]) -> dict[str, list[list[str]]]:
@@ -476,8 +476,10 @@ def _build_type_search_targets(unresolved: dict) -> dict[str, dict]:
         if "returns" in entry:
             needs.append("return_type")
 
-        # Unprobed property type
-        if "probed_type" in entry:
+        # Unprobed property type or missing element type
+        if entry.get("needs_element_type"):
+            needs.append("element_type")
+        elif "probed_type" in entry:
             needs.append("property_type")
 
         if not needs:
@@ -540,12 +542,18 @@ def _build_type_hints(
 
     for member_name, target_info in type_targets.items():
         snippets = type_context.get(member_name, [])
-        if not snippets:
-            continue
 
         for path in target_info["paths"]:
             entry = unresolved[path]
-            hint: dict[str, object] = {"usage_snippets": snippets}
+
+            # Skip items with no snippets unless they need element type resolution
+            # (element type items benefit from being tagged even without snippets)
+            if not snippets and not entry.get("needs_element_type"):
+                continue
+
+            hint: dict[str, object] = {}
+            if snippets:
+                hint["usage_snippets"] = snippets
 
             # Tag what kind of type info is needed
             arg_types_needed: dict[str, str] = {}
@@ -558,7 +566,9 @@ def _build_type_hints(
             if "returns" in entry:
                 hint["unresolved_return_type"] = entry["returns"]["current_type"]
 
-            if "probed_type" in entry:
+            if entry.get("needs_element_type"):
+                hint["needs_element_type"] = True
+            elif "probed_type" in entry:
                 hint["unresolved_property_type"] = True
 
             hints[path] = hint

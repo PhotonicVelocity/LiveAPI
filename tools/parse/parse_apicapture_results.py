@@ -1089,6 +1089,7 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                     child["probed_repr"] = probed_repr
                 # Resolve element type for iterable properties
                 if prop_info.get("iterable"):
+                    child["iterable"] = True
                     elem_reprs = prop_info.get("element_reprs")
                     if not elem_reprs:
                         # Fall back to the class entry (only if it has a single

@@ -16,10 +16,10 @@ from copy import deepcopy
 from os.path import exists, join
 
 
-def apply(tree: dict, refinements: dict) -> dict:
+def apply(tree: dict, refinements: dict) -> tuple[dict, dict[str, int]]:
     """Apply refinements to a deep copy of the tree. Returns the modified tree."""
     tree = deepcopy(tree)
-    stats = {"arg_name": 0, "arg_type": 0, "return_type": 0, "property_type": 0}
+    stats = {"arg_name": 0, "arg_type": 0, "return_type": 0, "property_type": 0, "element_type": 0}
 
     def walk(node: dict, path: str) -> None:
         if node.get("ref"):
@@ -74,10 +74,13 @@ def _apply_function(node: dict, ref: dict, stats: dict) -> None:
 
 
 def _apply_property(node: dict, ref: dict, stats: dict) -> None:
-    """Apply probed_type refinement to a property node."""
+    """Apply probed_type or element_repr refinement to a property node."""
     if "probed_type" in ref:
         node["probed_type"] = ref["probed_type"]
         stats["property_type"] += 1
+    if "element_repr" in ref:
+        node["element_repr"] = ref["element_repr"]
+        stats["element_type"] += 1
 
 
 def main():

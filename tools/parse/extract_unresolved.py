@@ -94,9 +94,17 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
 
 
 def _check_property(node: dict, path: str, items: dict[str, dict]) -> None:
-    """Check a property node for missing probed_type."""
+    """Check a property node for missing probed_type or missing element type."""
     if not node.get("probed_type"):
         entry: dict = {"probed_type": None}
+        if node.get("raw_doc"):
+            entry["raw_doc"] = node["raw_doc"]
+        items[path] = entry
+    elif node.get("iterable") and not node.get("element_repr"):
+        entry = {
+            "probed_type": node["probed_type"],
+            "needs_element_type": True,
+        }
         if node.get("raw_doc"):
             entry["raw_doc"] = node["raw_doc"]
         items[path] = entry
@@ -126,14 +134,16 @@ def main():
     n_names = sum(1 for a in all_args if a.get("needs_name"))
     n_arg_types = sum(1 for a in all_args if a.get("current_type") == "object")
     n_returns = sum(1 for v in items.values() if "returns" in v)
-    n_props = sum(1 for v in items.values() if "probed_type" in v)
+    n_props = sum(1 for v in items.values() if "probed_type" in v and not v.get("needs_element_type"))
+    n_elem = sum(1 for v in items.values() if v.get("needs_element_type"))
 
     print(f"Wrote {len(items)} paths to {output_path}")
     print(f"  arg names to resolve: {n_names}")
     print(f"  arg types to resolve: {n_arg_types}")
     print(f"  return types to resolve: {n_returns}")
     print(f"  property types to resolve: {n_props}")
-    print(f"  total: {n_names + n_arg_types + n_returns + n_props}")
+    print(f"  element types to resolve: {n_elem}")
+    print(f"  total: {n_names + n_arg_types + n_returns + n_props + n_elem}")
 
 
 if __name__ == "__main__":
