@@ -710,11 +710,7 @@ def generate_page_markdown(
     """
     lines: list[str] = []
 
-    # --- Module title + TOC depth ---
-    lines.append("---")
-    lines.append("toc_depth: 2")
-    lines.append("---")
-    lines.append("")
+    # --- Module title ---
     lines.append(f"# {ns_name} (Module)")
     lines.append("")
 

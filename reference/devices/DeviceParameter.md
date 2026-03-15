@@ -1,7 +1,3 @@
----
-toc_depth: 2
----
-
 # DeviceParameter (Module)
 
 ## DeviceParameter (Class)

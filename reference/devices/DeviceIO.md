@@ -1,7 +1,3 @@
----
-toc_depth: 2
----
-
 # DeviceIO (Module)
 
 ## DeviceIO (Class)

@@ -1,7 +1,3 @@
----
-toc_depth: 2
----
-
 # CompressorDevice (Module)
 
 ## CompressorDevice (Class)
