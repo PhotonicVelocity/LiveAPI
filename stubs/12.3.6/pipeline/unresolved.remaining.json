@@ -136,6 +136,12 @@
       ],
       "raw_doc": "List of features that are unavailable due to limitations of the current Live edition."
     },
+    "Live.Application.ControlDescriptionVector": {
+      "needs": [
+        "element_repr"
+      ],
+      "raw_doc": "A container for returning control descriptions."
+    },
     "Live.Application.ControlSurfaceProxy.control_descriptions": {
       "probed_type": null,
       "needs": [
@@ -247,6 +253,12 @@
         }
       }
     },
+    "Live.Application.UnavailableFeatureVector": {
+      "needs": [
+        "element_repr"
+      ],
+      "raw_doc": "A container for returning unavailable features."
+    },
     "Live.Application.encrypt_challenge": {
       "description": "Returns an encrypted challenge based on the TEA algortithm",
       "signature": "encrypt_challenge( (int)dongle1, (int)dongle2 [, (int)key_index=0]) -> tuple :",
@@ -289,6 +301,18 @@
           ]
         }
       }
+    },
+    "Live.Base.FloatVector": {
+      "needs": [
+        "element_repr"
+      ],
+      "raw_doc": "A simple container for returning floats from Live."
+    },
+    "Live.Base.IntU64Vector": {
+      "needs": [
+        "element_repr"
+      ],
+      "raw_doc": "A simple container for returning unsigned long integers from Live."
     },
     "Live.Base.ObjectVector.append": {
       "signature": "append( (ObjectVector)arg1, (object)arg2) -> None :",
@@ -401,6 +425,12 @@
         "element_repr"
       ],
       "raw_doc": "Const iterable access to the descendants of this browser item."
+    },
+    "Live.Browser.BrowserItemIterator": {
+      "needs": [
+        "element_repr"
+      ],
+      "raw_doc": "This class iterates over children of another BrowserItem."
     },
     "Live.Chain.Chain.duplicate_device": {
       "description": "Duplicate the device at the given index in the chain.",
@@ -964,6 +994,12 @@
         "probed_type"
       ],
       "raw_doc": "Prints the name of the property that this listener is connected to"
+    },
+    "Live.Listener.ListenerVector": {
+      "needs": [
+        "element_repr"
+      ],
+      "raw_doc": "A read only container for accessing a list of listeners."
     },
     "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
       "description": "Export Looper's content to a Session Clip Slot.",

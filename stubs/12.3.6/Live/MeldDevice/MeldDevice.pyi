@@ -2,9 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
@@ -121,7 +119,7 @@ class MeldDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> Vector[DeviceParameter]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 

@@ -1087,19 +1087,20 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                 probed_repr = prop_info.get("repr")
                 if probed_repr:
                     child["probed_repr"] = probed_repr
-                # Resolve element type for iterable properties
-                if prop_info.get("iterable"):
-                    child["iterable"] = True
+                # Resolve element type for iterable properties.
+                # For vector classes, iterability is on the class entry in repr_index.
+                # For tuple properties, element_reprs may be on prop_info directly.
+                class_entry = probe.get(probed_repr) if probed_repr else None
+                is_iterable = (class_entry and class_entry.get("iterable")) or prop_info.get("element_reprs")
+                if is_iterable:
                     elem_reprs = prop_info.get("element_reprs")
-                    if not elem_reprs:
+                    if not elem_reprs and class_entry:
                         # Fall back to the class entry (only if it has a single
                         # element type — generic containers like Base.Vector have
                         # many and shouldn't be used as fallback)
-                        class_entry = probe.get(probed_repr) if probed_repr else None
-                        if class_entry:
-                            class_reprs = class_entry.get("element_reprs")
-                            if class_reprs and len(class_reprs) == 1:
-                                elem_reprs = class_reprs
+                        class_reprs = class_entry.get("element_reprs")
+                        if class_reprs and len(class_reprs) == 1:
+                            elem_reprs = class_reprs
                     if elem_reprs:
                         resolved = _resolve_element_reprs(elem_reprs)
                         if resolved:
@@ -1140,7 +1141,17 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             elif tree_type and tree_type != "object" and probed_type != tree_type:
                 getter_mismatches.append(f"{node.get('name')}.{getter_name}: tree={tree_type}, probe={probed_type}")
 
-        # element_reprs: resolve set → single element_repr, stamp onto class node
+        # iterable + element_reprs: stamp onto class node
+        # Probe-based: the probe stamped iterable on the class entry
+        # Heuristic: classes with append/extend are iterable even if never probed
+        is_iterable = entry.get("iterable") or any(
+            children_by_name.get(fn, {}).get("type") in _FUNCTION_TYPES for fn in ("append", "extend")
+        )
+        if is_iterable:
+            saved_children = node.pop("children", None)
+            node["iterable"] = True
+            if saved_children is not None:
+                node["children"] = saved_children
         elem_reprs = entry.get("element_reprs")
         if elem_reprs:
             element_repr = _resolve_element_reprs(elem_reprs)

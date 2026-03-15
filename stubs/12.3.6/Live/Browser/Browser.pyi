@@ -2,8 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from . import BrowserItem, Relation
-    from Live.Base import Vector
+    from . import BrowserItem, BrowserItemVector, Relation
 
 
 
@@ -46,7 +45,7 @@ class Browser:
         ...
 
     @property
-    def colors(self) -> Vector[BrowserItem]:
+    def colors(self) -> BrowserItemVector:
         """Returns a list of browser items containing the configured colors."""
         ...
 
@@ -103,7 +102,7 @@ class Browser:
         ...
 
     @property
-    def legacy_libraries(self) -> Vector[BrowserItem]:
+    def legacy_libraries(self) -> BrowserItemVector:
         """Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed."""
         ...
 
@@ -175,7 +174,7 @@ class Browser:
         ...
 
     @property
-    def user_folders(self) -> Vector[BrowserItem]:
+    def user_folders(self) -> BrowserItemVector:
         """Returns a list of browser items containing all the user folders."""
         ...
 

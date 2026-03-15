@@ -2,8 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from . import RoutingChannel, RoutingType
-    from Live.Base import Vector
+    from . import RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector
+    from Live.Base import StringVector, Vector
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
@@ -476,7 +476,7 @@ class Track:
         ...
 
     @property
-    def available_input_routing_channels(self) -> Vector[RoutingChannel]:
+    def available_input_routing_channels(self) -> RoutingChannelVector:
         """Return a list of source channels for input routing."""
         ...
 
@@ -488,7 +488,7 @@ class Track:
         ...
 
     @property
-    def available_input_routing_types(self) -> Vector[RoutingType]:
+    def available_input_routing_types(self) -> RoutingTypeVector:
         """Return a list of source types for input routing."""
         ...
 
@@ -500,7 +500,7 @@ class Track:
         ...
 
     @property
-    def available_output_routing_channels(self) -> Vector[RoutingChannel]:
+    def available_output_routing_channels(self) -> RoutingChannelVector:
         """Return a list of destination channels for output routing."""
         ...
 
@@ -512,7 +512,7 @@ class Track:
         ...
 
     @property
-    def available_output_routing_types(self) -> Vector[RoutingType]:
+    def available_output_routing_types(self) -> RoutingTypeVector:
         """Return a list of destination types for output routing."""
         ...
 
@@ -949,7 +949,7 @@ class Track:
         ...
 
     @property
-    def input_routings(self) -> Vector[str]:
+    def input_routings(self) -> StringVector:
         """Const access to the list of available input routings."""
         ...
 
@@ -961,7 +961,7 @@ class Track:
         ...
 
     @property
-    def input_sub_routings(self) -> Vector[str]:
+    def input_sub_routings(self) -> StringVector:
         """Return a list of all available input sub routings."""
         ...
 
@@ -1171,7 +1171,7 @@ class Track:
         ...
 
     @property
-    def output_routings(self) -> Vector[str]:
+    def output_routings(self) -> StringVector:
         """Const access to the list of all available output routings."""
         ...
 
@@ -1183,7 +1183,7 @@ class Track:
         ...
 
     @property
-    def output_sub_routings(self) -> Vector[str]:
+    def output_sub_routings(self) -> StringVector:
         """Return a list of all available output sub routings."""
         ...
 

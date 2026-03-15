@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class FloatVector:
+class FloatVector(Vector[float]):
     """A simple container for returning floats from Live."""
 
     def append(self, value: float | None) -> None:
@@ -17,7 +17,7 @@ class FloatVector:
     def extend(self, values: float | None) -> None:
         ...
 
-class IntU64Vector:
+class IntU64Vector(Vector[int]):
     """A simple container for returning unsigned long integers from Live."""
 
     def append(self, value: int | None) -> None:
@@ -43,7 +43,7 @@ class ObjectVector(Vector[object]):
     def append(self, value: Any | None) -> None:
         ...
 
-    def extend(self, values: Iterable[Any] | None) -> None:
+    def extend(self, values: list[Any] | None) -> None:
         ...
 
 class StringVector(Vector[str]):

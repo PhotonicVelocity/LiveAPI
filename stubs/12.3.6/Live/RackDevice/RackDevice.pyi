@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Chain import Chain
-    from Live.Device import Device, DeviceType
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
     from Live.LomObject import LomObject
@@ -388,7 +388,7 @@ class RackDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> Vector[DeviceParameter]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 

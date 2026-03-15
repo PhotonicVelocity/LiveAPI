@@ -2,9 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Base import StringVector
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
@@ -190,7 +189,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_filter_source_1_list(self) -> Vector[str]:
+    def mod_matrix_filter_source_1_list(self) -> StringVector:
         """Return the filter mod source 1 list"""
         ...
 
@@ -210,7 +209,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_filter_source_2_list(self) -> Vector[str]:
+    def mod_matrix_filter_source_2_list(self) -> StringVector:
         """Return the filter mod source 2 list"""
         ...
 
@@ -230,7 +229,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_lfo_source_list(self) -> Vector[str]:
+    def mod_matrix_lfo_source_list(self) -> StringVector:
         """Return the lfo mod source list"""
         ...
 
@@ -250,7 +249,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_pitch_source_1_list(self) -> Vector[str]:
+    def mod_matrix_pitch_source_1_list(self) -> StringVector:
         """Return the pitch mod source 1 list"""
         ...
 
@@ -270,7 +269,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_pitch_source_2_list(self) -> Vector[str]:
+    def mod_matrix_pitch_source_2_list(self) -> StringVector:
         """Return the pitch mod source 2 list"""
         ...
 
@@ -290,7 +289,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_shape_source_list(self) -> Vector[str]:
+    def mod_matrix_shape_source_list(self) -> StringVector:
         """Return the shape mod source list"""
         ...
 
@@ -310,7 +309,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_source_1_list(self) -> Vector[str]:
+    def mod_matrix_source_1_list(self) -> StringVector:
         """Return the custom mod source 1 list"""
         ...
 
@@ -330,7 +329,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_source_2_list(self) -> Vector[str]:
+    def mod_matrix_source_2_list(self) -> StringVector:
         """Return the custom mod source 2 list"""
         ...
 
@@ -350,7 +349,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_source_3_list(self) -> Vector[str]:
+    def mod_matrix_source_3_list(self) -> StringVector:
         """Return the custom mod source 3 list"""
         ...
 
@@ -370,7 +369,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_target_1_list(self) -> Vector[str]:
+    def mod_matrix_target_1_list(self) -> StringVector:
         """Return the custom mod target 1 list"""
         ...
 
@@ -390,7 +389,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_target_2_list(self) -> Vector[str]:
+    def mod_matrix_target_2_list(self) -> StringVector:
         """Return the custom mod target 2 list"""
         ...
 
@@ -410,7 +409,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_target_3_list(self) -> Vector[str]:
+    def mod_matrix_target_3_list(self) -> StringVector:
         """Return the custom mod target 3 list"""
         ...
 
@@ -423,7 +422,7 @@ class DriftDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> Vector[DeviceParameter]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -573,7 +572,7 @@ class DriftDevice:
         ...
 
     @property
-    def voice_count_list(self) -> Vector[str]:
+    def voice_count_list(self) -> StringVector:
         """Return the voice count list"""
         ...
 
@@ -593,7 +592,7 @@ class DriftDevice:
         ...
 
     @property
-    def voice_mode_list(self) -> Vector[str]:
+    def voice_mode_list(self) -> StringVector:
         """Return the voice mode list"""
         ...
 

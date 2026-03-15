@@ -2,9 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Base import StringVector
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
@@ -146,7 +145,7 @@ class SpectralResonatorDevice:
         ...
 
     @property
-    def frequency_dial_mode_list(self) -> Vector[str]:
+    def frequency_dial_mode_list(self) -> StringVector:
         """Return the current frequency dial mode list"""
         ...
 
@@ -196,7 +195,7 @@ class SpectralResonatorDevice:
         ...
 
     @property
-    def midi_gate_list(self) -> Vector[str]:
+    def midi_gate_list(self) -> StringVector:
         """Return the current midi gate list"""
         ...
 
@@ -223,7 +222,7 @@ class SpectralResonatorDevice:
         ...
 
     @property
-    def mod_mode_list(self) -> Vector[str]:
+    def mod_mode_list(self) -> StringVector:
         """Return the current mod mode list"""
         ...
 
@@ -250,7 +249,7 @@ class SpectralResonatorDevice:
         ...
 
     @property
-    def mono_poly_list(self) -> Vector[str]:
+    def mono_poly_list(self) -> StringVector:
         """Return the current mono poly mode list"""
         ...
 
@@ -270,7 +269,7 @@ class SpectralResonatorDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> Vector[DeviceParameter]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -305,7 +304,7 @@ class SpectralResonatorDevice:
         ...
 
     @property
-    def pitch_mode_list(self) -> Vector[str]:
+    def pitch_mode_list(self) -> StringVector:
         """Return the current pitch mode list"""
         ...
 

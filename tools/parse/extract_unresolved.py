@@ -29,6 +29,7 @@ _ARGX_RE = re.compile(r"^arg\d+$")
 def extract(tree: dict, version: str) -> dict:
     """Walk the tree and collect all unresolved items, grouped by path."""
     items: dict[str, dict] = {}
+    iterable_classes = _collect_iterable_classes(tree)
 
     def walk(node: dict, path: str) -> None:
         if node.get("ref"):
@@ -41,7 +42,9 @@ def extract(tree: dict, version: str) -> dict:
         if node_type == "function":
             _check_function(node, current, items)
         elif node_type == "property":
-            _check_property(node, current, items)
+            _check_property(node, current, items, iterable_classes)
+        elif node_type == "class":
+            _check_class(node, current, items)
 
         for child in node.get("children", []):
             walk(child, current)
@@ -52,6 +55,22 @@ def extract(tree: dict, version: str) -> dict:
             walk(child, module_path)
 
     return {"version": version, "items": items}
+
+
+def _collect_iterable_classes(tree: dict) -> dict[str, bool]:
+    """Collect iterable classes from the tree. Maps name -> whether element_repr is resolved."""
+    iterable: dict[str, bool] = {}
+
+    def walk(node: dict) -> None:
+        if node.get("type") == "class" and node.get("iterable"):
+            iterable[node["name"]] = bool(node.get("element_repr"))
+        for child in node.get("children", []):
+            walk(child)
+
+    for module in tree.get("children", []):
+        for child in module.get("children", []):
+            walk(child)
+    return iterable
 
 
 def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
@@ -99,21 +118,34 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
     items[path] = entry
 
 
-def _check_property(node: dict, path: str, items: dict[str, dict]) -> None:
+def _check_class(node: dict, path: str, items: dict[str, dict]) -> None:
+    """Check a class node for missing element type on iterable classes."""
+    if node.get("iterable") and not node.get("element_repr"):
+        entry: dict = {"needs": ["element_repr"]}
+        if node.get("raw_doc"):
+            entry["raw_doc"] = node["raw_doc"]
+        items[path] = entry
+
+
+def _check_property(node: dict, path: str, items: dict[str, dict], iterable_classes: dict[str, bool]) -> None:
     """Check a property node for missing probed_type or missing element type."""
     if not node.get("probed_type"):
         entry: dict = {"probed_type": None, "needs": ["probed_type"]}
         if node.get("raw_doc"):
             entry["raw_doc"] = node["raw_doc"]
         items[path] = entry
-    elif node.get("iterable") and not node.get("element_repr"):
-        entry = {
-            "probed_type": node["probed_type"],
-            "needs": ["element_repr"],
-        }
-        if node.get("raw_doc"):
-            entry["raw_doc"] = node["raw_doc"]
-        items[path] = entry
+    elif not node.get("element_repr"):
+        probed = node["probed_type"]
+        # Skip if the class itself already has element_repr resolved
+        class_resolved = iterable_classes.get(probed, False)
+        if (probed in iterable_classes or probed == "tuple") and not class_resolved:
+            entry = {
+                "probed_type": probed,
+                "needs": ["element_repr"],
+            }
+            if node.get("raw_doc"):
+                entry["raw_doc"] = node["raw_doc"]
+            items[path] = entry
 
 
 def main():

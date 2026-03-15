@@ -766,37 +766,37 @@
               {
                 "name": "BETA",
                 "type": "str",
-                "id": 5601881520,
+                "id": 5601083504,
                 "value": "'Beta'"
               },
               {
                 "name": "INTRO",
                 "type": "str",
-                "id": 5601881776,
+                "id": 5601027376,
                 "value": "'Intro'"
               },
               {
                 "name": "LITE",
                 "type": "str",
-                "id": 6045920880,
+                "id": 5601089456,
                 "value": "'Lite'"
               },
               {
                 "name": "STANDARD",
                 "type": "str",
-                "id": 6053162736,
+                "id": 5601090800,
                 "value": "'Standard'"
               },
               {
                 "name": "SUITE",
                 "type": "str",
-                "id": 6053162288,
+                "id": 5601094192,
                 "value": "'Suite'"
               },
               {
                 "name": "TRIAL",
                 "type": "str",
-                "id": 5601881456,
+                "id": 5601085488,
                 "value": "'Trial'"
               }
             ]

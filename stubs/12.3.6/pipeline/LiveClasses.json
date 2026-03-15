@@ -25,7 +25,6 @@
         "probed": true,
         "type": "ObjectVector",
         "repr": "<class 'Base.ObjectVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'ADVANCE.Advance.Advance'>",
           "<class 'APICapture.APICapture.APICapture'>",
@@ -55,8 +54,7 @@
       "unavailable_features": {
         "probed": true,
         "type": "UnavailableFeatureVector",
-        "repr": "<class 'Application.UnavailableFeatureVector'>",
-        "iterable": true
+        "repr": "<class 'Application.UnavailableFeatureVector'>"
       },
       "view": {
         "probed": true,
@@ -166,7 +164,8 @@
     "complete": false,
     "constructable": false,
     "properties": {},
-    "getters": {}
+    "getters": {},
+    "iterable": true
   },
   "<class 'Application.Variants'>": {
     "path": "/Live/Application/Variants",
@@ -195,6 +194,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'int'>"
     ]
@@ -205,6 +205,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'ADVANCE.Advance.Advance'>",
       "<class 'APICapture.APICapture.APICapture'>",
@@ -217,6 +218,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'str'>"
     ]
@@ -250,6 +252,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Song.CuePoint'>",
       "<class 'Track.Track'>",
@@ -290,7 +293,6 @@
         "probed": true,
         "type": "BrowserItemVector",
         "repr": "<class 'Browser.BrowserItemVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Browser.BrowserItem'>"
         ]
@@ -321,8 +323,7 @@
       "legacy_libraries": {
         "probed": true,
         "type": "BrowserItemVector",
-        "repr": "<class 'Browser.BrowserItemVector'>",
-        "iterable": true
+        "repr": "<class 'Browser.BrowserItemVector'>"
       },
       "max_for_live": {
         "probed": true,
@@ -357,8 +358,7 @@
       "user_folders": {
         "probed": true,
         "type": "BrowserItemVector",
-        "repr": "<class 'Browser.BrowserItemVector'>",
-        "iterable": true
+        "repr": "<class 'Browser.BrowserItemVector'>"
       },
       "user_library": {
         "probed": true,
@@ -377,7 +377,6 @@
         "probed": true,
         "type": "BrowserItemVector",
         "repr": "<class 'Browser.BrowserItemVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Browser.BrowserItem'>"
         ]
@@ -401,8 +400,7 @@
       "iter_children": {
         "probed": true,
         "type": "BrowserItemIterator",
-        "repr": "<class 'Browser.BrowserItemIterator'>",
-        "iterable": true
+        "repr": "<class 'Browser.BrowserItemIterator'>"
       },
       "name": {
         "probed": true,
@@ -424,7 +422,8 @@
     "complete": true,
     "constructable": false,
     "properties": {},
-    "getters": {}
+    "getters": {},
+    "iterable": true
   },
   "<class 'Browser.BrowserItemVector'>": {
     "path": "/Live/Browser/BrowserItemVector",
@@ -432,6 +431,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Browser.BrowserItem'>"
     ]
@@ -478,7 +478,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -491,7 +490,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -508,7 +506,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -521,7 +518,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -530,7 +526,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -543,7 +538,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -556,7 +550,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -569,7 +562,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -582,7 +574,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -595,7 +586,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -608,7 +598,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -621,7 +610,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -634,7 +622,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -663,7 +650,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -728,7 +714,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'WavetableDevice.WavetableDevice'>",
           "<class 'Device.Device'>"
@@ -805,8 +790,7 @@
       "sends": {
         "probed": true,
         "type": "Vector",
-        "repr": "<class 'Base.Vector'>",
-        "iterable": true
+        "repr": "<class 'Base.Vector'>"
       },
       "volume": {
         "probed": true,
@@ -829,7 +813,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Envelope.Envelope'>"
         ]
@@ -838,7 +821,6 @@
         "probed": true,
         "type": "IntVector",
         "repr": "<class 'Base.IntVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'int'>"
         ]
@@ -1017,7 +999,6 @@
         "probed": true,
         "type": "WarpMarkerVector",
         "repr": "<class 'Clip.WarpMarkerVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Clip.WarpMarker'>"
         ]
@@ -1040,7 +1021,6 @@
         "probed": true,
         "type": "MidiNoteVector",
         "repr": "<class 'Clip.MidiNoteVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Clip.MidiNote'>"
         ]
@@ -1057,14 +1037,12 @@
       "get_selected_notes": {
         "probed": true,
         "type": "tuple",
-        "repr": "<class 'tuple'>",
-        "iterable": true
+        "repr": "<class 'tuple'>"
       },
       "get_selected_notes_extended": {
         "probed": true,
         "type": "MidiNoteVector",
-        "repr": "<class 'Clip.MidiNoteVector'>",
-        "iterable": true
+        "repr": "<class 'Clip.MidiNoteVector'>"
       }
     }
   },
@@ -1151,6 +1129,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Clip.MidiNote'>"
     ]
@@ -1177,6 +1156,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Clip.WarpMarker'>"
     ]
@@ -1261,7 +1241,6 @@
         "probed": true,
         "type": "RoutingChannelVector",
         "repr": "<class 'Track.RoutingChannelVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingChannel'>"
         ]
@@ -1270,7 +1249,6 @@
         "probed": true,
         "type": "RoutingTypeVector",
         "repr": "<class 'Track.RoutingTypeVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingType'>"
         ]
@@ -1334,7 +1312,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -1358,6 +1335,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'DeviceParameter.DeviceParameter'>"
     ]
@@ -1420,7 +1398,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -1451,7 +1428,6 @@
         "probed": true,
         "type": "RoutingChannelVector",
         "repr": "<class 'Track.RoutingChannelVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingChannel'>"
         ]
@@ -1460,7 +1436,6 @@
         "probed": true,
         "type": "RoutingTypeVector",
         "repr": "<class 'Track.RoutingTypeVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingType'>"
         ]
@@ -1541,7 +1516,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1558,7 +1532,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1624,7 +1597,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1637,7 +1609,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1650,7 +1621,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1663,7 +1633,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1676,7 +1645,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1689,7 +1657,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1702,7 +1669,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1715,7 +1681,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1728,7 +1693,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1741,7 +1705,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1754,7 +1717,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1767,7 +1729,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1780,7 +1741,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -1807,7 +1767,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1820,7 +1779,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -1890,7 +1848,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -1938,7 +1895,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'RackDevice.RackDevice'>"
         ]
@@ -2012,8 +1968,7 @@
       "chains": {
         "probed": true,
         "type": "Vector",
-        "repr": "<class 'Base.Vector'>",
-        "iterable": true
+        "repr": "<class 'Base.Vector'>"
       },
       "mute": {
         "probed": true,
@@ -2054,7 +2009,6 @@
         "probed": true,
         "type": "EnvelopeEventVector",
         "repr": "<class 'Envelope.EnvelopeEventVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Envelope.EnvelopeEvent'>"
         ]
@@ -2112,6 +2066,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Envelope.EnvelopeEvent'>"
     ]
@@ -2186,7 +2141,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -2289,7 +2243,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Groove.Groove'>"
         ]
@@ -2343,7 +2296,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -2360,7 +2312,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -2397,7 +2348,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -2602,7 +2552,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -2615,7 +2564,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -2650,7 +2598,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceIO.DeviceIO'>"
         ]
@@ -2659,7 +2606,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceIO.DeviceIO'>"
         ]
@@ -2707,14 +2653,12 @@
       "midi_inputs": {
         "probed": true,
         "type": "Vector",
-        "repr": "<class 'Base.Vector'>",
-        "iterable": true
+        "repr": "<class 'Base.Vector'>"
       },
       "midi_outputs": {
         "probed": true,
         "type": "Vector",
-        "repr": "<class 'Base.Vector'>",
-        "iterable": true
+        "repr": "<class 'Base.Vector'>"
       },
       "name": {
         "probed": true,
@@ -2724,7 +2668,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -2818,7 +2761,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -2860,8 +2802,7 @@
       "cc_value_map": {
         "probed": true,
         "type": "tuple",
-        "repr": "<class 'tuple'>",
-        "iterable": true
+        "repr": "<class 'tuple'>"
       },
       "channel": {
         "probed": true,
@@ -2902,8 +2843,7 @@
       "vel_map": {
         "probed": true,
         "type": "tuple",
-        "repr": "<class 'tuple'>",
-        "iterable": true
+        "repr": "<class 'tuple'>"
       }
     },
     "getters": {}
@@ -2928,8 +2868,7 @@
       "value_pair_map": {
         "probed": true,
         "type": "tuple",
-        "repr": "<class 'tuple'>",
-        "iterable": true
+        "repr": "<class 'tuple'>"
       }
     },
     "getters": {}
@@ -2985,7 +2924,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -3065,7 +3003,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -3074,7 +3011,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -3099,7 +3035,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -3144,8 +3079,7 @@
       "chains": {
         "probed": true,
         "type": "Vector",
-        "repr": "<class 'Base.Vector'>",
-        "iterable": true
+        "repr": "<class 'Base.Vector'>"
       },
       "class_display_name": {
         "probed": true,
@@ -3159,7 +3093,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DrumPad.DrumPad'>"
         ]
@@ -3195,7 +3128,6 @@
         "probed": true,
         "type": "tuple",
         "repr": "<class 'tuple'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'bool'>"
         ]
@@ -3208,7 +3140,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -3216,8 +3147,7 @@
       "return_chains": {
         "probed": true,
         "type": "Vector",
-        "repr": "<class 'Base.Vector'>",
-        "iterable": true
+        "repr": "<class 'Base.Vector'>"
       },
       "selected_variation_index": {
         "probed": true,
@@ -3241,7 +3171,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DrumPad.DrumPad'>"
         ]
@@ -3353,7 +3282,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -3366,7 +3294,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -3441,8 +3368,7 @@
       "slices": {
         "probed": true,
         "type": "tuple",
-        "repr": "<class 'tuple'>",
-        "iterable": true
+        "repr": "<class 'tuple'>"
       },
       "slicing_beat_division": {
         "probed": true,
@@ -3480,7 +3406,6 @@
         "probed": true,
         "type": "WarpMarkerVector",
         "repr": "<class 'Clip.WarpMarkerVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Clip.WarpMarker'>"
         ]
@@ -3514,7 +3439,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'ClipSlot.ClipSlot'>"
         ]
@@ -3620,7 +3544,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -3637,7 +3560,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -3737,7 +3659,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -3973,7 +3894,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Song.CuePoint'>"
         ]
@@ -4085,7 +4005,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.Track'>"
         ]
@@ -4098,7 +4017,6 @@
         "probed": true,
         "type": "IntVector",
         "repr": "<class 'Base.IntVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'int'>"
         ]
@@ -4115,7 +4033,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Scene.Scene'>"
         ]
@@ -4168,7 +4085,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.Track'>"
         ]
@@ -4187,7 +4103,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.Track'>"
         ]
@@ -4311,7 +4226,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4340,7 +4254,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4353,7 +4266,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4366,7 +4278,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4379,7 +4290,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -4396,7 +4306,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4431,7 +4340,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Clip.Clip'>"
         ]
@@ -4482,6 +4390,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Track.RoutingChannel'>"
     ]
@@ -4513,6 +4422,7 @@
     "constructable": false,
     "properties": {},
     "getters": {},
+    "iterable": true,
     "element_reprs": [
       "<class 'Track.RoutingType'>"
     ]
@@ -4534,7 +4444,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Clip.Clip'>"
         ]
@@ -4543,7 +4452,6 @@
         "probed": true,
         "type": "RoutingChannelVector",
         "repr": "<class 'Track.RoutingChannelVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingChannel'>"
         ]
@@ -4552,7 +4460,6 @@
         "probed": true,
         "type": "RoutingTypeVector",
         "repr": "<class 'Track.RoutingTypeVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingType'>"
         ]
@@ -4561,7 +4468,6 @@
         "probed": true,
         "type": "RoutingChannelVector",
         "repr": "<class 'Track.RoutingChannelVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingChannel'>"
         ]
@@ -4570,7 +4476,6 @@
         "probed": true,
         "type": "RoutingTypeVector",
         "repr": "<class 'Track.RoutingTypeVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Track.RoutingType'>"
         ]
@@ -4600,7 +4505,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'ClipSlot.ClipSlot'>"
         ]
@@ -4637,7 +4541,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'Device.Device'>"
         ]
@@ -4701,7 +4604,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4710,7 +4612,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4782,7 +4683,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4791,7 +4691,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -4812,7 +4711,6 @@
         "probed": true,
         "type": "Vector",
         "repr": "<class 'Base.Vector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'TakeLane.TakeLane'>"
         ]
@@ -4927,7 +4825,6 @@
         "probed": true,
         "type": "list",
         "repr": "<class 'list'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'float'>"
         ]
@@ -5026,7 +4923,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -5047,7 +4943,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -5056,7 +4951,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]
@@ -5065,7 +4959,6 @@
         "probed": true,
         "type": "ATimeableValueVector",
         "repr": "<class 'Device.ATimeableValueVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'DeviceParameter.DeviceParameter'>"
         ]
@@ -5096,7 +4989,6 @@
         "probed": true,
         "type": "StringVector",
         "repr": "<class 'Base.StringVector'>",
-        "iterable": true,
         "element_reprs": [
           "<class 'str'>"
         ]

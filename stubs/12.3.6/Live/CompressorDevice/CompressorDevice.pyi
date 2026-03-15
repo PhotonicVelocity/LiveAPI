@@ -2,10 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
-    from Live.Track import RoutingChannel, RoutingType, Track
+    from Live.Device import ATimeableValueVector, Device, DeviceType
+    from Live.Track import RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector, Track
 
 
 
@@ -45,7 +43,7 @@ class CompressorDevice:
         ...
 
     @property
-    def available_input_routing_channels(self) -> Vector[RoutingChannel]:
+    def available_input_routing_channels(self) -> RoutingChannelVector:
         """Return a list of source channels for input routing in the sidechain."""
         ...
 
@@ -57,7 +55,7 @@ class CompressorDevice:
         ...
 
     @property
-    def available_input_routing_types(self) -> Vector[RoutingType]:
+    def available_input_routing_types(self) -> RoutingTypeVector:
         """Return a list of source types for input routing in the sidechain."""
         ...
 
@@ -168,7 +166,7 @@ class CompressorDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> Vector[DeviceParameter]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 

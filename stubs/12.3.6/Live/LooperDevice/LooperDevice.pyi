@@ -2,11 +2,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
+    from Live.Base import StringVector
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
@@ -163,7 +162,7 @@ class LooperDevice:
         ...
 
     @property
-    def parameters(self) -> Vector[DeviceParameter]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -191,7 +190,7 @@ class LooperDevice:
         ...
 
     @property
-    def record_length_list(self) -> Vector[str]:
+    def record_length_list(self) -> StringVector:
         """Read-only access to the list of Record Length chooser entry strings."""
         ...
 

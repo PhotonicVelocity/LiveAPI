@@ -13,7 +13,7 @@ class BrowserItem:
     """This class represents an item of the browser hierarchy."""
 
     @property
-    def children(self) -> Vector[BrowserItem]:
+    def children(self) -> BrowserItemVector:
         """Const access to the descendants of this browser item."""
         ...
 
@@ -57,7 +57,7 @@ class BrowserItem:
         """The uri describes a unique identifier for a browser item."""
         ...
 
-class BrowserItemIterator:
+class BrowserItemIterator(Vector[BrowserItem]):
     """This class iterates over children of another BrowserItem."""
 
 class BrowserItemVector(Vector[BrowserItem]):

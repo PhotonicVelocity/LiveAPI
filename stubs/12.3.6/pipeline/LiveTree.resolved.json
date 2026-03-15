@@ -864,7 +864,6 @@
                 "raw_doc": "Const access to a list of the control surfaces selected in preferences, in the same order.\nThe list contains None if no control surface is active at that index.",
                 "probed_type": "ObjectVector",
                 "probed_repr": "<class 'Base.ObjectVector'>",
-                "iterable": true,
                 "element_repr": "<class 'object'>"
               },
               {
@@ -1428,7 +1427,6 @@
                 "raw_doc": "List of features that are unavailable due to limitations of the current Live edition.",
                 "probed_type": "UnavailableFeatureVector",
                 "probed_repr": "<class 'Application.UnavailableFeatureVector'>",
-                "iterable": true,
                 "element_repr": "<class 'UnavailableFeature'>"
               },
               {
@@ -1509,6 +1507,8 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
+            "element_repr": "<class 'ControlDescription'>",
             "children": [
               {
                 "name": "append",
@@ -1664,7 +1664,8 @@
                 "id": 4578631872,
                 "settable": false,
                 "raw_doc": null,
-                "probed_type": "ControlDescriptionVector"
+                "probed_type": "ControlDescriptionVector",
+                "element_repr": "<class 'ControlDescription'>"
               },
               {
                 "name": "control_values_arrived_has_listener",
@@ -1710,7 +1711,7 @@
                     "default": null
                   },
                   {
-                    "name": "enable",
+                    "name": "enabled",
                     "type": "bool",
                     "optional": false,
                     "default": null
@@ -2124,6 +2125,8 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
+            "element_repr": "<class 'UnavailableFeature'>",
             "children": [
               {
                 "name": "append",
@@ -2195,37 +2198,37 @@
               {
                 "name": "BETA",
                 "type": "str",
-                "id": 5601881520,
+                "id": 5601083504,
                 "value": "'Beta'"
               },
               {
                 "name": "INTRO",
                 "type": "str",
-                "id": 5601881776,
+                "id": 5601027376,
                 "value": "'Intro'"
               },
               {
                 "name": "LITE",
                 "type": "str",
-                "id": 6045920880,
+                "id": 5601089456,
                 "value": "'Lite'"
               },
               {
                 "name": "STANDARD",
                 "type": "str",
-                "id": 6053162736,
+                "id": 5601090800,
                 "value": "'Standard'"
               },
               {
                 "name": "SUITE",
                 "type": "str",
-                "id": 6053162288,
+                "id": 5601094192,
                 "value": "'Suite'"
               },
               {
                 "name": "TRIAL",
                 "type": "str",
-                "id": 5601881456,
+                "id": 5601085488,
                 "value": "'Trial'"
               }
             ]
@@ -2274,7 +2277,7 @@
               }
             ],
             "returns": {
-              "type": "tuple[int, ...]"
+              "type": "tuple[int, int]"
             }
           },
           {
@@ -2358,6 +2361,8 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
+            "element_repr": "<class 'float'>",
             "children": [
               {
                 "name": "append",
@@ -2425,6 +2430,8 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
+            "element_repr": "<class 'int'>",
             "children": [
               {
                 "name": "append",
@@ -2492,6 +2499,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'int'>",
             "children": [
               {
@@ -2569,6 +2577,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'object'>",
             "children": [
               {
@@ -2616,7 +2625,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "Iterable[Any]",
+                    "type": "list[Any]",
                     "optional": false,
                     "default": null
                   }
@@ -2637,6 +2646,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'str'>",
             "children": [
               {
@@ -2811,6 +2821,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'LomObject.LomObject'>",
             "children": [
               {
@@ -3104,7 +3115,6 @@
                 "raw_doc": "Returns a list of browser items containing the configured colors.",
                 "probed_type": "BrowserItemVector",
                 "probed_repr": "<class 'Browser.BrowserItemVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Browser.BrowserItem'>"
               },
               {
@@ -3239,7 +3249,6 @@
                 "raw_doc": "Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed.",
                 "probed_type": "BrowserItemVector",
                 "probed_repr": "<class 'Browser.BrowserItemVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Browser.BrowserItem'>"
               },
               {
@@ -3487,7 +3496,6 @@
                 "raw_doc": "Returns a list of browser items containing all the user folders.",
                 "probed_type": "BrowserItemVector",
                 "probed_repr": "<class 'Browser.BrowserItemVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Browser.BrowserItem'>"
               },
               {
@@ -3520,7 +3528,6 @@
                 "raw_doc": "Const access to the descendants of this browser item.",
                 "probed_type": "BrowserItemVector",
                 "probed_repr": "<class 'Browser.BrowserItemVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Browser.BrowserItem'>"
               },
               {
@@ -3563,7 +3570,6 @@
                 "raw_doc": "Const iterable access to the descendants of this browser item.",
                 "probed_type": "BrowserItemIterator",
                 "probed_repr": "<class 'Browser.BrowserItemIterator'>",
-                "iterable": true,
                 "element_repr": "<class 'BrowserItem'>"
               },
               {
@@ -3601,7 +3607,9 @@
             "init_doc": "Raises an exception\nThis class cannot be instantiated from Python\n",
             "ancestors": [
               "<class 'Boost.Python.instance'>"
-            ]
+            ],
+            "iterable": true,
+            "element_repr": "<class 'BrowserItem'>"
           },
           {
             "name": "BrowserItemVector",
@@ -3613,6 +3621,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'Browser.BrowserItem'>",
             "children": [
               {
@@ -4218,7 +4227,6 @@
                 "raw_doc": "Return the custom bool target list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4264,7 +4272,6 @@
                 "raw_doc": "Return the custom float target 0 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4318,7 +4325,6 @@
                 "raw_doc": "Return the custom float target 10 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4364,7 +4370,6 @@
                 "raw_doc": "Return the custom float target 11 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4402,7 +4407,6 @@
                 "raw_doc": "Return the custom float target 1 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4448,7 +4452,6 @@
                 "raw_doc": "Return the custom float target 2 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4494,7 +4497,6 @@
                 "raw_doc": "Return the custom float target 3 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4540,7 +4542,6 @@
                 "raw_doc": "Return the custom float target 4 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4586,7 +4587,6 @@
                 "raw_doc": "Return the custom float target 5 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4632,7 +4632,6 @@
                 "raw_doc": "Return the custom float target 6 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4678,7 +4677,6 @@
                 "raw_doc": "Return the custom float target 7 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4724,7 +4722,6 @@
                 "raw_doc": "Return the custom float target 8 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4770,7 +4767,6 @@
                 "raw_doc": "Return the custom float target 9 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -4850,7 +4846,6 @@
                 "ref": true,
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -5666,7 +5661,6 @@
                 "raw_doc": "Return const access to all available Devices that are present in the chains\n",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
@@ -6308,7 +6302,6 @@
                 "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter'>"
               },
               {
@@ -7047,7 +7040,7 @@
                   },
                   {
                     "name": "notes",
-                    "type": "Iterable[MidiNoteSpecification]",
+                    "type": "list[MidiNoteSpecification]",
                     "optional": false,
                     "default": null
                   }
@@ -7550,7 +7543,6 @@
                 "raw_doc": "Const access to a list of all automation envelopes for this clip.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Envelope.Envelope'>"
               },
               {
@@ -7561,7 +7553,6 @@
                 "raw_doc": "Available for AudioClips only.\nGet/Set the available warp modes, that can be used.",
                 "probed_type": "IntVector",
                 "probed_repr": "<class 'Base.IntVector'>",
-                "iterable": true,
                 "element_repr": "<class 'int'>"
               },
               {
@@ -7826,7 +7817,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   },
@@ -8151,7 +8142,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   }
@@ -9730,7 +9721,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   }
@@ -10379,7 +10370,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   }
@@ -10676,7 +10667,6 @@
                 "raw_doc": "Available for AudioClips only.\nGet the warp markers for this audio clip.",
                 "probed_type": "WarpMarkerVector",
                 "probed_repr": "<class 'Clip.WarpMarkerVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Clip.WarpMarker'>"
               },
               {
@@ -10950,6 +10940,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'Clip.MidiNote'>",
             "children": [
               {
@@ -11048,6 +11039,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'Clip.WarpMarker'>",
             "children": [
               {
@@ -12211,7 +12203,6 @@
                 "raw_doc": "Return a list of source channels for input routing in the sidechain.",
                 "probed_type": "RoutingChannelVector",
                 "probed_repr": "<class 'Track.RoutingChannelVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingChannel'>"
               },
               {
@@ -12249,7 +12240,6 @@
                 "raw_doc": "Return a list of source types for input routing in the sidechain.",
                 "probed_type": "RoutingTypeVector",
                 "probed_repr": "<class 'Track.RoutingTypeVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingType'>"
               },
               {
@@ -12483,7 +12473,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -12912,6 +12901,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'DeviceParameter.DeviceParameter'>",
             "children": [
               {
@@ -13504,7 +13494,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -13928,7 +13917,6 @@
                 "raw_doc": "Return a list of channels for this IO endpoint.",
                 "probed_type": "RoutingChannelVector",
                 "probed_repr": "<class 'Track.RoutingChannelVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingChannel'>"
               },
               {
@@ -13966,7 +13954,6 @@
                 "raw_doc": "Return a list of available routing types for this IO endpoint.",
                 "probed_type": "RoutingTypeVector",
                 "probed_repr": "<class 'Track.RoutingTypeVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingType'>"
               },
               {
@@ -14739,7 +14726,6 @@
                 "raw_doc": "Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -14847,7 +14833,6 @@
                 "raw_doc": "Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               }
             ]
@@ -15505,7 +15490,6 @@
                 "raw_doc": "Return the filter mod source 1 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15551,7 +15535,6 @@
                 "raw_doc": "Return the filter mod source 2 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15597,7 +15580,6 @@
                 "raw_doc": "Return the lfo mod source list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15643,7 +15625,6 @@
                 "raw_doc": "Return the pitch mod source 1 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15689,7 +15670,6 @@
                 "raw_doc": "Return the pitch mod source 2 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15735,7 +15715,6 @@
                 "raw_doc": "Return the shape mod source list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15781,7 +15760,6 @@
                 "raw_doc": "Return the custom mod source 1 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15827,7 +15805,6 @@
                 "raw_doc": "Return the custom mod source 2 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15873,7 +15850,6 @@
                 "raw_doc": "Return the custom mod source 3 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15919,7 +15895,6 @@
                 "raw_doc": "Return the custom mod target 1 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -15965,7 +15940,6 @@
                 "raw_doc": "Return the custom mod target 2 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -16011,7 +15985,6 @@
                 "raw_doc": "Return the custom mod target 3 list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -16037,7 +16010,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -16604,7 +16576,6 @@
                 "raw_doc": "Return the voice count list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -16650,7 +16621,6 @@
                 "raw_doc": "Return the voice mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               }
             ]
@@ -16933,7 +16903,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -17303,7 +17272,6 @@
                 "raw_doc": "Return const access to all available Devices that are present in the chains\n",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'RackDevice.RackDevice'>"
               },
               {
@@ -17806,7 +17774,6 @@
                 "raw_doc": "Return const access to the list of chains in this drum pad.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Chain'>"
               },
               {
@@ -18347,6 +18314,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'Envelope.EnvelopeEvent'>",
             "children": [
               {
@@ -18956,7 +18924,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -19718,7 +19685,6 @@
                 "raw_doc": "Access to the list of grooves",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Groove.Groove'>"
               },
               {
@@ -20177,7 +20143,6 @@
                 "raw_doc": "Return the current IR categories list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -20258,7 +20223,6 @@
                 "raw_doc": "Return the current IR file list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -20441,7 +20405,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -21580,6 +21543,8 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
+            "element_repr": "<class 'ListenerHandle'>",
             "children": [
               {
                 "name": "append",
@@ -22214,7 +22179,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -22309,7 +22273,6 @@
                 "raw_doc": "Read-only access to the list of Record Length chooser entry strings.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -22800,7 +22763,6 @@
                 "raw_doc": "Const access to a list of all audio inputs of the device.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceIO.DeviceIO'>"
               },
               {
@@ -22838,7 +22800,6 @@
                 "raw_doc": "Const access to a list of all audio outputs of the device.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceIO.DeviceIO'>"
               },
               {
@@ -23114,8 +23075,7 @@
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
-                "element_repr": "<class 'DeviceIO.DeviceIO'>"
+                "element_repr": "<class 'DeviceIO'>"
               },
               {
                 "name": "midi_inputs_has_listener",
@@ -23152,8 +23112,7 @@
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
-                "element_repr": "<class 'DeviceIO.DeviceIO'>"
+                "element_repr": "<class 'DeviceIO'>"
               },
               {
                 "name": "midi_outputs_has_listener",
@@ -23205,7 +23164,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -23785,7 +23743,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -24121,7 +24078,6 @@
                 "raw_doc": null,
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "iterable": true,
                 "element_repr": "<class 'int'>"
               },
               {
@@ -24221,7 +24177,6 @@
                 "raw_doc": null,
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "iterable": true,
                 "element_repr": "<class 'int'>"
               }
             ]
@@ -24270,7 +24225,6 @@
                 "raw_doc": null,
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "iterable": true,
                 "element_repr": "<class 'int'>"
               }
             ]
@@ -24631,7 +24585,7 @@
                 "default": null
               },
               {
-                "name": "avoid_takeover",
+                "name": "needs_takeover",
                 "type": "bool",
                 "optional": false,
                 "default": null
@@ -24676,7 +24630,7 @@
                 "default": null
               },
               {
-                "name": "avoid_takeover",
+                "name": "needs_takeover",
                 "type": "bool",
                 "optional": false,
                 "default": null
@@ -25059,7 +25013,6 @@
                 "raw_doc": "Const access to the Tracks list of Send Amount Device Parameters.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -25421,7 +25374,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -25439,7 +25391,6 @@
                 "raw_doc": "Get the list of presets the plugin offers.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -26473,8 +26424,7 @@
                 "raw_doc": "Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
-                "element_repr": "<class 'Chain.Chain'>"
+                "element_repr": "<class 'Chain'>"
               },
               {
                 "name": "chains_has_listener",
@@ -26581,7 +26531,6 @@
                 "raw_doc": "Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'DrumPad.DrumPad'>"
               },
               {
@@ -26811,7 +26760,6 @@
                 "raw_doc": "A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something",
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "iterable": true,
                 "element_repr": "<class 'bool'>"
               },
               {
@@ -26864,7 +26812,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -27278,8 +27225,7 @@
                 "raw_doc": "Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
-                "element_repr": "<class 'Chain.Chain'>"
+                "element_repr": "<class 'Chain'>"
               },
               {
                 "name": "return_chains_has_listener",
@@ -27412,7 +27358,6 @@
                 "raw_doc": "Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'DrumPad.DrumPad'>"
               },
               {
@@ -27784,7 +27729,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -27933,7 +27877,6 @@
                 "raw_doc": "Return the routing mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -29596,7 +29539,6 @@
                 "raw_doc": "Access to the list of slice points in sample time in the sample.",
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "iterable": true,
                 "element_repr": "<class 'int'>"
               },
               {
@@ -29914,7 +29856,6 @@
                 "raw_doc": "Get the warp markers for this sample.",
                 "probed_type": "WarpMarkerVector",
                 "probed_repr": "<class 'Clip.WarpMarkerVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Clip.WarpMarker'>"
               },
               {
@@ -30377,7 +30318,6 @@
                 "raw_doc": "return a list of clipslots (see class AClipSlot) that this scene covers.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'ClipSlot.ClipSlot'>"
               },
               {
@@ -31359,7 +31299,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -31447,7 +31386,6 @@
                 "raw_doc": "Return the current pitch mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -33199,7 +33137,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -37020,7 +36957,6 @@
                 "raw_doc": "Const access to a list of all cue points of the Live Song.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Song.CuePoint'>"
               },
               {
@@ -39655,7 +39591,6 @@
                 "raw_doc": "Const access to the list of available Return Tracks.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.Track'>"
               },
               {
@@ -39755,7 +39690,6 @@
                 "raw_doc": "Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)",
                 "probed_type": "IntVector",
                 "probed_repr": "<class 'Base.IntVector'>",
-                "iterable": true,
                 "element_repr": "<class 'int'>"
               },
               {
@@ -39863,7 +39797,6 @@
                 "raw_doc": "Const access to a list of all Scenes in the Live Song.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Scene.Scene'>"
               },
               {
@@ -40430,7 +40363,6 @@
                 "raw_doc": "Const access to a list of all Player Tracks in the Live Song, excluding\nthe return and Main Track (see also Song.send_tracks and Song.master_track).\nAt least one MIDI or Audio Track is always available.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.Track'>"
               },
               {
@@ -40561,7 +40493,6 @@
                 "raw_doc": "Const access to a list of all visible Player Tracks in the Live Song, excluding\nthe return and Main Track (see also Song.send_tracks and Song.master_track).\nAt least one MIDI or Audio Track is always available.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.Track'>"
               },
               {
@@ -41122,7 +41053,6 @@
                 "raw_doc": "Return the current frequency dial mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -41255,7 +41185,6 @@
                 "raw_doc": "Return the current midi gate list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -41328,7 +41257,6 @@
                 "raw_doc": "Return the current mod mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -41401,7 +41329,6 @@
                 "raw_doc": "Return the current mono poly mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -41454,7 +41381,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -41542,7 +41468,6 @@
                 "raw_doc": "Return the current pitch mode list",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -42098,7 +42023,6 @@
                 "raw_doc": "Read-only access to the arrangement clips in the take lane.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Clip.Clip'>"
               },
               {
@@ -42390,6 +42314,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'Track.RoutingChannel'>",
             "children": [
               {
@@ -42513,6 +42438,7 @@
             "ancestors": [
               "<class 'Boost.Python.instance'>"
             ],
+            "iterable": true,
             "element_repr": "<class 'Track.RoutingType'>",
             "children": [
               {
@@ -44197,7 +44123,6 @@
                 "raw_doc": "const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Clip.Clip'>"
               },
               {
@@ -44235,7 +44160,6 @@
                 "raw_doc": "Return a list of source channels for input routing.",
                 "probed_type": "RoutingChannelVector",
                 "probed_repr": "<class 'Track.RoutingChannelVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingChannel'>"
               },
               {
@@ -44273,7 +44197,6 @@
                 "raw_doc": "Return a list of source types for input routing.",
                 "probed_type": "RoutingTypeVector",
                 "probed_repr": "<class 'Track.RoutingTypeVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingType'>"
               },
               {
@@ -44311,7 +44234,6 @@
                 "raw_doc": "Return a list of destination channels for output routing.",
                 "probed_type": "RoutingChannelVector",
                 "probed_repr": "<class 'Track.RoutingChannelVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingChannel'>"
               },
               {
@@ -44349,7 +44271,6 @@
                 "raw_doc": "Return a list of destination types for output routing.",
                 "probed_type": "RoutingTypeVector",
                 "probed_repr": "<class 'Track.RoutingTypeVector'>",
-                "iterable": true,
                 "element_repr": "<class 'Track.RoutingType'>"
               },
               {
@@ -44455,7 +44376,6 @@
                 "raw_doc": "const access to the list of clipslots (see class AClipSlot) for this track.\nThe list will be empty for the main and sendtracks.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'ClipSlot.ClipSlot'>"
               },
               {
@@ -44906,7 +44826,6 @@
                 "raw_doc": "Return const access to all available Devices that are present in the Tracks\nDevicechain. This tuple will also include the 'mixer_device' that every Track\nalways has.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'Device.Device'>"
               },
               {
@@ -45468,7 +45387,6 @@
                 "raw_doc": "Const access to the list of available input routings.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -45506,7 +45424,6 @@
                 "raw_doc": "Return a list of all available input sub routings.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -46009,7 +45926,6 @@
                 "raw_doc": "Const access to the list of all available output routings.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -46047,7 +45963,6 @@
                 "raw_doc": "Return a list of all available output sub routings.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -47492,7 +47407,6 @@
                 "raw_doc": "returns the take lanes.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "iterable": true,
                 "element_repr": "<class 'TakeLane.TakeLane'>"
               },
               {
@@ -47889,7 +47803,6 @@
                 "raw_doc": "Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament.",
                 "probed_type": "list",
                 "probed_repr": "<class 'list'>",
-                "iterable": true,
                 "element_repr": "<class 'float'>"
               },
               {
@@ -49133,7 +49046,6 @@
                 "raw_doc": "Get a vector of oscillator 1's wavetable names.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -49276,7 +49188,6 @@
                 "raw_doc": "Get a vector of oscillator 2's wavetable names.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -49314,7 +49225,6 @@
                 "raw_doc": "Get a vector of the available wavetable categories.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {
@@ -49325,7 +49235,6 @@
                 "raw_doc": "Const access to the list of available automatable parameters for this device.",
                 "probed_type": "ATimeableValueVector",
                 "probed_repr": "<class 'Device.ATimeableValueVector'>",
-                "iterable": true,
                 "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
               },
               {
@@ -49966,7 +49875,6 @@
                 "raw_doc": "Get the names of all the visible modulation targets.",
                 "probed_type": "StringVector",
                 "probed_repr": "<class 'Base.StringVector'>",
-                "iterable": true,
                 "element_repr": "<class 'str'>"
               },
               {

@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
+    from Live.Base import StringVector
 
 
 
@@ -120,7 +120,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_bool_target_list(self) -> Vector[str]:
+    def custom_bool_target_list(self) -> StringVector:
         """Return the custom bool target list"""
         ...
 
@@ -140,7 +140,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_0_list(self) -> Vector[str]:
+    def custom_float_target_0_list(self) -> StringVector:
         """Return the custom float target 0 list"""
         ...
 
@@ -168,7 +168,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_10_list(self) -> Vector[str]:
+    def custom_float_target_10_list(self) -> StringVector:
         """Return the custom float target 10 list"""
         ...
 
@@ -188,7 +188,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_11_list(self) -> Vector[str]:
+    def custom_float_target_11_list(self) -> StringVector:
         """Return the custom float target 11 list"""
         ...
 
@@ -200,7 +200,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_1_list(self) -> Vector[str]:
+    def custom_float_target_1_list(self) -> StringVector:
         """Return the custom float target 1 list"""
         ...
 
@@ -220,7 +220,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_2_list(self) -> Vector[str]:
+    def custom_float_target_2_list(self) -> StringVector:
         """Return the custom float target 2 list"""
         ...
 
@@ -240,7 +240,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_3_list(self) -> Vector[str]:
+    def custom_float_target_3_list(self) -> StringVector:
         """Return the custom float target 3 list"""
         ...
 
@@ -260,7 +260,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_4_list(self) -> Vector[str]:
+    def custom_float_target_4_list(self) -> StringVector:
         """Return the custom float target 4 list"""
         ...
 
@@ -280,7 +280,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_5_list(self) -> Vector[str]:
+    def custom_float_target_5_list(self) -> StringVector:
         """Return the custom float target 5 list"""
         ...
 
@@ -300,7 +300,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_6_list(self) -> Vector[str]:
+    def custom_float_target_6_list(self) -> StringVector:
         """Return the custom float target 6 list"""
         ...
 
@@ -320,7 +320,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_7_list(self) -> Vector[str]:
+    def custom_float_target_7_list(self) -> StringVector:
         """Return the custom float target 7 list"""
         ...
 
@@ -340,7 +340,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_8_list(self) -> Vector[str]:
+    def custom_float_target_8_list(self) -> StringVector:
         """Return the custom float target 8 list"""
         ...
 
@@ -360,7 +360,7 @@ class CcControlDevice:
         ...
 
     @property
-    def custom_float_target_9_list(self) -> Vector[str]:
+    def custom_float_target_9_list(self) -> StringVector:
         """Return the custom float target 9 list"""
         ...
 

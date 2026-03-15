@@ -175,6 +175,11 @@ python tools/parse/apply_refinements.py 12.3.6 \
   --input stubs/12.3.6/pipeline/LiveTree.callsite_resolved.json \
   --refinements stubs/12.3.6/pipeline/refinements.llm.json \
   --output stubs/12.3.6/pipeline/LiveTree.resolved.json
+
+# 8. Collect final set of unresolved items (should be minimal at this point)
+python tools/parse/extract_unresolved.py 12.3.6 \
+  --input stubs/12.3.6/pipeline/LiveTree.resolved.json \
+  --output stubs/12.3.6/pipeline/unresolved.final.json
 ```
 
 ### parse_apicapture_results.py
@@ -256,7 +261,7 @@ types, return types, and property types baked in. The resolved tree is the final
 ## Stage 3: Generate Stubs (runs outside Live)
 
 ```
-python tools/parse/generate_stubs.py 12.3.6
+python tools/generate/generate_stubs.py 12.3.6
 ```
 
 Reads `LiveTree.resolved.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement

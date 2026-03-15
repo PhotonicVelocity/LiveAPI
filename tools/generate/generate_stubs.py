@@ -83,15 +83,15 @@ class StubGenerator:
                 for mname, mval in node["members"].items():
                     self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
 
-            # Detect vector types from element_repr on class nodes
+            # Detect vector types from iterable flag on class nodes
             if node_type == "class":
+                if node.get("iterable"):
+                    self._vector_types.add(name)
                 element_repr = node.get("element_repr")
                 if element_repr:
-                    self._vector_types.add(name)
-                    if "APICapture" not in element_repr:
-                        m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-                        if m:
-                            self._vector_element_fallback[name] = m.group(1)
+                    m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                    if m:
+                        self._vector_element_fallback[name] = m.group(1)
 
             # Recurse into children
             for child in node.get("children", []):
@@ -388,13 +388,20 @@ class StubGenerator:
             if probed_type else None
         )
 
-        # Parameterize vector types using element_repr from the property node
-        if type_str and type_str in self._vector_types:
-            elem = self._resolve_element_type(node, type_str, containing_class)
-            if elem:
-                type_str = f"Vector[{elem}]"
-            else:
-                type_str = "Vector"
+        # For generic vector bases (Vector, ObjectVector), parameterize with the
+        # property's element type. For specialized vectors (MidiNoteVector), keep the
+        # concrete class name — the class def already extends Vector[T].
+        _GENERIC_VECTORS = {"Vector", "ObjectVector"}
+        if type_str and type_str in _GENERIC_VECTORS:
+            element_repr = node.get("element_repr")
+            if element_repr:
+                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                if m:
+                    elem = self._resolve_probed_type(
+                        m.group(1), containing_class=containing_class, probed_repr=element_repr,
+                    )
+                    if elem:
+                        type_str = f"Vector[{elem}]"
 
         # Getter
         ret_annotation = f" -> {type_str}" if type_str else ""
@@ -623,19 +630,6 @@ class StubGenerator:
         if elem:
             return f"Vector[{elem}]"
         return "Vector"
-
-    def _resolve_element_type(
-        self, node: dict, vector_type: str, containing_class: str,
-    ) -> str:
-        """Resolve the element type for a vector property from element_repr or fallback."""
-        element_repr = node.get("element_repr")
-        if element_repr:
-            m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-            if m:
-                return self._resolve_probed_type(
-                    m.group(1), containing_class=containing_class, probed_repr=element_repr,
-                )
-        return self._vector_element_fallback.get(vector_type, "")
 
     def _write_docstring(self, doc: str, buf: StringIO, indent: int) -> None:
         """Write a docstring at the given indent level."""

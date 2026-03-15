@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from . import BeatTime, CaptureDestination, CaptureMode, CuePoint, Quantization, RecordingQuantization, SmptTime
-    from Live.Base import Vector
+    from Live.Base import IntVector, Vector
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
@@ -1629,7 +1629,7 @@ class Song:
         ...
 
     @property
-    def scale_intervals(self) -> Vector[int]:
+    def scale_intervals(self) -> IntVector:
         """Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)"""
         ...
 

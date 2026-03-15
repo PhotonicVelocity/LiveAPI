@@ -1,6 +1,12 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 from .Application import Application
+
+if TYPE_CHECKING:
+    from Live.Base import Vector
+
 
 
 class ControlDescription:
@@ -16,7 +22,7 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector:
+class ControlDescriptionVector(Vector[ControlDescription]):
     """A container for returning control descriptions."""
 
     def append(self, value: ControlDescription | None) -> None:
@@ -60,7 +66,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def enable_receive_midi(self, enable: bool | None) -> None:
+    def enable_receive_midi(self, enabled: bool | None) -> None:
         ...
 
     def fetch_received_midi_messages(self) -> tuple[tuple[int, ...], ...]:
@@ -149,7 +155,7 @@ class PushDialogType:
 class UnavailableFeature:
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector:
+class UnavailableFeatureVector(Vector[UnavailableFeature]):
     """A container for returning unavailable features."""
 
     def append(self, value: UnavailableFeature | None) -> None:
@@ -171,7 +177,7 @@ def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
     ...
 
-def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0) -> tuple[int, ...]:
+def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0) -> tuple[int, int]:
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 

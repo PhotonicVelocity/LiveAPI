@@ -844,6 +844,9 @@
       ],
       "needs_element_repr": true
     },
+    "Live.Application.ControlDescriptionVector": {
+      "needs_element_repr": true
+    },
     "Live.Application.ControlSurfaceProxy.control_descriptions": {
       "usage_snippets": [
         "return tuple((c.name for c in self._proxy.control_descriptions))"
@@ -904,12 +907,21 @@
       ],
       "unresolved_property_type": true
     },
+    "Live.Application.UnavailableFeatureVector": {
+      "needs_element_repr": true
+    },
     "Live.Application.encrypt_challenge": {
       "usage_snippets": [
         "encryptor = partial((Live.Application.encrypt_challenge), key_index=1)",
         "expected_response = Live.Application.encrypt_challenge(self._dongle_challenge[0], self._dongle_challenge[1])"
       ],
       "unresolved_return_type": "tuple"
+    },
+    "Live.Base.FloatVector": {
+      "needs_element_repr": true
+    },
+    "Live.Base.IntU64Vector": {
+      "needs_element_repr": true
     },
     "Live.Base.ObjectVector.append": {
       "usage_snippets": [
@@ -961,6 +973,12 @@
       "usage_snippets": [
         "children_iterator = selected_item.iter_children",
         "def iter_children(self):"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.Browser.BrowserItemIterator": {
+      "usage_snippets": [
+        "if isinstance(self._item_iterator, Live.Browser.BrowserItemIterator):"
       ],
       "needs_element_repr": true
     },
@@ -1096,6 +1114,9 @@
         "self.parent.show_message(str(self.device.name + \" Bank: \" + bank_name))"
       ],
       "unresolved_property_type": true
+    },
+    "Live.Listener.ListenerVector": {
+      "needs_element_repr": true
     },
     "Live.MaxDevice.MaxDevice.midi_inputs": {
       "needs_element_repr": true
