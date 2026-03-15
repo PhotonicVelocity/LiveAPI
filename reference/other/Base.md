@@ -87,10 +87,10 @@ A simple read only container for returning python objects.
 
 ### Methods
 
-| Method                          | Returns |
-| ------------------------------- | ------- |
-| [`append()`](#appendvalue-any)  | `None`  |
-| [`extend()`](#extendvalues-any) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-any)          | `None`  |
+| [`extend()`](#extendvalues-iterableany) | `None`  |
 
 #### `append(value: Any)`
 
@@ -98,11 +98,11 @@ A simple read only container for returning python objects.
 - **Args:**
   - `value: Any`
 
-#### `extend(values: Any)`
+#### `extend(values: Iterable[Any])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: Any`
+  - `values: Iterable[Any]`
 
 ## StringVector (Class)
 
@@ -195,10 +195,53 @@ A simple read only container for returning objects from Live.
 
 ### Methods
 
-| Method                                | Returns |
-| ------------------------------------- | ------- |
-| [`append()`](#appendvalue-lomobject)  | `None`  |
-| [`extend()`](#extendvalues-lomobject) | `None`  |
+| Method                                         | Returns          |
+| ---------------------------------------------- | ---------------- |
+| [`__iter__()`](#__iter__)                      | `Iterator[T]`    |
+| [`__getitem__()`](#__getitem__index-int)       | `T`              |
+| [`__getitem__()`](#__getitem__index-slice)     | `Vector[T]`      |
+| [`__getitem__()`](#__getitem__index-int-slice) | `T \| Vector[T]` |
+| [`__len__()`](#__len__)                        | `int`            |
+| [`__contains__()`](#__contains__value-object)  | `bool`           |
+| [`__bool__()`](#__bool__)                      | `bool`           |
+| [`append()`](#appendvalue-lomobject)           | `None`           |
+| [`extend()`](#extendvalues-lomobject)          | `None`           |
+
+#### `__iter__()`
+
+- **Returns:** `Iterator[T]`
+
+#### `__getitem__(index: int)`
+
+- **Returns:** `T`
+- **Args:**
+  - `index: int`
+
+#### `__getitem__(index: slice)`
+
+- **Returns:** `Vector[T]`
+- **Args:**
+  - `index: slice`
+
+#### `__getitem__(index: int | slice)`
+
+- **Returns:** `T | Vector[T]`
+- **Args:**
+  - `index: int | slice`
+
+#### `__len__()`
+
+- **Returns:** `int`
+
+#### `__contains__(value: object)`
+
+- **Returns:** `bool`
+- **Args:**
+  - `value: object`
+
+#### `__bool__()`
+
+- **Returns:** `bool`
 
 #### `append(value: LomObject)`
 

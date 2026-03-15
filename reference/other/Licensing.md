@@ -38,7 +38,7 @@ Interface to the internal licensing services.
 
 | Property                                                                          | Type   | Supports |
 | --------------------------------------------------------------------------------- | ------ | -------- |
-| [`base_product_id`](#base_product_id)                                             | `int`  | `get`    |
+| [`base_product_id`](#base_product_id)                                             | `str`  | `get`    |
 | [`in_sassafras_mode`](#in_sassafras_mode)                                         | `bool` | `get`    |
 | [`license_must_match_variant`](#license_must_match_variant)                       | `bool` | `get`    |
 | [`random_number_for_trial_authorization`](#random_number_for_trial_authorization) | `int`  | `get`    |
@@ -46,7 +46,7 @@ Interface to the internal licensing services.
 
 #### `base_product_id`
 
-- **Type:** `int`
+- **Type:** `str`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -309,14 +309,14 @@ Returns relevant information after unlock
 
 ## Module Functions
 
-| Function                                                                                    | Returns |
-| ------------------------------------------------------------------------------------------- | ------- |
-| [`authorization_clock_days_ahead()`](#authorization_clock_days_ahead)                       | `int`   |
-| [`get_authorization_page_url()`](#get_authorization_page_urlreauthorize-bool-is_trial-bool) | `str`   |
-| [`get_purchase_live_url()`](#get_purchase_live_url)                                         | `str`   |
-| [`get_services_url()`](#get_services_url)                                                   | `str`   |
-| [`get_unlock_dir()`](#get_unlock_dir)                                                       | `tuple` |
-| [`launch_web_browser()`](#launch_web_browserurl-str)                                        | `None`  |
+| Function                                                                                    | Returns            |
+| ------------------------------------------------------------------------------------------- | ------------------ |
+| [`authorization_clock_days_ahead()`](#authorization_clock_days_ahead)                       | `int`              |
+| [`get_authorization_page_url()`](#get_authorization_page_urlreauthorize-bool-is_trial-bool) | `str`              |
+| [`get_purchase_live_url()`](#get_purchase_live_url)                                         | `str`              |
+| [`get_services_url()`](#get_services_url)                                                   | `str`              |
+| [`get_unlock_dir()`](#get_unlock_dir)                                                       | `tuple[str, bool]` |
+| [`launch_web_browser()`](#launch_web_browserurl-str)                                        | `None`             |
 
 ### `authorization_clock_days_ahead()`
 
@@ -347,7 +347,7 @@ Returns the URL against which service calls (e.g. for authorization) can be perf
 
 ### `get_unlock_dir()`
 
-- **Returns:** `tuple`
+- **Returns:** `tuple[str, bool]`
 
 Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.
 

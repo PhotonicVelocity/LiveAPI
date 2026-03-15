@@ -16,7 +16,7 @@ This class represents a Live set.
 
 | Property                                                                              | Type                    | Supports             |
 | ------------------------------------------------------------------------------------- | ----------------------- | -------------------- |
-| [`appointed_device`](#appointed_device)                                               | `None`                  | `get`/`set`/`listen` |
+| [`appointed_device`](#appointed_device)                                               | `Device`                | `get`/`set`/`listen` |
 | [`arrangement_overdub`](#arrangement_overdub)                                         | `bool`                  | `get`/`set`/`listen` |
 | [`back_to_arranger`](#back_to_arranger)                                               | `bool`                  | `get`/`set`/`listen` |
 | [`can_capture_midi`](#can_capture_midi)                                               | `bool`                  | `get`/`listen`       |
@@ -27,7 +27,7 @@ This class represents a Live set.
 | [`canonical_parent`](#canonical_parent)                                               | `None`                  | `get`                |
 | [`clip_trigger_quantization`](#clip_trigger_quantization)                             | `Quantization`          | `get`/`set`/`listen` |
 | [`count_in_duration`](#count_in_duration)                                             | `int`                   | `get`/`listen`       |
-| [`cue_points`](#cue_points)                                                           | `tuple`                 | `get`/`listen`       |
+| [`cue_points`](#cue_points)                                                           | `Vector[CuePoint]`      | `get`/`listen`       |
 | [`current_song_time`](#current_song_time)                                             | `float`                 | `get`/`set`/`listen` |
 | [`exclusive_arm`](#exclusive_arm)                                                     | `bool`                  | `get`/`listen`       |
 | [`exclusive_solo`](#exclusive_solo)                                                   | `bool`                  | `get`                |
@@ -53,12 +53,12 @@ This class represents a Live set.
 | [`punch_out`](#punch_out)                                                             | `bool`                  | `get`/`set`/`listen` |
 | [`re_enable_automation_enabled`](#re_enable_automation_enabled)                       | `bool`                  | `get`/`listen`       |
 | [`record_mode`](#record_mode)                                                         | `bool`                  | `get`/`set`/`listen` |
-| [`return_tracks`](#return_tracks)                                                     | `tuple`                 | `get`/`listen`       |
+| [`return_tracks`](#return_tracks)                                                     | `Vector[Track]`         | `get`/`listen`       |
 | [`root_note`](#root_note)                                                             | `int`                   | `get`/`set`/`listen` |
-| [`scale_intervals`](#scale_intervals)                                                 | `tuple[int, Ellipsis]`  | `get`/`listen`       |
+| [`scale_intervals`](#scale_intervals)                                                 | `Vector[int]`           | `get`/`listen`       |
 | [`scale_mode`](#scale_mode)                                                           | `bool`                  | `get`/`set`/`listen` |
 | [`scale_name`](#scale_name)                                                           | `str`                   | `get`/`set`/`listen` |
-| [`scenes`](#scenes)                                                                   | `tuple`                 | `get`/`listen`       |
+| [`scenes`](#scenes)                                                                   | `Vector[Scene]`         | `get`/`listen`       |
 | [`select_on_launch`](#select_on_launch)                                               | `bool`                  | `get`                |
 | [`session_automation_record`](#session_automation_record)                             | `bool`                  | `get`/`set`/`listen` |
 | [`session_record`](#session_record)                                                   | `bool`                  | `get`/`set`/`listen` |
@@ -70,14 +70,14 @@ This class represents a Live set.
 | [`swing_amount`](#swing_amount)                                                       | `float`                 | `get`/`set`/`listen` |
 | [`tempo`](#tempo)                                                                     | `float`                 | `get`/`set`/`listen` |
 | [`tempo_follower_enabled`](#tempo_follower_enabled)                                   | `bool`                  | `get`/`set`/`listen` |
-| [`tracks`](#tracks)                                                                   | `tuple`                 | `get`/`listen`       |
+| [`tracks`](#tracks)                                                                   | `Vector[Track]`         | `get`/`listen`       |
 | [`tuning_system`](#tuning_system)                                                     | `TuningSystem`          | `get`/`listen`       |
 | [`view`](#view)                                                                       | `View`                  | `get`                |
-| [`visible_tracks`](#visible_tracks)                                                   | `tuple`                 | `get`/`listen`       |
+| [`visible_tracks`](#visible_tracks)                                                   | `Vector[Track]`         | `get`/`listen`       |
 
 #### `appointed_device`
 
-- **Type:** `None`
+- **Type:** `Device`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 
@@ -165,7 +165,7 @@ Get the count in duration. Returns an index, mapped as follows: 0 - None, 1 - 1 
 
 #### `cue_points`
 
-- **Type:** `tuple`
+- **Type:** `Vector[CuePoint]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -373,7 +373,7 @@ Get/Set the state of the global recording flag.
 
 #### `return_tracks`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Track]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -389,7 +389,7 @@ Set and access the root (i.e. key) of the song. The root can be a number between
 
 #### `scale_intervals`
 
-- **Type:** `tuple[int, Ellipsis]`
+- **Type:** `Vector[int]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -413,7 +413,7 @@ Set and access the currently selected scale by name. The default scale names tha
 
 #### `scenes`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Scene]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -509,7 +509,7 @@ Get/Set whether the Tempo Follower is controlling the tempo. The Tempo Follower 
 
 #### `tracks`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Track]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -533,7 +533,7 @@ Representing the view aspects of a Live document: The Session and Arrangerview.
 
 #### `visible_tracks`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Track]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -863,7 +863,7 @@ Representing the view aspects of a Live document: The Session and Arrangerview.
 | Property                                          | Type       | Supports             |
 | ------------------------------------------------- | ---------- | -------------------- |
 | [`canonical_parent`](#canonical_parent)           | `Song`     | `get`                |
-| [`detail_clip`](#detail_clip)                     | `Clip`     | `get`/`set`/`listen` |
+| [`detail_clip`](#detail_clip)                     | `None`     | `get`/`set`/`listen` |
 | [`draw_mode`](#draw_mode)                         | `bool`     | `get`/`set`/`listen` |
 | [`follow_song`](#follow_song)                     | `bool`     | `get`/`set`/`listen` |
 | [`highlighted_clip_slot`](#highlighted_clip_slot) | `ClipSlot` | `get`/`set`          |
@@ -882,7 +882,7 @@ Get the canonical parent of the song view.
 
 #### `detail_clip`
 
-- **Type:** `Clip`
+- **Type:** `None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 
@@ -1180,12 +1180,12 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 ## Module Functions
 
-| Function                                              | Returns |
-| ----------------------------------------------------- | ------- |
-| [`get_all_scales_ordered()`](#get_all_scales_ordered) | `tuple` |
+| Function                                              | Returns                                             |
+| ----------------------------------------------------- | --------------------------------------------------- |
+| [`get_all_scales_ordered()`](#get_all_scales_ordered) | `tuple[tuple[str, tuple[int, Ellipsis]], Ellipsis]` |
 
 ### `get_all_scales_ordered()`
 
-- **Returns:** `tuple`
+- **Returns:** `tuple[tuple[str, tuple[int, Ellipsis]], Ellipsis]`
 
 Get an ordered tuple of tuples of all available scale names to intervals.

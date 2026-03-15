@@ -10,15 +10,15 @@ This class represents a take lane in Live.
 
 ### Properties
 
-| Property                                  | Type    | Supports             |
-| ----------------------------------------- | ------- | -------------------- |
-| [`arrangement_clips`](#arrangement_clips) | `tuple` | `get`/`listen`       |
-| [`canonical_parent`](#canonical_parent)   | `Track` | `get`                |
-| [`name`](#name)                           | `str`   | `get`/`set`/`listen` |
+| Property                                  | Type           | Supports             |
+| ----------------------------------------- | -------------- | -------------------- |
+| [`arrangement_clips`](#arrangement_clips) | `Vector[Clip]` | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)   | `Track`        | `get`                |
+| [`name`](#name)                           | `str`          | `get`/`set`/`listen` |
 
 #### `arrangement_clips`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Clip]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

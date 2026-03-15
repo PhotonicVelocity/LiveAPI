@@ -33,7 +33,7 @@ Get the canonical parent of the envelope.
 | ------------------------------------------------------------------------------------ | --------------------- |
 | [`delete_events_in_range()`](#delete_events_in_rangestart_time-float-end_time-float) | `None`                |
 | [`events_in_range()`](#events_in_rangestart_time-float-end_time-float)               | `EnvelopeEventVector` |
-| [`insert_step()`](#insert_stepstart-float-length-float-value-float)                  | `None`                |
+| [`insert_step()`](#insert_stepstart_time-float-length-float-value-float)             | `None`                |
 | [`value_at_time()`](#value_at_timetime-float)                                        | `float`               |
 
 #### `delete_events_in_range(start_time: float, end_time: float)`
@@ -54,11 +54,11 @@ Deletes the events in the specified time range.
 
 Returns the events in the specified time range.
 
-#### `insert_step(start: float, length: float, value: float)`
+#### `insert_step(start_time: float, length: float, value: float)`
 
 - **Returns:** `None`
 - **Args:**
-  - `start: float`
+  - `start_time: float`
   - `length: float`
   - `value: float`
 

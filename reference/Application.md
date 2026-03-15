@@ -12,19 +12,19 @@ This class represents the Live application.
 
 ### Properties
 
-| Property                                                      | Type                                  | Supports       |
-| ------------------------------------------------------------- | ------------------------------------- | -------------- |
-| [`average_process_usage`](#average_process_usage)             | `float`                               | `get`/`listen` |
-| [`browser`](#browser)                                         | `Browser`                             | `get`          |
-| [`canonical_parent`](#canonical_parent)                       | `None`                                | `get`          |
-| [`control_surfaces`](#control_surfaces)                       | `tuple[object, Ellipsis]`             | `get`/`listen` |
-| [`current_dialog_button_count`](#current_dialog_button_count) | `int`                                 | `get`          |
-| [`current_dialog_message`](#current_dialog_message)           | `str`                                 | `get`          |
-| [`number_of_push_apps_running`](#number_of_push_apps_running) | `int`                                 | `get`          |
-| [`open_dialog_count`](#open_dialog_count)                     | `int`                                 | `get`/`listen` |
-| [`peak_process_usage`](#peak_process_usage)                   | `float`                               | `get`/`listen` |
-| [`unavailable_features`](#unavailable_features)               | `tuple[UnavailableFeature, Ellipsis]` | `get`/`listen` |
-| [`view`](#view)                                               | `View`                                | `get`          |
+| Property                                                      | Type                       | Supports       |
+| ------------------------------------------------------------- | -------------------------- | -------------- |
+| [`average_process_usage`](#average_process_usage)             | `float`                    | `get`/`listen` |
+| [`browser`](#browser)                                         | `Browser`                  | `get`          |
+| [`canonical_parent`](#canonical_parent)                       | `None`                     | `get`          |
+| [`control_surfaces`](#control_surfaces)                       | `Vector[object]`           | `get`/`listen` |
+| [`current_dialog_button_count`](#current_dialog_button_count) | `int`                      | `get`          |
+| [`current_dialog_message`](#current_dialog_message)           | `str`                      | `get`          |
+| [`number_of_push_apps_running`](#number_of_push_apps_running) | `int`                      | `get`          |
+| [`open_dialog_count`](#open_dialog_count)                     | `int`                      | `get`/`listen` |
+| [`peak_process_usage`](#peak_process_usage)                   | `float`                    | `get`/`listen` |
+| [`unavailable_features`](#unavailable_features)               | `UnavailableFeatureVector` | `get`/`listen` |
+| [`view`](#view)                                               | `View`                     | `get`          |
 
 #### `average_process_usage`
 
@@ -52,7 +52,7 @@ Returns the canonical parent of the application.
 
 #### `control_surfaces`
 
-- **Type:** `tuple[object, Ellipsis]`
+- **Type:** `Vector[object]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -100,7 +100,7 @@ Reports Live's peak CPU load.
 
 #### `unavailable_features`
 
-- **Type:** `tuple[UnavailableFeature, Ellipsis]`
+- **Type:** `UnavailableFeatureVector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -125,7 +125,7 @@ Returns the applications view component.
 | [`get_minor_version()`](#get_minor_version)                                                                                                                                                 | `int`   |
 | [`get_variant()`](#get_variant)                                                                                                                                                             | `str`   |
 | [`get_version_string()`](#get_version_string)                                                                                                                                               | `str`   |
-| [`has_option()`](#has_optionsection_name-str)                                                                                                                                               | `bool`  |
+| [`has_option()`](#has_optionoption_name-str)                                                                                                                                                | `bool`  |
 | [`press_current_dialog_button()`](#press_current_dialog_buttonindex-int)                                                                                                                    | `None`  |
 | [`show_message()`](#show_messagetext-text-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false)                                                               | `int`   |
 | [`show_on_the_fly_message()`](#show_on_the_fly_messagemessage-str-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false-push_dialog_type-pushdialogtype-int-0) | `int`   |
@@ -172,11 +172,11 @@ Returns one of the strings in Live.Application.Variants.
 
 Returns the full version string of Live.
 
-#### `has_option(section_name: str)`
+#### `has_option(option_name: str)`
 
 - **Returns:** `bool`
 - **Args:**
-  - `section_name: str`
+  - `option_name: str`
 
 Returns True if the given entry exists in Options.txt, False otherwise.
 
@@ -452,15 +452,15 @@ Represents a control surface running in a different process. For use by M4L
 
 ### Properties
 
-| Property                                        | Type                                  | Supports       |
-| ----------------------------------------------- | ------------------------------------- | -------------- |
-| [`control_descriptions`](#control_descriptions) | `tuple[ControlDescription, Ellipsis]` | `get`          |
-| [`pad_layout`](#pad_layout)                     | `str`                                 | `get`/`listen` |
-| [`type_name`](#type_name)                       | `str`                                 | `get`          |
+| Property                                        | Type                       | Supports       |
+| ----------------------------------------------- | -------------------------- | -------------- |
+| [`control_descriptions`](#control_descriptions) | `ControlDescriptionVector` | `get`          |
+| [`pad_layout`](#pad_layout)                     | `str`                      | `get`/`listen` |
+| [`type_name`](#type_name)                       | `str`                      | `get`          |
 
 #### `control_descriptions`
 
-- **Type:** `tuple[ControlDescription, Ellipsis]`
+- **Type:** `ControlDescriptionVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -480,31 +480,31 @@ The layout of pads on Push.
 
 ### Methods
 
-| Method                                                               | Returns |
-| -------------------------------------------------------------------- | ------- |
-| [`enable_receive_midi()`](#enable_receive_midienabled-bool)          | `None`  |
-| [`fetch_received_midi_messages()`](#fetch_received_midi_messages)    | `tuple` |
-| [`fetch_received_values()`](#fetch_received_values)                  | `tuple` |
-| [`grab_control()`](#grab_controlcontrol-int)                         | `None`  |
-| [`release_control()`](#release_controlcontrol-int)                   | `None`  |
-| [`send_midi()`](#send_midimidi_event_bytes-tuple)                    | `None`  |
-| [`send_value()`](#send_valuevalue-tuple)                             | `None`  |
-| [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`  |
-| [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`  |
+| Method                                                               | Returns                                 |
+| -------------------------------------------------------------------- | --------------------------------------- |
+| [`enable_receive_midi()`](#enable_receive_midienable-bool)           | `None`                                  |
+| [`fetch_received_midi_messages()`](#fetch_received_midi_messages)    | `tuple[tuple[int, Ellipsis], Ellipsis]` |
+| [`fetch_received_values()`](#fetch_received_values)                  | `tuple[tuple[int, Any], Ellipsis]`      |
+| [`grab_control()`](#grab_controlcontrol-int)                         | `None`                                  |
+| [`release_control()`](#release_controlcontrol-int)                   | `None`                                  |
+| [`send_midi()`](#send_midimidi_event_bytes-tupleint-ellipsis)        | `None`                                  |
+| [`send_value()`](#send_valuevalue-tupleany-ellipsis)                 | `None`                                  |
+| [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`                                  |
+| [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`                                  |
 
-#### `enable_receive_midi(enabled: bool)`
+#### `enable_receive_midi(enable: bool)`
 
 - **Returns:** `None`
 - **Args:**
-  - `enabled: bool`
+  - `enable: bool`
 
 #### `fetch_received_midi_messages()`
 
-- **Returns:** `tuple`
+- **Returns:** `tuple[tuple[int, Ellipsis], Ellipsis]`
 
 #### `fetch_received_values()`
 
-- **Returns:** `tuple`
+- **Returns:** `tuple[tuple[int, Any], Ellipsis]`
 
 #### `grab_control(control: int)`
 
@@ -518,17 +518,17 @@ The layout of pads on Push.
 - **Args:**
   - `control: int`
 
-#### `send_midi(midi_event_bytes: tuple)`
+#### `send_midi(midi_event_bytes: tuple[int, Ellipsis])`
 
 - **Returns:** `None`
 - **Args:**
-  - `midi_event_bytes: tuple`
+  - `midi_event_bytes: tuple[int, Ellipsis]`
 
-#### `send_value(value: tuple)`
+#### `send_value(value: tuple[Any, Ellipsis])`
 
 - **Returns:** `None`
 - **Args:**
-  - `value: tuple`
+  - `value: tuple[Any, Ellipsis]`
 
 #### `subscribe_to_control(control: int)`
 
@@ -569,13 +569,13 @@ A container for returning unavailable features.
 
 ## Module Functions
 
-| Function                                                                           | Returns       |
-| ---------------------------------------------------------------------------------- | ------------- |
-| [`combine_apcs()`](#combine_apcs)                                                  | `bool`        |
-| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple`       |
-| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`         |
-| [`get_application()`](#get_application)                                            | `Application` |
-| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`         |
+| Function                                                                           | Returns                |
+| ---------------------------------------------------------------------------------- | ---------------------- |
+| [`combine_apcs()`](#combine_apcs)                                                  | `bool`                 |
+| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple[int, Ellipsis]` |
+| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`                  |
+| [`get_application()`](#get_application)                                            | `Application`          |
+| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`                  |
 
 ### `combine_apcs()`
 
@@ -585,7 +585,7 @@ Returns true if multiple APCs should be combined.
 
 ### `encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0)`
 
-- **Returns:** `tuple`
+- **Returns:** `tuple[int, Ellipsis]`
 - **Args:**
   - `dongle1: int`
   - `dongle2: int`

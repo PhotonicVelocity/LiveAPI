@@ -10,51 +10,51 @@ This class represents a Drift device.
 
 ### Properties
 
-| Property                                                                | Type                               | Supports             |
-| ----------------------------------------------------------------------- | ---------------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                                     | `bool`                             | `get`                |
-| [`can_have_chains`](#can_have_chains)                                   | `bool`                             | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)                             | `bool`                             | `get`                |
-| [`canonical_parent`](#canonical_parent)                                 | `Track`                            | `get`                |
-| [`class_display_name`](#class_display_name)                             | `str`                              | `get`                |
-| [`class_name`](#class_name)                                             | `str`                              | `get`                |
-| [`is_active`](#is_active)                                               | `bool`                             | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b)               | `bool`                             | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                                       | `float`                            | `get`                |
-| [`latency_in_samples`](#latency_in_samples)                             | `int`                              | `get`                |
-| [`mod_matrix_filter_source_1_index`](#mod_matrix_filter_source_1_index) | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_filter_source_1_list`](#mod_matrix_filter_source_1_list)   | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_filter_source_2_index`](#mod_matrix_filter_source_2_index) | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_filter_source_2_list`](#mod_matrix_filter_source_2_list)   | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_lfo_source_index`](#mod_matrix_lfo_source_index)           | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_lfo_source_list`](#mod_matrix_lfo_source_list)             | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_pitch_source_1_index`](#mod_matrix_pitch_source_1_index)   | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_pitch_source_1_list`](#mod_matrix_pitch_source_1_list)     | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_pitch_source_2_index`](#mod_matrix_pitch_source_2_index)   | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_pitch_source_2_list`](#mod_matrix_pitch_source_2_list)     | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_shape_source_index`](#mod_matrix_shape_source_index)       | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_shape_source_list`](#mod_matrix_shape_source_list)         | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_source_1_index`](#mod_matrix_source_1_index)               | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_source_1_list`](#mod_matrix_source_1_list)                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_source_2_index`](#mod_matrix_source_2_index)               | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_source_2_list`](#mod_matrix_source_2_list)                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_source_3_index`](#mod_matrix_source_3_index)               | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_source_3_list`](#mod_matrix_source_3_list)                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_target_1_index`](#mod_matrix_target_1_index)               | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_target_1_list`](#mod_matrix_target_1_list)                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_target_2_index`](#mod_matrix_target_2_index)               | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_target_2_list`](#mod_matrix_target_2_list)                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`mod_matrix_target_3_index`](#mod_matrix_target_3_index)               | `int`                              | `get`/`set`/`listen` |
-| [`mod_matrix_target_3_list`](#mod_matrix_target_3_list)                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`name`](#name)                                                         | `str`                              | `get`/`set`          |
-| [`parameters`](#parameters)                                             | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| [`pitch_bend_range`](#pitch_bend_range)                                 | `int`                              | `get`/`set`/`listen` |
-| [`type`](#type)                                                         | `DeviceType`                       | `get`                |
-| [`view`](#view)                                                         | `Device.View`                      | `get`                |
-| [`voice_count_index`](#voice_count_index)                               | `int`                              | `get`/`set`/`listen` |
-| [`voice_count_list`](#voice_count_list)                                 | `tuple[str, Ellipsis]`             | `get`                |
-| [`voice_mode_index`](#voice_mode_index)                                 | `int`                              | `get`/`set`/`listen` |
-| [`voice_mode_list`](#voice_mode_list)                                   | `tuple[str, Ellipsis]`             | `get`                |
+| Property                                                                | Type                      | Supports             |
+| ----------------------------------------------------------------------- | ------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                                     | `bool`                    | `get`                |
+| [`can_have_chains`](#can_have_chains)                                   | `bool`                    | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)                             | `bool`                    | `get`                |
+| [`canonical_parent`](#canonical_parent)                                 | `Track`                   | `get`                |
+| [`class_display_name`](#class_display_name)                             | `str`                     | `get`                |
+| [`class_name`](#class_name)                                             | `str`                     | `get`                |
+| [`is_active`](#is_active)                                               | `bool`                    | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b)               | `bool`                    | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                                       | `float`                   | `get`                |
+| [`latency_in_samples`](#latency_in_samples)                             | `int`                     | `get`                |
+| [`mod_matrix_filter_source_1_index`](#mod_matrix_filter_source_1_index) | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_filter_source_1_list`](#mod_matrix_filter_source_1_list)   | `Vector[str]`             | `get`                |
+| [`mod_matrix_filter_source_2_index`](#mod_matrix_filter_source_2_index) | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_filter_source_2_list`](#mod_matrix_filter_source_2_list)   | `Vector[str]`             | `get`                |
+| [`mod_matrix_lfo_source_index`](#mod_matrix_lfo_source_index)           | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_lfo_source_list`](#mod_matrix_lfo_source_list)             | `Vector[str]`             | `get`                |
+| [`mod_matrix_pitch_source_1_index`](#mod_matrix_pitch_source_1_index)   | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_pitch_source_1_list`](#mod_matrix_pitch_source_1_list)     | `Vector[str]`             | `get`                |
+| [`mod_matrix_pitch_source_2_index`](#mod_matrix_pitch_source_2_index)   | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_pitch_source_2_list`](#mod_matrix_pitch_source_2_list)     | `Vector[str]`             | `get`                |
+| [`mod_matrix_shape_source_index`](#mod_matrix_shape_source_index)       | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_shape_source_list`](#mod_matrix_shape_source_list)         | `Vector[str]`             | `get`                |
+| [`mod_matrix_source_1_index`](#mod_matrix_source_1_index)               | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_source_1_list`](#mod_matrix_source_1_list)                 | `Vector[str]`             | `get`                |
+| [`mod_matrix_source_2_index`](#mod_matrix_source_2_index)               | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_source_2_list`](#mod_matrix_source_2_list)                 | `Vector[str]`             | `get`                |
+| [`mod_matrix_source_3_index`](#mod_matrix_source_3_index)               | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_source_3_list`](#mod_matrix_source_3_list)                 | `Vector[str]`             | `get`                |
+| [`mod_matrix_target_1_index`](#mod_matrix_target_1_index)               | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_target_1_list`](#mod_matrix_target_1_list)                 | `Vector[str]`             | `get`                |
+| [`mod_matrix_target_2_index`](#mod_matrix_target_2_index)               | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_target_2_list`](#mod_matrix_target_2_list)                 | `Vector[str]`             | `get`                |
+| [`mod_matrix_target_3_index`](#mod_matrix_target_3_index)               | `int`                     | `get`/`set`/`listen` |
+| [`mod_matrix_target_3_list`](#mod_matrix_target_3_list)                 | `Vector[str]`             | `get`                |
+| [`name`](#name)                                                         | `str`                     | `get`/`set`          |
+| [`parameters`](#parameters)                                             | `Vector[DeviceParameter]` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                                 | `int`                     | `get`/`set`/`listen` |
+| [`type`](#type)                                                         | `DeviceType`              | `get`                |
+| [`view`](#view)                                                         | `Device.View`             | `get`                |
+| [`voice_count_index`](#voice_count_index)                               | `int`                     | `get`/`set`/`listen` |
+| [`voice_count_list`](#voice_count_list)                                 | `Vector[str]`             | `get`                |
+| [`voice_mode_index`](#voice_mode_index)                                 | `int`                     | `get`/`set`/`listen` |
+| [`voice_mode_list`](#voice_mode_list)                                   | `Vector[str]`             | `get`                |
 
 #### `can_compare_ab`
 
@@ -146,7 +146,7 @@ Return the filter mod source 1 index
 
 #### `mod_matrix_filter_source_1_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -162,7 +162,7 @@ Return the filter mod source 2 index
 
 #### `mod_matrix_filter_source_2_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -178,7 +178,7 @@ Return the lfo mod source index
 
 #### `mod_matrix_lfo_source_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -194,7 +194,7 @@ Return the pitch mod source 1 index
 
 #### `mod_matrix_pitch_source_1_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -210,7 +210,7 @@ Return the pitch mod source 2 index
 
 #### `mod_matrix_pitch_source_2_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -226,7 +226,7 @@ Return the shape mod source index
 
 #### `mod_matrix_shape_source_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -242,7 +242,7 @@ Return the custom mod source 1 index
 
 #### `mod_matrix_source_1_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -258,7 +258,7 @@ Return the custom mod source 2 index
 
 #### `mod_matrix_source_2_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -274,7 +274,7 @@ Return the custom mod source 3 index
 
 #### `mod_matrix_source_3_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -290,7 +290,7 @@ Return the custom mod target 1 index
 
 #### `mod_matrix_target_1_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -306,7 +306,7 @@ Return the custom mod target 2 index
 
 #### `mod_matrix_target_2_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -322,7 +322,7 @@ Return the custom mod target 3 index
 
 #### `mod_matrix_target_3_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -338,7 +338,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -378,7 +378,7 @@ Return the voice count index
 
 #### `voice_count_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -394,7 +394,7 @@ Return the voice mode index
 
 #### `voice_mode_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 

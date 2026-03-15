@@ -10,27 +10,27 @@ This class represents a Looper device.
 
 ### Properties
 
-| Property                                                  | Type                               | Supports             |
-| --------------------------------------------------------- | ---------------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
-| [`class_name`](#class_name)                               | `str`                              | `get`                |
-| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
-| [`loop_length`](#loop_length)                             | `float`                            | `get`/`listen`       |
-| [`name`](#name)                                           | `str`                              | `get`/`set`          |
-| [`overdub_after_record`](#overdub_after_record)           | `bool`                             | `get`/`set`/`listen` |
-| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| [`record_length_index`](#record_length_index)             | `int`                              | `get`/`set`/`listen` |
-| [`record_length_list`](#record_length_list)               | `tuple[str, Ellipsis]`             | `get`                |
-| [`tempo`](#tempo)                                         | `float`                            | `get`/`listen`       |
-| [`type`](#type)                                           | `DeviceType`                       | `get`                |
-| [`view`](#view)                                           | `Device.View`                      | `get`                |
+| Property                                                  | Type                      | Supports             |
+| --------------------------------------------------------- | ------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
+| [`class_name`](#class_name)                               | `str`                     | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
+| [`loop_length`](#loop_length)                             | `float`                   | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                     | `get`/`set`          |
+| [`overdub_after_record`](#overdub_after_record)           | `bool`                    | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
+| [`record_length_index`](#record_length_index)             | `int`                     | `get`/`set`/`listen` |
+| [`record_length_list`](#record_length_list)               | `Vector[str]`             | `get`                |
+| [`tempo`](#tempo)                                         | `float`                   | `get`/`listen`       |
+| [`type`](#type)                                           | `DeviceType`              | `get`                |
+| [`view`](#view)                                           | `Device.View`             | `get`                |
 
 #### `can_compare_ab`
 
@@ -138,7 +138,7 @@ If true, Looper will switch to overdub after recording, when recording a fixed n
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -154,7 +154,7 @@ Access to the Record Length chooser entry index.
 
 #### `record_length_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 

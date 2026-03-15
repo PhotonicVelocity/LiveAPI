@@ -20,65 +20,65 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 ### Properties
 
-| Property                                                                  | Type                              | Supports             |
-| ------------------------------------------------------------------------- | --------------------------------- | -------------------- |
-| [`arm`](#arm)                                                             | `bool`                            | `get`/`set`/`listen` |
-| [`arrangement_clips`](#arrangement_clips)                                 | `tuple`                           | `get`/`listen`       |
-| [`available_input_routing_channels`](#available_input_routing_channels)   | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
-| [`available_input_routing_types`](#available_input_routing_types)         | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
-| [`available_output_routing_channels`](#available_output_routing_channels) | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
-| [`available_output_routing_types`](#available_output_routing_types)       | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
-| [`back_to_arranger`](#back_to_arranger)                                   | `bool`                            | `get`/`set`/`listen` |
-| [`can_be_armed`](#can_be_armed)                                           | `bool`                            | `get`                |
-| [`can_be_frozen`](#can_be_frozen)                                         | `bool`                            | `get`                |
-| [`can_show_chains`](#can_show_chains)                                     | `bool`                            | `get`                |
-| [`canonical_parent`](#canonical_parent)                                   | `Song`                            | `get`                |
-| [`clip_slots`](#clip_slots)                                               | `tuple`                           | `get`/`listen`       |
-| [`color`](#color)                                                         | `int`                             | `get`/`set`/`listen` |
-| [`color_index`](#color_index)                                             | `int`                             | `get`/`set`/`listen` |
-| [`current_input_routing`](#current_input_routing)                         | `str`                             | `get`/`set`/`listen` |
-| [`current_input_sub_routing`](#current_input_sub_routing)                 | `str`                             | `get`/`set`/`listen` |
-| [`current_monitoring_state`](#current_monitoring_state)                   | `int`                             | `get`/`set`/`listen` |
-| [`current_output_routing`](#current_output_routing)                       | `str`                             | `get`/`set`/`listen` |
-| [`current_output_sub_routing`](#current_output_sub_routing)               | `str`                             | `get`/`set`/`listen` |
-| [`devices`](#devices)                                                     | `tuple`                           | `get`/`listen`       |
-| [`fired_slot_index`](#fired_slot_index)                                   | `int`                             | `get`/`listen`       |
-| [`fold_state`](#fold_state)                                               | `bool`                            | `get`/`set`          |
-| [`group_track`](#group_track)                                             | `Track`                           | `get`                |
-| [`has_audio_input`](#has_audio_input)                                     | `bool`                            | `get`/`listen`       |
-| [`has_audio_output`](#has_audio_output)                                   | `bool`                            | `get`/`listen`       |
-| [`has_midi_input`](#has_midi_input)                                       | `bool`                            | `get`/`listen`       |
-| [`has_midi_output`](#has_midi_output)                                     | `bool`                            | `get`/`listen`       |
-| [`implicit_arm`](#implicit_arm)                                           | `bool`                            | `get`/`set`/`listen` |
-| [`input_meter_left`](#input_meter_left)                                   | `float`                           | `get`/`listen`       |
-| [`input_meter_level`](#input_meter_level)                                 | `float`                           | `get`/`listen`       |
-| [`input_meter_right`](#input_meter_right)                                 | `float`                           | `get`/`listen`       |
-| [`input_routing_channel`](#input_routing_channel)                         | `RoutingChannel`                  | `get`/`set`/`listen` |
-| [`input_routing_type`](#input_routing_type)                               | `RoutingType`                     | `get`/`set`/`listen` |
-| [`input_routings`](#input_routings)                                       | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| [`input_sub_routings`](#input_sub_routings)                               | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| [`is_foldable`](#is_foldable)                                             | `bool`                            | `get`                |
-| [`is_frozen`](#is_frozen)                                                 | `bool`                            | `get`/`listen`       |
-| [`is_grouped`](#is_grouped)                                               | `bool`                            | `get`                |
-| [`is_part_of_selection`](#is_part_of_selection)                           | `bool`                            | `get`                |
-| [`is_showing_chains`](#is_showing_chains)                                 | `bool`                            | `get`/`set`/`listen` |
-| [`is_visible`](#is_visible)                                               | `bool`                            | `get`                |
-| [`mixer_device`](#mixer_device)                                           | `MixerDevice`                     | `get`                |
-| [`mute`](#mute)                                                           | `bool`                            | `get`/`set`/`listen` |
-| [`muted_via_solo`](#muted_via_solo)                                       | `bool`                            | `get`/`listen`       |
-| [`name`](#name)                                                           | `str`                             | `get`/`set`/`listen` |
-| [`output_meter_left`](#output_meter_left)                                 | `float`                           | `get`/`listen`       |
-| [`output_meter_level`](#output_meter_level)                               | `float`                           | `get`/`listen`       |
-| [`output_meter_right`](#output_meter_right)                               | `float`                           | `get`/`listen`       |
-| [`output_routing_channel`](#output_routing_channel)                       | `RoutingChannel`                  | `get`/`set`/`listen` |
-| [`output_routing_type`](#output_routing_type)                             | `RoutingType`                     | `get`/`set`/`listen` |
-| [`output_routings`](#output_routings)                                     | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| [`output_sub_routings`](#output_sub_routings)                             | `tuple[str, Ellipsis]`            | `get`/`listen`       |
-| [`performance_impact`](#performance_impact)                               | `float`                           | `get`/`listen`       |
-| [`playing_slot_index`](#playing_slot_index)                               | `int`                             | `get`/`listen`       |
-| [`solo`](#solo)                                                           | `bool`                            | `get`/`set`/`listen` |
-| [`take_lanes`](#take_lanes)                                               | `tuple`                           | `get`/`listen`       |
-| [`view`](#view)                                                           | `View`                            | `get`                |
+| Property                                                                  | Type                     | Supports             |
+| ------------------------------------------------------------------------- | ------------------------ | -------------------- |
+| [`arm`](#arm)                                                             | `bool`                   | `get`/`set`/`listen` |
+| [`arrangement_clips`](#arrangement_clips)                                 | `Vector[Clip]`           | `get`/`listen`       |
+| [`available_input_routing_channels`](#available_input_routing_channels)   | `Vector[RoutingChannel]` | `get`/`listen`       |
+| [`available_input_routing_types`](#available_input_routing_types)         | `Vector[RoutingType]`    | `get`/`listen`       |
+| [`available_output_routing_channels`](#available_output_routing_channels) | `Vector[RoutingChannel]` | `get`/`listen`       |
+| [`available_output_routing_types`](#available_output_routing_types)       | `Vector[RoutingType]`    | `get`/`listen`       |
+| [`back_to_arranger`](#back_to_arranger)                                   | `bool`                   | `get`/`set`/`listen` |
+| [`can_be_armed`](#can_be_armed)                                           | `bool`                   | `get`                |
+| [`can_be_frozen`](#can_be_frozen)                                         | `bool`                   | `get`                |
+| [`can_show_chains`](#can_show_chains)                                     | `bool`                   | `get`                |
+| [`canonical_parent`](#canonical_parent)                                   | `Song`                   | `get`                |
+| [`clip_slots`](#clip_slots)                                               | `Vector[ClipSlot]`       | `get`/`listen`       |
+| [`color`](#color)                                                         | `int`                    | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                                             | `int`                    | `get`/`set`/`listen` |
+| [`current_input_routing`](#current_input_routing)                         | `str`                    | `get`/`set`/`listen` |
+| [`current_input_sub_routing`](#current_input_sub_routing)                 | `str`                    | `get`/`set`/`listen` |
+| [`current_monitoring_state`](#current_monitoring_state)                   | `int`                    | `get`/`set`/`listen` |
+| [`current_output_routing`](#current_output_routing)                       | `str`                    | `get`/`set`/`listen` |
+| [`current_output_sub_routing`](#current_output_sub_routing)               | `str`                    | `get`/`set`/`listen` |
+| [`devices`](#devices)                                                     | `Vector[Device]`         | `get`/`listen`       |
+| [`fired_slot_index`](#fired_slot_index)                                   | `int`                    | `get`/`listen`       |
+| [`fold_state`](#fold_state)                                               | `bool`                   | `get`/`set`          |
+| [`group_track`](#group_track)                                             | `Track`                  | `get`                |
+| [`has_audio_input`](#has_audio_input)                                     | `bool`                   | `get`/`listen`       |
+| [`has_audio_output`](#has_audio_output)                                   | `bool`                   | `get`/`listen`       |
+| [`has_midi_input`](#has_midi_input)                                       | `bool`                   | `get`/`listen`       |
+| [`has_midi_output`](#has_midi_output)                                     | `bool`                   | `get`/`listen`       |
+| [`implicit_arm`](#implicit_arm)                                           | `bool`                   | `get`/`set`/`listen` |
+| [`input_meter_left`](#input_meter_left)                                   | `float`                  | `get`/`listen`       |
+| [`input_meter_level`](#input_meter_level)                                 | `float`                  | `get`/`listen`       |
+| [`input_meter_right`](#input_meter_right)                                 | `float`                  | `get`/`listen`       |
+| [`input_routing_channel`](#input_routing_channel)                         | `RoutingChannel`         | `get`/`set`/`listen` |
+| [`input_routing_type`](#input_routing_type)                               | `RoutingType`            | `get`/`set`/`listen` |
+| [`input_routings`](#input_routings)                                       | `Vector[str]`            | `get`/`listen`       |
+| [`input_sub_routings`](#input_sub_routings)                               | `Vector[str]`            | `get`/`listen`       |
+| [`is_foldable`](#is_foldable)                                             | `bool`                   | `get`                |
+| [`is_frozen`](#is_frozen)                                                 | `bool`                   | `get`/`listen`       |
+| [`is_grouped`](#is_grouped)                                               | `bool`                   | `get`                |
+| [`is_part_of_selection`](#is_part_of_selection)                           | `bool`                   | `get`                |
+| [`is_showing_chains`](#is_showing_chains)                                 | `bool`                   | `get`/`set`/`listen` |
+| [`is_visible`](#is_visible)                                               | `bool`                   | `get`                |
+| [`mixer_device`](#mixer_device)                                           | `MixerDevice`            | `get`                |
+| [`mute`](#mute)                                                           | `bool`                   | `get`/`set`/`listen` |
+| [`muted_via_solo`](#muted_via_solo)                                       | `bool`                   | `get`/`listen`       |
+| [`name`](#name)                                                           | `str`                    | `get`/`set`/`listen` |
+| [`output_meter_left`](#output_meter_left)                                 | `float`                  | `get`/`listen`       |
+| [`output_meter_level`](#output_meter_level)                               | `float`                  | `get`/`listen`       |
+| [`output_meter_right`](#output_meter_right)                               | `float`                  | `get`/`listen`       |
+| [`output_routing_channel`](#output_routing_channel)                       | `RoutingChannel`         | `get`/`set`/`listen` |
+| [`output_routing_type`](#output_routing_type)                             | `RoutingType`            | `get`/`set`/`listen` |
+| [`output_routings`](#output_routings)                                     | `Vector[str]`            | `get`/`listen`       |
+| [`output_sub_routings`](#output_sub_routings)                             | `Vector[str]`            | `get`/`listen`       |
+| [`performance_impact`](#performance_impact)                               | `float`                  | `get`/`listen`       |
+| [`playing_slot_index`](#playing_slot_index)                               | `int`                    | `get`/`listen`       |
+| [`solo`](#solo)                                                           | `bool`                   | `get`/`set`/`listen` |
+| [`take_lanes`](#take_lanes)                                               | `Vector[TakeLane]`       | `get`/`listen`       |
+| [`view`](#view)                                                           | `View`                   | `get`                |
 
 #### `arm`
 
@@ -90,7 +90,7 @@ Arm the track for recording. Not available for Main- and Send Tracks.
 
 #### `arrangement_clips`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Clip]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -98,7 +98,7 @@ const access to the list of clips in arrangement viewThe list will be empty for 
 
 #### `available_input_routing_channels`
 
-- **Type:** `tuple[RoutingChannel, Ellipsis]`
+- **Type:** `Vector[RoutingChannel]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -106,7 +106,7 @@ Return a list of source channels for input routing.
 
 #### `available_input_routing_types`
 
-- **Type:** `tuple[RoutingType, Ellipsis]`
+- **Type:** `Vector[RoutingType]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -114,7 +114,7 @@ Return a list of source types for input routing.
 
 #### `available_output_routing_channels`
 
-- **Type:** `tuple[RoutingChannel, Ellipsis]`
+- **Type:** `Vector[RoutingChannel]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -122,7 +122,7 @@ Return a list of destination channels for output routing.
 
 #### `available_output_routing_types`
 
-- **Type:** `tuple[RoutingType, Ellipsis]`
+- **Type:** `Vector[RoutingType]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -170,7 +170,7 @@ Get the canonical parent of the track.
 
 #### `clip_slots`
 
-- **Type:** `tuple`
+- **Type:** `Vector[ClipSlot]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -234,7 +234,7 @@ Get/Set the current active output sub routing. When setting a new routing, the n
 
 #### `devices`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Device]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -346,7 +346,7 @@ Get and set the current source type for input routing. Raises ValueError if the 
 
 #### `input_routings`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -354,7 +354,7 @@ Const access to the list of available input routings.
 
 #### `input_sub_routings`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -482,7 +482,7 @@ Get and set the current destination type for output routing. Raises ValueError i
 
 #### `output_routings`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -490,7 +490,7 @@ Const access to the list of all available output routings.
 
 #### `output_sub_routings`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -522,7 +522,7 @@ Get/Set the solo status of the track. Note that this will not disable the solo s
 
 #### `take_lanes`
 
-- **Type:** `tuple`
+- **Type:** `Vector[TakeLane]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

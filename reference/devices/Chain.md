@@ -10,22 +10,22 @@ This class represents a group device chain in Live.
 
 ### Properties
 
-| Property                                | Type               | Supports             |
-| --------------------------------------- | ------------------ | -------------------- |
-| [`canonical_parent`](#canonical_parent) | `RackDevice`       | `get`                |
-| [`color`](#color)                       | `int`              | `get`/`set`/`listen` |
-| [`color_index`](#color_index)           | `int`              | `get`/`set`/`listen` |
-| [`devices`](#devices)                   | `tuple`            | `get`/`listen`       |
-| [`has_audio_input`](#has_audio_input)   | `bool`             | `get`                |
-| [`has_audio_output`](#has_audio_output) | `bool`             | `get`                |
-| [`has_midi_input`](#has_midi_input)     | `bool`             | `get`                |
-| [`has_midi_output`](#has_midi_output)   | `bool`             | `get`                |
-| [`is_auto_colored`](#is_auto_colored)   | `bool`             | `get`/`set`/`listen` |
-| [`mixer_device`](#mixer_device)         | `ChainMixerDevice` | `get`                |
-| [`mute`](#mute)                         | `bool`             | `get`/`set`/`listen` |
-| [`muted_via_solo`](#muted_via_solo)     | `bool`             | `get`/`listen`       |
-| [`name`](#name)                         | `str`              | `get`/`set`/`listen` |
-| [`solo`](#solo)                         | `bool`             | `get`/`set`/`listen` |
+| Property                                | Type                | Supports             |
+| --------------------------------------- | ------------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `RackDevice`        | `get`                |
+| [`color`](#color)                       | `int`               | `get`/`set`/`listen` |
+| [`color_index`](#color_index)           | `int`               | `get`/`set`/`listen` |
+| [`devices`](#devices)                   | `Vector[LomObject]` | `get`/`listen`       |
+| [`has_audio_input`](#has_audio_input)   | `bool`              | `get`                |
+| [`has_audio_output`](#has_audio_output) | `bool`              | `get`                |
+| [`has_midi_input`](#has_midi_input)     | `bool`              | `get`                |
+| [`has_midi_output`](#has_midi_output)   | `bool`              | `get`                |
+| [`is_auto_colored`](#is_auto_colored)   | `bool`              | `get`/`set`/`listen` |
+| [`mixer_device`](#mixer_device)         | `ChainMixerDevice`  | `get`                |
+| [`mute`](#mute)                         | `bool`              | `get`/`set`/`listen` |
+| [`muted_via_solo`](#muted_via_solo)     | `bool`              | `get`/`listen`       |
+| [`name`](#name)                         | `str`               | `get`/`set`/`listen` |
+| [`solo`](#solo)                         | `bool`              | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -53,7 +53,7 @@ Access the color index of the Chain.
 
 #### `devices`
 
-- **Type:** `tuple`
+- **Type:** `Vector[LomObject]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

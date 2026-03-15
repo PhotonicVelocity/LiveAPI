@@ -10,30 +10,30 @@ This class represents a Max for Live device.
 
 ### Properties
 
-| Property                                                  | Type                               | Supports       |
-| --------------------------------------------------------- | ---------------------------------- | -------------- |
-| [`audio_inputs`](#audio_inputs)                           | `tuple`                            | `get`/`listen` |
-| [`audio_outputs`](#audio_outputs)                         | `tuple`                            | `get`/`listen` |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`          |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`          |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`          |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`          |
-| [`class_display_name`](#class_display_name)               | `str`                              | `get`          |
-| [`class_name`](#class_name)                               | `str`                              | `get`          |
-| [`is_active`](#is_active)                                 | `bool`                             | `get`          |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`    |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`          |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`          |
-| [`midi_inputs`](#midi_inputs)                             | `tuple`                            | `get`/`listen` |
-| [`midi_outputs`](#midi_outputs)                           | `tuple`                            | `get`/`listen` |
-| [`name`](#name)                                           | `str`                              | `get`/`set`    |
-| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`          |
-| [`type`](#type)                                           | `DeviceType`                       | `get`          |
-| [`view`](#view)                                           | `Device.View`                      | `get`          |
+| Property                                                  | Type                      | Supports       |
+| --------------------------------------------------------- | ------------------------- | -------------- |
+| [`audio_inputs`](#audio_inputs)                           | `Vector[DeviceIO]`        | `get`/`listen` |
+| [`audio_outputs`](#audio_outputs)                         | `Vector[DeviceIO]`        | `get`/`listen` |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`          |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`          |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`          |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`          |
+| [`class_display_name`](#class_display_name)               | `str`                     | `get`          |
+| [`class_name`](#class_name)                               | `str`                     | `get`          |
+| [`is_active`](#is_active)                                 | `bool`                    | `get`          |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`    |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`          |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`          |
+| [`midi_inputs`](#midi_inputs)                             | `Vector[DeviceIO]`        | `get`/`listen` |
+| [`midi_outputs`](#midi_outputs)                           | `Vector[DeviceIO]`        | `get`/`listen` |
+| [`name`](#name)                                           | `str`                     | `get`/`set`    |
+| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`          |
+| [`type`](#type)                                           | `DeviceType`              | `get`          |
+| [`view`](#view)                                           | `Device.View`             | `get`          |
 
 #### `audio_inputs`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DeviceIO]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -41,7 +41,7 @@ Const access to a list of all audio inputs of the device.
 
 #### `audio_outputs`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DeviceIO]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -129,7 +129,7 @@ Returns the latency of the device in samples.
 
 #### `midi_inputs`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DeviceIO]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -137,7 +137,7 @@ Const access to a list of all midi outputs of the device.
 
 #### `midi_outputs`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DeviceIO]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -153,7 +153,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `no`
 

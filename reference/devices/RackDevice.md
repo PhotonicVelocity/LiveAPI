@@ -10,35 +10,35 @@ This class represents a Rack device.
 
 ### Properties
 
-| Property                                                  | Type                               | Supports             |
-| --------------------------------------------------------- | ---------------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
-| [`can_show_chains`](#can_show_chains)                     | `bool`                             | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
-| [`chain_selector`](#chain_selector)                       | `DeviceParameter`                  | `get`                |
-| [`chains`](#chains)                                       | `tuple`                            | `get`/`listen`       |
-| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
-| [`class_name`](#class_name)                               | `str`                              | `get`                |
-| [`drum_pads`](#drum_pads)                                 | `tuple`                            | `get`/`listen`       |
-| [`has_drum_pads`](#has_drum_pads)                         | `bool`                             | `get`/`listen`       |
-| [`has_macro_mappings`](#has_macro_mappings)               | `bool`                             | `get`/`listen`       |
-| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
-| [`is_showing_chains`](#is_showing_chains)                 | `bool`                             | `get`/`set`/`listen` |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
-| [`macros_mapped`](#macros_mapped)                         | `tuple`                            | `get`/`listen`       |
-| [`name`](#name)                                           | `str`                              | `get`/`set`          |
-| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| [`return_chains`](#return_chains)                         | `tuple`                            | `get`/`listen`       |
-| [`selected_variation_index`](#selected_variation_index)   | `int`                              | `get`/`set`          |
-| [`type`](#type)                                           | `DeviceType`                       | `get`                |
-| [`variation_count`](#variation_count)                     | `int`                              | `get`/`listen`       |
-| [`view`](#view)                                           | `View`                             | `get`                |
-| [`visible_drum_pads`](#visible_drum_pads)                 | `tuple`                            | `get`/`listen`       |
-| [`visible_macro_count`](#visible_macro_count)             | `int`                              | `get`/`listen`       |
+| Property                                                  | Type                      | Supports             |
+| --------------------------------------------------------- | ------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
+| [`can_show_chains`](#can_show_chains)                     | `bool`                    | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
+| [`chain_selector`](#chain_selector)                       | `DeviceParameter`         | `get`                |
+| [`chains`](#chains)                                       | `Vector[Chain]`           | `get`/`listen`       |
+| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
+| [`class_name`](#class_name)                               | `str`                     | `get`                |
+| [`drum_pads`](#drum_pads)                                 | `Vector[DrumPad]`         | `get`/`listen`       |
+| [`has_drum_pads`](#has_drum_pads)                         | `bool`                    | `get`/`listen`       |
+| [`has_macro_mappings`](#has_macro_mappings)               | `bool`                    | `get`/`listen`       |
+| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
+| [`is_showing_chains`](#is_showing_chains)                 | `bool`                    | `get`/`set`/`listen` |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
+| [`macros_mapped`](#macros_mapped)                         | `tuple`                   | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                     | `get`/`set`          |
+| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
+| [`return_chains`](#return_chains)                         | `Vector[Chain]`           | `get`/`listen`       |
+| [`selected_variation_index`](#selected_variation_index)   | `int`                     | `get`/`set`          |
+| [`type`](#type)                                           | `DeviceType`              | `get`                |
+| [`variation_count`](#variation_count)                     | `int`                     | `get`/`listen`       |
+| [`view`](#view)                                           | `View`                    | `get`                |
+| [`visible_drum_pads`](#visible_drum_pads)                 | `Vector[DrumPad]`         | `get`/`listen`       |
+| [`visible_macro_count`](#visible_macro_count)             | `int`                     | `get`/`listen`       |
 
 #### `can_compare_ab`
 
@@ -90,7 +90,7 @@ Const access to the chain selector parameter.
 
 #### `chains`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Chain]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -114,7 +114,7 @@ Return const access to the name of the device's class.
 
 #### `drum_pads`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DrumPad]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -194,7 +194,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -202,7 +202,7 @@ Const access to the list of available automatable parameters for this device.
 
 #### `return_chains`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Chain]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -242,7 +242,7 @@ Representing the view aspects of a device.
 
 #### `visible_drum_pads`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DrumPad]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

@@ -14,31 +14,31 @@ This class represents a sample file loaded into a Simpler instance.
 
 ### Properties
 
-| Property                                                        | Type                          | Supports             |
-| --------------------------------------------------------------- | ----------------------------- | -------------------- |
-| [`beats_granulation_resolution`](#beats_granulation_resolution) | `int`                         | `get`/`set`/`listen` |
-| [`beats_transient_envelope`](#beats_transient_envelope)         | `float`                       | `get`/`set`/`listen` |
-| [`beats_transient_loop_mode`](#beats_transient_loop_mode)       | `int`                         | `get`/`set`/`listen` |
-| [`canonical_parent`](#canonical_parent)                         | `SimplerDevice`               | `get`                |
-| [`complex_pro_envelope`](#complex_pro_envelope)                 | `float`                       | `get`/`set`/`listen` |
-| [`complex_pro_formants`](#complex_pro_formants)                 | `float`                       | `get`/`set`/`listen` |
-| [`end_marker`](#end_marker)                                     | `int`                         | `get`/`set`/`listen` |
-| [`file_path`](#file_path)                                       | `str`                         | `get`/`listen`       |
-| [`gain`](#gain)                                                 | `float`                       | `get`/`set`/`listen` |
-| [`length`](#length)                                             | `int`                         | `get`                |
-| [`sample_rate`](#sample_rate)                                   | `float`                       | `get`                |
-| [`slices`](#slices)                                             | `tuple`                       | `get`/`listen`       |
-| [`slicing_beat_division`](#slicing_beat_division)               | `int`                         | `get`/`set`/`listen` |
-| [`slicing_region_count`](#slicing_region_count)                 | `int`                         | `get`/`set`/`listen` |
-| [`slicing_sensitivity`](#slicing_sensitivity)                   | `float`                       | `get`/`set`/`listen` |
-| [`slicing_style`](#slicing_style)                               | `int`                         | `get`/`set`/`listen` |
-| [`start_marker`](#start_marker)                                 | `int`                         | `get`/`set`/`listen` |
-| [`texture_flux`](#texture_flux)                                 | `float`                       | `get`/`set`/`listen` |
-| [`texture_grain_size`](#texture_grain_size)                     | `float`                       | `get`/`set`/`listen` |
-| [`tones_grain_size`](#tones_grain_size)                         | `float`                       | `get`/`set`/`listen` |
-| [`warp_markers`](#warp_markers)                                 | `tuple[WarpMarker, Ellipsis]` | `get`/`listen`       |
-| [`warp_mode`](#warp_mode)                                       | `int`                         | `get`/`set`/`listen` |
-| [`warping`](#warping)                                           | `bool`                        | `get`/`set`/`listen` |
+| Property                                                        | Type                 | Supports             |
+| --------------------------------------------------------------- | -------------------- | -------------------- |
+| [`beats_granulation_resolution`](#beats_granulation_resolution) | `int`                | `get`/`set`/`listen` |
+| [`beats_transient_envelope`](#beats_transient_envelope)         | `float`              | `get`/`set`/`listen` |
+| [`beats_transient_loop_mode`](#beats_transient_loop_mode)       | `int`                | `get`/`set`/`listen` |
+| [`canonical_parent`](#canonical_parent)                         | `SimplerDevice`      | `get`                |
+| [`complex_pro_envelope`](#complex_pro_envelope)                 | `float`              | `get`/`set`/`listen` |
+| [`complex_pro_formants`](#complex_pro_formants)                 | `float`              | `get`/`set`/`listen` |
+| [`end_marker`](#end_marker)                                     | `int`                | `get`/`set`/`listen` |
+| [`file_path`](#file_path)                                       | `str`                | `get`/`listen`       |
+| [`gain`](#gain)                                                 | `float`              | `get`/`set`/`listen` |
+| [`length`](#length)                                             | `int`                | `get`                |
+| [`sample_rate`](#sample_rate)                                   | `float`              | `get`                |
+| [`slices`](#slices)                                             | `tuple`              | `get`/`listen`       |
+| [`slicing_beat_division`](#slicing_beat_division)               | `int`                | `get`/`set`/`listen` |
+| [`slicing_region_count`](#slicing_region_count)                 | `int`                | `get`/`set`/`listen` |
+| [`slicing_sensitivity`](#slicing_sensitivity)                   | `float`              | `get`/`set`/`listen` |
+| [`slicing_style`](#slicing_style)                               | `int`                | `get`/`set`/`listen` |
+| [`start_marker`](#start_marker)                                 | `int`                | `get`/`set`/`listen` |
+| [`texture_flux`](#texture_flux)                                 | `float`              | `get`/`set`/`listen` |
+| [`texture_grain_size`](#texture_grain_size)                     | `float`              | `get`/`set`/`listen` |
+| [`tones_grain_size`](#tones_grain_size)                         | `float`              | `get`/`set`/`listen` |
+| [`warp_markers`](#warp_markers)                                 | `Vector[WarpMarker]` | `get`/`listen`       |
+| [`warp_mode`](#warp_mode)                                       | `int`                | `get`/`set`/`listen` |
+| [`warping`](#warping)                                           | `bool`               | `get`/`set`/`listen` |
 
 #### `beats_granulation_resolution`
 
@@ -202,7 +202,7 @@ Access to the Grain Size parameter in Tones Warp Mode.
 
 #### `warp_markers`
 
-- **Type:** `tuple[WarpMarker, Ellipsis]`
+- **Type:** `Vector[WarpMarker]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

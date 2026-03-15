@@ -10,26 +10,27 @@ This class represents a MIDI or Audio DSP-Device in Live.
 
 **Access via:**
 
+- `Song.appointed_device`
 - `Track.View.selected_device`
 
 ### Properties
 
-| Property                                                  | Type                               | Supports             |
-| --------------------------------------------------------- | ---------------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
-| [`class_name`](#class_name)                               | `str`                              | `get`                |
-| [`is_active`](#is_active)                                 | `bool`                             | `get`/`listen`       |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`/`listen` |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`/`listen`       |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`/`listen`       |
-| [`name`](#name)                                           | `str`                              | `get`/`set`/`listen` |
-| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`/`listen`       |
-| [`type`](#type)                                           | `DeviceType`                       | `get`                |
-| [`view`](#view)                                           | `View`                             | `get`                |
+| Property                                                  | Type                      | Supports             |
+| --------------------------------------------------------- | ------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
+| [`class_name`](#class_name)                               | `str`                     | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                    | `get`/`listen`       |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`/`listen` |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`/`listen`       |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                     | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`/`listen`       |
+| [`type`](#type)                                           | `DeviceType`              | `get`                |
+| [`view`](#view)                                           | `View`                    | `get`                |
 
 #### `can_compare_ab`
 
@@ -121,7 +122,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

@@ -14,10 +14,10 @@ This class represents the groove pool in Live.
 
 ### Properties
 
-| Property                                | Type    | Supports       |
-| --------------------------------------- | ------- | -------------- |
-| [`canonical_parent`](#canonical_parent) | `Song`  | `get`          |
-| [`grooves`](#grooves)                   | `tuple` | `get`/`listen` |
+| Property                                | Type             | Supports       |
+| --------------------------------------- | ---------------- | -------------- |
+| [`canonical_parent`](#canonical_parent) | `Song`           | `get`          |
+| [`grooves`](#grooves)                   | `Vector[Groove]` | `get`/`listen` |
 
 #### `canonical_parent`
 
@@ -29,7 +29,7 @@ Get the canonical parent of the groove pool.
 
 #### `grooves`
 
-- **Type:** `tuple`
+- **Type:** `Vector[Groove]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

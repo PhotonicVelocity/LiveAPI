@@ -10,30 +10,30 @@ This class represents a Hybrid Reverb device.
 
 ### Properties
 
-| Property                                                  | Type                               | Supports             |
-| --------------------------------------------------------- | ---------------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
-| [`class_name`](#class_name)                               | `str`                              | `get`                |
-| [`ir_attack_time`](#ir_attack_time)                       | `float`                            | `get`/`set`/`listen` |
-| [`ir_category_index`](#ir_category_index)                 | `int`                              | `get`/`set`/`listen` |
-| [`ir_category_list`](#ir_category_list)                   | `tuple[str, Ellipsis]`             | `get`                |
-| [`ir_decay_time`](#ir_decay_time)                         | `float`                            | `get`/`set`/`listen` |
-| [`ir_file_index`](#ir_file_index)                         | `int`                              | `get`/`set`/`listen` |
-| [`ir_file_list`](#ir_file_list)                           | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| [`ir_size_factor`](#ir_size_factor)                       | `float`                            | `get`/`set`/`listen` |
-| [`ir_time_shaping_on`](#ir_time_shaping_on)               | `bool`                             | `get`/`set`/`listen` |
-| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
-| [`name`](#name)                                           | `str`                              | `get`/`set`          |
-| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| [`type`](#type)                                           | `DeviceType`                       | `get`                |
-| [`view`](#view)                                           | `Device.View`                      | `get`                |
+| Property                                                  | Type                      | Supports             |
+| --------------------------------------------------------- | ------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
+| [`class_name`](#class_name)                               | `str`                     | `get`                |
+| [`ir_attack_time`](#ir_attack_time)                       | `float`                   | `get`/`set`/`listen` |
+| [`ir_category_index`](#ir_category_index)                 | `int`                     | `get`/`set`/`listen` |
+| [`ir_category_list`](#ir_category_list)                   | `Vector[str]`             | `get`                |
+| [`ir_decay_time`](#ir_decay_time)                         | `float`                   | `get`/`set`/`listen` |
+| [`ir_file_index`](#ir_file_index)                         | `int`                     | `get`/`set`/`listen` |
+| [`ir_file_list`](#ir_file_list)                           | `Vector[str]`             | `get`/`listen`       |
+| [`ir_size_factor`](#ir_size_factor)                       | `float`                   | `get`/`set`/`listen` |
+| [`ir_time_shaping_on`](#ir_time_shaping_on)               | `bool`                    | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
+| [`name`](#name)                                           | `str`                     | `get`/`set`          |
+| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
+| [`type`](#type)                                           | `DeviceType`              | `get`                |
+| [`view`](#view)                                           | `Device.View`             | `get`                |
 
 #### `can_compare_ab`
 
@@ -101,7 +101,7 @@ Return the current IR category index
 
 #### `ir_category_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -125,7 +125,7 @@ Return the current IR file index
 
 #### `ir_file_list`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -189,7 +189,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `no`
 

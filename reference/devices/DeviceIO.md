@@ -10,18 +10,18 @@ This class represents a specific input or output bus of a device.
 
 ### Properties
 
-| Property                                                                                | Type                              | Supports             |
-| --------------------------------------------------------------------------------------- | --------------------------------- | -------------------- |
-| [`available_routing_channels`](#available_routing_channels)                             | `tuple[RoutingChannel, Ellipsis]` | `get`/`listen`       |
-| [`available_routing_types`](#available_routing_types)                                   | `tuple[RoutingType, Ellipsis]`    | `get`/`listen`       |
-| [`canonical_parent`](#canonical_parent)                                                 | `MaxDevice`                       | `get`                |
-| [`default_external_routing_channel_is_none`](#default_external_routing_channel_is_none) | `bool`                            | `get`/`set`          |
-| [`routing_channel`](#routing_channel)                                                   | `RoutingChannel`                  | `get`/`set`/`listen` |
-| [`routing_type`](#routing_type)                                                         | `RoutingType`                     | `get`/`set`/`listen` |
+| Property                                                                                | Type                     | Supports             |
+| --------------------------------------------------------------------------------------- | ------------------------ | -------------------- |
+| [`available_routing_channels`](#available_routing_channels)                             | `Vector[RoutingChannel]` | `get`/`listen`       |
+| [`available_routing_types`](#available_routing_types)                                   | `Vector[RoutingType]`    | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)                                                 | `MaxDevice`              | `get`                |
+| [`default_external_routing_channel_is_none`](#default_external_routing_channel_is_none) | `bool`                   | `get`/`set`          |
+| [`routing_channel`](#routing_channel)                                                   | `RoutingChannel`         | `get`/`set`/`listen` |
+| [`routing_type`](#routing_type)                                                         | `RoutingType`            | `get`/`set`/`listen` |
 
 #### `available_routing_channels`
 
-- **Type:** `tuple[RoutingChannel, Ellipsis]`
+- **Type:** `Vector[RoutingChannel]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -29,7 +29,7 @@ Return a list of channels for this IO endpoint.
 
 #### `available_routing_types`
 
-- **Type:** `tuple[RoutingType, Ellipsis]`
+- **Type:** `Vector[RoutingType]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

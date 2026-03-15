@@ -14,20 +14,20 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 
 ### Properties
 
-| Property                                    | Type              | Supports             |
-| ------------------------------------------- | ----------------- | -------------------- |
-| [`canonical_parent`](#canonical_parent)     | `Track`           | `get`                |
-| [`crossfade_assign`](#crossfade_assign)     | `int`             | `get`/`set`/`listen` |
-| [`crossfader`](#crossfader)                 | `DeviceParameter` | `get`                |
-| [`cue_volume`](#cue_volume)                 | `DeviceParameter` | `get`                |
-| [`left_split_stereo`](#left_split_stereo)   | `DeviceParameter` | `get`                |
-| [`panning`](#panning)                       | `DeviceParameter` | `get`                |
-| [`panning_mode`](#panning_mode)             | `int`             | `get`/`set`/`listen` |
-| [`right_split_stereo`](#right_split_stereo) | `DeviceParameter` | `get`                |
-| [`sends`](#sends)                           | `tuple`           | `get`/`listen`       |
-| [`song_tempo`](#song_tempo)                 | `DeviceParameter` | `get`                |
-| [`track_activator`](#track_activator)       | `DeviceParameter` | `get`                |
-| [`volume`](#volume)                         | `DeviceParameter` | `get`                |
+| Property                                    | Type                      | Supports             |
+| ------------------------------------------- | ------------------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)     | `Track`                   | `get`                |
+| [`crossfade_assign`](#crossfade_assign)     | `int`                     | `get`/`set`/`listen` |
+| [`crossfader`](#crossfader)                 | `DeviceParameter`         | `get`                |
+| [`cue_volume`](#cue_volume)                 | `DeviceParameter`         | `get`                |
+| [`left_split_stereo`](#left_split_stereo)   | `DeviceParameter`         | `get`                |
+| [`panning`](#panning)                       | `DeviceParameter`         | `get`                |
+| [`panning_mode`](#panning_mode)             | `int`                     | `get`/`set`/`listen` |
+| [`right_split_stereo`](#right_split_stereo) | `DeviceParameter`         | `get`                |
+| [`sends`](#sends)                           | `Vector[DeviceParameter]` | `get`/`listen`       |
+| [`song_tempo`](#song_tempo)                 | `DeviceParameter`         | `get`                |
+| [`track_activator`](#track_activator)       | `DeviceParameter`         | `get`                |
+| [`volume`](#volume)                         | `DeviceParameter`         | `get`                |
 
 #### `canonical_parent`
 
@@ -95,7 +95,7 @@ Const access to the Track's Right Split Stereo Panning Device Parameter.
 
 #### `sends`
 
-- **Type:** `tuple`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

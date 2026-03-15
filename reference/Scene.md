@@ -15,20 +15,20 @@ This class represents an series of ClipSlots in Lives Sessionview matrix.
 
 ### Properties
 
-| Property                                                    | Type    | Supports             |
-| ----------------------------------------------------------- | ------- | -------------------- |
-| [`canonical_parent`](#canonical_parent)                     | `Song`  | `get`                |
-| [`clip_slots`](#clip_slots)                                 | `tuple` | `get`/`listen`       |
-| [`color`](#color)                                           | `int`   | `get`/`set`/`listen` |
-| [`color_index`](#color_index)                               | `None`  | `get`/`set`/`listen` |
-| [`is_empty`](#is_empty)                                     | `bool`  | `get`                |
-| [`is_triggered`](#is_triggered)                             | `bool`  | `get`/`listen`       |
-| [`name`](#name)                                             | `str`   | `get`/`set`/`listen` |
-| [`tempo`](#tempo)                                           | `float` | `get`/`set`/`listen` |
-| [`tempo_enabled`](#tempo_enabled)                           | `bool`  | `get`/`set`/`listen` |
-| [`time_signature_denominator`](#time_signature_denominator) | `int`   | `get`/`set`/`listen` |
-| [`time_signature_enabled`](#time_signature_enabled)         | `bool`  | `get`/`set`/`listen` |
-| [`time_signature_numerator`](#time_signature_numerator)     | `int`   | `get`/`set`/`listen` |
+| Property                                                    | Type               | Supports             |
+| ----------------------------------------------------------- | ------------------ | -------------------- |
+| [`canonical_parent`](#canonical_parent)                     | `Song`             | `get`                |
+| [`clip_slots`](#clip_slots)                                 | `Vector[ClipSlot]` | `get`/`listen`       |
+| [`color`](#color)                                           | `int`              | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                               | `None`             | `get`/`set`/`listen` |
+| [`is_empty`](#is_empty)                                     | `bool`             | `get`                |
+| [`is_triggered`](#is_triggered)                             | `bool`             | `get`/`listen`       |
+| [`name`](#name)                                             | `str`              | `get`/`set`/`listen` |
+| [`tempo`](#tempo)                                           | `float`            | `get`/`set`/`listen` |
+| [`tempo_enabled`](#tempo_enabled)                           | `bool`             | `get`/`set`/`listen` |
+| [`time_signature_denominator`](#time_signature_denominator) | `int`              | `get`/`set`/`listen` |
+| [`time_signature_enabled`](#time_signature_enabled)         | `bool`             | `get`/`set`/`listen` |
+| [`time_signature_numerator`](#time_signature_numerator)     | `int`              | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -40,7 +40,7 @@ Get the canonical parent of the scene.
 
 #### `clip_slots`
 
-- **Type:** `tuple`
+- **Type:** `Vector[ClipSlot]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

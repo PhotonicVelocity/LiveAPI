@@ -10,24 +10,24 @@ This class represents a plugin device.
 
 ### Properties
 
-| Property                                                  | Type                               | Supports             |
-| --------------------------------------------------------- | ---------------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                             | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                             | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                             | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                            | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                              | `get`                |
-| [`class_name`](#class_name)                               | `str`                              | `get`                |
-| [`is_active`](#is_active)                                 | `bool`                             | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                             | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                            | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                              | `get`                |
-| [`name`](#name)                                           | `str`                              | `get`/`set`          |
-| [`parameters`](#parameters)                               | `tuple[DeviceParameter, Ellipsis]` | `get`                |
-| [`presets`](#presets)                                     | `tuple[str, Ellipsis]`             | `get`/`listen`       |
-| [`selected_preset_index`](#selected_preset_index)         | `int`                              | `get`/`set`/`listen` |
-| [`type`](#type)                                           | `DeviceType`                       | `get`                |
-| [`view`](#view)                                           | `Device.View`                      | `get`                |
+| Property                                                  | Type                      | Supports             |
+| --------------------------------------------------------- | ------------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
+| [`class_name`](#class_name)                               | `str`                     | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
+| [`name`](#name)                                           | `str`                     | `get`/`set`          |
+| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
+| [`presets`](#presets)                                     | `Vector[str]`             | `get`/`listen`       |
+| [`selected_preset_index`](#selected_preset_index)         | `int`                     | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`              | `get`                |
+| [`view`](#view)                                           | `Device.View`             | `get`                |
 
 #### `can_compare_ab`
 
@@ -119,7 +119,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `tuple[DeviceParameter, Ellipsis]`
+- **Type:** `Vector[DeviceParameter]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -127,7 +127,7 @@ Const access to the list of available automatable parameters for this device.
 
 #### `presets`
 
-- **Type:** `tuple[str, Ellipsis]`
+- **Type:** `Vector[str]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
