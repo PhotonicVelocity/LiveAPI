@@ -419,7 +419,9 @@ Access to the selected slice.
 
 ## Enums
 
-### `PlaybackMode`
+### PlaybackMode
+
+> `Live.SimplerDevice.PlaybackMode`
 
 | Value | Name       |
 | ----- | ---------- |
@@ -427,7 +429,9 @@ Access to the selected slice.
 | `1`   | `one_shot` |
 | `2`   | `slicing`  |
 
-### `SlicingPlaybackMode`
+### SlicingPlaybackMode
+
+> `Live.SimplerDevice.SlicingPlaybackMode`
 
 | Value | Name   |
 | ----- | ------ |

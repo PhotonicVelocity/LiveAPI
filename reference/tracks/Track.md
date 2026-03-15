@@ -725,7 +725,9 @@ Selects the track's instrument if it has one.
 
 ## Enums
 
-### `monitoring_states`
+### monitoring_states
+
+> `Live.Track.Track.monitoring_states`
 
 | Value | Name   |
 | ----- | ------ |
@@ -733,7 +735,9 @@ Selects the track's instrument if it has one.
 | `1`   | `AUTO` |
 | `2`   | `OFF`  |
 
-### `DeviceInsertMode`
+### DeviceInsertMode
+
+> `Live.Track.DeviceInsertMode`
 
 | Value | Name             |
 | ----- | ---------------- |
@@ -742,7 +746,9 @@ Selects the track's instrument if it has one.
 | `2`   | `selected_right` |
 | `3`   | `count`          |
 
-### `RoutingChannelLayout`
+### RoutingChannelLayout
+
+> `Live.Track.RoutingChannelLayout`
 
 | Value | Name     |
 | ----- | -------- |
@@ -750,7 +756,9 @@ Selects the track's instrument if it has one.
 | `1`   | `mono`   |
 | `2`   | `stereo` |
 
-### `RoutingTypeCategory`
+### RoutingTypeCategory
+
+> `Live.Track.RoutingTypeCategory`
 
 | Value | Name                 |
 | ----- | -------------------- |

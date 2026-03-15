@@ -890,7 +890,9 @@ Show the entire loop in the detail view.
 
 ## Enums
 
-### `ClipLaunchQuantization`
+### ClipLaunchQuantization
+
+> `Live.Clip.ClipLaunchQuantization`
 
 | Value | Name                  |
 | ----- | --------------------- |
@@ -910,7 +912,9 @@ Show the entire loop in the detail view.
 | `13`  | `q_sixteenth_triplet` |
 | `14`  | `q_thirtysecond`      |
 
-### `GridQuantization`
+### GridQuantization
+
+> `Live.Clip.GridQuantization`
 
 | Value | Name             |
 | ----- | ---------------- |
@@ -926,7 +930,9 @@ Show the entire loop in the detail view.
 | `9`   | `g_thirtysecond` |
 | `10`  | `count`          |
 
-### `LaunchMode`
+### LaunchMode
+
+> `Live.Clip.LaunchMode`
 
 | Value | Name      |
 | ----- | --------- |
@@ -935,7 +941,9 @@ Show the entire loop in the detail view.
 | `2`   | `toggle`  |
 | `3`   | `repeat`  |
 
-### `WarpMode`
+### WarpMode
+
+> `Live.Clip.WarpMode`
 
 | Value | Name          |
 | ----- | ------------- |

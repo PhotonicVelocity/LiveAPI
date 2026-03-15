@@ -191,7 +191,9 @@ Return a string representation of the given value. To be used for display purpos
 
 ## Enums
 
-### `AutomationState`
+### AutomationState
+
+> `Live.DeviceParameter.AutomationState`
 
 | Value | Name         |
 | ----- | ------------ |
@@ -199,7 +201,9 @@ Return a string representation of the given value. To be used for display purpos
 | `1`   | `playing`    |
 | `2`   | `overridden` |
 
-### `ParameterState`
+### ParameterState
+
+> `Live.DeviceParameter.ParameterState`
 
 | Value | Name         |
 | ----- | ------------ |

@@ -298,7 +298,9 @@ Converts the given sample time to beat time. Raises an error if the sample is no
 
 ## Enums
 
-### `SlicingBeatDivision`
+### SlicingBeatDivision
+
+> `Live.Sample.SlicingBeatDivision`
 
 | Value | Name                 |
 | ----- | -------------------- |
@@ -314,7 +316,9 @@ Converts the given sample time to beat time. Raises an error if the sample is no
 | `9`   | `two_bars`           |
 | `10`  | `four_bars`          |
 
-### `SlicingStyle`
+### SlicingStyle
+
+> `Live.Sample.SlicingStyle`
 
 | Value | Name        |
 | ----- | ----------- |
@@ -323,7 +327,9 @@ Converts the given sample time to beat time. Raises an error if the sample is no
 | `2`   | `region`    |
 | `3`   | `manual`    |
 
-### `TransientLoopMode`
+### TransientLoopMode
+
+> `Live.Sample.TransientLoopMode`
 
 | Value | Name        |
 | ----- | ----------- |

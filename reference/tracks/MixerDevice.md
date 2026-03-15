@@ -127,7 +127,9 @@ Const access to the Tracks Volume Device Parameter.
 
 ## Enums
 
-### `crossfade_assignments`
+### crossfade_assignments
+
+> `Live.MixerDevice.MixerDevice.crossfade_assignments`
 
 | Value | Name   |
 | ----- | ------ |
@@ -135,7 +137,9 @@ Const access to the Tracks Volume Device Parameter.
 | `1`   | `NONE` |
 | `2`   | `B`    |
 
-### `panning_modes`
+### panning_modes
+
+> `Live.MixerDevice.MixerDevice.panning_modes`
 
 | Value | Name           |
 | ----- | -------------- |

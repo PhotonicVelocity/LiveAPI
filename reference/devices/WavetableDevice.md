@@ -329,7 +329,9 @@ Set the value of a modulation amount for the given target-source connection.
 
 ## Enums
 
-### `EffectMode`
+### EffectMode
+
+> `Live.WavetableDevice.EffectMode`
 
 | Value | Name                   |
 | ----- | ---------------------- |
@@ -338,7 +340,9 @@ Set the value of a modulation amount for the given target-source connection.
 | `2`   | `sync_and_pulse_width` |
 | `3`   | `warp_and_fold`        |
 
-### `FilterRouting`
+### FilterRouting
+
+> `Live.WavetableDevice.FilterRouting`
 
 | Value | Name       |
 | ----- | ---------- |
@@ -346,7 +350,9 @@ Set the value of a modulation amount for the given target-source connection.
 | `1`   | `parallel` |
 | `2`   | `split`    |
 
-### `ModulationSource`
+### ModulationSource
+
+> `Live.WavetableDevice.ModulationSource`
 
 | Value | Name                    |
 | ----- | ----------------------- |
@@ -362,7 +368,9 @@ Set the value of a modulation amount for the given target-source connection.
 | `9`   | `midi_mod_wheel`        |
 | `10`  | `midi_random`           |
 
-### `UnisonMode`
+### UnisonMode
+
+> `Live.WavetableDevice.UnisonMode`
 
 | Value | Name              |
 | ----- | ----------------- |
@@ -374,7 +382,9 @@ Set the value of a modulation amount for the given target-source connection.
 | `5`   | `position_spread` |
 | `6`   | `random_note`     |
 
-### `VoiceCount`
+### VoiceCount
+
+> `Live.WavetableDevice.VoiceCount`
 
 | Value | Name    |
 | ----- | ------- |
@@ -386,7 +396,9 @@ Set the value of a modulation amount for the given target-source connection.
 | `5`   | `seven` |
 | `6`   | `eight` |
 
-### `Voicing`
+### Voicing
+
+> `Live.WavetableDevice.Voicing`
 
 | Value | Name   |
 | ----- | ------ |

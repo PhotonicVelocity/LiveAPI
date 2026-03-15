@@ -139,7 +139,9 @@ Structure to define feedback properties of MIDI mappings.
 
 ## Enums
 
-### `MapMode`
+### MapMode
+
+> `Live.MidiMap.MapMode`
 
 | Value | Name                             |
 | ----- | -------------------------------- |

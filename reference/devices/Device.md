@@ -198,7 +198,9 @@ Get/Set/Listen if the device is shown collapsed in the device chain.
 
 ## Enums
 
-### `DeviceType`
+### DeviceType
+
+> `Live.Device.DeviceType`
 
 The type of the device.
 

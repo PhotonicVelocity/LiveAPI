@@ -329,9 +329,11 @@ Reveals the device chain, the browser and starts hot swap for the selected devic
 
 Zoom through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
 
-### Enums
+## Enums
 
-#### `NavDirection`
+### NavDirection
+
+> `Live.Application.Application.View.NavDirection`
 
 | Value | Name    |
 | ----- | ------- |
@@ -340,9 +342,9 @@ Zoom through the identifier string specified view into the given direction, if p
 | `2`   | `left`  |
 | `3`   | `right` |
 
-## Enums
+### MessageButtons
 
-### `MessageButtons`
+> `Live.Application.MessageButtons`
 
 Specifies the characteristics of the message box, e.g. which buttons to show.
 
@@ -355,7 +357,9 @@ Specifies the characteristics of the message box, e.g. which buttons to show.
 | `4`   | `OK_ACCOUNT_BUTTON`     |
 | `5`   | `OK_PURCHASE_BUTTON`    |
 
-### `PushDialogType`
+### PushDialogType
+
+> `Live.Application.PushDialogType`
 
 Specifies the dialog type for Push.
 
@@ -365,13 +369,17 @@ Specifies the dialog type for Push.
 | `5`   | `OUT_OF_UNLOCKS_DIALOG`              |
 | `7`   | `RENT_TO_OWN_LICENSE_EXPIRED_DIALOG` |
 
-### `UnavailableFeature`
+### UnavailableFeature
+
+> `Live.Application.UnavailableFeature`
 
 | Value | Name                                     |
 | ----- | ---------------------------------------- |
 | `0`   | `note_velocity_ranges_and_probabilities` |
 
-### `Variants`
+### Variants
+
+> `Live.Application.Variants`
 
 Holds strings representing what type of Live is running.
 

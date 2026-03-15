@@ -208,14 +208,18 @@ Access to the selected filter band.
 
 ## Enums
 
-### `EditMode`
+### EditMode
+
+> `Live.Eq8Device.EditMode`
 
 | Value | Name |
 | ----- | ---- |
 | `0`   | `a`  |
 | `1`   | `b`  |
 
-### `GlobalMode`
+### GlobalMode
+
+> `Live.Eq8Device.GlobalMode`
 
 | Value | Name         |
 | ----- | ------------ |

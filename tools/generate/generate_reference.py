@@ -621,13 +621,35 @@ def _render_class_body(
     return lines
 
 
-def _render_enums_section(enums: list[EnumInfo], heading: str, detail: str) -> list[str]:
-    """Render a module-level Enums section."""
+def _collect_enums_with_paths(
+    cls: ClassInfo,
+    parent_path: str,
+) -> list[tuple[EnumInfo, str]]:
+    """Recursively collect all enums from a class and its inner classes.
+
+    Returns list of (EnumInfo, full_dotted_path) tuples.
+    """
+    result: list[tuple[EnumInfo, str]] = []
+    cls_path = f"{parent_path}.{cls.name}"
+    for enum in cls.enums:
+        result.append((enum, f"{cls_path}.{enum.name}"))
+    for inner in cls.inner_classes:
+        result.extend(_collect_enums_with_paths(inner, cls_path))
+    return result
+
+
+def _render_enums_section(enums: list[tuple[EnumInfo, str]], heading: str, detail: str) -> list[str]:
+    """Render a top-level Enums section.
+
+    Each entry is a (EnumInfo, full_path) tuple.
+    """
     lines: list[str] = []
     lines.append(f"{heading} Enums")
     lines.append("")
-    for enum in enums:
-        lines.append(f"{detail} `{enum.name}`")
+    for enum, path in enums:
+        lines.append(f"{detail} {enum.name}")
+        lines.append("")
+        lines.append(f"> `{path}`")
         lines.append("")
         if enum.docstring:
             lines.append(enum.docstring)
@@ -703,10 +725,14 @@ def generate_page_markdown(
         # --- Inner classes (View, etc.) rendered AFTER the primary class ---
         for inner in primary_class.inner_classes:
             title = f"{primary_class.name}.{inner.name} (Subclass)"
-            lines.extend(_render_class_body(inner, 2, access_map, title=title))
+            lines.extend(_render_class_body(inner, 2, access_map, title=title, skip_enums=True))
 
-        # --- Enums — combine class-level and module-level ---
-        all_enums = list(primary_class.enums) + list(module_enums)
+        # --- Enums — collect from primary class, inner classes, and module level ---
+        ns_path = primary_class.namespace  # e.g. "Live.Application"
+        all_enums: list[tuple[EnumInfo, str]] = []
+        all_enums.extend(_collect_enums_with_paths(primary_class, ns_path))
+        for enum in module_enums:
+            all_enums.append((enum, f"{ns_path}.{enum.name}"))
         if all_enums:
             lines.extend(_render_enums_section(all_enums, "##", "###"))
 
@@ -723,17 +749,20 @@ def generate_page_markdown(
 
     else:
         # No primary class — module with types, enums, and/or functions
-        all_enums = list(module_enums)
+        ns_path = f"Live.{ns_name}"
+        all_enums: list[tuple[EnumInfo, str]] = []
+        for enum in module_enums:
+            all_enums.append((enum, f"{ns_path}.{enum.name}"))
 
         if module_classes:
             for cls in module_classes:
-                all_enums.extend(cls.enums)
+                all_enums.extend(_collect_enums_with_paths(cls, ns_path))
                 lines.extend(
                     _render_class_body(cls, 2, access_map, title=f"{cls.name} (Class)", skip_enums=True)
                 )
                 for inner in cls.inner_classes:
                     title = f"{cls.name}.{inner.name} (Subclass)"
-                    lines.extend(_render_class_body(inner, 2, access_map, title=title))
+                    lines.extend(_render_class_body(inner, 2, access_map, title=title, skip_enums=True))
 
         if all_enums:
             lines.extend(_render_enums_section(all_enums, "##", "###"))

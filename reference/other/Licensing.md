@@ -297,7 +297,9 @@ Returns relevant information after unlock
 
 ## Enums
 
-### `TrialContext`
+### TrialContext
+
+> `Live.Licensing.TrialContext`
 
 | Value | Name           |
 | ----- | -------------- |

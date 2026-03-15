@@ -961,7 +961,9 @@ Select the given device.
 
 ## Enums
 
-### `CaptureDestination`
+### CaptureDestination
+
+> `Live.Song.CaptureDestination`
 
 The destination for MIDI capture.
 
@@ -971,7 +973,9 @@ The destination for MIDI capture.
 | `1`   | `session`     |
 | `2`   | `arrangement` |
 
-### `CaptureMode`
+### CaptureMode
+
+> `Live.Song.CaptureMode`
 
 The capture mode that is used for capture and insert scene.
 
@@ -980,7 +984,9 @@ The capture mode that is used for capture and insert scene.
 | `0`   | `all`                 |
 | `1`   | `all_except_selected` |
 
-### `Quantization`
+### Quantization
+
+> `Live.Song.Quantization`
 
 | Value | Name                 |
 | ----- | -------------------- |
@@ -999,7 +1005,9 @@ The capture mode that is used for capture and insert scene.
 | `12`  | `q_sixtenth_triplet` |
 | `13`  | `q_thirtytwoth`      |
 
-### `RecordingQuantization`
+### RecordingQuantization
+
+> `Live.Song.RecordingQuantization`
 
 | Value | Name                              |
 | ----- | --------------------------------- |
@@ -1013,7 +1021,9 @@ The capture mode that is used for capture and insert scene.
 | `7`   | `rec_q_sixtenth_sixtenth_triplet` |
 | `8`   | `rec_q_thirtysecond`              |
 
-### `SessionRecordStatus`
+### SessionRecordStatus
+
+> `Live.Song.SessionRecordStatus`
 
 | Value | Name         |
 | ----- | ------------ |
@@ -1021,7 +1031,9 @@ The capture mode that is used for capture and insert scene.
 | `1`   | `on`         |
 | `2`   | `transition` |
 
-### `TimeFormat`
+### TimeFormat
+
+> `Live.Song.TimeFormat`
 
 | Value | Name            |
 | ----- | --------------- |

@@ -78,7 +78,9 @@ Read/write/listen access to the groove's velocity amount.
 
 ## Enums
 
-### `Base`
+### Base
+
+> `Live.Groove.Base`
 
 | Value | Name                 |
 | ----- | -------------------- |

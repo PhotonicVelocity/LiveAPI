@@ -198,7 +198,9 @@ Stop playing the contained Clip, if there is a Clip and its currently playing.
 
 ## Enums
 
-### `ClipSlotPlayingState`
+### ClipSlotPlayingState
+
+> `Live.ClipSlot.ClipSlotPlayingState`
 
 | Value | Name        |
 | ----- | ----------- |

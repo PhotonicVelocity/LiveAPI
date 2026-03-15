@@ -2,7 +2,9 @@
 
 ## Enums
 
-### `AudioToMidiType`
+### AudioToMidiType
+
+> `Live.Conversions.AudioToMidiType`
 
 | Value | Name              |
 | ----- | ----------------- |

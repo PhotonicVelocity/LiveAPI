@@ -211,7 +211,9 @@ Stop the current preview.
 
 ## Enums
 
-### `FilterType`
+### FilterType
+
+> `Live.Browser.FilterType`
 
 | Value | Name                   |
 | ----- | ---------------------- |
@@ -225,7 +227,9 @@ Stop the current preview.
 | `6`   | `samples`              |
 | `7`   | `count`                |
 
-### `Relation`
+### Relation
+
+> `Live.Browser.Relation`
 
 | Value | Name         |
 | ----- | ------------ |
