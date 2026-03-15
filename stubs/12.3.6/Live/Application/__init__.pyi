@@ -1,12 +1,6 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
-
-T = TypeVar('T')
+from typing import TYPE_CHECKING, Any, Callable
 from .Application import Application
-
-if TYPE_CHECKING:
-    from Live.Base import Vector
-
 
 
 class ControlDescription:
@@ -22,7 +16,7 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector(Vector[ControlDescription]):
+class ControlDescriptionVector:
     """A container for returning control descriptions."""
 
     def append(self, value: ControlDescription | None) -> None:
@@ -56,7 +50,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def control_descriptions(self):
+    def control_descriptions(self) -> ControlDescriptionVector:
         ...
 
     def control_values_arrived_has_listener(self, callback: Callable | None) -> bool:
@@ -66,16 +60,16 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def enable_receive_midi(self, arg2: bool | None) -> None:
+    def enable_receive_midi(self, enable: bool | None) -> None:
         ...
 
-    def fetch_received_midi_messages(self) -> tuple:
+    def fetch_received_midi_messages(self) -> tuple[tuple[int, ...], ...]:
         ...
 
-    def fetch_received_values(self) -> tuple:
+    def fetch_received_values(self) -> tuple[tuple[int, Any], ...]:
         ...
 
-    def grab_control(self, arg2: int | None) -> None:
+    def grab_control(self, control: int | None) -> None:
         ...
 
     def midi_received_has_listener(self, callback: Callable | None) -> bool:
@@ -86,7 +80,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def pad_layout(self):
+    def pad_layout(self) -> str:
         """The layout of pads on Push."""
         ...
 
@@ -121,20 +115,20 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def send_midi(self, midi_event_bytes: tuple | None) -> None:
+    def send_midi(self, midi_event_bytes: tuple[int, ...] | None) -> None:
         ...
 
-    def send_value(self, value: tuple | None) -> None:
+    def send_value(self, value: tuple[Any, ...] | None) -> None:
         ...
 
-    def subscribe_to_control(self, arg2: int | None) -> None:
+    def subscribe_to_control(self, control: int | None) -> None:
         ...
 
     @property
-    def type_name(self):
+    def type_name(self) -> str:
         ...
 
-    def unsubscribe_from_control(self, arg2: int | None) -> None:
+    def unsubscribe_from_control(self, control: int | None) -> None:
         ...
 
 class MessageButtons:
@@ -155,7 +149,7 @@ class PushDialogType:
 class UnavailableFeature:
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector(Vector[UnavailableFeature]):
+class UnavailableFeatureVector:
     """A container for returning unavailable features."""
 
     def append(self, value: UnavailableFeature | None) -> None:
@@ -177,11 +171,11 @@ def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
     ...
 
-def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0) -> tuple:
+def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0) -> tuple[int, ...]:
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 
-def encrypt_challenge2(arg1: int | None) -> int:
+def encrypt_challenge2(challenge: int | None) -> int:
     """Returns the UMAC hash for the given challenge."""
     ...
 
@@ -189,7 +183,7 @@ def get_application() -> Application:
     """Returns the application instance."""
     ...
 
-def get_random_int(arg1: int | None, arg2: int | None) -> int:
+def get_random_int(min_value: int | None, max_value: int | None) -> int:
     """Returns a random integer from the given range."""
     ...
 

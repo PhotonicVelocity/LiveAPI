@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
+    from Live.Chain import Chain
     from Live.Device import Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
@@ -259,7 +260,7 @@ class RackDevice:
         ...
 
     @property
-    def chains(self) -> Vector:
+    def chains(self) -> Vector[Chain]:
         """Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
@@ -280,7 +281,7 @@ class RackDevice:
         """Return const access to the name of the device's class."""
         ...
 
-    def copy_pad(self, arg2: int | None, arg3: int | None) -> None:
+    def copy_pad(self, source_index: int | None, destination_index: int | None) -> None:
         """Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127."""
         ...
 
@@ -349,9 +350,12 @@ class RackDevice:
         ...
 
     @property
-    def is_using_compare_preset_b(self):
+    def is_using_compare_preset_b(self) -> bool:
         """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
         ...
+
+    @is_using_compare_preset_b.setter
+    def is_using_compare_preset_b(self, value: bool) -> None: ...
 
     @property
     def latency_in_ms(self) -> float:
@@ -475,7 +479,7 @@ class RackDevice:
         ...
 
     @property
-    def return_chains(self) -> Vector:
+    def return_chains(self) -> Vector[Chain]:
         """Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."""
         ...
 

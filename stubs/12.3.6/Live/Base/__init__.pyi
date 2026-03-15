@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class FloatVector(Vector[float]):
+class FloatVector:
     """A simple container for returning floats from Live."""
 
     def append(self, value: float | None) -> None:
@@ -17,7 +17,7 @@ class FloatVector(Vector[float]):
     def extend(self, values: float | None) -> None:
         ...
 
-class IntU64Vector(Vector[int]):
+class IntU64Vector:
     """A simple container for returning unsigned long integers from Live."""
 
     def append(self, value: int | None) -> None:
@@ -37,13 +37,13 @@ class IntVector(Vector[int]):
 
 class LimitationError(Exception): ...
 
-class ObjectVector(Vector):
+class ObjectVector(Vector[object]):
     """A simple read only container for returning python objects."""
 
-    def append(self, value: object | None) -> None:
+    def append(self, value: Any | None) -> None:
         ...
 
-    def extend(self, values: object | None) -> None:
+    def extend(self, values: Iterable[Any] | None) -> None:
         ...
 
 class StringVector(Vector[str]):
@@ -59,7 +59,7 @@ class Text:
     """A translatable, immutable string."""
 
     @property
-    def text(self):
+    def text(self) -> str:
         ...
 
 class Timer:

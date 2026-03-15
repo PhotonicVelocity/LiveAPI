@@ -49,7 +49,7 @@ class ChainMixerDevice:
         ...
 
     @property
-    def sends(self) -> Vector:
+    def sends(self) -> Vector[DeviceParameter]:
         """Const access to the Chain's list of Send Amount Device Parameters."""
         ...
 

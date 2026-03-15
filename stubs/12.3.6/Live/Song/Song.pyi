@@ -182,7 +182,7 @@ class Song:
             """
             ...
 
-        def select_device(self, arg2: Device | None, ShouldAppointDevice: bool = True) -> None:
+        def select_device(self, device: Device | None, ShouldAppointDevice: bool = True) -> None:
             """Select the given device."""
             ...
 
@@ -591,12 +591,12 @@ class Song:
         ...
 
     @property
-    def appointed_device(self) -> None:
+    def appointed_device(self) -> Device:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: None) -> None: ...
+    def appointed_device(self, value: Device) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable | None) -> bool:
         """
@@ -751,7 +751,7 @@ class Song:
         """
         ...
 
-    def create_audio_track(self, Index: object | None = None) -> Track:
+    def create_audio_track(self, Index: int | None = None) -> Track:
         """
         Create a new audio track at the optional given index and return it.If the index is -1,
         the new track is added at the end. It will create a default audio track if possible.
@@ -759,7 +759,7 @@ class Song:
         """
         ...
 
-    def create_midi_track(self, Index: object | None = None) -> Track:
+    def create_midi_track(self, Index: int | None = None) -> Track:
         """
         Create a new midi track at the optional given index and return it.If the index is -1,
         the new track is added at the end.It will create a default midi track if possible.
@@ -775,7 +775,7 @@ class Song:
         """
         ...
 
-    def create_scene(self, arg2: int | None) -> Scene:
+    def create_scene(self, index: int | None) -> Scene:
         """
         Create a new scene at the given index. If the index is -1,
         the new scene is added at the end. If the index is invalid or
@@ -817,35 +817,35 @@ class Song:
         """
         ...
 
-    def delete_return_track(self, arg2: int | None) -> None:
+    def delete_return_track(self, index: int | None) -> None:
         """
         Delete the return track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_scene(self, arg2: int | None) -> None:
+    def delete_scene(self, index: int | None) -> None:
         """
         Delete the scene with the given index. If no scene with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_track(self, arg2: int | None) -> None:
+    def delete_track(self, index: int | None) -> None:
         """
         Delete the track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def duplicate_scene(self, arg2: int | None) -> None:
+    def duplicate_scene(self, index: int | None) -> None:
         """
         Duplicates a scene and selects the new one.
         Raises a limitation error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def duplicate_track(self, arg2: int | None) -> None:
+    def duplicate_track(self, index: int | None) -> None:
         """
         Duplicates a track and selects the new one.
         If the track is inside a folded group track, the group track is unfolded.
@@ -914,14 +914,14 @@ class Song:
         """
         ...
 
-    def get_current_smpte_song_time(self, arg2: int | None) -> SmptTime:
+    def get_current_smpte_song_time(self, format: int | None) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.
         """
         ...
 
-    def get_data(self, key: str | None, default_value: object | None) -> object:
+    def get_data(self, key: str | None, default_value: Any | None) -> Any:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -1009,7 +1009,7 @@ class Song:
         """
         ...
 
-    def jump_by(self, arg2: float | None) -> None:
+    def jump_by(self, beats: float | None) -> None:
         """Set a new playing pos, relative to the current one."""
         ...
 
@@ -1692,7 +1692,7 @@ class Song:
         """
         ...
 
-    def scrub_by(self, arg2: float | None) -> None:
+    def scrub_by(self, beats: float | None) -> None:
         """Same as jump_by, but does not stop playback."""
         ...
 
@@ -1743,7 +1743,7 @@ class Song:
         """
         ...
 
-    def set_data(self, key: str | None, value: object | None) -> None:
+    def set_data(self, key: str | None, value: Any | None) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 

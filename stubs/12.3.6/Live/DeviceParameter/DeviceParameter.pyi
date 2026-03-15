@@ -217,7 +217,7 @@ class DeviceParameter:
         """
         ...
 
-    def str_for_value(self, arg2: float | None) -> str:
+    def str_for_value(self, value: float | None) -> str:
         """
         Return a string representation of the given value. To be used
         for display purposes only. This value can include characters like 'db' or

@@ -253,7 +253,7 @@ class Device:
         """Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws."""
         ...
 
-    def store_chosen_bank(self, arg2: int | None, arg3: int | None) -> None:
+    def store_chosen_bank(self, script_index: int | None, bank_index: int | None) -> None:
         """Set the selected bank in the device for persistency."""
         ...
 

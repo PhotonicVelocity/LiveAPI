@@ -117,15 +117,15 @@ class MaxDevice:
         """Get the number of parameter banks. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_name(self, arg2: int | None) -> str:
+    def get_bank_name(self, bank_index: int | None) -> str:
         """Get the name of a parameter bank given by index. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_parameters(self, arg2: int | None) -> list:
+    def get_bank_parameters(self, bank_index: int | None) -> list:
         """Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces."""
         ...
 
-    def get_value_item_icons(self, arg2: DeviceParameter | None) -> list:
+    def get_value_item_icons(self, parameter: DeviceParameter | None) -> list:
         """Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces."""
         ...
 
@@ -135,9 +135,12 @@ class MaxDevice:
         ...
 
     @property
-    def is_using_compare_preset_b(self):
+    def is_using_compare_preset_b(self) -> bool:
         """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
         ...
+
+    @is_using_compare_preset_b.setter
+    def is_using_compare_preset_b(self, value: bool) -> None: ...
 
     @property
     def latency_in_ms(self) -> float:
@@ -150,7 +153,7 @@ class MaxDevice:
         ...
 
     @property
-    def midi_inputs(self) -> Vector:
+    def midi_inputs(self) -> Vector[DeviceIO]:
         """Const access to a list of all midi outputs of the device."""
         ...
 
@@ -162,7 +165,7 @@ class MaxDevice:
         ...
 
     @property
-    def midi_outputs(self) -> Vector:
+    def midi_outputs(self) -> Vector[DeviceIO]:
         """Const access to a list of all midi outputs of the device."""
         ...
 

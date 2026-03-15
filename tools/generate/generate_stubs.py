@@ -19,55 +19,6 @@ from io import StringIO
 from os import makedirs
 from os.path import abspath, exists, join
 
-# Map probed runtime type names to Python type annotation strings.
-# Values not in this map are treated as class names and passed through as-is.
-_TYPE_MAP: dict[str, str] = {
-    # Primitives
-    "bool": "bool",
-    "int": "int",
-    "float": "float",
-    "str": "str",
-    "NoneType": "None",
-    # Non-vector Live types that pass through
-    "BrowserItemIterator": "BrowserItemIterator",
-    "RoutingChannelLayout": "RoutingChannelLayout",
-    # Python builtins that pass through
-    "list": "list",
-    "tuple": "tuple",
-    "object": "object",
-    "dict": "dict",
-}
-
-# Vector types — these pass through as class names and get parameterized
-# per-property using element_repr from the probe data. 
-_VECTOR_TYPES: set[str] = {
-    "Vector", "ObjectVector",
-    "StringVector", "IntVector", "IntU64Vector", "FloatVector",
-    "BrowserItemVector", "RoutingChannelVector", "RoutingTypeVector",
-    "UnavailableFeatureVector", "ATimeableValueVector",
-    "WarpMarkerVector", "MidiNoteVector", "EnvelopeEventVector",
-    "ControlDescriptionVector", "ListenerVector",
-}
-
-# Fallback element types for specialized vectors (used when element_repr is missing
-# on a property node). Generic Vector/ObjectVector have no fallback — they stay
-# unparameterized without element_repr.
-_VECTOR_ELEMENT_FALLBACK: dict[str, str] = {
-    "StringVector": "str",
-    "IntVector": "int",
-    "IntU64Vector": "int",
-    "FloatVector": "float",
-    "BrowserItemVector": "BrowserItem",
-    "RoutingChannelVector": "RoutingChannel",
-    "RoutingTypeVector": "RoutingType",
-    "UnavailableFeatureVector": "UnavailableFeature",
-    "ATimeableValueVector": "DeviceParameter",
-    "WarpMarkerVector": "WarpMarker",
-    "MidiNoteVector": "MidiNote",
-    "EnvelopeEventVector": "EnvelopeEvent",
-    "ControlDescriptionVector": "ControlDescription",
-}
-
 _HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable\n"
 
 # Extra header for files that define Vector types (need Generic, TypeVar, Iterator)
@@ -97,6 +48,8 @@ class StubGenerator:
         self._module_classes: dict[str, set[str]] = {}
         self._nested_class_parent: dict[str, str] = {}  # "View" -> "Device" (nested class -> parent)
         self._enum_lookup: dict[str, int] = {}
+        self._vector_types: set[str] = set()  # class names that are vector types
+        self._vector_element_fallback: dict[str, str] = {}  # vector class -> default element type
 
     # ------------------------------------------------------------------
     # Phase 1: Indexing
@@ -129,6 +82,16 @@ class StubGenerator:
             if node_type == "enum" and node.get("members"):
                 for mname, mval in node["members"].items():
                     self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
+
+            # Detect vector types from element_repr on class nodes
+            if node_type == "class":
+                element_repr = node.get("element_repr")
+                if element_repr:
+                    self._vector_types.add(name)
+                    if "APICapture" not in element_repr:
+                        m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                        if m:
+                            self._vector_element_fallback[name] = m.group(1)
 
             # Recurse into children
             for child in node.get("children", []):
@@ -262,7 +225,7 @@ class StubGenerator:
         )
 
         # Use vector header if this module defines any vector types
-        has_vectors = any(n.get("name", "") in _VECTOR_TYPES for n in nodes if n.get("type") == "class")
+        has_vectors = any(n.get("name", "") in self._vector_types for n in nodes if n.get("type") == "class")
         header = _VECTOR_HEADER if has_vectors else _HEADER
 
         out_file = join(module_dir, "__init__.pyi")
@@ -426,7 +389,7 @@ class StubGenerator:
         )
 
         # Parameterize vector types using element_repr from the property node
-        if type_str and type_str in _VECTOR_TYPES:
+        if type_str and type_str in self._vector_types:
             elem = self._resolve_element_type(node, type_str, containing_class)
             if elem:
                 type_str = f"Vector[{elem}]"
@@ -512,7 +475,7 @@ class StubGenerator:
         """
         if not probed_type:
             return "None"
-        resolved = _TYPE_MAP.get(probed_type, probed_type)
+        resolved = "None" if probed_type == "NoneType" else probed_type
         if resolved in self._nested_class_parent:
             # Extract parent from probed_repr if available (e.g. "<class 'Device.View'>" -> "Device")
             parent = None
@@ -651,19 +614,12 @@ class StubGenerator:
 
     def _vector_base(self, name: str, node: dict) -> str:
         """Return the base class string for vector types, or empty string for non-vectors."""
-        if name not in _VECTOR_TYPES:
+        if name not in self._vector_types:
             return ""
         if name == "Vector":
             return "Generic[T]"
-        # Specialized vector: derive element type from element_repr or fallback map
-        elem = None
-        element_repr = node.get("element_repr")
-        if element_repr and "APICapture" not in element_repr:
-            m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-            if m:
-                elem = m.group(1)
-        if not elem:
-            elem = _VECTOR_ELEMENT_FALLBACK.get(name)
+        # Specialized vector: derive element type from fallback map (built during indexing)
+        elem = self._vector_element_fallback.get(name)
         if elem:
             return f"Vector[{elem}]"
         return "Vector"
@@ -679,7 +635,7 @@ class StubGenerator:
                 return self._resolve_probed_type(
                     m.group(1), containing_class=containing_class, probed_repr=element_repr,
                 )
-        return _VECTOR_ELEMENT_FALLBACK.get(vector_type, "")
+        return self._vector_element_fallback.get(vector_type, "")
 
     def _write_docstring(self, doc: str, buf: StringIO, indent: int) -> None:
         """Write a docstring at the given indent level."""

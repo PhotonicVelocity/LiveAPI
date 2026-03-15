@@ -199,7 +199,7 @@ class TimeFormat:
     smpte_30_drop: int = 4
     smpte_29: int = 5
 
-def get_all_scales_ordered() -> tuple:
+def get_all_scales_ordered() -> tuple[tuple[str, tuple[int, ...]], ...]:
     """Get an ordered tuple of tuples of all available scale names to intervals."""
     ...
 

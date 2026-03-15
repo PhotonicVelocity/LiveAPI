@@ -107,7 +107,7 @@ class Browser:
         """Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed."""
         ...
 
-    def load_item(self, arg2: BrowserItem | None) -> None:
+    def load_item(self, item: BrowserItem | None) -> None:
         """Loads the provided browser item."""
         ...
 
@@ -131,11 +131,11 @@ class Browser:
         """Returns a browser item with access to all the Plugins content."""
         ...
 
-    def preview_item(self, arg2: BrowserItem | None) -> None:
+    def preview_item(self, item: BrowserItem | None) -> None:
         """Previews the provided browser item."""
         ...
 
-    def relation_to_hotswap_target(self, arg2: BrowserItem | None) -> Relation:
+    def relation_to_hotswap_target(self, item: BrowserItem | None) -> Relation:
         """Returns the relation between the given browser item and the current hotswap target"""
         ...
 

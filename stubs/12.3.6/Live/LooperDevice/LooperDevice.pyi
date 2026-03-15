@@ -88,7 +88,7 @@ class LooperDevice:
         """Double the speed of Looper's playback."""
         ...
 
-    def export_to_clip_slot(self, arg2: ClipSlot | None) -> None:
+    def export_to_clip_slot(self, clip_slot: ClipSlot | None) -> None:
         """Export Looper's content to a Session Clip Slot."""
         ...
 

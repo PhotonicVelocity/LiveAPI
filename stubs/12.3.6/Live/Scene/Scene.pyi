@@ -248,7 +248,7 @@ class Scene:
         """
         ...
 
-    def set_fire_button_state(self, arg2: bool | None) -> None:
+    def set_fire_button_state(self, state: bool | None) -> None:
         """Set the scene's fire button state directly. Supports all launch modes."""
         ...
 

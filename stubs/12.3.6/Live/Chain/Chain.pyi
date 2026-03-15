@@ -7,7 +7,6 @@ if TYPE_CHECKING:
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
     from Live.Track import Track
-    from Live.WavetableDevice import WavetableDevice
 
 
 
@@ -114,7 +113,7 @@ class Chain:
         ...
 
     @property
-    def devices(self) -> Vector[WavetableDevice]:
+    def devices(self) -> Vector[LomObject]:
         """Return const access to all available Devices that are present in the chains"""
         ...
 
@@ -125,7 +124,7 @@ class Chain:
         """
         ...
 
-    def duplicate_device(self, arg2: int | None) -> None:
+    def duplicate_device(self, index: int | None) -> None:
         """Duplicate the device at the given index in the chain."""
         ...
 
