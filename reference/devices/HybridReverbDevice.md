@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # HybridReverbDevice (Module)
 
 ## HybridReverbDevice (Class)

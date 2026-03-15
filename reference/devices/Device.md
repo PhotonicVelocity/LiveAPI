@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Device (Module)
 
 ## Device (Class)
@@ -211,26 +215,24 @@ The type of the device.
 | `2`   | `audio_effect` |
 | `4`   | `midi_effect`  |
 
-## Types
-
-### ATimeableValueVector
+## ATimeableValueVector (Type)
 
 > `Live.Device.ATimeableValueVector`
 
-#### Methods
+### Methods
 
 | Method                                      | Returns |
 | ------------------------------------------- | ------- |
 | [`append()`](#appendvalue-deviceparameter)  | `None`  |
 | [`extend()`](#extendvalues-deviceparameter) | `None`  |
 
-##### `append(value: DeviceParameter)`
+#### `append(value: DeviceParameter)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: DeviceParameter`
 
-##### `extend(values: DeviceParameter)`
+#### `extend(values: DeviceParameter)`
 
 - **Returns:** `None`
 - **Args:**

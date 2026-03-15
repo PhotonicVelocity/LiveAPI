@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Track (Module)
 
 ## Track (Class)
@@ -771,9 +775,7 @@ Selects the track's instrument if it has one.
 | `6`   | `none`               |
 | `7`   | `invalid`            |
 
-## Types
-
-### DeviceContainer
+## DeviceContainer (Type)
 
 > `Live.Track.DeviceContainer`
 
@@ -781,20 +783,20 @@ This class is a common super class of Track and Chain
 
 **Live Object:** `yes`
 
-### RoutingChannel
+## RoutingChannel (Type)
 
 > `Live.Track.RoutingChannel`
 
 This class represents a routing channel.
 
-#### Properties
+### Properties
 
 | Property                        | Type                   | Supports |
 | ------------------------------- | ---------------------- | -------- |
 | [`display_name`](#display_name) | `str`                  | `get`    |
 | [`layout`](#layout)             | `RoutingChannelLayout` | `get`    |
 
-##### `display_name`
+#### `display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -802,7 +804,7 @@ This class represents a routing channel.
 
 Display name of routing channel.
 
-##### `layout`
+#### `layout`
 
 - **Type:** `RoutingChannelLayout`
 - **Settable:** `no`
@@ -810,38 +812,38 @@ Display name of routing channel.
 
 The routing channel's Layout, e.g., mono or stereo.
 
-### RoutingChannelVector
+## RoutingChannelVector (Type)
 
 > `Live.Track.RoutingChannelVector`
 
 A container for returning routing channels from Live.
 
-#### Methods
+### Methods
 
 | Method                                     | Returns |
 | ------------------------------------------ | ------- |
 | [`append()`](#appendvalue-routingchannel)  | `None`  |
 | [`extend()`](#extendvalues-routingchannel) | `None`  |
 
-##### `append(value: RoutingChannel)`
+#### `append(value: RoutingChannel)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: RoutingChannel`
 
-##### `extend(values: RoutingChannel)`
+#### `extend(values: RoutingChannel)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: RoutingChannel`
 
-### RoutingType
+## RoutingType (Type)
 
 > `Live.Track.RoutingType`
 
 This class represents a routing type.
 
-#### Properties
+### Properties
 
 | Property                              | Type    | Supports |
 | ------------------------------------- | ------- | -------- |
@@ -849,7 +851,7 @@ This class represents a routing type.
 | [`category`](#category)               | `int`   | `get`    |
 | [`display_name`](#display_name)       | `str`   | `get`    |
 
-##### `attached_object`
+#### `attached_object`
 
 - **Type:** `Track`
 - **Settable:** `no`
@@ -857,7 +859,7 @@ This class represents a routing type.
 
 Live object associated with the routing type.
 
-##### `category`
+#### `category`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -865,7 +867,7 @@ Live object associated with the routing type.
 
 Category of the routing type.
 
-##### `display_name`
+#### `display_name`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -873,26 +875,26 @@ Category of the routing type.
 
 Display name of routing type.
 
-### RoutingTypeVector
+## RoutingTypeVector (Type)
 
 > `Live.Track.RoutingTypeVector`
 
 A container for returning routing types from Live.
 
-#### Methods
+### Methods
 
 | Method                                  | Returns |
 | --------------------------------------- | ------- |
 | [`append()`](#appendvalue-routingtype)  | `None`  |
 | [`extend()`](#extendvalues-routingtype) | `None`  |
 
-##### `append(value: RoutingType)`
+#### `append(value: RoutingType)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: RoutingType`
 
-##### `extend(values: RoutingType)`
+#### `extend(values: RoutingType)`
 
 - **Returns:** `None`
 - **Args:**

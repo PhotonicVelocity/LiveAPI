@@ -704,13 +704,17 @@ def generate_page_markdown(
         # Namespace (Module)
         ## ClassName (Class)          — primary class with properties/methods
         ## ClassName.View (Subclass)  — inner classes rendered after the primary class
+        ## SomeHelper (Type)          — module-level helper classes at same level
         ## Enums                      — class-level + module-level enums combined
-        ## Types                      — module-level helper classes
         ## Module Functions           — module-level standalone functions
     """
     lines: list[str] = []
 
-    # --- Module title ---
+    # --- Module title + TOC depth ---
+    lines.append("---")
+    lines.append("toc_depth: 2")
+    lines.append("---")
+    lines.append("")
     lines.append(f"# {ns_name} (Module)")
     lines.append("")
 
@@ -736,12 +740,9 @@ def generate_page_markdown(
         if all_enums:
             lines.extend(_render_enums_section(all_enums, "##", "###"))
 
-        # --- Types — module-level helper classes ---
-        if module_classes:
-            lines.append("## Types")
-            lines.append("")
-            for type_cls in module_classes:
-                lines.extend(_render_class_body(type_cls, 3, access_map))
+        # --- Types — module-level helper classes at same heading level ---
+        for type_cls in module_classes:
+            lines.extend(_render_class_body(type_cls, 2, access_map, title=f"{type_cls.name} (Type)"))
 
         # --- Module functions ---
         if module_functions:

@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Listener (Module)
 
 ## ListenerHandle (Class)

@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Application (Module)
 
 ## Application (Class)
@@ -392,9 +396,7 @@ Holds strings representing what type of Live is running.
 | `Suite`    | `SUITE`    |
 | `Trial`    | `TRIAL`    |
 
-## Types
-
-### ControlDescription
+## ControlDescription (Type)
 
 > `Live.Application.ControlDescription`
 
@@ -402,57 +404,57 @@ Describes a control present in a control surface proxy
 
 **Constructor:** `ControlDescription()`
 
-#### Properties
+### Properties
 
 | Property        | Type  | Supports |
 | --------------- | ----- | -------- |
 | [`id`](#id)     | `int` | `get`    |
 | [`name`](#name) | `str` | `get`    |
 
-##### `id`
+#### `id`
 
 - **Type:** `int`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-##### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-### ControlDescriptionVector
+## ControlDescriptionVector (Type)
 
 > `Live.Application.ControlDescriptionVector`
 
 A container for returning control descriptions.
 
-#### Methods
+### Methods
 
 | Method                                         | Returns |
 | ---------------------------------------------- | ------- |
 | [`append()`](#appendvalue-controldescription)  | `None`  |
 | [`extend()`](#extendvalues-controldescription) | `None`  |
 
-##### `append(value: ControlDescription)`
+#### `append(value: ControlDescription)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: ControlDescription`
 
-##### `extend(values: ControlDescription)`
+#### `extend(values: ControlDescription)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: ControlDescription`
 
-### ControlSurfaceProxy
+## ControlSurfaceProxy (Type)
 
 > `Live.Application.ControlSurfaceProxy`
 
 Represents a control surface running in a different process. For use by M4L
 
-#### Properties
+### Properties
 
 | Property                                        | Type                                  | Supports       |
 | ----------------------------------------------- | ------------------------------------- | -------------- |
@@ -460,13 +462,13 @@ Represents a control surface running in a different process. For use by M4L
 | [`pad_layout`](#pad_layout)                     | `str`                                 | `get`/`listen` |
 | [`type_name`](#type_name)                       | `str`                                 | `get`          |
 
-##### `control_descriptions`
+#### `control_descriptions`
 
 - **Type:** `tuple[ControlDescription, Ellipsis]`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-##### `pad_layout`
+#### `pad_layout`
 
 - **Type:** `str`
 - **Settable:** `no`
@@ -474,13 +476,13 @@ Represents a control surface running in a different process. For use by M4L
 
 The layout of pads on Push.
 
-##### `type_name`
+#### `type_name`
 
 - **Type:** `str`
 - **Settable:** `no`
 - **Listenable:** `no`
 
-#### Methods
+### Methods
 
 | Method                                                               | Returns |
 | -------------------------------------------------------------------- | ------- |
@@ -494,76 +496,76 @@ The layout of pads on Push.
 | [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`  |
 | [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`  |
 
-##### `enable_receive_midi(enabled: bool)`
+#### `enable_receive_midi(enabled: bool)`
 
 - **Returns:** `None`
 - **Args:**
   - `enabled: bool`
 
-##### `fetch_received_midi_messages()`
+#### `fetch_received_midi_messages()`
 
 - **Returns:** `tuple`
 
-##### `fetch_received_values()`
+#### `fetch_received_values()`
 
 - **Returns:** `tuple`
 
-##### `grab_control(control: int)`
+#### `grab_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-##### `release_control(control: int)`
+#### `release_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-##### `send_midi(midi_event_bytes: tuple)`
+#### `send_midi(midi_event_bytes: tuple)`
 
 - **Returns:** `None`
 - **Args:**
   - `midi_event_bytes: tuple`
 
-##### `send_value(value: tuple)`
+#### `send_value(value: tuple)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: tuple`
 
-##### `subscribe_to_control(control: int)`
+#### `subscribe_to_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-##### `unsubscribe_from_control(control: int)`
+#### `unsubscribe_from_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
   - `control: int`
 
-### UnavailableFeatureVector
+## UnavailableFeatureVector (Type)
 
 > `Live.Application.UnavailableFeatureVector`
 
 A container for returning unavailable features.
 
-#### Methods
+### Methods
 
 | Method                                         | Returns |
 | ---------------------------------------------- | ------- |
 | [`append()`](#appendvalue-unavailablefeature)  | `None`  |
 | [`extend()`](#extendvalues-unavailablefeature) | `None`  |
 
-##### `append(value: UnavailableFeature)`
+#### `append(value: UnavailableFeature)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: UnavailableFeature`
 
-##### `extend(values: UnavailableFeature)`
+#### `extend(values: UnavailableFeature)`
 
 - **Returns:** `None`
 - **Args:**

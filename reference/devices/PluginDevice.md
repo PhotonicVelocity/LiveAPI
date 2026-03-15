@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # PluginDevice (Module)
 
 ## PluginDevice (Class)

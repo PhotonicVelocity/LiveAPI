@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Eq8Device (Module)
 
 ## Eq8Device (Class)

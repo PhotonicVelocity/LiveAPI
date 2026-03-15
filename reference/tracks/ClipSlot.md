@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # ClipSlot (Module)
 
 ## ClipSlot (Class)

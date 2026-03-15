@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # TuningSystem (Module)
 
 ## TuningSystem (Class)
@@ -89,9 +93,7 @@ Get the pseudo octave in cents for the currently active tuning system.
 
 Get/Set the reference pitch the currently active tuning system.
 
-## Types
-
-### PitchClassAndOctave
+## PitchClassAndOctave (Type)
 
 > `Live.TuningSystem.PitchClassAndOctave`
 
@@ -99,14 +101,14 @@ This class represents a PitchClassAndOctave type.
 
 **Constructor:** `PitchClassAndOctave(index_in_octave: int, octave: int)`
 
-#### Properties
+### Properties
 
 | Property                              | Type  | Supports |
 | ------------------------------------- | ----- | -------- |
 | [`index_in_octave`](#index_in_octave) | `int` | `get`    |
 | [`octave`](#octave)                   | `int` | `get`    |
 
-##### `index_in_octave`
+#### `index_in_octave`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -114,7 +116,7 @@ This class represents a PitchClassAndOctave type.
 
 A PitchClassAndOctave's index within the pseudo octave.
 
-##### `octave`
+#### `octave`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -122,7 +124,7 @@ A PitchClassAndOctave's index within the pseudo octave.
 
 A PitchClassAndOctave's octave.
 
-### ReferencePitch
+## ReferencePitch (Type)
 
 > `Live.TuningSystem.ReferencePitch`
 
@@ -130,7 +132,7 @@ This class represents a ReferencePitch type.
 
 **Constructor:** `ReferencePitch(index_in_octave: int, octave: int, frequency: float)`
 
-#### Properties
+### Properties
 
 | Property                              | Type    | Supports |
 | ------------------------------------- | ------- | -------- |
@@ -138,7 +140,7 @@ This class represents a ReferencePitch type.
 | [`index_in_octave`](#index_in_octave) | `int`   | `get`    |
 | [`octave`](#octave)                   | `int`   | `get`    |
 
-##### `frequency`
+#### `frequency`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -146,7 +148,7 @@ This class represents a ReferencePitch type.
 
 A ReferencePitch's frequency in Hz.
 
-##### `index_in_octave`
+#### `index_in_octave`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -154,7 +156,7 @@ A ReferencePitch's frequency in Hz.
 
 A ReferencePitch's index within the pseudo octave.
 
-##### `octave`
+#### `octave`
 
 - **Type:** `int`
 - **Settable:** `no`

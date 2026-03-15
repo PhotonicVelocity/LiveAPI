@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Clip (Module)
 
 ## Clip (Class)
@@ -956,15 +960,13 @@ Show the entire loop in the detail view.
 | `6`   | `complex_pro` |
 | `7`   | `count`       |
 
-## Types
-
-### MidiNote
+## MidiNote (Type)
 
 > `Live.Clip.MidiNote`
 
 An object representing a MIDI Note
 
-#### Properties
+### Properties
 
 | Property                                    | Type    | Supports    |
 | ------------------------------------------- | ------- | ----------- |
@@ -978,19 +980,19 @@ An object representing a MIDI Note
 | [`velocity`](#velocity)                     | `float` | `get`/`set` |
 | [`velocity_deviation`](#velocity_deviation) | `float` | `get`/`set` |
 
-##### `duration`
+#### `duration`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `mute`
+#### `mute`
 
 - **Type:** `bool`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `note_id`
+#### `note_id`
 
 - **Type:** `int`
 - **Settable:** `no`
@@ -998,43 +1000,43 @@ An object representing a MIDI Note
 
 A numerical ID that's unique within the originating clip of the note. Not to be used directly, but important for other API calls, namely apply_note_modifications.
 
-##### `pitch`
+#### `pitch`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `probability`
+#### `probability`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `release_velocity`
+#### `release_velocity`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `start_time`
+#### `start_time`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `velocity`
+#### `velocity`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `velocity_deviation`
+#### `velocity_deviation`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### MidiNoteSpecification
+## MidiNoteSpecification (Type)
 
 > `Live.Clip.MidiNoteSpecification`
 
@@ -1042,32 +1044,32 @@ An object specifying the data for creating a MIDI note. To be used with the add_
 
 **Constructor:** `MidiNoteSpecification(pitch: int, start_time: float, duration: float, velocity: float = 100.0, mute: bool = False, probability: float = 1.0, velocity_deviation: float = 0.0, release_velocity: float = 64.0)`
 
-### MidiNoteVector
+## MidiNoteVector (Type)
 
 > `Live.Clip.MidiNoteVector`
 
 A container for holding MIDI notes from Live.
 
-#### Methods
+### Methods
 
 | Method                               | Returns |
 | ------------------------------------ | ------- |
 | [`append()`](#appendvalue-midinote)  | `None`  |
 | [`extend()`](#extendvalues-midinote) | `None`  |
 
-##### `append(value: MidiNote)`
+#### `append(value: MidiNote)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: MidiNote`
 
-##### `extend(values: MidiNote)`
+#### `extend(values: MidiNote)`
 
 - **Returns:** `None`
 - **Args:**
   - `values: MidiNote`
 
-### WarpMarker
+## WarpMarker (Type)
 
 > `Live.Clip.WarpMarker`
 
@@ -1075,14 +1077,14 @@ This class represents a WarpMarker type.
 
 **Constructor:** `WarpMarker(sample_time: float, beat_time: float)`
 
-#### Properties
+### Properties
 
 | Property                      | Type    | Supports |
 | ----------------------------- | ------- | -------- |
 | [`beat_time`](#beat_time)     | `float` | `get`    |
 | [`sample_time`](#sample_time) | `float` | `get`    |
 
-##### `beat_time`
+#### `beat_time`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -1090,7 +1092,7 @@ This class represents a WarpMarker type.
 
 A WarpMarker's beat time.
 
-##### `sample_time`
+#### `sample_time`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -1098,26 +1100,26 @@ A WarpMarker's beat time.
 
 A WarpMarker's sample time.
 
-### WarpMarkerVector
+## WarpMarkerVector (Type)
 
 > `Live.Clip.WarpMarkerVector`
 
 A container for returning warp markers from Live.
 
-#### Methods
+### Methods
 
 | Method                                 | Returns |
 | -------------------------------------- | ------- |
 | [`append()`](#appendvalue-warpmarker)  | `None`  |
 | [`extend()`](#extendvalues-warpmarker) | `None`  |
 
-##### `append(value: WarpMarker)`
+#### `append(value: WarpMarker)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: WarpMarker`
 
-##### `extend(values: WarpMarker)`
+#### `extend(values: WarpMarker)`
 
 - **Returns:** `None`
 - **Args:**

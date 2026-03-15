@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Song (Module)
 
 ## Song (Class)
@@ -1044,9 +1048,7 @@ The capture mode that is used for capture and insert scene.
 | `4`   | `smpte_30_drop` |
 | `5`   | `smpte_29`      |
 
-## Types
-
-### BeatTime
+## BeatTime (Type)
 
 > `Live.Song.BeatTime`
 
@@ -1054,7 +1056,7 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
 **Constructor:** `BeatTime()`
 
-#### Properties
+### Properties
 
 | Property                        | Type  | Supports    |
 | ------------------------------- | ----- | ----------- |
@@ -1063,31 +1065,31 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 | [`sub_division`](#sub_division) | `int` | `get`/`set` |
 | [`ticks`](#ticks)               | `int` | `get`/`set` |
 
-##### `bars`
+#### `bars`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `beats`
+#### `beats`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `sub_division`
+#### `sub_division`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `ticks`
+#### `ticks`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### CuePoint
+## CuePoint (Type)
 
 > `Live.Song.CuePoint`
 
@@ -1095,7 +1097,7 @@ Represents a 'Marker' in the arrangement.
 
 **Live Object:** `yes`
 
-#### Properties
+### Properties
 
 | Property                                | Type    | Supports             |
 | --------------------------------------- | ------- | -------------------- |
@@ -1103,7 +1105,7 @@ Represents a 'Marker' in the arrangement.
 | [`name`](#name)                         | `str`   | `get`/`set`/`listen` |
 | [`time`](#time)                         | `float` | `get`/`listen`       |
 
-##### `canonical_parent`
+#### `canonical_parent`
 
 - **Type:** `Song`
 - **Settable:** `no`
@@ -1111,7 +1113,7 @@ Represents a 'Marker' in the arrangement.
 
 Get the canonical parent of the cue point.
 
-##### `name`
+#### `name`
 
 - **Type:** `str`
 - **Settable:** `yes`
@@ -1119,7 +1121,7 @@ Get the canonical parent of the cue point.
 
 Get/Set/Listen to the name of this CuePoint, as visible in the arranger.
 
-##### `time`
+#### `time`
 
 - **Type:** `float`
 - **Settable:** `no`
@@ -1127,19 +1129,19 @@ Get/Set/Listen to the name of this CuePoint, as visible in the arranger.
 
 Get/Listen to the CuePoint's time in beats.
 
-#### Methods
+### Methods
 
 | Method            | Returns |
 | ----------------- | ------- |
 | [`jump()`](#jump) | `None`  |
 
-##### `jump()`
+#### `jump()`
 
 - **Returns:** `None`
 
 When the Song is playing, set the playing-position quantized to this Cuepoint's time. When not playing, simply move the start playing position.
 
-### SmptTime
+## SmptTime (Type)
 
 > `Live.Song.SmptTime`
 
@@ -1147,7 +1149,7 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 **Constructor:** `SmptTime()`
 
-#### Properties
+### Properties
 
 | Property              | Type  | Supports    |
 | --------------------- | ----- | ----------- |
@@ -1156,25 +1158,25 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 | [`minutes`](#minutes) | `int` | `get`/`set` |
 | [`seconds`](#seconds) | `int` | `get`/`set` |
 
-##### `frames`
+#### `frames`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `hours`
+#### `hours`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `minutes`
+#### `minutes`
 
 - **Type:** `int`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `seconds`
+#### `seconds`
 
 - **Type:** `int`
 - **Settable:** `yes`

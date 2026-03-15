@@ -1,3 +1,7 @@
+---
+toc_depth: 2
+---
+
 # Envelope (Module)
 
 ## Envelope (Class)
@@ -72,9 +76,7 @@ Given a start time, a step length and a value, creates a step in the envelope.
 
 Returns the parameter value at the specified time.
 
-## Types
-
-### EnvelopeEvent
+## EnvelopeEvent (Type)
 
 > `Live.Envelope.EnvelopeEvent`
 
@@ -82,7 +84,7 @@ This is a class that represents an envelope event.
 
 **Constructor:** `EnvelopeEvent(time: float, value: float, control_coefficients: EnvelopeEventControlCoefficients)`
 
-#### Properties
+### Properties
 
 | Property                                        | Type                               | Supports    |
 | ----------------------------------------------- | ---------------------------------- | ----------- |
@@ -90,25 +92,25 @@ This is a class that represents an envelope event.
 | [`time`](#time)                                 | `float`                            | `get`/`set` |
 | [`value`](#value)                               | `float`                            | `get`/`set` |
 
-##### `control_coefficients`
+#### `control_coefficients`
 
 - **Type:** `EnvelopeEventControlCoefficients`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `time`
+#### `time`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `value`
+#### `value`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### EnvelopeEventControlCoefficients
+## EnvelopeEventControlCoefficients (Type)
 
 > `Live.Envelope.EnvelopeEventControlCoefficients`
 
@@ -116,7 +118,7 @@ This class represents the control coefficients of an envelope event.
 
 **Constructor:** `EnvelopeEventControlCoefficients(x1: float, y1: float, x2: float, y2: float)`
 
-#### Properties
+### Properties
 
 | Property    | Type    | Supports    |
 | ----------- | ------- | ----------- |
@@ -125,50 +127,50 @@ This class represents the control coefficients of an envelope event.
 | [`y1`](#y1) | `float` | `get`/`set` |
 | [`y2`](#y2) | `float` | `get`/`set` |
 
-##### `x1`
+#### `x1`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `x2`
+#### `x2`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `y1`
+#### `y1`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-##### `y2`
+#### `y2`
 
 - **Type:** `float`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
-### EnvelopeEventVector
+## EnvelopeEventVector (Type)
 
 > `Live.Envelope.EnvelopeEventVector`
 
 A container for holding envelope events.
 
-#### Methods
+### Methods
 
 | Method                                    | Returns |
 | ----------------------------------------- | ------- |
 | [`append()`](#appendvalue-envelopeevent)  | `None`  |
 | [`extend()`](#extendvalues-envelopeevent) | `None`  |
 
-##### `append(value: EnvelopeEvent)`
+#### `append(value: EnvelopeEvent)`
 
 - **Returns:** `None`
 - **Args:**
   - `value: EnvelopeEvent`
 
-##### `extend(values: EnvelopeEvent)`
+#### `extend(values: EnvelopeEvent)`
 
 - **Returns:** `None`
 - **Args:**
