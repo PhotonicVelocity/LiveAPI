@@ -315,24 +315,26 @@ class PropertyProbe:
     # --- Element type recording ---
 
     def _record_element_type(self, iterable: Any, prop_info: dict | None = None) -> None:
-        """Record element_repr for an iterable's element type.
+        """Record element_reprs for an iterable's element types.
 
-        Stamps element_repr on the vector class entry in repr_index (first
-        time only) AND on prop_info so each property knows its own element
-        type. This is essential for generic containers like Vector that hold
-        different types per property.
+        element_reprs is a set of all unique type reprs found across probing.
+        Stamps are accumulated on both the vector class entry in repr_index
+        and on prop_info so each property knows its own element types.
         """
         vec_repr = repr(type(iterable))
         vec_entry = self.repr_index.get(vec_repr)
         for item in iterable:
             item_repr = repr(type(item))
-            if vec_entry is not None and not vec_entry.get("element_repr"):
-                vec_entry["element_repr"] = item_repr
-                self.log(f"  Recorded element_repr on {vec_repr}: {item_repr}")
-            if prop_info is not None and not prop_info.get("element_repr"):
-                prop_info["element_repr"] = item_repr
-                self.log(f"  Recorded element_repr on property: {item_repr}")
-            break
+            if vec_entry is not None:
+                reprs = vec_entry.setdefault("element_reprs", [])
+                if item_repr not in reprs:
+                    reprs.append(item_repr)
+                    self.log(f"  Recorded element_repr on {vec_repr}: {item_repr}")
+            if prop_info is not None:
+                reprs = prop_info.setdefault("element_reprs", [])
+                if item_repr not in reprs:
+                    reprs.append(item_repr)
+                    self.log(f"  Recorded element_repr on property: {item_repr}")
 
     # --- Completeness tracking ---
 
@@ -357,9 +359,9 @@ class PropertyProbe:
                 if any(not p["probed"] for p in entry.get("properties", {}).values()):
                     continue
 
-                # Vector classes need element_repr to be complete
+                # Vector classes need element_reprs to be complete
                 name = entry.get("path", "").rsplit("/", 1)[-1]
-                if name.endswith("Vector") and name != "Vector" and not entry.get("element_repr"):
+                if name.endswith("Vector") and name != "Vector" and not entry.get("element_reprs"):
                     continue
 
                 all_children_complete = True
