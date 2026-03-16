@@ -1,24 +1,24 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from . import DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from . import ATimeableValueVector, DeviceType
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
 
-class Device:
+class Device(LomObject):
     """This class represents a MIDI or Audio DSP-Device in Live."""
 
-    class View:
+    class View(LomObject):
         """Representing the view aspects of a device."""
 
         @property
         def _live_ptr(self) -> int:
             ...
 
-        def add_is_collapsed_listener(self, callback: Callable | None) -> None:
+        def add_is_collapsed_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_collapsed" has changed.
@@ -38,14 +38,14 @@ class Device:
         @is_collapsed.setter
         def is_collapsed(self, value: bool) -> None: ...
 
-        def is_collapsed_has_listener(self, callback: Callable | None) -> bool:
+        def is_collapsed_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_collapsed".
             """
             ...
 
-        def remove_is_collapsed_listener(self, callback: Callable | None) -> None:
+        def remove_is_collapsed_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "is_collapsed".
@@ -56,35 +56,35 @@ class Device:
     def _live_ptr(self) -> int:
         ...
 
-    def add_is_active_listener(self, callback: Callable | None) -> None:
+    def add_is_active_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_active" has changed.
         """
         ...
 
-    def add_latency_in_ms_listener(self, callback: Callable | None) -> None:
+    def add_latency_in_ms_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "latency_in_ms" has changed.
         """
         ...
 
-    def add_latency_in_samples_listener(self, callback: Callable | None) -> None:
+    def add_latency_in_samples_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "latency_in_samples" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_parameters_listener(self, callback: Callable | None) -> None:
+    def add_parameters_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "parameters" has changed.
@@ -121,7 +121,7 @@ class Device:
         """Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off."""
         ...
 
-    def is_active_has_listener(self, callback: Callable | None) -> bool:
+    def is_active_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_active".
@@ -133,7 +133,7 @@ class Device:
         """Returns the latency of the device in ms."""
         ...
 
-    def latency_in_ms_has_listener(self, callback: Callable | None) -> bool:
+    def latency_in_ms_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "latency_in_ms".
@@ -145,7 +145,7 @@ class Device:
         """Returns the latency of the device in samples."""
         ...
 
-    def latency_in_samples_has_listener(self, callback: Callable | None) -> bool:
+    def latency_in_samples_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "latency_in_samples".
@@ -160,7 +160,7 @@ class Device:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -168,53 +168,53 @@ class Device:
         ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def parameters_has_listener(self, callback: Callable | None) -> bool:
+    def parameters_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "parameters".
         """
         ...
 
-    def remove_is_active_listener(self, callback: Callable | None) -> None:
+    def remove_is_active_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_active".
         """
         ...
 
-    def remove_latency_in_ms_listener(self, callback: Callable | None) -> None:
+    def remove_latency_in_ms_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "latency_in_ms".
         """
         ...
 
-    def remove_latency_in_samples_listener(self, callback: Callable | None) -> None:
+    def remove_latency_in_samples_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "latency_in_samples".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_parameters_listener(self, callback: Callable | None) -> None:
+    def remove_parameters_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "parameters".
         """
         ...
 
-    def store_chosen_bank(self, script_index: int | None, bank_index: int | None) -> None:
+    def store_chosen_bank(self, script_index: int | None, bank_index: int | None, /) -> None:
         """Set the selected bank in the device for persistency."""
         ...
 

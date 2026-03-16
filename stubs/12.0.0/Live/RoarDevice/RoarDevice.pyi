@@ -1,28 +1,28 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Base import StringVector
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
 
-class RoarDevice:
+class RoarDevice(Device):
     """This class represents a Roar device."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_env_listen_listener(self, callback: Callable | None) -> None:
+    def add_env_listen_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "env_listen" has changed.
         """
         ...
 
-    def add_routing_mode_index_listener(self, callback: Callable | None) -> None:
+    def add_routing_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "routing_mode_index" has changed.
@@ -62,7 +62,7 @@ class RoarDevice:
     @env_listen.setter
     def env_listen(self, value: bool) -> None: ...
 
-    def env_listen_has_listener(self, callback: Callable | None) -> bool:
+    def env_listen_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "env_listen".
@@ -93,18 +93,18 @@ class RoarDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_env_listen_listener(self, callback: Callable | None) -> None:
+    def remove_env_listen_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "env_listen".
         """
         ...
 
-    def remove_routing_mode_index_listener(self, callback: Callable | None) -> None:
+    def remove_routing_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "routing_mode_index".
@@ -119,7 +119,7 @@ class RoarDevice:
     @routing_mode_index.setter
     def routing_mode_index(self, value: int) -> None: ...
 
-    def routing_mode_index_has_listener(self, callback: Callable | None) -> bool:
+    def routing_mode_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "routing_mode_index".
@@ -127,7 +127,7 @@ class RoarDevice:
         ...
 
     @property
-    def routing_mode_list(self) -> tuple[str, ...]:
+    def routing_mode_list(self) -> StringVector:
         """Return the routing mode list"""
         ...
 

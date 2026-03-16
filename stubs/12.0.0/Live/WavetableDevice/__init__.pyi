@@ -1,20 +1,20 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .WavetableDevice import WavetableDevice
 
 
-class EffectMode:
+class EffectMode(int):
     none: int = 0
     frequency_modulation: int = 1
     sync_and_pulse_width: int = 2
     warp_and_fold: int = 3
 
-class FilterRouting:
+class FilterRouting(int):
     serial: int = 0
     parallel: int = 1
     split: int = 2
 
-class ModulationSource:
+class ModulationSource(int):
     amp_envelope: int = 0
     envelope_2: int = 1
     envelope_3: int = 2
@@ -27,7 +27,7 @@ class ModulationSource:
     midi_mod_wheel: int = 9
     midi_random: int = 10
 
-class UnisonMode:
+class UnisonMode(int):
     none: int = 0
     classic: int = 1
     slow_shimmer: int = 2
@@ -36,7 +36,7 @@ class UnisonMode:
     position_spread: int = 5
     random_note: int = 6
 
-class VoiceCount:
+class VoiceCount(int):
     two: int = 0
     three: int = 1
     four: int = 2
@@ -45,7 +45,7 @@ class VoiceCount:
     seven: int = 5
     eight: int = 6
 
-class Voicing:
+class Voicing(int):
     mono: int = 0
     poly: int = 1
 

@@ -1,9 +1,9 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .ClipSlot import ClipSlot
 
 
-class ClipSlotPlayingState:
+class ClipSlotPlayingState(int):
     stopped: int = 0
     started: int = 1
     recording: int = 2

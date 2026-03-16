@@ -1,28 +1,28 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Base import StringVector
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
 
-class ShifterDevice:
+class ShifterDevice(Device):
     """This class represents a Shifter device."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def add_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_bend_range" has changed.
         """
         ...
 
-    def add_pitch_mode_index_listener(self, callback: Callable | None) -> None:
+    def add_pitch_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_mode_index" has changed.
@@ -78,7 +78,7 @@ class ShifterDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -90,7 +90,7 @@ class ShifterDevice:
     @pitch_bend_range.setter
     def pitch_bend_range(self, value: int) -> None: ...
 
-    def pitch_bend_range_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_bend_range_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_bend_range".
@@ -105,7 +105,7 @@ class ShifterDevice:
     @pitch_mode_index.setter
     def pitch_mode_index(self, value: int) -> None: ...
 
-    def pitch_mode_index_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_mode_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_mode_index".
@@ -113,18 +113,18 @@ class ShifterDevice:
         ...
 
     @property
-    def pitch_mode_list(self) -> tuple[str, ...]:
+    def pitch_mode_list(self) -> StringVector:
         """Return the current pitch mode list"""
         ...
 
-    def remove_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_bend_range".
         """
         ...
 
-    def remove_pitch_mode_index_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_mode_index".

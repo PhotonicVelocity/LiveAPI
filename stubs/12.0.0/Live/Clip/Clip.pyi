@@ -1,23 +1,25 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from . import AutomationEnvelope, GridQuantization, MidiNote, MidiNoteSpecification, MidiNoteVector, WarpMarker
-    from Live.Base import IntU64Vector
+    from . import AutomationEnvelope, GridQuantization, MidiNote, MidiNoteSpecification, MidiNoteVector, WarpMarker, WarpMarkerVector
+    from Live.Base import IntU64Vector, IntVector
     from Live.ClipSlot import ClipSlot
     from Live.DeviceParameter import DeviceParameter
+    from Live.Groove import Groove
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
 
-class Clip:
+class Clip(LomObject):
     """
     This class represents a Clip in Live. It can be either an Audio
     Clip or a MIDI Clip, in an Arrangement or the Session, depending
     on the Track (Slot) it lives in.
     """
 
-    class View:
+    class View(LomObject):
         """Representing the view aspects of a Clip."""
 
         @property
@@ -49,7 +51,7 @@ class Clip:
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, parameter: DeviceParameter | None) -> None:
+        def select_envelope_parameter(self, device_parameter: DeviceParameter | None, /) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -65,252 +67,252 @@ class Clip:
     def _live_ptr(self) -> int:
         ...
 
-    def add_color_index_listener(self, callback: Callable | None) -> None:
+    def add_color_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color_index" has changed.
         """
         ...
 
-    def add_color_listener(self, callback: Callable | None) -> None:
+    def add_color_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color" has changed.
         """
         ...
 
-    def add_end_marker_listener(self, callback: Callable | None) -> None:
+    def add_end_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "end_marker" has changed.
         """
         ...
 
-    def add_end_time_listener(self, callback: Callable | None) -> None:
+    def add_end_time_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "end_time" has changed.
         """
         ...
 
-    def add_file_path_listener(self, callback: Callable | None) -> None:
+    def add_file_path_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "file_path" has changed.
         """
         ...
 
-    def add_gain_listener(self, callback: Callable | None) -> None:
+    def add_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "gain" has changed.
         """
         ...
 
-    def add_groove_listener(self, callback: Callable | None) -> None:
+    def add_groove_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "groove" has changed.
         """
         ...
 
-    def add_has_envelopes_listener(self, callback: Callable | None) -> None:
+    def add_has_envelopes_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_envelopes" has changed.
         """
         ...
 
-    def add_is_overdubbing_listener(self, callback: Callable | None) -> None:
+    def add_is_overdubbing_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_overdubbing" has changed.
         """
         ...
 
-    def add_is_recording_listener(self, callback: Callable | None) -> None:
+    def add_is_recording_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_recording" has changed.
         """
         ...
 
-    def add_launch_mode_listener(self, callback: Callable | None) -> None:
+    def add_launch_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "launch_mode" has changed.
         """
         ...
 
-    def add_launch_quantization_listener(self, callback: Callable | None) -> None:
+    def add_launch_quantization_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "launch_quantization" has changed.
         """
         ...
 
-    def add_legato_listener(self, callback: Callable | None) -> None:
+    def add_legato_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "legato" has changed.
         """
         ...
 
-    def add_loop_end_listener(self, callback: Callable | None) -> None:
+    def add_loop_end_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop_end" has changed.
         """
         ...
 
-    def add_loop_jump_listener(self, callback: Callable | None) -> None:
+    def add_loop_jump_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop_jump" has changed.
         """
         ...
 
-    def add_loop_start_listener(self, callback: Callable | None) -> None:
+    def add_loop_start_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop_start" has changed.
         """
         ...
 
-    def add_looping_listener(self, callback: Callable | None) -> None:
+    def add_looping_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "looping" has changed.
         """
         ...
 
-    def add_muted_listener(self, callback: Callable | None) -> None:
+    def add_muted_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "muted" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_new_notes(self, notes: list[MidiNoteSpecification] | None) -> IntU64Vector:
+    def add_new_notes(self, notes: Iterable[MidiNoteSpecification] | None, /) -> IntU64Vector:
         """
         Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification
         objects. The objects will be used to construct new notes in the clip.
         """
         ...
 
-    def add_notes_listener(self, callback: Callable | None) -> None:
+    def add_notes_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "notes" has changed.
         """
         ...
 
-    def add_pitch_coarse_listener(self, callback: Callable | None) -> None:
+    def add_pitch_coarse_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_coarse" has changed.
         """
         ...
 
-    def add_pitch_fine_listener(self, callback: Callable | None) -> None:
+    def add_pitch_fine_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_fine" has changed.
         """
         ...
 
-    def add_playing_position_listener(self, callback: Callable | None) -> None:
+    def add_playing_position_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_position" has changed.
         """
         ...
 
-    def add_playing_status_listener(self, callback: Callable | None) -> None:
+    def add_playing_status_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_status" has changed.
         """
         ...
 
-    def add_position_listener(self, callback: Callable | None) -> None:
+    def add_position_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "position" has changed.
         """
         ...
 
-    def add_ram_mode_listener(self, callback: Callable | None) -> None:
+    def add_ram_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ram_mode" has changed.
         """
         ...
 
-    def add_signature_denominator_listener(self, callback: Callable | None) -> None:
+    def add_signature_denominator_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "signature_denominator" has changed.
         """
         ...
 
-    def add_signature_numerator_listener(self, callback: Callable | None) -> None:
+    def add_signature_numerator_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "signature_numerator" has changed.
         """
         ...
 
-    def add_start_marker_listener(self, callback: Callable | None) -> None:
+    def add_start_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "start_marker" has changed.
         """
         ...
 
-    def add_velocity_amount_listener(self, callback: Callable | None) -> None:
+    def add_velocity_amount_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "velocity_amount" has changed.
         """
         ...
 
-    def add_warp_marker(self, warp_marker: WarpMarker | None) -> None:
+    def add_warp_marker(self, warp_marker: WarpMarker | None, /) -> None:
         """
         Available for AudioClips only.
         Adds the specified warp marker, if possible.
         """
         ...
 
-    def add_warp_markers_listener(self, callback: Callable | None) -> None:
+    def add_warp_markers_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "warp_markers" has changed.
         """
         ...
 
-    def add_warp_mode_listener(self, callback: Callable | None) -> None:
+    def add_warp_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "warp_mode" has changed.
         """
         ...
 
-    def add_warping_listener(self, callback: Callable | None) -> None:
+    def add_warping_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "warping" has changed.
         """
         ...
 
-    def apply_note_modifications(self, notes: MidiNoteVector | None) -> None:
+    def apply_note_modifications(self, notes: MidiNoteVector | None, /) -> None:
         """
         Expects a list of notes as returned from get_notes_extended. The content
         of the list will be used to modify existing notes in the clip, based on
@@ -324,19 +326,19 @@ class Clip:
         """
         ...
 
-    def automation_envelope(self, parameter: DeviceParameter | None) -> AutomationEnvelope:
+    def automation_envelope(self, device_parameter: DeviceParameter | None, /) -> AutomationEnvelope:
         """Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track."""
         ...
 
     @property
-    def available_warp_modes(self) -> tuple[int, ...]:
+    def available_warp_modes(self) -> IntVector:
         """
         Available for AudioClips only.
         Get/Set the available warp modes, that can be used.
         """
         ...
 
-    def beat_to_sample_time(self, beat_time: float | None) -> float:
+    def beat_to_sample_time(self, beat_time: float | None, /) -> float:
         """
         Available for AudioClips only.
         Converts the given beat time to sample time. Raises an error if the sample is not warped.
@@ -352,7 +354,7 @@ class Clip:
         """Clears all envelopes for this clip."""
         ...
 
-    def clear_envelope(self, parameter: DeviceParameter | None) -> None:
+    def clear_envelope(self, device_parameter: DeviceParameter | None, /) -> None:
         """Clears the envelope of this clips given parameter."""
         ...
 
@@ -364,7 +366,7 @@ class Clip:
     @color.setter
     def color(self, value: int) -> None: ...
 
-    def color_has_listener(self, callback: Callable | None) -> bool:
+    def color_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color".
@@ -379,14 +381,14 @@ class Clip:
     @color_index.setter
     def color_index(self, value: int) -> None: ...
 
-    def color_index_has_listener(self, callback: Callable | None) -> bool:
+    def color_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color_index".
         """
         ...
 
-    def create_automation_envelope(self, parameter: DeviceParameter | None) -> AutomationEnvelope:
+    def create_automation_envelope(self, device_parameter: DeviceParameter | None, /) -> AutomationEnvelope:
         """Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created."""
         ...
 
@@ -409,7 +411,7 @@ class Clip:
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: list[int] | None, destination_time: float | None = None, transposition_amount: int = 0) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: Iterable[int] | None, destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -421,7 +423,7 @@ class Clip:
         """
         ...
 
-    def duplicate_region(self, region_start: float | None, region_length: float | None, destination_time: float | None, pitch: int = -1, transposition_amount: int = 0) -> None:
+    def duplicate_region(self, region_start: float | None, region_length: float | None, destination_time: float | None, pitch: int = -1, transposition_amount: int = 0, /) -> None:
         """
         Duplicate the notes in the specified region to the destination_time.
         Only notes of the specified pitch are duplicated or all if pitch is -1.
@@ -438,7 +440,7 @@ class Clip:
     @end_marker.setter
     def end_marker(self, value: float) -> None: ...
 
-    def end_marker_has_listener(self, callback: Callable | None) -> bool:
+    def end_marker_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "end_marker".
@@ -450,7 +452,7 @@ class Clip:
         """Get the clip's end time."""
         ...
 
-    def end_time_has_listener(self, callback: Callable | None) -> bool:
+    def end_time_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "end_time".
@@ -462,7 +464,7 @@ class Clip:
         """Get the path of the file represented by the Audio Clip."""
         ...
 
-    def file_path_has_listener(self, callback: Callable | None) -> bool:
+    def file_path_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "file_path".
@@ -490,7 +492,7 @@ class Clip:
         """Return a string with the gain as dB value"""
         ...
 
-    def gain_has_listener(self, callback: Callable | None) -> bool:
+    def gain_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "gain".
@@ -507,7 +509,7 @@ class Clip:
         """
         ...
 
-    def get_notes(self, from_time: float | None, from_pitch: int | None, time_span: float | None, pitch_span: int | None) -> tuple:
+    def get_notes(self, from_time: float | None, from_pitch: int | None, time_span: float | None, pitch_span: int | None, /) -> tuple[tuple[int, float, float, float, bool], ...]:
         """
         Returns a tuple of tuples where each inner tuple represents
         a note starting in the given pitch- and time range.
@@ -515,11 +517,11 @@ class Clip:
         """
         ...
 
-    def get_notes_by_id(self, note_ids: list[int] | None) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: Iterable[int] | None, /) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
-    def get_notes_extended(self, from_pitch: int | None, pitch_span: int | None, from_time: float | None, time_span: float | None) -> MidiNoteVector:
+    def get_notes_extended(self, from_pitch: int | None, pitch_span: int | None, from_time: float | None, time_span: float | None, /) -> MidiNoteVector:
         """
         Returns a list of MIDI notes from the given pitch and time range.
         Each note is represented by a Live.Clip.MidiNote object.
@@ -528,7 +530,7 @@ class Clip:
         """
         ...
 
-    def get_selected_notes(self) -> tuple:
+    def get_selected_notes(self) -> tuple[tuple[int, float, float, float, bool], ...]:
         """
         Returns a tuple of tuples where each inner tuple
         represents a selected note. The inner tuple contains
@@ -546,14 +548,14 @@ class Clip:
         ...
 
     @property
-    def groove(self) -> None:
+    def groove(self) -> Groove | None:
         """Get the groove associated with this clip."""
         ...
 
     @groove.setter
-    def groove(self, value: None) -> None: ...
+    def groove(self, value: Groove | None) -> None: ...
 
-    def groove_has_listener(self, callback: Callable | None) -> bool:
+    def groove_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "groove".
@@ -565,7 +567,7 @@ class Clip:
         """Will notify if the clip gets his first envelope or the last envelope is removed."""
         ...
 
-    def has_envelopes_has_listener(self, callback: Callable | None) -> bool:
+    def has_envelopes_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_envelopes".
@@ -606,7 +608,7 @@ class Clip:
         """returns true if the Clip is recording overdubs"""
         ...
 
-    def is_overdubbing_has_listener(self, callback: Callable | None) -> bool:
+    def is_overdubbing_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_overdubbing".
@@ -630,7 +632,7 @@ class Clip:
         """returns true if the Clip was triggered to record or is recording."""
         ...
 
-    def is_recording_has_listener(self, callback: Callable | None) -> bool:
+    def is_recording_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_recording".
@@ -650,7 +652,7 @@ class Clip:
     @launch_mode.setter
     def launch_mode(self, value: int) -> None: ...
 
-    def launch_mode_has_listener(self, callback: Callable | None) -> bool:
+    def launch_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "launch_mode".
@@ -665,7 +667,7 @@ class Clip:
     @launch_quantization.setter
     def launch_quantization(self, value: int) -> None: ...
 
-    def launch_quantization_has_listener(self, callback: Callable | None) -> bool:
+    def launch_quantization_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "launch_quantization".
@@ -680,7 +682,7 @@ class Clip:
     @legato.setter
     def legato(self, value: bool) -> None: ...
 
-    def legato_has_listener(self, callback: Callable | None) -> bool:
+    def legato_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "legato".
@@ -700,14 +702,14 @@ class Clip:
     @loop_end.setter
     def loop_end(self, value: float) -> None: ...
 
-    def loop_end_has_listener(self, callback: Callable | None) -> bool:
+    def loop_end_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop_end".
         """
         ...
 
-    def loop_jump_has_listener(self, callback: Callable | None) -> bool:
+    def loop_jump_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop_jump".
@@ -722,7 +724,7 @@ class Clip:
     @loop_start.setter
     def loop_start(self, value: float) -> None: ...
 
-    def loop_start_has_listener(self, callback: Callable | None) -> bool:
+    def loop_start_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop_start".
@@ -740,21 +742,21 @@ class Clip:
     @looping.setter
     def looping(self, value: bool) -> None: ...
 
-    def looping_has_listener(self, callback: Callable | None) -> bool:
+    def looping_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "looping".
         """
         ...
 
-    def move_playing_pos(self, beats: float | None) -> None:
+    def move_playing_pos(self, beats: float | None, /) -> None:
         """
         Jump forward or backward by the specified relative amount in beats.
         Will do nothing, if the Clip is not playing.
         """
         ...
 
-    def move_warp_marker(self, marker_beat_time: float | None, beat_time_distance: float | None) -> None:
+    def move_warp_marker(self, marker_beat_time: float | None, beat_time_distance: float | None, /) -> None:
         """
         Available for AudioClips only.
         Moves the specified warp marker by the specified beat time amount, if possible.
@@ -769,7 +771,7 @@ class Clip:
     @muted.setter
     def muted(self, value: bool) -> None: ...
 
-    def muted_has_listener(self, callback: Callable | None) -> bool:
+    def muted_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "muted".
@@ -784,14 +786,14 @@ class Clip:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def notes_has_listener(self, callback: Callable | None) -> bool:
+    def notes_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "notes".
@@ -810,7 +812,7 @@ class Clip:
     @pitch_coarse.setter
     def pitch_coarse(self, value: int) -> None: ...
 
-    def pitch_coarse_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_coarse_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_coarse".
@@ -829,7 +831,7 @@ class Clip:
     @pitch_fine.setter
     def pitch_fine(self, value: float) -> None: ...
 
-    def pitch_fine_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_fine_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_fine".
@@ -845,14 +847,14 @@ class Clip:
         """
         ...
 
-    def playing_position_has_listener(self, callback: Callable | None) -> bool:
+    def playing_position_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playing_position".
         """
         ...
 
-    def playing_status_has_listener(self, callback: Callable | None) -> bool:
+    def playing_status_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playing_status".
@@ -867,18 +869,18 @@ class Clip:
     @position.setter
     def position(self, value: float) -> None: ...
 
-    def position_has_listener(self, callback: Callable | None) -> bool:
+    def position_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "position".
         """
         ...
 
-    def quantize(self, quantization_grid: int | None, amount: float | None) -> None:
+    def quantize(self, quantization_grid: int | None, amount: float | None, /) -> None:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, note: int | None, source: int | None, amount: float | None) -> None:
+    def quantize_pitch(self, note: int | None, source: int | None, amount: float | None, /) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 
@@ -893,151 +895,151 @@ class Clip:
     @ram_mode.setter
     def ram_mode(self, value: bool) -> None: ...
 
-    def ram_mode_has_listener(self, callback: Callable | None) -> bool:
+    def ram_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ram_mode".
         """
         ...
 
-    def remove_color_index_listener(self, callback: Callable | None) -> None:
+    def remove_color_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "color_index".
         """
         ...
 
-    def remove_color_listener(self, callback: Callable | None) -> None:
+    def remove_color_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "color".
         """
         ...
 
-    def remove_end_marker_listener(self, callback: Callable | None) -> None:
+    def remove_end_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "end_marker".
         """
         ...
 
-    def remove_end_time_listener(self, callback: Callable | None) -> None:
+    def remove_end_time_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "end_time".
         """
         ...
 
-    def remove_file_path_listener(self, callback: Callable | None) -> None:
+    def remove_file_path_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "file_path".
         """
         ...
 
-    def remove_gain_listener(self, callback: Callable | None) -> None:
+    def remove_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "gain".
         """
         ...
 
-    def remove_groove_listener(self, callback: Callable | None) -> None:
+    def remove_groove_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "groove".
         """
         ...
 
-    def remove_has_envelopes_listener(self, callback: Callable | None) -> None:
+    def remove_has_envelopes_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "has_envelopes".
         """
         ...
 
-    def remove_is_overdubbing_listener(self, callback: Callable | None) -> None:
+    def remove_is_overdubbing_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_overdubbing".
         """
         ...
 
-    def remove_is_recording_listener(self, callback: Callable | None) -> None:
+    def remove_is_recording_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_recording".
         """
         ...
 
-    def remove_launch_mode_listener(self, callback: Callable | None) -> None:
+    def remove_launch_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "launch_mode".
         """
         ...
 
-    def remove_launch_quantization_listener(self, callback: Callable | None) -> None:
+    def remove_launch_quantization_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "launch_quantization".
         """
         ...
 
-    def remove_legato_listener(self, callback: Callable | None) -> None:
+    def remove_legato_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "legato".
         """
         ...
 
-    def remove_loop_end_listener(self, callback: Callable | None) -> None:
+    def remove_loop_end_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop_end".
         """
         ...
 
-    def remove_loop_jump_listener(self, callback: Callable | None) -> None:
+    def remove_loop_jump_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop_jump".
         """
         ...
 
-    def remove_loop_start_listener(self, callback: Callable | None) -> None:
+    def remove_loop_start_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop_start".
         """
         ...
 
-    def remove_looping_listener(self, callback: Callable | None) -> None:
+    def remove_looping_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "looping".
         """
         ...
 
-    def remove_muted_listener(self, callback: Callable | None) -> None:
+    def remove_muted_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "muted".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_notes(self, start_time: float | None, pitch_low: int | None, duration: float | None, pitch_high: int | None) -> None:
+    def remove_notes(self, from_time: float | None, from_pitch: int | None, time_span: float | None, pitch_span: int | None, /) -> None:
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: list[int] | None) -> None:
+    def remove_notes_by_id(self, note_ids: Iterable[int] | None, /) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1047,7 +1049,7 @@ class Clip:
         """
         ...
 
-    def remove_notes_extended(self, from_pitch: int | None, pitch_span: int | None, from_time: float | None, time_span: float | None) -> None:
+    def remove_notes_extended(self, from_pitch: int | None, pitch_span: int | None, from_time: float | None, time_span: float | None, /) -> None:
         """
         Delete all notes starting in the given pitch and time range.
         This function should NOT be used to implement modification of existing notes
@@ -1057,112 +1059,112 @@ class Clip:
         """
         ...
 
-    def remove_notes_listener(self, callback: Callable | None) -> None:
+    def remove_notes_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "notes".
         """
         ...
 
-    def remove_pitch_coarse_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_coarse_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_coarse".
         """
         ...
 
-    def remove_pitch_fine_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_fine_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_fine".
         """
         ...
 
-    def remove_playing_position_listener(self, callback: Callable | None) -> None:
+    def remove_playing_position_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "playing_position".
         """
         ...
 
-    def remove_playing_status_listener(self, callback: Callable | None) -> None:
+    def remove_playing_status_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "playing_status".
         """
         ...
 
-    def remove_position_listener(self, callback: Callable | None) -> None:
+    def remove_position_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "position".
         """
         ...
 
-    def remove_ram_mode_listener(self, callback: Callable | None) -> None:
+    def remove_ram_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ram_mode".
         """
         ...
 
-    def remove_signature_denominator_listener(self, callback: Callable | None) -> None:
+    def remove_signature_denominator_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "signature_denominator".
         """
         ...
 
-    def remove_signature_numerator_listener(self, callback: Callable | None) -> None:
+    def remove_signature_numerator_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "signature_numerator".
         """
         ...
 
-    def remove_start_marker_listener(self, callback: Callable | None) -> None:
+    def remove_start_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "start_marker".
         """
         ...
 
-    def remove_velocity_amount_listener(self, callback: Callable | None) -> None:
+    def remove_velocity_amount_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "velocity_amount".
         """
         ...
 
-    def remove_warp_marker(self, beat_time: float | None) -> None:
+    def remove_warp_marker(self, beat_time: float | None, /) -> None:
         """
         Available for AudioClips only.
         Removes the specified warp marker, if possible.
         """
         ...
 
-    def remove_warp_markers_listener(self, callback: Callable | None) -> None:
+    def remove_warp_markers_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "warp_markers".
         """
         ...
 
-    def remove_warp_mode_listener(self, callback: Callable | None) -> None:
+    def remove_warp_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "warp_mode".
         """
         ...
 
-    def remove_warping_listener(self, callback: Callable | None) -> None:
+    def remove_warping_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "warping".
         """
         ...
 
-    def replace_selected_notes(self, notes: tuple | None) -> None:
+    def replace_selected_notes(self, notes: tuple[tuple[int, float, float, float, bool], ...] | None, /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_selected_notes. The
@@ -1186,14 +1188,14 @@ class Clip:
         """
         ...
 
-    def sample_to_beat_time(self, sample_time: float | None) -> float:
+    def sample_to_beat_time(self, sample_time: float | None, /) -> float:
         """
         Available for AudioClips only.
         Converts the given sample time to beat time. Raises an error if the sample is not warped.
         """
         ...
 
-    def scrub(self, scrub_position: float | None) -> None:
+    def scrub(self, scrub_position: float | None, /) -> None:
         """
         Scrubs inside a clip.
         scrub_position defines the position in beats that the scrub will start from.
@@ -1202,7 +1204,7 @@ class Clip:
         """
         ...
 
-    def seconds_to_sample_time(self, seconds: float | None) -> float:
+    def seconds_to_sample_time(self, seconds: float | None, /) -> float:
         """
         Available for AudioClips only.
         Converts the given seconds to sample time. Raises an error if the sample is warped.
@@ -1213,15 +1215,15 @@ class Clip:
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: list[int] | None) -> None:
+    def select_notes_by_id(self, note_ids: Iterable[int] | None, /) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 
-    def set_fire_button_state(self, state: bool | None) -> None:
+    def set_fire_button_state(self, state: bool | None, /) -> None:
         """Set the clip's fire button state directly. Supports all launch modes."""
         ...
 
-    def set_notes(self, notes: tuple | None) -> None:
+    def set_notes(self, notes: tuple[tuple[int, float, float, float, bool], ...] | None, /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_notes. The
@@ -1237,7 +1239,7 @@ class Clip:
     @signature_denominator.setter
     def signature_denominator(self, value: int) -> None: ...
 
-    def signature_denominator_has_listener(self, callback: Callable | None) -> bool:
+    def signature_denominator_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "signature_denominator".
@@ -1252,7 +1254,7 @@ class Clip:
     @signature_numerator.setter
     def signature_numerator(self, value: int) -> None: ...
 
-    def signature_numerator_has_listener(self, callback: Callable | None) -> bool:
+    def signature_numerator_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "signature_numerator".
@@ -1267,7 +1269,7 @@ class Clip:
     @start_marker.setter
     def start_marker(self, value: float) -> None: ...
 
-    def start_marker_has_listener(self, callback: Callable | None) -> bool:
+    def start_marker_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "start_marker".
@@ -1295,7 +1297,7 @@ class Clip:
     @velocity_amount.setter
     def velocity_amount(self, value: float) -> None: ...
 
-    def velocity_amount_has_listener(self, callback: Callable | None) -> bool:
+    def velocity_amount_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "velocity_amount".
@@ -1308,14 +1310,14 @@ class Clip:
         ...
 
     @property
-    def warp_markers(self) -> tuple[WarpMarker, ...]:
+    def warp_markers(self) -> WarpMarkerVector:
         """
         Available for AudioClips only.
         Get the warp markers for this audio clip.
         """
         ...
 
-    def warp_markers_has_listener(self, callback: Callable | None) -> bool:
+    def warp_markers_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "warp_markers".
@@ -1333,7 +1335,7 @@ class Clip:
     @warp_mode.setter
     def warp_mode(self, value: int) -> None: ...
 
-    def warp_mode_has_listener(self, callback: Callable | None) -> bool:
+    def warp_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "warp_mode".
@@ -1351,7 +1353,7 @@ class Clip:
     @warping.setter
     def warping(self, value: bool) -> None: ...
 
-    def warping_has_listener(self, callback: Callable | None) -> bool:
+    def warping_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "warping".

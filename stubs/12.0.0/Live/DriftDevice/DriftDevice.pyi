@@ -1,119 +1,119 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Base import StringVector
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
 
-class DriftDevice:
+class DriftDevice(Device):
     """This class represents a Drift device."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_mod_matrix_filter_source_1_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_filter_source_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_filter_source_1_index" has changed.
         """
         ...
 
-    def add_mod_matrix_filter_source_2_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_filter_source_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_filter_source_2_index" has changed.
         """
         ...
 
-    def add_mod_matrix_lfo_source_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_lfo_source_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_lfo_source_index" has changed.
         """
         ...
 
-    def add_mod_matrix_pitch_source_1_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_pitch_source_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_pitch_source_1_index" has changed.
         """
         ...
 
-    def add_mod_matrix_pitch_source_2_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_pitch_source_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_pitch_source_2_index" has changed.
         """
         ...
 
-    def add_mod_matrix_shape_source_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_shape_source_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_shape_source_index" has changed.
         """
         ...
 
-    def add_mod_matrix_source_1_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_source_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_source_1_index" has changed.
         """
         ...
 
-    def add_mod_matrix_source_2_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_source_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_source_2_index" has changed.
         """
         ...
 
-    def add_mod_matrix_source_3_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_source_3_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_source_3_index" has changed.
         """
         ...
 
-    def add_mod_matrix_target_1_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_target_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_target_1_index" has changed.
         """
         ...
 
-    def add_mod_matrix_target_2_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_target_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_target_2_index" has changed.
         """
         ...
 
-    def add_mod_matrix_target_3_index_listener(self, callback: Callable | None) -> None:
+    def add_mod_matrix_target_3_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mod_matrix_target_3_index" has changed.
         """
         ...
 
-    def add_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def add_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_bend_range" has changed.
         """
         ...
 
-    def add_voice_count_index_listener(self, callback: Callable | None) -> None:
+    def add_voice_count_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "voice_count_index" has changed.
         """
         ...
 
-    def add_voice_mode_index_listener(self, callback: Callable | None) -> None:
+    def add_voice_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "voice_mode_index" has changed.
@@ -168,7 +168,7 @@ class DriftDevice:
     @mod_matrix_filter_source_1_index.setter
     def mod_matrix_filter_source_1_index(self, value: int) -> None: ...
 
-    def mod_matrix_filter_source_1_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_filter_source_1_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_filter_source_1_index".
@@ -176,7 +176,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_filter_source_1_list(self) -> tuple[str, ...]:
+    def mod_matrix_filter_source_1_list(self) -> StringVector:
         """Return the filter mod source 1 list"""
         ...
 
@@ -188,7 +188,7 @@ class DriftDevice:
     @mod_matrix_filter_source_2_index.setter
     def mod_matrix_filter_source_2_index(self, value: int) -> None: ...
 
-    def mod_matrix_filter_source_2_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_filter_source_2_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_filter_source_2_index".
@@ -196,7 +196,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_filter_source_2_list(self) -> tuple[str, ...]:
+    def mod_matrix_filter_source_2_list(self) -> StringVector:
         """Return the filter mod source 2 list"""
         ...
 
@@ -208,7 +208,7 @@ class DriftDevice:
     @mod_matrix_lfo_source_index.setter
     def mod_matrix_lfo_source_index(self, value: int) -> None: ...
 
-    def mod_matrix_lfo_source_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_lfo_source_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_lfo_source_index".
@@ -216,7 +216,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_lfo_source_list(self) -> tuple[str, ...]:
+    def mod_matrix_lfo_source_list(self) -> StringVector:
         """Return the lfo mod source list"""
         ...
 
@@ -228,7 +228,7 @@ class DriftDevice:
     @mod_matrix_pitch_source_1_index.setter
     def mod_matrix_pitch_source_1_index(self, value: int) -> None: ...
 
-    def mod_matrix_pitch_source_1_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_pitch_source_1_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_pitch_source_1_index".
@@ -236,7 +236,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_pitch_source_1_list(self) -> tuple[str, ...]:
+    def mod_matrix_pitch_source_1_list(self) -> StringVector:
         """Return the pitch mod source 1 list"""
         ...
 
@@ -248,7 +248,7 @@ class DriftDevice:
     @mod_matrix_pitch_source_2_index.setter
     def mod_matrix_pitch_source_2_index(self, value: int) -> None: ...
 
-    def mod_matrix_pitch_source_2_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_pitch_source_2_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_pitch_source_2_index".
@@ -256,7 +256,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_pitch_source_2_list(self) -> tuple[str, ...]:
+    def mod_matrix_pitch_source_2_list(self) -> StringVector:
         """Return the pitch mod source 2 list"""
         ...
 
@@ -268,7 +268,7 @@ class DriftDevice:
     @mod_matrix_shape_source_index.setter
     def mod_matrix_shape_source_index(self, value: int) -> None: ...
 
-    def mod_matrix_shape_source_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_shape_source_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_shape_source_index".
@@ -276,7 +276,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_shape_source_list(self) -> tuple[str, ...]:
+    def mod_matrix_shape_source_list(self) -> StringVector:
         """Return the shape mod source list"""
         ...
 
@@ -288,7 +288,7 @@ class DriftDevice:
     @mod_matrix_source_1_index.setter
     def mod_matrix_source_1_index(self, value: int) -> None: ...
 
-    def mod_matrix_source_1_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_source_1_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_source_1_index".
@@ -296,7 +296,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_source_1_list(self) -> tuple[str, ...]:
+    def mod_matrix_source_1_list(self) -> StringVector:
         """Return the custom mod source 1 list"""
         ...
 
@@ -308,7 +308,7 @@ class DriftDevice:
     @mod_matrix_source_2_index.setter
     def mod_matrix_source_2_index(self, value: int) -> None: ...
 
-    def mod_matrix_source_2_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_source_2_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_source_2_index".
@@ -316,7 +316,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_source_2_list(self) -> tuple[str, ...]:
+    def mod_matrix_source_2_list(self) -> StringVector:
         """Return the custom mod source 2 list"""
         ...
 
@@ -328,7 +328,7 @@ class DriftDevice:
     @mod_matrix_source_3_index.setter
     def mod_matrix_source_3_index(self, value: int) -> None: ...
 
-    def mod_matrix_source_3_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_source_3_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_source_3_index".
@@ -336,7 +336,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_source_3_list(self) -> tuple[str, ...]:
+    def mod_matrix_source_3_list(self) -> StringVector:
         """Return the custom mod source 3 list"""
         ...
 
@@ -348,7 +348,7 @@ class DriftDevice:
     @mod_matrix_target_1_index.setter
     def mod_matrix_target_1_index(self, value: int) -> None: ...
 
-    def mod_matrix_target_1_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_target_1_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_target_1_index".
@@ -356,7 +356,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_target_1_list(self) -> tuple[str, ...]:
+    def mod_matrix_target_1_list(self) -> StringVector:
         """Return the custom mod target 1 list"""
         ...
 
@@ -368,7 +368,7 @@ class DriftDevice:
     @mod_matrix_target_2_index.setter
     def mod_matrix_target_2_index(self, value: int) -> None: ...
 
-    def mod_matrix_target_2_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_target_2_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_target_2_index".
@@ -376,7 +376,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_target_2_list(self) -> tuple[str, ...]:
+    def mod_matrix_target_2_list(self) -> StringVector:
         """Return the custom mod target 2 list"""
         ...
 
@@ -388,7 +388,7 @@ class DriftDevice:
     @mod_matrix_target_3_index.setter
     def mod_matrix_target_3_index(self, value: int) -> None: ...
 
-    def mod_matrix_target_3_index_has_listener(self, callback: Callable | None) -> bool:
+    def mod_matrix_target_3_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mod_matrix_target_3_index".
@@ -396,7 +396,7 @@ class DriftDevice:
         ...
 
     @property
-    def mod_matrix_target_3_list(self) -> tuple[str, ...]:
+    def mod_matrix_target_3_list(self) -> StringVector:
         """Return the custom mod target 3 list"""
         ...
 
@@ -409,7 +409,7 @@ class DriftDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -421,112 +421,112 @@ class DriftDevice:
     @pitch_bend_range.setter
     def pitch_bend_range(self, value: int) -> None: ...
 
-    def pitch_bend_range_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_bend_range_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_bend_range".
         """
         ...
 
-    def remove_mod_matrix_filter_source_1_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_filter_source_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_filter_source_1_index".
         """
         ...
 
-    def remove_mod_matrix_filter_source_2_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_filter_source_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_filter_source_2_index".
         """
         ...
 
-    def remove_mod_matrix_lfo_source_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_lfo_source_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_lfo_source_index".
         """
         ...
 
-    def remove_mod_matrix_pitch_source_1_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_pitch_source_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_pitch_source_1_index".
         """
         ...
 
-    def remove_mod_matrix_pitch_source_2_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_pitch_source_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_pitch_source_2_index".
         """
         ...
 
-    def remove_mod_matrix_shape_source_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_shape_source_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_shape_source_index".
         """
         ...
 
-    def remove_mod_matrix_source_1_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_source_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_source_1_index".
         """
         ...
 
-    def remove_mod_matrix_source_2_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_source_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_source_2_index".
         """
         ...
 
-    def remove_mod_matrix_source_3_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_source_3_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_source_3_index".
         """
         ...
 
-    def remove_mod_matrix_target_1_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_target_1_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_target_1_index".
         """
         ...
 
-    def remove_mod_matrix_target_2_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_target_2_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_target_2_index".
         """
         ...
 
-    def remove_mod_matrix_target_3_index_listener(self, callback: Callable | None) -> None:
+    def remove_mod_matrix_target_3_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mod_matrix_target_3_index".
         """
         ...
 
-    def remove_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_bend_range".
         """
         ...
 
-    def remove_voice_count_index_listener(self, callback: Callable | None) -> None:
+    def remove_voice_count_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "voice_count_index".
         """
         ...
 
-    def remove_voice_mode_index_listener(self, callback: Callable | None) -> None:
+    def remove_voice_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "voice_mode_index".
@@ -551,7 +551,7 @@ class DriftDevice:
     @voice_count_index.setter
     def voice_count_index(self, value: int) -> None: ...
 
-    def voice_count_index_has_listener(self, callback: Callable | None) -> bool:
+    def voice_count_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "voice_count_index".
@@ -559,7 +559,7 @@ class DriftDevice:
         ...
 
     @property
-    def voice_count_list(self) -> tuple[str, ...]:
+    def voice_count_list(self) -> StringVector:
         """Return the voice count list"""
         ...
 
@@ -571,7 +571,7 @@ class DriftDevice:
     @voice_mode_index.setter
     def voice_mode_index(self, value: int) -> None: ...
 
-    def voice_mode_index_has_listener(self, callback: Callable | None) -> bool:
+    def voice_mode_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "voice_mode_index".
@@ -579,7 +579,7 @@ class DriftDevice:
         ...
 
     @property
-    def voice_mode_list(self) -> tuple[str, ...]:
+    def voice_mode_list(self) -> StringVector:
         """Return the voice mode list"""
         ...
 

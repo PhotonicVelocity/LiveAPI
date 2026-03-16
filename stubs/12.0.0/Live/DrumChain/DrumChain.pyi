@@ -1,7 +1,8 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Chain import Chain
     from Live.ChainMixerDevice import ChainMixerDevice
     from Live.RackDevice import RackDevice
@@ -9,21 +10,21 @@ if TYPE_CHECKING:
 
 
 
-class DrumChain:
+class DrumChain(Chain):
     """This class represents a drum group device chain in Live."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_choke_group_listener(self, callback: Callable | None) -> None:
+    def add_choke_group_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "choke_group" has changed.
         """
         ...
 
-    def add_out_note_listener(self, callback: Callable | None) -> None:
+    def add_out_note_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "out_note" has changed.
@@ -43,7 +44,7 @@ class DrumChain:
     @choke_group.setter
     def choke_group(self, value: int) -> None: ...
 
-    def choke_group_has_listener(self, callback: Callable | None) -> bool:
+    def choke_group_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "choke_group".
@@ -67,7 +68,7 @@ class DrumChain:
     def color_index(self, value: int) -> None: ...
 
     @property
-    def devices(self) -> tuple:
+    def devices(self) -> Vector:
         """Return const access to all available Devices that are present in the chains"""
         ...
 
@@ -155,21 +156,21 @@ class DrumChain:
     @out_note.setter
     def out_note(self, value: int) -> None: ...
 
-    def out_note_has_listener(self, callback: Callable | None) -> bool:
+    def out_note_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "out_note".
         """
         ...
 
-    def remove_choke_group_listener(self, callback: Callable | None) -> None:
+    def remove_choke_group_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "choke_group".
         """
         ...
 
-    def remove_out_note_listener(self, callback: Callable | None) -> None:
+    def remove_out_note_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "out_note".

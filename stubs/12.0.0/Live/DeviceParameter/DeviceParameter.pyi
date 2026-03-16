@@ -1,13 +1,15 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import AutomationState
+    from Live.Base import StringVector
     from Live.Device import Device
+    from Live.LomObject import LomObject
 
 
 
-class DeviceParameter:
+class DeviceParameter(LomObject):
     """
     This class represents a (automatable) parameter within a MIDI or
     Audio DSP-Device.
@@ -17,28 +19,28 @@ class DeviceParameter:
     def _live_ptr(self) -> int:
         ...
 
-    def add_automation_state_listener(self, callback: Callable | None) -> None:
+    def add_automation_state_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "automation_state" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_state_listener(self, callback: Callable | None) -> None:
+    def add_state_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "state" has changed.
         """
         ...
 
-    def add_value_listener(self, callback: Callable | None) -> None:
+    def add_value_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "value" has changed.
@@ -50,7 +52,7 @@ class DeviceParameter:
         """Returns state of type AutomationState."""
         ...
 
-    def automation_state_has_listener(self, callback: Callable | None) -> bool:
+    def automation_state_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "automation_state".
@@ -115,7 +117,7 @@ class DeviceParameter:
         """
         ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -134,28 +136,28 @@ class DeviceParameter:
         """Reenable automation for this parameter."""
         ...
 
-    def remove_automation_state_listener(self, callback: Callable | None) -> None:
+    def remove_automation_state_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "automation_state".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_state_listener(self, callback: Callable | None) -> None:
+    def remove_state_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "state".
         """
         ...
 
-    def remove_value_listener(self, callback: Callable | None) -> None:
+    def remove_value_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "value".
@@ -163,7 +165,7 @@ class DeviceParameter:
         ...
 
     @property
-    def short_value_items(self) -> tuple[str, ...]:
+    def short_value_items(self) -> StringVector:
         """Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False."""
         ...
 
@@ -177,14 +179,14 @@ class DeviceParameter:
         """
         ...
 
-    def state_has_listener(self, callback: Callable | None) -> bool:
+    def state_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "state".
         """
         ...
 
-    def str_for_value(self, value: float | None) -> str:
+    def str_for_value(self, value: float | None, /) -> str:
         """
         Return a string representation of the given value. To be used
         for display purposes only. This value can include characters like 'db' or
@@ -203,7 +205,7 @@ class DeviceParameter:
     @value.setter
     def value(self, value: float) -> None: ...
 
-    def value_has_listener(self, callback: Callable | None) -> bool:
+    def value_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "value".
@@ -211,7 +213,7 @@ class DeviceParameter:
         ...
 
     @property
-    def value_items(self) -> tuple[str, ...]:
+    def value_items(self) -> StringVector:
         """Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False."""
         ...
 
