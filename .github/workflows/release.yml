@@ -49,7 +49,7 @@ jobs:
             # Push trigger — find versions whose stubs changed in this commit
             versions=""
             post_map=""
-            changed_versions=$(git diff --name-only HEAD~1 -- 'stubs/*/Live/' \
+            changed_versions=$(git diff --name-only HEAD~1 -- stubs/ \
               | sed -n 's|^stubs/\([^/]*\)/Live/.*|\1|p' | sort -u)
             for version in $changed_versions; do
               [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
