@@ -17,28 +17,28 @@ class LooperDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_loop_length_listener(self, callback: Callable | None) -> None:
+    def add_loop_length_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop_length" has changed.
         """
         ...
 
-    def add_overdub_after_record_listener(self, callback: Callable | None) -> None:
+    def add_overdub_after_record_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "overdub_after_record" has changed.
         """
         ...
 
-    def add_record_length_index_listener(self, callback: Callable | None) -> None:
+    def add_record_length_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "record_length_index" has changed.
         """
         ...
 
-    def add_tempo_listener(self, callback: Callable | None) -> None:
+    def add_tempo_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tempo" has changed.
@@ -87,7 +87,7 @@ class LooperDevice(Device):
         """Double the speed of Looper's playback."""
         ...
 
-    def export_to_clip_slot(self, clip_slot: ClipSlot | None) -> None:
+    def export_to_clip_slot(self, clip_slot: ClipSlot | None, /) -> None:
         """Export Looper's content to a Session Clip Slot."""
         ...
 
@@ -127,7 +127,7 @@ class LooperDevice(Device):
         """The length of Looper's buffer."""
         ...
 
-    def loop_length_has_listener(self, callback: Callable | None) -> bool:
+    def loop_length_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop_length".
@@ -154,7 +154,7 @@ class LooperDevice(Device):
     @overdub_after_record.setter
     def overdub_after_record(self, value: bool) -> None: ...
 
-    def overdub_after_record_has_listener(self, callback: Callable | None) -> bool:
+    def overdub_after_record_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "overdub_after_record".
@@ -182,7 +182,7 @@ class LooperDevice(Device):
     @record_length_index.setter
     def record_length_index(self, value: int) -> None: ...
 
-    def record_length_index_has_listener(self, callback: Callable | None) -> bool:
+    def record_length_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "record_length_index".
@@ -194,28 +194,28 @@ class LooperDevice(Device):
         """Read-only access to the list of Record Length chooser entry strings."""
         ...
 
-    def remove_loop_length_listener(self, callback: Callable | None) -> None:
+    def remove_loop_length_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop_length".
         """
         ...
 
-    def remove_overdub_after_record_listener(self, callback: Callable | None) -> None:
+    def remove_overdub_after_record_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "overdub_after_record".
         """
         ...
 
-    def remove_record_length_index_listener(self, callback: Callable | None) -> None:
+    def remove_record_length_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "record_length_index".
         """
         ...
 
-    def remove_tempo_listener(self, callback: Callable | None) -> None:
+    def remove_tempo_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "tempo".
@@ -231,7 +231,7 @@ class LooperDevice(Device):
         """The tempo of Looper's buffer."""
         ...
 
-    def tempo_has_listener(self, callback: Callable | None) -> bool:
+    def tempo_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tempo".

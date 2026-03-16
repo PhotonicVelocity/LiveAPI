@@ -33,10 +33,10 @@ class ListenerHandle:
 class ListenerVector(Vector[ListenerHandle]):
     """A read only container for accessing a list of listeners."""
 
-    def append(self, value: ListenerHandle | None) -> None:
+    def append(self, value: ListenerHandle | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[ListenerHandle] | None) -> None:
+    def extend(self, values: Iterable[ListenerHandle] | None, /) -> None:
         ...
 
 __all__ = ['ListenerHandle', 'ListenerVector']

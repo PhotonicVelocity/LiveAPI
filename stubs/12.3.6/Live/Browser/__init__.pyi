@@ -63,10 +63,10 @@ class BrowserItemIterator(Iterable[BrowserItem]):
 class BrowserItemVector(Vector[BrowserItem]):
     """A container for returning browser items from Live."""
 
-    def append(self, value: BrowserItem | None) -> None:
+    def append(self, value: BrowserItem | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[BrowserItem] | None) -> None:
+    def extend(self, values: Iterable[BrowserItem] | None, /) -> None:
         ...
 
 class FilterType(int):

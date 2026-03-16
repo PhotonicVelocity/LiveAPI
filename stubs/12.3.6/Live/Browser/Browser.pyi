@@ -15,21 +15,21 @@ class Browser(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_filter_type_listener(self, callback: Callable | None) -> None:
+    def add_filter_type_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "filter_type" has changed.
         """
         ...
 
-    def add_full_refresh_listener(self, callback: Callable | None) -> None:
+    def add_full_refresh_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "full_refresh" has changed.
         """
         ...
 
-    def add_hotswap_target_listener(self, callback: Callable | None) -> None:
+    def add_hotswap_target_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "hotswap_target" has changed.
@@ -69,14 +69,14 @@ class Browser(LomObject):
     @filter_type.setter
     def filter_type(self, value: int) -> None: ...
 
-    def filter_type_has_listener(self, callback: Callable | None) -> bool:
+    def filter_type_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "filter_type".
         """
         ...
 
-    def full_refresh_has_listener(self, callback: Callable | None) -> bool:
+    def full_refresh_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "full_refresh".
@@ -91,7 +91,7 @@ class Browser(LomObject):
     @hotswap_target.setter
     def hotswap_target(self, value: Device) -> None: ...
 
-    def hotswap_target_has_listener(self, callback: Callable | None) -> bool:
+    def hotswap_target_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "hotswap_target".
@@ -108,7 +108,7 @@ class Browser(LomObject):
         """Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed."""
         ...
 
-    def load_item(self, item: BrowserItem | None) -> None:
+    def load_item(self, item: BrowserItem | None, /) -> None:
         """Loads the provided browser item."""
         ...
 
@@ -132,29 +132,29 @@ class Browser(LomObject):
         """Returns a browser item with access to all the Plugins content."""
         ...
 
-    def preview_item(self, item: BrowserItem | None) -> None:
+    def preview_item(self, item: BrowserItem | None, /) -> None:
         """Previews the provided browser item."""
         ...
 
-    def relation_to_hotswap_target(self, item: BrowserItem | None) -> Relation:
+    def relation_to_hotswap_target(self, item: BrowserItem | None, /) -> Relation:
         """Returns the relation between the given browser item and the current hotswap target"""
         ...
 
-    def remove_filter_type_listener(self, callback: Callable | None) -> None:
+    def remove_filter_type_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "filter_type".
         """
         ...
 
-    def remove_full_refresh_listener(self, callback: Callable | None) -> None:
+    def remove_full_refresh_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "full_refresh".
         """
         ...
 
-    def remove_hotswap_target_listener(self, callback: Callable | None) -> None:
+    def remove_hotswap_target_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "hotswap_target".

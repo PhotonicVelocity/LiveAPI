@@ -11,7 +11,7 @@ class ProgressDialog:
     def run_in_modal_loop(self) -> None:
         ...
 
-    def set_status_message(self, msg: str | None) -> None:
+    def set_status_message(self, msg: str | None, /) -> None:
         ...
 
 class PythonLicensingBridge:
@@ -41,7 +41,7 @@ class PythonLicensingBridge:
         """Retrieve stored session ID."""
         ...
 
-    def get_startup_dialog(self, authorize_callable: Callable | None, authorize_later_callable: Callable | None) -> StartupDialog:
+    def get_startup_dialog(self, authorize_callable: Callable | None, authorize_later_callable: Callable | None, /) -> StartupDialog:
         """Retrieves an instance of the startup dialog with the passed callables connected to its buttons."""
         ...
 
@@ -66,11 +66,11 @@ class PythonLicensingBridge:
         """Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object."""
         ...
 
-    def process_license_response(self, license_response_lines: list[str] | None) -> UnlockStatus:
+    def process_license_response(self, license_response_lines: list[str] | None, /) -> UnlockStatus:
         """Processes a list of strings, each representing a server response to a product authorization."""
         ...
 
-    def process_trial_response(self, trial_response_line: str | None) -> bool:
+    def process_trial_response(self, trial_response_line: str | None, /) -> bool:
         """Process the server's response to a Trial authorization."""
         ...
 
@@ -79,7 +79,7 @@ class PythonLicensingBridge:
         """Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed)."""
         ...
 
-    def request_exit(self, exit_code: int = 0) -> None:
+    def request_exit(self, exit_code: int = 0, /) -> None:
         ...
 
     def save_current_set(self) -> None:
@@ -91,11 +91,11 @@ class PythonLicensingBridge:
         """Returns true if the set has unsaved changes."""
         ...
 
-    def set_network_timer(self, callback: Callable | None, interval_in_ms: int | None) -> None:
+    def set_network_timer(self, callback: Callable | None, interval_in_ms: int | None, /) -> None:
         """Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped."""
         ...
 
-    def store_session_id(self, session_id: str | None) -> None:
+    def store_session_id(self, session_id: str | None, /) -> None:
         """Securely stores the user's session ID (aka cookie, aka credentials)."""
         ...
 
@@ -105,10 +105,10 @@ class StartupDialog:
     def end_modal_loop(self) -> None:
         ...
 
-    def run_in_modal_loop(self, show_only_offline_auth_instructions: bool | None) -> None:
+    def run_in_modal_loop(self, show_only_offline_auth_instructions: bool | None, /) -> None:
         ...
 
-    def set_notification_message(self, notification_text: str | None, show_progress_bar: bool | None) -> None:
+    def set_notification_message(self, notification_text: str | None, show_progress_bar: bool | None, /) -> None:
         ...
 
 class TrialContext(int):
@@ -153,7 +153,7 @@ def authorization_clock_days_ahead() -> int:
     """Advances the current date by the number of days specified by _AuthClockDaysAhead"""
     ...
 
-def get_authorization_page_url(reauthorize: bool | None, is_trial: bool | None) -> str:
+def get_authorization_page_url(reauthorize: bool | None, is_trial: bool | None, /) -> str:
     """Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization."""
     ...
 
@@ -169,7 +169,7 @@ def get_unlock_dir() -> tuple[str, bool]:
     """Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain."""
     ...
 
-def launch_web_browser(url: str | None) -> None:
+def launch_web_browser(url: str | None, /) -> None:
     """Opens a web browser at the specified URL on the user's computer."""
     ...
 

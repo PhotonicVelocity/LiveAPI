@@ -12,10 +12,10 @@ if TYPE_CHECKING:
 
 class ATimeableValueVector(Vector[DeviceParameter]):
 
-    def append(self, value: DeviceParameter | None) -> None:
+    def append(self, value: DeviceParameter | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[DeviceParameter] | None) -> None:
+    def extend(self, values: Iterable[DeviceParameter] | None, /) -> None:
         ...
 
 class DeviceType(int):

@@ -16,7 +16,7 @@ class GroovePool(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_grooves_listener(self, callback: Callable | None) -> None:
+    def add_grooves_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "grooves" has changed.
@@ -33,14 +33,14 @@ class GroovePool(LomObject):
         """Access to the list of grooves"""
         ...
 
-    def grooves_has_listener(self, callback: Callable | None) -> bool:
+    def grooves_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "grooves".
         """
         ...
 
-    def remove_grooves_listener(self, callback: Callable | None) -> None:
+    def remove_grooves_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "grooves".

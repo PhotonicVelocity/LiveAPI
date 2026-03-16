@@ -16,147 +16,147 @@ class Sample(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_beats_granulation_resolution_listener(self, callback: Callable | None) -> None:
+    def add_beats_granulation_resolution_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "beats_granulation_resolution" has changed.
         """
         ...
 
-    def add_beats_transient_envelope_listener(self, callback: Callable | None) -> None:
+    def add_beats_transient_envelope_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "beats_transient_envelope" has changed.
         """
         ...
 
-    def add_beats_transient_loop_mode_listener(self, callback: Callable | None) -> None:
+    def add_beats_transient_loop_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "beats_transient_loop_mode" has changed.
         """
         ...
 
-    def add_complex_pro_envelope_listener(self, callback: Callable | None) -> None:
+    def add_complex_pro_envelope_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "complex_pro_envelope" has changed.
         """
         ...
 
-    def add_complex_pro_formants_listener(self, callback: Callable | None) -> None:
+    def add_complex_pro_formants_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "complex_pro_formants" has changed.
         """
         ...
 
-    def add_end_marker_listener(self, callback: Callable | None) -> None:
+    def add_end_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "end_marker" has changed.
         """
         ...
 
-    def add_file_path_listener(self, callback: Callable | None) -> None:
+    def add_file_path_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "file_path" has changed.
         """
         ...
 
-    def add_gain_listener(self, callback: Callable | None) -> None:
+    def add_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "gain" has changed.
         """
         ...
 
-    def add_slices_listener(self, callback: Callable | None) -> None:
+    def add_slices_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "slices" has changed.
         """
         ...
 
-    def add_slicing_beat_division_listener(self, callback: Callable | None) -> None:
+    def add_slicing_beat_division_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "slicing_beat_division" has changed.
         """
         ...
 
-    def add_slicing_region_count_listener(self, callback: Callable | None) -> None:
+    def add_slicing_region_count_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "slicing_region_count" has changed.
         """
         ...
 
-    def add_slicing_sensitivity_listener(self, callback: Callable | None) -> None:
+    def add_slicing_sensitivity_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "slicing_sensitivity" has changed.
         """
         ...
 
-    def add_slicing_style_listener(self, callback: Callable | None) -> None:
+    def add_slicing_style_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "slicing_style" has changed.
         """
         ...
 
-    def add_start_marker_listener(self, callback: Callable | None) -> None:
+    def add_start_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "start_marker" has changed.
         """
         ...
 
-    def add_texture_flux_listener(self, callback: Callable | None) -> None:
+    def add_texture_flux_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "texture_flux" has changed.
         """
         ...
 
-    def add_texture_grain_size_listener(self, callback: Callable | None) -> None:
+    def add_texture_grain_size_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "texture_grain_size" has changed.
         """
         ...
 
-    def add_tones_grain_size_listener(self, callback: Callable | None) -> None:
+    def add_tones_grain_size_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tones_grain_size" has changed.
         """
         ...
 
-    def add_warp_markers_listener(self, callback: Callable | None) -> None:
+    def add_warp_markers_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "warp_markers" has changed.
         """
         ...
 
-    def add_warp_mode_listener(self, callback: Callable | None) -> None:
+    def add_warp_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "warp_mode" has changed.
         """
         ...
 
-    def add_warping_listener(self, callback: Callable | None) -> None:
+    def add_warping_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "warping" has changed.
         """
         ...
 
-    def beat_to_sample_time(self, beat_time: float | None) -> float:
+    def beat_to_sample_time(self, beat_time: float | None, /) -> float:
         """Converts the given beat time to sample time. Raises an error if the sample is not warped."""
         ...
 
@@ -168,7 +168,7 @@ class Sample(LomObject):
     @beats_granulation_resolution.setter
     def beats_granulation_resolution(self, value: int) -> None: ...
 
-    def beats_granulation_resolution_has_listener(self, callback: Callable | None) -> bool:
+    def beats_granulation_resolution_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "beats_granulation_resolution".
@@ -183,7 +183,7 @@ class Sample(LomObject):
     @beats_transient_envelope.setter
     def beats_transient_envelope(self, value: float) -> None: ...
 
-    def beats_transient_envelope_has_listener(self, callback: Callable | None) -> bool:
+    def beats_transient_envelope_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "beats_transient_envelope".
@@ -198,7 +198,7 @@ class Sample(LomObject):
     @beats_transient_loop_mode.setter
     def beats_transient_loop_mode(self, value: int) -> None: ...
 
-    def beats_transient_loop_mode_has_listener(self, callback: Callable | None) -> bool:
+    def beats_transient_loop_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "beats_transient_loop_mode".
@@ -222,7 +222,7 @@ class Sample(LomObject):
     @complex_pro_envelope.setter
     def complex_pro_envelope(self, value: float) -> None: ...
 
-    def complex_pro_envelope_has_listener(self, callback: Callable | None) -> bool:
+    def complex_pro_envelope_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "complex_pro_envelope".
@@ -237,7 +237,7 @@ class Sample(LomObject):
     @complex_pro_formants.setter
     def complex_pro_formants(self, value: float) -> None: ...
 
-    def complex_pro_formants_has_listener(self, callback: Callable | None) -> bool:
+    def complex_pro_formants_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "complex_pro_formants".
@@ -252,7 +252,7 @@ class Sample(LomObject):
     @end_marker.setter
     def end_marker(self, value: int) -> None: ...
 
-    def end_marker_has_listener(self, callback: Callable | None) -> bool:
+    def end_marker_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "end_marker".
@@ -264,7 +264,7 @@ class Sample(LomObject):
         """Get the path of the sample file."""
         ...
 
-    def file_path_has_listener(self, callback: Callable | None) -> bool:
+    def file_path_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "file_path".
@@ -283,14 +283,14 @@ class Sample(LomObject):
         """Get the gain's display value as a string."""
         ...
 
-    def gain_has_listener(self, callback: Callable | None) -> bool:
+    def gain_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "gain".
         """
         ...
 
-    def insert_slice(self, slice_time: int | None) -> None:
+    def insert_slice(self, slice_time: int | None, /) -> None:
         """Add a slice point at the provided time if there is none."""
         ...
 
@@ -299,148 +299,148 @@ class Sample(LomObject):
         """Get the length of the sample file in sample frames."""
         ...
 
-    def move_slice(self, old_time: int | None, new_time: int | None) -> int:
+    def move_slice(self, old_time: int | None, new_time: int | None, /) -> int:
         """Move the slice point at the provided time."""
         ...
 
-    def remove_beats_granulation_resolution_listener(self, callback: Callable | None) -> None:
+    def remove_beats_granulation_resolution_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "beats_granulation_resolution".
         """
         ...
 
-    def remove_beats_transient_envelope_listener(self, callback: Callable | None) -> None:
+    def remove_beats_transient_envelope_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "beats_transient_envelope".
         """
         ...
 
-    def remove_beats_transient_loop_mode_listener(self, callback: Callable | None) -> None:
+    def remove_beats_transient_loop_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "beats_transient_loop_mode".
         """
         ...
 
-    def remove_complex_pro_envelope_listener(self, callback: Callable | None) -> None:
+    def remove_complex_pro_envelope_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "complex_pro_envelope".
         """
         ...
 
-    def remove_complex_pro_formants_listener(self, callback: Callable | None) -> None:
+    def remove_complex_pro_formants_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "complex_pro_formants".
         """
         ...
 
-    def remove_end_marker_listener(self, callback: Callable | None) -> None:
+    def remove_end_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "end_marker".
         """
         ...
 
-    def remove_file_path_listener(self, callback: Callable | None) -> None:
+    def remove_file_path_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "file_path".
         """
         ...
 
-    def remove_gain_listener(self, callback: Callable | None) -> None:
+    def remove_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "gain".
         """
         ...
 
-    def remove_slice(self, slice_time: int | None) -> None:
+    def remove_slice(self, slice_time: int | None, /) -> None:
         """Remove the slice point at the provided time if there is one."""
         ...
 
-    def remove_slices_listener(self, callback: Callable | None) -> None:
+    def remove_slices_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "slices".
         """
         ...
 
-    def remove_slicing_beat_division_listener(self, callback: Callable | None) -> None:
+    def remove_slicing_beat_division_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "slicing_beat_division".
         """
         ...
 
-    def remove_slicing_region_count_listener(self, callback: Callable | None) -> None:
+    def remove_slicing_region_count_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "slicing_region_count".
         """
         ...
 
-    def remove_slicing_sensitivity_listener(self, callback: Callable | None) -> None:
+    def remove_slicing_sensitivity_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "slicing_sensitivity".
         """
         ...
 
-    def remove_slicing_style_listener(self, callback: Callable | None) -> None:
+    def remove_slicing_style_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "slicing_style".
         """
         ...
 
-    def remove_start_marker_listener(self, callback: Callable | None) -> None:
+    def remove_start_marker_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "start_marker".
         """
         ...
 
-    def remove_texture_flux_listener(self, callback: Callable | None) -> None:
+    def remove_texture_flux_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "texture_flux".
         """
         ...
 
-    def remove_texture_grain_size_listener(self, callback: Callable | None) -> None:
+    def remove_texture_grain_size_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "texture_grain_size".
         """
         ...
 
-    def remove_tones_grain_size_listener(self, callback: Callable | None) -> None:
+    def remove_tones_grain_size_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "tones_grain_size".
         """
         ...
 
-    def remove_warp_markers_listener(self, callback: Callable | None) -> None:
+    def remove_warp_markers_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "warp_markers".
         """
         ...
 
-    def remove_warp_mode_listener(self, callback: Callable | None) -> None:
+    def remove_warp_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "warp_mode".
         """
         ...
 
-    def remove_warping_listener(self, callback: Callable | None) -> None:
+    def remove_warping_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "warping".
@@ -456,7 +456,7 @@ class Sample(LomObject):
         """Access to the audio sample rate of the sample."""
         ...
 
-    def sample_to_beat_time(self, sample_time: float | None) -> float:
+    def sample_to_beat_time(self, sample_time: float | None, /) -> float:
         """Converts the given sample time to beat time. Raises an error if the sample is not warped."""
         ...
 
@@ -465,7 +465,7 @@ class Sample(LomObject):
         """Access to the list of slice points in sample time in the sample."""
         ...
 
-    def slices_has_listener(self, callback: Callable | None) -> bool:
+    def slices_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "slices".
@@ -480,7 +480,7 @@ class Sample(LomObject):
     @slicing_beat_division.setter
     def slicing_beat_division(self, value: int) -> None: ...
 
-    def slicing_beat_division_has_listener(self, callback: Callable | None) -> bool:
+    def slicing_beat_division_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "slicing_beat_division".
@@ -495,7 +495,7 @@ class Sample(LomObject):
     @slicing_region_count.setter
     def slicing_region_count(self, value: int) -> None: ...
 
-    def slicing_region_count_has_listener(self, callback: Callable | None) -> bool:
+    def slicing_region_count_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "slicing_region_count".
@@ -513,7 +513,7 @@ class Sample(LomObject):
     @slicing_sensitivity.setter
     def slicing_sensitivity(self, value: float) -> None: ...
 
-    def slicing_sensitivity_has_listener(self, callback: Callable | None) -> bool:
+    def slicing_sensitivity_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "slicing_sensitivity".
@@ -528,7 +528,7 @@ class Sample(LomObject):
     @slicing_style.setter
     def slicing_style(self, value: int) -> None: ...
 
-    def slicing_style_has_listener(self, callback: Callable | None) -> bool:
+    def slicing_style_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "slicing_style".
@@ -543,7 +543,7 @@ class Sample(LomObject):
     @start_marker.setter
     def start_marker(self, value: int) -> None: ...
 
-    def start_marker_has_listener(self, callback: Callable | None) -> bool:
+    def start_marker_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "start_marker".
@@ -558,7 +558,7 @@ class Sample(LomObject):
     @texture_flux.setter
     def texture_flux(self, value: float) -> None: ...
 
-    def texture_flux_has_listener(self, callback: Callable | None) -> bool:
+    def texture_flux_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "texture_flux".
@@ -573,7 +573,7 @@ class Sample(LomObject):
     @texture_grain_size.setter
     def texture_grain_size(self, value: float) -> None: ...
 
-    def texture_grain_size_has_listener(self, callback: Callable | None) -> bool:
+    def texture_grain_size_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "texture_grain_size".
@@ -588,7 +588,7 @@ class Sample(LomObject):
     @tones_grain_size.setter
     def tones_grain_size(self, value: float) -> None: ...
 
-    def tones_grain_size_has_listener(self, callback: Callable | None) -> bool:
+    def tones_grain_size_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tones_grain_size".
@@ -600,7 +600,7 @@ class Sample(LomObject):
         """Get the warp markers for this sample."""
         ...
 
-    def warp_markers_has_listener(self, callback: Callable | None) -> bool:
+    def warp_markers_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "warp_markers".
@@ -615,7 +615,7 @@ class Sample(LomObject):
     @warp_mode.setter
     def warp_mode(self, value: int) -> None: ...
 
-    def warp_mode_has_listener(self, callback: Callable | None) -> bool:
+    def warp_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "warp_mode".
@@ -630,7 +630,7 @@ class Sample(LomObject):
     @warping.setter
     def warping(self, value: bool) -> None: ...
 
-    def warping_has_listener(self, callback: Callable | None) -> bool:
+    def warping_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "warping".

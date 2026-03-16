@@ -15,14 +15,14 @@ class PluginDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_presets_listener(self, callback: Callable | None) -> None:
+    def add_presets_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "presets" has changed.
         """
         ...
 
-    def add_selected_preset_index_listener(self, callback: Callable | None) -> None:
+    def add_selected_preset_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "selected_preset_index" has changed.
@@ -59,7 +59,7 @@ class PluginDevice(Device):
         """Return const access to the name of the device's class."""
         ...
 
-    def get_parameter_names(self, begin: int = 0, end: int = -1) -> StringVector:
+    def get_parameter_names(self, begin: int = 0, end: int = -1, /) -> StringVector:
         """
         Get the range of plugin parameter names, bound by begin and end.
         If end is smaller than 0 it is interpreted as the parameter count.
@@ -107,21 +107,21 @@ class PluginDevice(Device):
         """Get the list of presets the plugin offers."""
         ...
 
-    def presets_has_listener(self, callback: Callable | None) -> bool:
+    def presets_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "presets".
         """
         ...
 
-    def remove_presets_listener(self, callback: Callable | None) -> None:
+    def remove_presets_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "presets".
         """
         ...
 
-    def remove_selected_preset_index_listener(self, callback: Callable | None) -> None:
+    def remove_selected_preset_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "selected_preset_index".
@@ -136,7 +136,7 @@ class PluginDevice(Device):
     @selected_preset_index.setter
     def selected_preset_index(self, value: int) -> None: ...
 
-    def selected_preset_index_has_listener(self, callback: Callable | None) -> bool:
+    def selected_preset_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "selected_preset_index".

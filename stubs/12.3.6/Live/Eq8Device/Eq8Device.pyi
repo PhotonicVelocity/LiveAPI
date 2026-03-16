@@ -17,7 +17,7 @@ class Eq8Device(Device):
         def _live_ptr(self) -> int:
             ...
 
-        def add_selected_band_listener(self, callback: Callable | None) -> None:
+        def add_selected_band_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_band" has changed.
@@ -37,7 +37,7 @@ class Eq8Device(Device):
         @is_collapsed.setter
         def is_collapsed(self, value: bool) -> None: ...
 
-        def remove_selected_band_listener(self, callback: Callable | None) -> None:
+        def remove_selected_band_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_band".
@@ -52,7 +52,7 @@ class Eq8Device(Device):
         @selected_band.setter
         def selected_band(self, value: int) -> None: ...
 
-        def selected_band_has_listener(self, callback: Callable | None) -> bool:
+        def selected_band_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_band".
@@ -63,21 +63,21 @@ class Eq8Device(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_edit_mode_listener(self, callback: Callable | None) -> None:
+    def add_edit_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "edit_mode" has changed.
         """
         ...
 
-    def add_global_mode_listener(self, callback: Callable | None) -> None:
+    def add_global_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "global_mode" has changed.
         """
         ...
 
-    def add_oversample_listener(self, callback: Callable | None) -> None:
+    def add_oversample_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oversample" has changed.
@@ -122,7 +122,7 @@ class Eq8Device(Device):
     @edit_mode.setter
     def edit_mode(self, value: bool) -> None: ...
 
-    def edit_mode_has_listener(self, callback: Callable | None) -> bool:
+    def edit_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "edit_mode".
@@ -137,7 +137,7 @@ class Eq8Device(Device):
     @global_mode.setter
     def global_mode(self, value: int) -> None: ...
 
-    def global_mode_has_listener(self, callback: Callable | None) -> bool:
+    def global_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "global_mode".
@@ -183,7 +183,7 @@ class Eq8Device(Device):
     @oversample.setter
     def oversample(self, value: bool) -> None: ...
 
-    def oversample_has_listener(self, callback: Callable | None) -> bool:
+    def oversample_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oversample".
@@ -195,21 +195,21 @@ class Eq8Device(Device):
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_edit_mode_listener(self, callback: Callable | None) -> None:
+    def remove_edit_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "edit_mode".
         """
         ...
 
-    def remove_global_mode_listener(self, callback: Callable | None) -> None:
+    def remove_global_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "global_mode".
         """
         ...
 
-    def remove_oversample_listener(self, callback: Callable | None) -> None:
+    def remove_oversample_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "oversample".

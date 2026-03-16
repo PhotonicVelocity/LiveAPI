@@ -45,10 +45,10 @@ class RoutingChannelLayout(int):
 class RoutingChannelVector(Vector[RoutingChannel]):
     """A container for returning routing channels from Live."""
 
-    def append(self, value: RoutingChannel | None) -> None:
+    def append(self, value: RoutingChannel | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[RoutingChannel] | None) -> None:
+    def extend(self, values: Iterable[RoutingChannel] | None, /) -> None:
         ...
 
 class RoutingType:
@@ -82,10 +82,10 @@ class RoutingTypeCategory(int):
 class RoutingTypeVector(Vector[RoutingType]):
     """A container for returning routing types from Live."""
 
-    def append(self, value: RoutingType | None) -> None:
+    def append(self, value: RoutingType | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[RoutingType] | None) -> None:
+    def extend(self, values: Iterable[RoutingType] | None, /) -> None:
         ...
 
 __all__ = ['Track', 'DeviceContainer', 'DeviceInsertMode', 'RoutingChannel', 'RoutingChannelLayout', 'RoutingChannelVector', 'RoutingType', 'RoutingTypeCategory', 'RoutingTypeVector']

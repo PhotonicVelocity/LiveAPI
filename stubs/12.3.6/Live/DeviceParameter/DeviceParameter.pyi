@@ -19,35 +19,35 @@ class DeviceParameter(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_automation_state_listener(self, callback: Callable | None) -> None:
+    def add_automation_state_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "automation_state" has changed.
         """
         ...
 
-    def add_display_value_listener(self, callback: Callable | None) -> None:
+    def add_display_value_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "display_value" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_state_listener(self, callback: Callable | None) -> None:
+    def add_state_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "state" has changed.
         """
         ...
 
-    def add_value_listener(self, callback: Callable | None) -> None:
+    def add_value_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "value" has changed.
@@ -59,7 +59,7 @@ class DeviceParameter(LomObject):
         """Returns state of type AutomationState."""
         ...
 
-    def automation_state_has_listener(self, callback: Callable | None) -> bool:
+    def automation_state_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "automation_state".
@@ -94,7 +94,7 @@ class DeviceParameter(LomObject):
     @display_value.setter
     def display_value(self, value: float) -> None: ...
 
-    def display_value_has_listener(self, callback: Callable | None) -> bool:
+    def display_value_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "display_value".
@@ -142,7 +142,7 @@ class DeviceParameter(LomObject):
         """
         ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -161,35 +161,35 @@ class DeviceParameter(LomObject):
         """Reenable automation for this parameter."""
         ...
 
-    def remove_automation_state_listener(self, callback: Callable | None) -> None:
+    def remove_automation_state_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "automation_state".
         """
         ...
 
-    def remove_display_value_listener(self, callback: Callable | None) -> None:
+    def remove_display_value_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "display_value".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_state_listener(self, callback: Callable | None) -> None:
+    def remove_state_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "state".
         """
         ...
 
-    def remove_value_listener(self, callback: Callable | None) -> None:
+    def remove_value_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "value".
@@ -211,14 +211,14 @@ class DeviceParameter(LomObject):
         """
         ...
 
-    def state_has_listener(self, callback: Callable | None) -> bool:
+    def state_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "state".
         """
         ...
 
-    def str_for_value(self, value: float | None) -> str:
+    def str_for_value(self, value: float | None, /) -> str:
         """
         Return a string representation of the given value. To be used
         for display purposes only. This value can include characters like 'db' or
@@ -237,7 +237,7 @@ class DeviceParameter(LomObject):
     @value.setter
     def value(self, value: float) -> None: ...
 
-    def value_has_listener(self, callback: Callable | None) -> bool:
+    def value_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "value".

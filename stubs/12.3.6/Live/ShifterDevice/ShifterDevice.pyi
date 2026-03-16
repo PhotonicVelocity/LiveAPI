@@ -15,14 +15,14 @@ class ShifterDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def add_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_bend_range" has changed.
         """
         ...
 
-    def add_pitch_mode_index_listener(self, callback: Callable | None) -> None:
+    def add_pitch_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_mode_index" has changed.
@@ -103,7 +103,7 @@ class ShifterDevice(Device):
     @pitch_bend_range.setter
     def pitch_bend_range(self, value: int) -> None: ...
 
-    def pitch_bend_range_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_bend_range_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_bend_range".
@@ -118,7 +118,7 @@ class ShifterDevice(Device):
     @pitch_mode_index.setter
     def pitch_mode_index(self, value: int) -> None: ...
 
-    def pitch_mode_index_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_mode_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_mode_index".
@@ -130,14 +130,14 @@ class ShifterDevice(Device):
         """Return the current pitch mode list"""
         ...
 
-    def remove_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_bend_range".
         """
         ...
 
-    def remove_pitch_mode_index_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_mode_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_mode_index".

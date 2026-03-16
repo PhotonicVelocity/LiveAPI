@@ -11,28 +11,28 @@ if TYPE_CHECKING:
 class FloatVector(Vector[float]):
     """A simple container for returning floats from Live."""
 
-    def append(self, value: float | None) -> None:
+    def append(self, value: float | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[float] | None) -> None:
+    def extend(self, values: Iterable[float] | None, /) -> None:
         ...
 
 class IntU64Vector(Vector[int]):
     """A simple container for returning unsigned long integers from Live."""
 
-    def append(self, value: int | None) -> None:
+    def append(self, value: int | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[int] | None) -> None:
+    def extend(self, values: Iterable[int] | None, /) -> None:
         ...
 
 class IntVector(Vector[int]):
     """A simple container for returning integers from Live."""
 
-    def append(self, value: int | None) -> None:
+    def append(self, value: int | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[int] | None) -> None:
+    def extend(self, values: Iterable[int] | None, /) -> None:
         ...
 
 class LimitationError(Exception): ...
@@ -40,19 +40,19 @@ class LimitationError(Exception): ...
 class ObjectVector(Vector[object]):
     """A simple read only container for returning python objects."""
 
-    def append(self, value: Any | None) -> None:
+    def append(self, value: Any | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[object] | None) -> None:
+    def extend(self, values: Iterable[object] | None, /) -> None:
         ...
 
 class StringVector(Vector[str]):
     """A simple container for returning strings from Live."""
 
-    def append(self, value: str | None) -> None:
+    def append(self, value: str | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[str] | None) -> None:
+    def extend(self, values: Iterable[str] | None, /) -> None:
         ...
 
 class Text:
@@ -99,20 +99,20 @@ class Vector(Generic[T]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: Any | None) -> None:
+    def append(self, value: Any | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[LomObject] | None) -> None:
+    def extend(self, values: Iterable[LomObject] | None, /) -> None:
         ...
 
-def get_text(classname: str | None, textname: str | None) -> Text:
+def get_text(classname: str | None, textname: str | None, /) -> Text:
     """Retrieves the (translated) Text identified by `classname` and `textname`."""
     ...
 
-def log(string: str | None) -> None:
+def log(string: str | None, /) -> None:
     ...
 
-def subst_args(text: Text | None, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '') -> str:
+def subst_args(text: Text | None, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '', /) -> str:
     ...
 
 __all__ = ['FloatVector', 'IntU64Vector', 'IntVector', 'LimitationError', 'ObjectVector', 'StringVector', 'Text', 'Timer', 'Vector', 'get_text', 'log', 'subst_args']

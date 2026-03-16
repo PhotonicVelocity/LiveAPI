@@ -14,7 +14,7 @@ class DrumCellDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_gain_listener(self, callback: Callable | None) -> None:
+    def add_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "gain" has changed.
@@ -59,7 +59,7 @@ class DrumCellDevice(Device):
     @gain.setter
     def gain(self, value: float) -> None: ...
 
-    def gain_has_listener(self, callback: Callable | None) -> bool:
+    def gain_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "gain".
@@ -102,7 +102,7 @@ class DrumCellDevice(Device):
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_gain_listener(self, callback: Callable | None) -> None:
+    def remove_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "gain".

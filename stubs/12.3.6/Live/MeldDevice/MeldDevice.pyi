@@ -14,28 +14,28 @@ class MeldDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_mono_poly_listener(self, callback: Callable | None) -> None:
+    def add_mono_poly_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mono_poly" has changed.
         """
         ...
 
-    def add_poly_voices_listener(self, callback: Callable | None) -> None:
+    def add_poly_voices_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "poly_voices" has changed.
         """
         ...
 
-    def add_selected_engine_listener(self, callback: Callable | None) -> None:
+    def add_selected_engine_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "selected_engine" has changed.
         """
         ...
 
-    def add_unison_voices_listener(self, callback: Callable | None) -> None:
+    def add_unison_voices_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "unison_voices" has changed.
@@ -103,7 +103,7 @@ class MeldDevice(Device):
     @mono_poly.setter
     def mono_poly(self, value: int) -> None: ...
 
-    def mono_poly_has_listener(self, callback: Callable | None) -> bool:
+    def mono_poly_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mono_poly".
@@ -131,35 +131,35 @@ class MeldDevice(Device):
     @poly_voices.setter
     def poly_voices(self, value: int) -> None: ...
 
-    def poly_voices_has_listener(self, callback: Callable | None) -> bool:
+    def poly_voices_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "poly_voices".
         """
         ...
 
-    def remove_mono_poly_listener(self, callback: Callable | None) -> None:
+    def remove_mono_poly_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mono_poly".
         """
         ...
 
-    def remove_poly_voices_listener(self, callback: Callable | None) -> None:
+    def remove_poly_voices_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "poly_voices".
         """
         ...
 
-    def remove_selected_engine_listener(self, callback: Callable | None) -> None:
+    def remove_selected_engine_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "selected_engine".
         """
         ...
 
-    def remove_unison_voices_listener(self, callback: Callable | None) -> None:
+    def remove_unison_voices_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "unison_voices".
@@ -174,7 +174,7 @@ class MeldDevice(Device):
     @selected_engine.setter
     def selected_engine(self, value: bool) -> None: ...
 
-    def selected_engine_has_listener(self, callback: Callable | None) -> bool:
+    def selected_engine_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "selected_engine".
@@ -194,7 +194,7 @@ class MeldDevice(Device):
     @unison_voices.setter
     def unison_voices(self, value: int) -> None: ...
 
-    def unison_voices_has_listener(self, callback: Callable | None) -> bool:
+    def unison_voices_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "unison_voices".

@@ -71,10 +71,10 @@ class EnvelopeEventControlCoefficients:
 class EnvelopeEventVector(Vector[EnvelopeEvent]):
     """A container for holding envelope events."""
 
-    def append(self, value: EnvelopeEvent | None) -> None:
+    def append(self, value: EnvelopeEvent | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[EnvelopeEvent] | None) -> None:
+    def extend(self, values: Iterable[EnvelopeEvent] | None, /) -> None:
         ...
 
 __all__ = ['Envelope', 'EnvelopeEvent', 'EnvelopeEventControlCoefficients', 'EnvelopeEventVector']

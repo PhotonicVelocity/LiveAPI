@@ -14,28 +14,28 @@ class CompressorDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_available_input_routing_channels_listener(self, callback: Callable | None) -> None:
+    def add_available_input_routing_channels_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_input_routing_channels" has changed.
         """
         ...
 
-    def add_available_input_routing_types_listener(self, callback: Callable | None) -> None:
+    def add_available_input_routing_types_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_input_routing_types" has changed.
         """
         ...
 
-    def add_input_routing_channel_listener(self, callback: Callable | None) -> None:
+    def add_input_routing_channel_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_routing_channel" has changed.
         """
         ...
 
-    def add_input_routing_type_listener(self, callback: Callable | None) -> None:
+    def add_input_routing_type_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "input_routing_type" has changed.
@@ -47,7 +47,7 @@ class CompressorDevice(Device):
         """Return a list of source channels for input routing in the sidechain."""
         ...
 
-    def available_input_routing_channels_has_listener(self, callback: Callable | None) -> bool:
+    def available_input_routing_channels_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_input_routing_channels".
@@ -59,7 +59,7 @@ class CompressorDevice(Device):
         """Return a list of source types for input routing in the sidechain."""
         ...
 
-    def available_input_routing_types_has_listener(self, callback: Callable | None) -> bool:
+    def available_input_routing_types_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_input_routing_types".
@@ -108,7 +108,7 @@ class CompressorDevice(Device):
     @input_routing_channel.setter
     def input_routing_channel(self, value: RoutingChannel) -> None: ...
 
-    def input_routing_channel_has_listener(self, callback: Callable | None) -> bool:
+    def input_routing_channel_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_routing_channel".
@@ -127,7 +127,7 @@ class CompressorDevice(Device):
     @input_routing_type.setter
     def input_routing_type(self, value: RoutingType) -> None: ...
 
-    def input_routing_type_has_listener(self, callback: Callable | None) -> bool:
+    def input_routing_type_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "input_routing_type".
@@ -170,28 +170,28 @@ class CompressorDevice(Device):
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_available_input_routing_channels_listener(self, callback: Callable | None) -> None:
+    def remove_available_input_routing_channels_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "available_input_routing_channels".
         """
         ...
 
-    def remove_available_input_routing_types_listener(self, callback: Callable | None) -> None:
+    def remove_available_input_routing_types_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "available_input_routing_types".
         """
         ...
 
-    def remove_input_routing_channel_listener(self, callback: Callable | None) -> None:
+    def remove_input_routing_channel_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "input_routing_channel".
         """
         ...
 
-    def remove_input_routing_type_listener(self, callback: Callable | None) -> None:
+    def remove_input_routing_type_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "input_routing_type".

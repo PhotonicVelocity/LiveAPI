@@ -123,10 +123,10 @@ class MidiNoteSpecification:
 class MidiNoteVector(Vector[MidiNote]):
     """A container for holding MIDI notes from Live."""
 
-    def append(self, value: MidiNote | None) -> None:
+    def append(self, value: MidiNote | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[MidiNote] | None) -> None:
+    def extend(self, values: Iterable[MidiNote] | None, /) -> None:
         ...
 
 class WarpMarker:
@@ -147,10 +147,10 @@ class WarpMarker:
 class WarpMarkerVector(Vector[WarpMarker]):
     """A container for returning warp markers from Live."""
 
-    def append(self, value: WarpMarker | None) -> None:
+    def append(self, value: WarpMarker | None, /) -> None:
         ...
 
-    def extend(self, values: Iterable[WarpMarker] | None) -> None:
+    def extend(self, values: Iterable[WarpMarker] | None, /) -> None:
         ...
 
 class WarpMode(int):

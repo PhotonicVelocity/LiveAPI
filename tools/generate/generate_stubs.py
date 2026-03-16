@@ -364,11 +364,14 @@ class StubGenerator:
         name = node["name"]
         pad = "    " * indent
 
-        # Build args
+        # Build args — all parameters are positional-only (Boost.Python doesn't
+        # reliably support keyword arguments for Live API methods)
         args = node.get("args", [])
         formatted_args: list[str] = []
         for arg in args:
             formatted_args.append(self._format_arg(arg))
+        if len(formatted_args) > (1 if is_method else 0):
+            formatted_args.append("/")
 
         args_str = ", ".join(formatted_args)
 

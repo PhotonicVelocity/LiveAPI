@@ -17,21 +17,21 @@ class DrumChain(Chain):
     def _live_ptr(self) -> int:
         ...
 
-    def add_choke_group_listener(self, callback: Callable | None) -> None:
+    def add_choke_group_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "choke_group" has changed.
         """
         ...
 
-    def add_in_note_listener(self, callback: Callable | None) -> None:
+    def add_in_note_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "in_note" has changed.
         """
         ...
 
-    def add_out_note_listener(self, callback: Callable | None) -> None:
+    def add_out_note_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "out_note" has changed.
@@ -51,7 +51,7 @@ class DrumChain(Chain):
     @choke_group.setter
     def choke_group(self, value: int) -> None: ...
 
-    def choke_group_has_listener(self, callback: Callable | None) -> bool:
+    def choke_group_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "choke_group".
@@ -119,7 +119,7 @@ class DrumChain(Chain):
     @in_note.setter
     def in_note(self, value: int) -> None: ...
 
-    def in_note_has_listener(self, callback: Callable | None) -> bool:
+    def in_note_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "in_note".
@@ -178,28 +178,28 @@ class DrumChain(Chain):
     @out_note.setter
     def out_note(self, value: int) -> None: ...
 
-    def out_note_has_listener(self, callback: Callable | None) -> bool:
+    def out_note_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "out_note".
         """
         ...
 
-    def remove_choke_group_listener(self, callback: Callable | None) -> None:
+    def remove_choke_group_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "choke_group".
         """
         ...
 
-    def remove_in_note_listener(self, callback: Callable | None) -> None:
+    def remove_in_note_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "in_note".
         """
         ...
 
-    def remove_out_note_listener(self, callback: Callable | None) -> None:
+    def remove_out_note_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "out_note".

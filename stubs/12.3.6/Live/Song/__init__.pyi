@@ -58,14 +58,14 @@ class CuePoint(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_time_listener(self, callback: Callable | None) -> None:
+    def add_time_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "time" has changed.
@@ -93,21 +93,21 @@ class CuePoint(LomObject):
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_time_listener(self, callback: Callable | None) -> None:
+    def remove_time_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "time".
@@ -119,7 +119,7 @@ class CuePoint(LomObject):
         """Get/Listen to the CuePoint's time in beats."""
         ...
 
-    def time_has_listener(self, callback: Callable | None) -> bool:
+    def time_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "time".
