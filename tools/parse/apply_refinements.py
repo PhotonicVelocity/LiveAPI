@@ -100,12 +100,14 @@ def _apply_class(node: dict, ref: dict, stats: dict) -> None:
 
 def _propagate_element_repr(tree: dict, stats: dict) -> None:
     """Propagate element_repr from class nodes to properties that return those classes."""
-    # Build map: class name -> element_repr
+    # Build map: class name -> element_repr (skip LomObject — it means the
+    # class holds heterogeneous types and isn't useful for individual properties)
     class_element: dict[str, str] = {}
     for module in tree.get("children", []):
         for node in module.get("children", []):
             if node.get("type") == "class" and node.get("element_repr"):
-                class_element[node["name"]] = node["element_repr"]
+                if "LomObject" not in node["element_repr"]:
+                    class_element[node["name"]] = node["element_repr"]
 
     if not class_element:
         return
