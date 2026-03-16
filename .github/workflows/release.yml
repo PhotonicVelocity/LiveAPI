@@ -108,8 +108,13 @@ jobs:
             zip_file="release/ableton-live-stubs-${pkg_version}.zip"
 
             if gh release view "$tag" &>/dev/null; then
-              # Update existing release — replace zip asset
-              gh release upload "$tag" "$zip_file" --clobber
+              # Remove old zip assets, upload new one
+              gh release view "$tag" --json assets -q '.assets[].name' \
+                | grep '\.zip$' \
+                | while read -r asset; do
+                    gh release delete-asset "$tag" "$asset" --yes
+                  done
+              gh release upload "$tag" "$zip_file"
               echo "Updated release $tag with new assets (${pkg_version})"
             else
               gh release create "$tag" "$zip_file" \
