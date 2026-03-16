@@ -44,17 +44,36 @@ jobs:
             echo "versions=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
             echo "post=$INPUT_POST" >> "$GITHUB_OUTPUT"
           else
-            # Push trigger — find versions with stubs that don't have releases yet
-            existing=$(gh release list --limit 100 --json tagName -q '.[].tagName')
+            # Push trigger — find changed versions by comparing stubs to latest release
             versions=""
+            post_map=""
             for dir in stubs/*/Live/; do
               version=$(basename "$(dirname "$dir")")
               [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
               [ -f "$dir/__init__.pyi" ] || continue
-              echo "$existing" | grep -qx "v${version}" && continue
-              versions="${versions:+$versions }$version"
+
+              tag="v${version}"
+              if ! gh release view "$tag" &>/dev/null; then
+                # No release yet — initial release
+                versions="${versions:+$versions }$version"
+              else
+                # Release exists — check if stubs changed since the release tag
+                if ! git diff --quiet "$tag" -- "stubs/$version/Live/"; then
+                  # Stubs changed — find next post-release number from PyPI
+                  post=1
+                  highest=$(pip index versions ableton-live-stubs 2>/dev/null \
+                    | grep -Eo "${version}\.post[0-9]+" | sed "s/${version}\.post//" \
+                    | sort -rn | head -1)
+                  if [ -n "$highest" ]; then
+                    post=$((highest + 1))
+                  fi
+                  versions="${versions:+$versions }$version"
+                  post_map="${post_map:+$post_map }${version}=${post}"
+                fi
+              fi
             done
             echo "versions=$versions" >> "$GITHUB_OUTPUT"
+            echo "post_map=$post_map" >> "$GITHUB_OUTPUT"
             echo "post=" >> "$GITHUB_OUTPUT"
           fi
 
@@ -63,26 +82,35 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          post_map="${{ steps.versions.outputs.post_map }}"
           for version in ${{ steps.versions.outputs.versions }}; do
-            post_arg=""
+            # Determine post-release number (manual dispatch or auto-detected)
+            post=""
             if [ -n "${{ steps.versions.outputs.post }}" ]; then
-              post_arg="--post ${{ steps.versions.outputs.post }}"
+              post="${{ steps.versions.outputs.post }}"
+            else
+              for entry in $post_map; do
+                if [ "${entry%%=*}" = "$version" ]; then
+                  post="${entry#*=}"
+                  break
+                fi
+              done
             fi
 
+            post_arg=""
+            [ -n "$post" ] && post_arg="--post $post"
             python tools/publish/build_package.py "$version" $post_arg
 
             # GitHub release
             tag="v${version}"
             pkg_version="${version}"
-            if [ -n "${{ steps.versions.outputs.post }}" ]; then
-              pkg_version="${version}.post${{ steps.versions.outputs.post }}"
-            fi
+            [ -n "$post" ] && pkg_version="${version}.post${post}"
             zip_file="release/ableton-live-stubs-${pkg_version}.zip"
 
             if gh release view "$tag" &>/dev/null; then
               # Update existing release — replace zip asset
               gh release upload "$tag" "$zip_file" --clobber
-              echo "Updated release $tag with new assets"
+              echo "Updated release $tag with new assets (${pkg_version})"
             else
               gh release create "$tag" "$zip_file" \
                 --title "Live ${version} API Stubs" \
