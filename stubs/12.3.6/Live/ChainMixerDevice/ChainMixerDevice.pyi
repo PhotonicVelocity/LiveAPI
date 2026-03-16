@@ -6,10 +6,11 @@ if TYPE_CHECKING:
     from Live.Chain import Chain
     from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
+    from Live.LomObject import LomObject
 
 
 
-class ChainMixerDevice:
+class ChainMixerDevice(LomObject):
     """
     This class represents a Chain's Mixer Device in Live, which gives you
     access to the Volume, Panning, and Send properties of a Chain.

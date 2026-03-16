@@ -11,16 +11,17 @@ if TYPE_CHECKING:
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
+    from Live.LomObject import LomObject
     from Live.Scene import Scene
     from Live.Track import Track
     from Live.TuningSystem import TuningSystem
 
 
 
-class Song:
+class Song(LomObject):
     """This class represents a Live set."""
 
-    class View:
+    class View(LomObject):
         """Representing the view aspects of a Live document: The Session and Arrangerview."""
 
         @property

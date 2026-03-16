@@ -11,10 +11,10 @@ if TYPE_CHECKING:
 
 
 
-class RackDevice:
+class RackDevice(Device):
     """This class represents a Rack device."""
 
-    class View:
+    class View(Device.View):
         """Representing the view aspects of a rack device."""
 
         @property

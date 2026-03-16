@@ -2,6 +2,10 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .Song import Song
 
+if TYPE_CHECKING:
+    from Live.LomObject import LomObject
+
+
 
 class BeatTime:
     """Represents a Time, splitted into Bars, Beats, SubDivision and Ticks."""
@@ -47,7 +51,7 @@ class CaptureMode:
     all: int = 0
     all_except_selected: int = 1
 
-class CuePoint:
+class CuePoint(LomObject):
     """Represents a 'Marker' in the arrangement."""
 
     @property

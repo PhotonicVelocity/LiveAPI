@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class SpectralResonatorDevice:
+class SpectralResonatorDevice(Device):
     """This class represents a Spectral Resonator device."""
 
     @property

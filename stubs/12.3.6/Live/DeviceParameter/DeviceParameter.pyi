@@ -5,10 +5,11 @@ if TYPE_CHECKING:
     from . import AutomationState
     from Live.Base import StringVector
     from Live.Device import Device
+    from Live.LomObject import LomObject
 
 
 
-class DeviceParameter:
+class DeviceParameter(LomObject):
     """
     This class represents a (automatable) parameter within a MIDI or
     Audio DSP-Device.

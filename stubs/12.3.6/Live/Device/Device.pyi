@@ -3,14 +3,15 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import ATimeableValueVector, DeviceType
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
 
-class Device:
+class Device(LomObject):
     """This class represents a MIDI or Audio DSP-Device in Live."""
 
-    class View:
+    class View(LomObject):
         """Representing the view aspects of a device."""
 
         @property

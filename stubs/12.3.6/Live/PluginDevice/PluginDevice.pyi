@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class PluginDevice:
+class PluginDevice(Device):
     """This class represents a plugin device."""
 
     @property

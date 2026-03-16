@@ -5,14 +5,15 @@ if TYPE_CHECKING:
     from . import MessageButtons, PushDialogType, UnavailableFeatureVector, Variants
     from Live.Base import StringVector, Text, Vector
     from Live.Browser import Browser
+    from Live.LomObject import LomObject
     from Live.Song import Song
 
 
 
-class Application:
+class Application(LomObject):
     """This class represents the Live application."""
 
-    class View:
+    class View(LomObject):
         """This class represents the view aspects of the Live application."""
 
         class NavDirection:

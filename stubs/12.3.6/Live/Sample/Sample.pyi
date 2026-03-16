@@ -4,11 +4,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Clip import WarpMarkerVector
     from Live.Envelope import Envelope
+    from Live.LomObject import LomObject
     from Live.SimplerDevice import SimplerDevice
 
 
 
-class Sample:
+class Sample(LomObject):
     """This class represents a sample file loaded into a Simpler instance."""
 
     @property

@@ -256,8 +256,8 @@ class StubGenerator:
         class_path = f"{path}.{name}" if path else name
         pad = "    " * indent
 
-        # Determine base class for vector types
-        base = self._vector_base(name, node)
+        # Determine base class
+        base = self._vector_base(name, node) or self._ancestor_base(node)
         if base:
             buf.write(f"\n\n{pad}class {name}({base}):")
         else:
@@ -629,6 +629,25 @@ class StubGenerator:
         buf.write(f"\n\n{pad}def __len__(self) -> int: ...")
         buf.write(f"\n\n{pad}def __contains__(self, value: object) -> bool: ...")
         buf.write(f"\n\n{pad}def __bool__(self) -> bool: ...")
+
+    def _ancestor_base(self, node: dict) -> str:
+        """Return the direct parent class from ancestors, or empty string."""
+        ancestors = node.get("ancestors", [])
+        if not ancestors:
+            return ""
+        # First ancestor is the direct parent; skip Boost.Python.instance (equivalent to object)
+        parent_repr = ancestors[0]
+        if "Boost.Python" in parent_repr:
+            return ""
+        m = re.match(r"<class '(?:(\w+)\.)?(\w+)'>", parent_repr)
+        if not m:
+            return ""
+        parent_module, parent_class = m.group(1), m.group(2)
+        # Qualify with module when the parent class name matches the current class name
+        # (e.g. Device.View → "Device.View" not "View" which would be self-referential)
+        if parent_class == node.get("name") and parent_module:
+            return f"{parent_module}.{parent_class}"
+        return parent_class
 
     def _vector_base(self, name: str, node: dict) -> str:
         """Return the base class string for vector types, or empty string for non-vectors."""

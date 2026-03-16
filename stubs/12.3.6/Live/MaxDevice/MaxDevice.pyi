@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 
-class MaxDevice:
+class MaxDevice(Device):
     """This class represents a Max for Live device."""
 
     @property

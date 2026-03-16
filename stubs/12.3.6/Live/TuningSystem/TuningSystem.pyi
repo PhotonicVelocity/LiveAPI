@@ -3,11 +3,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import PitchClassAndOctave, ReferencePitch
+    from Live.LomObject import LomObject
     from Live.Song import Song
 
 
 
-class TuningSystem:
+class TuningSystem(LomObject):
     """Represents a Tuning System and its properties."""
 
     @property

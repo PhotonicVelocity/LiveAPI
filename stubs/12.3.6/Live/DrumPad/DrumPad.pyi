@@ -3,11 +3,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
+    from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
 
 
 
-class DrumPad:
+class DrumPad(LomObject):
     """This class represents a drum group device pad in Live."""
 
     @property

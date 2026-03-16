@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class DriftDevice:
+class DriftDevice(Device):
     """This class represents a Drift device."""
 
     @property

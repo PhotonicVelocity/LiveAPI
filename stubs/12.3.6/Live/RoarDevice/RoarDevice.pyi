@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 
-class RoarDevice:
+class RoarDevice(Device):
     """This class represents a Roar device."""
 
     @property

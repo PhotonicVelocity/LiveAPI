@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 
 
-class CompressorDevice:
+class CompressorDevice(Device):
     """This class represents a Compressor device."""
 
     @property

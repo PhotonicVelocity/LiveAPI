@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class ShifterDevice:
+class ShifterDevice(Device):
     """This class represents a Shifter device."""
 
     @property

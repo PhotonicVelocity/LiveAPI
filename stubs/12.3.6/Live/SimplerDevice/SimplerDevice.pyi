@@ -8,10 +8,10 @@ if TYPE_CHECKING:
 
 
 
-class SimplerDevice:
+class SimplerDevice(Device):
     """This class represents a Simpler device."""
 
-    class View:
+    class View(Device.View):
         """Representing the view aspects of a simpler device."""
 
         @property

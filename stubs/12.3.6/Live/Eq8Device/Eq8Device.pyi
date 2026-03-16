@@ -7,10 +7,10 @@ if TYPE_CHECKING:
 
 
 
-class Eq8Device:
+class Eq8Device(Device):
     """This class represents an Eq8 device."""
 
-    class View:
+    class View(Device.View):
         """Representing the view aspects of an Eq8 device."""
 
         @property

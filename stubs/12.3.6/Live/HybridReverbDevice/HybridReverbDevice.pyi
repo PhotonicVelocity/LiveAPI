@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 
 
 
-class HybridReverbDevice:
+class HybridReverbDevice(Device):
     """This class represents a Hybrid Reverb device."""
 
     @property

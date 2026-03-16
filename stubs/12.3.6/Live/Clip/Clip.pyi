@@ -8,18 +8,19 @@ if TYPE_CHECKING:
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
     from Live.Groove import Groove
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
 
-class Clip:
+class Clip(LomObject):
     """
     This class represents a Clip in Live. It can be either an Audio
     Clip or a MIDI Clip, in an Arrangement or the Session, depending
     on the Track (Slot) it lives in.
     """
 
-    class View:
+    class View(LomObject):
         """Representing the view aspects of a Clip."""
 
         @property

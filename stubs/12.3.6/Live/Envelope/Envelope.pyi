@@ -4,10 +4,11 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from . import EnvelopeEventVector
     from Live.Clip import Clip
+    from Live.LomObject import LomObject
 
 
 
-class Envelope:
+class Envelope(LomObject):
     """This class represents an automation or modulation envelope in Live."""
 
     @property

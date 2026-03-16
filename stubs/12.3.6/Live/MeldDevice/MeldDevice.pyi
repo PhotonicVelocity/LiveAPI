@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 
 
-class MeldDevice:
+class MeldDevice(Device):
     """This class represents a Meld device."""
 
     @property

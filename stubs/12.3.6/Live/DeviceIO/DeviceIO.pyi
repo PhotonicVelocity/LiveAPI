@@ -2,12 +2,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.LomObject import LomObject
     from Live.MaxDevice import MaxDevice
     from Live.Track import RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector
 
 
 
-class DeviceIO:
+class DeviceIO(LomObject):
     """This class represents a specific input or output bus of a device."""
 
     @property

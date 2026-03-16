@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 
-class WavetableDevice:
+class WavetableDevice(Device):
     """This class represents a Wavetable device."""
 
     @property

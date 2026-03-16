@@ -5,12 +5,13 @@ if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
+    from Live.LomObject import LomObject
     from Live.Song import Song
     from Live.Track import Track
 
 
 
-class MixerDevice:
+class MixerDevice(LomObject):
     """
     This class represents a Mixer Device in Live, which gives you
     access to the Volume and Panning properties of a Track.

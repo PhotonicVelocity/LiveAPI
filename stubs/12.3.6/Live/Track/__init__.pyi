@@ -7,10 +7,11 @@ from .Track import Track
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Chain import Chain
+    from Live.LomObject import LomObject
 
 
 
-class DeviceContainer:
+class DeviceContainer(LomObject):
     """This class is a common super class of Track and Chain"""
 
     @property

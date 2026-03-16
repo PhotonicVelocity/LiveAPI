@@ -3,10 +3,11 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import StringVector
+    from Live.Device import Device
 
 
 
-class CcControlDevice:
+class CcControlDevice(Device):
     """This class represents a CcControl device."""
 
     @property

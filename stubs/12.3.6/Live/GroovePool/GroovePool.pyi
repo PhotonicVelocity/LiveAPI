@@ -4,11 +4,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Groove import Groove
+    from Live.LomObject import LomObject
     from Live.Song import Song
 
 
 
-class GroovePool:
+class GroovePool(LomObject):
     """This class represents the groove pool in Live."""
 
     @property

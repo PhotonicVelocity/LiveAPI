@@ -2,18 +2,19 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from . import RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector
+    from . import DeviceContainer, RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector
     from Live.Base import StringVector, Vector
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
+    from Live.LomObject import LomObject
     from Live.MixerDevice import MixerDevice
     from Live.Song import Song
     from Live.TakeLane import TakeLane
 
 
 
-class Track:
+class Track(DeviceContainer):
     """
     This class represents a track in Live. It can be either an Audio
     track, a MIDI Track, a Return Track or the Main track. The Main
@@ -21,7 +22,7 @@ class Track:
     Return Tracks are optional.
     """
 
-    class View:
+    class View(LomObject):
         """Representing the view aspects of a Track."""
 
         @property

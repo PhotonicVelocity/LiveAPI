@@ -4,10 +4,11 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from . import BrowserItem, BrowserItemVector, Relation
     from Live.Device import Device
+    from Live.LomObject import LomObject
 
 
 
-class Browser:
+class Browser(LomObject):
     """This class represents the live browser data base."""
 
     @property

@@ -4,11 +4,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from . import ClipSlotPlayingState
     from Live.Clip import Clip
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
 
-class ClipSlot:
+class ClipSlot(LomObject):
     """This class represents an entry in Lives Session view matrix."""
 
     @property

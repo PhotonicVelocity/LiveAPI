@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 
-class DrumChain:
+class DrumChain(Chain):
     """This class represents a drum group device chain in Live."""
 
     @property

@@ -76,6 +76,10 @@ instances) or as a post-processing step that recognizes nullable patterns.
 Done — added `"list"` to unresolved types in `extract_unresolved.py`. LLM resolved function args/returns.
 Generator now parameterizes `list` properties using `element_repr` (same pattern as tuple).
 
-## 10. Classes are missing inheritance in stubs
+## ~~10. Classes are missing inheritance in stubs~~ ✓
+
+Done — added `_ancestor_base()` in `generate_stubs.py` that reads the `ancestors` list from the tree.
+Uses the first ancestor (direct parent), skipping `Boost.Python.instance`. Qualifies with module name
+when the parent class name matches the current class (e.g. `Device.View` not self-referential `View`).
 
 ## 11. `BrowserItemIterator` gets inheritance from `Vector[BrowserItem]`

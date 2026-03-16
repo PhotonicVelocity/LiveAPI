@@ -7,7 +7,7 @@ if TYPE_CHECKING:
 
 
 
-class DrumCellDevice:
+class DrumCellDevice(Device):
     """This class represents a DrumCell device."""
 
     @property
