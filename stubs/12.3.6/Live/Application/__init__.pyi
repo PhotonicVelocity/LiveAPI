@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 from .Application import Application
@@ -28,7 +28,7 @@ class ControlDescriptionVector(Vector[ControlDescription]):
     def append(self, value: ControlDescription | None) -> None:
         ...
 
-    def extend(self, values: ControlDescription | None) -> None:
+    def extend(self, values: Iterable[ControlDescription] | None) -> None:
         ...
 
 class ControlSurfaceProxy:
@@ -97,7 +97,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def release_control(self, arg2: int | None) -> None:
+    def release_control(self, control: int | None) -> None:
         ...
 
     def remove_control_values_arrived_listener(self, callback: Callable | None) -> None:
@@ -121,10 +121,10 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def send_midi(self, arg2: tuple | None) -> None:
+    def send_midi(self, midi_event_bytes: tuple[int, ...] | None) -> None:
         ...
 
-    def send_value(self, arg2: tuple | None) -> None:
+    def send_value(self, value: tuple[Any, ...] | None) -> None:
         ...
 
     def subscribe_to_control(self, control: int | None) -> None:
@@ -161,7 +161,7 @@ class UnavailableFeatureVector(Vector[UnavailableFeature]):
     def append(self, value: UnavailableFeature | None) -> None:
         ...
 
-    def extend(self, values: UnavailableFeature | None) -> None:
+    def extend(self, values: Iterable[UnavailableFeature] | None) -> None:
         ...
 
 class Variants:

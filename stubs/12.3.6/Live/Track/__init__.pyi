@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 from .Track import Track
@@ -47,7 +47,7 @@ class RoutingChannelVector(Vector[RoutingChannel]):
     def append(self, value: RoutingChannel | None) -> None:
         ...
 
-    def extend(self, values: RoutingChannel | None) -> None:
+    def extend(self, values: Iterable[RoutingChannel] | None) -> None:
         ...
 
 class RoutingType:
@@ -84,7 +84,7 @@ class RoutingTypeVector(Vector[RoutingType]):
     def append(self, value: RoutingType | None) -> None:
         ...
 
-    def extend(self, values: RoutingType | None) -> None:
+    def extend(self, values: Iterable[RoutingType] | None) -> None:
         ...
 
 __all__ = ['Track', 'DeviceContainer', 'DeviceInsertMode', 'RoutingChannel', 'RoutingChannelLayout', 'RoutingChannelVector', 'RoutingType', 'RoutingTypeCategory', 'RoutingTypeVector']

@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 
 class ProgressDialog:
@@ -21,7 +21,7 @@ class PythonLicensingBridge:
         ...
 
     @property
-    def base_product_id(self) -> str:
+    def base_product_id(self) -> int:
         """Returns Live's current base product ID."""
         ...
 

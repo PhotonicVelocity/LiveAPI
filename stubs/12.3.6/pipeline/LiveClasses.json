@@ -26,7 +26,6 @@
         "type": "ObjectVector",
         "repr": "<class 'Base.ObjectVector'>",
         "element_reprs": [
-          "<class 'ADVANCE.Advance.Advance'>",
           "<class 'APICapture.APICapture.APICapture'>",
           "<class 'NoneType'>"
         ]
@@ -207,7 +206,6 @@
     "getters": {},
     "iterable": true,
     "element_reprs": [
-      "<class 'ADVANCE.Advance.Advance'>",
       "<class 'APICapture.APICapture.APICapture'>",
       "<class 'NoneType'>"
     ]
@@ -3846,8 +3844,7 @@
       },
       "appointed_device": {
         "probed": true,
-        "type": "Device",
-        "repr": "<class 'Device.Device'>"
+        "type": "NoneType"
       },
       "arrangement_overdub": {
         "probed": true,

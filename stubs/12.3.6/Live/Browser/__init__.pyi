@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 from .Browser import Browser
@@ -66,12 +66,12 @@ class BrowserItemVector(Vector[BrowserItem]):
     def append(self, value: BrowserItem | None) -> None:
         ...
 
-    def extend(self, values: BrowserItem | None) -> None:
+    def extend(self, values: Iterable[BrowserItem] | None) -> None:
         ...
 
 class FilterType:
+    disabled: int = -1
     hotswap_off: int = 0
-    disabled: int = 1
     instrument_hotswap: int = 1
     audio_effect_hotswap: int = 2
     midi_effect_hotswap: int = 3

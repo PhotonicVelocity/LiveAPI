@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 
@@ -36,7 +36,7 @@ class ListenerVector(Vector[ListenerHandle]):
     def append(self, value: ListenerHandle | None) -> None:
         ...
 
-    def extend(self, values: ListenerHandle | None) -> None:
+    def extend(self, values: Iterable[ListenerHandle] | None) -> None:
         ...
 
 __all__ = ['ListenerHandle', 'ListenerVector']

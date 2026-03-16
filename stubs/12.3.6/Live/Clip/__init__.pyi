@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 from .Clip import Clip
@@ -126,7 +126,7 @@ class MidiNoteVector(Vector[MidiNote]):
     def append(self, value: MidiNote | None) -> None:
         ...
 
-    def extend(self, values: MidiNote | None) -> None:
+    def extend(self, values: Iterable[MidiNote] | None) -> None:
         ...
 
 class WarpMarker:
@@ -150,7 +150,7 @@ class WarpMarkerVector(Vector[WarpMarker]):
     def append(self, value: WarpMarker | None) -> None:
         ...
 
-    def extend(self, values: WarpMarker | None) -> None:
+    def extend(self, values: Iterable[WarpMarker] | None) -> None:
         ...
 
 class WarpMode:

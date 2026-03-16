@@ -19,12 +19,12 @@ from io import StringIO
 from os import makedirs
 from os.path import abspath, exists, join
 
-_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable\n"
+_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable, Iterable\n"
 
 # Extra header for files that define Vector types (need Generic, TypeVar, Iterator)
 _VECTOR_HEADER = (
     "from __future__ import annotations\n"
-    "from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload\n"
+    "from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload\n"
     "\nT = TypeVar('T')\n"
 )
 

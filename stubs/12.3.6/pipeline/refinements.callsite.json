@@ -444,8 +444,8 @@
             "handle"
           ],
           "_votes": {
-            "handle": 3,
-            "script_handle": 11
+            "script_handle": 11,
+            "handle": 3
           },
           "_total_sites": 14
         },
@@ -490,8 +490,8 @@
             "script_handle"
           ],
           "_votes": {
-            "handle": 4,
-            "script_handle": 3
+            "script_handle": 3,
+            "handle": 4
           },
           "_total_sites": 7
         },
@@ -703,9 +703,9 @@
             "lom_object"
           ],
           "_votes": {
-            "device_to_select": 3,
             "lom_object": 1,
-            "device": 2
+            "device": 2,
+            "device_to_select": 3
           },
           "_total_sites": 6
         }
@@ -719,8 +719,8 @@
             "new_scene_index"
           ],
           "_votes": {
-            "scene_count": 4,
-            "new_scene_index": 2
+            "new_scene_index": 2,
+            "scene_count": 4
           },
           "_total_sites": 8
         }
@@ -827,8 +827,8 @@
             "slot_index"
           ],
           "_votes": {
-            "index": 3,
             "target_index": 2,
+            "index": 3,
             "source_index": 1,
             "slot_index": 1
           },
@@ -867,16 +867,16 @@
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
       "usage_snippets": [
-        "NotifyingControlElement.send_midi(self, message)",
-        "def send_midi(self, message):",
+        "def send_midi(self, message, **_):",
         "def send_midi(self, midi_event_bytes):",
-        "self._MackieControlXT__c_instance.send_midi(midi_event_bytes)",
-        "self._ProjectMixIO__c_instance.send_midi(midi_event_bytes)",
+        "self.c_instance.send_midi(midi_event_bytes)",
         "self.parent.send_midi((",
+        "self.parent.send_midi((175, 16, 16))",
+        "self.parent.send_midi((175, 16, self.helper.selected_track_idx()))",
+        "self.parent.send_midi((NOTEOFF_STATUS + channel, note_no, 0))",
+        "self.parent.send_midi((NOTEON_STATUS + channel, note_no, 127))",
         "self.parent.send_midi((TRACK_CHANNEL_SETUP2 + NOTEON_STATUS, note, STATUS_ON))",
-        "self.parent.send_midi(midi_event_bytes)",
-        "self.send_midi((",
-        "self.send_midi(self._message_to_send)"
+        "self.parent.send_midi(midi_event_bytes)"
       ],
       "unresolved_arg_types": {
         "arg2": "tuple"
@@ -884,16 +884,16 @@
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
       "usage_snippets": [
-        "def send_value(self, *a):",
-        "interface.send_value((self.midi_value), channel=BLINK_LED_CHANNEL)",
-        "interface.send_value((self.midi_value), channel=PULSE_LED_CHANNEL)",
-        "interface.send_value(0)",
-        "self._elements.incontrol_mode_switch.send_value(midi.INCONTROL_ONLINE_VALUE)",
-        "self._elements.pad_layout_switch.send_value(midi.PAD_DRUM_LAYOUT)",
-        "self._elements.pad_layout_switch.send_value(self._last_pad_layout_byte)",
-        "self._elements.pot_layout_switch.send_value(self._last_pot_layout_byte)",
-        "self._hardware_live_mode_switch.send_value((",
-        "self._led.send_value((value_to_send,))"
+        "control.send_value(convert_parameter_value_to_midi_value(parameter))",
+        "display_layout_switch.send_value(layout_byte)",
+        "interface.send_value(self.color1.midi_value)",
+        "self._aftertouch.send_value(\"polyphonic\")",
+        "self._aftertouch_control.send_value(self._aftertouch_mode)",
+        "self._control_element.send_value(self.ON_VALUE if self.is_on else self.OFF_VALUE)",
+        "self._mode_element.send_value(behaviour.mode)",
+        "self._tempo_encoder.send_value(value_to_send)",
+        "self._value_control.send_value((mode,))",
+        "self.send_value(value)"
       ],
       "unresolved_arg_types": {
         "arg2": "tuple"
@@ -925,16 +925,16 @@
     },
     "Live.Base.ObjectVector.append": {
       "usage_snippets": [
-        "bank_buttons_raw.append(DeviceButton(channel, cc, name=name))",
-        "clip_launch_buttons.append(self._control_factory.create_clip_launch_button(index))",
-        "clip_stop_buttons.append(self._control_factory.create_clip_stop_button(index))",
-        "parameter_encoders_raw.append(EncoderElement(MIDI_CC_TYPE,",
-        "self._ProjectMixIO__components.append(self._ProjectMixIO__main_display)",
-        "self._modes_buttons.append(button)",
-        "self._sliders.append(make_slider(41 + index, \"Volume_Control_%d\" % index))",
-        "self._strip_buttons.append(make_button(51 + index, \"Mute_Button_%d\" % index))",
-        "send_controls_raw.append(make_mixer_encoder(cc,",
-        "send_info.append(mixer_options[\"SEND{}\".format(send + 1)])"
+        "AutoArmComponent.active_in_process_push_instances.append(self)",
+        "notes_in_step.append(note.pitch)",
+        "self._armed_tracks.append(track)",
+        "self._messages.append(message)",
+        "self._modified_steps.append(step)",
+        "self._parameter_floats.append(step_parameter_floats)",
+        "self._pitches.append(pitch)",
+        "self._pressed_pages.append(page)",
+        "self._pressed_steps.append(step)",
+        "step_parameter_floats.append(value)"
       ],
       "unresolved_arg_types": {
         "value": "object"
@@ -942,16 +942,16 @@
     },
     "Live.Base.Vector.append": {
       "usage_snippets": [
-        "bank_buttons_raw.append(DeviceButton(channel, cc, name=name))",
-        "clip_launch_buttons.append(self._control_factory.create_clip_launch_button(index))",
-        "clip_stop_buttons.append(self._control_factory.create_clip_stop_button(index))",
-        "parameter_encoders_raw.append(EncoderElement(MIDI_CC_TYPE,",
-        "self._ProjectMixIO__components.append(self._ProjectMixIO__main_display)",
-        "self._modes_buttons.append(button)",
-        "self._sliders.append(make_slider(41 + index, \"Volume_Control_%d\" % index))",
-        "self._strip_buttons.append(make_button(51 + index, \"Mute_Button_%d\" % index))",
-        "send_controls_raw.append(make_mixer_encoder(cc,",
-        "send_info.append(mixer_options[\"SEND{}\".format(send + 1)])"
+        "AutoArmComponent.active_in_process_push_instances.append(self)",
+        "notes_in_step.append(note.pitch)",
+        "self._armed_tracks.append(track)",
+        "self._messages.append(message)",
+        "self._modified_steps.append(step)",
+        "self._parameter_floats.append(step_parameter_floats)",
+        "self._pitches.append(pitch)",
+        "self._pressed_pages.append(page)",
+        "self._pressed_steps.append(step)",
+        "step_parameter_floats.append(value)"
       ],
       "unresolved_arg_types": {
         "value": "LomObject"
@@ -1069,16 +1069,16 @@
     },
     "Live.Listener.ListenerHandle.name": {
       "usage_snippets": [
-        "button.name = name",
-        "clip_slot.name = \"Selected_Clip_Slot_\" + str(index)",
-        "encoder.name = name",
-        "self._mixer.master_strip().name = \"Master_Channel_Strip\"",
-        "self._mixer.name = \"Mixer\"",
-        "self._mixer.selected_strip().name = \"Selected_Channel_Strip\"",
-        "self._session.name = \"Session_Control\"",
-        "self._session.selected_scene().name = \"Selected_Scene\"",
-        "slider.name = name",
-        "strip.name = \"Channel_Strip_\" + str(index)"
+        "display[index % NUM_DISPLAY_SEGMENTS] = item.item.name if item else \"\"",
+        "fullname = self.helper.device_name(device) + \".\" + parameter.name",
+        "if device.name in FIVETOSIX_DICT:",
+        "if i.name == name:",
+        "name=(\"{}_With_Shift\".format(button.name)))",
+        "return FIVETOSIX_DICT[device.name]",
+        "return device.name",
+        "self.log(\"device %s, index %s, parameter %s\" % (self.device, idx, parameter.name))",
+        "self.logfmt(\"parameter %s %s to %s (quant %s)\", parameter, parameter.name, ccs[encoder], parameter.is_quantized)",
+        "self.parent.show_message(str(self.device.name + \" Bank: \" + bank_name))"
       ],
       "unresolved_property_type": true
     },
@@ -1185,12 +1185,12 @@
     },
     "Live.Song.Song.move_device": {
       "usage_snippets": [
-        "device_navigation.move_device.layer = Layer(move_encoders=\"global_param_controls\")",
         "if not self.move_device.is_enabled():",
         "return self.move_device.is_enabled()",
         "self.move_device = MoveDeviceComponent(parent=self, is_enabled=False)",
         "self.move_device = None",
         "self.move_device.set_device(device)",
+        "self.move_device.set_enabled(True)",
         "self.song.move_device(self._device, chain, len(chain.devices) if move_to_end else 0)",
         "self.song.move_device(self._device, parent, device_index + 2)",
         "self.song.move_device(self._device, parent, device_index - 1)",

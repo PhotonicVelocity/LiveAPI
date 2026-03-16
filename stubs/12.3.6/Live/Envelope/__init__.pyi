@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 from .Envelope import Envelope
@@ -74,7 +74,7 @@ class EnvelopeEventVector(Vector[EnvelopeEvent]):
     def append(self, value: EnvelopeEvent | None) -> None:
         ...
 
-    def extend(self, values: EnvelopeEvent | None) -> None:
+    def extend(self, values: Iterable[EnvelopeEvent] | None) -> None:
         ...
 
 __all__ = ['Envelope', 'EnvelopeEvent', 'EnvelopeEventControlCoefficients', 'EnvelopeEventVector']

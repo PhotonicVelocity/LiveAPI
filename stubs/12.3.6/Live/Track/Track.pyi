@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector
@@ -717,11 +717,11 @@ class Track:
         """
         ...
 
-    def delete_clip(self, arg2: Clip | None) -> None:
+    def delete_clip(self, slot: Clip | None) -> None:
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, arg2: int | None) -> None:
+    def delete_device(self, device: int | None) -> None:
         """Delete a device identified by the index in the 'devices' list."""
         ...
 

@@ -29,7 +29,7 @@ Changed to `-?\d+` so negative enum values are captured correctly.
 
 Done — handled in `parse_apicapture_results.py` during signature resolution and property merge.
 
-## 6. Add missing `Iterable` import to stub generator
+## ~~6. Add missing `Iterable` import to stub generator~~
 
 `Iterable` is used in `extend()` signatures across 9 `__init__.pyi` files and several `Clip.pyi` methods,
 but never imported. This is a hard type-checker error.

@@ -1,7 +1,11 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
+
+if TYPE_CHECKING:
+    from Live.LomObject import LomObject
+
 
 
 class FloatVector(Vector[float]):
@@ -10,7 +14,7 @@ class FloatVector(Vector[float]):
     def append(self, value: float | None) -> None:
         ...
 
-    def extend(self, values: float | None) -> None:
+    def extend(self, values: Iterable[float] | None) -> None:
         ...
 
 class IntU64Vector(Vector[int]):
@@ -19,7 +23,7 @@ class IntU64Vector(Vector[int]):
     def append(self, value: int | None) -> None:
         ...
 
-    def extend(self, values: int | None) -> None:
+    def extend(self, values: Iterable[int] | None) -> None:
         ...
 
 class IntVector(Vector[int]):
@@ -28,7 +32,7 @@ class IntVector(Vector[int]):
     def append(self, value: int | None) -> None:
         ...
 
-    def extend(self, values: int | None) -> None:
+    def extend(self, values: Iterable[int] | None) -> None:
         ...
 
 class LimitationError(Exception): ...
@@ -39,7 +43,7 @@ class ObjectVector(Vector[object]):
     def append(self, value: Any | None) -> None:
         ...
 
-    def extend(self, values: Iterable[Any] | None) -> None:
+    def extend(self, values: Iterable[object] | None) -> None:
         ...
 
 class StringVector(Vector[str]):
@@ -48,7 +52,7 @@ class StringVector(Vector[str]):
     def append(self, value: str | None) -> None:
         ...
 
-    def extend(self, values: str | None) -> None:
+    def extend(self, values: Iterable[str] | None) -> None:
         ...
 
 class Text:
@@ -95,17 +99,17 @@ class Vector(Generic[T]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: Any | None) -> None:
+    def append(self, value: LomObject | None) -> None:
         ...
 
-    def extend(self, values: Iterable[Any] | None) -> None:
+    def extend(self, values: Iterable[LomObject] | None) -> None:
         ...
 
 def get_text(classname: str | None, textname: str | None) -> Text:
     """Retrieves the (translated) Text identified by `classname` and `textname`."""
     ...
 
-def log(arg1: str | None) -> None:
+def log(string: str | None) -> None:
     ...
 
 def subst_args(text: Text | None, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '') -> str:

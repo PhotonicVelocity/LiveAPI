@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
@@ -109,7 +109,7 @@ class Chain:
         """
         ...
 
-    def delete_device(self, arg2: int | None) -> None:
+    def delete_device(self, device: int | None) -> None:
         """Remove a device identified by its index from the chain. Throws runtime error if bad index."""
         ...
 

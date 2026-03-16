@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import GridQuantization, MidiNote, MidiNoteSpecification, MidiNoteVector, WarpMarker, WarpMarkerVector
@@ -50,7 +50,7 @@ class Clip:
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, parameter: DeviceParameter | None) -> None:
+        def select_envelope_parameter(self, device_parameter: DeviceParameter | None) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -199,7 +199,7 @@ class Clip:
         """
         ...
 
-    def add_new_notes(self, notes: list[MidiNoteSpecification] | None) -> IntU64Vector:
+    def add_new_notes(self, notes: Iterable[MidiNoteSpecification] | None) -> IntU64Vector:
         """
         Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification
         objects. The objects will be used to construct new notes in the clip.
@@ -422,7 +422,7 @@ class Clip:
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: list[int] | None, destination_time: float | None = None, transposition_amount: int = 0) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: Iterable[int] | None, destination_time: float | None = None, transposition_amount: int = 0) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -528,7 +528,7 @@ class Clip:
         """
         ...
 
-    def get_notes_by_id(self, note_ids: list[int] | None) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: Iterable[int] | None) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
@@ -915,7 +915,7 @@ class Clip:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, arg2: int | None, arg3: int | None, amount: float | None) -> None:
+    def quantize_pitch(self, note: int | None, source: int | None, amount: float | None) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 
@@ -1074,7 +1074,7 @@ class Clip:
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: list[int] | None) -> None:
+    def remove_notes_by_id(self, note_ids: Iterable[int] | None) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1257,7 +1257,7 @@ class Clip:
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: list[int] | None) -> None:
+    def select_notes_by_id(self, note_ids: Iterable[int] | None) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 

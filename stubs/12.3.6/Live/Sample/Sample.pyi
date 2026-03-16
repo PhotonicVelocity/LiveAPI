@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Clip import WarpMarkerVector
@@ -460,7 +460,7 @@ class Sample:
         ...
 
     @property
-    def slices(self) -> tuple[int, ...]:
+    def slices(self) -> tuple[float, ...]:
         """Access to the list of slice points in sample time in the sample."""
         ...
 

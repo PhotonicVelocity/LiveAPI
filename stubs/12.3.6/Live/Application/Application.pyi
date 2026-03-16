@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import MessageButtons, PushDialogType, UnavailableFeatureVector, Variants
@@ -79,7 +79,7 @@ class Application:
             """Get the canonical parent of the application view."""
             ...
 
-        def focus_view(self, arg2: str | None) -> None:
+        def focus_view(self, view: str | None) -> None:
             """Show and focus one through the identifier string specified view."""
             ...
 
@@ -153,7 +153,7 @@ class Application:
             """
             ...
 
-        def show_view(self, arg2: str | None) -> None:
+        def show_view(self, view: str | None) -> None:
             """
             Show one through the identifier string specified view. Will throw a
             runtime error if this is called in Live's initialization scope.
@@ -292,7 +292,7 @@ class Application:
         """Returns the full version string of Live."""
         ...
 
-    def has_option(self, option: str | None) -> bool:
+    def has_option(self, entry_name: str | None) -> bool:
         """Returns True if the given entry exists in Options.txt, False otherwise."""
         ...
 

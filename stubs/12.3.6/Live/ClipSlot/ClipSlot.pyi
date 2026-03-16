@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import ClipSlotPlayingState
@@ -120,7 +120,7 @@ class ClipSlot:
         """
         ...
 
-    def create_clip(self, arg2: float | None) -> Clip:
+    def create_clip(self, pages: float | None) -> Clip:
         """
         Creates an empty clip with the given length in the slot.
         Throws an error when called on non-empty slots or slots in non-MIDI tracks.

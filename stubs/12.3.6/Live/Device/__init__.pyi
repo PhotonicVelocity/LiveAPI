@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
 T = TypeVar('T')
 from .Device import Device
@@ -15,7 +15,7 @@ class ATimeableValueVector(Vector[DeviceParameter]):
     def append(self, value: DeviceParameter | None) -> None:
         ...
 
-    def extend(self, values: DeviceParameter | None) -> None:
+    def extend(self, values: Iterable[DeviceParameter] | None) -> None:
         ...
 
 class DeviceType:

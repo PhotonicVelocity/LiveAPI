@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import BeatTime, CaptureDestination, CaptureMode, CuePoint, Quantization, RecordingQuantization, SmptTime
@@ -591,12 +591,12 @@ class Song:
         ...
 
     @property
-    def appointed_device(self) -> Device:
+    def appointed_device(self) -> None:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: Device) -> None: ...
+    def appointed_device(self, value: None) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable | None) -> bool:
         """
@@ -914,7 +914,7 @@ class Song:
         """
         ...
 
-    def get_current_smpte_song_time(self, format: int | None) -> SmptTime:
+    def get_current_smpte_song_time(self, smpte_format: int | None) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.
