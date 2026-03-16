@@ -62,7 +62,7 @@ exposes to scripts at runtime but is not available for static analysis outside o
 ## Installation
 
 ```
-pip install ableton-live-stubs=={version}
+pip install ableton-live-stubs
 ```
 
 ## Usage
