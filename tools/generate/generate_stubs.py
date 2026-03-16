@@ -84,9 +84,13 @@ class StubGenerator:
                     self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
 
             # Detect vector types from iterable flag on class nodes
+            # Only treat as vector if it has mutable vector methods (append/extend);
+            # read-only iterables like BrowserItemIterator are not vectors.
             if node_type == "class":
                 if node.get("iterable"):
-                    self._vector_types.add(name)
+                    children = node.get("children", [])
+                    if any(c.get("name") in ("append", "extend") for c in children):
+                        self._vector_types.add(name)
                 element_repr = node.get("element_repr")
                 if element_repr:
                     m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
@@ -257,7 +261,7 @@ class StubGenerator:
         pad = "    " * indent
 
         # Determine base class
-        base = self._vector_base(name, node) or self._ancestor_base(node)
+        base = self._vector_base(name, node) or self._ancestor_base(node) or self._iterable_base(node)
         if base:
             buf.write(f"\n\n{pad}class {name}({base}):")
         else:
@@ -653,6 +657,20 @@ class StubGenerator:
         if parent_class == node.get("name") and parent_module:
             return f"{parent_module}.{parent_class}"
         return parent_class
+
+    def _iterable_base(self, node: dict) -> str:
+        """Return Iterable[T] for non-vector iterable classes, or empty string."""
+        if not node.get("iterable"):
+            return ""
+        element_repr = node.get("element_repr")
+        if not element_repr:
+            return "Iterable"
+        m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+        if m:
+            elem = self._resolve_probed_type(m.group(1), containing_class="", probed_repr=element_repr)
+            if elem:
+                return f"Iterable[{elem}]"
+        return "Iterable"
 
     def _vector_base(self, name: str, node: dict) -> str:
         """Return the base class string for vector types, or empty string for non-vectors."""

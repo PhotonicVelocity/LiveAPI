@@ -57,7 +57,7 @@ class BrowserItem:
         """The uri describes a unique identifier for a browser item."""
         ...
 
-class BrowserItemIterator(Vector[BrowserItem]):
+class BrowserItemIterator(Iterable[BrowserItem]):
     """This class iterates over children of another BrowserItem."""
 
 class BrowserItemVector(Vector[BrowserItem]):

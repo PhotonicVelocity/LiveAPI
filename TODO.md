@@ -90,4 +90,8 @@ Updated `resolve_inheritance` in `parse_apicapture_results.py` to process `enum`
 Removed hardcoded `Exception` from `_render_type_node` — now uses ancestor data.
 Result: enums render as `class FilterType(int):`, `LimitationError` renders as `class LimitationError(Exception):`.
 
-## 12. `BrowserItemIterator` gets inheritance from `Vector[BrowserItem]`
+## ~~12. `BrowserItemIterator` gets inheritance from `Vector[BrowserItem]`~~ ✓
+
+Done — tightened vector detection in `generate_stubs.py` to require `append`/`extend` children. Read-only
+iterables like `BrowserItemIterator` now get `Iterable[T]` base instead of `Vector[T]` via new
+`_iterable_base()` method.
