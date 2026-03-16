@@ -21,7 +21,7 @@ class PythonLicensingBridge:
         ...
 
     @property
-    def base_product_id(self) -> int:
+    def base_product_id(self) -> str:
         """Returns Live's current base product ID."""
         ...
 

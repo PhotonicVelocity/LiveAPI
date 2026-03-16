@@ -52,7 +52,7 @@ class Clip(LomObject):
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, parameter: DeviceParameter | None, /) -> None:
+        def select_envelope_parameter(self, device_parameter: DeviceParameter | None, /) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -334,7 +334,7 @@ class Clip(LomObject):
         """
         ...
 
-    def automation_envelope(self, parameter: DeviceParameter | None, /) -> Envelope:
+    def automation_envelope(self, device_parameter: DeviceParameter | None, /) -> Envelope:
         """Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track."""
         ...
 
@@ -367,7 +367,7 @@ class Clip(LomObject):
         """Clears all envelopes for this clip."""
         ...
 
-    def clear_envelope(self, parameter: DeviceParameter | None, /) -> None:
+    def clear_envelope(self, device_parameter: DeviceParameter | None, /) -> None:
         """Clears the envelope of this clips given parameter."""
         ...
 
@@ -401,7 +401,7 @@ class Clip(LomObject):
         """
         ...
 
-    def create_automation_envelope(self, parameter: DeviceParameter | None, /) -> Envelope:
+    def create_automation_envelope(self, device_parameter: DeviceParameter | None, /) -> Envelope:
         """Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created."""
         ...
 
@@ -424,7 +424,7 @@ class Clip(LomObject):
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: list[int] | None, destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: Iterable[int] | None, destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -530,7 +530,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_notes_by_id(self, note_ids: list[int] | None, /) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: Iterable[int] | None, /) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
@@ -561,12 +561,12 @@ class Clip(LomObject):
         ...
 
     @property
-    def groove(self) -> Groove:
+    def groove(self) -> Groove | None:
         """Get the groove associated with this clip."""
         ...
 
     @groove.setter
-    def groove(self, value: Groove) -> None: ...
+    def groove(self, value: Groove | None) -> None: ...
 
     def groove_has_listener(self, callback: Callable | None, /) -> bool:
         """
@@ -1076,7 +1076,7 @@ class Clip(LomObject):
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: list[int] | None, /) -> None:
+    def remove_notes_by_id(self, note_ids: Iterable[int] | None, /) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1259,7 +1259,7 @@ class Clip(LomObject):
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: list[int] | None, /) -> None:
+    def select_notes_by_id(self, note_ids: Iterable[int] | None, /) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 

@@ -83,12 +83,12 @@ class Song(LomObject):
             ...
 
         @property
-        def detail_clip(self) -> Clip:
+        def detail_clip(self) -> Clip | None:
             """Get/Set the Clip that is currently visible in Lives Detailview."""
             ...
 
         @detail_clip.setter
-        def detail_clip(self, value: Clip) -> None: ...
+        def detail_clip(self, value: Clip | None) -> None: ...
 
         def detail_clip_has_listener(self, callback: Callable | None, /) -> bool:
             """
@@ -189,12 +189,12 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_chain(self) -> Chain:
+        def selected_chain(self) -> Chain | None:
             """Get the highlighted chain if available."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: Chain) -> None: ...
+        def selected_chain(self, value: Chain | None) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable | None, /) -> bool:
             """
@@ -204,7 +204,7 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_parameter(self) -> DeviceParameter:
+        def selected_parameter(self) -> DeviceParameter | None:
             """Get the currently selected device parameter."""
             ...
 
@@ -593,12 +593,12 @@ class Song(LomObject):
         ...
 
     @property
-    def appointed_device(self) -> Device:
+    def appointed_device(self) -> Device | None:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: Device) -> None: ...
+    def appointed_device(self, value: Device | None) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable | None, /) -> bool:
         """
@@ -916,7 +916,7 @@ class Song(LomObject):
         """
         ...
 
-    def get_current_smpte_song_time(self, format: int | None, /) -> SmptTime:
+    def get_current_smpte_song_time(self, smpte_format: int | None, /) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.

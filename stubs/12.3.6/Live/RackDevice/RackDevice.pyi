@@ -121,12 +121,12 @@ class RackDevice(Device):
             ...
 
         @property
-        def selected_chain(self) -> Chain:
+        def selected_chain(self) -> Chain | None:
             """Return access to the currently selected chain."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: Chain) -> None: ...
+        def selected_chain(self, value: Chain | None) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable | None, /) -> bool:
             """

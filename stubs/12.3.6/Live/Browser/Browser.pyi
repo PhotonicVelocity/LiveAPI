@@ -84,12 +84,12 @@ class Browser(LomObject):
         ...
 
     @property
-    def hotswap_target(self) -> Device:
+    def hotswap_target(self) -> Device | None:
         """Bang triggered when the hotswap target has changed."""
         ...
 
     @hotswap_target.setter
-    def hotswap_target(self, value: Device) -> None: ...
+    def hotswap_target(self, value: Device | None) -> None: ...
 
     def hotswap_target_has_listener(self, callback: Callable | None, /) -> bool:
         """

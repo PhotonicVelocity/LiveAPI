@@ -99,7 +99,7 @@ class Vector(Generic[T]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: Any | None, /) -> None:
+    def append(self, value: LomObject | None, /) -> None:
         ...
 
     def extend(self, values: Iterable[LomObject] | None, /) -> None:
