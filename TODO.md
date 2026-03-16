@@ -49,3 +49,13 @@ The raw capture data should have `disabled = -1`. Fix wherever the enum values a
 
 Check `LiveTree.raw.json` or `LiveTree.parsed.json` for the `Browser.FilterType` enum and verify the
 raw value. Fix at the source (likely in the raw capture or parse step).
+
+## 5. Wrap Vector `extend` arg type in `Iterable[...]`
+
+Concrete vector classes (e.g., `MidiNoteVector`, `ClipDataVector`) have `extend` methods whose arg is typed
+as the bare element type (`T`) instead of `Iterable[T]`. For example, `MidiNoteVector.extend` currently
+accepts `MidiNoteSpecification` but should accept `Iterable[MidiNoteSpecification]`.
+
+Needs investigation to determine where the fix belongs — could be in stub generation (`generate_stubs.py`),
+in the resolved tree (`apply_refinements.py`), or in the LLM resolution output. The generic `Base.Vector`
+class has the same issue (resolved as `Any` instead of `Iterable[Any]`).
