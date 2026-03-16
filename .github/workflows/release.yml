@@ -24,6 +24,8 @@ jobs:
     environment: pypi
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
 
       - uses: actions/setup-python@v5
         with:
@@ -44,32 +46,30 @@ jobs:
             echo "versions=$INPUT_VERSION" >> "$GITHUB_OUTPUT"
             echo "post=$INPUT_POST" >> "$GITHUB_OUTPUT"
           else
-            # Push trigger — find changed versions by comparing stubs to latest release
+            # Push trigger — find versions whose stubs changed in this commit
             versions=""
             post_map=""
-            for dir in stubs/*/Live/; do
-              version=$(basename "$(dirname "$dir")")
+            changed_versions=$(git diff --name-only HEAD~1 -- 'stubs/*/Live/' \
+              | sed -n 's|^stubs/\([^/]*\)/Live/.*|\1|p' | sort -u)
+            for version in $changed_versions; do
               [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
-              [ -f "$dir/__init__.pyi" ] || continue
+              [ -f "stubs/$version/Live/__init__.pyi" ] || continue
 
               tag="v${version}"
               if ! gh release view "$tag" &>/dev/null; then
                 # No release yet — initial release
                 versions="${versions:+$versions }$version"
               else
-                # Release exists — check if stubs changed since the release tag
-                if ! git diff --quiet "$tag" -- "stubs/$version/Live/"; then
-                  # Stubs changed — find next post-release number from PyPI
-                  post=1
-                  highest=$(pip index versions ableton-live-stubs 2>/dev/null \
-                    | grep -Eo "${version}\.post[0-9]+" | sed "s/${version}\.post//" \
-                    | sort -rn | head -1)
-                  if [ -n "$highest" ]; then
-                    post=$((highest + 1))
-                  fi
-                  versions="${versions:+$versions }$version"
-                  post_map="${post_map:+$post_map }${version}=${post}"
+                # Release exists — post-release
+                post=1
+                highest=$(pip index versions ableton-live-stubs 2>/dev/null \
+                  | grep -Eo "${version}\.post[0-9]+" | sed "s/${version}\.post//" \
+                  | sort -rn | head -1)
+                if [ -n "$highest" ]; then
+                  post=$((highest + 1))
                 fi
+                versions="${versions:+$versions }$version"
+                post_map="${post_map:+$post_map }${version}=${post}"
               fi
             done
             echo "versions=$versions" >> "$GITHUB_OUTPUT"
@@ -139,9 +139,13 @@ jobs:
               gh release edit "$tag" --notes "$notes"
               echo "Updated release $tag with new assets (${pkg_version})"
             else
+              latest_flag=""
+              if [ "$version" != "$latest_version" ]; then
+                latest_flag="--latest=false"
+              fi
               gh release create "$tag" "$zip_file" \
                 --title "Live ${version} API Stubs" \
-                --notes "$notes"
+                --notes "$notes" $latest_flag
               echo "Created release $tag"
             fi
           done
