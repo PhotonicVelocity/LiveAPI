@@ -256,11 +256,11 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 | Method                                                                           | Returns        |
 | -------------------------------------------------------------------------------- | -------------- |
 | [`available_main_views()`](#available_main_views)                                | `StringVector` |
-| [`focus_view()`](#focus_viewview-str)                                            | `None`         |
+| [`focus_view()`](#focus_viewarg2-str)                                            | `None`         |
 | [`hide_view()`](#hide_viewview_name-str)                                         | `None`         |
 | [`is_view_visible()`](#is_view_visibleidentifier-str-main_window_only-bool-true) | `bool`         |
 | [`scroll_view()`](#scroll_viewdirection-int-view_name-str-modifier_pressed-bool) | `None`         |
-| [`show_view()`](#show_viewview-str)                                              | `None`         |
+| [`show_view()`](#show_viewarg2-str)                                              | `None`         |
 | [`toggle_browse()`](#toggle_browse)                                              | `None`         |
 | [`zoom_view()`](#zoom_viewdirection-int-view_name-str-modifier_pressed-bool)     | `None`         |
 
@@ -270,11 +270,11 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 Return a list of strings with the available subcomponent views, which is to be specified, when using the rest of this classes functions. A 'subcomponent view' is a main view component of a document view, like the Session view, the Arranger or Detailview and so on...
 
-#### `focus_view(view: str)`
+#### `focus_view(arg2: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `view: str`
+  - `arg2: str`
 
 Show and focus one through the identifier string specified view.
 
@@ -305,11 +305,11 @@ Return true if the through the identifier string specified view is currently vis
 
 Scroll through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
 
-#### `show_view(view: str)`
+#### `show_view(arg2: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `view: str`
+  - `arg2: str`
 
 Show one through the identifier string specified view. Will throw a runtime error if this is called in Live's initialization scope.
 
@@ -486,9 +486,9 @@ The layout of pads on Push.
 | [`fetch_received_midi_messages()`](#fetch_received_midi_messages)    | `tuple[tuple[int, Ellipsis], Ellipsis]` |
 | [`fetch_received_values()`](#fetch_received_values)                  | `tuple[tuple[int, Any], Ellipsis]`      |
 | [`grab_control()`](#grab_controlcontrol-int)                         | `None`                                  |
-| [`release_control()`](#release_controlcontrol-int)                   | `None`                                  |
-| [`send_midi()`](#send_midimidi_event_bytes-tupleint-ellipsis)        | `None`                                  |
-| [`send_value()`](#send_valuevalue-tupleany-ellipsis)                 | `None`                                  |
+| [`release_control()`](#release_controlarg2-int)                      | `None`                                  |
+| [`send_midi()`](#send_midiarg2-tuple)                                | `None`                                  |
+| [`send_value()`](#send_valuearg2-tuple)                              | `None`                                  |
 | [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`                                  |
 | [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`                                  |
 
@@ -512,23 +512,23 @@ The layout of pads on Push.
 - **Args:**
   - `control: int`
 
-#### `release_control(control: int)`
+#### `release_control(arg2: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `control: int`
+  - `arg2: int`
 
-#### `send_midi(midi_event_bytes: tuple[int, Ellipsis])`
-
-- **Returns:** `None`
-- **Args:**
-  - `midi_event_bytes: tuple[int, Ellipsis]`
-
-#### `send_value(value: tuple[Any, Ellipsis])`
+#### `send_midi(arg2: tuple)`
 
 - **Returns:** `None`
 - **Args:**
-  - `value: tuple[Any, Ellipsis]`
+  - `arg2: tuple`
+
+#### `send_value(arg2: tuple)`
+
+- **Returns:** `None`
+- **Args:**
+  - `arg2: tuple`
 
 #### `subscribe_to_control(control: int)`
 

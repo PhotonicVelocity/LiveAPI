@@ -5754,13 +5754,13 @@
                     "default": null
                   },
                   {
-                    "name": "DeviceName",
+                    "name": "device_name",
                     "type": "str",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "DeviceIndex",
+                    "name": "device_index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -24235,7 +24235,7 @@
                 "default": null
               },
               {
-                "name": "ShouldConsumeEvent",
+                "name": "should_consume_event",
                 "type": "bool",
                 "optional": true,
                 "default": "True"
@@ -24280,7 +24280,7 @@
                 "default": null
               },
               {
-                "name": "ShouldConsumeEvent",
+                "name": "should_consume_event",
                 "type": "bool",
                 "optional": true,
                 "default": "True"
@@ -26616,7 +26616,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -34926,7 +34926,7 @@
                         "default": null
                       },
                       {
-                        "name": "ShouldAppointDevice",
+                        "name": "should_appoint_device",
                         "type": "bool",
                         "optional": true,
                         "default": "True"
@@ -36684,7 +36684,7 @@
                     "default": null
                   },
                   {
-                    "name": "CaptureMode",
+                    "name": "capture_mode",
                     "type": "int",
                     "optional": true,
                     "default": "Song.CaptureMode.all"
@@ -36711,7 +36711,7 @@
                     "default": null
                   },
                   {
-                    "name": "Destination",
+                    "name": "destination",
                     "type": "int",
                     "optional": true,
                     "default": "Song.CaptureDestination.auto"
@@ -36830,7 +36830,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "object",
                     "optional": true,
                     "default": "None"
@@ -36857,7 +36857,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "object",
                     "optional": true,
                     "default": "None"
@@ -40164,7 +40164,7 @@
                     "default": null
                   },
                   {
-                    "name": "Quantized",
+                    "name": "quantized",
                     "type": "bool",
                     "optional": true,
                     "default": "True"
@@ -45436,13 +45436,13 @@
                     "default": null
                   },
                   {
-                    "name": "DeviceName",
+                    "name": "device_name",
                     "type": "str",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "DeviceIndex",
+                    "name": "device_index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -47355,7 +47355,7 @@
                     "default": null
                   },
                   {
-                    "name": "Quantized",
+                    "name": "quantized",
                     "type": "bool",
                     "optional": true,
                     "default": "True"

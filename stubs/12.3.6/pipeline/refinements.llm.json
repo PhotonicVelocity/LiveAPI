@@ -903,7 +903,7 @@
     },
     "Live.Song.Song.create_audio_track": {
       "args": {
-        "Index": {
+        "index": {
           "type": "int | None",
           "type_reason": "M4L docs say 'index determines where the track is added' and optional with default None for end of list"
         }
@@ -911,7 +911,7 @@
     },
     "Live.Song.Song.create_midi_track": {
       "args": {
-        "Index": {
+        "index": {
           "type": "int | None",
           "type_reason": "M4L docs say 'index determines where the track is added' and optional with default None for end of list"
         }

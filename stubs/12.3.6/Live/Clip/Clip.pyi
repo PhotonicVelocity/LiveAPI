@@ -915,7 +915,7 @@ class Clip:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, note: int | None, source: int | None, amount: float | None) -> None:
+    def quantize_pitch(self, arg2: int | None, arg3: int | None, amount: float | None) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 

@@ -484,7 +484,7 @@ returns true if the Clip will record on being started.
 | [`move_warp_marker()`](#move_warp_markermarker_beat_time-float-beat_time_distance-float)                                                       | `None`                                                   |
 | [`note_number_to_name()`](#note_number_to_namemidi_pitch-int)                                                                                  | `str`                                                    |
 | [`quantize()`](#quantizequantization_grid-int-amount-float)                                                                                    | `None`                                                   |
-| [`quantize_pitch()`](#quantize_pitchnote-int-source-int-amount-float)                                                                          | `None`                                                   |
+| [`quantize_pitch()`](#quantize_pitcharg2-int-arg3-int-amount-float)                                                                            | `None`                                                   |
 | [`remove_notes()`](#remove_notesfrom_time-float-from_pitch-int-time_span-float-pitch_span-int)                                                 | `None`                                                   |
 | [`remove_notes_by_id()`](#remove_notes_by_idnote_ids-listint)                                                                                  | `None`                                                   |
 | [`remove_notes_extended()`](#remove_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                               | `None`                                                   |
@@ -690,12 +690,12 @@ Return a human-readable name for the given MIDI note number. Takes into account 
 
 Quantize all notes in a clip or align warp markers.
 
-#### `quantize_pitch(note: int, source: int, amount: float)`
+#### `quantize_pitch(arg2: int, arg3: int, amount: float)`
 
 - **Returns:** `None`
 - **Args:**
-  - `note: int`
-  - `source: int`
+  - `arg2: int`
+  - `arg3: int`
   - `amount: float`
 
 Quantize all the notes of a given pitch. Raises an error on audio clips.

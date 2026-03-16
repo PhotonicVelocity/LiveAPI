@@ -160,8 +160,8 @@ Structure to define feedback properties of MIDI mappings.
 
 | Function                                                                                                                                                                                                                                       | Returns |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`forward_midi_cc()`](#forward_midi_ccscript_handle-int-midi_map_handle-int-channel-int-cc-int-shouldconsumeevent-bool-true)                                                                                                                   | `bool`  |
-| [`forward_midi_note()`](#forward_midi_notescript_handle-int-midi_map_handle-int-channel-int-note-int-shouldconsumeevent-bool-true)                                                                                                             | `bool`  |
+| [`forward_midi_cc()`](#forward_midi_ccscript_handle-int-midi_map_handle-int-channel-int-cc-int-should_consume_event-bool-true)                                                                                                                 | `bool`  |
+| [`forward_midi_note()`](#forward_midi_notescript_handle-int-midi_map_handle-int-channel-int-note-int-should_consume_event-bool-true)                                                                                                           | `bool`  |
 | [`forward_midi_pitchbend()`](#forward_midi_pitchbendscript_handle-int-midi_map_handle-int-channel-int)                                                                                                                                         | `bool`  |
 | [`map_midi_cc()`](#map_midi_ccmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-avoid_takeover-bool-sensitivity-float-10)                                                                  | `bool`  |
 | [`map_midi_cc_with_feedback_map()`](#map_midi_cc_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-feedback_rule-ccfeedbackrule-avoid_takeover-bool-sensitivity-float-10) | `bool`  |
@@ -171,7 +171,7 @@ Structure to define feedback properties of MIDI mappings.
 | [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-feedback_rule-pitchbendfeedbackrule-avoid_takeover-bool)                                             | `bool`  |
 | [`send_feedback_for_parameter()`](#send_feedback_for_parametermidi_map_handle-int-parameter-deviceparameter)                                                                                                                                   | `None`  |
 
-### `forward_midi_cc(script_handle: int, midi_map_handle: int, channel: int, cc: int, ShouldConsumeEvent: bool = True)`
+### `forward_midi_cc(script_handle: int, midi_map_handle: int, channel: int, cc: int, should_consume_event: bool = True)`
 
 - **Returns:** `bool`
 - **Args:**
@@ -179,9 +179,9 @@ Structure to define feedback properties of MIDI mappings.
   - `midi_map_handle: int`
   - `channel: int`
   - `cc: int`
-  - `ShouldConsumeEvent: bool = True`
+  - `should_consume_event: bool = True`
 
-### `forward_midi_note(script_handle: int, midi_map_handle: int, channel: int, note: int, ShouldConsumeEvent: bool = True)`
+### `forward_midi_note(script_handle: int, midi_map_handle: int, channel: int, note: int, should_consume_event: bool = True)`
 
 - **Returns:** `bool`
 - **Args:**
@@ -189,7 +189,7 @@ Structure to define feedback properties of MIDI mappings.
   - `midi_map_handle: int`
   - `channel: int`
   - `note: int`
-  - `ShouldConsumeEvent: bool = True`
+  - `should_consume_event: bool = True`
 
 ### `forward_midi_pitchbend(script_handle: int, midi_map_handle: int, channel: int)`
 

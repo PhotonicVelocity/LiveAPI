@@ -10,37 +10,15 @@ In `generate_stubs.py`, near the Vector parameterization block (~line 391), add 
 `probed_type == "tuple"` properties with `element_repr`. Resolve the element repr to a type name and
 emit `tuple[T, ...]`.
 
-## 2. Add `LomObject` as unresolved return type for LLM resolution
+## ~~2. Add `LomObject` as unresolved return type for LLM resolution~~ ✓
 
-Functions like `create_take_lane()`, `insert_device()`, `insert_chain()` return `LomObject` where a more
-specific type is known.
+Done — added `"LomObject"` to unresolved types in `extract_unresolved.py`. Resolved via LLM pipeline.
 
-In `extract_unresolved.py` `_check_function`, add `"LomObject"` to the set of unresolved return/arg types
-(currently only `"object"` and `"tuple"`). The existing LLM flow will then resolve them.
+## ~~3. Convert PascalCase parameter names to snake_case in parse~~ ✓
 
-Affected functions:
-- `Track.create_take_lane() -> LomObject` (should be `TakeLane`)
-- `Track.insert_device() -> LomObject` (should be `Device`)
-- `Chain.insert_device() -> LomObject` (should be `Device`)
-- `RackDevice.insert_chain() -> LomObject` (should be `Chain`)
-- `Conversions.move_devices_on_track_to_new_drum_rack_pad() -> LomObject`
-
-## 3. Convert PascalCase parameter names to snake_case in parse
-
-Parameters like `CaptureMode`, `DeviceName`, `DeviceIndex`, `Quantized`, `ShouldConsumeEvent`, `Index`
-come from C++ signature parsing and were never lowercased.
-
-In `parse_apicapture_results.py`, during signature parsing, detect PascalCase arg names and convert to
-snake_case. E.g. `CaptureMode` → `capture_mode`, `DeviceName` → `device_name`.
-
-Note: `CaptureMode: CaptureMode` even shadows its type name.
-
-Affected params (from audit):
-- Song: CaptureMode, Destination, Index (x2), Quantized
-- Track: DeviceName, DeviceIndex, Quantized
-- Chain: DeviceName, DeviceIndex
-- RackDevice: Index
-- MidiMap: ShouldConsumeEvent (x2)
+Done — added `_pascal_to_snake()` in `parse_apicapture_results.py` `_resolve_arg()`. All PascalCase params
+(`CaptureMode`, `DeviceName`, `DeviceIndex`, `Quantized`, `ShouldConsumeEvent`, `ShouldAppointDevice`,
+`Index`, `Destination`) now convert to snake_case during parsing.
 
 ## 4. Fix FilterType.disabled enum value to -1
 

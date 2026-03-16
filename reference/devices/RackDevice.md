@@ -291,11 +291,11 @@ Copies all contents of a drum pad from a source pad into a destination pad. copy
 
 Deletes the currently selected macro variation.Does nothing if there is no selected variation.
 
-#### `insert_chain(Index: int = -1)`
+#### `insert_chain(index: int = -1)`
 
 - **Returns:** `Chain`
 - **Args:**
-  - `Index: int = -1`
+  - `index: int = -1`
 
 Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence.
 

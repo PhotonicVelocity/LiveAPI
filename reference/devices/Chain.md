@@ -145,17 +145,17 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 ### Methods
 
-| Method                                                               | Returns  |
-| -------------------------------------------------------------------- | -------- |
-| [`delete_device()`](#delete_devicedevice-int)                        | `None`   |
-| [`duplicate_device()`](#duplicate_deviceindex-int)                   | `None`   |
-| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1) | `Device` |
+| Method                                                                 | Returns  |
+| ---------------------------------------------------------------------- | -------- |
+| [`delete_device()`](#delete_devicearg2-int)                            | `None`   |
+| [`duplicate_device()`](#duplicate_deviceindex-int)                     | `None`   |
+| [`insert_device()`](#insert_devicedevice_name-str-device_index-int--1) | `Device` |
 
-#### `delete_device(device: int)`
+#### `delete_device(arg2: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `device: int`
+  - `arg2: int`
 
 Remove a device identified by its index from the chain. Throws runtime error if bad index.
 
@@ -167,11 +167,11 @@ Remove a device identified by its index from the chain. Throws runtime error if 
 
 Duplicate the device at the given index in the chain.
 
-#### `insert_device(DeviceName: str, DeviceIndex: int = -1)`
+#### `insert_device(device_name: str, device_index: int = -1)`
 
 - **Returns:** `Device`
 - **Args:**
-  - `DeviceName: str`
-  - `DeviceIndex: int = -1`
+  - `device_name: str`
+  - `device_index: int = -1`
 
 Add a device at a given index in the chain. At end if -1.

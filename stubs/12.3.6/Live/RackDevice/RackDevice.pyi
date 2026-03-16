@@ -325,7 +325,7 @@ class RackDevice:
         """
         ...
 
-    def insert_chain(self, Index: int = -1) -> Chain:
+    def insert_chain(self, index: int = -1) -> Chain:
         """Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence."""
         ...
 

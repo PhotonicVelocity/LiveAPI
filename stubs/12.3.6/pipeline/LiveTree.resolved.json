@@ -255,7 +255,7 @@
                         "default": null
                       },
                       {
-                        "name": "view",
+                        "name": "arg2",
                         "type": "str",
                         "optional": false,
                         "default": null
@@ -563,7 +563,7 @@
                         "default": null
                       },
                       {
-                        "name": "view",
+                        "name": "arg2",
                         "type": "str",
                         "optional": false,
                         "default": null
@@ -1869,7 +1869,7 @@
                     "default": null
                   },
                   {
-                    "name": "control",
+                    "name": "arg2",
                     "type": "int",
                     "optional": false,
                     "default": null
@@ -1977,8 +1977,8 @@
                     "default": null
                   },
                   {
-                    "name": "midi_event_bytes",
-                    "type": "tuple[int, ...]",
+                    "name": "arg2",
+                    "type": "tuple",
                     "optional": false,
                     "default": null
                   }
@@ -2004,8 +2004,8 @@
                     "default": null
                   },
                   {
-                    "name": "value",
-                    "type": "tuple[Any, ...]",
+                    "name": "arg2",
+                    "type": "tuple",
                     "optional": false,
                     "default": null
                   }
@@ -2918,7 +2918,7 @@
             "cpp_signature": "void log(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)",
             "args": [
               {
-                "name": "string",
+                "name": "arg1",
                 "type": "str",
                 "optional": false,
                 "default": null
@@ -5643,7 +5643,7 @@
                     "default": null
                   },
                   {
-                    "name": "device",
+                    "name": "arg2",
                     "type": "int",
                     "optional": false,
                     "default": null
@@ -5766,13 +5766,13 @@
                     "default": null
                   },
                   {
-                    "name": "DeviceName",
+                    "name": "device_name",
                     "type": "str",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "DeviceIndex",
+                    "name": "device_index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -9088,13 +9088,13 @@
                     "default": null
                   },
                   {
-                    "name": "note",
+                    "name": "arg2",
                     "type": "int",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "source",
+                    "name": "arg3",
                     "type": "int",
                     "optional": false,
                     "default": null
@@ -11500,7 +11500,7 @@
                     "default": null
                   },
                   {
-                    "name": "pages",
+                    "name": "arg2",
                     "type": "float",
                     "optional": false,
                     "default": null
@@ -24264,7 +24264,7 @@
                 "default": null
               },
               {
-                "name": "ShouldConsumeEvent",
+                "name": "should_consume_event",
                 "type": "bool",
                 "optional": true,
                 "default": "True"
@@ -24309,7 +24309,7 @@
                 "default": null
               },
               {
-                "name": "ShouldConsumeEvent",
+                "name": "should_consume_event",
                 "type": "bool",
                 "optional": true,
                 "default": "True"
@@ -26647,7 +26647,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -34960,7 +34960,7 @@
                         "default": null
                       },
                       {
-                        "name": "ShouldAppointDevice",
+                        "name": "should_appoint_device",
                         "type": "bool",
                         "optional": true,
                         "default": "True"
@@ -36718,7 +36718,7 @@
                     "default": null
                   },
                   {
-                    "name": "CaptureMode",
+                    "name": "capture_mode",
                     "type": "int",
                     "optional": true,
                     "default": "Song.CaptureMode.all"
@@ -36745,7 +36745,7 @@
                     "default": null
                   },
                   {
-                    "name": "Destination",
+                    "name": "destination",
                     "type": "int",
                     "optional": true,
                     "default": "Song.CaptureDestination.auto"
@@ -36864,7 +36864,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "int | None",
                     "optional": true,
                     "default": "None"
@@ -36891,7 +36891,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "int | None",
                     "optional": true,
                     "default": "None"
@@ -40198,7 +40198,7 @@
                     "default": null
                   },
                   {
-                    "name": "Quantized",
+                    "name": "quantized",
                     "type": "bool",
                     "optional": true,
                     "default": "True"
@@ -44781,7 +44781,7 @@
                     "default": null
                   },
                   {
-                    "name": "slot",
+                    "name": "arg2",
                     "type": "Clip",
                     "optional": false,
                     "default": null
@@ -44808,7 +44808,7 @@
                     "default": null
                   },
                   {
-                    "name": "device",
+                    "name": "arg2",
                     "type": "int",
                     "optional": false,
                     "default": null
@@ -45470,13 +45470,13 @@
                     "default": null
                   },
                   {
-                    "name": "DeviceName",
+                    "name": "device_name",
                     "type": "str",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "DeviceIndex",
+                    "name": "device_index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -47389,7 +47389,7 @@
                     "default": null
                   },
                   {
-                    "name": "Quantized",
+                    "name": "quantized",
                     "type": "bool",
                     "optional": true,
                     "default": "True"

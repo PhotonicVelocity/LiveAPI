@@ -131,10 +131,10 @@ class PitchBendFeedbackRule:
     @value_pair_map.setter
     def value_pair_map(self, value: tuple[int, ...]) -> None: ...
 
-def forward_midi_cc(script_handle: int | None, midi_map_handle: int | None, channel: int | None, cc: int | None, ShouldConsumeEvent: bool = True) -> bool:
+def forward_midi_cc(script_handle: int | None, midi_map_handle: int | None, channel: int | None, cc: int | None, should_consume_event: bool = True) -> bool:
     ...
 
-def forward_midi_note(script_handle: int | None, midi_map_handle: int | None, channel: int | None, note: int | None, ShouldConsumeEvent: bool = True) -> bool:
+def forward_midi_note(script_handle: int | None, midi_map_handle: int | None, channel: int | None, note: int | None, should_consume_event: bool = True) -> bool:
     ...
 
 def forward_midi_pitchbend(script_handle: int | None, midi_map_handle: int | None, channel: int | None) -> bool:

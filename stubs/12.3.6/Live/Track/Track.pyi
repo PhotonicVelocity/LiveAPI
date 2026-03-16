@@ -717,11 +717,11 @@ class Track:
         """
         ...
 
-    def delete_clip(self, slot: Clip | None) -> None:
+    def delete_clip(self, arg2: Clip | None) -> None:
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, device: int | None) -> None:
+    def delete_device(self, arg2: int | None) -> None:
         """Delete a device identified by the index in the 'devices' list."""
         ...
 
@@ -971,7 +971,7 @@ class Track:
         """
         ...
 
-    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> Device:
+    def insert_device(self, device_name: str | None, device_index: int = -1) -> Device:
         """Add a device at a given index in the 'devices' list. At end if -1."""
         ...
 
@@ -1565,7 +1565,7 @@ class Track:
         """
         ...
 
-    def stop_all_clips(self, Quantized: bool = True) -> None:
+    def stop_all_clips(self, quantized: bool = True) -> None:
         """Stop running and triggered clip and slots on this track."""
         ...
 

@@ -260,7 +260,7 @@ A simple read only container for returning objects from Live.
 | Function                                                                            | Returns |
 | ----------------------------------------------------------------------------------- | ------- |
 | [`get_text()`](#get_textclassname-str-textname-str)                                 | `Text`  |
-| [`log()`](#logstring-str)                                                           | `None`  |
+| [`log()`](#logarg1-str)                                                             | `None`  |
 | [`subst_args()`](#subst_argstext-text-arg1-str-arg2-str-arg3-str-arg4-str-arg5-str) | `str`   |
 
 ### `get_text(classname: str, textname: str)`
@@ -272,11 +272,11 @@ A simple read only container for returning objects from Live.
 
 Retrieves the (translated) Text identified by `classname` and `textname`.
 
-### `log(string: str)`
+### `log(arg1: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `string: str`
+  - `arg1: str`
 
 ### `subst_args(text: Text, arg1: str = , arg2: str = , arg3: str = , arg4: str = , arg5: str = )`
 

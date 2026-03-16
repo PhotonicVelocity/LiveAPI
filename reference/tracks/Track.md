@@ -544,13 +544,13 @@ Representing the view aspects of a Track.
 | [`create_audio_clip()`](#create_audio_clipfile_path-str-position-float)                             | `Clip`     |
 | [`create_midi_clip()`](#create_midi_clipstart_time-float-length-float)                              | `Clip`     |
 | [`create_take_lane()`](#create_take_lane)                                                           | `TakeLane` |
-| [`delete_clip()`](#delete_clipslot-clip)                                                            | `None`     |
-| [`delete_device()`](#delete_devicedevice-int)                                                       | `None`     |
+| [`delete_clip()`](#delete_cliparg2-clip)                                                            | `None`     |
+| [`delete_device()`](#delete_devicearg2-int)                                                         | `None`     |
 | [`duplicate_clip_slot()`](#duplicate_clip_slotindex-int)                                            | `int`      |
 | [`duplicate_clip_to_arrangement()`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`     |
 | [`duplicate_device()`](#duplicate_deviceindex-int)                                                  | `None`     |
 | [`get_data()`](#get_datakey-str-default_value-any)                                                  | `Any`      |
-| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1)                                | `Device`   |
+| [`insert_device()`](#insert_devicedevice_name-str-device_index-int--1)                              | `Device`   |
 | [`jump_in_running_session_clip()`](#jump_in_running_session_clipbeats-float)                        | `None`     |
 | [`set_data()`](#set_datakey-str-value-any)                                                          | `None`     |
 | [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                            | `None`     |
@@ -579,19 +579,19 @@ Creates an empty MIDI clip and inserts it into the arrangement at the specified 
 
 Create a new TakeLane for this track.
 
-#### `delete_clip(slot: Clip)`
+#### `delete_clip(arg2: Clip)`
 
 - **Returns:** `None`
 - **Args:**
-  - `slot: Clip`
+  - `arg2: Clip`
 
 Delete the given clip. Raises a runtime error when the clip belongs to another track.
 
-#### `delete_device(device: int)`
+#### `delete_device(arg2: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `device: int`
+  - `arg2: int`
 
 Delete a device identified by the index in the 'devices' list.
 
@@ -629,12 +629,12 @@ Duplicate a device at a given index in the 'devices' list.
 
 Get data for the given key, that was previously stored using set_data.
 
-#### `insert_device(DeviceName: str, DeviceIndex: int = -1)`
+#### `insert_device(device_name: str, device_index: int = -1)`
 
 - **Returns:** `Device`
 - **Args:**
-  - `DeviceName: str`
-  - `DeviceIndex: int = -1`
+  - `device_name: str`
+  - `device_index: int = -1`
 
 Add a device at a given index in the 'devices' list. At end if -1.
 
@@ -655,11 +655,11 @@ Jump forward or backward in the currently running Sessionclip (if any) by the sp
 
 Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.
 
-#### `stop_all_clips(Quantized: bool = True)`
+#### `stop_all_clips(quantized: bool = True)`
 
 - **Returns:** `None`
 - **Args:**
-  - `Quantized: bool = True`
+  - `quantized: bool = True`
 
 Stop running and triggered clip and slots on this track.
 

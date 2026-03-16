@@ -544,7 +544,7 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 | Method                                                                                                | Returns    |
 | ----------------------------------------------------------------------------------------------------- | ---------- |
 | [`begin_undo_step()`](#begin_undo_step)                                                               | `None`     |
-| [`capture_and_insert_scene()`](#capture_and_insert_scenecapturemode-capturemode-int-0)                | `None`     |
+| [`capture_and_insert_scene()`](#capture_and_insert_scenecapture_mode-capturemode-int-0)               | `None`     |
 | [`capture_midi()`](#capture_mididestination-capturedestination-int-0)                                 | `None`     |
 | [`continue_playing()`](#continue_playing)                                                             | `None`     |
 | [`create_audio_track()`](#create_audio_trackindex-int-none)                                           | `Track`    |
@@ -586,19 +586,19 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 
 - **Returns:** `None`
 
-#### `capture_and_insert_scene(CaptureMode: CaptureMode | int = 0)`
+#### `capture_and_insert_scene(capture_mode: CaptureMode | int = 0)`
 
 - **Returns:** `None`
 - **Args:**
-  - `CaptureMode: CaptureMode | int = 0`
+  - `capture_mode: CaptureMode | int = 0`
 
 Capture currently playing clips and insert them as a new scene after the selected scene. Raises a runtime error if creating a new scene would exceed the limitations.
 
-#### `capture_midi(Destination: CaptureDestination | int = 0)`
+#### `capture_midi(destination: CaptureDestination | int = 0)`
 
 - **Returns:** `None`
 - **Args:**
-  - `Destination: CaptureDestination | int = 0`
+  - `destination: CaptureDestination | int = 0`
 
 Capture recently played MIDI material from audible tracks. If no Destination is given or Destination is set to CaptureDestination.auto, the captured material is inserted into the Session or Arrangement depending on which is visible. If Destination is set to CaptureDestination.session or CaptureDestination.arrangement, inserts the material into Session or Arrangement, respectively. Raises a limitation error when capturing into the Session and a new scene would have to be created but can't because it would exceed the limitations.
 
@@ -608,19 +608,19 @@ Capture recently played MIDI material from audible tracks. If no Destination is 
 
 Continue playing the song from the current position
 
-#### `create_audio_track(Index: int = None)`
+#### `create_audio_track(index: int = None)`
 
 - **Returns:** `Track`
 - **Args:**
-  - `Index: int = None`
+  - `index: int = None`
 
 Create a new audio track at the optional given index and return it.If the index is -1, the new track is added at the end. It will create a default audio track if possible. If the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item
 
-#### `create_midi_track(Index: int = None)`
+#### `create_midi_track(index: int = None)`
 
 - **Returns:** `Track`
 - **Args:**
-  - `Index: int = None`
+  - `index: int = None`
 
 Create a new midi track at the optional given index and return it.If the index is -1, the new track is added at the end.It will create a default midi track if possible. If the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item
 
@@ -816,11 +816,11 @@ When a cue is selected, it gets deleted. If no cue is selected, a new cue is cre
 
 Start playing from the startmarker
 
-#### `stop_all_clips(Quantized: bool = True)`
+#### `stop_all_clips(quantized: bool = True)`
 
 - **Returns:** `None`
 - **Args:**
-  - `Quantized: bool = True`
+  - `quantized: bool = True`
 
 Stop all playing Clips (if any) but continue playing the Song.
 
@@ -946,16 +946,16 @@ Get/Set the current selected Track in Lives Session or Arrangerview.
 
 ### Methods
 
-| Method                                                                         | Returns |
-| ------------------------------------------------------------------------------ | ------- |
-| [`select_device()`](#select_devicedevice-device-shouldappointdevice-bool-true) | `None`  |
+| Method                                                                           | Returns |
+| -------------------------------------------------------------------------------- | ------- |
+| [`select_device()`](#select_devicedevice-device-should_appoint_device-bool-true) | `None`  |
 
-#### `select_device(device: Device, ShouldAppointDevice: bool = True)`
+#### `select_device(device: Device, should_appoint_device: bool = True)`
 
 - **Returns:** `None`
 - **Args:**
   - `device: Device`
-  - `ShouldAppointDevice: bool = True`
+  - `should_appoint_device: bool = True`
 
 Select the given device.
 

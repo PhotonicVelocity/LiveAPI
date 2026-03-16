@@ -139,7 +139,7 @@ returns true if the clip slot will record on being fired.
 | Method                                                               | Returns |
 | -------------------------------------------------------------------- | ------- |
 | [`create_audio_clip()`](#create_audio_clippath-str)                  | `Clip`  |
-| [`create_clip()`](#create_clippages-float)                           | `Clip`  |
+| [`create_clip()`](#create_cliparg2-float)                            | `Clip`  |
 | [`delete_clip()`](#delete_clip)                                      | `None`  |
 | [`duplicate_clip_to()`](#duplicate_clip_totarget_clip_slot-clipslot) | `None`  |
 | [`fire()`](#fire)                                                    | `None`  |
@@ -154,11 +154,11 @@ returns true if the clip slot will record on being fired.
 
 Creates an audio clip referencing the file at the given absolute path in the slot. Throws an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.
 
-#### `create_clip(pages: float)`
+#### `create_clip(arg2: float)`
 
 - **Returns:** `Clip`
 - **Args:**
-  - `pages: float`
+  - `arg2: float`
 
 Creates an empty clip with the given length in the slot. Throws an error when called on non-empty slots or slots in non-MIDI tracks.
 

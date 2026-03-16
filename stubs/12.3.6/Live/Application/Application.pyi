@@ -79,7 +79,7 @@ class Application:
             """Get the canonical parent of the application view."""
             ...
 
-        def focus_view(self, view: str | None) -> None:
+        def focus_view(self, arg2: str | None) -> None:
             """Show and focus one through the identifier string specified view."""
             ...
 
@@ -153,7 +153,7 @@ class Application:
             """
             ...
 
-        def show_view(self, view: str | None) -> None:
+        def show_view(self, arg2: str | None) -> None:
             """
             Show one through the identifier string specified view. Will throw a
             runtime error if this is called in Live's initialization scope.

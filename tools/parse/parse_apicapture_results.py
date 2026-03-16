@@ -904,6 +904,14 @@ def build_type_map(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 _PY_ARG_RE = re.compile(r"^\((\w+)\)(\w+)(?:=(.+))?$")
 
 
+_PASCAL_RE = re.compile(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")
+
+
+def _pascal_to_snake(name: str) -> str:
+    """Convert PascalCase arg names to snake_case. Leaves already-lowercase names unchanged."""
+    return _PASCAL_RE.sub("_", name).lower()
+
+
 def _resolve_type(py_type: str, cpp_raw: str | None, cpp_to_py: dict[str, str]) -> str:
     """Resolve a Python type, using the C++ type map for 'object' types."""
     if py_type != "object" or not cpp_raw:
@@ -936,6 +944,7 @@ def _resolve_arg(raw: dict[str, Any], cpp_to_py: dict[str, str]) -> dict[str, An
         return {"name": py_text, "type": None, "optional": optional, "default": None}
 
     py_type, name, default = m.group(1), m.group(2), m.group(3)
+    name = _pascal_to_snake(name)
     resolved_type = _resolve_type(py_type, cpp_text, cpp_to_py)
 
     return {"name": name, "type": resolved_type, "optional": optional, "default": default}

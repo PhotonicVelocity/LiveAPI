@@ -97,7 +97,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def release_control(self, control: int | None) -> None:
+    def release_control(self, arg2: int | None) -> None:
         ...
 
     def remove_control_values_arrived_listener(self, callback: Callable | None) -> None:
@@ -121,10 +121,10 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def send_midi(self, midi_event_bytes: tuple[int, ...] | None) -> None:
+    def send_midi(self, arg2: tuple | None) -> None:
         ...
 
-    def send_value(self, value: tuple[Any, ...] | None) -> None:
+    def send_value(self, arg2: tuple | None) -> None:
         ...
 
     def subscribe_to_control(self, control: int | None) -> None:

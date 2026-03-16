@@ -109,7 +109,7 @@ class Chain:
         """
         ...
 
-    def delete_device(self, device: int | None) -> None:
+    def delete_device(self, arg2: int | None) -> None:
         """Remove a device identified by its index from the chain. Throws runtime error if bad index."""
         ...
 
@@ -161,7 +161,7 @@ class Chain:
         """
         ...
 
-    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> Device:
+    def insert_device(self, device_name: str | None, device_index: int = -1) -> Device:
         """Add a device at a given index in the chain. At end if -1."""
         ...
 

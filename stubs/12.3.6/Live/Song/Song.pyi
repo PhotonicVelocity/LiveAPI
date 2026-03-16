@@ -182,7 +182,7 @@ class Song:
             """
             ...
 
-        def select_device(self, device: Device | None, ShouldAppointDevice: bool = True) -> None:
+        def select_device(self, device: Device | None, should_appoint_device: bool = True) -> None:
             """Select the given device."""
             ...
 
@@ -698,14 +698,14 @@ class Song:
         """Get the canonical parent of the song."""
         ...
 
-    def capture_and_insert_scene(self, CaptureMode: CaptureMode | int = 0) -> None:
+    def capture_and_insert_scene(self, capture_mode: CaptureMode | int = 0) -> None:
         """
         Capture currently playing clips and insert them as a new scene after
         the selected scene. Raises a runtime error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def capture_midi(self, Destination: CaptureDestination | int = 0) -> None:
+    def capture_midi(self, destination: CaptureDestination | int = 0) -> None:
         """
         Capture recently played MIDI material from audible tracks.
         If no Destination is given or Destination is set to CaptureDestination.auto, the captured material is inserted into the Session or Arrangement depending on which is visible.
@@ -751,7 +751,7 @@ class Song:
         """
         ...
 
-    def create_audio_track(self, Index: int | None = None) -> Track:
+    def create_audio_track(self, index: int | None = None) -> Track:
         """
         Create a new audio track at the optional given index and return it.If the index is -1,
         the new track is added at the end. It will create a default audio track if possible.
@@ -759,7 +759,7 @@ class Song:
         """
         ...
 
-    def create_midi_track(self, Index: int | None = None) -> Track:
+    def create_midi_track(self, index: int | None = None) -> Track:
         """
         Create a new midi track at the optional given index and return it.If the index is -1,
         the new track is added at the end.It will create a default midi track if possible.
@@ -1821,7 +1821,7 @@ class Song:
         """
         ...
 
-    def stop_all_clips(self, Quantized: bool = True) -> None:
+    def stop_all_clips(self, quantized: bool = True) -> None:
         """Stop all playing Clips (if any) but continue playing the Song."""
         ...
 
