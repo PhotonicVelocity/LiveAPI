@@ -134,6 +134,12 @@
     ],
     "raw_doc": "List of features that are unavailable due to limitations of the current Live edition."
   },
+  "Live.Application.ControlDescriptionVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A container for returning control descriptions."
+  },
   "Live.Application.ControlSurfaceProxy.control_descriptions": {
     "probed_type": null,
     "needs": [
@@ -245,6 +251,12 @@
       }
     }
   },
+  "Live.Application.UnavailableFeatureVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A container for returning unavailable features."
+  },
   "Live.Application.encrypt_challenge": {
     "description": "Returns an encrypted challenge based on the TEA algortithm",
     "signature": "encrypt_challenge( (int)dongle1, (int)dongle2 [, (int)key_index=0]) -> tuple :",
@@ -288,6 +300,18 @@
       }
     }
   },
+  "Live.Base.FloatVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A simple container for returning floats from Live."
+  },
+  "Live.Base.IntU64Vector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A simple container for returning unsigned long integers from Live."
+  },
   "Live.Base.ObjectVector.append": {
     "signature": "append( (ObjectVector)arg1, (object)arg2) -> None :",
     "cpp_signature": "void append(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
@@ -300,23 +324,23 @@
       }
     }
   },
-  "Live.Base.ObjectVector.extend": {
-    "signature": "extend( (ObjectVector)arg1, (object)arg2) -> None :",
-    "cpp_signature": "void extend(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
-    "args": {
-      "values": {
-        "current_type": "object",
-        "needs": [
-          "type"
-        ]
-      }
-    }
-  },
   "Live.Base.Text.text": {
     "probed_type": null,
     "needs": [
       "probed_type"
     ]
+  },
+  "Live.Base.Vector.append": {
+    "signature": "append( (Vector)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
+    "args": {
+      "value": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    }
   },
   "Live.Base.subst_args": {
     "signature": "subst_args( (Text)text [, (str)arg1='' [, (str)arg2='' [, (str)arg3='' [, (str)arg4='' [, (str)arg5='']]]]]) -> str :",
@@ -353,6 +377,13 @@
         ]
       }
     }
+  },
+  "Live.Browser.Browser.hotswap_target": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Bang triggered when the hotswap target has changed."
   },
   "Live.Browser.Browser.load_item": {
     "description": "Loads the provided browser item.",
@@ -400,6 +431,12 @@
     ],
     "raw_doc": "Const iterable access to the descendants of this browser item."
   },
+  "Live.Browser.BrowserItemIterator": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "This class iterates over children of another BrowserItem."
+  },
   "Live.Chain.Chain.duplicate_device": {
     "description": "Duplicate the device at the given index in the chain.",
     "signature": "duplicate_device( (Chain)arg1, (int)arg2) -> None :",
@@ -413,12 +450,16 @@
       }
     }
   },
-  "Live.ChainMixerDevice.ChainMixerDevice.sends": {
-    "probed_type": "Vector",
-    "needs": [
-      "element_repr"
-    ],
-    "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters."
+  "Live.Chain.Chain.insert_device": {
+    "description": "Add a device at a given index in the chain. At end if -1.",
+    "signature": "insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
   },
   "Live.Clip.Clip.View.select_envelope_parameter": {
     "description": "Select the given device parameter in the envelope view.",
@@ -565,6 +606,13 @@
         "type"
       ]
     }
+  },
+  "Live.Clip.Clip.groove": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Get the groove associated with this clip."
   },
   "Live.Clip.Clip.move_playing_pos": {
     "description": "Jump forward or backward by the specified relative amount in beats.\nWill do nothing, if the Clip is not playing.",
@@ -750,6 +798,17 @@
       }
     }
   },
+  "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
+    "description": "Moves the entire device chain of the track according to the track index\nonto the C1 (note 36) drum pad of a new drum rack in a new track.If the track associated with the track index does not contain any devices\nnothing changes (i.e. a new track and new drum rack are not created).",
+    "signature": "move_devices_on_track_to_new_drum_rack_pad( (Song)song, (int)track_index) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> move_devices_on_track_to_new_drum_rack_pad(TPyHandle<ASong>,int)",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
+  },
   "Live.Device.Device.store_chosen_bank": {
     "description": "Set the selected bank in the device for persistency.",
     "signature": "store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -> None :",
@@ -782,11 +841,80 @@
       }
     }
   },
-  "Live.DrumPad.DrumPad.chains": {
-    "probed_type": "Vector",
-    "needs": [
-      "element_repr"
-    ],
-    "raw_doc": "Return const access to the list of chains in this drum pad."
+  "Live.Envelope.Envelope.delete_events_in_range": {
+    "description": "Deletes the events in the specified time range.",
+    "signature": "delete_events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> None :",
+    "cpp_signature": "void delete_events_in_range(TPyHandle<AAutomation> {lvalue},double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Envelope.Envelope.events_in_range": {
+    "description": "Returns the events in the specified time range.",
+    "signature": "events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> EnvelopeEventVector :",
+    "cpp_signature": "std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> events_in_range(TPyHandle<AAutomation> {lvalue},double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Envelope.Envelope.insert_step": {
+    "description": "Given a start time, a step length and a value, creates a step in the envelope.",
+    "signature": "insert_step( (Envelope)arg1, (float)arg2, (float)arg3, (float)arg4) -> None :",
+    "cpp_signature": "void insert_step(TPyHandle<AAutomation> {lvalue},double,double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Envelope.Envelope.value_at_time": {
+    "description": "Returns the parameter value at the specified time.",
+    "signature": "value_at_time( (Envelope)arg1, (float)arg2) -> float :",
+    "cpp_signature": "double value_at_time(TPyHandle<AAutomation> {lvalue},double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
   }
 }

@@ -137,6 +137,12 @@
     ],
     "raw_doc": "List of features that are unavailable due to limitations of the current Live edition."
   },
+  "Live.Application.ControlDescriptionVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A container for returning control descriptions."
+  },
   "Live.Application.ControlSurfaceProxy.control_descriptions": {
     "probed_type": null,
     "needs": [
@@ -248,6 +254,12 @@
       }
     }
   },
+  "Live.Application.UnavailableFeatureVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A container for returning unavailable features."
+  },
   "Live.Application.encrypt_challenge": {
     "description": "Returns an encrypted challenge based on the TEA algortithm",
     "signature": "encrypt_challenge( (int)dongle1, (int)dongle2 [, (int)key_index=0]) -> tuple :",
@@ -291,6 +303,18 @@
       }
     }
   },
+  "Live.Base.FloatVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A simple container for returning floats from Live."
+  },
+  "Live.Base.IntU64Vector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A simple container for returning unsigned long integers from Live."
+  },
   "Live.Base.ObjectVector.append": {
     "signature": "append( (ObjectVector)arg1, (object)arg2) -> None :",
     "cpp_signature": "void append(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
@@ -303,23 +327,23 @@
       }
     }
   },
-  "Live.Base.ObjectVector.extend": {
-    "signature": "extend( (ObjectVector)arg1, (object)arg2) -> None :",
-    "cpp_signature": "void extend(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
-    "args": {
-      "values": {
-        "current_type": "object",
-        "needs": [
-          "type"
-        ]
-      }
-    }
-  },
   "Live.Base.Text.text": {
     "probed_type": null,
     "needs": [
       "probed_type"
     ]
+  },
+  "Live.Base.Vector.append": {
+    "signature": "append( (Vector)arg1, (object)arg2) -> None :",
+    "cpp_signature": "void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
+    "args": {
+      "value": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    }
   },
   "Live.Base.subst_args": {
     "signature": "subst_args( (Text)text [, (str)arg1='' [, (str)arg2='' [, (str)arg3='' [, (str)arg4='' [, (str)arg5='']]]]]) -> str :",
@@ -356,6 +380,13 @@
         ]
       }
     }
+  },
+  "Live.Browser.Browser.hotswap_target": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Bang triggered when the hotswap target has changed."
   },
   "Live.Browser.Browser.load_item": {
     "description": "Loads the provided browser item.",
@@ -403,6 +434,12 @@
     ],
     "raw_doc": "Const iterable access to the descendants of this browser item."
   },
+  "Live.Browser.BrowserItemIterator": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "This class iterates over children of another BrowserItem."
+  },
   "Live.Chain.Chain.duplicate_device": {
     "description": "Duplicate the device at the given index in the chain.",
     "signature": "duplicate_device( (Chain)arg1, (int)arg2) -> None :",
@@ -416,12 +453,16 @@
       }
     }
   },
-  "Live.ChainMixerDevice.ChainMixerDevice.sends": {
-    "probed_type": "Vector",
-    "needs": [
-      "element_repr"
-    ],
-    "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters."
+  "Live.Chain.Chain.insert_device": {
+    "description": "Add a device at a given index in the chain. At end if -1.",
+    "signature": "insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
   },
   "Live.Clip.Clip.View.select_envelope_parameter": {
     "description": "Select the given device parameter in the envelope view.",
@@ -568,6 +609,13 @@
         "type"
       ]
     }
+  },
+  "Live.Clip.Clip.groove": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Get the groove associated with this clip."
   },
   "Live.Clip.Clip.move_playing_pos": {
     "description": "Jump forward or backward by the specified relative amount in beats.\nWill do nothing, if the Clip is not playing.",
@@ -753,6 +801,17 @@
       }
     }
   },
+  "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
+    "description": "Moves the entire device chain of the track according to the track index\nonto the C1 (note 36) drum pad of a new drum rack in a new track.If the track associated with the track index does not contain any devices\nnothing changes (i.e. a new track and new drum rack are not created).",
+    "signature": "move_devices_on_track_to_new_drum_rack_pad( (Song)song, (int)track_index) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> move_devices_on_track_to_new_drum_rack_pad(TPyHandle<ASong>,int)",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
+  },
   "Live.Device.Device.store_chosen_bank": {
     "description": "Set the selected bank in the device for persistency.",
     "signature": "store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -> None :",
@@ -785,12 +844,81 @@
       }
     }
   },
-  "Live.DrumPad.DrumPad.chains": {
-    "probed_type": "Vector",
-    "needs": [
-      "element_repr"
-    ],
-    "raw_doc": "Return const access to the list of chains in this drum pad."
+  "Live.Envelope.Envelope.delete_events_in_range": {
+    "description": "Deletes the events in the specified time range.",
+    "signature": "delete_events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> None :",
+    "cpp_signature": "void delete_events_in_range(TPyHandle<AAutomation> {lvalue},double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Envelope.Envelope.events_in_range": {
+    "description": "Returns the events in the specified time range.",
+    "signature": "events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> EnvelopeEventVector :",
+    "cpp_signature": "std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> events_in_range(TPyHandle<AAutomation> {lvalue},double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Envelope.Envelope.insert_step": {
+    "description": "Given a start time, a step length and a value, creates a step in the envelope.",
+    "signature": "insert_step( (Envelope)arg1, (float)arg2, (float)arg3, (float)arg4) -> None :",
+    "cpp_signature": "void insert_step(TPyHandle<AAutomation> {lvalue},double,double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Envelope.Envelope.value_at_time": {
+    "description": "Returns the parameter value at the specified time.",
+    "signature": "value_at_time( (Envelope)arg1, (float)arg2) -> float :",
+    "cpp_signature": "double value_at_time(TPyHandle<AAutomation> {lvalue},double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
   }
 }
 ```
@@ -1062,6 +1190,9 @@ Code snippets showing how members with unresolved types are used in practice. Us
     ],
     "needs_element_repr": true
   },
+  "Live.Application.ControlDescriptionVector": {
+    "needs_element_repr": true
+  },
   "Live.Application.ControlSurfaceProxy.control_descriptions": {
     "usage_snippets": [
       "return tuple((c.name for c in self._proxy.control_descriptions))"
@@ -1122,12 +1253,21 @@ Code snippets showing how members with unresolved types are used in practice. Us
     ],
     "unresolved_property_type": true
   },
+  "Live.Application.UnavailableFeatureVector": {
+    "needs_element_repr": true
+  },
   "Live.Application.encrypt_challenge": {
     "usage_snippets": [
       "encryptor = partial((Live.Application.encrypt_challenge), key_index=1)",
       "expected_response = Live.Application.encrypt_challenge(self._dongle_challenge[0], self._dongle_challenge[1])"
     ],
     "unresolved_return_type": "tuple"
+  },
+  "Live.Base.FloatVector": {
+    "needs_element_repr": true
+  },
+  "Live.Base.IntU64Vector": {
+    "needs_element_repr": true
   },
   "Live.Base.ObjectVector.append": {
     "usage_snippets": [
@@ -1146,21 +1286,21 @@ Code snippets showing how members with unresolved types are used in practice. Us
       "value": "object"
     }
   },
-  "Live.Base.ObjectVector.extend": {
+  "Live.Base.Vector.append": {
     "usage_snippets": [
-      "actions.extend([",
-      "chains.extend(nested_chains)",
-      "collated.extend(segment)",
-      "flat_track.extend(all_chains)",
-      "notes_to_render.extend(wrap_note(note_on, note_off, clip_length))",
-      "racks.extend(nested_racks)",
-      "self._items.extend(list(map(self._item_wrapper, next_slice)))",
-      "self._mixer_sections.extend([",
-      "self._note_off_events.extend(note_offs)",
-      "self._note_on_events.extend(note_ons)"
+      "AutoArmComponent.active_in_process_push_instances.append(self)",
+      "notes_in_step.append(note.pitch)",
+      "self._armed_tracks.append(track)",
+      "self._messages.append(message)",
+      "self._modified_steps.append(step)",
+      "self._parameter_floats.append(step_parameter_floats)",
+      "self._pitches.append(pitch)",
+      "self._pressed_pages.append(page)",
+      "self._pressed_steps.append(step)",
+      "step_parameter_floats.append(value)"
     ],
     "unresolved_arg_types": {
-      "values": "object"
+      "value": "LomObject"
     }
   },
   "Live.Base.Text.text": {
@@ -1175,6 +1315,21 @@ Code snippets showing how members with unresolved types are used in practice. Us
     ],
     "unresolved_property_type": true
   },
+  "Live.Browser.Browser.hotswap_target": {
+    "usage_snippets": [
+      "def hotswap_target(self):",
+      "hotswap_target = self._browser.hotswap_target",
+      "if browser.hotswap_target is None:",
+      "if liveobj_valid(self._browser.hotswap_target):",
+      "return self._browser.hotswap_target",
+      "self._application.browser.hotswap_target = None",
+      "self._application.browser.hotswap_target = hotswap_object",
+      "self._browser.hotswap_target = None",
+      "self._browser.hotswap_target.selected_preset_index = item.preset_index",
+      "self._current_hotswap_target = self._browser.hotswap_target"
+    ],
+    "unresolved_property_type": true
+  },
   "Live.Browser.BrowserItem.iter_children": {
     "usage_snippets": [
       "children_iterator = selected_item.iter_children",
@@ -1182,20 +1337,14 @@ Code snippets showing how members with unresolved types are used in practice. Us
     ],
     "needs_element_repr": true
   },
-  "Live.ChainMixerDevice.ChainMixerDevice.sends": {
+  "Live.Browser.BrowserItemIterator": {
     "usage_snippets": [
-      "if send_index < len(self._MixerChannelStrip__assigned_track.mixer_device.sends):",
-      "mixer.sends[self._send_offset + index] # Avoid dead code: None)",
-      "mixer_params += list(mixer.sends)",
-      "params += list(mixer.sends)",
-      "return len(mixable.mixer_device.sends)",
-      "return len(self._track_provider.selected_item.mixer_device.sends)",
-      "return self._MixerChannelStrip__assigned_track.mixer_device.sends[send_index]",
-      "self._add_mode(SEND_MODE_NAMES[index], view_model.sendControlListView, lambda mixer:             if len(mixer.sends) > self._send_offset + index:",
-      "sends = mixer_device.sends",
-      "sends = track.mixer_device.sends"
+      "if isinstance(self._item_iterator, Live.Browser.BrowserItemIterator):"
     ],
     "needs_element_repr": true
+  },
+  "Live.Chain.Chain.insert_device": {
+    "unresolved_return_type": "LomObject"
   },
   "Live.Clip.Clip.add_new_notes": {
     "usage_snippets": [
@@ -1256,20 +1405,11 @@ Code snippets showing how members with unresolved types are used in practice. Us
       "arg2": "tuple"
     }
   },
-  "Live.DrumPad.DrumPad.chains": {
+  "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
     "usage_snippets": [
-      "chains = list(chain([root], *[d.chains for d in devices]))",
-      "if isinstance(selected, Live.DrumPad.DrumPad) and selected.chains and selected.chains[0].devices:",
-      "if len(destination_pad.chains) != 0:",
-      "if len(source_pad.chains) > 0:",
-      "if pad.chains:",
-      "return any(map((lambda pad: pad.chains), drum.drum_pads[(index * 4)[:index * 4 + 4]]))",
-      "return chain([instrument], *map(find_instrument_devices, instrument.chains))",
-      "return find_if((lambda pad: pad.chains and pad.chains[0].devices and pad.chains[0].devices[0] == device), drum_pad.canonical_parent.drum_pads)",
-      "return isinstance(drum_pad, Live.DrumPad.DrumPad) and (not drum_pad.chains or not drum_pad.chains[0].devices)",
-      "selected = selected.chains[0].devices[index]"
+      "return Live.Conversions.move_devices_on_track_to_new_drum_rack_pad(song, track_index)"
     ],
-    "needs_element_repr": true
+    "unresolved_return_type": "LomObject"
   }
 }
 ```
@@ -1657,7 +1797,6 @@ Live:
 				highlighted_clip_slot -> ClipSlot
 				selected_scene -> Scene
 				selected_track -> Track
-			appointed_device -> Device
 			clip_trigger_quantization -> Quantization
 			cue_points -> Vector
 			groove_pool -> GroovePool
@@ -1808,28 +1947,43 @@ Parameter: `direction view_name modifier_pressed`
 `modifier_pressed` [bool] If `view_name` is 'Arrangement', `modifier_pressed` is 1, and `direction` is left or right, then the size of the selected time region is modified, otherwise the position of the playback cursor is moved. If `view_name` is Arrangement and `modifier_pressed` is 1 and `direction` is up or down, then only the height of the highlighted track is changed, otherwise the height of all tracks is changed.   
 Only the Arrangement and Session Views can be zoomed. For Session View, the behaviour of zoom_view is identical to scroll_view. You can also pass an empty view_name “ ", which refers to the Arrangement or Session View (whichever is visible in the main window).
 
-### chainmixerdevice.md
+### chain.md
 
-#### ChainMixerDevice
+#### Chain
 
-This class represents a chain's mixer device in Live.
+This class represents a group device chain in Live.
 
 ##### Canonical Paths
 
 ```
-live_set tracks N devices M chains L mixer_device
+live_set tracks N devices M chains L
 ```
 
 ```
-live_set tracks N devices M return_chains L mixer_device
+live_set tracks N devices M return_chains L
+```
+
+```
+live_set tracks N devices M chains L devices K chains P ...
+```
+
+```
+live_set tracks N devices M return_chains L devices K chains P ...
 ```
 
 ##### Children
 
-###### sends list of [DeviceParameter](/apiref/lom/deviceparameter/ "DeviceParameter") read-onlyobserve
+###### insert_device
 
-[in Audio Effect Racks and Instrument Racks only]   
-For Drum Racks, otherwise empty.
+Parameters: `device_name` [symbol] `target_index` [int] (optional)   
+  
+Attempts to insert the device specified by `device_name` at the given index in the chain. If no index is provided, attempts to insert the device at the end. Throws an error if insertion is not possible.   
+`device_name` is the name as it appears in the UI of Live.   
+Not all indices are valid. As can be expected, indices outside of the range defined by the current length of the device chain are invalid, but there are other limitations: for example, a MIDI effect can't be inserted after an instrument. The rule of thumb is that if an index would be invalid when inserting using the mouse, it's invalid here.   
+  
+At the moment, only native Live devices can be inserted. Max for Live devices and plug-in are not supported.   
+  
+*Available since Live 12.3.*
 
 ### clip.md
 
@@ -1848,6 +2002,12 @@ live_set tracks N arrangement_clips M
 ```
 
 ##### Children
+
+###### groove [Groove](/apiref/lom/groove/ "Groove") observe
+
+Get/set/observe access to the groove associated with this clip.   
+  
+*Available since Live 11.0.*
 
 ###### add_new_notes
 
@@ -2148,51 +2308,39 @@ live_set tracks N devices M parameters L
 
 Parameter: `value` [float] Returns: [symbol] String representation of the specified value.
 
-### drumpad.md
+### track.md
 
-#### DrumPad
+#### Track
 
-This class represents a Drum Rack pad in Live.
-
-##### Canonical Path
-
-```
-live_set tracks N devices M drum_pads L
-```
-
-##### Children
-
-###### chains [Chain](/apiref/lom/chain/ "Chain") read-onlyobserve
-
-##### Properties
-
-### mixerdevice.md
-
-#### MixerDevice
-
-This class represents a mixer device in Live. It provides access to volume, panning and other [DeviceParameter](#DeviceParameter) objects. See [DeviceParameter](#DeviceParameter) to learn how to modify them.
+This class represents a track in Live. It can either be an audio track, a MIDI track, a return track or the master track. The master track and at least one Audio or MIDI track will be always present. Return tracks are optional.   
+  
+Not all properties are supported by all types of tracks. The properties are marked accordingly.
 
 ##### Canonical Path
 
 ```
-live_set tracks N mixer_device
+live_set tracks N
 ```
 
 ##### Children
 
-###### sends list of [DeviceParameter](/apiref/lom/deviceparameter/ "DeviceParameter") read-onlyobserve
+###### create_audio_clip
 
-One send per return track.
+Parameters:   
+`file_path` [symbol]   
+`position` [float]   
+Given an absolute path to a valid audio file in a supported format, creates an audio clip that references the file at the specified position in the arrangement view. Prints an error if the track is not an audio track, if the track is frozen, or if the track is being recorded into. The position must be within the range [0., 1576800].   
+  
+See the `ClipSlot.create_audio_clip` function if you need to create audio clips in session view instead.
 
-### rackdevice.md
+###### insert_device
 
-#### RackDevice
-
-This class represents a Live Rack Device.   
-A RackDevice is a type of Device, meaning that it has all the children, properties and functions that a Device has. Listed below are members unique to RackDevice.
-
-##### Children
-
-###### chains list of [Chain](/apiref/lom/chain/ "Chain") read-onlyobserve
-
-The Rack's chains.
+Parameters: `device_name` [symbol] `target_index` [int] (optional)   
+  
+Attempts to insert the device specified by `device_name` at the given index in the track's device chain. If no index is provided, attempts to insert the device at the end of the chain. Throws an error if insertion is not possible.   
+`device_name` is the name as it appears in the UI of Live.   
+Not all indices are valid. As can be expected, indices outside of the range defined by the current length of the device chain are invalid, but there are other limitations: for example, a MIDI effect can't be inserted after an instrument. The rule of thumb is that if an index would be invalid when inserting using the mouse, it's invalid here.   
+  
+At the moment, only native Live devices can be inserted. Max for Live devices and plug-in are not supported.   
+  
+*Available since Live 12.3.*

@@ -2857,7 +2857,7 @@
                   },
                   {
                     "name": "value",
-                    "type": "Any",
+                    "type": "LomObject",
                     "optional": false,
                     "default": null
                   }
@@ -3218,7 +3218,7 @@
                 "id": 4623436912,
                 "settable": true,
                 "raw_doc": "Bang triggered when the hotswap target has changed.",
-                "probed_type": "Device"
+                "probed_type": "Device | None"
               },
               {
                 "name": "hotswap_target_has_listener",
@@ -6467,7 +6467,7 @@
                         "default": null
                       },
                       {
-                        "name": "parameter",
+                        "name": "device_parameter",
                         "type": "DeviceParameter",
                         "optional": false,
                         "default": null
@@ -7545,7 +7545,7 @@
                     "default": null
                   },
                   {
-                    "name": "parameter",
+                    "name": "device_parameter",
                     "type": "DeviceParameter",
                     "optional": false,
                     "default": null
@@ -7649,7 +7649,7 @@
                     "default": null
                   },
                   {
-                    "name": "parameter",
+                    "name": "device_parameter",
                     "type": "DeviceParameter",
                     "optional": false,
                     "default": null
@@ -7746,7 +7746,7 @@
                     "default": null
                   },
                   {
-                    "name": "parameter",
+                    "name": "device_parameter",
                     "type": "DeviceParameter",
                     "optional": false,
                     "default": null
@@ -7837,7 +7837,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "list[int]",
+                    "type": "Iterable[int]",
                     "optional": false,
                     "default": null
                   },
@@ -8162,7 +8162,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "list[int]",
+                    "type": "Iterable[int]",
                     "optional": false,
                     "default": null
                   }
@@ -8264,7 +8264,7 @@
                 "id": 4624051760,
                 "settable": true,
                 "raw_doc": "Get the groove associated with this clip.",
-                "probed_type": "Groove"
+                "probed_type": "Groove | None"
               },
               {
                 "name": "groove_has_listener",
@@ -9741,7 +9741,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "list[int]",
+                    "type": "Iterable[int]",
                     "optional": false,
                     "default": null
                   }
@@ -10390,7 +10390,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "list[int]",
+                    "type": "Iterable[int]",
                     "optional": false,
                     "default": null
                   }
@@ -20863,7 +20863,7 @@
                 "id": 4624117856,
                 "settable": false,
                 "raw_doc": "Returns Live's current base product ID.",
-                "probed_type": "int"
+                "probed_type": "str"
               },
               {
                 "name": "create_new_live_set",
@@ -23055,7 +23055,7 @@
                     "default": null
                   },
                   {
-                    "name": "parameter",
+                    "name": "device_parameter",
                     "type": "DeviceParameter",
                     "optional": false,
                     "default": null
@@ -24311,13 +24311,13 @@
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
               },
               {
-                "name": "cc_no",
+                "name": "controller_number",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24356,7 +24356,7 @@
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24401,7 +24401,7 @@
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24548,13 +24548,13 @@
                 "default": null
               },
               {
-                "name": "parameter",
+                "name": "device_parameter",
                 "type": "DeviceParameter",
                 "optional": false,
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24587,13 +24587,13 @@
                 "default": null
               },
               {
-                "name": "parameter",
+                "name": "device_parameter",
                 "type": "DeviceParameter",
                 "optional": false,
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24632,19 +24632,19 @@
                 "default": null
               },
               {
-                "name": "parameter",
+                "name": "device_parameter",
                 "type": "DeviceParameter",
                 "optional": false,
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
               },
               {
-                "name": "avoid_takeover",
+                "name": "needs_takeover",
                 "type": "bool",
                 "optional": false,
                 "default": null
@@ -24671,13 +24671,13 @@
                 "default": null
               },
               {
-                "name": "parameter",
+                "name": "device_parameter",
                 "type": "DeviceParameter",
                 "optional": false,
                 "default": null
               },
               {
-                "name": "channel",
+                "name": "midi_channel",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24689,7 +24689,7 @@
                 "default": null
               },
               {
-                "name": "avoid_takeover",
+                "name": "needs_takeover",
                 "type": "bool",
                 "optional": false,
                 "default": null
@@ -24716,7 +24716,7 @@
                 "default": null
               },
               {
-                "name": "parameter",
+                "name": "device_parameter",
                 "type": "DeviceParameter",
                 "optional": false,
                 "default": null
@@ -26023,7 +26023,7 @@
                     "id": 4623883120,
                     "settable": true,
                     "raw_doc": "Return access to the currently selected chain.",
-                    "probed_type": "Chain"
+                    "probed_type": "Chain | None"
                   },
                   {
                     "name": "selected_chain_has_listener",
@@ -30460,7 +30460,7 @@
                 "id": 4623962800,
                 "settable": true,
                 "raw_doc": "Get/set access to the color index of the scene. Can be None for no color.",
-                "probed_type": "int"
+                "probed_type": "int | None"
               },
               {
                 "name": "color_index_has_listener",
@@ -34733,7 +34733,7 @@
                     "id": 4623528512,
                     "settable": true,
                     "raw_doc": "Get/Set the Clip that is currently visible in Lives Detailview.",
-                    "probed_type": "Clip"
+                    "probed_type": "Clip | None"
                   },
                   {
                     "name": "detail_clip_has_listener",
@@ -35069,7 +35069,7 @@
                     "id": 4623529632,
                     "settable": true,
                     "raw_doc": "Get the highlighted chain if available.",
-                    "probed_type": "Chain"
+                    "probed_type": "Chain | None"
                   },
                   {
                     "name": "selected_chain_has_listener",
@@ -35104,7 +35104,7 @@
                     "id": 4623528032,
                     "settable": false,
                     "raw_doc": "Get the currently selected device parameter.",
-                    "probed_type": "DeviceParameter"
+                    "probed_type": "DeviceParameter | None"
                   },
                   {
                     "name": "selected_parameter_has_listener",
@@ -36544,7 +36544,7 @@
                 "id": 4623446432,
                 "settable": true,
                 "raw_doc": "Read, write, and listen access to the appointed Device",
-                "probed_type": "Device"
+                "probed_type": "Device | None"
               },
               {
                 "name": "appointed_device_has_listener",
@@ -37487,7 +37487,7 @@
                     "default": null
                   },
                   {
-                    "name": "format",
+                    "name": "smpte_format",
                     "type": "int",
                     "optional": false,
                     "default": null
@@ -44602,7 +44602,7 @@
                     "default": null
                   },
                   {
-                    "name": "start_time",
+                    "name": "position",
                     "type": "float",
                     "optional": false,
                     "default": null

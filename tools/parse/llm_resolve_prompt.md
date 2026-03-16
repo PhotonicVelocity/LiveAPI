@@ -134,6 +134,16 @@ four fields: `name`, `name_reason`, `type`, `type_reason`. Providing only some i
   no other evidence exists and the parameter truly accepts arbitrary objects.
 - If you cannot determine the correct resolution for an item, omit it entirely (do not guess).
 
+### Nullable properties
+
+When resolving a property whose `probed_type` is `NoneType`, the property CAN return None — 
+the probe captured None at runtime. Your job is to determine the non-None type. Always emit 
+the result as `T | None`, not just `T`. The probe already proved None is a valid value.
+
+Similarly, if usage snippets show `is None` or `is not None` checks on a property or function return,
+include `| None` in the resolved type even if the probe didn't capture None. If usage snippet passes
+`None` to a function arg, include `| None` in the resolved type for that arg.
+
 ## Naming Style
 
 If the MaxForLive docs explicitly name a parameter, **use that exact name verbatim** — these are published

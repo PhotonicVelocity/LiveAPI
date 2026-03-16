@@ -115,9 +115,16 @@ four fields: `name`, `name_reason`, `type`, `type_reason`. Providing only some i
 ### General:
 
 - Use Python type names: `str`, `bool`, `int`, `float`, `Callable`, `Any`, `list[X]`, `tuple[X, ...]`.
+- Avoid shadowing Python builtins like `format` or `type` when naming args.
+- For boolean state args, use adjective names (e.g. `enabled` instead of `enable`)
 - For `element_repr` fields, use the `<class '...'>` repr format (e.g. `<class 'Track.Track'>`), NOT
   Python type names. This matches the repr format used throughout the parsed tree.
-- Always parameterize container types when the element type is known: `list[int]` not bare `list`.
+- Always parameterize container types when the element type is known: `list[int]` not bare `list`. 
+  Prefer `Iterable[X]` for function args that accept any iterable, and `list[X]` for properties that
+  return a list.
+- **Vector `extend` args must use `Iterable[T]`.** The `extend` method on Vector classes accepts an
+  iterable of elements, not a single element. If `append` takes `MidiNote`, then `extend` takes
+  `Iterable[MidiNote]`. Never use a bare element type for an `extend` argument.
 - For Vector class probed_types, use the Vector class name as-is (e.g. `ControlDescriptionVector`),
   not a parameterized form — these are distinct LOM types, not generic Python containers.
 - For LOM class references, use the class name only (e.g. `ClipSlot` not `Live.ClipSlot.ClipSlot`).
@@ -126,6 +133,16 @@ four fields: `name`, `name_reason`, `type`, `type_reason`. Providing only some i
   companion arg name, description, and other context to infer the real type. Only fall back to `Any` if
   no other evidence exists and the parameter truly accepts arbitrary objects.
 - If you cannot determine the correct resolution for an item, omit it entirely (do not guess).
+
+### Nullable properties
+
+When resolving a property whose `probed_type` is `NoneType`, the property CAN return None — 
+the probe captured None at runtime. Your job is to determine the non-None type. Always emit 
+the result as `T | None`, not just `T`. The probe already proved None is a valid value.
+
+Similarly, if usage snippets show `is None` or `is not None` checks on a property or function return,
+include `| None` in the resolved type even if the probe didn't capture None. If usage snippet passes
+`None` to a function arg, include `| None` in the resolved type for that arg.
 
 ## Naming Style
 
@@ -233,3 +250,26 @@ Before emitting your JSON, review all your resolved names as a group. For each m
 If you find inconsistencies during this review, fix them before emitting the output.
 
 Respond with ONLY the JSON object, no other text.
+
+# Manual Hints for LLM Resolution
+
+These are facts about the Live API that cannot be inferred from the type skeleton, decompiled code,
+or MaxForLive docs. Use them to guide your resolutions.
+
+## Domain facts
+
+- Song and Application are root objects that have no parent. Their `canonical_parent` is always None.
+- Browser.hotswap_target points to the Device that will be hotswapped.
+- The bools in midi map pitchbending methods indicate whether takeover is needed to prevent value jumps.
+- The generics `Base.Vector` and `Base.ObjectVector` are used for `LomObject` collections and python `object` 
+  collections respectively.
+- MIDI data values (CC, note, pitchbend) are always `int`. Tuples of MIDI values are `tuple[int, ...]`.
+
+## Naming guidance
+
+- methods that create audio clips should use `file_path` for the audio file argument, not `path` or `file`.
+- argument pairs that define a time range should be named `start_time` and `end_time`.
+  A single argument that places something at a point in time should be named `position`.
+- argument names should hint at the type where possible: 
+  - `device_parameter` over `parameter` - the type is `DeviceParameter`, not just any parameter
+  - `option_name` over `option` - the argument is a string name

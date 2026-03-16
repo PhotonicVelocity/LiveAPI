@@ -30,10 +30,17 @@ from pathlib import Path
 
 
 def _load_system_prompt() -> str:
-    """Load the system prompt from llm_resolve_prompt.md."""
+    """Load the system prompt from llm_resolve_prompt.md, with manual hints appended."""
     prompt_path = join(dirname(__file__), "llm_resolve_prompt.md")
     with open(prompt_path) as f:
-        return f.read().strip()
+        prompt = f.read().strip()
+    hints_path = join(dirname(__file__), "llm_hints.md")
+    if exists(hints_path):
+        with open(hints_path) as f:
+            hints = f.read().strip()
+        if hints:
+            prompt += f"\n\n{hints}"
+    return prompt
 
 
 def _build_type_skeleton(tree: dict) -> str | None:
@@ -51,15 +58,6 @@ def _build_user_prompt(items: dict[str, dict], m4l_docs: dict[str, str],
                        callsite_data: dict | None = None) -> str:
     """Build the user prompt with unresolved items, type skeleton, callsite hints, and MaxForLive docs."""
     parts = []
-
-    # Manual hints — domain knowledge that can't be inferred from code
-    hints_path = join(dirname(__file__), "llm_hints.md")
-    if exists(hints_path):
-        with open(hints_path) as f:
-            hints = f.read().strip()
-        if hints:
-            parts.append(hints)
-            parts.append("\n")
 
     parts.append("## Unresolved Items\n")
     parts.append("```json")

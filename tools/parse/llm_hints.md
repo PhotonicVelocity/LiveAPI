@@ -11,6 +11,9 @@ or MaxForLive docs. Use them to guide your resolutions.
 - The generics `Base.Vector` and `Base.ObjectVector` are used for `LomObject` collections and python `object` 
   collections respectively.
 - MIDI data values (CC, note, pitchbend) are always `int`. Tuples of MIDI values are `tuple[int, ...]`.
+- The shape of "values" in `ControlSurfaceProxy` is `(control_id: int, values: tuple[int, ...])`.
+  Methods that send or receive values use this `(int, tuple[int, ...])` pair structure.
+- `Conversions.move_devices_on_track_to_new_drum_rack_pad` returns the new `Device` (drum rack).
 
 ## Naming guidance
 
@@ -20,16 +23,3 @@ or MaxForLive docs. Use them to guide your resolutions.
 - argument names should hint at the type where possible: 
   - `device_parameter` over `parameter` - the type is `DeviceParameter`, not just any parameter
   - `option_name` over `option` - the argument is a string name
-- Callback and listener parameters should use bare `Callable`, not `Callable[[], None]` or other 
-  parameterized forms. Only add `| None` when the description explicitly says None is accepted 
-  (e.g. "pass None to stop").
-
-## Pinned types
-
-Use these exact types. Do not vary them.
-
-- `ControlSurfaceProxy.send_value` arg2 type → `tuple[int, ...]` (MIDI values are always ints)
-- `Licensing.PythonLicensingBridge.get_startup_dialog` authorize_callable → `Callable`
-- `Licensing.PythonLicensingBridge.get_startup_dialog` authorize_later_callable → `Callable`
-- `Licensing.PythonLicensingBridge.set_network_timer` callback → `Callable | None` (docs say "pass None to stop")
-- `Listener.ListenerHandle.listener_func` probed_type → `Callable`
