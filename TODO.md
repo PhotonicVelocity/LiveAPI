@@ -20,13 +20,10 @@ Done — added `_pascal_to_snake()` in `parse_apicapture_results.py` `_resolve_a
 (`CaptureMode`, `DeviceName`, `DeviceIndex`, `Quantized`, `ShouldConsumeEvent`, `ShouldAppointDevice`,
 `Index`, `Destination`) now convert to snake_case during parsing.
 
-## 4. Fix FilterType.disabled enum value to -1
+## ~~4. Fix FilterType.disabled enum value to -1~~ ✓
 
-In `Browser/__init__.pyi`, `FilterType.disabled = 1` and `instrument_hotswap = 1` share the same value.
-The raw capture data should have `disabled = -1`. Fix wherever the enum values are parsed/stored.
-
-Check `LiveTree.raw.json` or `LiveTree.parsed.json` for the `Browser.FilterType` enum and verify the
-raw value. Fix at the source (likely in the raw capture or parse step).
+Done — `_ENUM_VALUE_RE` in `parse_apicapture_results.py` used `\d+` which dropped the negative sign.
+Changed to `-?\d+` so negative enum values are captured correctly.
 
 ## 5. Wrap Vector `extend` arg type in `Iterable[...]`
 

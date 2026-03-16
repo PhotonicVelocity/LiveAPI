@@ -421,7 +421,7 @@ def relocate_inherited_members(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 # ------------------------------------------------------------------------------- #
 
 # Matches entries like "0: Module.Enum.member_name" in the string-encoded values dict.
-_ENUM_VALUE_RE = re.compile(r"(\d+)\s*:\s*\S+\.(\w+)")
+_ENUM_VALUE_RE = re.compile(r"(-?\d+)\s*:\s*\S+\.(\w+)")
 
 
 def _parse_enum_values(values_str: str) -> dict[str, int] | None:

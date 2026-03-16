@@ -444,8 +444,8 @@
             "handle"
           ],
           "_votes": {
-            "script_handle": 11,
-            "handle": 3
+            "handle": 3,
+            "script_handle": 11
           },
           "_total_sites": 14
         },
@@ -490,8 +490,8 @@
             "script_handle"
           ],
           "_votes": {
-            "script_handle": 3,
-            "handle": 4
+            "handle": 4,
+            "script_handle": 3
           },
           "_total_sites": 7
         },
@@ -703,9 +703,9 @@
             "lom_object"
           ],
           "_votes": {
+            "device_to_select": 3,
             "lom_object": 1,
-            "device": 2,
-            "device_to_select": 3
+            "device": 2
           },
           "_total_sites": 6
         }
@@ -719,8 +719,8 @@
             "new_scene_index"
           ],
           "_votes": {
-            "new_scene_index": 2,
-            "scene_count": 4
+            "scene_count": 4,
+            "new_scene_index": 2
           },
           "_total_sites": 8
         }
@@ -827,8 +827,8 @@
             "slot_index"
           ],
           "_votes": {
-            "target_index": 2,
             "index": 3,
+            "target_index": 2,
             "source_index": 1,
             "slot_index": 1
           },
@@ -867,16 +867,16 @@
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
       "usage_snippets": [
-        "def send_midi(self, message, **_):",
+        "NotifyingControlElement.send_midi(self, message)",
+        "def send_midi(self, message):",
         "def send_midi(self, midi_event_bytes):",
-        "self.c_instance.send_midi(midi_event_bytes)",
+        "self._MackieControlXT__c_instance.send_midi(midi_event_bytes)",
+        "self._ProjectMixIO__c_instance.send_midi(midi_event_bytes)",
         "self.parent.send_midi((",
-        "self.parent.send_midi((175, 16, 16))",
-        "self.parent.send_midi((175, 16, self.helper.selected_track_idx()))",
-        "self.parent.send_midi((NOTEOFF_STATUS + channel, note_no, 0))",
-        "self.parent.send_midi((NOTEON_STATUS + channel, note_no, 127))",
         "self.parent.send_midi((TRACK_CHANNEL_SETUP2 + NOTEON_STATUS, note, STATUS_ON))",
-        "self.parent.send_midi(midi_event_bytes)"
+        "self.parent.send_midi(midi_event_bytes)",
+        "self.send_midi((",
+        "self.send_midi(self._message_to_send)"
       ],
       "unresolved_arg_types": {
         "arg2": "tuple"
@@ -884,16 +884,16 @@
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
       "usage_snippets": [
-        "control.send_value(convert_parameter_value_to_midi_value(parameter))",
-        "display_layout_switch.send_value(layout_byte)",
-        "interface.send_value(self.color1.midi_value)",
-        "self._aftertouch.send_value(\"polyphonic\")",
-        "self._aftertouch_control.send_value(self._aftertouch_mode)",
-        "self._control_element.send_value(self.ON_VALUE if self.is_on else self.OFF_VALUE)",
-        "self._mode_element.send_value(behaviour.mode)",
-        "self._tempo_encoder.send_value(value_to_send)",
-        "self._value_control.send_value((mode,))",
-        "self.send_value(value)"
+        "def send_value(self, *a):",
+        "interface.send_value((self.midi_value), channel=BLINK_LED_CHANNEL)",
+        "interface.send_value((self.midi_value), channel=PULSE_LED_CHANNEL)",
+        "interface.send_value(0)",
+        "self._elements.incontrol_mode_switch.send_value(midi.INCONTROL_ONLINE_VALUE)",
+        "self._elements.pad_layout_switch.send_value(midi.PAD_DRUM_LAYOUT)",
+        "self._elements.pad_layout_switch.send_value(self._last_pad_layout_byte)",
+        "self._elements.pot_layout_switch.send_value(self._last_pot_layout_byte)",
+        "self._hardware_live_mode_switch.send_value((",
+        "self._led.send_value((value_to_send,))"
       ],
       "unresolved_arg_types": {
         "arg2": "tuple"
@@ -925,29 +925,46 @@
     },
     "Live.Base.ObjectVector.append": {
       "usage_snippets": [
-        "AutoArmComponent.active_in_process_push_instances.append(self)",
-        "notes_in_step.append(note.pitch)",
-        "self._armed_tracks.append(track)",
-        "self._messages.append(message)",
-        "self._modified_steps.append(step)",
-        "self._parameter_floats.append(step_parameter_floats)",
-        "self._pitches.append(pitch)",
-        "self._pressed_pages.append(page)",
-        "self._pressed_steps.append(step)",
-        "step_parameter_floats.append(value)"
+        "bank_buttons_raw.append(DeviceButton(channel, cc, name=name))",
+        "clip_launch_buttons.append(self._control_factory.create_clip_launch_button(index))",
+        "clip_stop_buttons.append(self._control_factory.create_clip_stop_button(index))",
+        "parameter_encoders_raw.append(EncoderElement(MIDI_CC_TYPE,",
+        "self._ProjectMixIO__components.append(self._ProjectMixIO__main_display)",
+        "self._modes_buttons.append(button)",
+        "self._sliders.append(make_slider(41 + index, \"Volume_Control_%d\" % index))",
+        "self._strip_buttons.append(make_button(51 + index, \"Mute_Button_%d\" % index))",
+        "send_controls_raw.append(make_mixer_encoder(cc,",
+        "send_info.append(mixer_options[\"SEND{}\".format(send + 1)])"
       ],
       "unresolved_arg_types": {
         "value": "object"
       }
     },
+    "Live.Base.Vector.append": {
+      "usage_snippets": [
+        "bank_buttons_raw.append(DeviceButton(channel, cc, name=name))",
+        "clip_launch_buttons.append(self._control_factory.create_clip_launch_button(index))",
+        "clip_stop_buttons.append(self._control_factory.create_clip_stop_button(index))",
+        "parameter_encoders_raw.append(EncoderElement(MIDI_CC_TYPE,",
+        "self._ProjectMixIO__components.append(self._ProjectMixIO__main_display)",
+        "self._modes_buttons.append(button)",
+        "self._sliders.append(make_slider(41 + index, \"Volume_Control_%d\" % index))",
+        "self._strip_buttons.append(make_button(51 + index, \"Mute_Button_%d\" % index))",
+        "send_controls_raw.append(make_mixer_encoder(cc,",
+        "send_info.append(mixer_options[\"SEND{}\".format(send + 1)])"
+      ],
+      "unresolved_arg_types": {
+        "value": "LomObject"
+      }
+    },
     "Live.Base.ObjectVector.extend": {
       "usage_snippets": [
-        "actions.extend([",
         "chains.extend(nested_chains)",
-        "collated.extend(segment)",
-        "flat_track.extend(all_chains)",
+        "data_to_send.extend(as_ascii(adjust_string(scene.name, NAME_LENGTH).strip()))",
+        "data_to_send.extend(as_ascii(adjust_string(track.name, NAME_LENGTH).strip()))",
         "notes_to_render.extend(wrap_note(note_on, note_off, clip_length))",
-        "racks.extend(nested_racks)",
+        "self._additional_parameters.extend([self.zoom, self.envelope])",
+        "self._clip_data[\"notes\"].extend([create_note(payload[i[:i + BYTES_PER_NOTE]], group_offset) for i in range(0, payload_length, BYTES_PER_NOTE)])",
         "self._items.extend(list(map(self._item_wrapper, next_slice)))",
         "self._mixer_sections.extend([",
         "self._note_off_events.extend(note_offs)",
@@ -955,6 +972,23 @@
       ],
       "unresolved_arg_types": {
         "values": "object"
+      }
+    },
+    "Live.Base.Vector.extend": {
+      "usage_snippets": [
+        "chains.extend(nested_chains)",
+        "data_to_send.extend(as_ascii(adjust_string(scene.name, NAME_LENGTH).strip()))",
+        "data_to_send.extend(as_ascii(adjust_string(track.name, NAME_LENGTH).strip()))",
+        "notes_to_render.extend(wrap_note(note_on, note_off, clip_length))",
+        "self._additional_parameters.extend([self.zoom, self.envelope])",
+        "self._clip_data[\"notes\"].extend([create_note(payload[i[:i + BYTES_PER_NOTE]], group_offset) for i in range(0, payload_length, BYTES_PER_NOTE)])",
+        "self._items.extend(list(map(self._item_wrapper, next_slice)))",
+        "self._mixer_sections.extend([",
+        "self._note_off_events.extend(note_offs)",
+        "self._note_on_events.extend(note_ons)"
+      ],
+      "unresolved_arg_types": {
+        "values": "LomObject"
       }
     },
     "Live.Base.Text.text": {
@@ -982,20 +1016,11 @@
       ],
       "needs_element_repr": true
     },
-    "Live.ChainMixerDevice.ChainMixerDevice.sends": {
-      "usage_snippets": [
-        "if send_index < len(self._MixerChannelStrip__assigned_track.mixer_device.sends):",
-        "mixer.sends[self._send_offset + index] # Avoid dead code: None)",
-        "mixer_params += list(mixer.sends)",
-        "params += list(mixer.sends)",
-        "return len(mixable.mixer_device.sends)",
-        "return len(self._track_provider.selected_item.mixer_device.sends)",
-        "return self._MixerChannelStrip__assigned_track.mixer_device.sends[send_index]",
-        "self._add_mode(SEND_MODE_NAMES[index], view_model.sendControlListView, lambda mixer:             if len(mixer.sends) > self._send_offset + index:",
-        "sends = mixer_device.sends",
-        "sends = track.mixer_device.sends"
-      ],
-      "needs_element_repr": true
+    "Live.Chain.Chain.insert_device": {
+      "unresolved_return_type": "LomObject"
+    },
+    "Live.Track.Track.insert_device": {
+      "unresolved_return_type": "LomObject"
     },
     "Live.Clip.Clip.add_new_notes": {
       "usage_snippets": [
@@ -1056,35 +1081,11 @@
         "arg2": "tuple"
       }
     },
-    "Live.DrumPad.DrumPad.chains": {
+    "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
       "usage_snippets": [
-        "chains = list(chain([root], *[d.chains for d in devices]))",
-        "if isinstance(selected, Live.DrumPad.DrumPad) and selected.chains and selected.chains[0].devices:",
-        "if len(destination_pad.chains) != 0:",
-        "if len(source_pad.chains) > 0:",
-        "if pad.chains:",
-        "return any(map((lambda pad: pad.chains), drum.drum_pads[(index * 4)[:index * 4 + 4]]))",
-        "return chain([instrument], *map(find_instrument_devices, instrument.chains))",
-        "return find_if((lambda pad: pad.chains and pad.chains[0].devices and pad.chains[0].devices[0] == device), drum_pad.canonical_parent.drum_pads)",
-        "return isinstance(drum_pad, Live.DrumPad.DrumPad) and (not drum_pad.chains or not drum_pad.chains[0].devices)",
-        "selected = selected.chains[0].devices[index]"
+        "return Live.Conversions.move_devices_on_track_to_new_drum_rack_pad(song, track_index)"
       ],
-      "needs_element_repr": true
-    },
-    "Live.RackDevice.RackDevice.chains": {
-      "usage_snippets": [
-        "chains = list(chain([root], *[d.chains for d in devices]))",
-        "if isinstance(selected, Live.DrumPad.DrumPad) and selected.chains and selected.chains[0].devices:",
-        "if len(destination_pad.chains) != 0:",
-        "if len(source_pad.chains) > 0:",
-        "if pad.chains:",
-        "return any(map((lambda pad: pad.chains), drum.drum_pads[(index * 4)[:index * 4 + 4]]))",
-        "return chain([instrument], *map(find_instrument_devices, instrument.chains))",
-        "return find_if((lambda pad: pad.chains and pad.chains[0].devices and pad.chains[0].devices[0] == device), drum_pad.canonical_parent.drum_pads)",
-        "return isinstance(drum_pad, Live.DrumPad.DrumPad) and (not drum_pad.chains or not drum_pad.chains[0].devices)",
-        "selected = selected.chains[0].devices[index]"
-      ],
-      "needs_element_repr": true
+      "unresolved_return_type": "LomObject"
     },
     "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
       "unresolved_arg_types": {
@@ -1102,26 +1103,20 @@
     },
     "Live.Listener.ListenerHandle.name": {
       "usage_snippets": [
-        "display[index % NUM_DISPLAY_SEGMENTS] = item.item.name if item else \"\"",
-        "fullname = self.helper.device_name(device) + \".\" + parameter.name",
-        "if device.name in FIVETOSIX_DICT:",
-        "if i.name == name:",
-        "name=(\"{}_With_Shift\".format(button.name)))",
-        "return FIVETOSIX_DICT[device.name]",
-        "return device.name",
-        "self.log(\"device %s, index %s, parameter %s\" % (self.device, idx, parameter.name))",
-        "self.logfmt(\"parameter %s %s to %s (quant %s)\", parameter, parameter.name, ccs[encoder], parameter.is_quantized)",
-        "self.parent.show_message(str(self.device.name + \" Bank: \" + bank_name))"
+        "button.name = name",
+        "clip_slot.name = \"Selected_Clip_Slot_\" + str(index)",
+        "encoder.name = name",
+        "self._mixer.master_strip().name = \"Master_Channel_Strip\"",
+        "self._mixer.name = \"Mixer\"",
+        "self._mixer.selected_strip().name = \"Selected_Channel_Strip\"",
+        "self._session.name = \"Session_Control\"",
+        "self._session.selected_scene().name = \"Selected_Scene\"",
+        "slider.name = name",
+        "strip.name = \"Channel_Strip_\" + str(index)"
       ],
       "unresolved_property_type": true
     },
     "Live.Listener.ListenerVector": {
-      "needs_element_repr": true
-    },
-    "Live.MaxDevice.MaxDevice.midi_inputs": {
-      "needs_element_repr": true
-    },
-    "Live.MaxDevice.MaxDevice.midi_outputs": {
       "needs_element_repr": true
     },
     "Live.MidiMap.CCFeedbackRule.cc_value_map": {
@@ -1149,8 +1144,8 @@
       ],
       "needs_element_repr": true
     },
-    "Live.RackDevice.RackDevice.return_chains": {
-      "needs_element_repr": true
+    "Live.RackDevice.RackDevice.insert_chain": {
+      "unresolved_return_type": "LomObject"
     },
     "Live.Sample.Sample.slices": {
       "usage_snippets": [
@@ -1172,7 +1167,7 @@
         "song.create_audio_track()"
       ],
       "unresolved_arg_types": {
-        "Index": "object"
+        "index": "object"
       }
     },
     "Live.Song.Song.create_midi_track": {
@@ -1180,7 +1175,12 @@
         "song.create_midi_track()"
       ],
       "unresolved_arg_types": {
-        "Index": "object"
+        "index": "object"
+      }
+    },
+    "Live.Song.Song.find_device_position": {
+      "unresolved_arg_types": {
+        "target": "LomObject"
       }
     },
     "Live.Song.Song.get_data": {
@@ -1216,6 +1216,23 @@
         "default_value": "object"
       },
       "unresolved_return_type": "object"
+    },
+    "Live.Song.Song.move_device": {
+      "usage_snippets": [
+        "device_navigation.move_device.layer = Layer(move_encoders=\"global_param_controls\")",
+        "if not self.move_device.is_enabled():",
+        "return self.move_device.is_enabled()",
+        "self.move_device = MoveDeviceComponent(parent=self, is_enabled=False)",
+        "self.move_device = None",
+        "self.move_device.set_device(device)",
+        "self.song.move_device(self._device, chain, len(chain.devices) if move_to_end else 0)",
+        "self.song.move_device(self._device, parent, device_index + 2)",
+        "self.song.move_device(self._device, parent, device_index - 1)",
+        "self.song.move_device(self._device, parent, rack_index + 1 if move_behind else rack_index)"
+      ],
+      "unresolved_arg_types": {
+        "target": "LomObject"
+      }
     },
     "Live.Song.Song.set_data": {
       "usage_snippets": [
@@ -1256,6 +1273,9 @@
         "SCALES = tuple([Scale(name=(x[0]), notes=(x[1])) for x in Live.Song.get_all_scales_ordered()])"
       ],
       "unresolved_return_type": "tuple"
+    },
+    "Live.Track.Track.create_take_lane": {
+      "unresolved_return_type": "LomObject"
     }
   }
 }

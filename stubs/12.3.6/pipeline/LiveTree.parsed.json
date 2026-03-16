@@ -3675,7 +3675,7 @@
             "repr": "<class 'Browser.FilterType'>",
             "raw_doc": null,
             "members": {
-              "disabled": 1,
+              "disabled": -1,
               "hotswap_off": 0,
               "instrument_hotswap": 1,
               "audio_effect_hotswap": 2,

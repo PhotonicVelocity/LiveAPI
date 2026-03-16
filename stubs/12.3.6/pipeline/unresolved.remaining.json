@@ -344,6 +344,30 @@
         "probed_type"
       ]
     },
+    "Live.Base.Vector.append": {
+      "signature": "append( (Vector)arg1, (object)arg2) -> None :",
+      "cpp_signature": "void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
+      "args": {
+        "value": {
+          "current_type": "LomObject",
+          "needs": [
+            "type"
+          ]
+        }
+      }
+    },
+    "Live.Base.Vector.extend": {
+      "signature": "extend( (Vector)arg1, (object)arg2) -> None :",
+      "cpp_signature": "void extend(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
+      "args": {
+        "values": {
+          "current_type": "LomObject",
+          "needs": [
+            "type"
+          ]
+        }
+      }
+    },
     "Live.Base.subst_args": {
       "signature": "subst_args( (Text)text [, (str)arg1='' [, (str)arg2='' [, (str)arg3='' [, (str)arg4='' [, (str)arg5='']]]]]) -> str :",
       "cpp_signature": "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> subst_args(TText [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='']]]]])",
@@ -445,12 +469,16 @@
         }
       }
     },
-    "Live.ChainMixerDevice.ChainMixerDevice.sends": {
-      "probed_type": "Vector",
-      "needs": [
-        "element_repr"
-      ],
-      "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters."
+    "Live.Chain.Chain.insert_device": {
+      "description": "Add a device at a given index in the chain. At end if -1.",
+      "signature": "insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :",
+      "cpp_signature": "TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])",
+      "returns": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
     },
     "Live.Clip.Clip.View.select_envelope_parameter": {
       "description": "Select the given device parameter in the envelope view.",
@@ -782,6 +810,17 @@
         }
       }
     },
+    "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
+      "description": "Moves the entire device chain of the track according to the track index\nonto the C1 (note 36) drum pad of a new drum rack in a new track.If the track associated with the track index does not contain any devices\nnothing changes (i.e. a new track and new drum rack are not created).",
+      "signature": "move_devices_on_track_to_new_drum_rack_pad( (Song)song, (int)track_index) -> LomObject :",
+      "cpp_signature": "TWeakPtr<TPyHandleBase> move_devices_on_track_to_new_drum_rack_pad(TPyHandle<ASong>,int)",
+      "returns": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    },
     "Live.Device.Device.store_chosen_bank": {
       "description": "Set the selected bank in the device for persistency.",
       "signature": "store_chosen_bank( (Device)arg1, (int)arg2, (int)arg3) -> None :",
@@ -813,13 +852,6 @@
           ]
         }
       }
-    },
-    "Live.DrumPad.DrumPad.chains": {
-      "probed_type": "Vector",
-      "needs": [
-        "element_repr"
-      ],
-      "raw_doc": "Return const access to the list of chains in this drum pad."
     },
     "Live.Envelope.Envelope.delete_events_in_range": {
       "description": "Deletes the events in the specified time range.",
@@ -1059,20 +1091,6 @@
         "probed_type"
       ],
       "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
-    },
-    "Live.MaxDevice.MaxDevice.midi_inputs": {
-      "probed_type": "Vector",
-      "needs": [
-        "element_repr"
-      ],
-      "raw_doc": "Const access to a list of all midi outputs of the device."
-    },
-    "Live.MaxDevice.MaxDevice.midi_outputs": {
-      "probed_type": "Vector",
-      "needs": [
-        "element_repr"
-      ],
-      "raw_doc": "Const access to a list of all midi outputs of the device."
     },
     "Live.MidiMap.CCFeedbackRule.cc_value_map": {
       "probed_type": "tuple",
@@ -1333,13 +1351,6 @@
       ],
       "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
     },
-    "Live.RackDevice.RackDevice.chains": {
-      "probed_type": "Vector",
-      "needs": [
-        "element_repr"
-      ],
-      "raw_doc": "Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."
-    },
     "Live.RackDevice.RackDevice.copy_pad": {
       "description": "Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127.",
       "signature": "copy_pad( (RackDevice)arg1, (int)arg2, (int)arg3) -> None :",
@@ -1359,19 +1370,23 @@
         }
       }
     },
+    "Live.RackDevice.RackDevice.insert_chain": {
+      "description": "Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence.",
+      "signature": "insert_chain( (RackDevice)arg1 [, (int)Index=-1]) -> LomObject :",
+      "cpp_signature": "TWeakPtr<TPyHandleBase> insert_chain(TRackDevicePyHandle [,int=-1])",
+      "returns": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    },
     "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
       "probed_type": null,
       "needs": [
         "probed_type"
       ],
       "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
-    },
-    "Live.RackDevice.RackDevice.return_chains": {
-      "probed_type": "Vector",
-      "needs": [
-        "element_repr"
-      ],
-      "raw_doc": "Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."
     },
     "Live.Sample.Sample.slices": {
       "probed_type": "tuple",
@@ -1411,7 +1426,7 @@
       "signature": "create_audio_track( (Song)arg1 [, (object)Index=None]) -> Track :",
       "cpp_signature": "TWeakPtr<TTrackPyHandle> create_audio_track(TPyHandle<ASong> [,boost::python::api::object=None])",
       "args": {
-        "Index": {
+        "index": {
           "current_type": "object",
           "needs": [
             "type"
@@ -1424,7 +1439,7 @@
       "signature": "create_midi_track( (Song)arg1 [, (object)Index=None]) -> Track :",
       "cpp_signature": "TWeakPtr<TTrackPyHandle> create_midi_track(TPyHandle<ASong> [,boost::python::api::object=None])",
       "args": {
-        "Index": {
+        "index": {
           "current_type": "object",
           "needs": [
             "type"
@@ -1510,6 +1525,19 @@
         }
       }
     },
+    "Live.Song.Song.find_device_position": {
+      "description": "Returns the closest possible position to the given target, where the\ndevice can be inserted. If inserting is not possible at all (i.e. if\nthe device type is wrong), -1 is returned.",
+      "signature": "find_device_position( (Song)arg1, (Device)device, (LomObject)target, (int)target_position) -> int :",
+      "cpp_signature": "int find_device_position(TPyHandle<ASong>,TPyHandle<ADevice>,TPyHandleBase,int)",
+      "args": {
+        "target": {
+          "current_type": "LomObject",
+          "needs": [
+            "type"
+          ]
+        }
+      }
+    },
     "Live.Song.Song.get_current_smpte_song_time": {
       "description": "Get const access to the songs current playing position, by specifying\nthe SMPTE format in which you would like to receive the time.",
       "signature": "get_current_smpte_song_time( (Song)arg1, (int)arg2) -> SmptTime :",
@@ -1551,6 +1579,19 @@
           "current_type": "float",
           "needs": [
             "name"
+          ]
+        }
+      }
+    },
+    "Live.Song.Song.move_device": {
+      "description": "Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to.",
+      "signature": "move_device( (Song)arg1, (Device)device, (LomObject)target, (int)target_position) -> int :",
+      "cpp_signature": "int move_device(TPyHandle<ASong>,TPyHandle<ADevice>,TPyHandleBase,int)",
+      "args": {
+        "target": {
+          "current_type": "LomObject",
+          "needs": [
+            "type"
           ]
         }
       }
@@ -1668,6 +1709,17 @@
         }
       }
     },
+    "Live.Track.Track.create_take_lane": {
+      "description": "Create a new TakeLane for this track.",
+      "signature": "create_take_lane( (Track)arg1) -> LomObject :",
+      "cpp_signature": "TWeakPtr<TPyHandleBase> create_take_lane(TTrackPyHandle)",
+      "returns": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    },
     "Live.Track.Track.duplicate_clip_slot": {
       "description": "Duplicate a clip and put it into the next free slot and return the index\nof the destination slot. A new scene is created if no free slot is\navailable. If creating the new scene would exceed the limitations,\na runtime error is raised.",
       "signature": "duplicate_clip_slot( (Track)arg1, (int)arg2) -> int :",
@@ -1708,6 +1760,17 @@
       },
       "returns": {
         "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    },
+    "Live.Track.Track.insert_device": {
+      "description": "Add a device at a given index in the 'devices' list. At end if -1.",
+      "signature": "insert_device( (Track)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :",
+      "cpp_signature": "TWeakPtr<TPyHandleBase> insert_device(TTrackPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])",
+      "returns": {
+        "current_type": "LomObject",
         "needs": [
           "type"
         ]

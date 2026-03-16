@@ -3675,7 +3675,7 @@
             "repr": "<class 'Browser.FilterType'>",
             "raw_doc": null,
             "members": {
-              "disabled": 1,
+              "disabled": -1,
               "hotswap_off": 0,
               "instrument_hotswap": 1,
               "audio_effect_hotswap": 2,
@@ -5754,13 +5754,13 @@
                     "default": null
                   },
                   {
-                    "name": "DeviceName",
+                    "name": "device_name",
                     "type": "str",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "DeviceIndex",
+                    "name": "device_index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -6289,7 +6289,8 @@
                 "settable": false,
                 "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>"
+                "probed_repr": "<class 'Base.Vector'>",
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "sends_has_listener",
@@ -17760,7 +17761,8 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of chains in this drum pad.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>"
+                "probed_repr": "<class 'Base.Vector'>",
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "chains_has_listener",
@@ -23050,7 +23052,8 @@
                 "settable": false,
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>"
+                "probed_repr": "<class 'Base.Vector'>",
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "midi_inputs_has_listener",
@@ -23086,7 +23089,8 @@
                 "settable": false,
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>"
+                "probed_repr": "<class 'Base.Vector'>",
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "midi_outputs_has_listener",
@@ -24235,7 +24239,7 @@
                 "default": null
               },
               {
-                "name": "ShouldConsumeEvent",
+                "name": "should_consume_event",
                 "type": "bool",
                 "optional": true,
                 "default": "True"
@@ -24280,7 +24284,7 @@
                 "default": null
               },
               {
-                "name": "ShouldConsumeEvent",
+                "name": "should_consume_event",
                 "type": "bool",
                 "optional": true,
                 "default": "True"
@@ -26393,7 +26397,8 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>"
+                "probed_repr": "<class 'Base.Vector'>",
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "chains_has_listener",
@@ -26616,7 +26621,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -27192,7 +27197,8 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>"
+                "probed_repr": "<class 'Base.Vector'>",
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "return_chains_has_listener",
@@ -34926,7 +34932,7 @@
                         "default": null
                       },
                       {
-                        "name": "ShouldAppointDevice",
+                        "name": "should_appoint_device",
                         "type": "bool",
                         "optional": true,
                         "default": "True"
@@ -36684,7 +36690,7 @@
                     "default": null
                   },
                   {
-                    "name": "CaptureMode",
+                    "name": "capture_mode",
                     "type": "int",
                     "optional": true,
                     "default": "Song.CaptureMode.all"
@@ -36711,7 +36717,7 @@
                     "default": null
                   },
                   {
-                    "name": "Destination",
+                    "name": "destination",
                     "type": "int",
                     "optional": true,
                     "default": "Song.CaptureDestination.auto"
@@ -36830,7 +36836,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "object",
                     "optional": true,
                     "default": "None"
@@ -36857,7 +36863,7 @@
                     "default": null
                   },
                   {
-                    "name": "Index",
+                    "name": "index",
                     "type": "object",
                     "optional": true,
                     "default": "None"
@@ -40164,7 +40170,7 @@
                     "default": null
                   },
                   {
-                    "name": "Quantized",
+                    "name": "quantized",
                     "type": "bool",
                     "optional": true,
                     "default": "True"
@@ -45436,13 +45442,13 @@
                     "default": null
                   },
                   {
-                    "name": "DeviceName",
+                    "name": "device_name",
                     "type": "str",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "DeviceIndex",
+                    "name": "device_index",
                     "type": "int",
                     "optional": true,
                     "default": "-1"
@@ -47355,7 +47361,7 @@
                     "default": null
                   },
                   {
-                    "name": "Quantized",
+                    "name": "quantized",
                     "type": "bool",
                     "optional": true,
                     "default": "True"
