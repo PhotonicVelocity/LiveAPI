@@ -969,6 +969,21 @@
       ],
       "unresolved_property_type": true
     },
+    "Live.Browser.Browser.hotswap_target": {
+      "usage_snippets": [
+        "def hotswap_target(self):",
+        "hotswap_target = self._browser.hotswap_target",
+        "if browser.hotswap_target is None:",
+        "if liveobj_valid(self._browser.hotswap_target):",
+        "return self._browser.hotswap_target",
+        "self._application.browser.hotswap_target = None",
+        "self._application.browser.hotswap_target = hotswap_object",
+        "self._browser.hotswap_target = None",
+        "self._browser.hotswap_target.selected_preset_index = item.preset_index",
+        "self._current_hotswap_target = self._browser.hotswap_target"
+      ],
+      "unresolved_property_type": true
+    },
     "Live.Browser.BrowserItem.iter_children": {
       "usage_snippets": [
         "children_iterator = selected_item.iter_children",
@@ -1110,6 +1125,36 @@
       ],
       "needs_element_repr": true
     },
+    "Live.RackDevice.RackDevice.View.selected_chain": {
+      "usage_snippets": [
+        "chain = drum_rack_for_pad(drum_pad).view.selected_chain",
+        "chain = rack.view.selected_chain",
+        "if left_device.can_have_chains and left_device.view.is_showing_chain_devices and left_device.view.selected_chain:",
+        "if right_device.can_have_chains and right_device.view.is_showing_chain_devices and right_device.view.selected_chain:",
+        "lom_object.canonical_parent.view.selected_chain = lom_object",
+        "return self._rack.view.selected_chain",
+        "selected_chain = self._view.selected_chain",
+        "self._rack.view.selected_chain = chain",
+        "self._view.selected_chain = unwrapped_track",
+        "unwrapped_track.canonical_parent.view.selected_chain = unwrapped_track"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.View.selected_chain": {
+      "usage_snippets": [
+        "chain = drum_rack_for_pad(drum_pad).view.selected_chain",
+        "chain = rack.view.selected_chain",
+        "if left_device.can_have_chains and left_device.view.is_showing_chain_devices and left_device.view.selected_chain:",
+        "if right_device.can_have_chains and right_device.view.is_showing_chain_devices and right_device.view.selected_chain:",
+        "lom_object.canonical_parent.view.selected_chain = lom_object",
+        "return self._rack.view.selected_chain",
+        "selected_chain = self._view.selected_chain",
+        "self._rack.view.selected_chain = chain",
+        "self._view.selected_chain = unwrapped_track",
+        "unwrapped_track.canonical_parent.view.selected_chain = unwrapped_track"
+      ],
+      "unresolved_property_type": true
+    },
     "Live.RackDevice.RackDevice.insert_chain": {
       "unresolved_return_type": "LomObject"
     },
@@ -1127,6 +1172,51 @@
         "slices = self._live_object.sample.slices"
       ],
       "needs_element_repr": true
+    },
+    "Live.Scene.Scene.color_index": {
+      "usage_snippets": [
+        "button.color_index = COLOR_CHOOSER_LAYOUT[row][column]",
+        "color_index = button.color_index",
+        "if button.color_index is None:",
+        "if obj.color_index is not None:",
+        "return IndexedColor.from_live_index(chain.color_index, DISPLAY_BUTTON_SHADE_LEVEL)",
+        "return LIVE_COLOR_INDEX_TO_RGB.get(obj.color_index, 0)",
+        "return translate_color_index(slot_or_clip.color_index)",
+        "self._render_color_palette(translate_color_index(obj.color_index))",
+        "self.object.color_index = inverse_translate_color_index(button.color_index)",
+        "self.source_color_index = color_source.color_index if (color_source and color_source.color_index is not None) else UNCOLORED_INDEX"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.View.detail_clip": {
+      "usage_snippets": [
+        "clip = self.song.view.detail_clip",
+        "clip = self.song.view.detail_clip if self.is_enabled() else None",
+        "clip = view.detail_clip",
+        "if liveobj_changed(song.view.detail_clip, clip_slot.clip):",
+        "self.selected_clip = self.parent.song().view.detail_clip",
+        "self.set_detail_clip(self.song.view.detail_clip)",
+        "song.view.detail_clip = clip_slot.clip",
+        "song.view.detail_clip = selected_slot.clip",
+        "song_view.detail_clip = track.duplicate_clip_to_arrangement(clip, clip.end_time)",
+        "view.detail_clip = view.highlighted_clip_slot.clip"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.appointed_device": {
+      "usage_snippets": [
+        "if not self._EffectController__parent.song().appointed_device == self._EffectController__assigned_device:",
+        "if not self._Encoders__parent.song().appointed_device == self._Encoders__selected_device:",
+        "if not self.parent.song().appointed_device == self.device:",
+        "if self._appointed_device != self._song.appointed_device:",
+        "self._EffectController__change_assigned_device(self._EffectController__parent.song().appointed_device)",
+        "self._song.appointed_device = device",
+        "self._update_appointed_device(self._song.appointed_device)",
+        "self.device = self.parent.song().appointed_device",
+        "self.song.appointed_device = appointed_device",
+        "song.appointed_device = appointed_device"
+      ],
+      "unresolved_property_type": true
     },
     "Live.Song.Song.create_audio_track": {
       "usage_snippets": [

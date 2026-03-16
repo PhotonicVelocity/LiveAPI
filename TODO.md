@@ -53,7 +53,7 @@ Root cause: the probe saw `LomObject` as the element type because the generic `B
 heterogeneous objects. The `element_repr` on the property needs to be more specific — likely needs
 LLM resolution or probe improvements to capture the concrete element type.
 
-## 8. Fix `-> None` on nullable properties (should be `T | None`)
+## ~~8. Fix `-> None` on nullable properties (should be `T | None`)~~ ✓
 
 ~15 properties return `None` instead of `T | None`. These are nullable references where the probe
 happened to see `None` at capture time. Examples:
@@ -80,3 +80,5 @@ instances) or as a post-processing step that recognizes nullable patterns.
 - `TuningSystem.note_tunings -> list` → `list[float]`
 
 These likely need LLM resolution or probe data to determine element types.
+
+## 10. Classes are missing inheritance in stubs

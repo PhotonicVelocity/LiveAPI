@@ -380,6 +380,13 @@
         }
       }
     },
+    "Live.Browser.Browser.hotswap_target": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Bang triggered when the hotswap target has changed."
+    },
     "Live.Browser.Browser.load_item": {
       "description": "Loads the provided browser item.",
       "signature": "load_item( (Browser)arg1, (BrowserItem)arg2) -> None :",
@@ -601,6 +608,13 @@
           "type"
         ]
       }
+    },
+    "Live.Clip.Clip.groove": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Get the groove associated with this clip."
     },
     "Live.Clip.Clip.move_playing_pos": {
       "description": "Jump forward or backward by the specified relative amount in beats.\nWill do nothing, if the Clip is not playing.",
@@ -1327,6 +1341,13 @@
       ],
       "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
     },
+    "Live.RackDevice.RackDevice.View.selected_chain": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Return access to the currently selected chain."
+    },
     "Live.RackDevice.RackDevice.copy_pad": {
       "description": "Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127.",
       "signature": "copy_pad( (RackDevice)arg1, (int)arg2, (int)arg3) -> None :",
@@ -1371,6 +1392,13 @@
       ],
       "raw_doc": "Access to the list of slice points in sample time in the sample."
     },
+    "Live.Scene.Scene.color_index": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Get/set access to the color index of the scene. Can be None for no color."
+    },
     "Live.Scene.Scene.set_fire_button_state": {
       "description": "Set the scene's fire button state directly. Supports all launch modes.",
       "signature": "set_fire_button_state( (Scene)arg1, (bool)arg2) -> None :",
@@ -1384,6 +1412,13 @@
         }
       }
     },
+    "Live.Song.Song.View.detail_clip": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Get/Set the Clip that is currently visible in Lives Detailview."
+    },
     "Live.Song.Song.View.select_device": {
       "description": "Select the given device.",
       "signature": "select_device( (View)arg1, (Device)arg2 [, (bool)ShouldAppointDevice=True]) -> None :",
@@ -1396,6 +1431,27 @@
           ]
         }
       }
+    },
+    "Live.Song.Song.View.selected_chain": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Get the highlighted chain if available."
+    },
+    "Live.Song.Song.View.selected_parameter": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Get the currently selected device parameter."
+    },
+    "Live.Song.Song.appointed_device": {
+      "probed_type": "NoneType",
+      "needs": [
+        "probed_type"
+      ],
+      "raw_doc": "Read, write, and listen access to the appointed Device"
     },
     "Live.Song.Song.create_audio_track": {
       "description": "Create a new audio track at the optional given index and return it.If the index is -1,\nthe new track is added at the end. It will create a default audio track if possible.\nIf the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item",

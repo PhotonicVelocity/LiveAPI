@@ -130,6 +130,10 @@ def _check_class(node: dict, path: str, items: dict[str, dict]) -> None:
 def _check_property(node: dict, path: str, items: dict[str, dict], iterable_classes: dict[str, bool]) -> None:
     """Check a property node for missing probed_type or missing element type."""
     probed = node.get("probed_type")
+    # canonical_parent on root objects (Song, Application) is genuinely None —
+    # the LLM can't reliably determine this from callsite evidence.
+    if probed == "NoneType" and node.get("name") == "canonical_parent":
+        return
     if not probed or probed == "NoneType":
         entry: dict = {"probed_type": probed, "needs": ["probed_type"]}
         if node.get("raw_doc"):

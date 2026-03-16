@@ -1073,7 +1073,7 @@
                     "default": null
                   },
                   {
-                    "name": "entry_name",
+                    "name": "option_name",
                     "type": "str",
                     "optional": false,
                     "default": null
@@ -1760,7 +1760,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "tuple[tuple[int, Any], ...]"
+                  "type": "tuple[tuple[int, float], ...]"
                 }
               },
               {
@@ -2005,7 +2005,7 @@
                   },
                   {
                     "name": "value",
-                    "type": "tuple[Any, ...]",
+                    "type": "tuple[int, ...]",
                     "optional": false,
                     "default": null
                   }
@@ -2842,7 +2842,7 @@
                   },
                   {
                     "name": "value",
-                    "type": "LomObject",
+                    "type": "Any",
                     "optional": false,
                     "default": null
                   }
@@ -3203,7 +3203,7 @@
                 "id": 4623436912,
                 "settable": true,
                 "raw_doc": "Bang triggered when the hotswap target has changed.",
-                "probed_type": "NoneType"
+                "probed_type": "Device"
               },
               {
                 "name": "hotswap_target_has_listener",
@@ -6301,8 +6301,7 @@
                 "settable": false,
                 "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "sends_has_listener",
@@ -6447,7 +6446,7 @@
                         "default": null
                       },
                       {
-                        "name": "device_parameter",
+                        "name": "parameter",
                         "type": "DeviceParameter",
                         "optional": false,
                         "default": null
@@ -8244,7 +8243,7 @@
                 "id": 4624051760,
                 "settable": true,
                 "raw_doc": "Get the groove associated with this clip.",
-                "probed_type": "NoneType"
+                "probed_type": "Groove"
               },
               {
                 "name": "groove_has_listener",
@@ -12852,7 +12851,7 @@
               }
             ],
             "returns": {
-              "type": "RackDevice"
+              "type": "Track"
             }
           },
           {
@@ -17773,8 +17772,7 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of chains in this drum pad.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "chains_has_listener",
@@ -20912,13 +20910,13 @@
                   },
                   {
                     "name": "authorize_callable",
-                    "type": "Callable",
+                    "type": "Callable[[], None]",
                     "optional": false,
                     "default": null
                   },
                   {
                     "name": "authorize_later_callable",
-                    "type": "Callable",
+                    "type": "Callable[[], None]",
                     "optional": false,
                     "default": null
                   }
@@ -21142,7 +21140,7 @@
                   },
                   {
                     "name": "callback",
-                    "type": "Callable | None",
+                    "type": "Callable[[], None] | None",
                     "optional": false,
                     "default": null
                   },
@@ -21544,7 +21542,7 @@
               "<class 'Boost.Python.instance'>"
             ],
             "iterable": true,
-            "element_repr": "<class 'ListenerHandle'>",
+            "element_repr": "<class 'ListenerHandle.ListenerHandle'>",
             "children": [
               {
                 "name": "append",
@@ -23074,8 +23072,7 @@
                 "settable": false,
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "midi_inputs_has_listener",
@@ -23111,8 +23108,7 @@
                 "settable": false,
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "midi_outputs_has_listener",
@@ -25958,7 +25954,7 @@
                     "id": 4623883120,
                     "settable": true,
                     "raw_doc": "Return access to the currently selected chain.",
-                    "probed_type": "NoneType"
+                    "probed_type": "Chain"
                   },
                   {
                     "name": "selected_chain_has_listener",
@@ -26423,8 +26419,7 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "chains_has_listener",
@@ -27224,8 +27219,7 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "return_chains_has_listener",
@@ -29539,7 +29533,7 @@
                 "raw_doc": "Access to the list of slice points in sample time in the sample.",
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "element_repr": "<class 'float'>"
+                "element_repr": "<class 'int'>"
               },
               {
                 "name": "slices_has_listener",
@@ -30388,7 +30382,7 @@
                 "id": 4623962800,
                 "settable": true,
                 "raw_doc": "Get/set access to the color index of the scene. Can be None for no color.",
-                "probed_type": "NoneType"
+                "probed_type": "int"
               },
               {
                 "name": "color_index_has_listener",
@@ -34640,7 +34634,7 @@
                     "id": 4623528512,
                     "settable": true,
                     "raw_doc": "Get/Set the Clip that is currently visible in Lives Detailview.",
-                    "probed_type": "NoneType"
+                    "probed_type": "Clip"
                   },
                   {
                     "name": "detail_clip_has_listener",
@@ -34976,7 +34970,7 @@
                     "id": 4623529632,
                     "settable": true,
                     "raw_doc": "Get the highlighted chain if available.",
-                    "probed_type": "NoneType"
+                    "probed_type": "Chain"
                   },
                   {
                     "name": "selected_chain_has_listener",
@@ -35011,7 +35005,7 @@
                     "id": 4623528032,
                     "settable": false,
                     "raw_doc": "Get the currently selected device parameter.",
-                    "probed_type": "NoneType"
+                    "probed_type": "DeviceParameter"
                   },
                   {
                     "name": "selected_parameter_has_listener",
@@ -36451,7 +36445,7 @@
                 "id": 4623446432,
                 "settable": true,
                 "raw_doc": "Read, write, and listen access to the appointed Device",
-                "probed_type": "NoneType"
+                "probed_type": "Device"
               },
               {
                 "name": "appointed_device_has_listener",
@@ -37394,7 +37388,7 @@
                     "default": null
                   },
                   {
-                    "name": "smpte_format",
+                    "name": "format",
                     "type": "int",
                     "optional": false,
                     "default": null

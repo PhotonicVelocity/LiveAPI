@@ -6289,8 +6289,7 @@
                 "settable": false,
                 "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "sends_has_listener",
@@ -17761,8 +17760,7 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of chains in this drum pad.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "chains_has_listener",
@@ -23052,8 +23050,7 @@
                 "settable": false,
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "midi_inputs_has_listener",
@@ -23089,8 +23086,7 @@
                 "settable": false,
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "midi_outputs_has_listener",
@@ -26397,8 +26393,7 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "chains_has_listener",
@@ -27197,8 +27192,7 @@
                 "settable": false,
                 "raw_doc": "Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
-                "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'LomObject.LomObject'>"
+                "probed_repr": "<class 'Base.Vector'>"
               },
               {
                 "name": "return_chains_has_listener",

@@ -1,0 +1,4635 @@
+{
+  "<class 'Application.Application'>": {
+    "path": "/Live/Application/Application",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "average_process_usage": {
+        "probed": true,
+        "type": "float"
+      },
+      "browser": {
+        "probed": true,
+        "type": "Browser",
+        "repr": "<class 'Browser.Browser'>"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "control_surfaces": {
+        "probed": true,
+        "type": "ObjectVector",
+        "repr": "<class 'Base.ObjectVector'>"
+      },
+      "current_dialog_button_count": {
+        "probed": true,
+        "type": "int"
+      },
+      "current_dialog_message": {
+        "probed": true,
+        "type": "str"
+      },
+      "number_of_push_apps_running": {
+        "probed": true,
+        "type": "int"
+      },
+      "open_dialog_count": {
+        "probed": true,
+        "type": "int"
+      },
+      "peak_process_usage": {
+        "probed": true,
+        "type": "float"
+      },
+      "unavailable_features": {
+        "probed": true,
+        "type": "UnavailableFeatureVector",
+        "repr": "<class 'Application.UnavailableFeatureVector'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Application.View'>"
+      }
+    },
+    "getters": {
+      "get_bugfix_version": {
+        "probed": true,
+        "type": "int"
+      },
+      "get_build_id": {
+        "probed": true,
+        "type": "str"
+      },
+      "get_document": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "get_major_version": {
+        "probed": true,
+        "type": "int"
+      },
+      "get_minor_version": {
+        "probed": true,
+        "type": "int"
+      },
+      "get_variant": {
+        "probed": true,
+        "type": "str"
+      },
+      "get_version_string": {
+        "probed": true,
+        "type": "str"
+      }
+    }
+  },
+  "<class 'Application.View'>": {
+    "path": "/Live/Application/Application/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "browse_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Application",
+        "repr": "<class 'Application.Application'>"
+      },
+      "focused_document_view": {
+        "probed": true,
+        "type": "str"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Application.ControlDescription'>": {
+    "path": "/Live/Application/ControlDescription",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "id": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Application.ControlDescriptionVector'>": {
+    "path": "/Live/Application/ControlDescriptionVector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Application.ControlSurfaceProxy'>": {
+    "path": "/Live/Application/ControlSurfaceProxy",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "control_descriptions": {
+        "probed": false
+      },
+      "pad_layout": {
+        "probed": false
+      },
+      "type_name": {
+        "probed": false
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Application.UnavailableFeatureVector'>": {
+    "path": "/Live/Application/UnavailableFeatureVector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Application.Variants'>": {
+    "path": "/Live/Application/Variants",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Base.FloatVector'>": {
+    "path": "/Live/Base/FloatVector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Base.IntU64Vector'>": {
+    "path": "/Live/Base/IntU64Vector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Base.IntVector'>": {
+    "path": "/Live/Base/IntVector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Base.ObjectVector'>": {
+    "path": "/Live/Base/ObjectVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'APICapture.APICapture.APICapture'>"
+  },
+  "<class 'Base.StringVector'>": {
+    "path": "/Live/Base/StringVector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Base.Text'>": {
+    "path": "/Live/Base/Text",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "text": {
+        "probed": false
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Base.Timer'>": {
+    "path": "/Live/Base/Timer",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "running": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Base.Vector'>": {
+    "path": "/Live/Base/Vector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Song.CuePoint'>"
+  },
+  "<class 'Browser.Browser'>": {
+    "path": "/Live/Browser/Browser",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "audio_effects": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "clips": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "colors": {
+        "probed": true,
+        "type": "BrowserItemVector",
+        "repr": "<class 'Browser.BrowserItemVector'>"
+      },
+      "current_project": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "drums": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "filter_type": {
+        "probed": true,
+        "type": "int"
+      },
+      "hotswap_target": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "instruments": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "legacy_libraries": {
+        "probed": true,
+        "type": "BrowserItemVector",
+        "repr": "<class 'Browser.BrowserItemVector'>"
+      },
+      "max_for_live": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "midi_effects": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "packs": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "plugins": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "samples": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "sounds": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      },
+      "user_folders": {
+        "probed": true,
+        "type": "BrowserItemVector",
+        "repr": "<class 'Browser.BrowserItemVector'>"
+      },
+      "user_library": {
+        "probed": true,
+        "type": "BrowserItem",
+        "repr": "<class 'Browser.BrowserItem'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Browser.BrowserItem'>": {
+    "path": "/Live/Browser/BrowserItem",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "children": {
+        "probed": true,
+        "type": "BrowserItemVector",
+        "repr": "<class 'Browser.BrowserItemVector'>"
+      },
+      "is_device": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_folder": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_loadable": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_selected": {
+        "probed": true,
+        "type": "bool"
+      },
+      "iter_children": {
+        "probed": true,
+        "type": "BrowserItemIterator",
+        "repr": "<class 'Browser.BrowserItemIterator'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "source": {
+        "probed": true,
+        "type": "str"
+      },
+      "uri": {
+        "probed": true,
+        "type": "str"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Browser.BrowserItemIterator'>": {
+    "path": "/Live/Browser/BrowserItemIterator",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Browser.BrowserItemVector'>": {
+    "path": "/Live/Browser/BrowserItemVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Browser.BrowserItem'>"
+  },
+  "<class 'CcControlDevice.CcControlDevice'>": {
+    "path": "/Live/CcControlDevice/CcControlDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "custom_bool_target": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_bool_target_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_0": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_0_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_1": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_10": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_10_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_11": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_11_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_1_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_2": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_2_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_3": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_3_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_4": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_4_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_5": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_5_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_6": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_6_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_7": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_7_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_8": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_8_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "custom_float_target_9": {
+        "probed": true,
+        "type": "int"
+      },
+      "custom_float_target_9_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Device.View'>": {
+    "path": "/Live/CcControlDevice/CcControlDevice/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Device",
+        "repr": "<class 'Device.Device'>"
+      },
+      "is_collapsed": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Chain.Chain'>": {
+    "path": "/Live/Chain/Chain",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "RackDevice",
+        "repr": "<class 'RackDevice.RackDevice'>"
+      },
+      "color": {
+        "probed": true,
+        "type": "int"
+      },
+      "color_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "devices": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "has_audio_input": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_audio_output": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_midi_input": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_midi_output": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_auto_colored": {
+        "probed": true,
+        "type": "bool"
+      },
+      "mixer_device": {
+        "probed": true,
+        "type": "ChainMixerDevice",
+        "repr": "<class 'ChainMixerDevice.ChainMixerDevice'>"
+      },
+      "mute": {
+        "probed": true,
+        "type": "bool"
+      },
+      "muted_via_solo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "solo": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'ChainMixerDevice.ChainMixerDevice'>": {
+    "path": "/Live/ChainMixerDevice/ChainMixerDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Chain",
+        "repr": "<class 'Chain.Chain'>"
+      },
+      "chain_activator": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "panning": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "sends": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "volume": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Clip.Clip'>": {
+    "path": "/Live/Clip/Clip",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "automation_envelopes": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "available_warp_modes": {
+        "probed": true,
+        "type": "IntVector",
+        "repr": "<class 'Base.IntVector'>"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "ClipSlot",
+        "repr": "<class 'ClipSlot.ClipSlot'>"
+      },
+      "color": {
+        "probed": true,
+        "type": "int"
+      },
+      "color_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "end_marker": {
+        "probed": true,
+        "type": "float"
+      },
+      "end_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "file_path": {
+        "probed": true,
+        "type": "str"
+      },
+      "gain": {
+        "probed": true,
+        "type": "float"
+      },
+      "gain_display_string": {
+        "probed": true,
+        "type": "str"
+      },
+      "groove": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "has_envelopes": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_groove": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_arrangement_clip": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_audio_clip": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_midi_clip": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_overdubbing": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_playing": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_recording": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_session_clip": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_take_lane_clip": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_triggered": {
+        "probed": true,
+        "type": "bool"
+      },
+      "launch_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "launch_quantization": {
+        "probed": true,
+        "type": "int"
+      },
+      "legato": {
+        "probed": true,
+        "type": "bool"
+      },
+      "length": {
+        "probed": true,
+        "type": "float"
+      },
+      "loop_end": {
+        "probed": true,
+        "type": "float"
+      },
+      "loop_start": {
+        "probed": true,
+        "type": "float"
+      },
+      "looping": {
+        "probed": true,
+        "type": "bool"
+      },
+      "muted": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "pitch_coarse": {
+        "probed": true,
+        "type": "int"
+      },
+      "pitch_fine": {
+        "probed": true,
+        "type": "float"
+      },
+      "playing_position": {
+        "probed": true,
+        "type": "float"
+      },
+      "position": {
+        "probed": true,
+        "type": "float"
+      },
+      "ram_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "sample_length": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_rate": {
+        "probed": true,
+        "type": "float"
+      },
+      "signature_denominator": {
+        "probed": true,
+        "type": "int"
+      },
+      "signature_numerator": {
+        "probed": true,
+        "type": "int"
+      },
+      "start_marker": {
+        "probed": true,
+        "type": "float"
+      },
+      "start_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "velocity_amount": {
+        "probed": true,
+        "type": "float"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Clip.View'>"
+      },
+      "warp_markers": {
+        "probed": true,
+        "type": "WarpMarkerVector",
+        "repr": "<class 'Clip.WarpMarkerVector'>"
+      },
+      "warp_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "warping": {
+        "probed": true,
+        "type": "bool"
+      },
+      "will_record_on_start": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {
+      "get_all_notes_extended": {
+        "probed": true,
+        "type": "MidiNoteVector",
+        "repr": "<class 'Clip.MidiNoteVector'>"
+      },
+      "get_notes": {
+        "probed": false
+      },
+      "get_notes_by_id": {
+        "probed": false
+      },
+      "get_notes_extended": {
+        "probed": false
+      },
+      "get_selected_notes": {
+        "probed": true,
+        "type": "tuple",
+        "repr": "<class 'tuple'>"
+      },
+      "get_selected_notes_extended": {
+        "probed": true,
+        "type": "MidiNoteVector",
+        "repr": "<class 'Clip.MidiNoteVector'>"
+      }
+    }
+  },
+  "<class 'Clip.View'>": {
+    "path": "/Live/Clip/Clip/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Clip",
+        "repr": "<class 'Clip.Clip'>"
+      },
+      "grid_is_triplet": {
+        "probed": true,
+        "type": "bool"
+      },
+      "grid_quantization": {
+        "probed": true,
+        "type": "GridQuantization",
+        "repr": "<class 'Clip.GridQuantization'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Clip.MidiNote'>": {
+    "path": "/Live/Clip/MidiNote",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "duration": {
+        "probed": true,
+        "type": "float"
+      },
+      "mute": {
+        "probed": true,
+        "type": "bool"
+      },
+      "note_id": {
+        "probed": true,
+        "type": "int"
+      },
+      "pitch": {
+        "probed": true,
+        "type": "int"
+      },
+      "probability": {
+        "probed": true,
+        "type": "float"
+      },
+      "release_velocity": {
+        "probed": true,
+        "type": "float"
+      },
+      "start_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "velocity": {
+        "probed": true,
+        "type": "float"
+      },
+      "velocity_deviation": {
+        "probed": true,
+        "type": "float"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Clip.MidiNoteSpecification'>": {
+    "path": "/Live/Clip/MidiNoteSpecification",
+    "complete": true,
+    "constructable": true,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Clip.MidiNoteVector'>": {
+    "path": "/Live/Clip/MidiNoteVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Clip.MidiNote'>"
+  },
+  "<class 'Clip.WarpMarker'>": {
+    "path": "/Live/Clip/WarpMarker",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "beat_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "sample_time": {
+        "probed": true,
+        "type": "float"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Clip.WarpMarkerVector'>": {
+    "path": "/Live/Clip/WarpMarkerVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Clip.WarpMarker'>"
+  },
+  "<class 'ClipSlot.ClipSlot'>": {
+    "path": "/Live/ClipSlot/ClipSlot",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "clip": {
+        "probed": true,
+        "type": "Clip",
+        "repr": "<class 'Clip.Clip'>"
+      },
+      "color": {
+        "probed": true,
+        "type": "int"
+      },
+      "color_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "controls_other_clips": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_clip": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_stop_button": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_group_slot": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_playing": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_recording": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_triggered": {
+        "probed": true,
+        "type": "bool"
+      },
+      "playing_status": {
+        "probed": true,
+        "type": "ClipSlotPlayingState",
+        "repr": "<class 'ClipSlot.ClipSlotPlayingState'>"
+      },
+      "will_record_on_start": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'CompressorDevice.CompressorDevice'>": {
+    "path": "/Live/CompressorDevice/CompressorDevice",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "available_input_routing_channels": {
+        "probed": true,
+        "type": "RoutingChannelVector",
+        "repr": "<class 'Track.RoutingChannelVector'>"
+      },
+      "available_input_routing_types": {
+        "probed": true,
+        "type": "RoutingTypeVector",
+        "repr": "<class 'Track.RoutingTypeVector'>"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "input_routing_channel": {
+        "probed": true,
+        "type": "RoutingChannel",
+        "repr": "<class 'Track.RoutingChannel'>"
+      },
+      "input_routing_type": {
+        "probed": true,
+        "type": "RoutingType",
+        "repr": "<class 'Track.RoutingType'>"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Device.ATimeableValueVector'>": {
+    "path": "/Live/Device/ATimeableValueVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'DeviceParameter.DeviceParameter'>"
+  },
+  "<class 'Device.Device'>": {
+    "path": "/Live/Device/Device",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'DeviceIO.DeviceIO'>": {
+    "path": "/Live/DeviceIO/DeviceIO",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "available_routing_channels": {
+        "probed": true,
+        "type": "RoutingChannelVector",
+        "repr": "<class 'Track.RoutingChannelVector'>"
+      },
+      "available_routing_types": {
+        "probed": true,
+        "type": "RoutingTypeVector",
+        "repr": "<class 'Track.RoutingTypeVector'>"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "MaxDevice",
+        "repr": "<class 'MaxDevice.MaxDevice'>"
+      },
+      "default_external_routing_channel_is_none": {
+        "probed": true,
+        "type": "bool"
+      },
+      "routing_channel": {
+        "probed": true,
+        "type": "RoutingChannel",
+        "repr": "<class 'Track.RoutingChannel'>"
+      },
+      "routing_type": {
+        "probed": true,
+        "type": "RoutingType",
+        "repr": "<class 'Track.RoutingType'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'DeviceParameter.DeviceParameter'>": {
+    "path": "/Live/DeviceParameter/DeviceParameter",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "automation_state": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Device",
+        "repr": "<class 'Device.Device'>"
+      },
+      "default_value": {
+        "probed": true,
+        "type": "float"
+      },
+      "display_value": {
+        "probed": true,
+        "type": "float"
+      },
+      "is_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_quantized": {
+        "probed": true,
+        "type": "bool"
+      },
+      "max": {
+        "probed": true,
+        "type": "float"
+      },
+      "min": {
+        "probed": true,
+        "type": "float"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "original_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "short_value_items": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "state": {
+        "probed": true,
+        "type": "int"
+      },
+      "value": {
+        "probed": true,
+        "type": "float"
+      },
+      "value_items": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'DriftDevice.DriftDevice'>": {
+    "path": "/Live/DriftDevice/DriftDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_filter_source_1_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_filter_source_1_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_filter_source_2_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_filter_source_2_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_lfo_source_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_lfo_source_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_pitch_source_1_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_pitch_source_1_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_pitch_source_2_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_pitch_source_2_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_shape_source_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_shape_source_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_source_1_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_source_1_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_source_2_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_source_2_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_source_3_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_source_3_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_target_1_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_target_1_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_target_2_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_target_2_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_matrix_target_3_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_matrix_target_3_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "pitch_bend_range": {
+        "probed": true,
+        "type": "int"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      },
+      "voice_count_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "voice_count_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "voice_mode_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "voice_mode_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'DrumCellDevice.DrumCellDevice'>": {
+    "path": "/Live/DrumCellDevice/DrumCellDevice",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "gain": {
+        "probed": true,
+        "type": "float"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'DrumChain.DrumChain'>": {
+    "path": "/Live/DrumChain/DrumChain",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "RackDevice",
+        "repr": "<class 'RackDevice.RackDevice'>"
+      },
+      "choke_group": {
+        "probed": true,
+        "type": "int"
+      },
+      "color": {
+        "probed": true,
+        "type": "int"
+      },
+      "color_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "devices": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "has_audio_input": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_audio_output": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_midi_input": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_midi_output": {
+        "probed": true,
+        "type": "bool"
+      },
+      "in_note": {
+        "probed": true,
+        "type": "int"
+      },
+      "is_auto_colored": {
+        "probed": true,
+        "type": "bool"
+      },
+      "mixer_device": {
+        "probed": true,
+        "type": "ChainMixerDevice",
+        "repr": "<class 'ChainMixerDevice.ChainMixerDevice'>"
+      },
+      "mute": {
+        "probed": true,
+        "type": "bool"
+      },
+      "muted_via_solo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "out_note": {
+        "probed": true,
+        "type": "int"
+      },
+      "solo": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'DrumPad.DrumPad'>": {
+    "path": "/Live/DrumPad/DrumPad",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "RackDevice",
+        "repr": "<class 'RackDevice.RackDevice'>"
+      },
+      "chains": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "mute": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "note": {
+        "probed": true,
+        "type": "int"
+      },
+      "solo": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Envelope.Envelope'>": {
+    "path": "/Live/Envelope/Envelope",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Clip",
+        "repr": "<class 'Clip.Clip'>"
+      }
+    },
+    "getters": {
+      "events_in_range": {
+        "probed": true,
+        "type": "EnvelopeEventVector",
+        "repr": "<class 'Envelope.EnvelopeEventVector'>"
+      }
+    }
+  },
+  "<class 'Envelope.EnvelopeEvent'>": {
+    "path": "/Live/Envelope/EnvelopeEvent",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "control_coefficients": {
+        "probed": true,
+        "type": "EnvelopeEventControlCoefficients",
+        "repr": "<class 'Envelope.EnvelopeEventControlCoefficients'>"
+      },
+      "time": {
+        "probed": true,
+        "type": "float"
+      },
+      "value": {
+        "probed": true,
+        "type": "float"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Envelope.EnvelopeEventControlCoefficients'>": {
+    "path": "/Live/Envelope/EnvelopeEventControlCoefficients",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "x1": {
+        "probed": true,
+        "type": "float"
+      },
+      "x2": {
+        "probed": true,
+        "type": "float"
+      },
+      "y1": {
+        "probed": true,
+        "type": "float"
+      },
+      "y2": {
+        "probed": true,
+        "type": "float"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Envelope.EnvelopeEventVector'>": {
+    "path": "/Live/Envelope/EnvelopeEventVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Envelope.EnvelopeEvent'>"
+  },
+  "<class 'Eq8Device.Eq8Device'>": {
+    "path": "/Live/Eq8Device/Eq8Device",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "edit_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "global_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "oversample": {
+        "probed": true,
+        "type": "bool"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Eq8Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Eq8Device.View'>": {
+    "path": "/Live/Eq8Device/Eq8Device/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Eq8Device",
+        "repr": "<class 'Eq8Device.Eq8Device'>"
+      },
+      "is_collapsed": {
+        "probed": true,
+        "type": "bool"
+      },
+      "selected_band": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Groove.Groove'>": {
+    "path": "/Live/Groove/Groove",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "base": {
+        "probed": true,
+        "type": "Base",
+        "repr": "<class 'Groove.Base'>"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "GroovePool",
+        "repr": "<class 'GroovePool.GroovePool'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "quantization_amount": {
+        "probed": true,
+        "type": "float"
+      },
+      "random_amount": {
+        "probed": true,
+        "type": "float"
+      },
+      "timing_amount": {
+        "probed": true,
+        "type": "float"
+      },
+      "velocity_amount": {
+        "probed": true,
+        "type": "float"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'GroovePool.GroovePool'>": {
+    "path": "/Live/GroovePool/GroovePool",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "grooves": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'HybridReverbDevice.HybridReverbDevice'>": {
+    "path": "/Live/HybridReverbDevice/HybridReverbDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "ir_attack_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "ir_category_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "ir_category_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "ir_decay_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "ir_file_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "ir_file_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "ir_size_factor": {
+        "probed": true,
+        "type": "float"
+      },
+      "ir_time_shaping_on": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Licensing.ProgressDialog'>": {
+    "path": "/Live/Licensing/ProgressDialog",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Licensing.PythonLicensingBridge'>": {
+    "path": "/Live/Licensing/PythonLicensingBridge",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "base_product_id": {
+        "probed": false
+      },
+      "in_sassafras_mode": {
+        "probed": false
+      },
+      "license_must_match_variant": {
+        "probed": false
+      },
+      "random_number_for_trial_authorization": {
+        "probed": false
+      },
+      "set_has_unsaved_changes": {
+        "probed": false
+      }
+    },
+    "getters": {
+      "get_progress_dialog": {
+        "probed": false
+      },
+      "get_session_id": {
+        "probed": false
+      },
+      "get_startup_dialog": {
+        "probed": false
+      },
+      "get_trial_time_left": {
+        "probed": false
+      }
+    }
+  },
+  "<class 'Licensing.StartupDialogServes as an entry point for the user to authorize Live on first launch.'>": {
+    "path": "/Live/Licensing/StartupDialogServes as an entry point for the user to authorize Live on first launch.",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'Licensing.UnlockStatus'>": {
+    "path": "/Live/Licensing/UnlockStatus",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "authorization_deactivated": {
+        "probed": true,
+        "type": "bool"
+      },
+      "authorization_expired": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_max_unlock_products": {
+        "probed": true,
+        "type": "bool"
+      },
+      "temp_demo_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "time_limited": {
+        "probed": true,
+        "type": "bool"
+      },
+      "unlock_error": {
+        "probed": true,
+        "type": "bool"
+      },
+      "unlocked": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Listener.ListenerHandle'>": {
+    "path": "/Live/Listener/ListenerHandle",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "listener_func": {
+        "probed": false
+      },
+      "listener_self": {
+        "probed": false
+      },
+      "name": {
+        "probed": false
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Listener.ListenerVector'>": {
+    "path": "/Live/Listener/ListenerVector",
+    "complete": false,
+    "constructable": false,
+    "properties": {},
+    "getters": {}
+  },
+  "<class 'LomObject.LomObject'>": {
+    "path": "/Live/LomObject/LomObject",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": false
+      }
+    },
+    "getters": {}
+  },
+  "<class 'LooperDevice.LooperDevice'>": {
+    "path": "/Live/LooperDevice/LooperDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "loop_length": {
+        "probed": true,
+        "type": "float"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "overdub_after_record": {
+        "probed": true,
+        "type": "bool"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "record_length_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "record_length_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "tempo": {
+        "probed": true,
+        "type": "float"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'MaxDevice.MaxDevice'>": {
+    "path": "/Live/MaxDevice/MaxDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "audio_inputs": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "audio_outputs": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": false
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "midi_inputs": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "midi_outputs": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {
+      "get_bank_count": {
+        "probed": true,
+        "type": "int"
+      },
+      "get_bank_name": {
+        "probed": false
+      },
+      "get_bank_parameters": {
+        "probed": false
+      },
+      "get_value_item_icons": {
+        "probed": false
+      }
+    }
+  },
+  "<class 'MeldDevice.MeldDevice'>": {
+    "path": "/Live/MeldDevice/MeldDevice",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "mono_poly": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "poly_voices": {
+        "probed": true,
+        "type": "int"
+      },
+      "selected_engine": {
+        "probed": true,
+        "type": "bool"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "unison_voices": {
+        "probed": true,
+        "type": "int"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'MidiMap.CCFeedbackRule'>": {
+    "path": "/Live/MidiMap/CCFeedbackRule",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "cc_no": {
+        "probed": true,
+        "type": "int"
+      },
+      "cc_value_map": {
+        "probed": true,
+        "type": "tuple",
+        "repr": "<class 'tuple'>"
+      },
+      "channel": {
+        "probed": true,
+        "type": "int"
+      },
+      "delay_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "enabled": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'MidiMap.NoteFeedbackRule'>": {
+    "path": "/Live/MidiMap/NoteFeedbackRule",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "channel": {
+        "probed": true,
+        "type": "int"
+      },
+      "delay_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "note_no": {
+        "probed": true,
+        "type": "int"
+      },
+      "vel_map": {
+        "probed": true,
+        "type": "tuple",
+        "repr": "<class 'tuple'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'MidiMap.PitchBendFeedbackRule'>": {
+    "path": "/Live/MidiMap/PitchBendFeedbackRule",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "channel": {
+        "probed": true,
+        "type": "int"
+      },
+      "delay_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "value_pair_map": {
+        "probed": true,
+        "type": "tuple",
+        "repr": "<class 'tuple'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'MixerDevice.MixerDevice'>": {
+    "path": "/Live/MixerDevice/MixerDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "crossfade_assign": {
+        "probed": true,
+        "type": "int"
+      },
+      "crossfader": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "cue_volume": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "left_split_stereo": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "panning": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "panning_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "right_split_stereo": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "sends": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "song_tempo": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "track_activator": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "volume": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'PluginDevice.PluginDevice'>": {
+    "path": "/Live/PluginDevice/PluginDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": false
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "presets": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "selected_preset_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {
+      "get_parameter_names": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      }
+    }
+  },
+  "<class 'RackDevice.RackDevice'>": {
+    "path": "/Live/RackDevice/RackDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_show_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "chain_selector": {
+        "probed": true,
+        "type": "DeviceParameter",
+        "repr": "<class 'DeviceParameter.DeviceParameter'>"
+      },
+      "chains": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "drum_pads": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "has_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_macro_mappings": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_showing_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": false
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "macros_mapped": {
+        "probed": true,
+        "type": "tuple",
+        "repr": "<class 'tuple'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "return_chains": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "selected_variation_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "variation_count": {
+        "probed": true,
+        "type": "int"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'RackDevice.View'>"
+      },
+      "visible_drum_pads": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "visible_macro_count": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'RackDevice.View'>": {
+    "path": "/Live/RackDevice/RackDevice/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "RackDevice",
+        "repr": "<class 'RackDevice.RackDevice'>"
+      },
+      "drum_pads_scroll_position": {
+        "probed": true,
+        "type": "int"
+      },
+      "is_collapsed": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_showing_chain_devices": {
+        "probed": true,
+        "type": "bool"
+      },
+      "selected_chain": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "selected_drum_pad": {
+        "probed": true,
+        "type": "DrumPad",
+        "repr": "<class 'DrumPad.DrumPad'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'RoarDevice.RoarDevice'>": {
+    "path": "/Live/RoarDevice/RoarDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "env_listen": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "routing_mode_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "routing_mode_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Sample.Sample'>": {
+    "path": "/Live/Sample/Sample",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "beats_granulation_resolution": {
+        "probed": true,
+        "type": "int"
+      },
+      "beats_transient_envelope": {
+        "probed": true,
+        "type": "float"
+      },
+      "beats_transient_loop_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "SimplerDevice",
+        "repr": "<class 'SimplerDevice.SimplerDevice'>"
+      },
+      "complex_pro_envelope": {
+        "probed": true,
+        "type": "float"
+      },
+      "complex_pro_formants": {
+        "probed": true,
+        "type": "float"
+      },
+      "end_marker": {
+        "probed": true,
+        "type": "int"
+      },
+      "file_path": {
+        "probed": true,
+        "type": "str"
+      },
+      "gain": {
+        "probed": true,
+        "type": "float"
+      },
+      "length": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_rate": {
+        "probed": true,
+        "type": "float"
+      },
+      "slices": {
+        "probed": true,
+        "type": "tuple",
+        "repr": "<class 'tuple'>"
+      },
+      "slicing_beat_division": {
+        "probed": true,
+        "type": "int"
+      },
+      "slicing_region_count": {
+        "probed": true,
+        "type": "int"
+      },
+      "slicing_sensitivity": {
+        "probed": true,
+        "type": "float"
+      },
+      "slicing_style": {
+        "probed": true,
+        "type": "int"
+      },
+      "start_marker": {
+        "probed": true,
+        "type": "int"
+      },
+      "texture_flux": {
+        "probed": true,
+        "type": "float"
+      },
+      "texture_grain_size": {
+        "probed": true,
+        "type": "float"
+      },
+      "tones_grain_size": {
+        "probed": true,
+        "type": "float"
+      },
+      "warp_markers": {
+        "probed": true,
+        "type": "WarpMarkerVector",
+        "repr": "<class 'Clip.WarpMarkerVector'>"
+      },
+      "warp_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "warping": {
+        "probed": true,
+        "type": "bool"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Scene.Scene'>": {
+    "path": "/Live/Scene/Scene",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "clip_slots": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "color": {
+        "probed": true,
+        "type": "int"
+      },
+      "color_index": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "is_empty": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_triggered": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "tempo": {
+        "probed": true,
+        "type": "float"
+      },
+      "tempo_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "time_signature_denominator": {
+        "probed": true,
+        "type": "int"
+      },
+      "time_signature_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "time_signature_numerator": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'ShifterDevice.ShifterDevice'>": {
+    "path": "/Live/ShifterDevice/ShifterDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "pitch_bend_range": {
+        "probed": true,
+        "type": "int"
+      },
+      "pitch_mode_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "pitch_mode_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'SimplerDevice.SimplerDevice'>": {
+    "path": "/Live/SimplerDevice/SimplerDevice",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_warp_as": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_warp_double": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_warp_half": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "multi_sample_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "note_pitch_bend_range": {
+        "probed": true,
+        "type": "int"
+      },
+      "pad_slicing": {
+        "probed": true,
+        "type": "bool"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "pitch_bend_range": {
+        "probed": true,
+        "type": "int"
+      },
+      "playback_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "playing_position": {
+        "probed": true,
+        "type": "float"
+      },
+      "playing_position_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "retrigger": {
+        "probed": true,
+        "type": "bool"
+      },
+      "sample": {
+        "probed": true,
+        "type": "Sample",
+        "repr": "<class 'Sample.Sample'>"
+      },
+      "slicing_playback_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'SimplerDevice.View'>"
+      },
+      "voices": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'SimplerDevice.View'>": {
+    "path": "/Live/SimplerDevice/SimplerDevice/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "SimplerDevice",
+        "repr": "<class 'SimplerDevice.SimplerDevice'>"
+      },
+      "is_collapsed": {
+        "probed": true,
+        "type": "bool"
+      },
+      "sample_end": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_env_fade_in": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_env_fade_out": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_loop_end": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_loop_fade": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_loop_start": {
+        "probed": true,
+        "type": "int"
+      },
+      "sample_start": {
+        "probed": true,
+        "type": "int"
+      },
+      "selected_slice": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Song.BeatTime'>": {
+    "path": "/Live/Song/BeatTime",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "bars": {
+        "probed": true,
+        "type": "int"
+      },
+      "beats": {
+        "probed": true,
+        "type": "int"
+      },
+      "sub_division": {
+        "probed": true,
+        "type": "int"
+      },
+      "ticks": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Song.CuePoint'>": {
+    "path": "/Live/Song/CuePoint",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "time": {
+        "probed": true,
+        "type": "float"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Song.SmptTime'>": {
+    "path": "/Live/Song/SmptTime",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "frames": {
+        "probed": true,
+        "type": "int"
+      },
+      "hours": {
+        "probed": true,
+        "type": "int"
+      },
+      "minutes": {
+        "probed": true,
+        "type": "int"
+      },
+      "seconds": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Song.Song'>": {
+    "path": "/Live/Song/Song",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "appointed_device": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "arrangement_overdub": {
+        "probed": true,
+        "type": "bool"
+      },
+      "back_to_arranger": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_capture_midi": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_jump_to_next_cue": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_jump_to_prev_cue": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_redo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_undo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "clip_trigger_quantization": {
+        "probed": true,
+        "type": "Quantization",
+        "repr": "<class 'Song.Quantization'>"
+      },
+      "count_in_duration": {
+        "probed": true,
+        "type": "int"
+      },
+      "cue_points": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "current_song_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "exclusive_arm": {
+        "probed": true,
+        "type": "bool"
+      },
+      "exclusive_solo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "file_path": {
+        "probed": true,
+        "type": "str"
+      },
+      "groove_amount": {
+        "probed": true,
+        "type": "float"
+      },
+      "groove_pool": {
+        "probed": true,
+        "type": "GroovePool",
+        "repr": "<class 'GroovePool.GroovePool'>"
+      },
+      "is_ableton_link_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_ableton_link_start_stop_sync_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_counting_in": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_playing": {
+        "probed": true,
+        "type": "bool"
+      },
+      "last_event_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "loop": {
+        "probed": true,
+        "type": "bool"
+      },
+      "loop_length": {
+        "probed": true,
+        "type": "float"
+      },
+      "loop_start": {
+        "probed": true,
+        "type": "float"
+      },
+      "master_track": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "metronome": {
+        "probed": true,
+        "type": "bool"
+      },
+      "midi_recording_quantization": {
+        "probed": true,
+        "type": "RecordingQuantization",
+        "repr": "<class 'Song.RecordingQuantization'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "nudge_down": {
+        "probed": true,
+        "type": "bool"
+      },
+      "nudge_up": {
+        "probed": true,
+        "type": "bool"
+      },
+      "overdub": {
+        "probed": true,
+        "type": "bool"
+      },
+      "punch_in": {
+        "probed": true,
+        "type": "bool"
+      },
+      "punch_out": {
+        "probed": true,
+        "type": "bool"
+      },
+      "re_enable_automation_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "record_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "return_tracks": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "root_note": {
+        "probed": true,
+        "type": "int"
+      },
+      "scale_intervals": {
+        "probed": true,
+        "type": "IntVector",
+        "repr": "<class 'Base.IntVector'>"
+      },
+      "scale_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "scale_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "scenes": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "select_on_launch": {
+        "probed": true,
+        "type": "bool"
+      },
+      "session_automation_record": {
+        "probed": true,
+        "type": "bool"
+      },
+      "session_record": {
+        "probed": true,
+        "type": "bool"
+      },
+      "session_record_status": {
+        "probed": true,
+        "type": "int"
+      },
+      "signature_denominator": {
+        "probed": true,
+        "type": "int"
+      },
+      "signature_numerator": {
+        "probed": true,
+        "type": "int"
+      },
+      "song_length": {
+        "probed": true,
+        "type": "float"
+      },
+      "start_time": {
+        "probed": true,
+        "type": "float"
+      },
+      "swing_amount": {
+        "probed": true,
+        "type": "float"
+      },
+      "tempo": {
+        "probed": true,
+        "type": "float"
+      },
+      "tempo_follower_enabled": {
+        "probed": true,
+        "type": "bool"
+      },
+      "tracks": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "tuning_system": {
+        "probed": true,
+        "type": "TuningSystem",
+        "repr": "<class 'TuningSystem.TuningSystem'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Song.View'>"
+      },
+      "visible_tracks": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      }
+    },
+    "getters": {
+      "get_beats_loop_length": {
+        "probed": true,
+        "type": "BeatTime",
+        "repr": "<class 'Song.BeatTime'>"
+      },
+      "get_beats_loop_start": {
+        "probed": true,
+        "type": "BeatTime",
+        "repr": "<class 'Song.BeatTime'>"
+      },
+      "get_current_beats_song_time": {
+        "probed": true,
+        "type": "BeatTime",
+        "repr": "<class 'Song.BeatTime'>"
+      },
+      "get_current_smpte_song_time": {
+        "probed": false
+      },
+      "get_data": {
+        "probed": false
+      }
+    }
+  },
+  "<class 'Song.View'>": {
+    "path": "/Live/Song/Song/View",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "detail_clip": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "draw_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "follow_song": {
+        "probed": true,
+        "type": "bool"
+      },
+      "highlighted_clip_slot": {
+        "probed": true,
+        "type": "ClipSlot",
+        "repr": "<class 'ClipSlot.ClipSlot'>"
+      },
+      "selected_chain": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "selected_parameter": {
+        "probed": true,
+        "type": "NoneType"
+      },
+      "selected_scene": {
+        "probed": true,
+        "type": "Scene",
+        "repr": "<class 'Scene.Scene'>"
+      },
+      "selected_track": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'SpectralResonatorDevice.SpectralResonatorDevice'>": {
+    "path": "/Live/SpectralResonatorDevice/SpectralResonatorDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "frequency_dial_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "frequency_dial_mode_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "midi_gate": {
+        "probed": true,
+        "type": "int"
+      },
+      "midi_gate_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mod_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "mod_mode_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "mono_poly": {
+        "probed": true,
+        "type": "int"
+      },
+      "mono_poly_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "pitch_bend_range": {
+        "probed": true,
+        "type": "int"
+      },
+      "pitch_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "pitch_mode_list": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "polyphony": {
+        "probed": true,
+        "type": "int"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'TakeLane.TakeLane'>": {
+    "path": "/Live/TakeLane/TakeLane",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "arrangement_clips": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Track.DeviceContainer'>": {
+    "path": "/Live/Track/DeviceContainer",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": false
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Track.RoutingChannel'>": {
+    "path": "/Live/Track/RoutingChannel",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "layout": {
+        "probed": true,
+        "type": "RoutingChannelLayout",
+        "repr": "<class 'Track.RoutingChannelLayout'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Track.RoutingChannelVector'>": {
+    "path": "/Live/Track/RoutingChannelVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Track.RoutingChannel'>"
+  },
+  "<class 'Track.RoutingType'>": {
+    "path": "/Live/Track/RoutingType",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "attached_object": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "category": {
+        "probed": true,
+        "type": "int"
+      },
+      "display_name": {
+        "probed": true,
+        "type": "str"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'Track.RoutingTypeVector'>": {
+    "path": "/Live/Track/RoutingTypeVector",
+    "complete": true,
+    "constructable": false,
+    "properties": {},
+    "getters": {},
+    "element_repr": "<class 'Track.RoutingType'>"
+  },
+  "<class 'Track.Track'>": {
+    "path": "/Live/Track/Track",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "arm": {
+        "probed": true,
+        "type": "bool"
+      },
+      "arrangement_clips": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "available_input_routing_channels": {
+        "probed": true,
+        "type": "RoutingChannelVector",
+        "repr": "<class 'Track.RoutingChannelVector'>"
+      },
+      "available_input_routing_types": {
+        "probed": true,
+        "type": "RoutingTypeVector",
+        "repr": "<class 'Track.RoutingTypeVector'>"
+      },
+      "available_output_routing_channels": {
+        "probed": true,
+        "type": "RoutingChannelVector",
+        "repr": "<class 'Track.RoutingChannelVector'>"
+      },
+      "available_output_routing_types": {
+        "probed": true,
+        "type": "RoutingTypeVector",
+        "repr": "<class 'Track.RoutingTypeVector'>"
+      },
+      "back_to_arranger": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_be_armed": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_be_frozen": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_show_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "clip_slots": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "color": {
+        "probed": true,
+        "type": "int"
+      },
+      "color_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "current_input_routing": {
+        "probed": true,
+        "type": "str"
+      },
+      "current_input_sub_routing": {
+        "probed": true,
+        "type": "str"
+      },
+      "current_monitoring_state": {
+        "probed": true,
+        "type": "int"
+      },
+      "current_output_routing": {
+        "probed": true,
+        "type": "str"
+      },
+      "current_output_sub_routing": {
+        "probed": true,
+        "type": "str"
+      },
+      "devices": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "fired_slot_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "fold_state": {
+        "probed": true,
+        "type": "bool"
+      },
+      "group_track": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "has_audio_input": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_audio_output": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_midi_input": {
+        "probed": true,
+        "type": "bool"
+      },
+      "has_midi_output": {
+        "probed": true,
+        "type": "bool"
+      },
+      "implicit_arm": {
+        "probed": true,
+        "type": "bool"
+      },
+      "input_meter_left": {
+        "probed": true,
+        "type": "float"
+      },
+      "input_meter_level": {
+        "probed": true,
+        "type": "float"
+      },
+      "input_meter_right": {
+        "probed": true,
+        "type": "float"
+      },
+      "input_routing_channel": {
+        "probed": true,
+        "type": "RoutingChannel",
+        "repr": "<class 'Track.RoutingChannel'>"
+      },
+      "input_routing_type": {
+        "probed": true,
+        "type": "RoutingType",
+        "repr": "<class 'Track.RoutingType'>"
+      },
+      "input_routings": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "input_sub_routings": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "is_foldable": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_frozen": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_grouped": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_part_of_selection": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_showing_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_visible": {
+        "probed": true,
+        "type": "bool"
+      },
+      "mixer_device": {
+        "probed": true,
+        "type": "MixerDevice",
+        "repr": "<class 'MixerDevice.MixerDevice'>"
+      },
+      "mute": {
+        "probed": true,
+        "type": "bool"
+      },
+      "muted_via_solo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "output_meter_left": {
+        "probed": true,
+        "type": "float"
+      },
+      "output_meter_level": {
+        "probed": true,
+        "type": "float"
+      },
+      "output_meter_right": {
+        "probed": true,
+        "type": "float"
+      },
+      "output_routing_channel": {
+        "probed": true,
+        "type": "RoutingChannel",
+        "repr": "<class 'Track.RoutingChannel'>"
+      },
+      "output_routing_type": {
+        "probed": true,
+        "type": "RoutingType",
+        "repr": "<class 'Track.RoutingType'>"
+      },
+      "output_routings": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "output_sub_routings": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "performance_impact": {
+        "probed": true,
+        "type": "float"
+      },
+      "playing_slot_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "solo": {
+        "probed": true,
+        "type": "bool"
+      },
+      "take_lanes": {
+        "probed": true,
+        "type": "Vector",
+        "repr": "<class 'Base.Vector'>"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Track.View'>"
+      }
+    },
+    "getters": {
+      "get_data": {
+        "probed": false
+      }
+    }
+  },
+  "<class 'Track.View'>": {
+    "path": "/Live/Track/Track/View",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "device_insert_mode": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_collapsed": {
+        "probed": true,
+        "type": "bool"
+      },
+      "selected_device": {
+        "probed": true,
+        "type": "Device",
+        "repr": "<class 'Device.Device'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'TuningSystem.PitchClassAndOctave'>": {
+    "path": "/Live/TuningSystem/PitchClassAndOctave",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "index_in_octave": {
+        "probed": true,
+        "type": "int"
+      },
+      "octave": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'TuningSystem.ReferencePitch'>": {
+    "path": "/Live/TuningSystem/ReferencePitch",
+    "complete": true,
+    "constructable": true,
+    "properties": {
+      "frequency": {
+        "probed": true,
+        "type": "float"
+      },
+      "index_in_octave": {
+        "probed": true,
+        "type": "int"
+      },
+      "octave": {
+        "probed": true,
+        "type": "int"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'TuningSystem.TuningSystem'>": {
+    "path": "/Live/TuningSystem/TuningSystem",
+    "complete": true,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Song",
+        "repr": "<class 'Song.Song'>"
+      },
+      "highest_note": {
+        "probed": true,
+        "type": "PitchClassAndOctave",
+        "repr": "<class 'TuningSystem.PitchClassAndOctave'>"
+      },
+      "lowest_note": {
+        "probed": true,
+        "type": "PitchClassAndOctave",
+        "repr": "<class 'TuningSystem.PitchClassAndOctave'>"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "note_tunings": {
+        "probed": true,
+        "type": "list",
+        "repr": "<class 'list'>"
+      },
+      "number_of_notes_in_pseudo_octave": {
+        "probed": true,
+        "type": "int"
+      },
+      "pseudo_octave_in_cents": {
+        "probed": true,
+        "type": "float"
+      },
+      "reference_pitch": {
+        "probed": true,
+        "type": "ReferencePitch",
+        "repr": "<class 'TuningSystem.ReferencePitch'>"
+      }
+    },
+    "getters": {}
+  },
+  "<class 'WavetableDevice.WavetableDevice'>": {
+    "path": "/Live/WavetableDevice/WavetableDevice",
+    "complete": false,
+    "constructable": false,
+    "properties": {
+      "_live_ptr": {
+        "probed": true,
+        "type": "int"
+      },
+      "can_compare_ab": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_chains": {
+        "probed": true,
+        "type": "bool"
+      },
+      "can_have_drum_pads": {
+        "probed": true,
+        "type": "bool"
+      },
+      "canonical_parent": {
+        "probed": true,
+        "type": "Track",
+        "repr": "<class 'Track.Track'>"
+      },
+      "class_display_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "class_name": {
+        "probed": true,
+        "type": "str"
+      },
+      "filter_routing": {
+        "probed": true,
+        "type": "int"
+      },
+      "is_active": {
+        "probed": true,
+        "type": "bool"
+      },
+      "is_using_compare_preset_b": {
+        "probed": true,
+        "type": "bool"
+      },
+      "latency_in_ms": {
+        "probed": true,
+        "type": "float"
+      },
+      "latency_in_samples": {
+        "probed": true,
+        "type": "int"
+      },
+      "mono_poly": {
+        "probed": true,
+        "type": "int"
+      },
+      "name": {
+        "probed": true,
+        "type": "str"
+      },
+      "oscillator_1_effect_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "oscillator_1_wavetable_category": {
+        "probed": true,
+        "type": "int"
+      },
+      "oscillator_1_wavetable_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "oscillator_1_wavetables": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "oscillator_2_effect_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "oscillator_2_wavetable_category": {
+        "probed": true,
+        "type": "int"
+      },
+      "oscillator_2_wavetable_index": {
+        "probed": true,
+        "type": "int"
+      },
+      "oscillator_2_wavetables": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "oscillator_wavetable_categories": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      },
+      "parameters": {
+        "probed": true,
+        "type": "ATimeableValueVector",
+        "repr": "<class 'Device.ATimeableValueVector'>"
+      },
+      "poly_voices": {
+        "probed": true,
+        "type": "int"
+      },
+      "type": {
+        "probed": true,
+        "type": "DeviceType",
+        "repr": "<class 'Device.DeviceType'>"
+      },
+      "unison_mode": {
+        "probed": true,
+        "type": "int"
+      },
+      "unison_voice_count": {
+        "probed": true,
+        "type": "int"
+      },
+      "view": {
+        "probed": true,
+        "type": "View",
+        "repr": "<class 'Device.View'>"
+      },
+      "visible_modulation_target_names": {
+        "probed": true,
+        "type": "StringVector",
+        "repr": "<class 'Base.StringVector'>"
+      }
+    },
+    "getters": {
+      "get_modulation_target_parameter_name": {
+        "probed": false
+      },
+      "get_modulation_value": {
+        "probed": false
+      }
+    }
+  }
+}
