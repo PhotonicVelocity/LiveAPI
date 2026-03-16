@@ -460,7 +460,7 @@ class Sample:
         ...
 
     @property
-    def slices(self) -> tuple[float, ...]:
+    def slices(self) -> tuple[int, ...]:
         """Access to the list of slice points in sample time in the sample."""
         ...
 

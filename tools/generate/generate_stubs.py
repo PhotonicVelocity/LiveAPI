@@ -403,7 +403,7 @@ class StubGenerator:
                     if elem:
                         type_str = f"Vector[{elem}]"
 
-        if type_str == "tuple":
+        if type_str in ("tuple", "list"):
             element_repr = node.get("element_repr")
             if element_repr:
                 m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
@@ -412,7 +412,7 @@ class StubGenerator:
                         m.group(1), containing_class=containing_class, probed_repr=element_repr,
                     )
                     if elem:
-                        type_str = f"tuple[{elem}, ...]"
+                        type_str = f"tuple[{elem}, ...]" if type_str == "tuple" else f"list[{elem}]"
 
         # Getter
         ret_annotation = f" -> {type_str}" if type_str else ""

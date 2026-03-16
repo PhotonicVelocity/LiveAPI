@@ -1760,7 +1760,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "tuple[tuple[int, float], ...]"
+                  "type": "tuple[tuple[int, Any], ...]"
                 }
               },
               {
@@ -2005,7 +2005,7 @@
                   },
                   {
                     "name": "value",
-                    "type": "tuple[int, ...]",
+                    "type": "tuple[Any, ...]",
                     "optional": false,
                     "default": null
                   }
@@ -7816,7 +7816,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   },
@@ -8141,7 +8141,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   }
@@ -9720,7 +9720,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   }
@@ -10369,7 +10369,7 @@
                   },
                   {
                     "name": "note_ids",
-                    "type": "Iterable[int]",
+                    "type": "list[int]",
                     "optional": false,
                     "default": null
                   }
@@ -11472,7 +11472,7 @@
                     "default": null
                   },
                   {
-                    "name": "path",
+                    "name": "file_path",
                     "type": "str",
                     "optional": false,
                     "default": null
@@ -20910,13 +20910,13 @@
                   },
                   {
                     "name": "authorize_callable",
-                    "type": "Callable[[], None]",
+                    "type": "Callable",
                     "optional": false,
                     "default": null
                   },
                   {
                     "name": "authorize_later_callable",
-                    "type": "Callable[[], None]",
+                    "type": "Callable",
                     "optional": false,
                     "default": null
                   }
@@ -21022,7 +21022,7 @@
                   },
                   {
                     "name": "license_response_lines",
-                    "type": "list",
+                    "type": "list[str]",
                     "optional": false,
                     "default": null
                   }
@@ -21140,7 +21140,7 @@
                   },
                   {
                     "name": "callback",
-                    "type": "Callable[[], None] | None",
+                    "type": "Callable | None",
                     "optional": false,
                     "default": null
                   },
@@ -21542,7 +21542,7 @@
               "<class 'Boost.Python.instance'>"
             ],
             "iterable": true,
-            "element_repr": "<class 'ListenerHandle.ListenerHandle'>",
+            "element_repr": "<class 'ListenerHandle'>",
             "children": [
               {
                 "name": "append",
@@ -22975,7 +22975,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "list"
+                  "type": "list[int]"
                 }
               },
               {
@@ -23002,7 +23002,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "list"
+                  "type": "list[str]"
                 }
               },
               {
@@ -24221,7 +24221,7 @@
                 "raw_doc": null,
                 "probed_type": "tuple",
                 "probed_repr": "<class 'tuple'>",
-                "element_repr": "<class 'int'>"
+                "element_repr": "<class 'tuple'>"
               }
             ]
           },
@@ -44491,7 +44491,7 @@
                     "default": null
                   },
                   {
-                    "name": "position",
+                    "name": "start_time",
                     "type": "float",
                     "optional": false,
                     "default": null

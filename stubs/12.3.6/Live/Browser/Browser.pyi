@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import BrowserItem, BrowserItemVector, Relation
+    from Live.Device import Device
 
 
 
@@ -82,12 +83,12 @@ class Browser:
         ...
 
     @property
-    def hotswap_target(self) -> None:
+    def hotswap_target(self) -> Device:
         """Bang triggered when the hotswap target has changed."""
         ...
 
     @hotswap_target.setter
-    def hotswap_target(self, value: None) -> None: ...
+    def hotswap_target(self, value: Device) -> None: ...
 
     def hotswap_target_has_listener(self, callback: Callable | None) -> bool:
         """

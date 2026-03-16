@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
-    from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
 
 
@@ -49,7 +48,7 @@ class DrumPad:
         ...
 
     @property
-    def chains(self) -> Vector[LomObject]:
+    def chains(self) -> Vector:
         """Return const access to the list of chains in this drum pad."""
         ...
 

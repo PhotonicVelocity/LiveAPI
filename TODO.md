@@ -71,14 +71,11 @@ Root cause: `PropertyProbe` records whatever type it sees at probe time. If the 
 during probing, `probed_type` is `NoneType`. Fix likely belongs in the probe (re-probe on non-None
 instances) or as a post-processing step that recognizes nullable patterns.
 
-## 9. Parameterize bare `list` returns
+## ~~9. Parameterize bare `list` returns~~ ✓
 
-3 functions return bare `list` without element type:
-
-- `MaxDevice.get_bank_parameters() -> list` → `list[int]`
-- `MaxDevice.get_value_item_icons() -> list` → `list[str]`
-- `TuningSystem.note_tunings -> list` → `list[float]`
-
-These likely need LLM resolution or probe data to determine element types.
+Done — added `"list"` to unresolved types in `extract_unresolved.py`. LLM resolved function args/returns.
+Generator now parameterizes `list` properties using `element_repr` (same pattern as tuple).
 
 ## 10. Classes are missing inheritance in stubs
+
+## 11. `BrowserItemIterator` gets inheritance from `Vector[BrowserItem]`

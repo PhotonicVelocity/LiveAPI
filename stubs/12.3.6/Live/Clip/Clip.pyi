@@ -7,6 +7,7 @@ if TYPE_CHECKING:
     from Live.ClipSlot import ClipSlot
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
+    from Live.Groove import Groove
     from Live.Track import Track
 
 
@@ -50,7 +51,7 @@ class Clip:
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, device_parameter: DeviceParameter | None) -> None:
+        def select_envelope_parameter(self, parameter: DeviceParameter | None) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -422,7 +423,7 @@ class Clip:
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: Iterable[int] | None, destination_time: float | None = None, transposition_amount: int = 0) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: list[int] | None, destination_time: float | None = None, transposition_amount: int = 0) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -528,7 +529,7 @@ class Clip:
         """
         ...
 
-    def get_notes_by_id(self, note_ids: Iterable[int] | None) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: list[int] | None) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
@@ -559,12 +560,12 @@ class Clip:
         ...
 
     @property
-    def groove(self) -> None:
+    def groove(self) -> Groove:
         """Get the groove associated with this clip."""
         ...
 
     @groove.setter
-    def groove(self, value: None) -> None: ...
+    def groove(self, value: Groove) -> None: ...
 
     def groove_has_listener(self, callback: Callable | None) -> bool:
         """
@@ -1074,7 +1075,7 @@ class Clip:
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: Iterable[int] | None) -> None:
+    def remove_notes_by_id(self, note_ids: list[int] | None) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1257,7 +1258,7 @@ class Clip:
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: Iterable[int] | None) -> None:
+    def select_notes_by_id(self, note_ids: list[int] | None) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 

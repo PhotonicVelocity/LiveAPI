@@ -106,12 +106,12 @@ class TuningSystem:
         ...
 
     @property
-    def note_tunings(self) -> list:
+    def note_tunings(self) -> list[float]:
         """Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament."""
         ...
 
     @note_tunings.setter
-    def note_tunings(self, value: list) -> None: ...
+    def note_tunings(self, value: list[float]) -> None: ...
 
     def note_tunings_has_listener(self, callback: Callable | None) -> bool:
         """

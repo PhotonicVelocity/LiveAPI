@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from Live.Chain import Chain
     from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
-    from Live.LomObject import LomObject
 
 
 
@@ -50,7 +49,7 @@ class ChainMixerDevice:
         ...
 
     @property
-    def sends(self) -> Vector[LomObject]:
+    def sends(self) -> Vector:
         """Const access to the Chain's list of Send Amount Device Parameters."""
         ...
 

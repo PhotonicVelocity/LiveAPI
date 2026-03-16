@@ -86,7 +86,7 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
 
         needs: list[str] = []
 
-        if atype in ("object", "tuple", "LomObject"):
+        if atype in ("object", "tuple", "list", "LomObject"):
             needs.append("type")
         if _ARGX_RE.match(aname):
             needs.append("name")
@@ -97,7 +97,7 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
             entry["needs"] = needs
 
     returns = node.get("returns")
-    if returns and returns.get("type") in ("object", "tuple", "LomObject"):
+    if returns and returns.get("type") in ("object", "tuple", "list", "LomObject"):
         returns_out = {"current_type": returns["type"], "needs": ["type"]}
 
     if not args_out and not returns_out:
@@ -142,7 +142,7 @@ def _check_property(node: dict, path: str, items: dict[str, dict], iterable_clas
     elif not node.get("element_repr"):
         # Skip if the class itself already has element_repr resolved
         class_resolved = iterable_classes.get(probed, False)
-        if (probed in iterable_classes or probed == "tuple") and not class_resolved:
+        if (probed in iterable_classes or probed in ("tuple", "list")) and not class_resolved:
             entry = {
                 "probed_type": probed,
                 "needs": ["element_repr"],

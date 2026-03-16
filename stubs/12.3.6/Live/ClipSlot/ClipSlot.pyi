@@ -113,7 +113,7 @@ class ClipSlot:
         """
         ...
 
-    def create_audio_clip(self, path: str | None) -> Clip:
+    def create_audio_clip(self, file_path: str | None) -> Clip:
         """
         Creates an audio clip referencing the file at the given absolute path in the slot.
         Throws an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.

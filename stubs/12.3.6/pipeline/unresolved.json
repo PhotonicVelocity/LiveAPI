@@ -1048,6 +1048,19 @@
       ],
       "raw_doc": "Returns a bool indicating if we require the license information returned by the server to match the variant of Live."
     },
+    "Live.Licensing.PythonLicensingBridge.process_license_response": {
+      "description": "Processes a list of strings, each representing a server response to a product authorization.",
+      "signature": "process_license_response( (PythonLicensingBridge)arg1, (list)license_response_lines) -> UnlockStatus :",
+      "cpp_signature": "TUnlockStatus process_license_response(APythonLicensingBridge {lvalue},boost::python::list)",
+      "args": {
+        "license_response_lines": {
+          "current_type": "list",
+          "needs": [
+            "type"
+          ]
+        }
+      }
+    },
     "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": {
       "probed_type": null,
       "needs": [
@@ -1150,6 +1163,12 @@
             "name"
           ]
         }
+      },
+      "returns": {
+        "current_type": "list",
+        "needs": [
+          "type"
+        ]
       }
     },
     "Live.MaxDevice.MaxDevice.get_value_item_icons": {
@@ -1163,6 +1182,12 @@
             "name"
           ]
         }
+      },
+      "returns": {
+        "current_type": "list",
+        "needs": [
+          "type"
+        ]
       }
     },
     "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": {

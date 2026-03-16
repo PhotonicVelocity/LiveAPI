@@ -7,7 +7,6 @@ if TYPE_CHECKING:
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
-    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
@@ -122,12 +121,12 @@ class RackDevice:
             ...
 
         @property
-        def selected_chain(self) -> None:
+        def selected_chain(self) -> Chain:
             """Return access to the currently selected chain."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: None) -> None: ...
+        def selected_chain(self, value: Chain) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable | None) -> bool:
             """
@@ -260,7 +259,7 @@ class RackDevice:
         ...
 
     @property
-    def chains(self) -> Vector[LomObject]:
+    def chains(self) -> Vector:
         """Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
@@ -479,7 +478,7 @@ class RackDevice:
         ...
 
     @property
-    def return_chains(self) -> Vector[LomObject]:
+    def return_chains(self) -> Vector:
         """Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."""
         ...
 

@@ -66,7 +66,7 @@ class PythonLicensingBridge:
         """Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object."""
         ...
 
-    def process_license_response(self, license_response_lines: list | None) -> UnlockStatus:
+    def process_license_response(self, license_response_lines: list[str] | None) -> UnlockStatus:
         """Processes a list of strings, each representing a server response to a product authorization."""
         ...
 

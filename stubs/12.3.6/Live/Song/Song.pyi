@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
+    from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
     from Live.Scene import Scene
@@ -81,12 +82,12 @@ class Song:
             ...
 
         @property
-        def detail_clip(self) -> None:
+        def detail_clip(self) -> Clip:
             """Get/Set the Clip that is currently visible in Lives Detailview."""
             ...
 
         @detail_clip.setter
-        def detail_clip(self, value: None) -> None: ...
+        def detail_clip(self, value: Clip) -> None: ...
 
         def detail_clip_has_listener(self, callback: Callable | None) -> bool:
             """
@@ -187,12 +188,12 @@ class Song:
             ...
 
         @property
-        def selected_chain(self) -> None:
+        def selected_chain(self) -> Chain:
             """Get the highlighted chain if available."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: None) -> None: ...
+        def selected_chain(self, value: Chain) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable | None) -> bool:
             """
@@ -202,7 +203,7 @@ class Song:
             ...
 
         @property
-        def selected_parameter(self) -> None:
+        def selected_parameter(self) -> DeviceParameter:
             """Get the currently selected device parameter."""
             ...
 
@@ -591,12 +592,12 @@ class Song:
         ...
 
     @property
-    def appointed_device(self) -> None:
+    def appointed_device(self) -> Device:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: None) -> None: ...
+    def appointed_device(self, value: Device) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable | None) -> bool:
         """
@@ -914,7 +915,7 @@ class Song:
         """
         ...
 
-    def get_current_smpte_song_time(self, smpte_format: int | None) -> SmptTime:
+    def get_current_smpte_song_time(self, format: int | None) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.

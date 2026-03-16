@@ -605,7 +605,7 @@ class Track:
         """
         ...
 
-    def create_audio_clip(self, file_path: str | None, position: float | None) -> Clip:
+    def create_audio_clip(self, file_path: str | None, start_time: float | None) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.

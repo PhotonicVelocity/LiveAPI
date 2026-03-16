@@ -1074,6 +1074,11 @@
         "authorize_later_callable": "object"
       }
     },
+    "Live.Licensing.PythonLicensingBridge.process_license_response": {
+      "unresolved_arg_types": {
+        "license_response_lines": "list"
+      }
+    },
     "Live.Licensing.PythonLicensingBridge.set_network_timer": {
       "unresolved_arg_types": {
         "callback": "object"
@@ -1099,6 +1104,21 @@
     },
     "Live.Listener.ListenerVector": {
       "needs_element_repr": true
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_parameters": {
+      "usage_snippets": [
+        "indices = self.device.get_bank_parameters(mx_index)",
+        "main_bank = device.get_bank_parameters(MX_MAIN_BANK_INDEX)",
+        "parameter_indices = device.get_bank_parameters(-1)",
+        "parameter_indices = device.get_bank_parameters(bank_index)"
+      ],
+      "unresolved_return_type": "list"
+    },
+    "Live.MaxDevice.MaxDevice.get_value_item_icons": {
+      "usage_snippets": [
+        "custom_images = device.get_value_item_icons(getattr(self._adaptee, \"original_parameter\", self._adaptee))"
+      ],
+      "unresolved_return_type": "list"
     },
     "Live.MidiMap.CCFeedbackRule.cc_value_map": {
       "usage_snippets": [

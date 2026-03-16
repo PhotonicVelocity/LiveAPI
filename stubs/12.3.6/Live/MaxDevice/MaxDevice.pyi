@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceIO import DeviceIO
     from Live.DeviceParameter import DeviceParameter
-    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
@@ -122,11 +121,11 @@ class MaxDevice:
         """Get the name of a parameter bank given by index. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_parameters(self, bank_index: int | None) -> list:
+    def get_bank_parameters(self, bank_index: int | None) -> list[int]:
         """Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces."""
         ...
 
-    def get_value_item_icons(self, parameter: DeviceParameter | None) -> list:
+    def get_value_item_icons(self, parameter: DeviceParameter | None) -> list[str]:
         """Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces."""
         ...
 
@@ -154,7 +153,7 @@ class MaxDevice:
         ...
 
     @property
-    def midi_inputs(self) -> Vector[LomObject]:
+    def midi_inputs(self) -> Vector:
         """Const access to a list of all midi outputs of the device."""
         ...
 
@@ -166,7 +165,7 @@ class MaxDevice:
         ...
 
     @property
-    def midi_outputs(self) -> Vector[LomObject]:
+    def midi_outputs(self) -> Vector:
         """Const access to a list of all midi outputs of the device."""
         ...
 
