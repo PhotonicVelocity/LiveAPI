@@ -52,6 +52,15 @@ def _build_user_prompt(items: dict[str, dict], m4l_docs: dict[str, str],
     """Build the user prompt with unresolved items, type skeleton, callsite hints, and MaxForLive docs."""
     parts = []
 
+    # Manual hints — domain knowledge that can't be inferred from code
+    hints_path = join(dirname(__file__), "llm_hints.md")
+    if exists(hints_path):
+        with open(hints_path) as f:
+            hints = f.read().strip()
+        if hints:
+            parts.append(hints)
+            parts.append("\n")
+
     parts.append("## Unresolved Items\n")
     parts.append("```json")
     parts.append(json.dumps(items, indent=2))

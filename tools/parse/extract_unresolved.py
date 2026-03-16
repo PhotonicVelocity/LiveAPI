@@ -129,13 +129,13 @@ def _check_class(node: dict, path: str, items: dict[str, dict]) -> None:
 
 def _check_property(node: dict, path: str, items: dict[str, dict], iterable_classes: dict[str, bool]) -> None:
     """Check a property node for missing probed_type or missing element type."""
-    if not node.get("probed_type"):
-        entry: dict = {"probed_type": None, "needs": ["probed_type"]}
+    probed = node.get("probed_type")
+    if not probed or probed == "NoneType":
+        entry: dict = {"probed_type": probed, "needs": ["probed_type"]}
         if node.get("raw_doc"):
             entry["raw_doc"] = node["raw_doc"]
         items[path] = entry
     elif not node.get("element_repr"):
-        probed = node["probed_type"]
         # Skip if the class itself already has element_repr resolved
         class_resolved = iterable_classes.get(probed, False)
         if (probed in iterable_classes or probed == "tuple") and not class_resolved:
