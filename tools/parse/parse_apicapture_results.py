@@ -996,10 +996,15 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
         elif name == "extend" and len(args) == 2:
             if args[1].get("name", "").startswith("arg"):
                 args[1]["name"] = "values"
+        # For generic vector bases (Vector, ObjectVector), resolve bare object → LomObject
+        if name in ("append", "extend") and len(args) == 2:
+            if args[1].get("type") == "object" and parent.name in ("Vector", "ObjectVector"):
+                args[1]["type"] = "LomObject"
             # extend takes an iterable of elements, not a single element
-            elem_type = args[1].get("type")
-            if elem_type and elem_type != "object":
-                args[1]["type"] = f"Iterable[{elem_type}]"
+            if name == "extend":
+                elem_type = args[1].get("type")
+                if elem_type and elem_type != "object":
+                    args[1]["type"] = f"Iterable[{elem_type}]"
 
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
