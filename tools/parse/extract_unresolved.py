@@ -86,7 +86,7 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
 
         needs: list[str] = []
 
-        if atype in ("object", "tuple"):
+        if atype in ("object", "tuple", "LomObject"):
             needs.append("type")
         if _ARGX_RE.match(aname):
             needs.append("name")
@@ -97,7 +97,7 @@ def _check_function(node: dict, path: str, items: dict[str, dict]) -> None:
             entry["needs"] = needs
 
     returns = node.get("returns")
-    if returns and returns.get("type") in ("object", "tuple"):
+    if returns and returns.get("type") in ("object", "tuple", "LomObject"):
         returns_out = {"current_type": returns["type"], "needs": ["type"]}
 
     if not args_out and not returns_out:
