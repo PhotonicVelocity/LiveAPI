@@ -10,6 +10,7 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 **Access via:**
 
+- `Conversions.move_devices_on_track_to_new_drum_rack_pad`
 - `RoutingType.attached_object`
 - `Song.create_audio_track()`
 - `Song.create_midi_track()`
@@ -538,21 +539,21 @@ Representing the view aspects of a Track.
 
 ### Methods
 
-| Method                                                                                              | Returns     |
-| --------------------------------------------------------------------------------------------------- | ----------- |
-| [`create_audio_clip()`](#create_audio_clipfile_path-str-position-float)                             | `Clip`      |
-| [`create_midi_clip()`](#create_midi_clipstart_time-float-length-float)                              | `Clip`      |
-| [`create_take_lane()`](#create_take_lane)                                                           | `LomObject` |
-| [`delete_clip()`](#delete_clipslot-clip)                                                            | `None`      |
-| [`delete_device()`](#delete_devicedevice-int)                                                       | `None`      |
-| [`duplicate_clip_slot()`](#duplicate_clip_slotindex-int)                                            | `int`       |
-| [`duplicate_clip_to_arrangement()`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`      |
-| [`duplicate_device()`](#duplicate_deviceindex-int)                                                  | `None`      |
-| [`get_data()`](#get_datakey-str-default_value-any)                                                  | `Any`       |
-| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1)                                | `LomObject` |
-| [`jump_in_running_session_clip()`](#jump_in_running_session_clipbeats-float)                        | `None`      |
-| [`set_data()`](#set_datakey-str-value-any)                                                          | `None`      |
-| [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                            | `None`      |
+| Method                                                                                              | Returns    |
+| --------------------------------------------------------------------------------------------------- | ---------- |
+| [`create_audio_clip()`](#create_audio_clipfile_path-str-position-float)                             | `Clip`     |
+| [`create_midi_clip()`](#create_midi_clipstart_time-float-length-float)                              | `Clip`     |
+| [`create_take_lane()`](#create_take_lane)                                                           | `TakeLane` |
+| [`delete_clip()`](#delete_clipslot-clip)                                                            | `None`     |
+| [`delete_device()`](#delete_devicedevice-int)                                                       | `None`     |
+| [`duplicate_clip_slot()`](#duplicate_clip_slotindex-int)                                            | `int`      |
+| [`duplicate_clip_to_arrangement()`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`     |
+| [`duplicate_device()`](#duplicate_deviceindex-int)                                                  | `None`     |
+| [`get_data()`](#get_datakey-str-default_value-any)                                                  | `Any`      |
+| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1)                                | `Device`   |
+| [`jump_in_running_session_clip()`](#jump_in_running_session_clipbeats-float)                        | `None`     |
+| [`set_data()`](#set_datakey-str-value-any)                                                          | `None`     |
+| [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                            | `None`     |
 
 #### `create_audio_clip(file_path: str, position: float)`
 
@@ -574,7 +575,7 @@ Creates an empty MIDI clip and inserts it into the arrangement at the specified 
 
 #### `create_take_lane()`
 
-- **Returns:** `LomObject`
+- **Returns:** `TakeLane`
 
 Create a new TakeLane for this track.
 
@@ -630,7 +631,7 @@ Get data for the given key, that was previously stored using set_data.
 
 #### `insert_device(DeviceName: str, DeviceIndex: int = -1)`
 
-- **Returns:** `LomObject`
+- **Returns:** `Device`
 - **Args:**
   - `DeviceName: str`
   - `DeviceIndex: int = -1`

@@ -7,7 +7,6 @@ if TYPE_CHECKING:
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
-    from Live.LomObject import LomObject
     from Live.MixerDevice import MixerDevice
     from Live.Song import Song
     from Live.TakeLane import TakeLane
@@ -620,7 +619,7 @@ class Track:
         """
         ...
 
-    def create_take_lane(self) -> LomObject:
+    def create_take_lane(self) -> TakeLane:
         """Create a new TakeLane for this track."""
         ...
 
@@ -972,7 +971,7 @@ class Track:
         """
         ...
 
-    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> LomObject:
+    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> Device:
         """Add a device at a given index in the 'devices' list. At end if -1."""
         ...
 

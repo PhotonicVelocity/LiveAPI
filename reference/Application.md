@@ -125,7 +125,7 @@ Returns the applications view component.
 | [`get_minor_version()`](#get_minor_version)                                                                                                                                                 | `int`   |
 | [`get_variant()`](#get_variant)                                                                                                                                                             | `str`   |
 | [`get_version_string()`](#get_version_string)                                                                                                                                               | `str`   |
-| [`has_option()`](#has_optionoption_name-str)                                                                                                                                                | `bool`  |
+| [`has_option()`](#has_optionoption-str)                                                                                                                                                     | `bool`  |
 | [`press_current_dialog_button()`](#press_current_dialog_buttonindex-int)                                                                                                                    | `None`  |
 | [`show_message()`](#show_messagetext-text-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false)                                                               | `int`   |
 | [`show_on_the_fly_message()`](#show_on_the_fly_messagemessage-str-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false-push_dialog_type-pushdialogtype-int-0) | `int`   |
@@ -172,11 +172,11 @@ Returns one of the strings in Live.Application.Variants.
 
 Returns the full version string of Live.
 
-#### `has_option(option_name: str)`
+#### `has_option(option: str)`
 
 - **Returns:** `bool`
 - **Args:**
-  - `option_name: str`
+  - `option: str`
 
 Returns True if the given entry exists in Options.txt, False otherwise.
 
@@ -569,13 +569,13 @@ A container for returning unavailable features.
 
 ## Module Functions
 
-| Function                                                                           | Returns           |
-| ---------------------------------------------------------------------------------- | ----------------- |
-| [`combine_apcs()`](#combine_apcs)                                                  | `bool`            |
-| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple[int, int]` |
-| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`             |
-| [`get_application()`](#get_application)                                            | `Application`     |
-| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`             |
+| Function                                                                           | Returns                |
+| ---------------------------------------------------------------------------------- | ---------------------- |
+| [`combine_apcs()`](#combine_apcs)                                                  | `bool`                 |
+| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple[int, Ellipsis]` |
+| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`                  |
+| [`get_application()`](#get_application)                                            | `Application`          |
+| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`                  |
 
 ### `combine_apcs()`
 
@@ -585,7 +585,7 @@ Returns true if multiple APCs should be combined.
 
 ### `encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0)`
 
-- **Returns:** `tuple[int, int]`
+- **Returns:** `tuple[int, Ellipsis]`
 - **Args:**
   - `dongle1: int`
   - `dongle2: int`

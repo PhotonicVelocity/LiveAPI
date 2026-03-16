@@ -260,7 +260,7 @@ class RackDevice:
         ...
 
     @property
-    def chains(self) -> Vector[Chain]:
+    def chains(self) -> Vector[LomObject]:
         """Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
@@ -325,7 +325,7 @@ class RackDevice:
         """
         ...
 
-    def insert_chain(self, Index: int = -1) -> LomObject:
+    def insert_chain(self, Index: int = -1) -> Chain:
         """Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence."""
         ...
 
@@ -479,7 +479,7 @@ class RackDevice:
         ...
 
     @property
-    def return_chains(self) -> Vector[Chain]:
+    def return_chains(self) -> Vector[LomObject]:
         """Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."""
         ...
 

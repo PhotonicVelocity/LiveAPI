@@ -3,10 +3,6 @@ from typing import TYPE_CHECKING, Any, Callable, Generic, Iterator, TypeVar, ove
 
 T = TypeVar('T')
 
-if TYPE_CHECKING:
-    from Live.LomObject import LomObject
-
-
 
 class FloatVector(Vector[float]):
     """A simple container for returning floats from Live."""
@@ -43,7 +39,7 @@ class ObjectVector(Vector[object]):
     def append(self, value: Any | None) -> None:
         ...
 
-    def extend(self, values: list[Any] | None) -> None:
+    def extend(self, values: Iterable[Any] | None) -> None:
         ...
 
 class StringVector(Vector[str]):
@@ -99,10 +95,10 @@ class Vector(Generic[T]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: LomObject | None) -> None:
+    def append(self, value: Any | None) -> None:
         ...
 
-    def extend(self, values: LomObject | None) -> None:
+    def extend(self, values: Iterable[Any] | None) -> None:
         ...
 
 def get_text(classname: str | None, textname: str | None) -> Text:

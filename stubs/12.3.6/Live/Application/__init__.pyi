@@ -177,7 +177,7 @@ def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
     ...
 
-def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0) -> tuple[int, int]:
+def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0) -> tuple[int, ...]:
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 

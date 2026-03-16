@@ -541,46 +541,46 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 
 ### Methods
 
-| Method                                                                                              | Returns    |
-| --------------------------------------------------------------------------------------------------- | ---------- |
-| [`begin_undo_step()`](#begin_undo_step)                                                             | `None`     |
-| [`capture_and_insert_scene()`](#capture_and_insert_scenecapturemode-capturemode-int-0)              | `None`     |
-| [`capture_midi()`](#capture_mididestination-capturedestination-int-0)                               | `None`     |
-| [`continue_playing()`](#continue_playing)                                                           | `None`     |
-| [`create_audio_track()`](#create_audio_trackindex-int-none)                                         | `Track`    |
-| [`create_midi_track()`](#create_midi_trackindex-int-none)                                           | `Track`    |
-| [`create_return_track()`](#create_return_track)                                                     | `Track`    |
-| [`create_scene()`](#create_sceneindex-int)                                                          | `Scene`    |
-| [`delete_return_track()`](#delete_return_trackindex-int)                                            | `None`     |
-| [`delete_scene()`](#delete_sceneindex-int)                                                          | `None`     |
-| [`delete_track()`](#delete_trackindex-int)                                                          | `None`     |
-| [`duplicate_scene()`](#duplicate_sceneindex-int)                                                    | `None`     |
-| [`duplicate_track()`](#duplicate_trackindex-int)                                                    | `None`     |
-| [`end_undo_step()`](#end_undo_step)                                                                 | `None`     |
-| [`find_device_position()`](#find_device_positiondevice-device-target-lomobject-target_position-int) | `int`      |
-| [`force_link_beat_time()`](#force_link_beat_time)                                                   | `None`     |
-| [`get_beats_loop_length()`](#get_beats_loop_length)                                                 | `BeatTime` |
-| [`get_beats_loop_start()`](#get_beats_loop_start)                                                   | `BeatTime` |
-| [`get_current_beats_song_time()`](#get_current_beats_song_time)                                     | `BeatTime` |
-| [`get_current_smpte_song_time()`](#get_current_smpte_song_timeformat-int)                           | `SmptTime` |
-| [`get_data()`](#get_datakey-str-default_value-any)                                                  | `Any`      |
-| [`is_cue_point_selected()`](#is_cue_point_selected)                                                 | `bool`     |
-| [`jump_by()`](#jump_bybeats-float)                                                                  | `None`     |
-| [`jump_to_next_cue()`](#jump_to_next_cue)                                                           | `None`     |
-| [`jump_to_prev_cue()`](#jump_to_prev_cue)                                                           | `None`     |
-| [`move_device()`](#move_devicedevice-device-target-lomobject-target_position-int)                   | `int`      |
-| [`play_selection()`](#play_selection)                                                               | `None`     |
-| [`re_enable_automation()`](#re_enable_automation)                                                   | `None`     |
-| [`redo()`](#redo)                                                                                   | `str`      |
-| [`scrub_by()`](#scrub_bybeats-float)                                                                | `None`     |
-| [`set_data()`](#set_datakey-str-value-any)                                                          | `None`     |
-| [`set_or_delete_cue()`](#set_or_delete_cue)                                                         | `None`     |
-| [`start_playing()`](#start_playing)                                                                 | `None`     |
-| [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                            | `None`     |
-| [`stop_playing()`](#stop_playing)                                                                   | `None`     |
-| [`tap_tempo()`](#tap_tempo)                                                                         | `None`     |
-| [`trigger_session_record()`](#trigger_session_recordrecord_length-float-17976931348623157e308)      | `None`     |
-| [`undo()`](#undo)                                                                                   | `str`      |
+| Method                                                                                                | Returns    |
+| ----------------------------------------------------------------------------------------------------- | ---------- |
+| [`begin_undo_step()`](#begin_undo_step)                                                               | `None`     |
+| [`capture_and_insert_scene()`](#capture_and_insert_scenecapturemode-capturemode-int-0)                | `None`     |
+| [`capture_midi()`](#capture_mididestination-capturedestination-int-0)                                 | `None`     |
+| [`continue_playing()`](#continue_playing)                                                             | `None`     |
+| [`create_audio_track()`](#create_audio_trackindex-int-none)                                           | `Track`    |
+| [`create_midi_track()`](#create_midi_trackindex-int-none)                                             | `Track`    |
+| [`create_return_track()`](#create_return_track)                                                       | `Track`    |
+| [`create_scene()`](#create_sceneindex-int)                                                            | `Scene`    |
+| [`delete_return_track()`](#delete_return_trackindex-int)                                              | `None`     |
+| [`delete_scene()`](#delete_sceneindex-int)                                                            | `None`     |
+| [`delete_track()`](#delete_trackindex-int)                                                            | `None`     |
+| [`duplicate_scene()`](#duplicate_sceneindex-int)                                                      | `None`     |
+| [`duplicate_track()`](#duplicate_trackindex-int)                                                      | `None`     |
+| [`end_undo_step()`](#end_undo_step)                                                                   | `None`     |
+| [`find_device_position()`](#find_device_positiondevice-device-target-track-chain-target_position-int) | `int`      |
+| [`force_link_beat_time()`](#force_link_beat_time)                                                     | `None`     |
+| [`get_beats_loop_length()`](#get_beats_loop_length)                                                   | `BeatTime` |
+| [`get_beats_loop_start()`](#get_beats_loop_start)                                                     | `BeatTime` |
+| [`get_current_beats_song_time()`](#get_current_beats_song_time)                                       | `BeatTime` |
+| [`get_current_smpte_song_time()`](#get_current_smpte_song_timeformat-int)                             | `SmptTime` |
+| [`get_data()`](#get_datakey-str-default_value-any)                                                    | `Any`      |
+| [`is_cue_point_selected()`](#is_cue_point_selected)                                                   | `bool`     |
+| [`jump_by()`](#jump_bybeats-float)                                                                    | `None`     |
+| [`jump_to_next_cue()`](#jump_to_next_cue)                                                             | `None`     |
+| [`jump_to_prev_cue()`](#jump_to_prev_cue)                                                             | `None`     |
+| [`move_device()`](#move_devicedevice-device-target-track-chain-target_position-int)                   | `int`      |
+| [`play_selection()`](#play_selection)                                                                 | `None`     |
+| [`re_enable_automation()`](#re_enable_automation)                                                     | `None`     |
+| [`redo()`](#redo)                                                                                     | `str`      |
+| [`scrub_by()`](#scrub_bybeats-float)                                                                  | `None`     |
+| [`set_data()`](#set_datakey-str-value-any)                                                            | `None`     |
+| [`set_or_delete_cue()`](#set_or_delete_cue)                                                           | `None`     |
+| [`start_playing()`](#start_playing)                                                                   | `None`     |
+| [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                              | `None`     |
+| [`stop_playing()`](#stop_playing)                                                                     | `None`     |
+| [`tap_tempo()`](#tap_tempo)                                                                           | `None`     |
+| [`trigger_session_record()`](#trigger_session_recordrecord_length-float-17976931348623157e308)        | `None`     |
+| [`undo()`](#undo)                                                                                     | `str`      |
 
 #### `begin_undo_step()`
 
@@ -682,12 +682,12 @@ Duplicates a track and selects the new one. If the track is inside a folded grou
 
 - **Returns:** `None`
 
-#### `find_device_position(device: Device, target: LomObject, target_position: int)`
+#### `find_device_position(device: Device, target: Track | Chain, target_position: int)`
 
 - **Returns:** `int`
 - **Args:**
   - `device: Device`
-  - `target: LomObject`
+  - `target: Track | Chain`
   - `target_position: int`
 
 Returns the closest possible position to the given target, where the device can be inserted. If inserting is not possible at all (i.e. if the device type is wrong), -1 is returned.
@@ -759,12 +759,12 @@ Jump to the next cue (marker) if possible.
 
 Jump to the prior cue (marker) if possible.
 
-#### `move_device(device: Device, target: LomObject, target_position: int)`
+#### `move_device(device: Device, target: Track | Chain, target_position: int)`
 
 - **Returns:** `int`
 - **Args:**
   - `device: Device`
-  - `target: LomObject`
+  - `target: Track | Chain`
   - `target_position: int`
 
 Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to.

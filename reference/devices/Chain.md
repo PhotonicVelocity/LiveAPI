@@ -8,6 +8,10 @@ This class represents a group device chain in Live.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `RackDevice.insert_chain()`
+
 ### Properties
 
 | Property                                | Type                | Supports             |
@@ -141,11 +145,11 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 ### Methods
 
-| Method                                                               | Returns     |
-| -------------------------------------------------------------------- | ----------- |
-| [`delete_device()`](#delete_devicedevice-int)                        | `None`      |
-| [`duplicate_device()`](#duplicate_deviceindex-int)                   | `None`      |
-| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1) | `LomObject` |
+| Method                                                               | Returns  |
+| -------------------------------------------------------------------- | -------- |
+| [`delete_device()`](#delete_devicedevice-int)                        | `None`   |
+| [`duplicate_device()`](#duplicate_deviceindex-int)                   | `None`   |
+| [`insert_device()`](#insert_devicedevicename-str-deviceindex-int--1) | `Device` |
 
 #### `delete_device(device: int)`
 
@@ -165,7 +169,7 @@ Duplicate the device at the given index in the chain.
 
 #### `insert_device(DeviceName: str, DeviceIndex: int = -1)`
 
-- **Returns:** `LomObject`
+- **Returns:** `Device`
 - **Args:**
   - `DeviceName: str`
   - `DeviceIndex: int = -1`

@@ -15,13 +15,13 @@ This class represents a Chain's Mixer Device in Live, which gives you access to 
 
 ### Properties
 
-| Property                                | Type                      | Supports       |
-| --------------------------------------- | ------------------------- | -------------- |
-| [`canonical_parent`](#canonical_parent) | `Chain`                   | `get`          |
-| [`chain_activator`](#chain_activator)   | `DeviceParameter`         | `get`          |
-| [`panning`](#panning)                   | `DeviceParameter`         | `get`          |
-| [`sends`](#sends)                       | `Vector[DeviceParameter]` | `get`/`listen` |
-| [`volume`](#volume)                     | `DeviceParameter`         | `get`          |
+| Property                                | Type                | Supports       |
+| --------------------------------------- | ------------------- | -------------- |
+| [`canonical_parent`](#canonical_parent) | `Chain`             | `get`          |
+| [`chain_activator`](#chain_activator)   | `DeviceParameter`   | `get`          |
+| [`panning`](#panning)                   | `DeviceParameter`   | `get`          |
+| [`sends`](#sends)                       | `Vector[LomObject]` | `get`/`listen` |
+| [`volume`](#volume)                     | `DeviceParameter`   | `get`          |
 
 #### `canonical_parent`
 
@@ -49,7 +49,7 @@ Const access to the Chain's Panning Device Parameter.
 
 #### `sends`
 
-- **Type:** `Vector[DeviceParameter]`
+- **Type:** `Vector[LomObject]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

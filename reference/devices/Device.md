@@ -10,7 +10,9 @@ This class represents a MIDI or Audio DSP-Device in Live.
 
 **Access via:**
 
+- `Chain.insert_device()`
 - `Song.appointed_device`
+- `Track.insert_device()`
 - `Track.View.selected_device`
 
 ### Properties

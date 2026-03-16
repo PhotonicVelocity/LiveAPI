@@ -87,10 +87,10 @@ A simple read only container for returning python objects.
 
 ### Methods
 
-| Method                              | Returns |
-| ----------------------------------- | ------- |
-| [`append()`](#appendvalue-any)      | `None`  |
-| [`extend()`](#extendvalues-listany) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-any)          | `None`  |
+| [`extend()`](#extendvalues-iterableany) | `None`  |
 
 #### `append(value: Any)`
 
@@ -98,11 +98,11 @@ A simple read only container for returning python objects.
 - **Args:**
   - `value: Any`
 
-#### `extend(values: list[Any])`
+#### `extend(values: Iterable[Any])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: list[Any]`
+  - `values: Iterable[Any]`
 
 ## StringVector (Class)
 
@@ -204,8 +204,8 @@ A simple read only container for returning objects from Live.
 | [`__len__()`](#__len__)                        | `int`            |
 | [`__contains__()`](#__contains__value-object)  | `bool`           |
 | [`__bool__()`](#__bool__)                      | `bool`           |
-| [`append()`](#appendvalue-lomobject)           | `None`           |
-| [`extend()`](#extendvalues-lomobject)          | `None`           |
+| [`append()`](#appendvalue-any)                 | `None`           |
+| [`extend()`](#extendvalues-iterableany)        | `None`           |
 
 #### `__iter__()`
 
@@ -243,17 +243,17 @@ A simple read only container for returning objects from Live.
 
 - **Returns:** `bool`
 
-#### `append(value: LomObject)`
+#### `append(value: Any)`
 
 - **Returns:** `None`
 - **Args:**
-  - `value: LomObject`
+  - `value: Any`
 
-#### `extend(values: LomObject)`
+#### `extend(values: Iterable[Any])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: LomObject`
+  - `values: Iterable[Any]`
 
 ## Module Functions
 

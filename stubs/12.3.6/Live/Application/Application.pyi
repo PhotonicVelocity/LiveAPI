@@ -292,7 +292,7 @@ class Application:
         """Returns the full version string of Live."""
         ...
 
-    def has_option(self, option_name: str | None) -> bool:
+    def has_option(self, option: str | None) -> bool:
         """Returns True if the given entry exists in Options.txt, False otherwise."""
         ...
 

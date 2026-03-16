@@ -160,25 +160,25 @@ Structure to define feedback properties of MIDI mappings.
 
 | Function                                                                                                                                                                                                                                       | Returns |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`forward_midi_cc()`](#forward_midi_ccscript_handle-int-midi_map_handle-int-channel-int-cc_no-int-shouldconsumeevent-bool-true)                                                                                                                | `bool`  |
+| [`forward_midi_cc()`](#forward_midi_ccscript_handle-int-midi_map_handle-int-channel-int-cc-int-shouldconsumeevent-bool-true)                                                                                                                   | `bool`  |
 | [`forward_midi_note()`](#forward_midi_notescript_handle-int-midi_map_handle-int-channel-int-note-int-shouldconsumeevent-bool-true)                                                                                                             | `bool`  |
 | [`forward_midi_pitchbend()`](#forward_midi_pitchbendscript_handle-int-midi_map_handle-int-channel-int)                                                                                                                                         | `bool`  |
 | [`map_midi_cc()`](#map_midi_ccmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-avoid_takeover-bool-sensitivity-float-10)                                                                  | `bool`  |
 | [`map_midi_cc_with_feedback_map()`](#map_midi_cc_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-feedback_rule-ccfeedbackrule-avoid_takeover-bool-sensitivity-float-10) | `bool`  |
 | [`map_midi_note()`](#map_midi_notemidi_map_handle-int-parameter-deviceparameter-channel-int-note-int)                                                                                                                                          | `bool`  |
 | [`map_midi_note_with_feedback_map()`](#map_midi_note_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-note-int-feedback_rule-notefeedbackrule)                                                                       | `bool`  |
-| [`map_midi_pitchbend()`](#map_midi_pitchbendmidi_map_handle-int-parameter-deviceparameter-channel-int-needs_takeover-bool)                                                                                                                     | `bool`  |
-| [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-feedback_rule-pitchbendfeedbackrule-needs_takeover-bool)                                             | `bool`  |
+| [`map_midi_pitchbend()`](#map_midi_pitchbendmidi_map_handle-int-parameter-deviceparameter-channel-int-avoid_takeover-bool)                                                                                                                     | `bool`  |
+| [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-feedback_rule-pitchbendfeedbackrule-avoid_takeover-bool)                                             | `bool`  |
 | [`send_feedback_for_parameter()`](#send_feedback_for_parametermidi_map_handle-int-parameter-deviceparameter)                                                                                                                                   | `None`  |
 
-### `forward_midi_cc(script_handle: int, midi_map_handle: int, channel: int, cc_no: int, ShouldConsumeEvent: bool = True)`
+### `forward_midi_cc(script_handle: int, midi_map_handle: int, channel: int, cc: int, ShouldConsumeEvent: bool = True)`
 
 - **Returns:** `bool`
 - **Args:**
   - `script_handle: int`
   - `midi_map_handle: int`
   - `channel: int`
-  - `cc_no: int`
+  - `cc: int`
   - `ShouldConsumeEvent: bool = True`
 
 ### `forward_midi_note(script_handle: int, midi_map_handle: int, channel: int, note: int, ShouldConsumeEvent: bool = True)`
@@ -243,16 +243,16 @@ Structure to define feedback properties of MIDI mappings.
   - `note: int`
   - `feedback_rule: NoteFeedbackRule`
 
-### `map_midi_pitchbend(midi_map_handle: int, parameter: DeviceParameter, channel: int, needs_takeover: bool)`
+### `map_midi_pitchbend(midi_map_handle: int, parameter: DeviceParameter, channel: int, avoid_takeover: bool)`
 
 - **Returns:** `bool`
 - **Args:**
   - `midi_map_handle: int`
   - `parameter: DeviceParameter`
   - `channel: int`
-  - `needs_takeover: bool`
+  - `avoid_takeover: bool`
 
-### `map_midi_pitchbend_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, channel: int, feedback_rule: PitchBendFeedbackRule, needs_takeover: bool)`
+### `map_midi_pitchbend_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, channel: int, feedback_rule: PitchBendFeedbackRule, avoid_takeover: bool)`
 
 - **Returns:** `bool`
 - **Args:**
@@ -260,7 +260,7 @@ Structure to define feedback properties of MIDI mappings.
   - `parameter: DeviceParameter`
   - `channel: int`
   - `feedback_rule: PitchBendFeedbackRule`
-  - `needs_takeover: bool`
+  - `avoid_takeover: bool`
 
 ### `send_feedback_for_parameter(midi_map_handle: int, parameter: DeviceParameter)`
 

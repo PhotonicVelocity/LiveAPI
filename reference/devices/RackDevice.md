@@ -18,7 +18,7 @@ This class represents a Rack device.
 | [`can_show_chains`](#can_show_chains)                     | `bool`                  | `get`                |
 | [`canonical_parent`](#canonical_parent)                   | `Track`                 | `get`                |
 | [`chain_selector`](#chain_selector)                       | `DeviceParameter`       | `get`                |
-| [`chains`](#chains)                                       | `Vector[Chain]`         | `get`/`listen`       |
+| [`chains`](#chains)                                       | `Vector[LomObject]`     | `get`/`listen`       |
 | [`class_display_name`](#class_display_name)               | `str`                   | `get`                |
 | [`class_name`](#class_name)                               | `str`                   | `get`                |
 | [`drum_pads`](#drum_pads)                                 | `Vector[DrumPad]`       | `get`/`listen`       |
@@ -32,7 +32,7 @@ This class represents a Rack device.
 | [`macros_mapped`](#macros_mapped)                         | `tuple[bool, Ellipsis]` | `get`/`listen`       |
 | [`name`](#name)                                           | `str`                   | `get`/`set`          |
 | [`parameters`](#parameters)                               | `ATimeableValueVector`  | `get`                |
-| [`return_chains`](#return_chains)                         | `Vector[Chain]`         | `get`/`listen`       |
+| [`return_chains`](#return_chains)                         | `Vector[LomObject]`     | `get`/`listen`       |
 | [`selected_variation_index`](#selected_variation_index)   | `int`                   | `get`/`set`          |
 | [`type`](#type)                                           | `DeviceType`            | `get`                |
 | [`variation_count`](#variation_count)                     | `int`                   | `get`/`listen`       |
@@ -90,7 +90,7 @@ Const access to the chain selector parameter.
 
 #### `chains`
 
-- **Type:** `Vector[Chain]`
+- **Type:** `Vector[LomObject]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -202,7 +202,7 @@ Const access to the list of available automatable parameters for this device.
 
 #### `return_chains`
 
-- **Type:** `Vector[Chain]`
+- **Type:** `Vector[LomObject]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -258,17 +258,17 @@ Access to the number of macros that are currently visible.
 
 ### Methods
 
-| Method                                                          | Returns     |
-| --------------------------------------------------------------- | ----------- |
-| [`add_macro()`](#add_macro)                                     | `None`      |
-| [`copy_pad()`](#copy_padsource_index-int-destination_index-int) | `None`      |
-| [`delete_selected_variation()`](#delete_selected_variation)     | `None`      |
-| [`insert_chain()`](#insert_chainindex-int--1)                   | `LomObject` |
-| [`randomize_macros()`](#randomize_macros)                       | `None`      |
-| [`recall_last_used_variation()`](#recall_last_used_variation)   | `None`      |
-| [`recall_selected_variation()`](#recall_selected_variation)     | `None`      |
-| [`remove_macro()`](#remove_macro)                               | `None`      |
-| [`store_variation()`](#store_variation)                         | `None`      |
+| Method                                                          | Returns |
+| --------------------------------------------------------------- | ------- |
+| [`add_macro()`](#add_macro)                                     | `None`  |
+| [`copy_pad()`](#copy_padsource_index-int-destination_index-int) | `None`  |
+| [`delete_selected_variation()`](#delete_selected_variation)     | `None`  |
+| [`insert_chain()`](#insert_chainindex-int--1)                   | `Chain` |
+| [`randomize_macros()`](#randomize_macros)                       | `None`  |
+| [`recall_last_used_variation()`](#recall_last_used_variation)   | `None`  |
+| [`recall_selected_variation()`](#recall_selected_variation)     | `None`  |
+| [`remove_macro()`](#remove_macro)                               | `None`  |
+| [`store_variation()`](#store_variation)                         | `None`  |
 
 #### `add_macro()`
 
@@ -293,7 +293,7 @@ Deletes the currently selected macro variation.Does nothing if there is no selec
 
 #### `insert_chain(Index: int = -1)`
 
-- **Returns:** `LomObject`
+- **Returns:** `Chain`
 - **Args:**
   - `Index: int = -1`
 

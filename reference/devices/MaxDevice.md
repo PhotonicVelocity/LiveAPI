@@ -24,8 +24,8 @@ This class represents a Max for Live device.
 | [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`    |
 | [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`          |
 | [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`          |
-| [`midi_inputs`](#midi_inputs)                             | `Vector[DeviceIO]`     | `get`/`listen` |
-| [`midi_outputs`](#midi_outputs)                           | `Vector[DeviceIO]`     | `get`/`listen` |
+| [`midi_inputs`](#midi_inputs)                             | `Vector[LomObject]`    | `get`/`listen` |
+| [`midi_outputs`](#midi_outputs)                           | `Vector[LomObject]`    | `get`/`listen` |
 | [`name`](#name)                                           | `str`                  | `get`/`set`    |
 | [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`          |
 | [`type`](#type)                                           | `DeviceType`           | `get`          |
@@ -129,7 +129,7 @@ Returns the latency of the device in samples.
 
 #### `midi_inputs`
 
-- **Type:** `Vector[DeviceIO]`
+- **Type:** `Vector[LomObject]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -137,7 +137,7 @@ Const access to a list of all midi outputs of the device.
 
 #### `midi_outputs`
 
-- **Type:** `Vector[DeviceIO]`
+- **Type:** `Vector[LomObject]`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

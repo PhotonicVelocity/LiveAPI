@@ -14,15 +14,15 @@
 
 ## Module Functions
 
-| Function                                                                                                               | Returns     |
-| ---------------------------------------------------------------------------------------------------------------------- | ----------- |
-| [`audio_to_midi_clip()`](#audio_to_midi_clipsong-song-audio_clip-clip-audio_to_midi_type-int)                          | `None`      |
-| [`create_drum_rack_from_audio_clip()`](#create_drum_rack_from_audio_clipsong-song-audio_clip-clip)                     | `None`      |
-| [`create_midi_track_from_drum_pad()`](#create_midi_track_from_drum_padsong-song-drum_pad-drumpad)                      | `None`      |
-| [`create_midi_track_with_simpler()`](#create_midi_track_with_simplersong-song-audio_clip-clip)                         | `None`      |
-| [`is_convertible_to_midi()`](#is_convertible_to_midisong-song-audio_clip-clip)                                         | `bool`      |
-| [`move_devices_on_track_to_new_drum_rack_pad()`](#move_devices_on_track_to_new_drum_rack_padsong-song-track_index-int) | `LomObject` |
-| [`sliced_simpler_to_drum_rack()`](#sliced_simpler_to_drum_racksong-song-simpler-simplerdevice)                         | `None`      |
+| Function                                                                                                               | Returns |
+| ---------------------------------------------------------------------------------------------------------------------- | ------- |
+| [`audio_to_midi_clip()`](#audio_to_midi_clipsong-song-audio_clip-clip-audio_to_midi_type-int)                          | `None`  |
+| [`create_drum_rack_from_audio_clip()`](#create_drum_rack_from_audio_clipsong-song-audio_clip-clip)                     | `None`  |
+| [`create_midi_track_from_drum_pad()`](#create_midi_track_from_drum_padsong-song-drum_pad-drumpad)                      | `None`  |
+| [`create_midi_track_with_simpler()`](#create_midi_track_with_simplersong-song-audio_clip-clip)                         | `None`  |
+| [`is_convertible_to_midi()`](#is_convertible_to_midisong-song-audio_clip-clip)                                         | `bool`  |
+| [`move_devices_on_track_to_new_drum_rack_pad()`](#move_devices_on_track_to_new_drum_rack_padsong-song-track_index-int) | `Track` |
+| [`sliced_simpler_to_drum_rack()`](#sliced_simpler_to_drum_racksong-song-simpler-simplerdevice)                         | `None`  |
 
 ### `audio_to_midi_clip(song: Song, audio_clip: Clip, audio_to_midi_type: int)`
 
@@ -72,7 +72,7 @@ Returns whether `audio_clip` can be converted to MIDI. Raises error when called 
 
 ### `move_devices_on_track_to_new_drum_rack_pad(song: Song, track_index: int)`
 
-- **Returns:** `LomObject`
+- **Returns:** `Track`
 - **Args:**
   - `song: Song`
   - `track_index: int`

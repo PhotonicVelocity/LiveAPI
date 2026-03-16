@@ -6,6 +6,7 @@ if TYPE_CHECKING:
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceIO import DeviceIO
     from Live.DeviceParameter import DeviceParameter
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
@@ -153,7 +154,7 @@ class MaxDevice:
         ...
 
     @property
-    def midi_inputs(self) -> Vector[DeviceIO]:
+    def midi_inputs(self) -> Vector[LomObject]:
         """Const access to a list of all midi outputs of the device."""
         ...
 
@@ -165,7 +166,7 @@ class MaxDevice:
         ...
 
     @property
-    def midi_outputs(self) -> Vector[DeviceIO]:
+    def midi_outputs(self) -> Vector[LomObject]:
         """Const access to a list of all midi outputs of the device."""
         ...
 

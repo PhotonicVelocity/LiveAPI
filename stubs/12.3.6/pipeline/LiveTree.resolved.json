@@ -1073,7 +1073,7 @@
                     "default": null
                   },
                   {
-                    "name": "option_name",
+                    "name": "option",
                     "type": "str",
                     "optional": false,
                     "default": null
@@ -2277,7 +2277,7 @@
               }
             ],
             "returns": {
-              "type": "tuple[int, int]"
+              "type": "tuple[int, ...]"
             }
           },
           {
@@ -2625,7 +2625,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "list[Any]",
+                    "type": "Iterable[Any]",
                     "optional": false,
                     "default": null
                   }
@@ -2842,7 +2842,7 @@
                   },
                   {
                     "name": "value",
-                    "type": "LomObject",
+                    "type": "Any",
                     "optional": false,
                     "default": null
                   }
@@ -2869,7 +2869,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "LomObject",
+                    "type": "Iterable[Any]",
                     "optional": false,
                     "default": null
                   }
@@ -5779,7 +5779,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "LomObject"
+                  "type": "Device"
                 }
               },
               {
@@ -6302,7 +6302,7 @@
                 "raw_doc": "Const access to the Chain's list of Send Amount Device Parameters.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'DeviceParameter'>"
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "sends_has_listener",
@@ -12852,7 +12852,7 @@
               }
             ],
             "returns": {
-              "type": "LomObject"
+              "type": "Track"
             }
           },
           {
@@ -17774,7 +17774,7 @@
                 "raw_doc": "Return const access to the list of chains in this drum pad.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'Chain'>"
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "chains_has_listener",
@@ -18102,13 +18102,13 @@
                     "default": null
                   },
                   {
-                    "name": "start_time",
+                    "name": "start",
                     "type": "float",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "end_time",
+                    "name": "end",
                     "type": "float",
                     "optional": false,
                     "default": null
@@ -18135,13 +18135,13 @@
                     "default": null
                   },
                   {
-                    "name": "start_time",
+                    "name": "start",
                     "type": "float",
                     "optional": false,
                     "default": null
                   },
                   {
-                    "name": "end_time",
+                    "name": "end",
                     "type": "float",
                     "optional": false,
                     "default": null
@@ -18168,7 +18168,7 @@
                     "default": null
                   },
                   {
-                    "name": "start_time",
+                    "name": "start",
                     "type": "float",
                     "optional": false,
                     "default": null
@@ -21142,7 +21142,7 @@
                   },
                   {
                     "name": "callback",
-                    "type": "Callable | None",
+                    "type": "Callable",
                     "optional": false,
                     "default": null
                   },
@@ -21544,7 +21544,7 @@
               "<class 'Boost.Python.instance'>"
             ],
             "iterable": true,
-            "element_repr": "<class 'ListenerHandle'>",
+            "element_repr": "<class 'ListenerHandle.ListenerHandle'>",
             "children": [
               {
                 "name": "append",
@@ -23075,7 +23075,7 @@
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'DeviceIO'>"
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "midi_inputs_has_listener",
@@ -23112,7 +23112,7 @@
                 "raw_doc": "Const access to a list of all midi outputs of the device.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'DeviceIO'>"
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "midi_outputs_has_listener",
@@ -24258,7 +24258,7 @@
                 "default": null
               },
               {
-                "name": "cc_no",
+                "name": "cc",
                 "type": "int",
                 "optional": false,
                 "default": null
@@ -24585,7 +24585,7 @@
                 "default": null
               },
               {
-                "name": "needs_takeover",
+                "name": "avoid_takeover",
                 "type": "bool",
                 "optional": false,
                 "default": null
@@ -24630,7 +24630,7 @@
                 "default": null
               },
               {
-                "name": "needs_takeover",
+                "name": "avoid_takeover",
                 "type": "bool",
                 "optional": false,
                 "default": null
@@ -26424,7 +26424,7 @@
                 "raw_doc": "Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'Chain'>"
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "chains_has_listener",
@@ -26654,7 +26654,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "LomObject"
+                  "type": "Chain"
                 }
               },
               {
@@ -27225,7 +27225,7 @@
                 "raw_doc": "Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.",
                 "probed_type": "Vector",
                 "probed_repr": "<class 'Base.Vector'>",
-                "element_repr": "<class 'Chain'>"
+                "element_repr": "<class 'LomObject.LomObject'>"
               },
               {
                 "name": "return_chains_has_listener",
@@ -37279,7 +37279,7 @@
                   },
                   {
                     "name": "target",
-                    "type": "LomObject",
+                    "type": "Track | Chain",
                     "optional": false,
                     "default": null
                   },
@@ -37929,7 +37929,7 @@
                   },
                   {
                     "name": "target",
-                    "type": "LomObject",
+                    "type": "Track | Chain",
                     "optional": false,
                     "default": null
                   },
@@ -44559,7 +44559,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "LomObject"
+                  "type": "TakeLane"
                 }
               },
               {
@@ -45483,7 +45483,7 @@
                   }
                 ],
                 "returns": {
-                  "type": "LomObject"
+                  "type": "Device"
                 }
               },
               {

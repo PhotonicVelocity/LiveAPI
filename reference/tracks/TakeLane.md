@@ -8,6 +8,10 @@ This class represents a take lane in Live.
 
 **Live Object:** `yes`
 
+**Access via:**
+
+- `Track.create_take_lane()`
+
 ### Properties
 
 | Property                                  | Type           | Supports             |

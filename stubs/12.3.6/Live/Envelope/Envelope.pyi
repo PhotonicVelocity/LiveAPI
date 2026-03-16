@@ -19,15 +19,15 @@ class Envelope:
         """Get the canonical parent of the envelope."""
         ...
 
-    def delete_events_in_range(self, start_time: float | None, end_time: float | None) -> None:
+    def delete_events_in_range(self, start: float | None, end: float | None) -> None:
         """Deletes the events in the specified time range."""
         ...
 
-    def events_in_range(self, start_time: float | None, end_time: float | None) -> EnvelopeEventVector:
+    def events_in_range(self, start: float | None, end: float | None) -> EnvelopeEventVector:
         """Returns the events in the specified time range."""
         ...
 
-    def insert_step(self, start_time: float | None, length: float | None, value: float | None) -> None:
+    def insert_step(self, start: float | None, length: float | None, value: float | None) -> None:
         """Given a start time, a step length and a value, creates a step in the envelope."""
         ...
 

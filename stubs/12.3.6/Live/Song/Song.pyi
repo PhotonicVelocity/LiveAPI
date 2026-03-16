@@ -4,12 +4,12 @@ from typing import TYPE_CHECKING, Any, Callable
 if TYPE_CHECKING:
     from . import BeatTime, CaptureDestination, CaptureMode, CuePoint, Quantization, RecordingQuantization, SmptTime
     from Live.Base import IntVector, Vector
+    from Live.Chain import Chain
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
     from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
-    from Live.LomObject import LomObject
     from Live.Scene import Scene
     from Live.Track import Track
     from Live.TuningSystem import TuningSystem
@@ -878,7 +878,7 @@ class Song:
         """Get the current Live Set's path on disk."""
         ...
 
-    def find_device_position(self, device: Device | None, target: LomObject | None, target_position: int | None) -> int:
+    def find_device_position(self, device: Device | None, target: Track | Chain | None, target_position: int | None) -> int:
         """
         Returns the closest possible position to the given target, where the
         device can be inserted. If inserting is not possible at all (i.e. if
@@ -1116,7 +1116,7 @@ class Song:
         """
         ...
 
-    def move_device(self, device: Device | None, target: LomObject | None, target_position: int | None) -> int:
+    def move_device(self, device: Device | None, target: Track | Chain | None, target_position: int | None) -> int:
         """Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to."""
         ...
 

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.ChainMixerDevice import ChainMixerDevice
+    from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
     from Live.Track import Track
@@ -160,7 +161,7 @@ class Chain:
         """
         ...
 
-    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> LomObject:
+    def insert_device(self, DeviceName: str | None, DeviceIndex: int = -1) -> Device:
         """Add a device at a given index in the chain. At end if -1."""
         ...
 
