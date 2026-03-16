@@ -993,8 +993,13 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
     if parent.name and parent.name.endswith("Vector"):
         if name == "append" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
             args[1]["name"] = "value"
-        elif name == "extend" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
-            args[1]["name"] = "values"
+        elif name == "extend" and len(args) == 2:
+            if args[1].get("name", "").startswith("arg"):
+                args[1]["name"] = "values"
+            # extend takes an iterable of elements, not a single element
+            elem_type = args[1].get("type")
+            if elem_type and elem_type != "object":
+                args[1]["type"] = f"Iterable[{elem_type}]"
 
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
@@ -1181,7 +1186,10 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                             continue
                         for p in fn.get("args", []):
                             if p.get("type") == "object":
-                                p["type"] = element_type
+                                if fn_name == "extend":
+                                    p["type"] = f"Iterable[{element_type}]"
+                                else:
+                                    p["type"] = element_type
 
     _merge(tree)
 

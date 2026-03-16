@@ -957,40 +957,6 @@
         "value": "LomObject"
       }
     },
-    "Live.Base.ObjectVector.extend": {
-      "usage_snippets": [
-        "chains.extend(nested_chains)",
-        "data_to_send.extend(as_ascii(adjust_string(scene.name, NAME_LENGTH).strip()))",
-        "data_to_send.extend(as_ascii(adjust_string(track.name, NAME_LENGTH).strip()))",
-        "notes_to_render.extend(wrap_note(note_on, note_off, clip_length))",
-        "self._additional_parameters.extend([self.zoom, self.envelope])",
-        "self._clip_data[\"notes\"].extend([create_note(payload[i[:i + BYTES_PER_NOTE]], group_offset) for i in range(0, payload_length, BYTES_PER_NOTE)])",
-        "self._items.extend(list(map(self._item_wrapper, next_slice)))",
-        "self._mixer_sections.extend([",
-        "self._note_off_events.extend(note_offs)",
-        "self._note_on_events.extend(note_ons)"
-      ],
-      "unresolved_arg_types": {
-        "values": "object"
-      }
-    },
-    "Live.Base.Vector.extend": {
-      "usage_snippets": [
-        "chains.extend(nested_chains)",
-        "data_to_send.extend(as_ascii(adjust_string(scene.name, NAME_LENGTH).strip()))",
-        "data_to_send.extend(as_ascii(adjust_string(track.name, NAME_LENGTH).strip()))",
-        "notes_to_render.extend(wrap_note(note_on, note_off, clip_length))",
-        "self._additional_parameters.extend([self.zoom, self.envelope])",
-        "self._clip_data[\"notes\"].extend([create_note(payload[i[:i + BYTES_PER_NOTE]], group_offset) for i in range(0, payload_length, BYTES_PER_NOTE)])",
-        "self._items.extend(list(map(self._item_wrapper, next_slice)))",
-        "self._mixer_sections.extend([",
-        "self._note_off_events.extend(note_offs)",
-        "self._note_on_events.extend(note_ons)"
-      ],
-      "unresolved_arg_types": {
-        "values": "LomObject"
-      }
-    },
     "Live.Base.Text.text": {
       "usage_snippets": [
         "def text(self):",

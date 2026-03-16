@@ -366,18 +366,6 @@
         }
       }
     },
-    "Live.Base.ObjectVector.extend": {
-      "signature": "extend( (ObjectVector)arg1, (object)arg2) -> None :",
-      "cpp_signature": "void extend(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)",
-      "args": {
-        "values": {
-          "current_type": "object",
-          "needs": [
-            "type"
-          ]
-        }
-      }
-    },
     "Live.Base.Text.text": {
       "probed_type": null,
       "needs": [
@@ -389,18 +377,6 @@
       "cpp_signature": "void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
       "args": {
         "value": {
-          "current_type": "LomObject",
-          "needs": [
-            "type"
-          ]
-        }
-      }
-    },
-    "Live.Base.Vector.extend": {
-      "signature": "extend( (Vector)arg1, (object)arg2) -> None :",
-      "cpp_signature": "void extend(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
-      "args": {
-        "values": {
           "current_type": "LomObject",
           "needs": [
             "type"

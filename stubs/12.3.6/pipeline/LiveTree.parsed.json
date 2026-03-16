@@ -1553,7 +1553,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "ControlDescription",
+                    "type": "Iterable[ControlDescription]",
                     "optional": false,
                     "default": null
                   }
@@ -2166,7 +2166,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "UnavailableFeature",
+                    "type": "Iterable[UnavailableFeature]",
                     "optional": false,
                     "default": null
                   }
@@ -2401,7 +2401,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "float",
+                    "type": "Iterable[float]",
                     "optional": false,
                     "default": null
                   }
@@ -2469,7 +2469,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "int",
+                    "type": "Iterable[int]",
                     "optional": false,
                     "default": null
                   }
@@ -2538,7 +2538,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "int",
+                    "type": "Iterable[int]",
                     "optional": false,
                     "default": null
                   }
@@ -2616,7 +2616,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "object",
+                    "type": "Iterable[object]",
                     "optional": false,
                     "default": null
                   }
@@ -2685,7 +2685,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "str",
+                    "type": "Iterable[str]",
                     "optional": false,
                     "default": null
                   }
@@ -2859,7 +2859,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "LomObject",
+                    "type": "Iterable[LomObject]",
                     "optional": false,
                     "default": null
                   }
@@ -3657,7 +3657,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "BrowserItem",
+                    "type": "Iterable[BrowserItem]",
                     "optional": false,
                     "default": null
                   }
@@ -10975,7 +10975,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "MidiNote",
+                    "type": "Iterable[MidiNote]",
                     "optional": false,
                     "default": null
                   }
@@ -11074,7 +11074,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "WarpMarker",
+                    "type": "Iterable[WarpMarker]",
                     "optional": false,
                     "default": null
                   }
@@ -12936,7 +12936,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "DeviceParameter",
+                    "type": "Iterable[DeviceParameter]",
                     "optional": false,
                     "default": null
                   }
@@ -18348,7 +18348,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "EnvelopeEvent",
+                    "type": "Iterable[EnvelopeEvent]",
                     "optional": false,
                     "default": null
                   }
@@ -21568,7 +21568,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "ListenerHandle",
+                    "type": "Iterable[ListenerHandle]",
                     "optional": false,
                     "default": null
                   }
@@ -42328,7 +42328,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "RoutingChannel",
+                    "type": "Iterable[RoutingChannel]",
                     "optional": false,
                     "default": null
                   }
@@ -42452,7 +42452,7 @@
                   },
                   {
                     "name": "values",
-                    "type": "RoutingType",
+                    "type": "Iterable[RoutingType]",
                     "optional": false,
                     "default": null
                   }
