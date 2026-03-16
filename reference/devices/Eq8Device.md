@@ -10,25 +10,25 @@ This class represents an Eq8 device.
 
 ### Properties
 
-| Property                                                  | Type                      | Supports             |
-| --------------------------------------------------------- | ------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
-| [`class_name`](#class_name)                               | `str`                     | `get`                |
-| [`edit_mode`](#edit_mode)                                 | `bool`                    | `get`/`set`/`listen` |
-| [`global_mode`](#global_mode)                             | `int`                     | `get`/`set`/`listen` |
-| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
-| [`name`](#name)                                           | `str`                     | `get`/`set`          |
-| [`oversample`](#oversample)                               | `bool`                    | `get`/`set`/`listen` |
-| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
-| [`type`](#type)                                           | `DeviceType`              | `get`                |
-| [`view`](#view)                                           | `View`                    | `get`                |
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`edit_mode`](#edit_mode)                                 | `bool`                 | `get`/`set`/`listen` |
+| [`global_mode`](#global_mode)                             | `int`                  | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`oversample`](#oversample)                               | `bool`                 | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `View`                 | `get`                |
 
 #### `can_compare_ab`
 
@@ -144,7 +144,7 @@ Access to Eq8's oversample value.
 
 #### `parameters`
 
-- **Type:** `Vector[DeviceParameter]`
+- **Type:** `ATimeableValueVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 

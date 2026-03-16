@@ -25,22 +25,22 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 ### Properties
 
-| Property                                  | Type          | Supports             |
-| ----------------------------------------- | ------------- | -------------------- |
-| [`automation_state`](#automation_state)   | `int`         | `get`/`listen`       |
-| [`canonical_parent`](#canonical_parent)   | `Device`      | `get`                |
-| [`default_value`](#default_value)         | `float`       | `get`                |
-| [`display_value`](#display_value)         | `float`       | `get`/`set`/`listen` |
-| [`is_enabled`](#is_enabled)               | `bool`        | `get`                |
-| [`is_quantized`](#is_quantized)           | `bool`        | `get`                |
-| [`max`](#max)                             | `float`       | `get`                |
-| [`min`](#min)                             | `float`       | `get`                |
-| [`name`](#name)                           | `str`         | `get`/`listen`       |
-| [`original_name`](#original_name)         | `str`         | `get`                |
-| [`short_value_items`](#short_value_items) | `Vector[str]` | `get`                |
-| [`state`](#state)                         | `int`         | `get`/`listen`       |
-| [`value`](#value)                         | `float`       | `get`/`set`/`listen` |
-| [`value_items`](#value_items)             | `Vector[str]` | `get`                |
+| Property                                  | Type           | Supports             |
+| ----------------------------------------- | -------------- | -------------------- |
+| [`automation_state`](#automation_state)   | `int`          | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)   | `Device`       | `get`                |
+| [`default_value`](#default_value)         | `float`        | `get`                |
+| [`display_value`](#display_value)         | `float`        | `get`/`set`/`listen` |
+| [`is_enabled`](#is_enabled)               | `bool`         | `get`                |
+| [`is_quantized`](#is_quantized)           | `bool`         | `get`                |
+| [`max`](#max)                             | `float`        | `get`                |
+| [`min`](#min)                             | `float`        | `get`                |
+| [`name`](#name)                           | `str`          | `get`/`listen`       |
+| [`original_name`](#original_name)         | `str`          | `get`                |
+| [`short_value_items`](#short_value_items) | `StringVector` | `get`                |
+| [`state`](#state)                         | `int`          | `get`/`listen`       |
+| [`value`](#value)                         | `float`        | `get`/`set`/`listen` |
+| [`value_items`](#value_items)             | `StringVector` | `get`                |
 
 #### `automation_state`
 
@@ -124,7 +124,7 @@ Returns const access the original name of this parameter, unaffected of any rena
 
 #### `short_value_items`
 
-- **Type:** `Vector[str]`
+- **Type:** `StringVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -148,7 +148,7 @@ Get/Set the current internal value of this parameter. The value must be inside t
 
 #### `value_items`
 
-- **Type:** `Vector[str]`
+- **Type:** `StringVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 

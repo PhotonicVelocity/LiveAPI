@@ -10,25 +10,25 @@ This class represents a Shifter device.
 
 ### Properties
 
-| Property                                                  | Type                      | Supports             |
-| --------------------------------------------------------- | ------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
-| [`class_name`](#class_name)                               | `str`                     | `get`                |
-| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
-| [`name`](#name)                                           | `str`                     | `get`/`set`          |
-| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
-| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                     | `get`/`set`/`listen` |
-| [`pitch_mode_index`](#pitch_mode_index)                   | `int`                     | `get`/`set`/`listen` |
-| [`pitch_mode_list`](#pitch_mode_list)                     | `Vector[str]`             | `get`                |
-| [`type`](#type)                                           | `DeviceType`              | `get`                |
-| [`view`](#view)                                           | `Device.View`             | `get`                |
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                  | `get`/`set`/`listen` |
+| [`pitch_mode_index`](#pitch_mode_index)                   | `int`                  | `get`/`set`/`listen` |
+| [`pitch_mode_list`](#pitch_mode_list)                     | `StringVector`         | `get`                |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `Device.View`          | `get`                |
 
 #### `can_compare_ab`
 
@@ -120,7 +120,7 @@ Return access to the name of the device.
 
 #### `parameters`
 
-- **Type:** `Vector[DeviceParameter]`
+- **Type:** `ATimeableValueVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -144,7 +144,7 @@ Return the current pitch mode index
 
 #### `pitch_mode_list`
 
-- **Type:** `Vector[str]`
+- **Type:** `StringVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 

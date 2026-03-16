@@ -55,7 +55,7 @@ This class represents a Live set.
 | [`record_mode`](#record_mode)                                                         | `bool`                  | `get`/`set`/`listen` |
 | [`return_tracks`](#return_tracks)                                                     | `Vector[Track]`         | `get`/`listen`       |
 | [`root_note`](#root_note)                                                             | `int`                   | `get`/`set`/`listen` |
-| [`scale_intervals`](#scale_intervals)                                                 | `Vector[int]`           | `get`/`listen`       |
+| [`scale_intervals`](#scale_intervals)                                                 | `IntVector`             | `get`/`listen`       |
 | [`scale_mode`](#scale_mode)                                                           | `bool`                  | `get`/`set`/`listen` |
 | [`scale_name`](#scale_name)                                                           | `str`                   | `get`/`set`/`listen` |
 | [`scenes`](#scenes)                                                                   | `Vector[Scene]`         | `get`/`listen`       |
@@ -389,7 +389,7 @@ Set and access the root (i.e. key) of the song. The root can be a number between
 
 #### `scale_intervals`
 
-- **Type:** `Vector[int]`
+- **Type:** `IntVector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

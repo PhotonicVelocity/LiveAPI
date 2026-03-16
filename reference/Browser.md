@@ -14,25 +14,25 @@ This class represents the live browser data base.
 
 ### Properties
 
-| Property                                | Type                  | Supports             |
-| --------------------------------------- | --------------------- | -------------------- |
-| [`audio_effects`](#audio_effects)       | `BrowserItem`         | `get`                |
-| [`clips`](#clips)                       | `BrowserItem`         | `get`                |
-| [`colors`](#colors)                     | `Vector[BrowserItem]` | `get`                |
-| [`current_project`](#current_project)   | `BrowserItem`         | `get`                |
-| [`drums`](#drums)                       | `BrowserItem`         | `get`                |
-| [`filter_type`](#filter_type)           | `int`                 | `get`/`set`/`listen` |
-| [`hotswap_target`](#hotswap_target)     | `None`                | `get`/`set`/`listen` |
-| [`instruments`](#instruments)           | `BrowserItem`         | `get`                |
-| [`legacy_libraries`](#legacy_libraries) | `Vector[BrowserItem]` | `get`                |
-| [`max_for_live`](#max_for_live)         | `BrowserItem`         | `get`                |
-| [`midi_effects`](#midi_effects)         | `BrowserItem`         | `get`                |
-| [`packs`](#packs)                       | `BrowserItem`         | `get`                |
-| [`plugins`](#plugins)                   | `BrowserItem`         | `get`                |
-| [`samples`](#samples)                   | `BrowserItem`         | `get`                |
-| [`sounds`](#sounds)                     | `BrowserItem`         | `get`                |
-| [`user_folders`](#user_folders)         | `Vector[BrowserItem]` | `get`                |
-| [`user_library`](#user_library)         | `BrowserItem`         | `get`                |
+| Property                                | Type                | Supports             |
+| --------------------------------------- | ------------------- | -------------------- |
+| [`audio_effects`](#audio_effects)       | `BrowserItem`       | `get`                |
+| [`clips`](#clips)                       | `BrowserItem`       | `get`                |
+| [`colors`](#colors)                     | `BrowserItemVector` | `get`                |
+| [`current_project`](#current_project)   | `BrowserItem`       | `get`                |
+| [`drums`](#drums)                       | `BrowserItem`       | `get`                |
+| [`filter_type`](#filter_type)           | `int`               | `get`/`set`/`listen` |
+| [`hotswap_target`](#hotswap_target)     | `None`              | `get`/`set`/`listen` |
+| [`instruments`](#instruments)           | `BrowserItem`       | `get`                |
+| [`legacy_libraries`](#legacy_libraries) | `BrowserItemVector` | `get`                |
+| [`max_for_live`](#max_for_live)         | `BrowserItem`       | `get`                |
+| [`midi_effects`](#midi_effects)         | `BrowserItem`       | `get`                |
+| [`packs`](#packs)                       | `BrowserItem`       | `get`                |
+| [`plugins`](#plugins)                   | `BrowserItem`       | `get`                |
+| [`samples`](#samples)                   | `BrowserItem`       | `get`                |
+| [`sounds`](#sounds)                     | `BrowserItem`       | `get`                |
+| [`user_folders`](#user_folders)         | `BrowserItemVector` | `get`                |
+| [`user_library`](#user_library)         | `BrowserItem`       | `get`                |
 
 #### `audio_effects`
 
@@ -52,7 +52,7 @@ Returns a browser item with access to all the Clips content.
 
 #### `colors`
 
-- **Type:** `Vector[BrowserItem]`
+- **Type:** `BrowserItemVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -100,7 +100,7 @@ Returns a browser item with access to all the Instruments content.
 
 #### `legacy_libraries`
 
-- **Type:** `Vector[BrowserItem]`
+- **Type:** `BrowserItemVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -156,7 +156,7 @@ Returns a browser item with access to all the Sounds content.
 
 #### `user_folders`
 
-- **Type:** `Vector[BrowserItem]`
+- **Type:** `BrowserItemVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -248,7 +248,7 @@ This class represents an item of the browser hierarchy.
 
 | Property                          | Type                  | Supports |
 | --------------------------------- | --------------------- | -------- |
-| [`children`](#children)           | `Vector[BrowserItem]` | `get`    |
+| [`children`](#children)           | `BrowserItemVector`   | `get`    |
 | [`is_device`](#is_device)         | `bool`                | `get`    |
 | [`is_folder`](#is_folder)         | `bool`                | `get`    |
 | [`is_loadable`](#is_loadable)     | `bool`                | `get`    |
@@ -260,7 +260,7 @@ This class represents an item of the browser hierarchy.
 
 #### `children`
 
-- **Type:** `Vector[BrowserItem]`
+- **Type:** `BrowserItemVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 

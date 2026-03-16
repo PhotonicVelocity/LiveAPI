@@ -21,56 +21,56 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 ### Properties
 
-| Property                                          | Type                 | Supports             |
-| ------------------------------------------------- | -------------------- | -------------------- |
-| [`automation_envelopes`](#automation_envelopes)   | `Vector[Envelope]`   | `get`                |
-| [`available_warp_modes`](#available_warp_modes)   | `Vector[int]`        | `get`                |
-| [`canonical_parent`](#canonical_parent)           | `ClipSlot`           | `get`                |
-| [`color`](#color)                                 | `int`                | `get`/`set`/`listen` |
-| [`color_index`](#color_index)                     | `int`                | `get`/`set`/`listen` |
-| [`end_marker`](#end_marker)                       | `float`              | `get`/`set`/`listen` |
-| [`end_time`](#end_time)                           | `float`              | `get`/`listen`       |
-| [`file_path`](#file_path)                         | `str`                | `get`/`listen`       |
-| [`gain`](#gain)                                   | `float`              | `get`/`set`/`listen` |
-| [`gain_display_string`](#gain_display_string)     | `str`                | `get`                |
-| [`groove`](#groove)                               | `None`               | `get`/`set`/`listen` |
-| [`has_envelopes`](#has_envelopes)                 | `bool`               | `get`/`listen`       |
-| [`has_groove`](#has_groove)                       | `bool`               | `get`                |
-| [`is_arrangement_clip`](#is_arrangement_clip)     | `bool`               | `get`                |
-| [`is_audio_clip`](#is_audio_clip)                 | `bool`               | `get`                |
-| [`is_midi_clip`](#is_midi_clip)                   | `bool`               | `get`                |
-| [`is_overdubbing`](#is_overdubbing)               | `bool`               | `get`/`listen`       |
-| [`is_playing`](#is_playing)                       | `bool`               | `get`/`set`          |
-| [`is_recording`](#is_recording)                   | `bool`               | `get`/`listen`       |
-| [`is_session_clip`](#is_session_clip)             | `bool`               | `get`                |
-| [`is_take_lane_clip`](#is_take_lane_clip)         | `bool`               | `get`                |
-| [`is_triggered`](#is_triggered)                   | `bool`               | `get`                |
-| [`launch_mode`](#launch_mode)                     | `int`                | `get`/`set`/`listen` |
-| [`launch_quantization`](#launch_quantization)     | `int`                | `get`/`set`/`listen` |
-| [`legato`](#legato)                               | `bool`               | `get`/`set`/`listen` |
-| [`length`](#length)                               | `float`              | `get`                |
-| [`loop_end`](#loop_end)                           | `float`              | `get`/`set`/`listen` |
-| [`loop_start`](#loop_start)                       | `float`              | `get`/`set`/`listen` |
-| [`looping`](#looping)                             | `bool`               | `get`/`set`/`listen` |
-| [`muted`](#muted)                                 | `bool`               | `get`/`set`/`listen` |
-| [`name`](#name)                                   | `str`                | `get`/`set`/`listen` |
-| [`pitch_coarse`](#pitch_coarse)                   | `int`                | `get`/`set`/`listen` |
-| [`pitch_fine`](#pitch_fine)                       | `float`              | `get`/`set`/`listen` |
-| [`playing_position`](#playing_position)           | `float`              | `get`/`listen`       |
-| [`position`](#position)                           | `float`              | `get`/`set`/`listen` |
-| [`ram_mode`](#ram_mode)                           | `bool`               | `get`/`set`/`listen` |
-| [`sample_length`](#sample_length)                 | `int`                | `get`                |
-| [`sample_rate`](#sample_rate)                     | `float`              | `get`                |
-| [`signature_denominator`](#signature_denominator) | `int`                | `get`/`set`/`listen` |
-| [`signature_numerator`](#signature_numerator)     | `int`                | `get`/`set`/`listen` |
-| [`start_marker`](#start_marker)                   | `float`              | `get`/`set`/`listen` |
-| [`start_time`](#start_time)                       | `float`              | `get`/`listen`       |
-| [`velocity_amount`](#velocity_amount)             | `float`              | `get`/`set`/`listen` |
-| [`view`](#view)                                   | `View`               | `get`                |
-| [`warp_markers`](#warp_markers)                   | `Vector[WarpMarker]` | `get`/`listen`       |
-| [`warp_mode`](#warp_mode)                         | `int`                | `get`/`set`/`listen` |
-| [`warping`](#warping)                             | `bool`               | `get`/`set`/`listen` |
-| [`will_record_on_start`](#will_record_on_start)   | `bool`               | `get`                |
+| Property                                          | Type               | Supports             |
+| ------------------------------------------------- | ------------------ | -------------------- |
+| [`automation_envelopes`](#automation_envelopes)   | `Vector[Envelope]` | `get`                |
+| [`available_warp_modes`](#available_warp_modes)   | `IntVector`        | `get`                |
+| [`canonical_parent`](#canonical_parent)           | `ClipSlot`         | `get`                |
+| [`color`](#color)                                 | `int`              | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                     | `int`              | `get`/`set`/`listen` |
+| [`end_marker`](#end_marker)                       | `float`            | `get`/`set`/`listen` |
+| [`end_time`](#end_time)                           | `float`            | `get`/`listen`       |
+| [`file_path`](#file_path)                         | `str`              | `get`/`listen`       |
+| [`gain`](#gain)                                   | `float`            | `get`/`set`/`listen` |
+| [`gain_display_string`](#gain_display_string)     | `str`              | `get`                |
+| [`groove`](#groove)                               | `None`             | `get`/`set`/`listen` |
+| [`has_envelopes`](#has_envelopes)                 | `bool`             | `get`/`listen`       |
+| [`has_groove`](#has_groove)                       | `bool`             | `get`                |
+| [`is_arrangement_clip`](#is_arrangement_clip)     | `bool`             | `get`                |
+| [`is_audio_clip`](#is_audio_clip)                 | `bool`             | `get`                |
+| [`is_midi_clip`](#is_midi_clip)                   | `bool`             | `get`                |
+| [`is_overdubbing`](#is_overdubbing)               | `bool`             | `get`/`listen`       |
+| [`is_playing`](#is_playing)                       | `bool`             | `get`/`set`          |
+| [`is_recording`](#is_recording)                   | `bool`             | `get`/`listen`       |
+| [`is_session_clip`](#is_session_clip)             | `bool`             | `get`                |
+| [`is_take_lane_clip`](#is_take_lane_clip)         | `bool`             | `get`                |
+| [`is_triggered`](#is_triggered)                   | `bool`             | `get`                |
+| [`launch_mode`](#launch_mode)                     | `int`              | `get`/`set`/`listen` |
+| [`launch_quantization`](#launch_quantization)     | `int`              | `get`/`set`/`listen` |
+| [`legato`](#legato)                               | `bool`             | `get`/`set`/`listen` |
+| [`length`](#length)                               | `float`            | `get`                |
+| [`loop_end`](#loop_end)                           | `float`            | `get`/`set`/`listen` |
+| [`loop_start`](#loop_start)                       | `float`            | `get`/`set`/`listen` |
+| [`looping`](#looping)                             | `bool`             | `get`/`set`/`listen` |
+| [`muted`](#muted)                                 | `bool`             | `get`/`set`/`listen` |
+| [`name`](#name)                                   | `str`              | `get`/`set`/`listen` |
+| [`pitch_coarse`](#pitch_coarse)                   | `int`              | `get`/`set`/`listen` |
+| [`pitch_fine`](#pitch_fine)                       | `float`            | `get`/`set`/`listen` |
+| [`playing_position`](#playing_position)           | `float`            | `get`/`listen`       |
+| [`position`](#position)                           | `float`            | `get`/`set`/`listen` |
+| [`ram_mode`](#ram_mode)                           | `bool`             | `get`/`set`/`listen` |
+| [`sample_length`](#sample_length)                 | `int`              | `get`                |
+| [`sample_rate`](#sample_rate)                     | `float`            | `get`                |
+| [`signature_denominator`](#signature_denominator) | `int`              | `get`/`set`/`listen` |
+| [`signature_numerator`](#signature_numerator)     | `int`              | `get`/`set`/`listen` |
+| [`start_marker`](#start_marker)                   | `float`            | `get`/`set`/`listen` |
+| [`start_time`](#start_time)                       | `float`            | `get`/`listen`       |
+| [`velocity_amount`](#velocity_amount)             | `float`            | `get`/`set`/`listen` |
+| [`view`](#view)                                   | `View`             | `get`                |
+| [`warp_markers`](#warp_markers)                   | `WarpMarkerVector` | `get`/`listen`       |
+| [`warp_mode`](#warp_mode)                         | `int`              | `get`/`set`/`listen` |
+| [`warping`](#warping)                             | `bool`             | `get`/`set`/`listen` |
+| [`will_record_on_start`](#will_record_on_start)   | `bool`             | `get`                |
 
 #### `automation_envelopes`
 
@@ -82,7 +82,7 @@ Const access to a list of all automation envelopes for this clip.
 
 #### `available_warp_modes`
 
-- **Type:** `Vector[int]`
+- **Type:** `IntVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 
@@ -426,7 +426,7 @@ Get the view of the Clip.
 
 #### `warp_markers`
 
-- **Type:** `Vector[WarpMarker]`
+- **Type:** `WarpMarkerVector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -460,7 +460,7 @@ returns true if the Clip will record on being started.
 
 | Method                                                                                                                                         | Returns                                                  |
 | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- |
-| [`add_new_notes()`](#add_new_notesnotes-iterablemidinotespecification)                                                                         | `IntU64Vector`                                           |
+| [`add_new_notes()`](#add_new_notesnotes-listmidinotespecification)                                                                             | `IntU64Vector`                                           |
 | [`add_warp_marker()`](#add_warp_markerwarp_marker-warpmarker)                                                                                  | `None`                                                   |
 | [`apply_note_modifications()`](#apply_note_modificationsnotes-midinotevector)                                                                  | `None`                                                   |
 | [`automation_envelope()`](#automation_envelopeparameter-deviceparameter)                                                                       | `Envelope`                                               |
@@ -471,12 +471,12 @@ returns true if the Clip will record on being started.
 | [`crop()`](#crop)                                                                                                                              | `None`                                                   |
 | [`deselect_all_notes()`](#deselect_all_notes)                                                                                                  | `None`                                                   |
 | [`duplicate_loop()`](#duplicate_loop)                                                                                                          | `None`                                                   |
-| [`duplicate_notes_by_id()`](#duplicate_notes_by_idnote_ids-iterableint-destination_time-float-none-transposition_amount-int-0)                 | `IntU64Vector`                                           |
+| [`duplicate_notes_by_id()`](#duplicate_notes_by_idnote_ids-listint-destination_time-float-none-transposition_amount-int-0)                     | `IntU64Vector`                                           |
 | [`duplicate_region()`](#duplicate_regionregion_start-float-region_length-float-destination_time-float-pitch-int--1-transposition_amount-int-0) | `None`                                                   |
 | [`fire()`](#fire)                                                                                                                              | `None`                                                   |
 | [`get_all_notes_extended()`](#get_all_notes_extended)                                                                                          | `MidiNoteVector`                                         |
 | [`get_notes()`](#get_notesfrom_time-float-from_pitch-int-time_span-float-pitch_span-int)                                                       | `tuple[tuple[int, float, float, float, bool], Ellipsis]` |
-| [`get_notes_by_id()`](#get_notes_by_idnote_ids-iterableint)                                                                                    | `MidiNoteVector`                                         |
+| [`get_notes_by_id()`](#get_notes_by_idnote_ids-listint)                                                                                        | `MidiNoteVector`                                         |
 | [`get_notes_extended()`](#get_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                                     | `MidiNoteVector`                                         |
 | [`get_selected_notes()`](#get_selected_notes)                                                                                                  | `tuple[tuple[int, float, float, float, bool], Ellipsis]` |
 | [`get_selected_notes_extended()`](#get_selected_notes_extended)                                                                                | `MidiNoteVector`                                         |
@@ -486,7 +486,7 @@ returns true if the Clip will record on being started.
 | [`quantize()`](#quantizequantization_grid-int-amount-float)                                                                                    | `None`                                                   |
 | [`quantize_pitch()`](#quantize_pitchnote-int-source-int-amount-float)                                                                          | `None`                                                   |
 | [`remove_notes()`](#remove_notesfrom_time-float-from_pitch-int-time_span-float-pitch_span-int)                                                 | `None`                                                   |
-| [`remove_notes_by_id()`](#remove_notes_by_idnote_ids-iterableint)                                                                              | `None`                                                   |
+| [`remove_notes_by_id()`](#remove_notes_by_idnote_ids-listint)                                                                                  | `None`                                                   |
 | [`remove_notes_extended()`](#remove_notes_extendedfrom_pitch-int-pitch_span-int-from_time-float-time_span-float)                               | `None`                                                   |
 | [`remove_warp_marker()`](#remove_warp_markerbeat_time-float)                                                                                   | `None`                                                   |
 | [`replace_selected_notes()`](#replace_selected_notesnotes-tupletupleint-float-float-float-bool-ellipsis)                                       | `None`                                                   |
@@ -494,17 +494,17 @@ returns true if the Clip will record on being started.
 | [`scrub()`](#scrubscrub_position-float)                                                                                                        | `None`                                                   |
 | [`seconds_to_sample_time()`](#seconds_to_sample_timeseconds-float)                                                                             | `float`                                                  |
 | [`select_all_notes()`](#select_all_notes)                                                                                                      | `None`                                                   |
-| [`select_notes_by_id()`](#select_notes_by_idnote_ids-iterableint)                                                                              | `None`                                                   |
+| [`select_notes_by_id()`](#select_notes_by_idnote_ids-listint)                                                                                  | `None`                                                   |
 | [`set_fire_button_state()`](#set_fire_button_statestate-bool)                                                                                  | `None`                                                   |
 | [`set_notes()`](#set_notesnotes-tupletupleint-float-float-float-bool-ellipsis)                                                                 | `None`                                                   |
 | [`stop()`](#stop)                                                                                                                              | `None`                                                   |
 | [`stop_scrub()`](#stop_scrub)                                                                                                                  | `None`                                                   |
 
-#### `add_new_notes(notes: Iterable[MidiNoteSpecification])`
+#### `add_new_notes(notes: list[MidiNoteSpecification])`
 
 - **Returns:** `IntU64Vector`
 - **Args:**
-  - `notes: Iterable[MidiNoteSpecification]`
+  - `notes: list[MidiNoteSpecification]`
 
 Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification objects. The objects will be used to construct new notes in the clip.
 
@@ -580,11 +580,11 @@ De-selects all notes present in the clip.
 
 Make the loop two times longer and duplicates notes and envelopes. Duplicates the clip start/end range if the clip is not looped.
 
-#### `duplicate_notes_by_id(note_ids: Iterable[int], destination_time: float = None, transposition_amount: int = 0)`
+#### `duplicate_notes_by_id(note_ids: list[int], destination_time: float = None, transposition_amount: int = 0)`
 
 - **Returns:** `IntU64Vector`
 - **Args:**
-  - `note_ids: Iterable[int]`
+  - `note_ids: list[int]`
   - `destination_time: float = None`
   - `transposition_amount: int = 0`
 
@@ -625,11 +625,11 @@ Returns a list of all MIDI notes from the clip, regardless of their position rel
 
 Returns a tuple of tuples where each inner tuple represents a note starting in the given pitch- and time range. The inner tuple contains pitch, time, duration, velocity, and mute state.
 
-#### `get_notes_by_id(note_ids: Iterable[int])`
+#### `get_notes_by_id(note_ids: list[int])`
 
 - **Returns:** `MidiNoteVector`
 - **Args:**
-  - `note_ids: Iterable[int]`
+  - `note_ids: list[int]`
 
 Return a list of MIDI notes matching the given note IDs.
 
@@ -711,11 +711,11 @@ Quantize all the notes of a given pitch. Raises an error on audio clips.
 
 Delete all notes starting in the given pitch- and time range.
 
-#### `remove_notes_by_id(note_ids: Iterable[int])`
+#### `remove_notes_by_id(note_ids: list[int])`
 
 - **Returns:** `None`
 - **Args:**
-  - `note_ids: Iterable[int]`
+  - `note_ids: list[int]`
 
 Delete all notes matching the given note IDs. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
 
@@ -776,11 +776,11 @@ Available for AudioClips only. Converts the given seconds to sample time. Raises
 
 Selects all notes present in the clip.
 
-#### `select_notes_by_id(note_ids: Iterable[int])`
+#### `select_notes_by_id(note_ids: list[int])`
 
 - **Returns:** `None`
 - **Args:**
-  - `note_ids: Iterable[int]`
+  - `note_ids: list[int]`
 
 Selects all notes matching the given note IDs.
 

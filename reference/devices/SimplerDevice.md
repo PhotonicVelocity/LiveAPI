@@ -10,36 +10,36 @@ This class represents a Simpler device.
 
 ### Properties
 
-| Property                                                  | Type                      | Supports             |
-| --------------------------------------------------------- | ------------------------- | -------------------- |
-| [`can_compare_ab`](#can_compare_ab)                       | `bool`                    | `get`                |
-| [`can_have_chains`](#can_have_chains)                     | `bool`                    | `get`                |
-| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                    | `get`                |
-| [`can_warp_as`](#can_warp_as)                             | `bool`                    | `get`/`listen`       |
-| [`can_warp_double`](#can_warp_double)                     | `bool`                    | `get`/`listen`       |
-| [`can_warp_half`](#can_warp_half)                         | `bool`                    | `get`/`listen`       |
-| [`canonical_parent`](#canonical_parent)                   | `Track`                   | `get`                |
-| [`class_display_name`](#class_display_name)               | `str`                     | `get`                |
-| [`class_name`](#class_name)                               | `str`                     | `get`                |
-| [`is_active`](#is_active)                                 | `bool`                    | `get`                |
-| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                    | `get`/`set`          |
-| [`latency_in_ms`](#latency_in_ms)                         | `float`                   | `get`                |
-| [`latency_in_samples`](#latency_in_samples)               | `int`                     | `get`                |
-| [`multi_sample_mode`](#multi_sample_mode)                 | `bool`                    | `get`/`listen`       |
-| [`name`](#name)                                           | `str`                     | `get`/`set`          |
-| [`note_pitch_bend_range`](#note_pitch_bend_range)         | `int`                     | `get`/`set`/`listen` |
-| [`pad_slicing`](#pad_slicing)                             | `bool`                    | `get`/`set`/`listen` |
-| [`parameters`](#parameters)                               | `Vector[DeviceParameter]` | `get`                |
-| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                     | `get`/`set`/`listen` |
-| [`playback_mode`](#playback_mode)                         | `int`                     | `get`/`set`/`listen` |
-| [`playing_position`](#playing_position)                   | `float`                   | `get`/`listen`       |
-| [`playing_position_enabled`](#playing_position_enabled)   | `bool`                    | `get`/`listen`       |
-| [`retrigger`](#retrigger)                                 | `bool`                    | `get`/`set`/`listen` |
-| [`sample`](#sample)                                       | `Sample`                  | `get`/`listen`       |
-| [`slicing_playback_mode`](#slicing_playback_mode)         | `int`                     | `get`/`set`/`listen` |
-| [`type`](#type)                                           | `DeviceType`              | `get`                |
-| [`view`](#view)                                           | `View`                    | `get`                |
-| [`voices`](#voices)                                       | `int`                     | `get`/`set`/`listen` |
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`can_warp_as`](#can_warp_as)                             | `bool`                 | `get`/`listen`       |
+| [`can_warp_double`](#can_warp_double)                     | `bool`                 | `get`/`listen`       |
+| [`can_warp_half`](#can_warp_half)                         | `bool`                 | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`multi_sample_mode`](#multi_sample_mode)                 | `bool`                 | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`note_pitch_bend_range`](#note_pitch_bend_range)         | `int`                  | `get`/`set`/`listen` |
+| [`pad_slicing`](#pad_slicing)                             | `bool`                 | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                  | `get`/`set`/`listen` |
+| [`playback_mode`](#playback_mode)                         | `int`                  | `get`/`set`/`listen` |
+| [`playing_position`](#playing_position)                   | `float`                | `get`/`listen`       |
+| [`playing_position_enabled`](#playing_position_enabled)   | `bool`                 | `get`/`listen`       |
+| [`retrigger`](#retrigger)                                 | `bool`                 | `get`/`set`/`listen` |
+| [`sample`](#sample)                                       | `Sample`               | `get`/`listen`       |
+| [`slicing_playback_mode`](#slicing_playback_mode)         | `int`                  | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `View`                 | `get`                |
+| [`voices`](#voices)                                       | `int`                  | `get`/`set`/`listen` |
 
 #### `can_compare_ab`
 
@@ -179,7 +179,7 @@ When set to true, slices can be added in slicing mode by playing notes .that are
 
 #### `parameters`
 
-- **Type:** `Vector[DeviceParameter]`
+- **Type:** `ATimeableValueVector`
 - **Settable:** `no`
 - **Listenable:** `no`
 

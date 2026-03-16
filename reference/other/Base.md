@@ -87,10 +87,10 @@ A simple read only container for returning python objects.
 
 ### Methods
 
-| Method                                  | Returns |
-| --------------------------------------- | ------- |
-| [`append()`](#appendvalue-any)          | `None`  |
-| [`extend()`](#extendvalues-iterableany) | `None`  |
+| Method                              | Returns |
+| ----------------------------------- | ------- |
+| [`append()`](#appendvalue-any)      | `None`  |
+| [`extend()`](#extendvalues-listany) | `None`  |
 
 #### `append(value: Any)`
 
@@ -98,11 +98,11 @@ A simple read only container for returning python objects.
 - **Args:**
   - `value: Any`
 
-#### `extend(values: Iterable[Any])`
+#### `extend(values: list[Any])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: Iterable[Any]`
+  - `values: list[Any]`
 
 ## StringVector (Class)
 

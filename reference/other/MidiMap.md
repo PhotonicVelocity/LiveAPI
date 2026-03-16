@@ -10,13 +10,13 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property                        | Type    | Supports    |
-| ------------------------------- | ------- | ----------- |
-| [`cc_no`](#cc_no)               | `int`   | `get`/`set` |
-| [`cc_value_map`](#cc_value_map) | `tuple` | `get`/`set` |
-| [`channel`](#channel)           | `int`   | `get`/`set` |
-| [`delay_in_ms`](#delay_in_ms)   | `float` | `get`/`set` |
-| [`enabled`](#enabled)           | `bool`  | `get`/`set` |
+| Property                        | Type                   | Supports    |
+| ------------------------------- | ---------------------- | ----------- |
+| [`cc_no`](#cc_no)               | `int`                  | `get`/`set` |
+| [`cc_value_map`](#cc_value_map) | `tuple[int, Ellipsis]` | `get`/`set` |
+| [`channel`](#channel)           | `int`                  | `get`/`set` |
+| [`delay_in_ms`](#delay_in_ms)   | `float`                | `get`/`set` |
+| [`enabled`](#enabled)           | `bool`                 | `get`/`set` |
 
 #### `cc_no`
 
@@ -26,7 +26,7 @@ Structure to define feedback properties of MIDI mappings.
 
 #### `cc_value_map`
 
-- **Type:** `tuple`
+- **Type:** `tuple[int, Ellipsis]`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
@@ -58,13 +58,13 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property                      | Type    | Supports    |
-| ----------------------------- | ------- | ----------- |
-| [`channel`](#channel)         | `int`   | `get`/`set` |
-| [`delay_in_ms`](#delay_in_ms) | `float` | `get`/`set` |
-| [`enabled`](#enabled)         | `bool`  | `get`/`set` |
-| [`note_no`](#note_no)         | `int`   | `get`/`set` |
-| [`vel_map`](#vel_map)         | `tuple` | `get`/`set` |
+| Property                      | Type                   | Supports    |
+| ----------------------------- | ---------------------- | ----------- |
+| [`channel`](#channel)         | `int`                  | `get`/`set` |
+| [`delay_in_ms`](#delay_in_ms) | `float`                | `get`/`set` |
+| [`enabled`](#enabled)         | `bool`                 | `get`/`set` |
+| [`note_no`](#note_no)         | `int`                  | `get`/`set` |
+| [`vel_map`](#vel_map)         | `tuple[int, Ellipsis]` | `get`/`set` |
 
 #### `channel`
 
@@ -92,7 +92,7 @@ Structure to define feedback properties of MIDI mappings.
 
 #### `vel_map`
 
-- **Type:** `tuple`
+- **Type:** `tuple[int, Ellipsis]`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
@@ -106,12 +106,12 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property                            | Type    | Supports    |
-| ----------------------------------- | ------- | ----------- |
-| [`channel`](#channel)               | `int`   | `get`/`set` |
-| [`delay_in_ms`](#delay_in_ms)       | `float` | `get`/`set` |
-| [`enabled`](#enabled)               | `bool`  | `get`/`set` |
-| [`value_pair_map`](#value_pair_map) | `tuple` | `get`/`set` |
+| Property                            | Type                   | Supports    |
+| ----------------------------------- | ---------------------- | ----------- |
+| [`channel`](#channel)               | `int`                  | `get`/`set` |
+| [`delay_in_ms`](#delay_in_ms)       | `float`                | `get`/`set` |
+| [`enabled`](#enabled)               | `bool`                 | `get`/`set` |
+| [`value_pair_map`](#value_pair_map) | `tuple[int, Ellipsis]` | `get`/`set` |
 
 #### `channel`
 
@@ -133,7 +133,7 @@ Structure to define feedback properties of MIDI mappings.
 
 #### `value_pair_map`
 
-- **Type:** `tuple`
+- **Type:** `tuple[int, Ellipsis]`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
@@ -167,8 +167,8 @@ Structure to define feedback properties of MIDI mappings.
 | [`map_midi_cc_with_feedback_map()`](#map_midi_cc_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-feedback_rule-ccfeedbackrule-avoid_takeover-bool-sensitivity-float-10) | `bool`  |
 | [`map_midi_note()`](#map_midi_notemidi_map_handle-int-parameter-deviceparameter-channel-int-note-int)                                                                                                                                          | `bool`  |
 | [`map_midi_note_with_feedback_map()`](#map_midi_note_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-note-int-feedback_rule-notefeedbackrule)                                                                       | `bool`  |
-| [`map_midi_pitchbend()`](#map_midi_pitchbendmidi_map_handle-int-parameter-deviceparameter-channel-int-avoid_takeover-bool)                                                                                                                     | `bool`  |
-| [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-feedback_rule-pitchbendfeedbackrule-avoid_takeover-bool)                                             | `bool`  |
+| [`map_midi_pitchbend()`](#map_midi_pitchbendmidi_map_handle-int-parameter-deviceparameter-channel-int-needs_takeover-bool)                                                                                                                     | `bool`  |
+| [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-feedback_rule-pitchbendfeedbackrule-needs_takeover-bool)                                             | `bool`  |
 | [`send_feedback_for_parameter()`](#send_feedback_for_parametermidi_map_handle-int-parameter-deviceparameter)                                                                                                                                   | `None`  |
 
 ### `forward_midi_cc(script_handle: int, midi_map_handle: int, channel: int, cc_no: int, ShouldConsumeEvent: bool = True)`
@@ -243,16 +243,16 @@ Structure to define feedback properties of MIDI mappings.
   - `note: int`
   - `feedback_rule: NoteFeedbackRule`
 
-### `map_midi_pitchbend(midi_map_handle: int, parameter: DeviceParameter, channel: int, avoid_takeover: bool)`
+### `map_midi_pitchbend(midi_map_handle: int, parameter: DeviceParameter, channel: int, needs_takeover: bool)`
 
 - **Returns:** `bool`
 - **Args:**
   - `midi_map_handle: int`
   - `parameter: DeviceParameter`
   - `channel: int`
-  - `avoid_takeover: bool`
+  - `needs_takeover: bool`
 
-### `map_midi_pitchbend_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, channel: int, feedback_rule: PitchBendFeedbackRule, avoid_takeover: bool)`
+### `map_midi_pitchbend_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, channel: int, feedback_rule: PitchBendFeedbackRule, needs_takeover: bool)`
 
 - **Returns:** `bool`
 - **Args:**
@@ -260,7 +260,7 @@ Structure to define feedback properties of MIDI mappings.
   - `parameter: DeviceParameter`
   - `channel: int`
   - `feedback_rule: PitchBendFeedbackRule`
-  - `avoid_takeover: bool`
+  - `needs_takeover: bool`
 
 ### `send_feedback_for_parameter(midi_map_handle: int, parameter: DeviceParameter)`
 

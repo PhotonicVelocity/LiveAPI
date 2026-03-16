@@ -482,7 +482,7 @@ The layout of pads on Push.
 
 | Method                                                               | Returns                                 |
 | -------------------------------------------------------------------- | --------------------------------------- |
-| [`enable_receive_midi()`](#enable_receive_midienable-bool)           | `None`                                  |
+| [`enable_receive_midi()`](#enable_receive_midienabled-bool)          | `None`                                  |
 | [`fetch_received_midi_messages()`](#fetch_received_midi_messages)    | `tuple[tuple[int, Ellipsis], Ellipsis]` |
 | [`fetch_received_values()`](#fetch_received_values)                  | `tuple[tuple[int, Any], Ellipsis]`      |
 | [`grab_control()`](#grab_controlcontrol-int)                         | `None`                                  |
@@ -492,11 +492,11 @@ The layout of pads on Push.
 | [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`                                  |
 | [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`                                  |
 
-#### `enable_receive_midi(enable: bool)`
+#### `enable_receive_midi(enabled: bool)`
 
 - **Returns:** `None`
 - **Args:**
-  - `enable: bool`
+  - `enabled: bool`
 
 #### `fetch_received_midi_messages()`
 
@@ -569,13 +569,13 @@ A container for returning unavailable features.
 
 ## Module Functions
 
-| Function                                                                           | Returns                |
-| ---------------------------------------------------------------------------------- | ---------------------- |
-| [`combine_apcs()`](#combine_apcs)                                                  | `bool`                 |
-| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple[int, Ellipsis]` |
-| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`                  |
-| [`get_application()`](#get_application)                                            | `Application`          |
-| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`                  |
+| Function                                                                           | Returns           |
+| ---------------------------------------------------------------------------------- | ----------------- |
+| [`combine_apcs()`](#combine_apcs)                                                  | `bool`            |
+| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple[int, int]` |
+| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`             |
+| [`get_application()`](#get_application)                                            | `Application`     |
+| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`             |
 
 ### `combine_apcs()`
 
@@ -585,7 +585,7 @@ Returns true if multiple APCs should be combined.
 
 ### `encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0)`
 
-- **Returns:** `tuple[int, Ellipsis]`
+- **Returns:** `tuple[int, int]`
 - **Args:**
   - `dongle1: int`
   - `dongle2: int`
