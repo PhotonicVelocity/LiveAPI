@@ -118,6 +118,9 @@ four fields: `name`, `name_reason`, `type`, `type_reason`. Providing only some i
 - For `element_repr` fields, use the `<class '...'>` repr format (e.g. `<class 'Track.Track'>`), NOT
   Python type names. This matches the repr format used throughout the parsed tree.
 - Always parameterize container types when the element type is known: `list[int]` not bare `list`.
+- **Vector `extend` args must use `Iterable[T]`.** The `extend` method on Vector classes accepts an
+  iterable of elements, not a single element. If `append` takes `MidiNote`, then `extend` takes
+  `Iterable[MidiNote]`. Never use a bare element type for an `extend` argument.
 - For Vector class probed_types, use the Vector class name as-is (e.g. `ControlDescriptionVector`),
   not a parameterized form — these are distinct LOM types, not generic Python containers.
 - For LOM class references, use the class name only (e.g. `ClipSlot` not `Live.ClipSlot.ClipSlot`).
