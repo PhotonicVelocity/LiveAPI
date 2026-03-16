@@ -1,70 +1,176 @@
-# MeldDevice
+# MeldDevice (Module)
+
+## MeldDevice (Class)
 
 > `Live.MeldDevice.MeldDevice`
 
-This class represents a Meld synthesizer device in Live. MeldDevice is a subclass of Device -- it has all the
-children, properties, and methods of Device plus additional members for selecting the oscillator engine,
-polyphony mode, voice count, and unison settings.
+This class represents a Meld device.
 
-??? note "Raw probe notes (temporary)"
-    - Bridge type: `"MeldDevice"`. `class_name`: `"InstrumentMeld"`.
-    - `selected_engine` returns `bool` through the bridge (not `int`), despite conceptually being
-      a 0/1 selector. Setting `1` reads back as `True`, setting `0`/`False` reads back as `False`.
-    - `mono_poly` returns `int`. Default is 1 (Poly). Settable, round-trips correctly.
-    - `poly_voices` returns `int`. Default is 5. Settable (set to 2, read back 2), round-trips.
-    - `unison_voices` returns `int`. Default is 0 (Off). Settable (set to 2, read back 2), round-trips.
-    - All four properties are listenable and settable.
-
-### Open Questions
-
-None — all resolved by probing.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), MeldDevice adds:
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`mono_poly`](#mono_poly)                                 | `int`                  | `get`/`set`/`listen` |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`poly_voices`](#poly_voices)                             | `int`                  | `get`/`set`/`listen` |
+| [`selected_engine`](#selected_engine)                     | `bool`                 | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`unison_voices`](#unison_voices)                         | `int`                  | `get`/`set`/`listen` |
+| [`view`](#view)                                           | `Device.View`          | `get`                |
 
-| Property          | Type   | Settable | Listenable | Summary                                                           |
-| ----------------- | ------ | -------- | ---------- | ----------------------------------------------------------------- |
-| `mono_poly`       | `int`  | yes      | yes        | Polyphony mode: 0 = Mono, 1 = Poly.                              |
-| `poly_voices`     | `int`  | yes      | yes        | Polyphony voice count index (0-based).                            |
-| `selected_engine` | `bool` | yes      | yes        | Oscillator engine selector: False = Engine A, True = Engine B.    |
-| `unison_voices`   | `int`  | yes      | yes        | Unison voice count index: 0 = Off, 1 = Two, 2 = Three, 3 = Four. |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
 
 #### `mono_poly`
 
-- **Type:** `int` (get) · `int` (set)
-- **Listenable:** yes
-- **Since:** `12.0`
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
 
-Selects the polyphony mode. Values: 0 = Mono, 1 = Poly.
+Returns the mode of Polyphony
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
 
 #### `poly_voices`
 
-- **Type:** `int` (get) · `int` (set)
-- **Listenable:** yes
-- **Since:** `12.0`
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
 
-Selects the polyphony voice count. The index maps to voice counts as follows:
-0 = 2, 1 = 3, 2 = 4, 3 = 5, 4 = 6, 5 = 8, 6 = 12.
+Return the Poly Voice count
 
 #### `selected_engine`
 
-- **Type:** `bool` (get) · `bool` (set)
-- **Listenable:** yes
-- **Since:** `12.0`
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `yes`
 
-Selects which oscillator engine is active. Values: `False` = Engine A, `True` = Engine B.
+Return what Voice Engine is selected
 
-**Quirks:**
+#### `type`
 
-- Despite conceptually being a 0/1 index, the bridge serializes this as `bool`.
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
 
 #### `unison_voices`
 
-- **Type:** `int` (get) · `int` (set)
-- **Listenable:** yes
-- **Since:** `12.0`
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
 
-Selects the unison voice count. Values: 0 = Off, 1 = Two, 2 = Three, 3 = Four.
+Return the Unison Voice count
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.

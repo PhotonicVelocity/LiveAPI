@@ -1,106 +1,228 @@
-# Eq8Device
+# Eq8Device (Module)
+
+## Eq8Device (Class)
 
 > `Live.Eq8Device.Eq8Device`
 
-This class represents an EQ Eight device in Live. An Eq8Device is a subclass of Device --
-it has all the children, properties, and methods of Device plus additional members for
-controlling the EQ's global mode, edit mode, and oversampling.
+This class represents an Eq8 device.
 
-EQ Eight can operate in three global modes (Stereo, L/R, M/S), each of which provides two
-edit channels. The `edit_mode` and `global_mode` properties expose these settings
-programmatically.
-
-??? note "Raw probe notes (temporary)"
-    - Bridge type: `"Eq8Device"`. `class_name`: `"Eq8"`.
-    - `edit_mode` returns `bool` through the bridge (not `int`), despite the stub declaring it as
-      `EditMode`. Setting `1` reads back as `True`, setting `0`/`False` reads back as `False`.
-    - `global_mode` returns `int` (0, 1, 2). Settable and round-trips correctly.
-    - `oversample` returns `bool`. Settable, round-trips correctly.
-    - `view.selected_band` returns `int` (default 2 on fresh device). Settable (0-7), round-trips
-      correctly.
-    - All properties are listenable.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), Eq8Device adds:
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`edit_mode`](#edit_mode)                                 | `bool`                 | `get`/`set`/`listen` |
+| [`global_mode`](#global_mode)                             | `int`                  | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`oversample`](#oversample)                               | `bool`                 | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `View`                 | `get`                |
 
-| Property      | Type   | Settable | Listenable | Summary                                                         |
-| ------------- | ------ | -------- | ---------- | --------------------------------------------------------------- |
-| `edit_mode`   | `bool` | yes      | `yes`      | Which channel is selected for editing (depends on global mode). |
-| `global_mode` | `int`  | yes      | `yes`      | The EQ's stereo processing mode (Stereo, L/R, or M/S).         |
-| `oversample`  | `bool` | yes      | `yes`      | Whether oversampling is enabled.                                |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
 
 #### `edit_mode`
 
-- **Type:** `bool` (get) · `bool` (set)
+- **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Controls which channel is currently available for editing. The meaning of the value depends
-on the current `global_mode`:
-
-- In L/R mode: `False` = Left, `True` = Right
-- In M/S mode: `False` = Mid, `True` = Side
-- In Stereo mode: `False` = channel A, `True` = channel B (inactive)
-
-- **Quirks:**
-    - Despite the stub declaring this as `EditMode`, the bridge serializes it as `bool`.
+Access to Eq8's edit mode.
 
 #### `global_mode`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The EQ's stereo processing mode. The modes are encoded as:
+Access to Eq8's global mode.
 
-- `0` = Stereo
-- `1` = L/R
-- `2` = M/S
+#### `is_active`
 
-Changing the global mode affects the available edit modes (see `edit_mode`).
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
 
 #### `oversample`
 
-- **Type:** `bool` (get) · `bool` (set)
+- **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether oversampling is enabled for the EQ. When on, the EQ processes at a higher internal
-sample rate for improved accuracy at the cost of increased CPU usage.
+Access to Eq8's oversample value.
 
-### Methods
+#### `parameters`
 
-No additional methods beyond those inherited from Device (`save_preset_to_compare_ab_slot()`,
-`store_chosen_bank()`).
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
 
----
+Const access to the list of available automatable parameters for this device.
 
-## Eq8Device.View
+#### `type`
 
-Represents the view aspects of an EQ Eight device. Extends Device.View with an additional
-property for the selected filter band.
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.
+
+## Eq8Device.View (Subclass)
+
+> `Live.Eq8Device.Eq8Device.View`
+
+Representing the view aspects of an Eq8 device.
+
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to `is_collapsed` (inherited from Device.View):
+| Property                                | Type        | Supports             |
+| --------------------------------------- | ----------- | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `Eq8Device` | `get`                |
+| [`is_collapsed`](#is_collapsed)         | `bool`      | `get`/`set`          |
+| [`selected_band`](#selected_band)       | `int`       | `get`/`set`/`listen` |
 
-| Property        | Type  | Settable | Listenable | Summary                                          |
-| --------------- | ----- | -------- | ---------- | ------------------------------------------------ |
-| `selected_band` | `int` | yes      | `yes`      | The index of the currently selected filter band. |
+#### `canonical_parent`
+
+- **Type:** `Eq8Device`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the View.
+
+#### `is_collapsed`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Get/Set/Listen if the device is shown collapsed in the device chain.
 
 #### `selected_band`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The index of the currently selected filter band in the EQ Eight UI. EQ Eight has 8 bands
-(indices 0-7). The listener fires when the user selects a different band in the device UI.
-Default value on a fresh device is 2.
+Access to the selected filter band.
 
-### Open Questions
+## Enums
 
-None -- all resolved by probing.
+### EditMode
+
+> `Live.Eq8Device.EditMode`
+
+| Value | Name |
+| ----- | ---- |
+| `0`   | `a`  |
+| `1`   | `b`  |
+
+### GlobalMode
+
+> `Live.Eq8Device.GlobalMode`
+
+| Value | Name         |
+| ----- | ------------ |
+| `0`   | `stereo`     |
+| `1`   | `left_right` |
+| `2`   | `mid_side`   |

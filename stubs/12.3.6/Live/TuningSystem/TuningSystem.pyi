@@ -1,48 +1,49 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from . import PitchClassAndOctave, ReferencePitch
+    from Live.LomObject import LomObject
     from Live.Song import Song
 
 
 
-class TuningSystem:
+class TuningSystem(LomObject):
     """Represents a Tuning System and its properties."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_highest_note_listener(self, callback: Callable | None) -> None:
+    def add_highest_note_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "highest_note" has changed.
         """
         ...
 
-    def add_lowest_note_listener(self, callback: Callable | None) -> None:
+    def add_lowest_note_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "lowest_note" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_note_tunings_listener(self, callback: Callable | None) -> None:
+    def add_note_tunings_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "note_tunings" has changed.
         """
         ...
 
-    def add_reference_pitch_listener(self, callback: Callable | None) -> None:
+    def add_reference_pitch_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "reference_pitch" has changed.
@@ -65,7 +66,7 @@ class TuningSystem:
     @highest_note.setter
     def highest_note(self, value: PitchClassAndOctave) -> None: ...
 
-    def highest_note_has_listener(self, callback: Callable | None) -> bool:
+    def highest_note_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "highest_note".
@@ -83,7 +84,7 @@ class TuningSystem:
     @lowest_note.setter
     def lowest_note(self, value: PitchClassAndOctave) -> None: ...
 
-    def lowest_note_has_listener(self, callback: Callable | None) -> bool:
+    def lowest_note_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "lowest_note".
@@ -98,7 +99,7 @@ class TuningSystem:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
@@ -106,14 +107,14 @@ class TuningSystem:
         ...
 
     @property
-    def note_tunings(self) -> list:
+    def note_tunings(self) -> list[float]:
         """Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament."""
         ...
 
     @note_tunings.setter
-    def note_tunings(self, value: list) -> None: ...
+    def note_tunings(self, value: list[float]) -> None: ...
 
-    def note_tunings_has_listener(self, callback: Callable | None) -> bool:
+    def note_tunings_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "note_tunings".
@@ -138,42 +139,42 @@ class TuningSystem:
     @reference_pitch.setter
     def reference_pitch(self, value: ReferencePitch) -> None: ...
 
-    def reference_pitch_has_listener(self, callback: Callable | None) -> bool:
+    def reference_pitch_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "reference_pitch".
         """
         ...
 
-    def remove_highest_note_listener(self, callback: Callable | None) -> None:
+    def remove_highest_note_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "highest_note".
         """
         ...
 
-    def remove_lowest_note_listener(self, callback: Callable | None) -> None:
+    def remove_lowest_note_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "lowest_note".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_note_tunings_listener(self, callback: Callable | None) -> None:
+    def remove_note_tunings_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "note_tunings".
         """
         ...
 
-    def remove_reference_pitch_listener(self, callback: Callable | None) -> None:
+    def remove_reference_pitch_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "reference_pitch".

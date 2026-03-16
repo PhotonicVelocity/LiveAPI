@@ -1,340 +1,401 @@
-# DriftDevice
+# DriftDevice (Module)
+
+## DriftDevice (Class)
 
 > `Live.DriftDevice.DriftDevice`
 
-This class represents a Drift synthesizer device in Live. DriftDevice is a subclass of
-Device -- it has all the children, properties, and methods of Device plus additional
-members for accessing the modulation matrix, voice settings, and pitch bend range.
+This class represents a Drift device.
 
-Drift's modulation matrix is exposed through a set of index/list property pairs. Each
-pair lets you read or change which modulation source or target is selected in a given
-slot. The `*_list` properties return the available option names; the `*_index` properties
-return or set the currently selected index into that list.
-
-??? note "Raw probe notes (temporary)"
-    - Bridge type name: `"DriftDevice"`.
-    - `class_name` = `"Drift"`, `class_display_name` = `"Drift"` (names match).
-    - Device type = 1 (Instrument).
-    - All `*_index` properties are **settable** (get+set+listen) -- confirmed by probe.
-    - All `*_list` properties serialize as plain `list[str]` through the bridge
-      (StringVector -> list).
-    - `pitch_bend_range` valid range: 0-12. Setting 13+ throws `"Invalid Pitch Bend Range"`.
-      Settable within range.
-    - `voice_count_list` = `['4', '8', '16', '24', '32']` (5 entries).
-    - `voice_mode_list` = `['Poly', 'Mono', 'Stereo', 'Unison']` (4 entries).
-    - All mod matrix source lists share the same 8 entries: `['Env 1', 'Env 2', 'LFO', 'Key',
-      'Vel', 'Mod', 'Press', 'Slide']`.
-    - Target lists have 12 entries: `['None', 'Osc 1 Gain', 'Osc 1 Shape', 'Osc 2 Gain',
-      'Osc 2 Detune', 'Noise Gain', 'LP Frequency', 'LP Resonance', 'HP Frequency', 'LFO Rate',
-      'Cyc Env Rate', 'Main Volume']`.
-    - Default `voice_count_index` = 4 (= 32 voices), `voice_mode_index` = 0 (Poly),
-      `pitch_bend_range` = 2.
-    - Default mod matrix index values: filter_source_1=1, filter_source_2=6, lfo_source=5,
-      pitch_source_1=1, pitch_source_2=2, shape_source=7, source_1=5, source_2=4, source_3=6,
-      target_1=8, target_2=0, target_3=0.
-
-### Open Questions
-
-None -- all questions resolved by probing.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`,
-`can_have_drum_pads`, `class_display_name`, `class_name`, `is_active`,
-`is_using_compare_preset_b`, `latency_in_ms`, `latency_in_samples`, `name`, `type`),
-DriftDevice adds:
+| Property                                                                | Type                   | Supports             |
+| ----------------------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                                     | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                                   | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)                             | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                                 | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)                             | `str`                  | `get`                |
+| [`class_name`](#class_name)                                             | `str`                  | `get`                |
+| [`is_active`](#is_active)                                               | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b)               | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                                       | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)                             | `int`                  | `get`                |
+| [`mod_matrix_filter_source_1_index`](#mod_matrix_filter_source_1_index) | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_filter_source_1_list`](#mod_matrix_filter_source_1_list)   | `StringVector`         | `get`                |
+| [`mod_matrix_filter_source_2_index`](#mod_matrix_filter_source_2_index) | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_filter_source_2_list`](#mod_matrix_filter_source_2_list)   | `StringVector`         | `get`                |
+| [`mod_matrix_lfo_source_index`](#mod_matrix_lfo_source_index)           | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_lfo_source_list`](#mod_matrix_lfo_source_list)             | `StringVector`         | `get`                |
+| [`mod_matrix_pitch_source_1_index`](#mod_matrix_pitch_source_1_index)   | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_pitch_source_1_list`](#mod_matrix_pitch_source_1_list)     | `StringVector`         | `get`                |
+| [`mod_matrix_pitch_source_2_index`](#mod_matrix_pitch_source_2_index)   | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_pitch_source_2_list`](#mod_matrix_pitch_source_2_list)     | `StringVector`         | `get`                |
+| [`mod_matrix_shape_source_index`](#mod_matrix_shape_source_index)       | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_shape_source_list`](#mod_matrix_shape_source_list)         | `StringVector`         | `get`                |
+| [`mod_matrix_source_1_index`](#mod_matrix_source_1_index)               | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_source_1_list`](#mod_matrix_source_1_list)                 | `StringVector`         | `get`                |
+| [`mod_matrix_source_2_index`](#mod_matrix_source_2_index)               | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_source_2_list`](#mod_matrix_source_2_list)                 | `StringVector`         | `get`                |
+| [`mod_matrix_source_3_index`](#mod_matrix_source_3_index)               | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_source_3_list`](#mod_matrix_source_3_list)                 | `StringVector`         | `get`                |
+| [`mod_matrix_target_1_index`](#mod_matrix_target_1_index)               | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_target_1_list`](#mod_matrix_target_1_list)                 | `StringVector`         | `get`                |
+| [`mod_matrix_target_2_index`](#mod_matrix_target_2_index)               | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_target_2_list`](#mod_matrix_target_2_list)                 | `StringVector`         | `get`                |
+| [`mod_matrix_target_3_index`](#mod_matrix_target_3_index)               | `int`                  | `get`/`set`/`listen` |
+| [`mod_matrix_target_3_list`](#mod_matrix_target_3_list)                 | `StringVector`         | `get`                |
+| [`name`](#name)                                                         | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                                             | `ATimeableValueVector` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                                 | `int`                  | `get`/`set`/`listen` |
+| [`type`](#type)                                                         | `DeviceType`           | `get`                |
+| [`view`](#view)                                                         | `Device.View`          | `get`                |
+| [`voice_count_index`](#voice_count_index)                               | `int`                  | `get`/`set`/`listen` |
+| [`voice_count_list`](#voice_count_list)                                 | `StringVector`         | `get`                |
+| [`voice_mode_index`](#voice_mode_index)                                 | `int`                  | `get`/`set`/`listen` |
+| [`voice_mode_list`](#voice_mode_list)                                   | `StringVector`         | `get`                |
 
-| Property                           | Type        | Settable | Listenable | Summary                                                 |
-| ---------------------------------- | ----------- | -------- | ---------- | ------------------------------------------------------- |
-| `mod_matrix_filter_source_1_index` | `int`       | `int`    | `yes`      | Selected source index for filter frequency mod slot 1.  |
-| `mod_matrix_filter_source_1_list`  | `list[str]` | no       | `no`       | Available source names for filter frequency mod slot 1. |
-| `mod_matrix_filter_source_2_index` | `int`       | `int`    | `yes`      | Selected source index for filter frequency mod slot 2.  |
-| `mod_matrix_filter_source_2_list`  | `list[str]` | no       | `no`       | Available source names for filter frequency mod slot 2. |
-| `mod_matrix_lfo_source_index`      | `int`       | `int`    | `yes`      | Selected source index for LFO amount modulation.        |
-| `mod_matrix_lfo_source_list`       | `list[str]` | no       | `no`       | Available source names for LFO amount modulation.       |
-| `mod_matrix_pitch_source_1_index`  | `int`       | `int`    | `yes`      | Selected source index for pitch mod slot 1.             |
-| `mod_matrix_pitch_source_1_list`   | `list[str]` | no       | `no`       | Available source names for pitch mod slot 1.            |
-| `mod_matrix_pitch_source_2_index`  | `int`       | `int`    | `yes`      | Selected source index for pitch mod slot 2.             |
-| `mod_matrix_pitch_source_2_list`   | `list[str]` | no       | `no`       | Available source names for pitch mod slot 2.            |
-| `mod_matrix_shape_source_index`    | `int`       | `int`    | `yes`      | Selected source index for shape modulation.             |
-| `mod_matrix_shape_source_list`     | `list[str]` | no       | `no`       | Available source names for shape modulation.            |
-| `mod_matrix_source_1_index`        | `int`       | `int`    | `yes`      | Selected source index for custom mod slot 1.            |
-| `mod_matrix_source_1_list`         | `list[str]` | no       | `no`       | Available source names for custom mod slot 1.           |
-| `mod_matrix_source_2_index`        | `int`       | `int`    | `yes`      | Selected source index for custom mod slot 2.            |
-| `mod_matrix_source_2_list`         | `list[str]` | no       | `no`       | Available source names for custom mod slot 2.           |
-| `mod_matrix_source_3_index`        | `int`       | `int`    | `yes`      | Selected source index for custom mod slot 3.            |
-| `mod_matrix_source_3_list`         | `list[str]` | no       | `no`       | Available source names for custom mod slot 3.           |
-| `mod_matrix_target_1_index`        | `int`       | `int`    | `yes`      | Selected target index for custom mod slot 1.            |
-| `mod_matrix_target_1_list`         | `list[str]` | no       | `no`       | Available target names for custom mod slot 1.           |
-| `mod_matrix_target_2_index`        | `int`       | `int`    | `yes`      | Selected target index for custom mod slot 2.            |
-| `mod_matrix_target_2_list`         | `list[str]` | no       | `no`       | Available target names for custom mod slot 2.           |
-| `mod_matrix_target_3_index`        | `int`       | `int`    | `yes`      | Selected target index for custom mod slot 3.            |
-| `mod_matrix_target_3_list`         | `list[str]` | no       | `no`       | Available target names for custom mod slot 3.           |
-| `pitch_bend_range`                 | `int`       | `int`    | `yes`      | MIDI pitch bend range in semitones (0-12). Settable.    |
-| `voice_count_index`                | `int`       | `int`    | `yes`      | Index of the selected voice count setting.              |
-| `voice_count_list`                 | `list[str]` | no       | `no`       | Available voice count setting names.                    |
-| `voice_mode_index`                 | `int`       | `int`    | `yes`      | Index of the selected voice mode.                       |
-| `voice_mode_list`                  | `list[str]` | no       | `no`       | Available voice mode names.                             |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
 
 #### `mod_matrix_filter_source_1_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_filter_source_1_list` for the currently selected modulation
-source in filter frequency mod slot 1. Default: 1 (Env 2). Settable.
+Return the filter mod source 1 index
 
 #### `mod_matrix_filter_source_1_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for filter frequency mod slot 1.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the filter mod source 1 list
 
 #### `mod_matrix_filter_source_2_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_filter_source_2_list` for the currently selected modulation
-source in filter frequency mod slot 2. Default: 6 (Press). Settable.
+Return the filter mod source 2 index
 
 #### `mod_matrix_filter_source_2_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for filter frequency mod slot 2.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the filter mod source 2 list
 
 #### `mod_matrix_lfo_source_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_lfo_source_list` for the currently selected modulation source
-for the LFO amount. Default: 5 (Mod). Settable.
+Return the lfo mod source index
 
 #### `mod_matrix_lfo_source_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for the LFO amount.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the lfo mod source list
 
 #### `mod_matrix_pitch_source_1_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_pitch_source_1_list` for the currently selected modulation
-source in pitch mod slot 1. Default: 1 (Env 2). Settable.
+Return the pitch mod source 1 index
 
 #### `mod_matrix_pitch_source_1_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for pitch mod slot 1.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the pitch mod source 1 list
 
 #### `mod_matrix_pitch_source_2_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_pitch_source_2_list` for the currently selected modulation
-source in pitch mod slot 2. Default: 2 (LFO). Settable.
+Return the pitch mod source 2 index
 
 #### `mod_matrix_pitch_source_2_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for pitch mod slot 2.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the pitch mod source 2 list
 
 #### `mod_matrix_shape_source_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_shape_source_list` for the currently selected modulation
-source for shape. Default: 7 (Slide). Settable.
+Return the shape mod source index
 
 #### `mod_matrix_shape_source_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for shape.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the shape mod source list
 
 #### `mod_matrix_source_1_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_source_1_list` for the currently selected source in custom
-mod slot 1. Default: 5 (Mod). Settable -- confirmed by probe.
+Return the custom mod source 1 index
 
 #### `mod_matrix_source_1_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for custom mod slot 1.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the custom mod source 1 list
 
 #### `mod_matrix_source_2_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_source_2_list` for the currently selected source in custom
-mod slot 2. Default: 4 (Vel). Settable.
+Return the custom mod source 2 index
 
 #### `mod_matrix_source_2_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for custom mod slot 2.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the custom mod source 2 list
 
 #### `mod_matrix_source_3_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_source_3_list` for the currently selected source in custom
-mod slot 3. Default: 6 (Press). Settable.
+Return the custom mod source 3 index
 
 #### `mod_matrix_source_3_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation source names for custom mod slot 3.
-Values: `['Env 1', 'Env 2', 'LFO', 'Key', 'Vel', 'Mod', 'Press', 'Slide']`.
+Return the custom mod source 3 list
 
 #### `mod_matrix_target_1_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_target_1_list` for the currently selected target in custom
-mod slot 1. Default: 8 (HP Frequency). Settable -- confirmed by probe.
+Return the custom mod target 1 index
 
 #### `mod_matrix_target_1_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation target names for custom mod slot 1.
-Values: `['None', 'Osc 1 Gain', 'Osc 1 Shape', 'Osc 2 Gain', 'Osc 2 Detune',
-'Noise Gain', 'LP Frequency', 'LP Resonance', 'HP Frequency', 'LFO Rate',
-'Cyc Env Rate', 'Main Volume']`.
+Return the custom mod target 1 list
 
 #### `mod_matrix_target_2_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_target_2_list` for the currently selected target in custom
-mod slot 2. Default: 0 (None). Settable.
+Return the custom mod target 2 index
 
 #### `mod_matrix_target_2_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation target names for custom mod slot 2.
-Values: same as `mod_matrix_target_1_list`.
+Return the custom mod target 2 list
 
 #### `mod_matrix_target_3_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `mod_matrix_target_3_list` for the currently selected target in custom
-mod slot 3. Default: 0 (None). Settable.
+Return the custom mod target 3 index
 
 #### `mod_matrix_target_3_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available modulation target names for custom mod slot 3.
-Values: same as `mod_matrix_target_1_list`.
+Return the custom mod target 3 list
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
 
 #### `pitch_bend_range`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The MIDI pitch bend range in semitones. Valid range: 0-12. Setting values >= 13 throws
-`"Invalid Pitch Bend Range"`. Default: 2. Settable within valid range.
+Return the Pitch Bend Range
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.
 
 #### `voice_count_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `voice_count_list` for the currently selected voice count setting.
-Default: 4 (= 32 voices). Settable -- confirmed by probe.
+Return the voice count index
 
 #### `voice_count_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available voice count setting names.
-Values: `['4', '8', '16', '24', '32']`.
+Return the voice count list
 
 #### `voice_mode_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The index into `voice_mode_list` for the currently selected voice mode.
-Default: 0 (Poly). Settable -- confirmed by probe.
+Return the voice mode index
 
 #### `voice_mode_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-The list of available voice mode names.
-Values: `['Poly', 'Mono', 'Stereo', 'Unison']`.
+Return the voice mode list

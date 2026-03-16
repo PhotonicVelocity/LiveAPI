@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.DeviceParameter import DeviceParameter
@@ -19,11 +19,11 @@ class CCFeedbackRule:
     def cc_no(self, value: int) -> None: ...
 
     @property
-    def cc_value_map(self) -> tuple:
+    def cc_value_map(self) -> tuple[int, ...]:
         ...
 
     @cc_value_map.setter
-    def cc_value_map(self, value: tuple) -> None: ...
+    def cc_value_map(self, value: tuple[int, ...]) -> None: ...
 
     @property
     def channel(self) -> int:
@@ -46,7 +46,7 @@ class CCFeedbackRule:
     @enabled.setter
     def enabled(self, value: bool) -> None: ...
 
-class MapMode:
+class MapMode(int):
     absolute: int = 0
     relative_signed_bit: int = 1
     relative_binary_offset: int = 2
@@ -92,11 +92,11 @@ class NoteFeedbackRule:
     def note_no(self, value: int) -> None: ...
 
     @property
-    def vel_map(self) -> tuple:
+    def vel_map(self) -> tuple[int, ...]:
         ...
 
     @vel_map.setter
-    def vel_map(self, value: tuple) -> None: ...
+    def vel_map(self, value: tuple[int, ...]) -> None: ...
 
 class PitchBendFeedbackRule:
     """Structure to define feedback properties of MIDI mappings."""
@@ -125,40 +125,40 @@ class PitchBendFeedbackRule:
     def enabled(self, value: bool) -> None: ...
 
     @property
-    def value_pair_map(self) -> tuple:
+    def value_pair_map(self) -> tuple[tuple, ...]:
         ...
 
     @value_pair_map.setter
-    def value_pair_map(self, value: tuple) -> None: ...
+    def value_pair_map(self, value: tuple[tuple, ...]) -> None: ...
 
-def forward_midi_cc(script_handle: int | None, midi_map_handle: int | None, channel: int | None, cc_no: int | None, ShouldConsumeEvent: bool = True) -> bool:
+def forward_midi_cc(script_handle: int | None, midi_map_handle: int | None, midi_channel: int | None, controller_number: int | None, should_consume_event: bool = True, /) -> bool:
     ...
 
-def forward_midi_note(script_handle: int | None, midi_map_handle: int | None, channel: int | None, note: int | None, ShouldConsumeEvent: bool = True) -> bool:
+def forward_midi_note(script_handle: int | None, midi_map_handle: int | None, midi_channel: int | None, note: int | None, should_consume_event: bool = True, /) -> bool:
     ...
 
-def forward_midi_pitchbend(script_handle: int | None, midi_map_handle: int | None, channel: int | None) -> bool:
+def forward_midi_pitchbend(script_handle: int | None, midi_map_handle: int | None, midi_channel: int | None, /) -> bool:
     ...
 
-def map_midi_cc(midi_map_handle: int | None, parameter: DeviceParameter | None, midi_channel: int | None, controller_number: int | None, map_mode: MapMode | None, avoid_takeover: bool | None, sensitivity: float = 1.0) -> bool:
+def map_midi_cc(midi_map_handle: int | None, parameter: DeviceParameter | None, midi_channel: int | None, controller_number: int | None, map_mode: MapMode | None, avoid_takeover: bool | None, sensitivity: float = 1.0, /) -> bool:
     ...
 
-def map_midi_cc_with_feedback_map(midi_map_handle: int | None, parameter: DeviceParameter | None, midi_channel: int | None, controller_number: int | None, map_mode: MapMode | None, feedback_rule: CCFeedbackRule | None, avoid_takeover: bool | None, sensitivity: float = 1.0) -> bool:
+def map_midi_cc_with_feedback_map(midi_map_handle: int | None, parameter: DeviceParameter | None, midi_channel: int | None, controller_number: int | None, map_mode: MapMode | None, feedback_rule: CCFeedbackRule | None, avoid_takeover: bool | None, sensitivity: float = 1.0, /) -> bool:
     ...
 
-def map_midi_note(midi_map_handle: int | None, parameter: DeviceParameter | None, channel: int | None, note: int | None) -> bool:
+def map_midi_note(midi_map_handle: int | None, device_parameter: DeviceParameter | None, midi_channel: int | None, note: int | None, /) -> bool:
     ...
 
-def map_midi_note_with_feedback_map(midi_map_handle: int | None, parameter: DeviceParameter | None, channel: int | None, note: int | None, feedback_rule: NoteFeedbackRule | None) -> bool:
+def map_midi_note_with_feedback_map(midi_map_handle: int | None, device_parameter: DeviceParameter | None, midi_channel: int | None, note: int | None, feedback_rule: NoteFeedbackRule | None, /) -> bool:
     ...
 
-def map_midi_pitchbend(midi_map_handle: int | None, parameter: DeviceParameter | None, channel: int | None, avoid_takeover: bool | None) -> bool:
+def map_midi_pitchbend(midi_map_handle: int | None, device_parameter: DeviceParameter | None, midi_channel: int | None, needs_takeover: bool | None, /) -> bool:
     ...
 
-def map_midi_pitchbend_with_feedback_map(midi_map_handle: int | None, parameter: DeviceParameter | None, channel: int | None, feedback_rule: PitchBendFeedbackRule | None, avoid_takeover: bool | None) -> bool:
+def map_midi_pitchbend_with_feedback_map(midi_map_handle: int | None, device_parameter: DeviceParameter | None, midi_channel: int | None, feedback_rule: PitchBendFeedbackRule | None, needs_takeover: bool | None, /) -> bool:
     ...
 
-def send_feedback_for_parameter(midi_map_handle: int | None, parameter: DeviceParameter | None) -> None:
+def send_feedback_for_parameter(midi_map_handle: int | None, device_parameter: DeviceParameter | None, /) -> None:
     ...
 
 __all__ = ['CCFeedbackRule', 'MapMode', 'NoteFeedbackRule', 'PitchBendFeedbackRule', 'forward_midi_cc', 'forward_midi_note', 'forward_midi_pitchbend', 'map_midi_cc', 'map_midi_cc_with_feedback_map', 'map_midi_note', 'map_midi_note_with_feedback_map', 'map_midi_pitchbend', 'map_midi_pitchbend_with_feedback_map', 'send_feedback_for_parameter']

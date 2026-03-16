@@ -17,8 +17,8 @@ compared against the class name to avoid cross-class contamination.
 
 Input:
     stubs/<version>/pipeline/unresolved.json
-        Items with args that have ``needs_name: true``, ``object``-typed args, unknown returns,
-        or unprobed properties.
+        Items with args/returns/properties that have a ``needs`` list specifying what to resolve
+        (``name``, ``type``, ``probed_type``, ``element_repr``).
 
 Output (stdout, or --output file):
     JSON with three sections:
@@ -140,7 +140,7 @@ def _build_search_patterns(unresolved: dict) -> dict[str, list[str]]:
     for path, entry in unresolved.items():
         if "args" not in entry:
             continue
-        has_name_needed = any(arg.get("needs_name") for arg in entry["args"].values())
+        has_name_needed = any("name" in arg.get("needs", []) for arg in entry["args"].values())
         if not has_name_needed:
             continue
 
@@ -213,7 +213,7 @@ class DefCollector(ast.NodeVisitor):
                 self.hits[node.name].append(params)
         self.generic_visit(node)
 
-    visit_AsyncFunctionDef = visit_FunctionDef
+    visit_AsyncFunctionDef = visit_FunctionDef  # type: ignore[assignment]
 
 
 def _collect_def_sites(py_files: list[Path], target_funcs: set[str]) -> dict[str, list[list[str]]]:
@@ -305,13 +305,13 @@ def _resolve_from_defs(
             args = entry["args"]
             is_meth = _is_method(path)
 
-            needs_name_args = {k: v for k, v in args.items() if v.get("needs_name")}
-            if not needs_name_args:
+            name_args = {k: v for k, v in args.items() if "name" in v.get("needs", [])}
+            if not name_args:
                 continue
 
             arg_refinement: dict[str, dict] = {}
 
-            for arg_key in sorted(needs_name_args.keys()):
+            for arg_key in sorted(name_args.keys()):
                 m = re.match(r"arg(\d+)", arg_key)
                 if not m:
                     continue
@@ -385,8 +385,8 @@ def _build_call_site_hints(
             is_meth = _is_method(path)
             class_name = _class_name_from_path(path)
 
-            needs_name_args = {k: v for k, v in args.items() if v.get("needs_name")}
-            if not needs_name_args:
+            name_args = {k: v for k, v in args.items() if "name" in v.get("needs", [])}
+            if not name_args:
                 continue
 
             # Skip args already resolved by defs
@@ -405,7 +405,7 @@ def _build_call_site_hints(
 
             arg_hints: dict[str, dict] = {}
 
-            for arg_key in sorted(needs_name_args.keys()):
+            for arg_key in sorted(name_args.keys()):
                 if arg_key in resolved_args:
                     continue
 
@@ -465,29 +465,38 @@ def _build_type_search_targets(unresolved: dict) -> dict[str, dict]:
         parts = path.split(".")
         member_name = parts[-1]
 
-        needs: list[str] = []
+        type_needs: list[str] = []
 
-        # Object-typed args (excluding needs_name-only items)
+        # Args needing type resolution (object or tuple)
         for ak, av in entry.get("args", {}).items():
-            if av.get("current_type") == "object" and not av.get("needs_name"):
-                needs.append(f"arg_type:{ak}")
+            av_needs = av.get("needs", [])
+            if "type" in av_needs and "name" not in av_needs:
+                # Type-only arg (name is already known)
+                type_needs.append(f"arg_type:{ak}")
+            elif "type" in av_needs:
+                # Needs both name and type — include for type context
+                type_needs.append(f"arg_type:{ak}")
 
-        # Unresolved return type
-        if "returns" in entry:
-            needs.append("return_type")
+        # Returns needing type resolution
+        returns = entry.get("returns", {})
+        if "type" in returns.get("needs", []):
+            type_needs.append("return_type")
 
-        # Unprobed property type
-        if "probed_type" in entry:
-            needs.append("property_type")
+        # Property needing probed_type or element_repr
+        entry_needs = entry.get("needs", [])
+        if "element_repr" in entry_needs:
+            type_needs.append("element_type")
+        elif "probed_type" in entry_needs:
+            type_needs.append("property_type")
 
-        if not needs:
+        if not type_needs:
             continue
 
         if member_name not in targets:
             targets[member_name] = {"paths": [], "needs": []}
         targets[member_name]["paths"].append(path)
         # Merge needs (same member name might appear for multiple paths)
-        for n in needs:
+        for n in type_needs:
             if n not in targets[member_name]["needs"]:
                 targets[member_name]["needs"].append(n)
 
@@ -540,25 +549,38 @@ def _build_type_hints(
 
     for member_name, target_info in type_targets.items():
         snippets = type_context.get(member_name, [])
-        if not snippets:
-            continue
 
         for path in target_info["paths"]:
             entry = unresolved[path]
-            hint: dict[str, object] = {"usage_snippets": snippets}
 
-            # Tag what kind of type info is needed
-            arg_types_needed: dict[str, str] = {}
+            # Skip items with no snippets unless they have special needs
+            # (element_repr and tuple type items benefit from being tagged even without snippets)
+            entry_needs = entry.get("needs", [])
+            has_special = "element_repr" in entry_needs or any(
+                "type" in av.get("needs", []) for av in entry.get("args", {}).values()
+            ) or "type" in entry.get("returns", {}).get("needs", [])
+            if not snippets and not has_special:
+                continue
+
+            hint: dict[str, object] = {}
+            if snippets:
+                hint["usage_snippets"] = snippets
+
+            # Tag what kind of type info is needed — mirror the needs from the entry
+            args_needing_type: dict[str, str] = {}
             for ak, av in entry.get("args", {}).items():
-                if av.get("current_type") == "object" and not av.get("needs_name"):
-                    arg_types_needed[ak] = "object"
-            if arg_types_needed:
-                hint["unresolved_arg_types"] = arg_types_needed
+                if "type" in av.get("needs", []):
+                    args_needing_type[ak] = av.get("current_type", "object")
+            if args_needing_type:
+                hint["unresolved_arg_types"] = args_needing_type
 
-            if "returns" in entry:
-                hint["unresolved_return_type"] = entry["returns"]["current_type"]
+            returns = entry.get("returns", {})
+            if "type" in returns.get("needs", []):
+                hint["unresolved_return_type"] = returns.get("current_type", "object")
 
-            if "probed_type" in entry:
+            if "element_repr" in entry_needs:
+                hint["needs_element_repr"] = True
+            elif "probed_type" in entry_needs:
                 hint["unresolved_property_type"] = True
 
             hints[path] = hint
@@ -646,7 +668,7 @@ def resolve(version: str) -> dict:
     resolved_args = sum(len(r["args"]) for r in refinements.values())
     hint_args = sum(len(h["args"]) for h in call_site_hints.values())
     total_needed = sum(
-        sum(1 for a in entry["args"].values() if a.get("needs_name"))
+        sum(1 for a in entry["args"].values() if "name" in a.get("needs", []))
         for entry in unresolved.values()
         if "args" in entry
     )

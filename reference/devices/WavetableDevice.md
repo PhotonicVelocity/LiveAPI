@@ -1,88 +1,406 @@
-# WavetableDevice
+# WavetableDevice (Module)
+
+## WavetableDevice (Class)
 
 > `Live.WavetableDevice.WavetableDevice`
 
-This class represents a Wavetable synthesizer device in Live. WavetableDevice is a subclass of Device -- it
-has all the children, properties, and methods of Device plus additional members for controlling the
-oscillators, filter routing, voice settings, unison mode, and the modulation matrix.
+This class represents a Wavetable device.
 
-Wavetable's modulation matrix is exposed through a set of methods that let you add parameters to the matrix,
-query modulation amounts, and set modulation amounts by target and source index. The
-`visible_modulation_target_names` property lists the currently visible targets, and
-`modulation_matrix_changed` fires a listener when the matrix is modified.
-
-??? note "Raw probe notes (temporary)"
-    - **Bridge type:** `"WavetableDevice"`.
-    - **`class_name`:** `"InstrumentVector"`. **`class_display_name`:** `"Wavetable"`.
-    - **`type`:** 1 (`INSTRUMENT`).
-    - **Insert name:** `"Wavetable"` (matches `class_display_name`).
-    - **All 11 int properties** are settable and listenable. Round-trip confirmed.
-    - **`filter_routing`:** 0–2 (0=Serial, 1=Parallel, 2=Split). 3+ throws.
-    - **`mono_poly`:** 0=Mono, 1=Poly. Default 1.
-    - **`oscillator_N_effect_mode`:** 0–3 (0=None, 1=Fm, 2=Classic, 3=Modern). 4+ throws.
-    - **`oscillator_N_wavetable_category`:** Index into `oscillator_wavetable_categories`.
-      Changing category updates `oscillator_N_wavetables`.
-    - **`oscillator_N_wavetable_index`:** Index within current category's wavetable list.
-    - **`oscillator_N_wavetables`:** Dynamic `list[str]` — updates on category change.
-      Default category 0 ("Basics") has 29 wavetables.
-    - **`oscillator_wavetable_categories`:** Static `list[str]` of 12 categories:
-      `["Basics", "Collection", "Complex", "Distortion", "Filter", "Formant", "Harmonics",
-      "Instrument", "Noise", "Retro", "Vintage", "User"]`.
-    - **`poly_voices`:** 0–6 (7 valid values). 7+ throws "Invalid poly voice count".
-    - **`unison_mode`:** 0–6 (0=None, 1=Classic, 2=Shimmer, 3=Noise, 4=Phase Sync,
-      5=Position Spread, 6=Random Note). 7+ throws.
-    - **`unison_voice_count`:** 2–8 (7 valid values). <2 or >8 throws.
-    - **`visible_modulation_target_names`:** Read-only `list[str]`. Listenable.
-      Default: `["Amp", "Pitch", "Osc 1 Pos", "Osc 1 Warp"]`.
-    - **`modulation_matrix_changed`:** Listenable (no readable value, fire-only).
-    - **Modulation sources:** 13 sources (indices 0–12). Source 13+ throws "invalid index".
-    - **`is_parameter_modulatable(param)`:** Returns `bool`. `Device On` and `Osc 1 On`
-      return `False`; `Osc 1 Transp`, `Osc 1 Detune`, `Osc 1 Pos` return `True`.
-    - **`add_parameter_to_modulation_matrix(param)`:** Returns `int` (new target index).
-    - **`get_modulation_target_parameter_name(target_idx)`:** Returns `str`.
-    - **`get_modulation_value(target_idx, source)`:** Returns `float`.
-    - **`set_modulation_value(target_idx, source, value)`:** Returns `None`. Round-trip confirmed.
-
-### Children
-
-| Child        | Returns                     | Shape    | Listenable | Summary                                        |
-| ------------ | --------------------------- | -------- | ---------- | ---------------------------------------------- |
-| `parameters` | `Sequence[DeviceParameter]` | `list`   | yes        | Automatable parameters exposed by this device. |
-| `view`       | `WavetableDevice.View`      | `single` | no         | View aspects of the device (collapse state).   |
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), WavetableDevice adds:
+| Property                                                              | Type                   | Supports             |
+| --------------------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                                   | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                                 | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)                           | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                               | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)                           | `str`                  | `get`                |
+| [`class_name`](#class_name)                                           | `str`                  | `get`                |
+| [`filter_routing`](#filter_routing)                                   | `int`                  | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                             | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b)             | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                                     | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)                           | `int`                  | `get`                |
+| [`mono_poly`](#mono_poly)                                             | `int`                  | `get`/`set`/`listen` |
+| [`name`](#name)                                                       | `str`                  | `get`/`set`          |
+| [`oscillator_1_effect_mode`](#oscillator_1_effect_mode)               | `int`                  | `get`/`set`/`listen` |
+| [`oscillator_1_wavetable_category`](#oscillator_1_wavetable_category) | `int`                  | `get`/`set`/`listen` |
+| [`oscillator_1_wavetable_index`](#oscillator_1_wavetable_index)       | `int`                  | `get`/`set`/`listen` |
+| [`oscillator_1_wavetables`](#oscillator_1_wavetables)                 | `StringVector`         | `get`/`listen`       |
+| [`oscillator_2_effect_mode`](#oscillator_2_effect_mode)               | `int`                  | `get`/`set`/`listen` |
+| [`oscillator_2_wavetable_category`](#oscillator_2_wavetable_category) | `int`                  | `get`/`set`/`listen` |
+| [`oscillator_2_wavetable_index`](#oscillator_2_wavetable_index)       | `int`                  | `get`/`set`/`listen` |
+| [`oscillator_2_wavetables`](#oscillator_2_wavetables)                 | `StringVector`         | `get`/`listen`       |
+| [`oscillator_wavetable_categories`](#oscillator_wavetable_categories) | `StringVector`         | `get`                |
+| [`parameters`](#parameters)                                           | `ATimeableValueVector` | `get`                |
+| [`poly_voices`](#poly_voices)                                         | `int`                  | `get`/`set`/`listen` |
+| [`type`](#type)                                                       | `DeviceType`           | `get`                |
+| [`unison_mode`](#unison_mode)                                         | `int`                  | `get`/`set`/`listen` |
+| [`unison_voice_count`](#unison_voice_count)                           | `int`                  | `get`/`set`/`listen` |
+| [`view`](#view)                                                       | `Device.View`          | `get`                |
+| [`visible_modulation_target_names`](#visible_modulation_target_names) | `StringVector`         | `get`/`listen`       |
 
-| Property                          | Type        | Settable | Listenable | Summary                                                       |
-| --------------------------------- | ----------- | -------- | ---------- | ------------------------------------------------------------- |
-| `filter_routing`                  | `int`       | yes      | yes        | Filter routing mode: 0=Serial, 1=Parallel, 2=Split.          |
-| `mono_poly`                       | `int`       | yes      | yes        | Voice mode: 0=Mono, 1=Poly.                                  |
-| `oscillator_1_effect_mode`        | `int`       | yes      | yes        | Osc 1 effect mode: 0=None, 1=Fm, 2=Classic, 3=Modern.        |
-| `oscillator_1_wavetable_category` | `int`       | yes      | yes        | Oscillator 1 wavetable category index.                        |
-| `oscillator_1_wavetable_index`    | `int`       | yes      | yes        | Osc 1 wavetable index within the current category.            |
-| `oscillator_1_wavetables`         | `list[str]` | no       | yes        | Wavetable names available for oscillator 1.                   |
-| `oscillator_2_effect_mode`        | `int`       | yes      | yes        | Osc 2 effect mode (same values as osc 1).                     |
-| `oscillator_2_wavetable_category` | `int`       | yes      | yes        | Oscillator 2 wavetable category index.                        |
-| `oscillator_2_wavetable_index`    | `int`       | yes      | yes        | Osc 2 wavetable index within the current category.            |
-| `oscillator_2_wavetables`         | `list[str]` | no       | yes        | Wavetable names available for oscillator 2.                   |
-| `oscillator_wavetable_categories` | `list[str]` | no       | no         | Names of all available wavetable categories.                  |
-| `poly_voices`                     | `int`       | yes      | yes        | Number of polyphonic voices (0–6).                            |
-| `unison_mode`                     | `int`       | yes      | yes        | Unison mode (0–6, see values below).                          |
-| `unison_voice_count`              | `int`       | yes      | yes        | Number of unison voices (2–8).                                |
-| `visible_modulation_target_names` | `list[str]` | no       | yes        | Names of modulation targets visible in the matrix.            |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `filter_routing`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current filter routing.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
+
+#### `mono_poly`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current voicing mode.
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `oscillator_1_effect_mode`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current effect mode of the oscillator 1.
+
+#### `oscillator_1_wavetable_category`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current wavetable category of the oscillator 1.
+
+#### `oscillator_1_wavetable_index`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current wavetable index of the oscillator 1.
+
+#### `oscillator_1_wavetables`
+
+- **Type:** `StringVector`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Get a vector of oscillator 1's wavetable names.
+
+#### `oscillator_2_effect_mode`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current effect mode of the oscillator 2.
+
+#### `oscillator_2_wavetable_category`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current wavetable category of the oscillator 2.
+
+#### `oscillator_2_wavetable_index`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current wavetable index of the oscillator 2.
+
+#### `oscillator_2_wavetables`
+
+- **Type:** `StringVector`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Get a vector of oscillator 2's wavetable names.
+
+#### `oscillator_wavetable_categories`
+
+- **Type:** `StringVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get a vector of the available wavetable categories.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
+
+#### `poly_voices`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `unison_mode`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current unison mode.
+
+#### `unison_voice_count`
+
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
+
+Return the current number of unison voices.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.
+
+#### `visible_modulation_target_names`
+
+- **Type:** `StringVector`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Get the names of all the visible modulation targets.
 
 ### Methods
 
-In addition to all Device methods (`save_preset_to_compare_ab_slot`, `store_chosen_bank`), WavetableDevice
-adds:
+| Method                                                                                                 | Returns |
+| ------------------------------------------------------------------------------------------------------ | ------- |
+| [`add_parameter_to_modulation_matrix()`](#add_parameter_to_modulation_matrixparameter-deviceparameter) | `int`   |
+| [`get_modulation_target_parameter_name()`](#get_modulation_target_parameter_nametarget_index-int)      | `str`   |
+| [`get_modulation_value()`](#get_modulation_valuetarget_index-int-source-int)                           | `float` |
+| [`is_parameter_modulatable()`](#is_parameter_modulatableparameter-deviceparameter)                     | `bool`  |
+| [`set_modulation_value()`](#set_modulation_valuetarget_index-int-source-int-value-float)               | `None`  |
 
-| Method                                               | Returns | Summary                                                  |
-| ---------------------------------------------------- | ------- | -------------------------------------------------------- |
-| `add_parameter_to_modulation_matrix(parameter)`      | `int`   | Add a parameter to the modulation matrix.                |
-| `get_modulation_target_parameter_name(target_index)` | `str`   | Get the parameter name for a modulation target by index. |
-| `get_modulation_value(target_index, source)`         | `float` | Get the modulation amount for a target-source pair.      |
-| `is_parameter_modulatable(parameter)`                | `bool`  | Check whether a parameter can be modulated.              |
-| `set_modulation_value(target_index, source, value)`  | `None`  | Set the modulation amount for a target-source pair.      |
+#### `add_parameter_to_modulation_matrix(parameter: DeviceParameter)`
+
+- **Returns:** `int`
+- **Args:**
+  - `parameter: DeviceParameter`
+
+Add a non-pitch parameter to the modulation matrix.
+
+#### `get_modulation_target_parameter_name(target_index: int)`
+
+- **Returns:** `str`
+- **Args:**
+  - `target_index: int`
+
+Get the parameter name of the modulation target at the given index.
+
+#### `get_modulation_value(target_index: int, source: int)`
+
+- **Returns:** `float`
+- **Args:**
+  - `target_index: int`
+  - `source: int`
+
+Get the value of a modulation amount for the given target-source connection.
+
+#### `is_parameter_modulatable(parameter: DeviceParameter)`
+
+- **Returns:** `bool`
+- **Args:**
+  - `parameter: DeviceParameter`
+
+Indicate whether the parameter is modulatable. Note that pitch parameters only exist in python and must be handled there.
+
+#### `set_modulation_value(target_index: int, source: int, value: float)`
+
+- **Returns:** `None`
+- **Args:**
+  - `target_index: int`
+  - `source: int`
+  - `value: float`
+
+Set the value of a modulation amount for the given target-source connection.
+
+## Enums
+
+### EffectMode
+
+> `Live.WavetableDevice.EffectMode`
+
+| Value | Name                   |
+| ----- | ---------------------- |
+| `0`   | `none`                 |
+| `1`   | `frequency_modulation` |
+| `2`   | `sync_and_pulse_width` |
+| `3`   | `warp_and_fold`        |
+
+### FilterRouting
+
+> `Live.WavetableDevice.FilterRouting`
+
+| Value | Name       |
+| ----- | ---------- |
+| `0`   | `serial`   |
+| `1`   | `parallel` |
+| `2`   | `split`    |
+
+### ModulationSource
+
+> `Live.WavetableDevice.ModulationSource`
+
+| Value | Name                    |
+| ----- | ----------------------- |
+| `0`   | `amp_envelope`          |
+| `1`   | `envelope_2`            |
+| `2`   | `envelope_3`            |
+| `3`   | `lfo_1`                 |
+| `4`   | `lfo_2`                 |
+| `5`   | `midi_velocity`         |
+| `6`   | `midi_note`             |
+| `7`   | `midi_pitch_bend`       |
+| `8`   | `midi_channel_pressure` |
+| `9`   | `midi_mod_wheel`        |
+| `10`  | `midi_random`           |
+
+### UnisonMode
+
+> `Live.WavetableDevice.UnisonMode`
+
+| Value | Name              |
+| ----- | ----------------- |
+| `0`   | `none`            |
+| `1`   | `classic`         |
+| `2`   | `slow_shimmer`    |
+| `3`   | `fast_shimmer`    |
+| `4`   | `phase_sync`      |
+| `5`   | `position_spread` |
+| `6`   | `random_note`     |
+
+### VoiceCount
+
+> `Live.WavetableDevice.VoiceCount`
+
+| Value | Name    |
+| ----- | ------- |
+| `0`   | `two`   |
+| `1`   | `three` |
+| `2`   | `four`  |
+| `3`   | `five`  |
+| `4`   | `six`   |
+| `5`   | `seven` |
+| `6`   | `eight` |
+
+### Voicing
+
+> `Live.WavetableDevice.Voicing`
+
+| Value | Name   |
+| ----- | ------ |
+| `0`   | `mono` |
+| `1`   | `poly` |

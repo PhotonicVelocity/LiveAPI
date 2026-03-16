@@ -1,0 +1,1357 @@
+{
+  "version": "12.3.6",
+  "refinements": {
+    "Live.Application.Application.View.focus_view": {
+      "args": {
+        "arg2": {
+          "name": "view",
+          "name_reason": "Definition analysis: 2/2 defs use 'view'",
+          "_votes": {
+            "view": 2
+          },
+          "_total_defs": 2
+        }
+      }
+    },
+    "Live.Application.Application.View.show_view": {
+      "args": {
+        "arg2": {
+          "name": "view",
+          "name_reason": "Definition analysis: 3/3 defs use 'view'",
+          "_votes": {
+            "view": 3
+          },
+          "_total_defs": 3
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.release_control": {
+      "args": {
+        "arg2": {
+          "name": "control",
+          "name_reason": "Definition analysis: 3/3 defs use 'control'",
+          "_votes": {
+            "control": 3
+          },
+          "_total_defs": 3
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.send_midi": {
+      "args": {
+        "arg2": {
+          "name": "midi_event_bytes",
+          "name_reason": "Definition analysis: 10/20 defs use 'midi_event_bytes'",
+          "_votes": {
+            "midi_event_bytes": 10,
+            "message": 5,
+            "midi_bytes": 3,
+            "bytes": 2
+          },
+          "_total_defs": 20
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.send_value": {
+      "args": {
+        "arg2": {
+          "name": "value",
+          "name_reason": "Definition analysis: 16/19 defs use 'value'",
+          "_votes": {
+            "value": 16,
+            "column": 2,
+            "value_bytes": 1
+          },
+          "_total_defs": 19
+        }
+      }
+    },
+    "Live.Base.log": {
+      "args": {
+        "arg1": {
+          "name": "string",
+          "name_reason": "Definition analysis: 3/3 defs use 'string'",
+          "_votes": {
+            "string": 3
+          },
+          "_total_defs": 3
+        }
+      }
+    },
+    "Live.Chain.Chain.delete_device": {
+      "args": {
+        "arg2": {
+          "name": "device",
+          "name_reason": "Definition analysis: 1/1 defs use 'device'",
+          "_votes": {
+            "device": 1
+          },
+          "_total_defs": 1
+        }
+      }
+    },
+    "Live.Track.Track.delete_device": {
+      "args": {
+        "arg2": {
+          "name": "device",
+          "name_reason": "Definition analysis: 1/1 defs use 'device'",
+          "_votes": {
+            "device": 1
+          },
+          "_total_defs": 1
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize_pitch": {
+      "args": {
+        "arg2": {
+          "name": "note",
+          "name_reason": "Definition analysis: 6/7 defs use 'note'",
+          "_votes": {
+            "note": 6
+          },
+          "_total_defs": 7
+        },
+        "arg3": {
+          "name": "source",
+          "name_reason": "Definition analysis: 1/2 defs use 'source'",
+          "_votes": {
+            "source": 1
+          },
+          "_total_defs": 2
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.create_clip": {
+      "args": {
+        "arg2": {
+          "name": "pages",
+          "name_reason": "Definition analysis: 1/2 defs use 'pages'",
+          "_votes": {
+            "pages": 1,
+            "length": 1
+          },
+          "_total_defs": 2
+        }
+      }
+    },
+    "Live.Track.Track.delete_clip": {
+      "args": {
+        "arg2": {
+          "name": "slot",
+          "name_reason": "Definition analysis: 1/1 defs use 'slot'",
+          "_votes": {
+            "slot": 1
+          },
+          "_total_defs": 1
+        }
+      }
+    }
+  },
+  "call_site_hints": {
+    "Live.Application.Application.View.hide_view": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "view_name"
+          ],
+          "_votes": {
+            "view_name": 1
+          },
+          "_total_sites": 12
+        }
+      }
+    },
+    "Live.Application.Application.View.scroll_view": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "direction",
+            "up",
+            "down",
+            "left",
+            "right"
+          ],
+          "_votes": {
+            "direction": 14,
+            "up": 2,
+            "down": 2,
+            "left": 2,
+            "right": 2
+          },
+          "_total_sites": 22
+        },
+        "arg4": {
+          "call_site_names": [
+            "alt_is_pressed"
+          ],
+          "_votes": {
+            "alt_is_pressed": 8
+          },
+          "_total_sites": 22
+        }
+      }
+    },
+    "Live.Application.Application.View.zoom_view": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "up",
+            "down",
+            "left",
+            "right"
+          ],
+          "_votes": {
+            "up": 2,
+            "down": 2,
+            "left": 2,
+            "right": 2
+          },
+          "_total_sites": 8
+        },
+        "arg4": {
+          "call_site_names": [
+            "alt_is_pressed"
+          ],
+          "_votes": {
+            "alt_is_pressed": 8
+          },
+          "_total_sites": 8
+        }
+      }
+    },
+    "Live.Application.Application.has_option": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "section_name"
+          ],
+          "_votes": {
+            "section_name": 2
+          },
+          "_total_sites": 7
+        }
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.grab_control": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "control"
+          ],
+          "_votes": {
+            "control": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.Browser.Browser.load_item": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "content"
+          ],
+          "_votes": {
+            "content": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.Browser.Browser.preview_item": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "content"
+          ],
+          "_votes": {
+            "content": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.Clip.Clip.add_new_notes": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "notes"
+          ],
+          "_votes": {
+            "notes": 1
+          },
+          "_total_sites": 3
+        }
+      }
+    },
+    "Live.Clip.Clip.clear_envelope": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "parameter"
+          ],
+          "_votes": {
+            "parameter": 2
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "quantize_to",
+            "quantization_setting"
+          ],
+          "_votes": {
+            "quantize_to": 2,
+            "quantization_setting": 1
+          },
+          "_total_sites": 7
+        },
+        "arg3": {
+          "call_site_names": [
+            "quantize_amount"
+          ],
+          "_votes": {
+            "quantize_amount": 1
+          },
+          "_total_sites": 7
+        }
+      }
+    },
+    "Live.Clip.Clip.quantize_pitch": {
+      "args": {
+        "arg4": {
+          "call_site_names": [
+            "quantize_amount"
+          ],
+          "_votes": {
+            "quantize_amount": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.Clip.Clip.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "fire_state",
+            "button_state"
+          ],
+          "_votes": {
+            "fire_state": 1,
+            "button_state": 1
+          },
+          "_total_sites": 3
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "fire_state",
+            "button_state"
+          ],
+          "_votes": {
+            "fire_state": 1,
+            "button_state": 1
+          },
+          "_total_sites": 3
+        }
+      }
+    },
+    "Live.Scene.Scene.set_fire_button_state": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "fire_state",
+            "button_state"
+          ],
+          "_votes": {
+            "fire_state": 1,
+            "button_state": 1
+          },
+          "_total_sites": 3
+        }
+      }
+    },
+    "Live.ClipSlot.ClipSlot.duplicate_clip_to": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "obj"
+          ],
+          "_votes": {
+            "obj": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.DeviceParameter.DeviceParameter.str_for_value": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "value"
+          ],
+          "_votes": {
+            "value": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_name": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "bank_index",
+            "mx_index"
+          ],
+          "_votes": {
+            "bank_index": 1,
+            "mx_index": 1
+          },
+          "_total_sites": 4
+        }
+      }
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_parameters": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "mx_index",
+            "bank_index"
+          ],
+          "_votes": {
+            "bank_index": 1,
+            "mx_index": 2
+          },
+          "_total_sites": 5
+        }
+      }
+    },
+    "Live.MidiMap.forward_midi_cc": {
+      "args": {
+        "arg1": {
+          "call_site_names": [
+            "script_handle",
+            "handle"
+          ],
+          "_votes": {
+            "script_handle": 11,
+            "handle": 3
+          },
+          "_total_sites": 14
+        },
+        "arg2": {
+          "call_site_names": [
+            "midi_map_handle"
+          ],
+          "_votes": {
+            "midi_map_handle": 14
+          },
+          "_total_sites": 14
+        },
+        "arg3": {
+          "call_site_names": [
+            "channel",
+            "chan"
+          ],
+          "_votes": {
+            "chan": 3,
+            "channel": 6
+          },
+          "_total_sites": 14
+        },
+        "arg4": {
+          "call_site_names": [
+            "cc",
+            "cc_no"
+          ],
+          "_votes": {
+            "cc": 3,
+            "cc_no": 3
+          },
+          "_total_sites": 14
+        }
+      }
+    },
+    "Live.MidiMap.forward_midi_note": {
+      "args": {
+        "arg1": {
+          "call_site_names": [
+            "handle",
+            "script_handle"
+          ],
+          "_votes": {
+            "script_handle": 3,
+            "handle": 4
+          },
+          "_total_sites": 7
+        },
+        "arg2": {
+          "call_site_names": [
+            "midi_map_handle"
+          ],
+          "_votes": {
+            "midi_map_handle": 7
+          },
+          "_total_sites": 7
+        },
+        "arg3": {
+          "call_site_names": [
+            "chan"
+          ],
+          "_votes": {
+            "chan": 3
+          },
+          "_total_sites": 7
+        },
+        "arg4": {
+          "call_site_names": [
+            "note"
+          ],
+          "_votes": {
+            "note": 3
+          },
+          "_total_sites": 7
+        }
+      }
+    },
+    "Live.MidiMap.forward_midi_pitchbend": {
+      "args": {
+        "arg1": {
+          "call_site_names": [
+            "script_handle"
+          ],
+          "_votes": {
+            "script_handle": 2
+          },
+          "_total_sites": 2
+        },
+        "arg2": {
+          "call_site_names": [
+            "midi_map_handle"
+          ],
+          "_votes": {
+            "midi_map_handle": 2
+          },
+          "_total_sites": 2
+        },
+        "arg3": {
+          "call_site_names": [
+            "channel"
+          ],
+          "_votes": {
+            "channel": 2
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.MidiMap.map_midi_note_with_feedback_map": {
+      "args": {
+        "arg1": {
+          "call_site_names": [
+            "midi_map_handle"
+          ],
+          "_votes": {
+            "midi_map_handle": 1
+          },
+          "_total_sites": 1
+        },
+        "arg2": {
+          "call_site_names": [
+            "parameter"
+          ],
+          "_votes": {
+            "parameter": 1
+          },
+          "_total_sites": 1
+        },
+        "arg3": {
+          "call_site_names": [
+            "message_channel"
+          ],
+          "_votes": {
+            "message_channel": 1
+          },
+          "_total_sites": 1
+        },
+        "arg4": {
+          "call_site_names": [
+            "message_identifier"
+          ],
+          "_votes": {
+            "message_identifier": 1
+          },
+          "_total_sites": 1
+        },
+        "arg5": {
+          "call_site_names": [
+            "feedback_rule"
+          ],
+          "_votes": {
+            "feedback_rule": 1
+          },
+          "_total_sites": 1
+        }
+      }
+    },
+    "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
+      "args": {
+        "arg1": {
+          "call_site_names": [
+            "midi_map_handle"
+          ],
+          "_votes": {
+            "midi_map_handle": 5
+          },
+          "_total_sites": 5
+        },
+        "arg2": {
+          "call_site_names": [
+            "volume",
+            "parameter"
+          ],
+          "_votes": {
+            "parameter": 1,
+            "volume": 2
+          },
+          "_total_sites": 5
+        },
+        "arg3": {
+          "call_site_names": [
+            "message_channel"
+          ],
+          "_votes": {
+            "message_channel": 1
+          },
+          "_total_sites": 5
+        },
+        "arg4": {
+          "call_site_names": [
+            "feeback_rule",
+            "feedback_rule"
+          ],
+          "_votes": {
+            "feedback_rule": 1,
+            "feeback_rule": 4
+          },
+          "_total_sites": 5
+        }
+      }
+    },
+    "Live.MidiMap.send_feedback_for_parameter": {
+      "args": {
+        "arg1": {
+          "call_site_names": [
+            "midi_map_handle"
+          ],
+          "_votes": {
+            "midi_map_handle": 8
+          },
+          "_total_sites": 8
+        },
+        "arg2": {
+          "call_site_names": [
+            "parameter",
+            "volume"
+          ],
+          "_votes": {
+            "parameter": 2,
+            "volume": 2
+          },
+          "_total_sites": 8
+        }
+      }
+    },
+    "Live.RackDevice.RackDevice.copy_pad": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "note"
+          ],
+          "_votes": {
+            "note": 2
+          },
+          "_total_sites": 2
+        },
+        "arg3": {
+          "call_site_names": [
+            "note"
+          ],
+          "_votes": {
+            "note": 2
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.Song.Song.View.select_device": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "device_to_select",
+            "device",
+            "lom_object"
+          ],
+          "_votes": {
+            "lom_object": 1,
+            "device": 2,
+            "device_to_select": 3
+          },
+          "_total_sites": 6
+        }
+      }
+    },
+    "Live.Song.Song.create_scene": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "scene_count",
+            "new_scene_index"
+          ],
+          "_votes": {
+            "new_scene_index": 2,
+            "scene_count": 4
+          },
+          "_total_sites": 8
+        }
+      }
+    },
+    "Live.Song.Song.delete_return_track": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "track_index"
+          ],
+          "_votes": {
+            "track_index": 1
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.Song.Song.delete_scene": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "selected_scene_index"
+          ],
+          "_votes": {
+            "selected_scene_index": 1
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.Song.Song.delete_track": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "track_index"
+          ],
+          "_votes": {
+            "track_index": 1
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.Song.Song.duplicate_scene": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "index"
+          ],
+          "_votes": {
+            "index": 1
+          },
+          "_total_sites": 2
+        }
+      }
+    },
+    "Live.Song.Song.duplicate_track": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "track_index"
+          ],
+          "_votes": {
+            "track_index": 2
+          },
+          "_total_sites": 3
+        }
+      }
+    },
+    "Live.Song.Song.get_current_smpte_song_time": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "smpte_25"
+          ],
+          "_votes": {
+            "smpte_25": 1
+          },
+          "_total_sites": 3
+        }
+      }
+    },
+    "Live.Song.Song.jump_by": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "beats"
+          ],
+          "_votes": {
+            "beats": 2
+          },
+          "_total_sites": 10
+        }
+      }
+    },
+    "Live.Track.Track.duplicate_clip_slot": {
+      "args": {
+        "arg2": {
+          "call_site_names": [
+            "index",
+            "target_index",
+            "source_index",
+            "slot_index"
+          ],
+          "_votes": {
+            "target_index": 2,
+            "index": 3,
+            "source_index": 1,
+            "slot_index": 1
+          },
+          "_total_sites": 7
+        }
+      }
+    }
+  },
+  "type_hints": {
+    "Live.Application.Application.unavailable_features": {
+      "usage_snippets": [
+        "return Live.Application.UnavailableFeature.note_velocity_ranges_and_probabilities not in Live.Application.get_application().unavailable_features"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.Application.ControlDescriptionVector": {
+      "needs_element_repr": true
+    },
+    "Live.Application.ControlSurfaceProxy.control_descriptions": {
+      "usage_snippets": [
+        "return tuple((c.name for c in self._proxy.control_descriptions))"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Application.ControlSurfaceProxy.fetch_received_midi_messages": {
+      "usage_snippets": [
+        "for message in self._proxy.fetch_received_midi_messages():"
+      ],
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Application.ControlSurfaceProxy.fetch_received_values": {
+      "usage_snippets": [
+        "for control_id, value in self._proxy.fetch_received_values():"
+      ],
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Application.ControlSurfaceProxy.send_midi": {
+      "usage_snippets": [
+        "def send_midi(self, message, **_):",
+        "def send_midi(self, midi_event_bytes):",
+        "self.c_instance.send_midi(midi_event_bytes)",
+        "self.parent.send_midi((",
+        "self.parent.send_midi((175, 16, 16))",
+        "self.parent.send_midi((175, 16, self.helper.selected_track_idx()))",
+        "self.parent.send_midi((NOTEOFF_STATUS + channel, note_no, 0))",
+        "self.parent.send_midi((NOTEON_STATUS + channel, note_no, 127))",
+        "self.parent.send_midi((TRACK_CHANNEL_SETUP2 + NOTEON_STATUS, note, STATUS_ON))",
+        "self.parent.send_midi(midi_event_bytes)"
+      ],
+      "unresolved_arg_types": {
+        "arg2": "tuple"
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.send_value": {
+      "usage_snippets": [
+        "control.send_value(convert_parameter_value_to_midi_value(parameter))",
+        "display_layout_switch.send_value(layout_byte)",
+        "interface.send_value(self.color1.midi_value)",
+        "self._aftertouch.send_value(\"polyphonic\")",
+        "self._aftertouch_control.send_value(self._aftertouch_mode)",
+        "self._control_element.send_value(self.ON_VALUE if self.is_on else self.OFF_VALUE)",
+        "self._mode_element.send_value(behaviour.mode)",
+        "self._tempo_encoder.send_value(value_to_send)",
+        "self._value_control.send_value((mode,))",
+        "self.send_value(value)"
+      ],
+      "unresolved_arg_types": {
+        "arg2": "tuple"
+      }
+    },
+    "Live.Application.ControlSurfaceProxy.type_name": {
+      "usage_snippets": [
+        "def type_name(self):",
+        "return obj.type_name",
+        "return self._proxy.type_name"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Application.UnavailableFeatureVector": {
+      "needs_element_repr": true
+    },
+    "Live.Application.encrypt_challenge": {
+      "usage_snippets": [
+        "encryptor = partial((Live.Application.encrypt_challenge), key_index=1)",
+        "expected_response = Live.Application.encrypt_challenge(self._dongle_challenge[0], self._dongle_challenge[1])"
+      ],
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Base.FloatVector": {
+      "needs_element_repr": true
+    },
+    "Live.Base.IntU64Vector": {
+      "needs_element_repr": true
+    },
+    "Live.Base.ObjectVector.append": {
+      "usage_snippets": [
+        "AutoArmComponent.active_in_process_push_instances.append(self)",
+        "notes_in_step.append(note.pitch)",
+        "self._armed_tracks.append(track)",
+        "self._messages.append(message)",
+        "self._modified_steps.append(step)",
+        "self._parameter_floats.append(step_parameter_floats)",
+        "self._pitches.append(pitch)",
+        "self._pressed_pages.append(page)",
+        "self._pressed_steps.append(step)",
+        "step_parameter_floats.append(value)"
+      ],
+      "unresolved_arg_types": {
+        "value": "object"
+      }
+    },
+    "Live.Base.Vector.append": {
+      "usage_snippets": [
+        "AutoArmComponent.active_in_process_push_instances.append(self)",
+        "notes_in_step.append(note.pitch)",
+        "self._armed_tracks.append(track)",
+        "self._messages.append(message)",
+        "self._modified_steps.append(step)",
+        "self._parameter_floats.append(step_parameter_floats)",
+        "self._pitches.append(pitch)",
+        "self._pressed_pages.append(page)",
+        "self._pressed_steps.append(step)",
+        "step_parameter_floats.append(value)"
+      ],
+      "unresolved_arg_types": {
+        "value": "LomObject"
+      }
+    },
+    "Live.Base.Text.text": {
+      "usage_snippets": [
+        "def text(self):",
+        "def text(self, text):",
+        "from .text import Text",
+        "self._message_box.text = consts.MessageBoxText.EMPTY_DEVICE_CHAIN",
+        "self._message_box.text = message",
+        "self._message_box.text = text",
+        "text = self._adaptee.text"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Browser.Browser.hotswap_target": {
+      "usage_snippets": [
+        "def hotswap_target(self):",
+        "hotswap_target = self._browser.hotswap_target",
+        "if browser.hotswap_target is None:",
+        "if liveobj_valid(self._browser.hotswap_target):",
+        "return self._browser.hotswap_target",
+        "self._application.browser.hotswap_target = None",
+        "self._application.browser.hotswap_target = hotswap_object",
+        "self._browser.hotswap_target = None",
+        "self._browser.hotswap_target.selected_preset_index = item.preset_index",
+        "self._current_hotswap_target = self._browser.hotswap_target"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Browser.BrowserItem.iter_children": {
+      "usage_snippets": [
+        "children_iterator = selected_item.iter_children",
+        "def iter_children(self):"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.Browser.BrowserItemIterator": {
+      "usage_snippets": [
+        "if isinstance(self._item_iterator, Live.Browser.BrowserItemIterator):"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.Chain.Chain.insert_device": {
+      "unresolved_return_type": "LomObject"
+    },
+    "Live.Track.Track.insert_device": {
+      "unresolved_return_type": "LomObject"
+    },
+    "Live.Clip.Clip.add_new_notes": {
+      "usage_snippets": [
+        "clip.add_new_notes(notes)",
+        "self._clip.add_new_notes((note,))",
+        "self._sequencer_clip.add_new_notes((note,))",
+        "slot.clip.add_new_notes(get_notes_to_render(self._note_on_events, self._note_off_events, self._clip_length))"
+      ],
+      "unresolved_arg_types": {
+        "arg2": "object"
+      }
+    },
+    "Live.Clip.Clip.add_warp_marker": {
+      "unresolved_arg_types": {
+        "warp_marker": "object"
+      }
+    },
+    "Live.Clip.Clip.duplicate_notes_by_id": {
+      "unresolved_arg_types": {
+        "note_ids": "object",
+        "destination_time": "object"
+      }
+    },
+    "Live.Clip.Clip.get_notes": {
+      "usage_snippets": [
+        "def get_notes(clip, pitches, time, length, all_pitches=False):"
+      ],
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Clip.Clip.get_notes_by_id": {
+      "usage_snippets": [
+        "midi_notes = lom_object.get_notes_by_id(id_to_note_mapping.keys())"
+      ],
+      "unresolved_arg_types": {
+        "note_ids": "object"
+      }
+    },
+    "Live.Clip.Clip.get_selected_notes": {
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Clip.Clip.remove_notes_by_id": {
+      "unresolved_arg_types": {
+        "arg2": "object"
+      }
+    },
+    "Live.Clip.Clip.replace_selected_notes": {
+      "unresolved_arg_types": {
+        "arg2": "tuple"
+      }
+    },
+    "Live.Clip.Clip.select_notes_by_id": {
+      "unresolved_arg_types": {
+        "arg2": "object"
+      }
+    },
+    "Live.Clip.Clip.set_notes": {
+      "unresolved_arg_types": {
+        "arg2": "tuple"
+      }
+    },
+    "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
+      "usage_snippets": [
+        "return Live.Conversions.move_devices_on_track_to_new_drum_rack_pad(song, track_index)"
+      ],
+      "unresolved_return_type": "LomObject"
+    },
+    "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
+      "unresolved_arg_types": {
+        "authorize_callable": "object",
+        "authorize_later_callable": "object"
+      }
+    },
+    "Live.Licensing.PythonLicensingBridge.process_license_response": {
+      "unresolved_arg_types": {
+        "license_response_lines": "list"
+      }
+    },
+    "Live.Licensing.PythonLicensingBridge.set_network_timer": {
+      "unresolved_arg_types": {
+        "callback": "object"
+      }
+    },
+    "Live.Licensing.get_unlock_dir": {
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Listener.ListenerHandle.name": {
+      "usage_snippets": [
+        "display[index % NUM_DISPLAY_SEGMENTS] = item.item.name if item else \"\"",
+        "fullname = self.helper.device_name(device) + \".\" + parameter.name",
+        "if device.name in FIVETOSIX_DICT:",
+        "if i.name == name:",
+        "name=(\"{}_With_Shift\".format(button.name)))",
+        "return FIVETOSIX_DICT[device.name]",
+        "return device.name",
+        "self.log(\"device %s, index %s, parameter %s\" % (self.device, idx, parameter.name))",
+        "self.logfmt(\"parameter %s %s to %s (quant %s)\", parameter, parameter.name, ccs[encoder], parameter.is_quantized)",
+        "self.parent.show_message(str(self.device.name + \" Bank: \" + bank_name))"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Listener.ListenerVector": {
+      "needs_element_repr": true
+    },
+    "Live.MaxDevice.MaxDevice.get_bank_parameters": {
+      "usage_snippets": [
+        "indices = self.device.get_bank_parameters(mx_index)",
+        "main_bank = device.get_bank_parameters(MX_MAIN_BANK_INDEX)",
+        "parameter_indices = device.get_bank_parameters(-1)",
+        "parameter_indices = device.get_bank_parameters(bank_index)"
+      ],
+      "unresolved_return_type": "list"
+    },
+    "Live.MaxDevice.MaxDevice.get_value_item_icons": {
+      "usage_snippets": [
+        "custom_images = device.get_value_item_icons(getattr(self._adaptee, \"original_parameter\", self._adaptee))"
+      ],
+      "unresolved_return_type": "list"
+    },
+    "Live.MidiMap.CCFeedbackRule.cc_value_map": {
+      "usage_snippets": [
+        "feeback_rule.cc_value_map = tuple([self._ChannelStrip__v_pot_display_mode * 16 + x for x in range(1, range_end)])",
+        "feedback_rule.cc_value_map = (0, )",
+        "feedback_rule.cc_value_map = feedback_map",
+        "feedback_rule.cc_value_map = tuple()",
+        "feedback_rule.cc_value_map = tuple([int(1.5 + float(index) / 127.0 * 10.0) for index in range(128)])",
+        "feedback_rule.cc_value_map = tuple([int(1.5 + old_div(float(index), 127.0) * 10.0) for index in range(128)])"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.MidiMap.NoteFeedbackRule.vel_map": {
+      "usage_snippets": [
+        "feedback_rule.vel_map = (0, )",
+        "feedback_rule.vel_map = feedback_map"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.MidiMap.PitchBendFeedbackRule.value_pair_map": {
+      "usage_snippets": [
+        "feeback_rule.value_pair_map = tuple()",
+        "feedback_rule.value_pair_map = feedback_map"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.RackDevice.RackDevice.View.selected_chain": {
+      "usage_snippets": [
+        "chain = drum_rack_for_pad(drum_pad).view.selected_chain",
+        "chain = rack.view.selected_chain",
+        "if left_device.can_have_chains and left_device.view.is_showing_chain_devices and left_device.view.selected_chain:",
+        "if right_device.can_have_chains and right_device.view.is_showing_chain_devices and right_device.view.selected_chain:",
+        "lom_object.canonical_parent.view.selected_chain = lom_object",
+        "return self._rack.view.selected_chain",
+        "selected_chain = self._view.selected_chain",
+        "self._rack.view.selected_chain = chain",
+        "self._view.selected_chain = unwrapped_track",
+        "unwrapped_track.canonical_parent.view.selected_chain = unwrapped_track"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.View.selected_chain": {
+      "usage_snippets": [
+        "chain = drum_rack_for_pad(drum_pad).view.selected_chain",
+        "chain = rack.view.selected_chain",
+        "if left_device.can_have_chains and left_device.view.is_showing_chain_devices and left_device.view.selected_chain:",
+        "if right_device.can_have_chains and right_device.view.is_showing_chain_devices and right_device.view.selected_chain:",
+        "lom_object.canonical_parent.view.selected_chain = lom_object",
+        "return self._rack.view.selected_chain",
+        "selected_chain = self._view.selected_chain",
+        "self._rack.view.selected_chain = chain",
+        "self._view.selected_chain = unwrapped_track",
+        "unwrapped_track.canonical_parent.view.selected_chain = unwrapped_track"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.RackDevice.RackDevice.insert_chain": {
+      "unresolved_return_type": "LomObject"
+    },
+    "Live.Sample.Sample.slices": {
+      "usage_snippets": [
+        "def slices(self):",
+        "if slice_index + 1 < len(positions.slices):",
+        "is_active=(lambda: sample_available() and len(self._live_object.sample.slices) > 1))",
+        "next_pos = max(positions.slices[slice_index + 1].time, positions.selected_slice.time + min_visible_length)",
+        "return self._simpler.sample.slices",
+        "selected_slice_index = self._simpler.sample.slices.index(self._simpler.view.selected_slice)",
+        "self.slices = [SlicePoint(s, self._convert_sample_time(s)) for s in self._simpler.sample.slices]",
+        "slice_times = self._adaptee.sample.slices",
+        "slices = list(sample.slices) + [sample.end_marker]",
+        "slices = self._live_object.sample.slices"
+      ],
+      "needs_element_repr": true
+    },
+    "Live.Scene.Scene.color_index": {
+      "usage_snippets": [
+        "button.color_index = COLOR_CHOOSER_LAYOUT[row][column]",
+        "color_index = button.color_index",
+        "if button.color_index is None:",
+        "if obj.color_index is not None:",
+        "return IndexedColor.from_live_index(chain.color_index, DISPLAY_BUTTON_SHADE_LEVEL)",
+        "return LIVE_COLOR_INDEX_TO_RGB.get(obj.color_index, 0)",
+        "return translate_color_index(slot_or_clip.color_index)",
+        "self._render_color_palette(translate_color_index(obj.color_index))",
+        "self.object.color_index = inverse_translate_color_index(button.color_index)",
+        "self.source_color_index = color_source.color_index if (color_source and color_source.color_index is not None) else UNCOLORED_INDEX"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.View.detail_clip": {
+      "usage_snippets": [
+        "clip = self.song.view.detail_clip",
+        "clip = self.song.view.detail_clip if self.is_enabled() else None",
+        "clip = view.detail_clip",
+        "if liveobj_changed(song.view.detail_clip, clip_slot.clip):",
+        "self.selected_clip = self.parent.song().view.detail_clip",
+        "self.set_detail_clip(self.song.view.detail_clip)",
+        "song.view.detail_clip = clip_slot.clip",
+        "song.view.detail_clip = selected_slot.clip",
+        "song_view.detail_clip = track.duplicate_clip_to_arrangement(clip, clip.end_time)",
+        "view.detail_clip = view.highlighted_clip_slot.clip"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.appointed_device": {
+      "usage_snippets": [
+        "if not self._EffectController__parent.song().appointed_device == self._EffectController__assigned_device:",
+        "if not self._Encoders__parent.song().appointed_device == self._Encoders__selected_device:",
+        "if not self.parent.song().appointed_device == self.device:",
+        "if self._appointed_device != self._song.appointed_device:",
+        "self._EffectController__change_assigned_device(self._EffectController__parent.song().appointed_device)",
+        "self._song.appointed_device = device",
+        "self._update_appointed_device(self._song.appointed_device)",
+        "self.device = self.parent.song().appointed_device",
+        "self.song.appointed_device = appointed_device",
+        "song.appointed_device = appointed_device"
+      ],
+      "unresolved_property_type": true
+    },
+    "Live.Song.Song.create_audio_track": {
+      "usage_snippets": [
+        "song.create_audio_track()"
+      ],
+      "unresolved_arg_types": {
+        "index": "object"
+      }
+    },
+    "Live.Song.Song.create_midi_track": {
+      "usage_snippets": [
+        "song.create_midi_track()"
+      ],
+      "unresolved_arg_types": {
+        "index": "object"
+      }
+    },
+    "Live.Song.Song.find_device_position": {
+      "unresolved_arg_types": {
+        "target": "LomObject"
+      }
+    },
+    "Live.Song.Song.get_data": {
+      "usage_snippets": [
+        "if self.song.view.selected_track.get_data(\"alternative_mode_locked\", False) and alternative_mode:",
+        "return bool(self.song.view.selected_track.get_data(\"alternative_mode_locked\", False))",
+        "return self.song.view.selected_track.get_data(\"push-note-repeat-enabled\", False)",
+        "return self.song.view.selected_track.get_data(\"push-note-repeat-rate\", DEFAULT_RATE)",
+        "saved_mode = track.get_data(\"push-selected-note-mode\", None)",
+        "self._interval = self._song.get_data(\"push-note-layout-interval\", 3)",
+        "self._is_horizontal = self._song.get_data(\"push-note-layout-horizontal\", True)",
+        "self._tuning_system_interval = self._song.get_data(\"push-note-layout-tuning-system-interval\", 5)",
+        "self.selected_notes_provider.selected_notes = self.song.view.selected_track.get_data(\"push-instrument-selected-notes\", [DEFAULT_START_NOTE])"
+      ],
+      "unresolved_arg_types": {
+        "default_value": "object"
+      },
+      "unresolved_return_type": "object"
+    },
+    "Live.Track.Track.get_data": {
+      "usage_snippets": [
+        "if self.song.view.selected_track.get_data(\"alternative_mode_locked\", False) and alternative_mode:",
+        "return bool(self.song.view.selected_track.get_data(\"alternative_mode_locked\", False))",
+        "return self.song.view.selected_track.get_data(\"push-note-repeat-enabled\", False)",
+        "return self.song.view.selected_track.get_data(\"push-note-repeat-rate\", DEFAULT_RATE)",
+        "saved_mode = track.get_data(\"push-selected-note-mode\", None)",
+        "self._interval = self._song.get_data(\"push-note-layout-interval\", 3)",
+        "self._is_horizontal = self._song.get_data(\"push-note-layout-horizontal\", True)",
+        "self._tuning_system_interval = self._song.get_data(\"push-note-layout-tuning-system-interval\", 5)",
+        "self.selected_notes_provider.selected_notes = self.song.view.selected_track.get_data(\"push-instrument-selected-notes\", [DEFAULT_START_NOTE])"
+      ],
+      "unresolved_arg_types": {
+        "default_value": "object"
+      },
+      "unresolved_return_type": "object"
+    },
+    "Live.Song.Song.move_device": {
+      "usage_snippets": [
+        "if not self.move_device.is_enabled():",
+        "return self.move_device.is_enabled()",
+        "self.move_device = MoveDeviceComponent(parent=self, is_enabled=False)",
+        "self.move_device = None",
+        "self.move_device.set_device(device)",
+        "self.move_device.set_enabled(True)",
+        "self.song.move_device(self._device, chain, len(chain.devices) if move_to_end else 0)",
+        "self.song.move_device(self._device, parent, device_index + 2)",
+        "self.song.move_device(self._device, parent, device_index - 1)",
+        "self.song.move_device(self._device, parent, rack_index + 1 if move_behind else rack_index)"
+      ],
+      "unresolved_arg_types": {
+        "target": "LomObject"
+      }
+    },
+    "Live.Song.Song.set_data": {
+      "usage_snippets": [
+        "self._song.set_data(\"push-note-layout-horizontal\", is_horizontal)",
+        "self._song.set_data(\"push-note-layout-interval\", interval)",
+        "self._song.set_data(\"push-note-layout-tuning-system-interval\", interval)",
+        "self.song.view.selected_track.set_data(\"alternative_mode_locked\", False)",
+        "self.song.view.selected_track.set_data(\"alternative_mode_locked\", True)",
+        "self.song.view.selected_track.set_data(\"push-instrument-selected-notes\", self.selected_notes_provider.selected_notes)",
+        "self.song.view.selected_track.set_data(\"push-note-repeat-enabled\", is_enabled)",
+        "self.song.view.selected_track.set_data(\"push-note-repeat-rate\", NOTE_REPEAT_RATES[option])",
+        "self.song.view.selected_track.set_data(\"push-selected-note-mode\", mode)",
+        "track.set_data(\"push-selected-note-mode\", \"sequencer_loop\")"
+      ],
+      "unresolved_arg_types": {
+        "value": "object"
+      }
+    },
+    "Live.Track.Track.set_data": {
+      "usage_snippets": [
+        "self._song.set_data(\"push-note-layout-horizontal\", is_horizontal)",
+        "self._song.set_data(\"push-note-layout-interval\", interval)",
+        "self._song.set_data(\"push-note-layout-tuning-system-interval\", interval)",
+        "self.song.view.selected_track.set_data(\"alternative_mode_locked\", False)",
+        "self.song.view.selected_track.set_data(\"alternative_mode_locked\", True)",
+        "self.song.view.selected_track.set_data(\"push-instrument-selected-notes\", self.selected_notes_provider.selected_notes)",
+        "self.song.view.selected_track.set_data(\"push-note-repeat-enabled\", is_enabled)",
+        "self.song.view.selected_track.set_data(\"push-note-repeat-rate\", NOTE_REPEAT_RATES[option])",
+        "self.song.view.selected_track.set_data(\"push-selected-note-mode\", mode)",
+        "track.set_data(\"push-selected-note-mode\", \"sequencer_loop\")"
+      ],
+      "unresolved_arg_types": {
+        "value": "object"
+      }
+    },
+    "Live.Song.get_all_scales_ordered": {
+      "usage_snippets": [
+        "SCALES = tuple([Scale(name=(x[0]), notes=(x[1])) for x in Live.Song.get_all_scales_ordered()])"
+      ],
+      "unresolved_return_type": "tuple"
+    },
+    "Live.Track.Track.create_take_lane": {
+      "unresolved_return_type": "LomObject"
+    }
+  }
+}

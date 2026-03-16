@@ -1,74 +1,73 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Sample import Sample
     from Live.Track import Track
 
 
 
-class SimplerDevice:
+class SimplerDevice(Device):
     """This class represents a Simpler device."""
 
-    class View:
+    class View(Device.View):
         """Representing the view aspects of a simpler device."""
 
         @property
         def _live_ptr(self) -> int:
             ...
 
-        def add_sample_end_listener(self, callback: Callable | None) -> None:
+        def add_sample_end_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_end" has changed.
             """
             ...
 
-        def add_sample_env_fade_in_listener(self, callback: Callable | None) -> None:
+        def add_sample_env_fade_in_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_env_fade_in" has changed.
             """
             ...
 
-        def add_sample_env_fade_out_listener(self, callback: Callable | None) -> None:
+        def add_sample_env_fade_out_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_env_fade_out" has changed.
             """
             ...
 
-        def add_sample_loop_end_listener(self, callback: Callable | None) -> None:
+        def add_sample_loop_end_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_loop_end" has changed.
             """
             ...
 
-        def add_sample_loop_fade_listener(self, callback: Callable | None) -> None:
+        def add_sample_loop_fade_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_loop_fade" has changed.
             """
             ...
 
-        def add_sample_loop_start_listener(self, callback: Callable | None) -> None:
+        def add_sample_loop_start_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_loop_start" has changed.
             """
             ...
 
-        def add_sample_start_listener(self, callback: Callable | None) -> None:
+        def add_sample_start_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "sample_start" has changed.
             """
             ...
 
-        def add_selected_slice_listener(self, callback: Callable | None) -> None:
+        def add_selected_slice_listener(self, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_slice" has changed.
@@ -88,56 +87,56 @@ class SimplerDevice:
         @is_collapsed.setter
         def is_collapsed(self, value: bool) -> None: ...
 
-        def remove_sample_end_listener(self, callback: Callable | None) -> None:
+        def remove_sample_end_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_end".
             """
             ...
 
-        def remove_sample_env_fade_in_listener(self, callback: Callable | None) -> None:
+        def remove_sample_env_fade_in_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_env_fade_in".
             """
             ...
 
-        def remove_sample_env_fade_out_listener(self, callback: Callable | None) -> None:
+        def remove_sample_env_fade_out_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_env_fade_out".
             """
             ...
 
-        def remove_sample_loop_end_listener(self, callback: Callable | None) -> None:
+        def remove_sample_loop_end_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_loop_end".
             """
             ...
 
-        def remove_sample_loop_fade_listener(self, callback: Callable | None) -> None:
+        def remove_sample_loop_fade_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_loop_fade".
             """
             ...
 
-        def remove_sample_loop_start_listener(self, callback: Callable | None) -> None:
+        def remove_sample_loop_start_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_loop_start".
             """
             ...
 
-        def remove_sample_start_listener(self, callback: Callable | None) -> None:
+        def remove_sample_start_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "sample_start".
             """
             ...
 
-        def remove_selected_slice_listener(self, callback: Callable | None) -> None:
+        def remove_selected_slice_listener(self, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_slice".
@@ -149,7 +148,7 @@ class SimplerDevice:
             """Access to the modulated samples end position in samples. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_end_has_listener(self, callback: Callable | None) -> bool:
+        def sample_end_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_end".
@@ -161,7 +160,7 @@ class SimplerDevice:
             """Access to the envelope fade-in time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_env_fade_in_has_listener(self, callback: Callable | None) -> bool:
+        def sample_env_fade_in_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_env_fade_in".
@@ -173,7 +172,7 @@ class SimplerDevice:
             """Access to the envelope fade-out time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_env_fade_out_has_listener(self, callback: Callable | None) -> bool:
+        def sample_env_fade_out_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_env_fade_out".
@@ -185,7 +184,7 @@ class SimplerDevice:
             """Access to the modulated samples loop end position in samples. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_loop_end_has_listener(self, callback: Callable | None) -> bool:
+        def sample_loop_end_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_loop_end".
@@ -197,7 +196,7 @@ class SimplerDevice:
             """Access to the modulated samples loop fade position in samples. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_loop_fade_has_listener(self, callback: Callable | None) -> bool:
+        def sample_loop_fade_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_loop_fade".
@@ -209,7 +208,7 @@ class SimplerDevice:
             """Access to the modulated samples loop start position in samples. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_loop_start_has_listener(self, callback: Callable | None) -> bool:
+        def sample_loop_start_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_loop_start".
@@ -221,7 +220,7 @@ class SimplerDevice:
             """Access to the modulated samples start position in samples. Returns -1 in case there is no sample loaded."""
             ...
 
-        def sample_start_has_listener(self, callback: Callable | None) -> bool:
+        def sample_start_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "sample_start".
@@ -236,7 +235,7 @@ class SimplerDevice:
         @selected_slice.setter
         def selected_slice(self, value: int) -> None: ...
 
-        def selected_slice_has_listener(self, callback: Callable | None) -> bool:
+        def selected_slice_has_listener(self, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_slice".
@@ -247,98 +246,98 @@ class SimplerDevice:
     def _live_ptr(self) -> int:
         ...
 
-    def add_can_warp_as_listener(self, callback: Callable | None) -> None:
+    def add_can_warp_as_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "can_warp_as" has changed.
         """
         ...
 
-    def add_can_warp_double_listener(self, callback: Callable | None) -> None:
+    def add_can_warp_double_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "can_warp_double" has changed.
         """
         ...
 
-    def add_can_warp_half_listener(self, callback: Callable | None) -> None:
+    def add_can_warp_half_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "can_warp_half" has changed.
         """
         ...
 
-    def add_multi_sample_mode_listener(self, callback: Callable | None) -> None:
+    def add_multi_sample_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "multi_sample_mode" has changed.
         """
         ...
 
-    def add_note_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def add_note_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "note_pitch_bend_range" has changed.
         """
         ...
 
-    def add_pad_slicing_listener(self, callback: Callable | None) -> None:
+    def add_pad_slicing_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pad_slicing" has changed.
         """
         ...
 
-    def add_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def add_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pitch_bend_range" has changed.
         """
         ...
 
-    def add_playback_mode_listener(self, callback: Callable | None) -> None:
+    def add_playback_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playback_mode" has changed.
         """
         ...
 
-    def add_playing_position_enabled_listener(self, callback: Callable | None) -> None:
+    def add_playing_position_enabled_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_position_enabled" has changed.
         """
         ...
 
-    def add_playing_position_listener(self, callback: Callable | None) -> None:
+    def add_playing_position_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_position" has changed.
         """
         ...
 
-    def add_retrigger_listener(self, callback: Callable | None) -> None:
+    def add_retrigger_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "retrigger" has changed.
         """
         ...
 
-    def add_sample_listener(self, callback: Callable | None) -> None:
+    def add_sample_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "sample" has changed.
         """
         ...
 
-    def add_slicing_playback_mode_listener(self, callback: Callable | None) -> None:
+    def add_slicing_playback_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "slicing_playback_mode" has changed.
         """
         ...
 
-    def add_voices_listener(self, callback: Callable | None) -> None:
+    def add_voices_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "voices" has changed.
@@ -365,7 +364,7 @@ class SimplerDevice:
         """Returns true if warp_as is available."""
         ...
 
-    def can_warp_as_has_listener(self, callback: Callable | None) -> bool:
+    def can_warp_as_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "can_warp_as".
@@ -377,7 +376,7 @@ class SimplerDevice:
         """Returns true if warp_double is available."""
         ...
 
-    def can_warp_double_has_listener(self, callback: Callable | None) -> bool:
+    def can_warp_double_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "can_warp_double".
@@ -389,7 +388,7 @@ class SimplerDevice:
         """Returns true if warp_half is available."""
         ...
 
-    def can_warp_half_has_listener(self, callback: Callable | None) -> bool:
+    def can_warp_half_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "can_warp_half".
@@ -453,7 +452,7 @@ class SimplerDevice:
         """Returns whether Simpler is in mulit-sample mode."""
         ...
 
-    def multi_sample_mode_has_listener(self, callback: Callable | None) -> bool:
+    def multi_sample_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "multi_sample_mode".
@@ -476,7 +475,7 @@ class SimplerDevice:
     @note_pitch_bend_range.setter
     def note_pitch_bend_range(self, value: int) -> None: ...
 
-    def note_pitch_bend_range_has_listener(self, callback: Callable | None) -> bool:
+    def note_pitch_bend_range_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "note_pitch_bend_range".
@@ -494,7 +493,7 @@ class SimplerDevice:
     @pad_slicing.setter
     def pad_slicing(self, value: bool) -> None: ...
 
-    def pad_slicing_has_listener(self, callback: Callable | None) -> bool:
+    def pad_slicing_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pad_slicing".
@@ -502,7 +501,7 @@ class SimplerDevice:
         ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
@@ -514,7 +513,7 @@ class SimplerDevice:
     @pitch_bend_range.setter
     def pitch_bend_range(self, value: int) -> None: ...
 
-    def pitch_bend_range_has_listener(self, callback: Callable | None) -> bool:
+    def pitch_bend_range_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pitch_bend_range".
@@ -529,7 +528,7 @@ class SimplerDevice:
     @playback_mode.setter
     def playback_mode(self, value: int) -> None: ...
 
-    def playback_mode_has_listener(self, callback: Callable | None) -> bool:
+    def playback_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playback_mode".
@@ -552,112 +551,112 @@ class SimplerDevice:
         """
         ...
 
-    def playing_position_enabled_has_listener(self, callback: Callable | None) -> bool:
+    def playing_position_enabled_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playing_position_enabled".
         """
         ...
 
-    def playing_position_has_listener(self, callback: Callable | None) -> bool:
+    def playing_position_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playing_position".
         """
         ...
 
-    def remove_can_warp_as_listener(self, callback: Callable | None) -> None:
+    def remove_can_warp_as_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "can_warp_as".
         """
         ...
 
-    def remove_can_warp_double_listener(self, callback: Callable | None) -> None:
+    def remove_can_warp_double_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "can_warp_double".
         """
         ...
 
-    def remove_can_warp_half_listener(self, callback: Callable | None) -> None:
+    def remove_can_warp_half_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "can_warp_half".
         """
         ...
 
-    def remove_multi_sample_mode_listener(self, callback: Callable | None) -> None:
+    def remove_multi_sample_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "multi_sample_mode".
         """
         ...
 
-    def remove_note_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def remove_note_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "note_pitch_bend_range".
         """
         ...
 
-    def remove_pad_slicing_listener(self, callback: Callable | None) -> None:
+    def remove_pad_slicing_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pad_slicing".
         """
         ...
 
-    def remove_pitch_bend_range_listener(self, callback: Callable | None) -> None:
+    def remove_pitch_bend_range_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pitch_bend_range".
         """
         ...
 
-    def remove_playback_mode_listener(self, callback: Callable | None) -> None:
+    def remove_playback_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "playback_mode".
         """
         ...
 
-    def remove_playing_position_enabled_listener(self, callback: Callable | None) -> None:
+    def remove_playing_position_enabled_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "playing_position_enabled".
         """
         ...
 
-    def remove_playing_position_listener(self, callback: Callable | None) -> None:
+    def remove_playing_position_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "playing_position".
         """
         ...
 
-    def remove_retrigger_listener(self, callback: Callable | None) -> None:
+    def remove_retrigger_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "retrigger".
         """
         ...
 
-    def remove_sample_listener(self, callback: Callable | None) -> None:
+    def remove_sample_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "sample".
         """
         ...
 
-    def remove_slicing_playback_mode_listener(self, callback: Callable | None) -> None:
+    def remove_slicing_playback_mode_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "slicing_playback_mode".
         """
         ...
 
-    def remove_voices_listener(self, callback: Callable | None) -> None:
+    def remove_voices_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "voices".
@@ -672,7 +671,7 @@ class SimplerDevice:
     @retrigger.setter
     def retrigger(self, value: bool) -> None: ...
 
-    def retrigger_has_listener(self, callback: Callable | None) -> bool:
+    def retrigger_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "retrigger".
@@ -691,7 +690,7 @@ class SimplerDevice:
         """Get the loaded Sample."""
         ...
 
-    def sample_has_listener(self, callback: Callable | None) -> bool:
+    def sample_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "sample".
@@ -706,7 +705,7 @@ class SimplerDevice:
     @slicing_playback_mode.setter
     def slicing_playback_mode(self, value: int) -> None: ...
 
-    def slicing_playback_mode_has_listener(self, callback: Callable | None) -> bool:
+    def slicing_playback_mode_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "slicing_playback_mode".
@@ -731,14 +730,14 @@ class SimplerDevice:
     @voices.setter
     def voices(self, value: int) -> None: ...
 
-    def voices_has_listener(self, callback: Callable | None) -> bool:
+    def voices_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "voices".
         """
         ...
 
-    def warp_as(self, beat_time: float | None) -> None:
+    def warp_as(self, beat_time: float | None, /) -> None:
         """
         Warp the playback region between start- and end-marker as the given length.
         Calling this method on an empty simpler raises an error.

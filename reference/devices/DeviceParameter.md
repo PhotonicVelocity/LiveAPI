@@ -1,238 +1,212 @@
-# DeviceParameter
+# DeviceParameter (Module)
+
+## DeviceParameter (Class)
 
 > `Live.DeviceParameter.DeviceParameter`
 
-This class represents an automatable parameter within a MIDI or audio device. Each device
-exposes a list of parameters that can be read, set, automated, and observed. Parameters
-have a value range (`min`/`max`), a display representation, and metadata about whether they
-are quantized (boolean/enum) or continuous (float).
+This class represents a (automatable) parameter within a MIDI or Audio DSP-Device.
 
-To modify a parameter, set its `value` property. Use `begin_gesture()`/`end_gesture()` to
-group rapid value changes into a single undo step (e.g., when recording automation from a
-physical knob).
+**Live Object:** `yes`
 
-??? note "Raw probe notes (temporary)"
-    - **`value` outside range raises** -- setting a value above `max` or below `min` raises
-      `InternalError: "Invalid value. Check the parameters range with min/max"`. It does NOT clamp.
-    - **`display_value` is read-only** -- attempting to set it raises a signature mismatch error
-      (the API expects float, not str). Despite the stub's "Get/Set" docstring, this property is
-      effectively read-only. Use `value` to change the parameter.
-    - **`default_value` only for continuous** -- works on non-quantized params (e.g. returned `1.0`
-      for Drift LP Freq). On quantized params, raises `InternalError: "There is no default value
-      available for this type of parameter"`.
-    - **`short_value_items` works** -- returned `['Off', 'On']` for a boolean parameter (same as
-      `value_items` in this case). May differ for params with longer display names.
-    - **`str_for_value()` works** -- `str_for_value(1.0)` returned `'20.0 kHz'` for Drift LP Freq.
-    - **`automation_state`** confirmed: returns `0` (none) for a parameter with no automation.
+**Access via:**
 
-### Open Questions
-
-- What `original_name` returns for non-macro parameters (the stub says "the original name,
-  unaffected of any renamings" -- but Max docs say "the name of a Macro parameter before its
-  assignment"). Are these descriptions for different use cases?
+- `ChainMixerDevice.chain_activator`
+- `ChainMixerDevice.panning`
+- `ChainMixerDevice.volume`
+- `MixerDevice.crossfader`
+- `MixerDevice.cue_volume`
+- `MixerDevice.left_split_stereo`
+- `MixerDevice.panning`
+- `MixerDevice.right_split_stereo`
+- `MixerDevice.song_tempo`
+- `MixerDevice.track_activator`
+- `MixerDevice.volume`
+- `RackDevice.chain_selector`
 
 ### Properties
 
-| Property            | Type            | Settable | Listenable | Summary                                                                |
-| ------------------- | --------------- | -------- | ---------- | ---------------------------------------------------------------------- |
-| `automation_state`  | `int`           | no       | `yes`      | 0=none, 1=active, 2=overridden.                                        |
-| `default_value`     | `float`         | no       | `no`       | Default value. Only for non-quantized parameters; raises on quantized. |
-| `display_value`     | `str`           | no       | `yes`      | Value as shown in the GUI (e.g. `"-12 dB"`, `"On"`). Read-only.        |
-| `is_enabled`        | `bool`          | no       | `no`       | `False` if macro-mapped or disabled by Max.                            |
-| `is_quantized`      | `bool`          | no       | `no`       | `True` for booleans and enums; `False` for continuous float.           |
-| `max`               | `float`         | no       | `no`       | Upper bound of the allowed value range.                                |
-| `min`               | `float`         | no       | `no`       | Lower bound of the allowed value range.                                |
-| `name`              | `str`           | no       | `yes`      | Short parameter name as shown in automation chooser.                   |
-| `original_name`     | `str`           | no       | `no`       | Original name before any renaming (e.g. macro assignment).             |
-| `short_value_items` | `Sequence[str]` | no       | `no`       | Short names for quantized values. Only if `is_quantized`.              |
-| `state`             | `int`           | no       | `yes`      | 0=enabled, 1=irrelevant, 2=disabled.                                   |
-| `value`             | `float`         | `float`  | `yes`      | Internal value between `min` and `max`.                                |
-| `value_items`       | `Sequence[str]` | no       | `no`       | Display names for quantized values. Only if `is_quantized`.            |
+| Property                                  | Type           | Supports             |
+| ----------------------------------------- | -------------- | -------------------- |
+| [`automation_state`](#automation_state)   | `int`          | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)   | `Device`       | `get`                |
+| [`default_value`](#default_value)         | `float`        | `get`                |
+| [`display_value`](#display_value)         | `float`        | `get`/`set`/`listen` |
+| [`is_enabled`](#is_enabled)               | `bool`         | `get`                |
+| [`is_quantized`](#is_quantized)           | `bool`         | `get`                |
+| [`max`](#max)                             | `float`        | `get`                |
+| [`min`](#min)                             | `float`        | `get`                |
+| [`name`](#name)                           | `str`          | `get`/`listen`       |
+| [`original_name`](#original_name)         | `str`          | `get`                |
+| [`short_value_items`](#short_value_items) | `StringVector` | `get`                |
+| [`state`](#state)                         | `int`          | `get`/`listen`       |
+| [`value`](#value)                         | `float`        | `get`/`set`/`listen` |
+| [`value_items`](#value_items)             | `StringVector` | `get`                |
 
 #### `automation_state`
 
-- **Type:** `int` (`DeviceParameter.AutomationState`)
+- **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The automation state of this parameter:
+Returns state of type AutomationState.
 
-- `0` = no automation (no automation lane exists or it's empty)
-- `1` = automation active (automation is playing back)
-- `2` = automation overridden (user has manually moved the parameter, overriding automation)
+#### `canonical_parent`
 
-Use `re_enable_automation()` to clear the override state (transition from 2 back to 1).
+- **Type:** `Device`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the device parameter.
 
 #### `default_value`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The default value for this parameter. Only available for non-quantized parameters
-(`is_quantized=False`). Accessing this on a quantized parameter raises
-`InternalError: "There is no default value available for this type of parameter"`.
+Return the default value for this parameter. A Default value is only available for non-quantized parameter types (see 'is_quantized').
 
 #### `display_value`
 
-- **Type:** `str`
+- **Type:** `float`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `12.2`
 
-The parameter value formatted for display, as shown in the Live GUI. Includes unit suffixes
-where applicable (e.g. `"-12.0 dB"`, `"440 Hz"`, `"On"`, `"1/16"`). Read-only despite the
-stub's "Get/Set" docstring -- attempting to set raises a type error. The Max docs list this
-as observable. Use `str_for_value()` to format an arbitrary value without changing the
-parameter.
+Get/Set the current value (as visible in the GUI) this parameter. The value must be inside the min/max properties of this device.
 
 #### `is_enabled`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`True` when the parameter's value can be modified directly by the user, automation, or MIDI
-mapping. `False` when the parameter is macro-controlled, controlled by a `live.remote~`
-object, or when Live has disabled it for other reasons. When `False`, setting `value` may
-silently fail or raise -- needs probing.
+Returns false if the parameter has been macro mapped or disabled by Max.
 
 #### `is_quantized`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`True` for boolean toggles and enum/menu parameters. `False` for continuous float parameters
-(knobs, sliders). When `True`, use `value_items` to get the display names for each possible
-value. Note: some parameters that appear quantized in the UI (e.g., MIDI pitch) actually
-report `is_quantized=False` because their internal representation is continuous.
+Returns True, if this value is a boolean or integer like switch. Non quantized values are continues float values.
 
 #### `max`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The upper bound of the allowed value range. `value` must be set within `[min, max]`.
+Returns const access to the upper value of the allowed range for this parameter
 
 #### `min`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The lower bound of the allowed value range. `value` must be set within `[min, max]`.
+Returns const access to the lower value of the allowed range for this parameter
 
 #### `name`
 
 - **Type:** `str`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The short parameter name as shown in the automation chooser and device parameter list.
-For macro parameters, this is the user-assigned name. The listener fires when the name
-changes (e.g., when a macro is reassigned).
+Returns const access the name of this parameter, as visible in Lives automation choosers.
 
 #### `original_name`
 
 - **Type:** `str`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The original name of the parameter, unaffected by user renaming. For macro parameters, this
-is the name before the macro was assigned to a target parameter. For non-macro parameters,
-likely the same as `name`.
+Returns const access the original name of this parameter, unaffected of any renamings.
 
 #### `short_value_items`
 
-- **Type:** `Sequence[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.1`
 
-Like `value_items`, but prefers short value names when available. Only valid when
-`is_quantized=True` -- raises an error otherwise. For simple boolean parameters, returns the
-same values as `value_items`. May differ for parameters with longer display names. Not
-documented in the Max for Live docs; appears only in the stub.
+Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
 
 #### `state`
 
-- **Type:** `int` (`DeviceParameter.ParameterState`)
+- **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The active state of the parameter:
-
-- `0` = enabled -- the parameter is active and can be changed.
-- `1` = irrelevant -- the parameter can be changed but isn't active, so changes won't have
-  an audible effect (e.g., a parameter for a disabled feature within the device).
-- `2` = disabled -- the parameter cannot be changed.
+Returns the state of the parameter: - enabled - the parameter's value can be changed, - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled, - disabled - the parameter's value cannot be changed.
 
 #### `value`
 
-- **Type:** `float` (get) · `float` (set)
+- **Type:** `float`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The internal value of the parameter, between `min` and `max`. Setting a value outside this
-range raises `InternalError: "Invalid value. Check the parameters range with min/max"` -- it
-does **not** clamp. For quantized parameters, the value is an integer cast to float (e.g.,
-`0.0` for off, `1.0` for on). For continuous parameters, the value is a float in the device's
-internal scale (not the display scale). Use `display_value` or `str_for_value()` for the
-human-readable representation.
+Get/Set the current internal value of this parameter. The value must be inside the min/max properties of this device.
 
 #### `value_items`
 
-- **Type:** `Sequence[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The list of display names for each possible value of a quantized parameter. Indexed by the
-parameter's integer value. Only valid when `is_quantized=True` -- raises an error otherwise.
-For example, a filter type parameter might return `["LP12", "LP24", "BP6", "HP12", ...]`.
+Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
 
 ### Methods
 
-| Method                        | Returns | Summary                                         |
-| ----------------------------- | ------- | ----------------------------------------------- |
-| `begin_gesture()`             | `None`  | Begin a modification gesture for undo grouping. |
-| `end_gesture()`               | `None`  | End a modification gesture.                     |
-| `re_enable_automation()`      | `None`  | Clear automation override for this parameter.   |
-| `str_for_value(value: float)` | `str`   | Format a value as a display string with units.  |
+| Method                                            | Returns |
+| ------------------------------------------------- | ------- |
+| [`begin_gesture()`](#begin_gesture)               | `None`  |
+| [`end_gesture()`](#end_gesture)                   | `None`  |
+| [`re_enable_automation()`](#re_enable_automation) | `None`  |
+| [`str_for_value()`](#str_for_valuevalue-float)    | `str`   |
 
 #### `begin_gesture()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Notifies Live that a sequence of `value` modifications should be treated as a single gesture
-(one undo step). Call this before rapidly setting `value` multiple times (e.g., when recording
-automation from a physical knob or MIDI controller). Must be paired with `end_gesture()`.
+Notify the begin of a modification of the parameter, when a sequence of modifications have to be consider a consistent group -- for Sexample, when recording automation.
 
 #### `end_gesture()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Ends a parameter modification gesture started by `begin_gesture()`. All value changes between
-`begin_gesture()` and `end_gesture()` are grouped into a single undo step.
+Notify the end of a modification of the parameter. See begin_gesture.
 
 #### `re_enable_automation()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Re-enables automation playback for this parameter after it has been manually overridden.
-Transitions `automation_state` from `2` (overridden) back to `1` (active). No effect if
-automation is not overridden. This is the per-parameter equivalent of
-`Song.re_enable_automation()` which re-enables all overridden parameters.
+Reenable automation for this parameter.
 
 #### `str_for_value(value: float)`
 
 - **Returns:** `str`
 - **Args:**
-    - `value: float` -- a value in the parameter's `[min, max]` range
-- **Since:** `<11`
+  - `value: float`
 
-Returns a string representation of the given value, formatted the same way Live displays it.
-The returned string can include unit suffixes like `"dB"`, `"Hz"`, `"%"`, etc. Use this for
-display purposes -- to format an arbitrary value without actually changing the parameter.
+Return a string representation of the given value. To be used for display purposes only. This value can include characters like 'db' or 'hz', depending on the type of the parameter.
+
+## Enums
+
+### AutomationState
+
+> `Live.DeviceParameter.AutomationState`
+
+| Value | Name         |
+| ----- | ------------ |
+| `0`   | `none`       |
+| `1`   | `playing`    |
+| `2`   | `overridden` |
+
+### ParameterState
+
+> `Live.DeviceParameter.ParameterState`
+
+| Value | Name         |
+| ----- | ------------ |
+| `0`   | `enabled`    |
+| `1`   | `irrelevant` |
+| `2`   | `disabled`   |

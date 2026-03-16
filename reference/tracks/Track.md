@@ -1,974 +1,898 @@
-# Track
+# Track (Module)
+
+## Track (Class)
 
 > `Live.Track.Track`
 
-This class represents a track in Live. It can either be an audio track, a MIDI track, a return track or the master
-track. The master track and at least one Audio or MIDI track will be always present. Return tracks are optional.
-Not all properties are supported by all types of tracks. The properties are marked accordingly.
+This class represents a track in Live. It can be either an Audio track, a MIDI Track, a Return Track or the Main track. The Main Track and at least one Audio or MIDI track will be always present. Return Tracks are optional.
 
-??? note "Raw probe notes (temporary)"
+**Live Object:** `yes`
 
-    - Current probe set included `midi`, `audio`, `group`, `return`, and `master` tracks (grouped-track layout).
-    - Dictionary routing members (`input_routing_type/channel`, `output_routing_type/channel`, and `available_*`) were
-      readable and settable on all probed track kinds.
-    - On several non-master tracks, `available_output_routing_channels` had only one option, so alternate channel
-      selection was not always possible.
-    - In current probes, setting track color by known palette values round-trips as expected.
-    - In current probes, setting `color` to `None` raised an `InternalError` (C++ type mismatch: expected `int`).
-    - In current probes, setting `color_index` to `None` returned OK but had no effect — value read back unchanged.
-      Tracks always have a color in the Live UI (no "no color" option), so `None` is not a meaningful value and is
-      silently discarded.
-    - In current probes, `fired_slot_index` and `playing_slot_index` sentinel behavior matched documented values
-      (`-2`, `-1`).
-    - In current probes, `current_monitoring_state` accepted values `0`, `1`, `2`; setting `>=3` returned
-      `Invalid monitoring state!`.
-    - In current probes on a MIDI track, immediate read-after-set matched for `name`, `mute`, `solo`, `color_index`,
-      `current_monitoring_state`, and `arm`.
-    - Legacy string routing members (`current_*`, `*_routings`, `*_sub_routings`) remain in Live API for compatibility,
-      but dictionary routing members are the modern replacement:
-        - `current_input_routing` -> `input_routing_type`
-        - `current_input_sub_routing` -> `input_routing_channel`
-        - `input_routings` -> `available_input_routing_types`
-        - `input_sub_routings` -> `available_input_routing_channels`
-        - `current_output_routing` -> `output_routing_type`
-        - `current_output_sub_routing` -> `output_routing_channel`
-        - `output_routings` -> `available_output_routing_types`
-        - `output_sub_routings` -> `available_output_routing_channels`
+**Access via:**
 
-### Open Questions
-
-- Semantic naming for `Track.monitoring_states` values (`0/1/2`) is still unconfirmed from raw docs.
-- Full validity/error constraints for routing setters by track type.
-- Per-member async visibility behavior for mutable track properties beyond the currently probed subset (which updates
-  are immediate vs scheduler-delayed).
-
-### Children
-
-| Child | Returns | Shape | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `take_lanes` | `Sequence[TakeLane]` | `list` | `yes` | The list of this track's take lanes. |
-| `clip_slots` | `Sequence[ClipSlot]` | `list` | `yes` | The list of clip slots for this track. Empty for main and return tracks. |
-| `arrangement_clips` | `Sequence[Clip]` | `list` | `yes` | The list of this track's Arrangement View clips. |
-| `devices` | `Sequence[Device]` | `list` | `yes` | Includes mixer device. |
-| `group_track` | `Track` | `single` | `no` | The Group Track, if the Track is grouped. |
-| `mixer_device` | `MixerDevice` | `single` | `no` | The track's mixer device (Volume, Pan, Sends, Crossfade). |
-| `view` | `Track.View` | `single` | `no` | View aspects of the track. |
-
-#### `take_lanes`
-
-- **Returns:** `Sequence[TakeLane]`
-- **Shape:** `list`
-- **Listenable:** `yes`
-- **Since:** `12.2`
-
-The list of this track's take lanes.
-
-#### `clip_slots`
-
-- **Returns:** `Sequence[ClipSlot]`
-- **Shape:** `list`
-- **Listenable:** `yes`
-- **Since:** `<11`
-
-The list of clip slots for this track. The list will be empty for the main and return tracks.
-
-#### `arrangement_clips`
-
-- **Returns:** `Sequence[Clip]`
-- **Shape:** `list`
-- **Listenable:** `yes`
-- **Since:** `11.0`
-
-The list of this track's Arrangement View clips. The list is empty for the main track, send/return tracks, and
-group tracks.
-
-#### `devices`
-
-- **Returns:** `Sequence[Device]`
-- **Shape:** `list`
-- **Listenable:** `yes`
-- **Since:** `<11`
-
-Includes mixer device.
-
-#### `group_track`
-
-- **Returns:** `Track`
-- **Shape:** `single`
-- **Listenable:** `no`
-- **Since:** `<11`
-
-The Group Track, if the Track is grouped. If it is not, `id 0` is returned.
-
-#### `mixer_device`
-
-- **Returns:** `MixerDevice`
-- **Shape:** `single`
-- **Listenable:** `no`
-- **Since:** `<11`
-
-The special Device that every Track has: contains the Volume, Pan, Send amounts, and Crossfade assignment
-parameters.
-
-#### `view`
-
-- **Returns:** `Track.View`
-- **Shape:** `single`
-- **Listenable:** `no`
-- **Since:** `<11`
-
-Representing the view aspects of a Track.
+- `Conversions.move_devices_on_track_to_new_drum_rack_pad`
+- `RoutingType.attached_object`
+- `Song.create_audio_track()`
+- `Song.create_midi_track()`
+- `Song.create_return_track()`
+- `Song.master_track`
+- `Song.View.selected_track`
+- `Track.group_track`
 
 ### Properties
 
-| Property | Type | Settable | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `arm` | `bool` | `yes` | `yes` | `True` if track is armed for recording. |
-| `available_input_routing_channels` | `dictionary` | `no` | `yes` | Available source channels for input routing. |
-| `available_input_routing_types` | `dictionary` | `no` | `yes` | Available source types for input routing. |
-| `available_output_routing_channels` | `dictionary` | `no` | `yes` | Available target channels for output routing. |
-| `available_output_routing_types` | `dictionary` | `no` | `yes` | Available target types for output routing. |
-| `back_to_arranger` | `bool` | `yes` | `yes` | State of the Single Track Back to Arrangement button. |
-| `can_be_armed` | `bool` | `no` | `no` | `False` for return and master tracks. |
-| `can_be_frozen` | `bool` | `no` | `no` | `True` if the track can be frozen. |
-| `can_show_chains` | `bool` | `no` | `no` | `True` if an Instrument Rack can show chains in Session View. |
-| `canonical_parent` | `LomObject` | `no` | `no` | The canonical parent of the track. |
-| `color` | `int` | `yes` | `yes` | Track color as packed RGB `0x00rrggbb`. |
-| `color_index` | `int` | `yes` | `yes` | Track color palette index. |
-| `current_input_routing` | `str` | `yes` | `yes` | Legacy input routing name. Prefer `input_routing_type`. |
-| `current_input_sub_routing` | `str` | `yes` | `yes` | Legacy input sub-routing name. Prefer `input_routing_channel`. |
-| `current_monitoring_state` | `int` | `yes` | `yes` | Monitoring state: `0`, `1`, or `2`. |
-| `current_output_routing` | `str` | `yes` | `yes` | Legacy output routing name. Prefer `output_routing_type`. |
-| `current_output_sub_routing` | `str` | `yes` | `yes` | Legacy output sub-routing name. Prefer `output_routing_channel`. |
-| `fired_slot_index` | `int` | `no` | `yes` | Index of the blinking clip slot. |
-| `fold_state` | `int` | `yes` | `no` | `0` = unfolded (children visible), `1` = folded. Group tracks only. |
-| `has_audio_input` | `bool` | `no` | `no` | `True` for audio tracks. |
-| `has_audio_output` | `bool` | `no` | `no` | `True` for audio tracks and MIDI tracks with instruments. |
-| `has_midi_input` | `bool` | `no` | `no` | `True` for MIDI tracks. |
-| `has_midi_output` | `bool` | `no` | `no` | `True` for MIDI tracks with no instruments and no audio effects. |
-| `implicit_arm` | `bool` | `yes` | `yes` | A second arm state, only used by Push so far. |
-| `input_meter_left` | `float` | `no` | `yes` | Smoothed left channel input meter, 0.0 to 1.0. Audio input tracks only. |
-| `input_meter_level` | `float` | `no` | `yes` | Hold peak of input meter, 0.0 to 1.0. |
-| `input_meter_right` | `float` | `no` | `yes` | Smoothed right channel input meter, 0.0 to 1.0. Audio input tracks only. |
-| `input_routing_channel` | `dictionary` | `yes` | `yes` | Currently selected input routing source channel. |
-| `input_routing_type` | `dictionary` | `yes` | `yes` | Currently selected input routing source type. |
-| `input_routings` | `list[str]` | `yes` | `yes` | Legacy input routing list. Prefer `available_input_routing_types`. |
-| `input_sub_routings` | `list[str]` | `yes` | `yes` | Legacy input sub-routing list. Prefer `available_input_routing_channels`. |
-| `is_foldable` | `bool` | `no` | `no` | `True` if the track can be folded (Group Tracks). |
-| `is_frozen` | `bool` | `no` | `yes` | `True` if the track is currently frozen. |
-| `is_grouped` | `bool` | `no` | `no` | `True` if the track is inside a Group Track. |
-| `is_part_of_selection` | `bool` | `no` | `no` | Unknown. |
-| `is_showing_chains` | `bool` | `yes` | `yes` | Whether an Instrument Rack's chains are showing in Session View. |
-| `is_visible` | `bool` | `no` | `no` | `False` if hidden in a folded Group Track. |
-| `mute` | `bool` | `yes` | `yes` | Track mute state. Not available on master track. |
-| `muted_via_solo` | `bool` | `no` | `yes` | `True` if muted because another track is soloed. |
-| `name` | `str` | `yes` | `yes` | Track name as shown in the track header. |
-| `output_meter_left` | `float` | `no` | `yes` | Smoothed left channel output meter, 0.0 to 1.0. |
-| `output_meter_level` | `float` | `no` | `yes` | Hold peak of output meter, 0.0 to 1.0. |
-| `output_meter_right` | `float` | `no` | `yes` | Smoothed right channel output meter, 0.0 to 1.0. |
-| `output_routing_channel` | `dictionary` | `yes` | `yes` | Currently selected output routing target channel. |
-| `output_routing_type` | `dictionary` | `yes` | `yes` | Currently selected output routing target type. |
-| `output_routings` | `list[str]` | `yes` | `yes` | Legacy output routing list. Prefer `available_output_routing_types`. |
-| `output_sub_routings` | `list[str]` | `yes` | `yes` | Legacy output sub-routing list. Prefer `available_output_routing_channels`. |
-| `performance_impact` | `float` | `no` | `yes` | Performance impact of this track. |
-| `playing_slot_index` | `int` | `no` | `yes` | Index of the currently playing clip slot. |
-| `solo` | `bool` | `yes` | `yes` | Track solo state. Bypasses exclusive solo logic on set. |
+| Property                                                                  | Type                   | Supports             |
+| ------------------------------------------------------------------------- | ---------------------- | -------------------- |
+| [`arm`](#arm)                                                             | `bool`                 | `get`/`set`/`listen` |
+| [`arrangement_clips`](#arrangement_clips)                                 | `Vector[Clip]`         | `get`/`listen`       |
+| [`available_input_routing_channels`](#available_input_routing_channels)   | `RoutingChannelVector` | `get`/`listen`       |
+| [`available_input_routing_types`](#available_input_routing_types)         | `RoutingTypeVector`    | `get`/`listen`       |
+| [`available_output_routing_channels`](#available_output_routing_channels) | `RoutingChannelVector` | `get`/`listen`       |
+| [`available_output_routing_types`](#available_output_routing_types)       | `RoutingTypeVector`    | `get`/`listen`       |
+| [`back_to_arranger`](#back_to_arranger)                                   | `bool`                 | `get`/`set`/`listen` |
+| [`can_be_armed`](#can_be_armed)                                           | `bool`                 | `get`                |
+| [`can_be_frozen`](#can_be_frozen)                                         | `bool`                 | `get`                |
+| [`can_show_chains`](#can_show_chains)                                     | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                                   | `Song`                 | `get`                |
+| [`clip_slots`](#clip_slots)                                               | `Vector[ClipSlot]`     | `get`/`listen`       |
+| [`color`](#color)                                                         | `int`                  | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                                             | `int`                  | `get`/`set`/`listen` |
+| [`current_input_routing`](#current_input_routing)                         | `str`                  | `get`/`set`/`listen` |
+| [`current_input_sub_routing`](#current_input_sub_routing)                 | `str`                  | `get`/`set`/`listen` |
+| [`current_monitoring_state`](#current_monitoring_state)                   | `int`                  | `get`/`set`/`listen` |
+| [`current_output_routing`](#current_output_routing)                       | `str`                  | `get`/`set`/`listen` |
+| [`current_output_sub_routing`](#current_output_sub_routing)               | `str`                  | `get`/`set`/`listen` |
+| [`devices`](#devices)                                                     | `Vector[Device]`       | `get`/`listen`       |
+| [`fired_slot_index`](#fired_slot_index)                                   | `int`                  | `get`/`listen`       |
+| [`fold_state`](#fold_state)                                               | `bool`                 | `get`/`set`          |
+| [`group_track`](#group_track)                                             | `Track`                | `get`                |
+| [`has_audio_input`](#has_audio_input)                                     | `bool`                 | `get`/`listen`       |
+| [`has_audio_output`](#has_audio_output)                                   | `bool`                 | `get`/`listen`       |
+| [`has_midi_input`](#has_midi_input)                                       | `bool`                 | `get`/`listen`       |
+| [`has_midi_output`](#has_midi_output)                                     | `bool`                 | `get`/`listen`       |
+| [`implicit_arm`](#implicit_arm)                                           | `bool`                 | `get`/`set`/`listen` |
+| [`input_meter_left`](#input_meter_left)                                   | `float`                | `get`/`listen`       |
+| [`input_meter_level`](#input_meter_level)                                 | `float`                | `get`/`listen`       |
+| [`input_meter_right`](#input_meter_right)                                 | `float`                | `get`/`listen`       |
+| [`input_routing_channel`](#input_routing_channel)                         | `RoutingChannel`       | `get`/`set`/`listen` |
+| [`input_routing_type`](#input_routing_type)                               | `RoutingType`          | `get`/`set`/`listen` |
+| [`input_routings`](#input_routings)                                       | `StringVector`         | `get`/`listen`       |
+| [`input_sub_routings`](#input_sub_routings)                               | `StringVector`         | `get`/`listen`       |
+| [`is_foldable`](#is_foldable)                                             | `bool`                 | `get`                |
+| [`is_frozen`](#is_frozen)                                                 | `bool`                 | `get`/`listen`       |
+| [`is_grouped`](#is_grouped)                                               | `bool`                 | `get`                |
+| [`is_part_of_selection`](#is_part_of_selection)                           | `bool`                 | `get`                |
+| [`is_showing_chains`](#is_showing_chains)                                 | `bool`                 | `get`/`set`/`listen` |
+| [`is_visible`](#is_visible)                                               | `bool`                 | `get`                |
+| [`mixer_device`](#mixer_device)                                           | `MixerDevice`          | `get`                |
+| [`mute`](#mute)                                                           | `bool`                 | `get`/`set`/`listen` |
+| [`muted_via_solo`](#muted_via_solo)                                       | `bool`                 | `get`/`listen`       |
+| [`name`](#name)                                                           | `str`                  | `get`/`set`/`listen` |
+| [`output_meter_left`](#output_meter_left)                                 | `float`                | `get`/`listen`       |
+| [`output_meter_level`](#output_meter_level)                               | `float`                | `get`/`listen`       |
+| [`output_meter_right`](#output_meter_right)                               | `float`                | `get`/`listen`       |
+| [`output_routing_channel`](#output_routing_channel)                       | `RoutingChannel`       | `get`/`set`/`listen` |
+| [`output_routing_type`](#output_routing_type)                             | `RoutingType`          | `get`/`set`/`listen` |
+| [`output_routings`](#output_routings)                                     | `StringVector`         | `get`/`listen`       |
+| [`output_sub_routings`](#output_sub_routings)                             | `StringVector`         | `get`/`listen`       |
+| [`performance_impact`](#performance_impact)                               | `float`                | `get`/`listen`       |
+| [`playing_slot_index`](#playing_slot_index)                               | `int`                  | `get`/`listen`       |
+| [`solo`](#solo)                                                           | `bool`                 | `get`/`set`/`listen` |
+| [`take_lanes`](#take_lanes)                                               | `Vector[TakeLane]`     | `get`/`listen`       |
+| [`view`](#view)                                                           | `View`                 | `get`                |
 
 #### `arm`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-`True` if the track is armed for recording. Not available on return/master tracks.
+Arm the track for recording. Not available for Main- and Send Tracks.
+
+#### `arrangement_clips`
+
+- **Type:** `Vector[Clip]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks.
 
 #### `available_input_routing_channels`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingChannelVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available source channels for the track's input routing, as a dictionary containing a list of
-dictionaries (same structure as `input_routing_channel`). Documented as MIDI/audio-only.
-
-- **Quirks:** Current probes (Live 12.3.5) also returned this member on group, return, and master tracks.
+Return a list of source channels for input routing.
 
 #### `available_input_routing_types`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingTypeVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available source types for the track's input routing, as a dictionary containing a list of dictionaries
-(same structure as `input_routing_type`). Documented as MIDI/audio-only.
-
-- **Quirks:** Current probes (Live 12.3.5) also returned this member on group, return, and master tracks.
+Return a list of source types for input routing.
 
 #### `available_output_routing_channels`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingChannelVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available target channels for the track's output routing, as a dictionary containing a list of
-dictionaries (same structure as `output_routing_channel`). Documented as unavailable on master track.
-
-- **Quirks:** Current probes (Live 12.3.5) returned this member on the master track as well. On several non-master
-  tracks, only one output channel option was available.
+Return a list of destination channels for output routing.
 
 #### `available_output_routing_types`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingTypeVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available target types for the track's output routing, as a dictionary containing a list of dictionaries
-(same structure as `output_routing_type`). Documented as unavailable on master track.
-
-- **Quirks:** Current probes (Live 12.3.5) returned this member on the master track as well.
+Return a list of destination types for output routing.
 
 #### `back_to_arranger`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `12.0`
 
-Get/set the current state of the Single Track Back to Arrangement button (`1` = highlighted). Setting to `0` makes
-Live go back to playing the track's arrangement content. For group tracks, this means all tracks within the group
-and any subgroups will go back to playing the arrangement.
+Indicates if it's possible to go back to playing back the clips in the Arranger.Setting a value 0 will go back to the Arranger playback. Setting on grouptracks will go back to the Arranger on all grouped tracks.
 
 #### `can_be_armed`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`False` for return and master tracks.
+return True, if this Track has a valid arm property. Not all tracks can be armed (for example return Tracks or the Main Tracks).
 
 #### `can_be_frozen`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`True` if the track can be frozen.
+return True, if this Track can be frozen.
 
 #### `can_show_chains`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`True` if the track contains an Instrument Rack device that can show chains in Session View.
+return True, if this Track contains a rack instrument device that is capable of showing its chains in session view.
 
 #### `canonical_parent`
 
-- **Type:** `LomObject`
+- **Type:** `Song`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The canonical parent of the track.
+Get the canonical parent of the track.
+
+#### `clip_slots`
+
+- **Type:** `Vector[ClipSlot]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+const access to the list of clipslots (see class AClipSlot) for this track. The list will be empty for the main and sendtracks.
 
 #### `color`
 
 - **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The RGB value of the track's color in the form `0x00rrggbb`. When setting, Live snaps to the nearest color from
-the track color chooser.
-
-- **Quirks:** Setting to `None` raises an `InternalError` (C++ type mismatch: expected `int`).
+Get/set access to the color of the Track (RGB).
 
 #### `color_index`
 
 - **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Track color palette index. Tracks always have a color in the Live UI — there is no "no color" option.
-
-- **Quirks:** Setting to `None` is accepted without error but silently discarded; the value remains unchanged.
+Get/Set access to the color index of the track. Can be None for no color.
 
 #### `current_input_routing`
 
 - **Type:** `str`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Get/set the name of the current active input routing. The new routing must be one of the available ones. Legacy
-compatibility property. Prefer `input_routing_type`.
+Get/Set the name of the current active input routing. When setting a new routing, the new routing must be one of the available ones.
 
 #### `current_input_sub_routing`
 
 - **Type:** `str`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Get/set the current active input sub routing. Legacy compatibility property. Prefer `input_routing_channel`.
+Get/Set the current active input sub routing. When setting a new routing, the new routing must be one of the available ones.
 
 #### `current_monitoring_state`
 
 - **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The track's current monitoring state. Values `0`, `1`, and `2` are accepted.
-
-- **Quirks:** Setting values `>=3` returns `Invalid monitoring state!`. Semantic labels for `0`/`1`/`2` are
-  unconfirmed in raw docs.
+Get/Set the track's current monitoring state.
 
 #### `current_output_routing`
 
 - **Type:** `str`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Get/set the current active output routing. Legacy compatibility property. Prefer `output_routing_type`.
+Get/Set the current active output routing. When setting a new routing, the new routing must be one of the available ones.
 
 #### `current_output_sub_routing`
 
 - **Type:** `str`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Get/set the current active output sub routing. Legacy compatibility property. Prefer `output_routing_channel`.
+Get/Set the current active output sub routing. When setting a new routing, the new routing must be one of the available ones.
+
+#### `devices`
+
+- **Type:** `Vector[Device]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Return const access to all available Devices that are present in the Tracks Devicechain. This tuple will also include the 'mixer_device' that every Track always has.
 
 #### `fired_slot_index`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Reflects the blinking clip slot. `-1` = no slot fired, `-2` = Clip Stop Button fired. First clip slot has index
-`0`. Not available on return/master tracks.
+const access to the index of the fired (and thus blinking) clipslot in this track. This index is -1 if no slot is fired and -2 if the track's stop button has been fired.
 
 #### `fold_state`
 
-- **Type:** `int`
+- **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`0` = tracks within the Group Track are visible, `1` = Group Track is folded and the tracks within are hidden.
-Only available if `is_foldable` is `True`.
+Get/Set whether the track is folded or not. Only available if is_foldable is True.
+
+#### `group_track`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+return the group track if is_grouped.
 
 #### `has_audio_input`
 
 - **Type:** `bool`
-- **Listenable:** `no`
-- **Since:** `<11`
+- **Settable:** `no`
+- **Listenable:** `yes`
 
-`True` for audio tracks.
+return True, if this Track can be feed with an Audio signal. This is true for all Audio Tracks.
 
 #### `has_audio_output`
 
 - **Type:** `bool`
-- **Listenable:** `no`
-- **Since:** `<11`
+- **Settable:** `no`
+- **Listenable:** `yes`
 
-`True` for audio tracks and MIDI tracks with instruments.
+return True, if this Track sends out an Audio signal. This is true for all Audio Tracks, and MIDI tracks with an Instrument.
 
 #### `has_midi_input`
 
 - **Type:** `bool`
-- **Listenable:** `no`
-- **Since:** `<11`
+- **Settable:** `no`
+- **Listenable:** `yes`
 
-`True` for MIDI tracks.
+return True, if this Track can be feed with an Audio signal. This is true for all MIDI Tracks.
 
 #### `has_midi_output`
 
 - **Type:** `bool`
-- **Listenable:** `no`
-- **Since:** `<11`
+- **Settable:** `no`
+- **Listenable:** `yes`
 
-`True` for MIDI tracks with no instruments and no audio effects.
+return True, if this Track sends out MIDI events. This is true for all MIDI Tracks with no Instruments.
 
 #### `implicit_arm`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-A second arm state, only used by Push so far.
+Arm the track for recording. When The track is implicitly armed, it showsin a weaker color in the live GUI and is not saved in the set.
 
 #### `input_meter_left`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Smoothed momentary peak value of left channel input meter, 0.0 to 1.0. For tracks with audio input only.
+Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 #### `input_meter_level`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Hold peak value of input meters of audio and MIDI tracks, 0.0 to 1.0. For audio tracks it is the maximum of the
-left and right channels. The hold time is 1 second.
+Return the MIDI or Audio meter value of the Tracks input, depending on the type of the Track input. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
 
 #### `input_meter_right`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Smoothed momentary peak value of right channel input meter, 0.0 to 1.0. For tracks with audio input only.
+Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 #### `input_routing_channel`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingChannel`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The currently selected source channel for the track's input routing. A dictionary with `display_name` and
-`identifier` keys. Can be set to any value from `available_input_routing_channels`. Documented as MIDI/audio-only.
-
-- **Quirks:** Current probes (Live 12.3.5) also returned this member on group, return, and master tracks. Set/get
-  round-trip succeeded across all probed track kinds.
+Get and set the current source channel for input routing. Raises ValueError if the type isn't one of the current values in available_input_routing_channels.
 
 #### `input_routing_type`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingType`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The currently selected source type for the track's input routing. A dictionary with `display_name` and `identifier`
-keys. Can be set to any value from `available_input_routing_types`. Documented as MIDI/audio-only.
-
-- **Quirks:** Current probes (Live 12.3.5) also returned this member on group, return, and master tracks. Set/get
-  round-trip succeeded across all probed track kinds.
+Get and set the current source type for input routing. Raises ValueError if the type isn't one of the current values in available_input_routing_types.
 
 #### `input_routings`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available input routings. Legacy compatibility property. Prefer `available_input_routing_types`.
+Const access to the list of available input routings.
 
 #### `input_sub_routings`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available input sub routings. Legacy compatibility property. Prefer `available_input_routing_channels`.
+Return a list of all available input sub routings.
 
 #### `is_foldable`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`True` if the track can be (un)folded to hide or reveal the contained tracks. This is currently the case for Group
-Tracks. Instrument and Drum Racks return `False` although they can be opened/closed.
+return True if the track can be (un)folded to hide/reveal contained tracks.
 
 #### `is_frozen`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-`True` if the track is currently frozen.
+return True if this Track is currently frozen. No changes should be applied to the track's devices or clips while it is frozen.
 
 #### `is_grouped`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`True` if the track is contained within a Group Track.
+return True if this Track is current part of a group track.
 
 #### `is_part_of_selection`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-Unknown.
+return False if the track is not selected.
 
 #### `is_showing_chains`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Get or set whether a track with an Instrument Rack device is currently showing its chains in Session View.
+Get/Set whether a track with a rack device is showing its chains in session view.
 
 #### `is_visible`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-`False` if the track is hidden in a folded Group Track.
+return False if the track is hidden within a folded group track.
+
+#### `mixer_device`
+
+- **Type:** `MixerDevice`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return access to the special Device that every Track has: This Device contains the Volume, Pan, Sendamounts, and Crossfade assignment parameters.
 
 #### `mute`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Track mute state. Not available on master track.
+Mute/unmute the track.
 
 #### `muted_via_solo`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-`True` if the track or chain is muted due to Solo being active on at least one other track.
+Returns true if the track is muted because another track is soloed.
 
 #### `name`
 
 - **Type:** `str`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-As shown in track header.
+Read/write access to the name of the Track, as visible in the track header.
 
 #### `output_meter_left`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Smoothed momentary peak value of left channel output meter, 0.0 to 1.0. For tracks with audio output only. Note
-that the left/right audio meters add a significant load to Live GUI resource usage.
+Momentary value of left output channel meter, 0.0 to 1.0. For tracks with audio output only.
 
 #### `output_meter_level`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Hold peak value of output meters of audio and MIDI tracks, 0.0 to 1.0. For audio tracks, it is the maximum of the
-left and right channels. The hold time is 1 second.
+Return the MIDI or Audio meter value of the Track output (behind the mixer_device), depending on the type of the Track input, this can be a MIDI or Audio meter. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
 
 #### `output_meter_right`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Smoothed momentary peak value of right channel output meter, 0.0 to 1.0. For tracks with audio output only.
+Momentary value of right output channel meter, 0.0 to 1.0. For tracks with audio output only.
 
 #### `output_routing_channel`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingChannel`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The currently selected target channel for the track's output routing. A dictionary with `display_name` and
-`identifier` keys. Can be set to any value from `available_output_routing_channels`. Documented as unavailable on
-master track.
-
-- **Quirks:** Current probes (Live 12.3.5) returned this member on the master track as well. On several non-master
-  tracks, only one output channel option was available.
+Get and set the current destination channel for output routing. Raises ValueError if the channel isn't one of the current values in available_output_routing_channels.
 
 #### `output_routing_type`
 
-- **Type:** `dictionary`
+- **Type:** `RoutingType`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The currently selected target type for the track's output routing. A dictionary with `display_name` and
-`identifier` keys. Can be set to any value from `available_output_routing_types`. Documented as unavailable on
-master track.
-
-- **Quirks:** Current probes (Live 12.3.5) returned this member on the master track as well.
+Get and set the current destination type for output routing. Raises ValueError if the type isn't one of the current values in available_output_routing_types.
 
 #### `output_routings`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of all available output routings. Legacy compatibility property. Prefer `available_output_routing_types`.
+Const access to the list of all available output routings.
 
 #### `output_sub_routings`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of all available output sub routings. Legacy compatibility property. Prefer
-`available_output_routing_channels`.
+Return a list of all available output sub routings.
 
 #### `performance_impact`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `11.1`
 
 Reports the performance impact of this track.
 
 #### `playing_slot_index`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-First slot has index `0`. `-2` = Clip Stop slot fired in Session View, `-1` = Arrangement recording with no
-Session clip playing. Not available on return/master tracks.
+const access to the index of the currently playing clip in the track. Will be -1 when no clip is playing.
 
 #### `solo`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Track solo state. Not available on master track.
+Get/Set the solo status of the track. Note that this will not disable the solo state of any other track. If you want exclusive solo, you have to disable the solo state of the other Tracks manually.
 
-- **Quirks:** When setting this property, the exclusive Solo logic is bypassed — you have to unsolo the other tracks
-  yourself.
+#### `take_lanes`
+
+- **Type:** `Vector[TakeLane]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+returns the take lanes.
+
+#### `view`
+
+- **Type:** `View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a Track.
 
 ### Methods
 
-| Method | Returns | Summary |
-| --- | --- | --- |
-| `create_audio_clip(file_path: str, position: float)` | `Clip` | Create an arrangement audio clip from a file. |
-| `create_midi_clip(start_time: float, length: float)` | `Clip` | Create an empty arrangement MIDI clip. |
-| `create_take_lane()` | `LomObject` | Create a take lane for this track. |
-| `delete_clip(clip: Clip)` | `None` | Delete the given clip. |
-| `delete_device(index: int)` | `None` | Delete the device at the given index. |
-| `duplicate_clip_slot(index: int)` | `int` | Duplicate a clip slot (like context menu Duplicate). |
-| `duplicate_clip_to_arrangement(clip: Clip, destination_time: float)` | `Clip` | Duplicate a clip to the Arrangement at the given time. |
-| `duplicate_device(index: int)` | `None` | Duplicate a device at the given index. |
-| `get_data(key: object, default_value: object)` | `object` | Get persistent data for the given key. |
-| `insert_device(device_name: str, device_index: int)` | `LomObject` | Insert a native device at the given index. |
-| `jump_in_running_session_clip(beats: float)` | `None` | Relative jump in the running session clip. |
-| `set_data(key: object, value: object)` | `None` | Store persistent data for the given key. |
-| `stop_all_clips(quantized: bool)` | `None` | Stop all playing and fired clips in this track. |
+| Method                                                                                              | Returns    |
+| --------------------------------------------------------------------------------------------------- | ---------- |
+| [`create_audio_clip()`](#create_audio_clipfile_path-str-position-float)                             | `Clip`     |
+| [`create_midi_clip()`](#create_midi_clipstart_time-float-length-float)                              | `Clip`     |
+| [`create_take_lane()`](#create_take_lane)                                                           | `TakeLane` |
+| [`delete_clip()`](#delete_cliparg2-clip)                                                            | `None`     |
+| [`delete_device()`](#delete_devicearg2-int)                                                         | `None`     |
+| [`duplicate_clip_slot()`](#duplicate_clip_slotindex-int)                                            | `int`      |
+| [`duplicate_clip_to_arrangement()`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`     |
+| [`duplicate_device()`](#duplicate_deviceindex-int)                                                  | `None`     |
+| [`get_data()`](#get_datakey-str-default_value-any)                                                  | `Any`      |
+| [`insert_device()`](#insert_devicedevice_name-str-device_index-int--1)                              | `Device`   |
+| [`jump_in_running_session_clip()`](#jump_in_running_session_clipbeats-float)                        | `None`     |
+| [`set_data()`](#set_datakey-str-value-any)                                                          | `None`     |
+| [`stop_all_clips()`](#stop_all_clipsquantized-bool-true)                                            | `None`     |
 
 #### `create_audio_clip(file_path: str, position: float)`
 
 - **Returns:** `Clip`
 - **Args:**
-  - `file_path: str` -- absolute path to a valid audio file
-  - `position: float` -- arrangement position in beats (range `[0, 1576800]`)
-- **Since:** `11.3`
+  - `file_path: str`
+  - `position: float`
 
-Creates an audio clip referencing the file at the specified position in the arrangement view. Errors if the track is
-not audio, is frozen, or is being recorded into. See `ClipSlot.create_audio_clip` for session view clips.
+Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time. Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
 
 #### `create_midi_clip(start_time: float, length: float)`
 
 - **Returns:** `Clip`
 - **Args:**
-  - `start_time: float` -- arrangement position in beats (range `[0, 1576800]`)
-  - `length: float` -- clip length in beats
-- **Since:** `12.1`
+  - `start_time: float`
+  - `length: float`
 
-Creates an empty MIDI clip in the arrangement at the specified time. Errors on non-MIDI tracks, frozen tracks, or
-tracks being recorded into. See `ClipSlot.create_clip` for session view clips.
+Creates an empty MIDI clip and inserts it into the arrangement at the specified time. Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
 
 #### `create_take_lane()`
 
-- **Returns:** `LomObject`
-- **Args:** None
-- **Since:** `12.2`
+- **Returns:** `TakeLane`
 
-Creates a take lane for this track.
+Create a new TakeLane for this track.
 
-#### `delete_clip(clip: Clip)`
+#### `delete_clip(arg2: Clip)`
 
 - **Returns:** `None`
 - **Args:**
-  - `clip: Clip` -- the clip to delete
-- **Since:** `<11`
+  - `arg2: Clip`
 
-Delete the given clip.
+Delete the given clip. Raises a runtime error when the clip belongs to another track.
 
-#### `delete_device(index: int)`
+#### `delete_device(arg2: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `index: int` -- device index to delete
-- **Since:** `<11`
+  - `arg2: int`
 
-Delete the device at the given index.
+Delete a device identified by the index in the 'devices' list.
 
 #### `duplicate_clip_slot(index: int)`
 
 - **Returns:** `int`
 - **Args:**
-  - `index: int` -- clip slot index to duplicate
-- **Since:** `<11`
+  - `index: int`
 
-Works like 'Duplicate' in a clip's context menu.
+Duplicate a clip and put it into the next free slot and return the index of the destination slot. A new scene is created if no free slot is available. If creating the new scene would exceed the limitations, a runtime error is raised.
 
 #### `duplicate_clip_to_arrangement(clip: Clip, destination_time: float)`
 
 - **Returns:** `Clip`
 - **Args:**
-  - `clip: Clip` -- the clip to duplicate
-  - `destination_time: float` -- arrangement position in beats
-- **Since:** `<11`
+  - `clip: Clip`
+  - `destination_time: float`
 
-Duplicate the given clip to the Arrangement, placing it at the given destination time in beats.
+Duplicate the given clip into the arrangement of this track at the provided destination time and return it. When the type of the clip and the type of the track are incompatible, a runtime error is raised.
 
 #### `duplicate_device(index: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `index: int` -- device index to duplicate
-- **Since:** `12.3`
+  - `index: int`
 
-Duplicate a device at the given index in the device chain.
+Duplicate a device at a given index in the 'devices' list.
 
-#### `get_data(key: object, default_value: object)`
+#### `get_data(key: str, default_value: Any)`
 
-- **Returns:** `object`
+- **Returns:** `Any`
 - **Args:**
-  - `key: object` -- the key to look up
-  - `default_value: object` -- returned if the key was never set
-- **Since:** `<11`
+  - `key: str`
+  - `default_value: Any`
 
-Get data for the given key, that was previously stored using `set_data`. Data is persistent across save/load.
+Get data for the given key, that was previously stored using set_data.
 
-- **Quirks:** After `set_data(key, None)`, `get_data(key, default)` returns `None` rather than the provided
-  default.
+#### `insert_device(device_name: str, device_index: int = -1)`
 
-#### `insert_device(device_name: str, device_index: int)`
-
-- **Returns:** `LomObject`
+- **Returns:** `Device`
 - **Args:**
-  - `device_name: str` -- exact `class_display_name` (e.g. `"EQ Eight"`, not `"Eq8"`); case-sensitive
-  - `device_index: int` -- position in the device chain (optional; defaults to end)
-- **Raises:** `ValidationError: Device {name} not found.` if the name doesn't match any native device.
-- **Since:** `12.3`
+  - `device_name: str`
+  - `device_index: int = -1`
 
-Inserts a native Live device at the given index. Only native devices are supported — third-party plug-ins (VST/AU)
-and Max for Live devices are not (the empty M4L container shell can be inserted as it is native). Not all indices
-are valid; structural constraints apply (e.g., a MIDI effect cannot be inserted after an instrument).
+Add a device at a given index in the 'devices' list. At end if -1.
 
 #### `jump_in_running_session_clip(beats: float)`
 
 - **Returns:** `None`
 - **Args:**
-  - `beats: float` -- amount to jump relative to the current clip position
-- **Since:** `<11`
+  - `beats: float`
 
-Modify playback position in the running Session clip on this track, if any.
+Jump forward or backward in the currently running Sessionclip (if any) by the specified relative amount in beats. Does nothing if no Session Clip is currently running.
 
-#### `set_data(key: object, value: object)`
+#### `set_data(key: str, value: Any)`
 
 - **Returns:** `None`
 - **Args:**
-  - `key: object` -- the key to store under
-  - `value: object` -- the value to store
-- **Since:** `<11`
+  - `key: str`
+  - `value: Any`
 
 Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.
 
-#### `stop_all_clips(quantized: bool)`
+#### `stop_all_clips(quantized: bool = True)`
 
 - **Returns:** `None`
 - **Args:**
-  - `quantized: bool` -- `False` stops immediately, `True` (default) respects launch quantization
-- **Since:** `<11`
+  - `quantized: bool = True`
 
-Stops all playing and fired clips in this track.
+Stop running and triggered clip and slots on this track.
 
----
-
-## Track.View
+## Track.View (Subclass)
 
 > `Live.Track.Track.View`
 
-Representing the view aspects of a track.
+Representing the view aspects of a Track.
 
-### Children
-
-| Child | Returns | Shape | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `selected_device` | `Device` | `single` | `yes` | The selected device (or first in a multi-selection). |
-
-#### `selected_device`
-
-- **Returns:** `Device`
-- **Shape:** `single`
-- **Listenable:** `yes`
-- **Since:** `<11`
-
-The selected device or the first selected device (in case of multi/group selection).
+**Live Object:** `yes`
 
 ### Properties
 
-| Property | Type | Settable | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `canonical_parent` | `Track` | `no` | `no` | The canonical parent of the track view. |
-| `device_insert_mode` | `int` | `yes` | `yes` | Where a device is inserted when loaded from the browser. |
-| `is_collapsed` | `bool` | `yes` | `yes` | In Arrangement View: `True` = track collapsed. |
+| Property                                    | Type     | Supports             |
+| ------------------------------------------- | -------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)     | `Track`  | `get`                |
+| [`device_insert_mode`](#device_insert_mode) | `bool`   | `get`/`set`/`listen` |
+| [`is_collapsed`](#is_collapsed)             | `bool`   | `get`/`set`/`listen` |
+| [`selected_device`](#selected_device)       | `Device` | `get`/`listen`       |
 
 #### `canonical_parent`
 
 - **Type:** `Track`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The canonical parent of the track view.
+Get the canonical parent of the track view.
 
 #### `device_insert_mode`
 
-- **Type:** `int`
+- **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Determines where a device will be inserted when loaded from the browser. `0` = add at end, `1` = left of selected
-device, `2` = right of selected device.
+Get/Listen the device insertion mode of the track. By default, it will insert devices at the end, but it can be changed to make it relative to current selection.
 
 #### `is_collapsed`
 
 - **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-In Arrangement View: `True` = track collapsed, `False` = track opened.
+Get/Set/Listen if the track is shown collapsed in the arranger view.
+
+#### `selected_device`
+
+- **Type:** `Device`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Get/Set/Listen the insertion mode of the device. While in insertion mode, loading new devices from the browser will place devices at the selected position.
 
 ### Methods
 
-| Method | Returns | Summary |
-| --- | --- | --- |
-| `select_instrument()` | `bool` | Select the track's instrument or first device. |
+| Method                                      | Returns |
+| ------------------------------------------- | ------- |
+| [`select_instrument()`](#select_instrument) | `bool`  |
 
 #### `select_instrument()`
 
-- **Returns:** `bool` -- `False` if there are no devices to select
-- **Args:** None
-- **Since:** `<11`
+- **Returns:** `bool`
 
-Selects the track's instrument or first device, makes it visible and focuses on it.
+Selects the track's instrument if it has one.
 
----
+## Enums
 
-## Track.DeviceContainer
+### monitoring_states
 
-> `Live.Track.Track.DeviceContainer`
+> `Live.Track.Track.monitoring_states`
 
-Common super class of Track and Chain. No user-facing properties or methods beyond the internal `_live_ptr`.
+| Value | Name   |
+| ----- | ------ |
+| `0`   | `IN`   |
+| `1`   | `AUTO` |
+| `2`   | `OFF`  |
 
----
+### DeviceInsertMode
 
-## Track.DeviceInsertMode
+> `Live.Track.DeviceInsertMode`
 
-> `Live.Track.Track.DeviceInsertMode`
+| Value | Name             |
+| ----- | ---------------- |
+| `0`   | `default`        |
+| `1`   | `selected_left`  |
+| `2`   | `selected_right` |
+| `3`   | `count`          |
 
-Enumeration used by `Track.View.device_insert_mode`. Values: `0` = add at end, `1` = insert left of selected
-device, `2` = insert right of selected device.
+### RoutingChannelLayout
 
----
+> `Live.Track.RoutingChannelLayout`
 
-## Track.RoutingChannel
+| Value | Name     |
+| ----- | -------- |
+| `0`   | `midi`   |
+| `1`   | `mono`   |
+| `2`   | `stereo` |
 
-> `Live.Track.Track.RoutingChannel`
+### RoutingTypeCategory
 
-Represents a routing channel with `display_name` and `layout` properties.
+> `Live.Track.RoutingTypeCategory`
+
+| Value | Name                 |
+| ----- | -------------------- |
+| `0`   | `external`           |
+| `1`   | `rewire`             |
+| `2`   | `resampling`         |
+| `3`   | `master`             |
+| `4`   | `track`              |
+| `5`   | `parent_group_track` |
+| `6`   | `none`               |
+| `7`   | `invalid`            |
+
+## DeviceContainer (Type)
+
+> `Live.Track.DeviceContainer`
+
+This class is a common super class of Track and Chain
+
+**Live Object:** `yes`
+
+## RoutingChannel (Type)
+
+> `Live.Track.RoutingChannel`
+
+This class represents a routing channel.
 
 ### Properties
 
-| Property | Type | Settable | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `display_name` | `str` | `no` | `no` | Display name of the routing channel. |
-| `layout` | `Track.RoutingChannelLayout` | `no` | `no` | The channel layout (e.g., mono or stereo). |
+| Property                        | Type                   | Supports |
+| ------------------------------- | ---------------------- | -------- |
+| [`display_name`](#display_name) | `str`                  | `get`    |
+| [`layout`](#layout)             | `RoutingChannelLayout` | `get`    |
 
 #### `display_name`
 
 - **Type:** `str`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-Display name of the routing channel.
+Display name of routing channel.
 
 #### `layout`
 
-- **Type:** `Track.RoutingChannelLayout`
+- **Type:** `RoutingChannelLayout`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The routing channel's layout, e.g., mono or stereo.
+The routing channel's Layout, e.g., mono or stereo.
 
----
+## RoutingChannelVector (Type)
 
-## Track.RoutingChannelLayout
+> `Live.Track.RoutingChannelVector`
 
-> `Live.Track.Track.RoutingChannelLayout`
+A container for returning routing channels from Live.
 
-Enumeration for routing channel layout (e.g., mono/stereo).
+### Methods
 
----
+| Method                                     | Returns |
+| ------------------------------------------ | ------- |
+| [`append()`](#appendvalue-routingchannel)  | `None`  |
+| [`extend()`](#extendvalues-routingchannel) | `None`  |
 
-## Track.RoutingChannelVector
+#### `append(value: RoutingChannel)`
 
-> `Live.Track.Track.RoutingChannelVector`
+- **Returns:** `None`
+- **Args:**
+  - `value: RoutingChannel`
 
-A container for returning routing channels from Live. Supports `append()` and `extend()`.
+#### `extend(values: RoutingChannel)`
 
----
+- **Returns:** `None`
+- **Args:**
+  - `values: RoutingChannel`
 
-## Track.RoutingType
+## RoutingType (Type)
 
-> `Live.Track.Track.RoutingType`
+> `Live.Track.RoutingType`
 
-Represents a routing type with `attached_object`, `category`, and `display_name` properties.
+This class represents a routing type.
 
 ### Properties
 
-| Property | Type | Settable | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `attached_object` | `LomObject` | `no` | `no` | Live object associated with the routing type. |
-| `category` | `Track.RoutingTypeCategory` | `no` | `no` | Category of the routing type. |
-| `display_name` | `str` | `no` | `no` | Display name of the routing type. |
+| Property                              | Type    | Supports |
+| ------------------------------------- | ------- | -------- |
+| [`attached_object`](#attached_object) | `Track` | `get`    |
+| [`category`](#category)               | `int`   | `get`    |
+| [`display_name`](#display_name)       | `str`   | `get`    |
 
 #### `attached_object`
 
-- **Type:** `LomObject`
+- **Type:** `Track`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
 Live object associated with the routing type.
 
 #### `category`
 
-- **Type:** `Track.RoutingTypeCategory`
+- **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
 Category of the routing type.
 
 #### `display_name`
 
 - **Type:** `str`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-Display name of the routing type.
+Display name of routing type.
 
----
+## RoutingTypeVector (Type)
 
-## Track.RoutingTypeCategory
+> `Live.Track.RoutingTypeVector`
 
-> `Live.Track.Track.RoutingTypeCategory`
+A container for returning routing types from Live.
 
-Enumeration for routing type categories.
+### Methods
 
----
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-routingtype)  | `None`  |
+| [`extend()`](#extendvalues-routingtype) | `None`  |
 
-## Track.RoutingTypeVector
+#### `append(value: RoutingType)`
 
-> `Live.Track.Track.RoutingTypeVector`
+- **Returns:** `None`
+- **Args:**
+  - `value: RoutingType`
 
-A container for returning routing types from Live. Supports `append()` and `extend()`.
+#### `extend(values: RoutingType)`
 
----
-
-## Track.monitoring_states
-
-> `Live.Track.Track.monitoring_states`
-
-Enumeration used by `Track.current_monitoring_state`. Values `0`, `1`, `2` are accepted; `>=3` returns
-`Invalid monitoring state!`. Semantic labels for the three states are unconfirmed in raw docs.
+- **Returns:** `None`
+- **Args:**
+  - `values: RoutingType`

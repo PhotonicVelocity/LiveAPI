@@ -1,59 +1,167 @@
-# ShifterDevice
+# ShifterDevice (Module)
+
+## ShifterDevice (Class)
 
 > `Live.ShifterDevice.ShifterDevice`
 
-This class represents a Shifter audio effect device in Live. ShifterDevice is a subclass of Device -- it has
-all the children, properties, and methods of Device plus additional members for selecting the pitch mode and
-adjusting the MIDI pitch bend range.
+This class represents a Shifter device.
 
-Shifter is a pitch-shifting and frequency-shifting audio effect. The pitch mode determines whether pitch is
-controlled internally or via MIDI input.
-
-??? note "Raw probe notes (temporary)"
-    - Bridge type: `"ShifterDevice"`. `class_name`: `"Shifter"`.
-    - `pitch_mode_index` returns `int`. Default is 0 ("Internal"). Settable, round-trips correctly.
-    - `pitch_mode_list` returns `list[str]` (StringVector serializes as plain list through bridge).
-      Values: `["Internal", "MIDI"]`. Not listenable (static list).
-    - `pitch_bend_range` returns `int`. Default is 2. Settable (set to 24, read back 24), round-trips.
-    - All properties except `pitch_mode_list` are listenable.
-
-### Open Questions
-
-None — all resolved by probing.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), ShifterDevice adds:
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                  | `get`/`set`/`listen` |
+| [`pitch_mode_index`](#pitch_mode_index)                   | `int`                  | `get`/`set`/`listen` |
+| [`pitch_mode_list`](#pitch_mode_list)                     | `StringVector`         | `get`                |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `Device.View`          | `get`                |
 
-| Property           | Type       | Settable | Listenable | Summary                                                    |
-| ------------------ | ---------- | -------- | ---------- | ---------------------------------------------------------- |
-| `pitch_bend_range` | `int`      | yes      | yes        | MIDI pitch bend range used in MIDI pitch mode.             |
-| `pitch_mode_index` | `int`      | yes      | yes        | Index of the current pitch mode (0 = Internal, 1 = MIDI).  |
-| `pitch_mode_list`  | `list[str]`| no       | no         | List of available pitch mode names.                        |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
 
 #### `pitch_bend_range`
 
-- **Type:** `int` (get) · `int` (set)
-- **Listenable:** yes
-- **Since:** `11.1`
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
 
-The pitch bend range in semitones, used when the pitch mode is set to MIDI. Default is 2.
+Return the pitch bend range for MIDI pitch mode
 
 #### `pitch_mode_index`
 
-- **Type:** `int` (get) · `int` (set)
-- **Listenable:** yes
-- **Since:** `11.1`
+- **Type:** `int`
+- **Settable:** `yes`
+- **Listenable:** `yes`
 
-The index of the current pitch mode. Values: 0 = Internal, 1 = MIDI.
+Return the current pitch mode index
 
 #### `pitch_mode_list`
 
-- **Type:** `list[str]`
-- **Listenable:** no
-- **Since:** `11.1`
+- **Type:** `StringVector`
+- **Settable:** `no`
+- **Listenable:** `no`
 
-The list of available pitch mode names. Static list, not listenable.
-Values: `["Internal", "MIDI"]`.
+Return the current pitch mode list
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.

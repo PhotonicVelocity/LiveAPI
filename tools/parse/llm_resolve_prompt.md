@@ -10,15 +10,21 @@ You will receive:
 ## Input Format
 
 Each item is keyed by its full path (e.g. `Live.Song.Song.get_data`) and has shared context fields
-(`description`, `signature`, `cpp_signature`) plus the specific fields that need resolution:
+(`description`, `signature`, `cpp_signature`) plus the specific fields that need resolution.
 
-- **`args`** — dict of arg names to resolve. Each arg has `current_type` and optionally `needs_name: true`.
-  - If `current_type` is `"object"`: resolve the type (provide `type` + `type_reason`).
-  - If `needs_name` is `true`: the arg has a generic `argN` name — resolve it (provide `name` + `name_reason`).
-  - **An arg can need both a name and a type — you MUST resolve both.** If `needs_name` is `true` AND
-    `current_type` is `"object"`, provide `name`, `name_reason`, `type`, and `type_reason` together.
-- **`returns`** — if present with `current_type: "object"`, resolve the return type.
-- **`probed_type: null`** — a property with unknown runtime type.
+**Every item has a `needs` list that tells you exactly which fields to provide in your output.**
+You MUST provide ALL fields listed in `needs` for each item — do not skip any.
+
+- **`args`** — dict of arg entries. Each arg has `current_type` and a `needs` list:
+  - `"name"` in needs → the arg has a generic `argN` name — provide `name` + `name_reason`.
+  - `"type"` in needs → the type needs resolution — provide `type` + `type_reason`.
+  - **When `needs` contains both `"name"` and `"type"`, you MUST provide all four fields:**
+    `name`, `name_reason`, `type`, `type_reason`. Do not resolve only one.
+- **`returns`** — has `current_type` and a `needs` list. If `"type"` is in needs, provide the
+  resolved return type.
+- **Properties** — top-level `needs` list:
+  - `"probed_type"` → provide `probed_type` + `probed_type_reason`.
+  - `"element_repr"` → provide `element_repr` + `element_repr_reason`.
 
 ## Output Format
 
@@ -51,6 +57,16 @@ but with resolved fields added and context fields stripped:
     "Live.Clip.Clip._live_ptr": {
       "probed_type": "int",
       "probed_type_reason": "sibling _live_ptr properties are all int"
+    },
+    "Live.Track.Track.devices": {
+      "element_repr": "<class 'Device.Device'>",
+      "element_repr_reason": "docstring says 'a list of Device instances'"
+    },
+    "Live.Clip.Clip.get_notes": {
+      "returns": {
+        "type": "tuple[tuple[int, float, float, float, bool], ...]",
+        "type_reason": "description says tuple of tuples with pitch, time, duration, velocity, mute"
+      }
     }
   }
 }
@@ -62,34 +78,53 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
 
 ## Critical Rules
 
-### For args that need BOTH a name and a type (`needs_name: true` AND `current_type: "object"`):
+### The `needs` list is your checklist
 
-- Provide ALL FOUR fields: `"name"`, `"name_reason"`, `"type"`, and `"type_reason"`.
-- Do not resolve only one — both must be present in the output.
+Every item (arg, return, or property) has a `needs` list. You MUST provide a resolved field + reason
+for EVERY entry in `needs`. If an arg has `"needs": ["name", "type"]`, your output MUST contain all
+four fields: `name`, `name_reason`, `type`, `type_reason`. Providing only some is an error.
 
-### For args that need only a name (`needs_name: true`, type is already known):
+### Args needing `"name"`
 
-- Provide `"name"` and `"name_reason"`. Do NOT include `"type"`.
 - The current names are `arg1`, `arg2`, `arg3`, etc. — rename them to something descriptive.
 - Key the args dict by the CURRENT arg name (e.g. `"arg2"`, not the new name).
 
-### For args that need only a type (`current_type: "object"`, name is already meaningful):
+### Args/returns needing `"type"`
 
-- Provide `"type"` and `"type_reason"`. Do NOT include `"name"`.
-- The arg name may already be meaningful — these items only need a type fix.
+- When `current_type` is `"object"`, the type was erased — resolve it to a specific Python type.
+- When `current_type` is `"tuple"`, provide a precise parameterized tuple type, e.g.
+  `"tuple[tuple[int, float, float, float, bool], ...]"` for a tuple of note tuples.
+  For homogeneous sequences use `tuple[X, ...]`. For fixed-structure tuples use
+  `tuple[X, Y, Z]` with the exact element types.
 
-### For return types (`returns.current_type: "object"`):
-
-- Provide `"returns": {"type": "...", "type_reason": "..."}` on the path entry.
-
-### For property types (`probed_type: null`):
+### Properties needing `"probed_type"`
 
 - Provide `"probed_type": "..."` and `"probed_type_reason": "..."` on the path entry.
+
+### Properties needing `"element_repr"`
+
+- These are iterable properties (vectors/lists) where the container type is known but the element type is not.
+- Provide `"element_repr": "..."` and `"element_repr_reason": "..."` on the path entry.
+- The `element_repr` should be a `<class '...'>` repr string for the element type, e.g.
+  `"<class 'Track.Track'>"` or `"<class 'DeviceParameter.DeviceParameter'>"`.
+- Use the property name, raw docstring, parent class context, and any usage snippets to determine what element
+  type the vector contains. For example, `Song.tracks` → `<class 'Track.Track'>`,
+  `Track.devices` → `<class 'Device.Device'>`.
+- If you cannot determine the element type, omit the item entirely.
 
 ### General:
 
 - Use Python type names: `str`, `bool`, `int`, `float`, `Callable`, `Any`, `list[X]`, `tuple[X, ...]`.
-- Always parameterize container types when the element type is known: `list[int]` not bare `list`.
+- Avoid shadowing Python builtins like `format` or `type` when naming args.
+- For boolean state args, use adjective names (e.g. `enabled` instead of `enable`)
+- For `element_repr` fields, use the `<class '...'>` repr format (e.g. `<class 'Track.Track'>`), NOT
+  Python type names. This matches the repr format used throughout the parsed tree.
+- Always parameterize container types when the element type is known: `list[int]` not bare `list`. 
+  Prefer `Iterable[X]` for function args that accept any iterable, and `list[X]` for properties that
+  return a list.
+- **Vector `extend` args must use `Iterable[T]`.** The `extend` method on Vector classes accepts an
+  iterable of elements, not a single element. If `append` takes `MidiNote`, then `extend` takes
+  `Iterable[MidiNote]`. Never use a bare element type for an `extend` argument.
 - For Vector class probed_types, use the Vector class name as-is (e.g. `ControlDescriptionVector`),
   not a parameterized form — these are distinct LOM types, not generic Python containers.
 - For LOM class references, use the class name only (e.g. `ClipSlot` not `Live.ClipSlot.ClipSlot`).
@@ -98,6 +133,16 @@ text, sibling pattern, etc. Use `name_reason`, `type_reason`, or `probed_type_re
   companion arg name, description, and other context to infer the real type. Only fall back to `Any` if
   no other evidence exists and the parameter truly accepts arbitrary objects.
 - If you cannot determine the correct resolution for an item, omit it entirely (do not guess).
+
+### Nullable properties
+
+When resolving a property whose `probed_type` is `NoneType`, the property CAN return None — 
+the probe captured None at runtime. Your job is to determine the non-None type. Always emit 
+the result as `T | None`, not just `T`. The probe already proved None is a valid value.
+
+Similarly, if usage snippets show `is None` or `is not None` checks on a property or function return,
+include `| None` in the resolved type even if the probe didn't capture None. If usage snippet passes
+`None` to a function arg, include `| None` in the resolved type for that arg.
 
 ## Naming Style
 

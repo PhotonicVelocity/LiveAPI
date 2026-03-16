@@ -1,20 +1,24 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 from .Track import Track
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Chain import Chain
+    from Live.LomObject import LomObject
 
 
 
-class DeviceContainer:
+class DeviceContainer(LomObject):
     """This class is a common super class of Track and Chain"""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-class DeviceInsertMode:
+class DeviceInsertMode(int):
     default: int = 0
     selected_left: int = 1
     selected_right: int = 2
@@ -33,18 +37,18 @@ class RoutingChannel:
         """The routing channel's Layout, e.g., mono or stereo."""
         ...
 
-class RoutingChannelLayout:
+class RoutingChannelLayout(int):
     midi: int = 0
     mono: int = 1
     stereo: int = 2
 
-class RoutingChannelVector:
+class RoutingChannelVector(Vector[RoutingChannel]):
     """A container for returning routing channels from Live."""
 
-    def append(self, value: RoutingChannel | None) -> None:
+    def append(self, value: RoutingChannel | None, /) -> None:
         ...
 
-    def extend(self, values: RoutingChannel | None) -> None:
+    def extend(self, values: Iterable[RoutingChannel] | None, /) -> None:
         ...
 
 class RoutingType:
@@ -65,7 +69,7 @@ class RoutingType:
         """Display name of routing type."""
         ...
 
-class RoutingTypeCategory:
+class RoutingTypeCategory(int):
     external: int = 0
     rewire: int = 1
     resampling: int = 2
@@ -75,13 +79,13 @@ class RoutingTypeCategory:
     none: int = 6
     invalid: int = 7
 
-class RoutingTypeVector:
+class RoutingTypeVector(Vector[RoutingType]):
     """A container for returning routing types from Live."""
 
-    def append(self, value: RoutingType | None) -> None:
+    def append(self, value: RoutingType | None, /) -> None:
         ...
 
-    def extend(self, values: RoutingType | None) -> None:
+    def extend(self, values: Iterable[RoutingType] | None, /) -> None:
         ...
 
 __all__ = ['Track', 'DeviceContainer', 'DeviceInsertMode', 'RoutingChannel', 'RoutingChannelLayout', 'RoutingChannelVector', 'RoutingType', 'RoutingTypeCategory', 'RoutingTypeVector']

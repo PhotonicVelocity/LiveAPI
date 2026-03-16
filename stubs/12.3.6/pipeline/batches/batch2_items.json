@@ -1,0 +1,942 @@
+{
+  "Live.Licensing.PythonLicensingBridge.base_product_id": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns Live's current base product ID."
+  },
+  "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
+    "description": "Retrieves an instance of the startup dialog with the passed callables connected to its buttons.",
+    "signature": "get_startup_dialog( (PythonLicensingBridge)arg1, (object)authorize_callable, (object)authorize_later_callable) -> StartupDialog :",
+    "cpp_signature": "TWeakPtr<AStartupDialog> get_startup_dialog(APythonLicensingBridge {lvalue},boost::python::api::object,boost::python::api::object)",
+    "args": {
+      "authorize_callable": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      },
+      "authorize_later_callable": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Licensing.PythonLicensingBridge.in_sassafras_mode": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ]
+  },
+  "Live.Licensing.PythonLicensingBridge.license_must_match_variant": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns a bool indicating if we require the license information returned by the server to match the variant of Live."
+  },
+  "Live.Licensing.PythonLicensingBridge.process_license_response": {
+    "description": "Processes a list of strings, each representing a server response to a product authorization.",
+    "signature": "process_license_response( (PythonLicensingBridge)arg1, (list)license_response_lines) -> UnlockStatus :",
+    "cpp_signature": "TUnlockStatus process_license_response(APythonLicensingBridge {lvalue},boost::python::list)",
+    "args": {
+      "license_response_lines": {
+        "current_type": "list",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed)."
+  },
+  "Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns true if the set has unsaved changes."
+  },
+  "Live.Licensing.PythonLicensingBridge.set_network_timer": {
+    "description": "Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped.",
+    "signature": "set_network_timer( (PythonLicensingBridge)arg1, (object)callback, (int)interval_in_ms) -> None :",
+    "cpp_signature": "void set_network_timer(APythonLicensingBridge {lvalue},boost::python::api::object,int)",
+    "args": {
+      "callback": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Licensing.get_unlock_dir": {
+    "description": "Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.",
+    "signature": "get_unlock_dir() -> tuple :",
+    "cpp_signature": "boost::python::tuple get_unlock_dir()",
+    "returns": {
+      "current_type": "tuple",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.Listener.ListenerHandle.listener_func": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns the original function"
+  },
+  "Live.Listener.ListenerHandle.listener_self": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns the weak reference to original self, if it was a bound method"
+  },
+  "Live.Listener.ListenerHandle.name": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Prints the name of the property that this listener is connected to"
+  },
+  "Live.Listener.ListenerVector": {
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "A read only container for accessing a list of listeners."
+  },
+  "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
+    "description": "Export Looper's content to a Session Clip Slot.",
+    "signature": "export_to_clip_slot( (LooperDevice)arg1, (ClipSlot)arg2) -> None :",
+    "cpp_signature": "void export_to_clip_slot(TLooperDevicePyHandle,TPyHandle<AGroupAndClipSlotBase>)",
+    "args": {
+      "arg2": {
+        "current_type": "ClipSlot",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MaxDevice.MaxDevice.get_bank_name": {
+    "description": "Get the name of a parameter bank given by index. This is related to hardware control surfaces.",
+    "signature": "get_bank_name( (MaxDevice)arg1, (int)arg2) -> str :",
+    "cpp_signature": "TString get_bank_name(TMaxDevicePyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MaxDevice.MaxDevice.get_bank_parameters": {
+    "description": "Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces.",
+    "signature": "get_bank_parameters( (MaxDevice)arg1, (int)arg2) -> list :",
+    "cpp_signature": "boost::python::list get_bank_parameters(TMaxDevicePyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    },
+    "returns": {
+      "current_type": "list",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.MaxDevice.MaxDevice.get_value_item_icons": {
+    "description": "Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.",
+    "signature": "get_value_item_icons( (MaxDevice)arg1, (DeviceParameter)arg2) -> list :",
+    "cpp_signature": "boost::python::list get_value_item_icons(TMaxDevicePyHandle,TPyHandle<ATimeableValue>)",
+    "args": {
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs": [
+          "name"
+        ]
+      }
+    },
+    "returns": {
+      "current_type": "list",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
+  },
+  "Live.MidiMap.CCFeedbackRule.cc_value_map": {
+    "probed_type": "tuple",
+    "needs": [
+      "element_repr"
+    ]
+  },
+  "Live.MidiMap.NoteFeedbackRule.vel_map": {
+    "probed_type": "tuple",
+    "needs": [
+      "element_repr"
+    ]
+  },
+  "Live.MidiMap.PitchBendFeedbackRule.value_pair_map": {
+    "probed_type": "tuple",
+    "needs": [
+      "element_repr"
+    ]
+  },
+  "Live.MidiMap.forward_midi_cc": {
+    "signature": "forward_midi_cc( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :",
+    "cpp_signature": "bool forward_midi_cc(unsigned int,unsigned int,int,int [,bool=True])",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.forward_midi_note": {
+    "signature": "forward_midi_note( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :",
+    "cpp_signature": "bool forward_midi_note(unsigned int,unsigned int,int,int [,bool=True])",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.forward_midi_pitchbend": {
+    "signature": "forward_midi_pitchbend( (int)arg1, (int)arg2, (int)arg3) -> bool :",
+    "cpp_signature": "bool forward_midi_pitchbend(unsigned int,unsigned int,int)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.map_midi_note": {
+    "signature": "map_midi_note( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4) -> bool :",
+    "cpp_signature": "bool map_midi_note(unsigned int,TPyHandle<ATimeableValue>,int,int)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.map_midi_note_with_feedback_map": {
+    "signature": "map_midi_note_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4, (NoteFeedbackRule)arg5) -> bool :",
+    "cpp_signature": "bool map_midi_note_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NPythonMidiMap::TNoteFeedbackRule)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg5": {
+        "current_type": "NoteFeedbackRule",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.map_midi_pitchbend": {
+    "signature": "map_midi_pitchbend( (int)arg1, (DeviceParameter)arg2, (int)arg3, (bool)arg4) -> bool :",
+    "cpp_signature": "bool map_midi_pitchbend(unsigned int,TPyHandle<ATimeableValue>,int,bool)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "bool",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.map_midi_pitchbend_with_feedback_map": {
+    "signature": "map_midi_pitchbend_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (PitchBendFeedbackRule)arg4, (bool)arg5) -> bool :",
+    "cpp_signature": "bool map_midi_pitchbend_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,NPythonMidiMap::TPitchBendFeedbackRule,bool)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg4": {
+        "current_type": "PitchBendFeedbackRule",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg5": {
+        "current_type": "bool",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.MidiMap.send_feedback_for_parameter": {
+    "signature": "send_feedback_for_parameter( (int)arg1, (DeviceParameter)arg2) -> None :",
+    "cpp_signature": "void send_feedback_for_parameter(unsigned int,TPyHandle<ATimeableValue>)",
+    "args": {
+      "arg1": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg2": {
+        "current_type": "DeviceParameter",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
+  },
+  "Live.RackDevice.RackDevice.View.selected_chain": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Return access to the currently selected chain."
+  },
+  "Live.RackDevice.RackDevice.copy_pad": {
+    "description": "Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127.",
+    "signature": "copy_pad( (RackDevice)arg1, (int)arg2, (int)arg3) -> None :",
+    "cpp_signature": "void copy_pad(TRackDevicePyHandle,int,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.RackDevice.RackDevice.insert_chain": {
+    "description": "Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence.",
+    "signature": "insert_chain( (RackDevice)arg1 [, (int)Index=-1]) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> insert_chain(TRackDevicePyHandle [,int=-1])",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
+    "probed_type": null,
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."
+  },
+  "Live.Sample.Sample.slices": {
+    "probed_type": "tuple",
+    "needs": [
+      "element_repr"
+    ],
+    "raw_doc": "Access to the list of slice points in sample time in the sample."
+  },
+  "Live.Scene.Scene.color_index": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Get/set access to the color index of the scene. Can be None for no color."
+  },
+  "Live.Scene.Scene.set_fire_button_state": {
+    "description": "Set the scene's fire button state directly. Supports all launch modes.",
+    "signature": "set_fire_button_state( (Scene)arg1, (bool)arg2) -> None :",
+    "cpp_signature": "void set_fire_button_state(TPyHandle<AScene>,bool)",
+    "args": {
+      "arg2": {
+        "current_type": "bool",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.View.detail_clip": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Get/Set the Clip that is currently visible in Lives Detailview."
+  },
+  "Live.Song.Song.View.select_device": {
+    "description": "Select the given device.",
+    "signature": "select_device( (View)arg1, (Device)arg2 [, (bool)ShouldAppointDevice=True]) -> None :",
+    "cpp_signature": "void select_device(TPyViewData<ASong>,TPyHandle<ADevice> [,bool=True])",
+    "args": {
+      "arg2": {
+        "current_type": "Device",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.View.selected_chain": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Get the highlighted chain if available."
+  },
+  "Live.Song.Song.View.selected_parameter": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Get the currently selected device parameter."
+  },
+  "Live.Song.Song.appointed_device": {
+    "probed_type": "NoneType",
+    "needs": [
+      "probed_type"
+    ],
+    "raw_doc": "Read, write, and listen access to the appointed Device"
+  },
+  "Live.Song.Song.create_audio_track": {
+    "description": "Create a new audio track at the optional given index and return it.If the index is -1,\nthe new track is added at the end. It will create a default audio track if possible.\nIf the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item",
+    "signature": "create_audio_track( (Song)arg1 [, (object)Index=None]) -> Track :",
+    "cpp_signature": "TWeakPtr<TTrackPyHandle> create_audio_track(TPyHandle<ASong> [,boost::python::api::object=None])",
+    "args": {
+      "index": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.create_midi_track": {
+    "description": "Create a new midi track at the optional given index and return it.If the index is -1,\nthe new track is added at the end.It will create a default midi track if possible.\nIf the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item",
+    "signature": "create_midi_track( (Song)arg1 [, (object)Index=None]) -> Track :",
+    "cpp_signature": "TWeakPtr<TTrackPyHandle> create_midi_track(TPyHandle<ASong> [,boost::python::api::object=None])",
+    "args": {
+      "index": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.create_scene": {
+    "description": "Create a new scene at the given index. If the index is -1,\nthe new scene is added at the end. If the index is invalid or\nthe new scene would exceed the limitations, a limitation error is raised.",
+    "signature": "create_scene( (Song)arg1, (int)arg2) -> Scene :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AScene>> create_scene(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.delete_return_track": {
+    "description": "Delete the return track with the given index. If no track with this index\nexists, an exception will be raised.",
+    "signature": "delete_return_track( (Song)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void delete_return_track(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.delete_scene": {
+    "description": "Delete the scene with the given index. If no scene with this index\nexists, an exception will be raised.",
+    "signature": "delete_scene( (Song)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void delete_scene(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.delete_track": {
+    "description": "Delete the track with the given index. If no track with this index\nexists, an exception will be raised.",
+    "signature": "delete_track( (Song)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void delete_track(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.duplicate_scene": {
+    "description": "Duplicates a scene and selects the new one.\nRaises a limitation error if creating a new scene would exceed the limitations.",
+    "signature": "duplicate_scene( (Song)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void duplicate_scene(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.duplicate_track": {
+    "description": "Duplicates a track and selects the new one.\nIf the track is inside a folded group track, the group track is unfolded.\nRaises a limitation error if creating a new track would exceed the limitations.",
+    "signature": "duplicate_track( (Song)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void duplicate_track(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.find_device_position": {
+    "description": "Returns the closest possible position to the given target, where the\ndevice can be inserted. If inserting is not possible at all (i.e. if\nthe device type is wrong), -1 is returned.",
+    "signature": "find_device_position( (Song)arg1, (Device)device, (LomObject)target, (int)target_position) -> int :",
+    "cpp_signature": "int find_device_position(TPyHandle<ASong>,TPyHandle<ADevice>,TPyHandleBase,int)",
+    "args": {
+      "target": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.get_current_smpte_song_time": {
+    "description": "Get const access to the songs current playing position, by specifying\nthe SMPTE format in which you would like to receive the time.",
+    "signature": "get_current_smpte_song_time( (Song)arg1, (int)arg2) -> SmptTime :",
+    "cpp_signature": "NSongApi::TSmptTime get_current_smpte_song_time(TPyHandle<ASong>,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.get_data": {
+    "description": "Get data for the given key, that was previously stored using set_data.",
+    "signature": "get_data( (Song)arg1, (object)key, (object)default_value) -> object :",
+    "cpp_signature": "boost::python::api::object get_data(TPyHandle<ASong>,TString,boost::python::api::object)",
+    "args": {
+      "default_value": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    },
+    "returns": {
+      "current_type": "object",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.Song.Song.jump_by": {
+    "description": "Set a new playing pos, relative to the current one.",
+    "signature": "jump_by( (Song)arg1, (float)arg2) -> None :",
+    "cpp_signature": "void jump_by(TPyHandle<ASong>,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.move_device": {
+    "description": "Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to.",
+    "signature": "move_device( (Song)arg1, (Device)device, (LomObject)target, (int)target_position) -> int :",
+    "cpp_signature": "int move_device(TPyHandle<ASong>,TPyHandle<ADevice>,TPyHandleBase,int)",
+    "args": {
+      "target": {
+        "current_type": "LomObject",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.scrub_by": {
+    "description": "Same as jump_by, but does not stop playback.",
+    "signature": "scrub_by( (Song)arg1, (float)arg2) -> None :",
+    "cpp_signature": "void scrub_by(TPyHandle<ASong>,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Song.Song.set_data": {
+    "description": "Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.",
+    "signature": "set_data( (Song)arg1, (object)key, (object)value) -> None :",
+    "cpp_signature": "void set_data(TPyHandle<ASong>,TString,boost::python::api::object)",
+    "args": {
+      "value": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  },
+  "Live.Song.get_all_scales_ordered": {
+    "description": "Get an ordered tuple of tuples of all available scale names to intervals.",
+    "signature": "get_all_scales_ordered() -> tuple :",
+    "cpp_signature": "boost::python::tuple get_all_scales_ordered()",
+    "returns": {
+      "current_type": "tuple",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.TakeLane.TakeLane.create_audio_clip": {
+    "description": "Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.\nThrows an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.",
+    "signature": "create_audio_clip( (TakeLane)arg1, (object)arg2, (float)arg3) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_audio_clip(TPyHandle<ATakeLane>,TString,double)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.TakeLane.TakeLane.create_midi_clip": {
+    "description": "Creates an empty MIDI clip and inserts it into the arrangement at the specified time.\nThrows an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.",
+    "signature": "create_midi_clip( (TakeLane)arg1, (float)arg2, (float)arg3) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_midi_clip(TPyHandle<ATakeLane>,double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.create_audio_clip": {
+    "description": "Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.\nThrows an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.",
+    "signature": "create_audio_clip( (Track)arg1, (object)arg2, (float)arg3) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_audio_clip(TTrackPyHandle,TString,double)",
+    "args": {
+      "arg2": {
+        "current_type": "str",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.create_midi_clip": {
+    "description": "Creates an empty MIDI clip and inserts it into the arrangement at the specified time.\nThrows an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.",
+    "signature": "create_midi_clip( (Track)arg1, (float)arg2, (float)arg3) -> Clip :",
+    "cpp_signature": "TWeakPtr<TPyHandle<AClip>> create_midi_clip(TTrackPyHandle,double,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      },
+      "arg3": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.create_take_lane": {
+    "description": "Create a new TakeLane for this track.",
+    "signature": "create_take_lane( (Track)arg1) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> create_take_lane(TTrackPyHandle)",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.Track.Track.duplicate_clip_slot": {
+    "description": "Duplicate a clip and put it into the next free slot and return the index\nof the destination slot. A new scene is created if no free slot is\navailable. If creating the new scene would exceed the limitations,\na runtime error is raised.",
+    "signature": "duplicate_clip_slot( (Track)arg1, (int)arg2) -> int :",
+    "cpp_signature": "int duplicate_clip_slot(TTrackPyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.duplicate_device": {
+    "description": "Duplicate a device at a given index in the 'devices' list.",
+    "signature": "duplicate_device( (Track)arg1, (int)arg2) -> None :",
+    "cpp_signature": "void duplicate_device(TTrackPyHandle,int)",
+    "args": {
+      "arg2": {
+        "current_type": "int",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.get_data": {
+    "description": "Get data for the given key, that was previously stored using set_data.",
+    "signature": "get_data( (Track)arg1, (object)key, (object)default_value) -> object :",
+    "cpp_signature": "boost::python::api::object get_data(TTrackPyHandle,TString,boost::python::api::object)",
+    "args": {
+      "default_value": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    },
+    "returns": {
+      "current_type": "object",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.Track.Track.insert_device": {
+    "description": "Add a device at a given index in the 'devices' list. At end if -1.",
+    "signature": "insert_device( (Track)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :",
+    "cpp_signature": "TWeakPtr<TPyHandleBase> insert_device(TTrackPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])",
+    "returns": {
+      "current_type": "LomObject",
+      "needs": [
+        "type"
+      ]
+    }
+  },
+  "Live.Track.Track.jump_in_running_session_clip": {
+    "description": "Jump forward or backward in the currently running Sessionclip (if any)\nby the specified relative amount in beats. Does nothing if no Session Clip\nis currently running.",
+    "signature": "jump_in_running_session_clip( (Track)arg1, (float)arg2) -> None :",
+    "cpp_signature": "void jump_in_running_session_clip(TTrackPyHandle,double)",
+    "args": {
+      "arg2": {
+        "current_type": "float",
+        "needs": [
+          "name"
+        ]
+      }
+    }
+  },
+  "Live.Track.Track.set_data": {
+    "description": "Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.",
+    "signature": "set_data( (Track)arg1, (object)key, (object)value) -> None :",
+    "cpp_signature": "void set_data(TTrackPyHandle,TString,boost::python::api::object)",
+    "args": {
+      "value": {
+        "current_type": "object",
+        "needs": [
+          "type"
+        ]
+      }
+    }
+  }
+}

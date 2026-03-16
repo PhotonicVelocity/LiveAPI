@@ -1,116 +1,173 @@
-# PluginDevice
+# PluginDevice (Module)
+
+## PluginDevice (Class)
 
 > `Live.PluginDevice.PluginDevice`
 
-This class represents a third-party plug-in device (VST or Audio Unit) in Live. A
-PluginDevice is a subclass of Device -- it has all the children, properties, and methods
-of Device plus additional members for accessing plug-in presets and parameter names.
+This class represents a plugin device.
 
-Plug-in devices wrap external instrument or effect plug-ins. Their parameters are
-exposed through the standard `parameters` list (inherited from Device), but PluginDevice
-adds methods to query plug-in-specific parameter names and a preset system that is
-separate from Live's native preset browser.
-
-??? note "Raw probe notes (temporary)"
-    - Bridge type name: `"PluginDevice"` (generic for all VST/AU plug-ins).
-    - `class_name` = `"PluginDevice"` (same for all VST2/VST3 plug-ins -- not plug-in-specific).
-    - **AU uses a distinct class name:** `class_name='AuPluginDevice'`. VST2 and VST3 both use
-      `'PluginDevice'` (no distinction between VST versions). Both resolve to the same `PluginDevice`
-      Python class.
-    - `class_display_name` = the plug-in's own name (e.g. `"Raum"`).
-    - Device type = 2 (Audio Effect) for effect plug-ins; would be 1 (Instrument) for instrument
-      plug-ins.
-    - **Cannot be inserted via `insert_device`** -- only native devices are accepted. Plug-ins must
-      be loaded via `browser_load` (targeting the `plugins` browser root).
-    - **`move_device` works** -- a loaded plug-in device can be moved into an Audio Effect Rack chain
-      via `Song.move_device()`. Confirmed with TDR Nova into a rack chain.
-    - **Dual preset model** -- two completely separate preset systems coexist:
-        - **Runtime presets** (`PluginDevice.presets`): reported by the plug-in to Live via the
-          VST/AU protocol. Probed all installed plug-ins (12+ across VST2, VST3, AUv2, third-party,
-          and Apple built-ins): **every one returns `['Default']` only**. Plug-in-internal preset
-          browsers (e.g. Vital's patch browser) are not accessible through Live's API.
-        - **Browser presets** (user-saved): `.aupreset` and `.vstpreset` files that appear as
-          children of the plug-in's browser item under the `plugins` root (`source='User Library'`).
-          These are format-bound -- `.aupreset` only appears under the AUv2 entry, `.vstpreset` only
-          under VST3. User-saved browser presets do **not** appear in the runtime `presets` list.
-    - **Hotswap cross-format behavior** (via `browser.hotswap_target` + `browser_load`):
-        - Same-format preset (e.g. VST3 `.vstpreset` -> VST3 device): preset applied in-place,
-          **same OID**.
-        - Cross-format preset (e.g. AU `.aupreset` -> VST3 device): replaced in-place with AU
-          version (`AuPluginDevice`), **new OID**, device count unchanged.
-        - Cross-device swap (e.g. Raum VST3 -> Ozone AU): completely different plug-in swapped
-          in-place, **new OID**.
-        - Raw `browser_load` without hotswap always appends a new device (not useful for preset
-          application).
-    - `presets` serializes as plain `list[str]` through the bridge (StringVector -> list).
-    - `selected_preset_index` is **settable** -- confirmed by probe.
-    - `get_parameter_names(begin, end)` returns `list[str]`. `end` is **exclusive** (Python slicing
-      semantics): `get_parameter_names(0, 3)` returns 3 names (indices 0, 1, 2).
-      `get_parameter_names(0, -1)` returns all.
-    - Some parameter names may be `"-"` (unnamed/placeholder parameters).
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), PluginDevice adds:
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`presets`](#presets)                                     | `StringVector`         | `get`/`listen`       |
+| [`selected_preset_index`](#selected_preset_index)         | `int`                  | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `Device.View`          | `get`                |
 
-| Property                | Type           | Settable | Listenable | Summary                                          |
-| ----------------------- | -------------- | -------- | ---------- | ------------------------------------------------ |
-| `presets`               | `StringVector` | no       | `yes`      | The list of preset names exposed by the plug-in. |
-| `selected_preset_index` | `int`          | yes      | `yes`      | Index of the currently selected plug-in preset.  |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
 
 #### `presets`
 
-- **Type:** `StringVector` (serializes as `list[str]`)
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of preset names offered by the plug-in. These are the presets reported by the
-plug-in itself (not Live's preset browser). The listener fires when the plug-in updates
-its preset list (e.g., after scanning or user action inside the plug-in).
-
-- **Limitations:**
-    - In practice, most plug-ins only report `['Default']`. Plug-in-internal preset browsers
-      (e.g. Vital's patch browser) are not accessible through Live's API.
+Get the list of presets the plugin offers.
 
 #### `selected_preset_index`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The index of the currently selected preset in the plug-in's preset list. Setting this
-value selects a different preset. The listener fires when the preset selection changes,
-whether from the API or from user interaction inside the plug-in.
+Access to the index of the currently selected preset.
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.
 
 ### Methods
 
-In addition to all Device methods (`save_preset_to_compare_ab_slot()`, `store_chosen_bank()`),
-PluginDevice adds:
+| Method                                                                | Returns        |
+| --------------------------------------------------------------------- | -------------- |
+| [`get_parameter_names()`](#get_parameter_namesbegin-int-0-end-int--1) | `StringVector` |
 
-| Method                                      | Returns        | Summary                                 |
-| ------------------------------------------- | -------------- | --------------------------------------- |
-| `get_parameter_names(begin: int, end: int)` | `StringVector` | Get a range of plug-in parameter names. |
+#### `get_parameter_names(begin: int = 0, end: int = -1)`
 
-#### `get_parameter_names(begin: int, end: int)`
-
-- **Returns:** `StringVector` (serializes as `list[str]`)
+- **Returns:** `StringVector`
 - **Args:**
-  - `begin: int` -- starting index of the parameter range (default `0`)
-  - `end: int` -- ending index of the parameter range (exclusive); if less than `0`, returns all
-    parameters from `begin` to the end (default `-1`)
-- **Raises:** Unknown
-- **Since:** `<11`
+  - `begin: int = 0`
+  - `end: int = -1`
 
-Returns a list of plug-in parameter names for the given index range. The `end` parameter
-is exclusive (Python slicing semantics): `get_parameter_names(0, 3)` returns names at
-indices 0, 1, 2. Passing `end=-1` returns all parameters from `begin` onward.
-Some parameter names may be `"-"` (unnamed/placeholder slots).
-
-### Open Questions
-
-- Does changing `selected_preset_index` actually load the preset in the plug-in? (Likely yes, but
-  not confirmed with a multi-preset plug-in.)
-- What happens when setting `selected_preset_index` to an out-of-range value? (Not tested -- only
-  1 preset available.)
+Get the range of plugin parameter names, bound by begin and end. If end is smaller than 0 it is interpreted as the parameter count.

@@ -266,7 +266,7 @@ def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 
     def _collect_bases(node: TreeNode) -> None:
         if isinstance(node, dict):
-            if node.get("type") == "class" and not node.get("ref"):
+            if node.get("type") in ("class", "enum", "type") and not node.get("ref"):
                 bases = node.get("bases")
                 r = node.get("repr")
                 if bases and r:
@@ -301,7 +301,7 @@ def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     # Pass 2: replace bases with full ancestor chain on class nodes, keeping children last
     def _stamp_ancestors(node: TreeNode) -> None:
         if isinstance(node, dict):
-            if node.get("type") == "class":
+            if node.get("type") in ("class", "enum", "type"):
                 r = node.get("repr")
                 node.pop("bases", None)
                 saved_children = node.pop("children", None)
@@ -421,7 +421,7 @@ def relocate_inherited_members(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 # ------------------------------------------------------------------------------- #
 
 # Matches entries like "0: Module.Enum.member_name" in the string-encoded values dict.
-_ENUM_VALUE_RE = re.compile(r"(\d+)\s*:\s*\S+\.(\w+)")
+_ENUM_VALUE_RE = re.compile(r"(-?\d+)\s*:\s*\S+\.(\w+)")
 
 
 def _parse_enum_values(values_str: str) -> dict[str, int] | None:
@@ -904,6 +904,14 @@ def build_type_map(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 _PY_ARG_RE = re.compile(r"^\((\w+)\)(\w+)(?:=(.+))?$")
 
 
+_PASCAL_RE = re.compile(r"(?<=[a-z])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])")
+
+
+def _pascal_to_snake(name: str) -> str:
+    """Convert PascalCase arg names to snake_case. Leaves already-lowercase names unchanged."""
+    return _PASCAL_RE.sub("_", name).lower()
+
+
 def _resolve_type(py_type: str, cpp_raw: str | None, cpp_to_py: dict[str, str]) -> str:
     """Resolve a Python type, using the C++ type map for 'object' types."""
     if py_type != "object" or not cpp_raw:
@@ -936,6 +944,7 @@ def _resolve_arg(raw: dict[str, Any], cpp_to_py: dict[str, str]) -> dict[str, An
         return {"name": py_text, "type": None, "optional": optional, "default": None}
 
     py_type, name, default = m.group(1), m.group(2), m.group(3)
+    name = _pascal_to_snake(name)
     resolved_type = _resolve_type(py_type, cpp_text, cpp_to_py)
 
     return {"name": name, "type": resolved_type, "optional": optional, "default": default}
@@ -984,8 +993,13 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
     if parent.name and parent.name.endswith("Vector"):
         if name == "append" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
             args[1]["name"] = "value"
-        elif name == "extend" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
-            args[1]["name"] = "values"
+        elif name == "extend" and len(args) == 2:
+            if args[1].get("name", "").startswith("arg"):
+                args[1]["name"] = "values"
+            # extend takes an iterable of elements, not a single element
+            elem_type = args[1].get("type")
+            if elem_type and elem_type != "object":
+                args[1]["type"] = f"Iterable[{elem_type}]"
 
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
@@ -1037,6 +1051,34 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             for item in node:
                 _merge(item)
 
+    _PRIMITIVE_REPRS = {f"<class '{t}'>" for t in ("int", "float", "str", "bool")}
+
+    def _resolve_element_reprs(reprs: list[str]) -> str | None:
+        """Resolve a list of element reprs to a single element_repr.
+
+        - Single repr → use it directly.
+        - All known Live API classes → LomObject.
+        - All same primitive → use it.
+        - Mixed or unknown → object.
+        """
+        if not reprs:
+            return None
+        # Filter out NoneType — empty slots aren't informative
+        meaningful = [r for r in reprs if r != "<class 'NoneType'>"]
+        if not meaningful:
+            return None
+        if len(meaningful) == 1:
+            # Single type — validate it's known
+            r = meaningful[0]
+            if r in probe or r in _PRIMITIVE_REPRS:
+                return r
+            return repr(object)
+        # Multiple types — check if all are known Live API classes
+        if all(r in probe for r in meaningful):
+            return "<class 'LomObject.LomObject'>"
+        # Mixed or unknown
+        return repr(object)
+
     def _merge_class(node: dict, entry: dict) -> None:
         nonlocal merged_props, merged_element, getter_upgrades
 
@@ -1046,7 +1088,7 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             if isinstance(child, dict) and "name" in child:
                 children_by_name[child["name"]] = child
 
-        # Properties: stamp probed_type and probed_repr
+        # Properties: stamp probed_type, probed_repr, and element_type/element_repr
         props = entry.get("properties", {})
         for prop_name, prop_info in props.items():
             if not prop_info.get("probed"):
@@ -1059,6 +1101,24 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
                 probed_repr = prop_info.get("repr")
                 if probed_repr:
                     child["probed_repr"] = probed_repr
+                # Resolve element type for iterable properties.
+                # For vector classes, iterability is on the class entry in repr_index.
+                # For tuple properties, element_reprs may be on prop_info directly.
+                class_entry = probe.get(probed_repr) if probed_repr else None
+                is_iterable = (class_entry and class_entry.get("iterable")) or prop_info.get("element_reprs")
+                if is_iterable:
+                    elem_reprs = prop_info.get("element_reprs")
+                    if not elem_reprs and class_entry:
+                        # Fall back to the class entry (only if it has a single
+                        # element type — generic containers like Base.Vector have
+                        # many and shouldn't be used as fallback)
+                        class_reprs = class_entry.get("element_reprs")
+                        if class_reprs and len(class_reprs) == 1:
+                            elem_reprs = class_reprs
+                    if elem_reprs:
+                        resolved = _resolve_element_reprs(elem_reprs)
+                        if resolved:
+                            child["element_repr"] = resolved
                 merged_props += 1
 
         # _live_ptr is always an int (internal C++ pointer handle on every LOM object)
@@ -1095,26 +1155,41 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             elif tree_type and tree_type != "object" and probed_type != tree_type:
                 getter_mismatches.append(f"{node.get('name')}.{getter_name}: tree={tree_type}, probe={probed_type}")
 
-        # element_repr: stamp onto vector class nodes, resolve append/extend object args
-        element_repr = entry.get("element_repr")
-        if element_repr:
+        # iterable + element_reprs: stamp onto class node
+        # Probe-based: the probe stamped iterable on the class entry
+        # Heuristic: classes with append/extend are iterable even if never probed
+        is_iterable = entry.get("iterable") or any(
+            children_by_name.get(fn, {}).get("type") in _FUNCTION_TYPES for fn in ("append", "extend")
+        )
+        if is_iterable:
             saved_children = node.pop("children", None)
-            node["element_repr"] = element_repr
+            node["iterable"] = True
             if saved_children is not None:
                 node["children"] = saved_children
-            merged_element += 1
+        elem_reprs = entry.get("element_reprs")
+        if elem_reprs:
+            element_repr = _resolve_element_reprs(elem_reprs)
+            if element_repr:
+                saved_children = node.pop("children", None)
+                node["element_repr"] = element_repr
+                if saved_children is not None:
+                    node["children"] = saved_children
+                merged_element += 1
 
-            # Resolve remaining object args on append/extend using element_repr
-            m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-            if m and "APICapture" not in element_repr:
-                element_type = m.group(1)
-                for fn_name in ("append", "extend"):
-                    fn = children_by_name.get(fn_name)
-                    if not fn or fn.get("type") not in _FUNCTION_TYPES:
-                        continue
-                    for p in fn.get("args", []):
-                        if p.get("type") == "object":
-                            p["type"] = element_type
+                # Resolve remaining object args on append/extend using element_repr
+                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                if m:
+                    element_type = m.group(1)
+                    for fn_name in ("append", "extend"):
+                        fn = children_by_name.get(fn_name)
+                        if not fn or fn.get("type") not in _FUNCTION_TYPES:
+                            continue
+                        for p in fn.get("args", []):
+                            if p.get("type") == "object":
+                                if fn_name == "extend":
+                                    p["type"] = f"Iterable[{element_type}]"
+                                else:
+                                    p["type"] = element_type
 
     _merge(tree)
 

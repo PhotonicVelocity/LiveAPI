@@ -1,6 +1,10 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .Song import Song
+
+if TYPE_CHECKING:
+    from Live.LomObject import LomObject
+
 
 
 class BeatTime:
@@ -36,32 +40,32 @@ class BeatTime:
     @ticks.setter
     def ticks(self, value: int) -> None: ...
 
-class CaptureDestination:
+class CaptureDestination(int):
     """The destination for MIDI capture."""
     auto: int = 0
     session: int = 1
     arrangement: int = 2
 
-class CaptureMode:
+class CaptureMode(int):
     """The capture mode that is used for capture and insert scene."""
     all: int = 0
     all_except_selected: int = 1
 
-class CuePoint:
+class CuePoint(LomObject):
     """Represents a 'Marker' in the arrangement."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_name_listener(self, callback: Callable | None) -> None:
+    def add_name_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_time_listener(self, callback: Callable | None) -> None:
+    def add_time_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "time" has changed.
@@ -89,21 +93,21 @@ class CuePoint:
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable | None) -> bool:
+    def name_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None) -> None:
+    def remove_name_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_time_listener(self, callback: Callable | None) -> None:
+    def remove_time_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "time".
@@ -115,14 +119,14 @@ class CuePoint:
         """Get/Listen to the CuePoint's time in beats."""
         ...
 
-    def time_has_listener(self, callback: Callable | None) -> bool:
+    def time_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "time".
         """
         ...
 
-class Quantization:
+class Quantization(int):
     q_no_q: int = 0
     q_8_bars: int = 1
     q_4_bars: int = 2
@@ -138,7 +142,7 @@ class Quantization:
     q_sixtenth_triplet: int = 12
     q_thirtytwoth: int = 13
 
-class RecordingQuantization:
+class RecordingQuantization(int):
     rec_q_no_q: int = 0
     rec_q_quarter: int = 1
     rec_q_eight: int = 2
@@ -149,7 +153,7 @@ class RecordingQuantization:
     rec_q_sixtenth_sixtenth_triplet: int = 7
     rec_q_thirtysecond: int = 8
 
-class SessionRecordStatus:
+class SessionRecordStatus(int):
     off: int = 0
     on: int = 1
     transition: int = 2
@@ -191,7 +195,7 @@ class SmptTime:
     @seconds.setter
     def seconds(self, value: int) -> None: ...
 
-class TimeFormat:
+class TimeFormat(int):
     ms_time: int = 0
     smpte_24: int = 1
     smpte_25: int = 2
@@ -199,7 +203,7 @@ class TimeFormat:
     smpte_30_drop: int = 4
     smpte_29: int = 5
 
-def get_all_scales_ordered() -> tuple:
+def get_all_scales_ordered() -> tuple[tuple[str, tuple[int, ...]], ...]:
     """Get an ordered tuple of tuples of all available scale names to intervals."""
     ...
 

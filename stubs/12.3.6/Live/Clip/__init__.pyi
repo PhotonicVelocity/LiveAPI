@@ -1,9 +1,15 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T')
 from .Clip import Clip
 
+if TYPE_CHECKING:
+    from Live.Base import Vector
 
-class ClipLaunchQuantization:
+
+
+class ClipLaunchQuantization(int):
     q_global: int = 0
     q_none: int = 1
     q_8_bars: int = 2
@@ -20,7 +26,7 @@ class ClipLaunchQuantization:
     q_sixteenth_triplet: int = 13
     q_thirtysecond: int = 14
 
-class GridQuantization:
+class GridQuantization(int):
     no_grid: int = 0
     g_8_bars: int = 1
     g_4_bars: int = 2
@@ -33,7 +39,7 @@ class GridQuantization:
     g_thirtysecond: int = 9
     count: int = 10
 
-class LaunchMode:
+class LaunchMode(int):
     trigger: int = 0
     gate: int = 1
     toggle: int = 2
@@ -114,13 +120,13 @@ class MidiNoteSpecification:
 
     def __init__(self, pitch: int, start_time: float, duration: float, velocity: float = 100.0, mute: bool = False, probability: float = 1.0, velocity_deviation: float = 0.0, release_velocity: float = 64.0) -> None: ...
 
-class MidiNoteVector:
+class MidiNoteVector(Vector[MidiNote]):
     """A container for holding MIDI notes from Live."""
 
-    def append(self, value: MidiNote | None) -> None:
+    def append(self, value: MidiNote | None, /) -> None:
         ...
 
-    def extend(self, values: MidiNote | None) -> None:
+    def extend(self, values: Iterable[MidiNote] | None, /) -> None:
         ...
 
 class WarpMarker:
@@ -138,16 +144,16 @@ class WarpMarker:
         """A WarpMarker's sample time."""
         ...
 
-class WarpMarkerVector:
+class WarpMarkerVector(Vector[WarpMarker]):
     """A container for returning warp markers from Live."""
 
-    def append(self, value: WarpMarker | None) -> None:
+    def append(self, value: WarpMarker | None, /) -> None:
         ...
 
-    def extend(self, values: WarpMarker | None) -> None:
+    def extend(self, values: Iterable[WarpMarker] | None, /) -> None:
         ...
 
-class WarpMode:
+class WarpMode(int):
     beats: int = 0
     tones: int = 1
     texture: int = 2

@@ -1,21 +1,20 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
 
-class DrumCellDevice:
+class DrumCellDevice(Device):
     """This class represents a DrumCell device."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_gain_listener(self, callback: Callable | None) -> None:
+    def add_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "gain" has changed.
@@ -60,7 +59,7 @@ class DrumCellDevice:
     @gain.setter
     def gain(self, value: float) -> None: ...
 
-    def gain_has_listener(self, callback: Callable | None) -> bool:
+    def gain_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "gain".
@@ -99,11 +98,11 @@ class DrumCellDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_gain_listener(self, callback: Callable | None) -> None:
+    def remove_gain_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "gain".

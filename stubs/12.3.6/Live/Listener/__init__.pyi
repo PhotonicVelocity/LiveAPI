@@ -1,5 +1,11 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T')
+
+if TYPE_CHECKING:
+    from Live.Base import Vector
+
 
 
 class ListenerHandle:
@@ -24,13 +30,13 @@ class ListenerHandle:
         """Prints the name of the property that this listener is connected to"""
         ...
 
-class ListenerVector:
+class ListenerVector(Vector[ListenerHandle]):
     """A read only container for accessing a list of listeners."""
 
-    def append(self, value: ListenerHandle | None) -> None:
+    def append(self, value: ListenerHandle | None, /) -> None:
         ...
 
-    def extend(self, values: ListenerHandle | None) -> None:
+    def extend(self, values: Iterable[ListenerHandle] | None, /) -> None:
         ...
 
 __all__ = ['ListenerHandle', 'ListenerVector']

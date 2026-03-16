@@ -1,163 +1,248 @@
-# SpectralResonatorDevice
+# SpectralResonatorDevice (Module)
+
+## SpectralResonatorDevice (Class)
 
 > `Live.SpectralResonatorDevice.SpectralResonatorDevice`
 
-This class represents a Spectral Resonator device in Live. SpectralResonatorDevice is a
-subclass of Device -- it has all the children, properties, and methods of Device plus
-additional members for controlling frequency dial mode, MIDI gate, modulation mode,
-mono/poly mode, pitch mode, pitch bend range, and polyphony voice count.
+This class represents a Spectral Resonator device.
 
-Spectral Resonator is a spectral audio effect that tunes incoming audio to pitched
-resonances. It can be driven by MIDI for pitch control.
-
-??? note "Raw probe notes (temporary)"
-    - Bridge type name: `"SpectralResonatorDevice"`.
-    - `class_name` = `"Transmute"` (shares implementation base with Spectral Time -- the stub uses
-      `TTransmuteDevicePyHandle`).
-    - `class_display_name` = `"Spectral Resonator"`.
-    - Device type = 2 (Audio Effect).
-    - All 7 index properties are **settable** (get+set+listen).
-    - All 5 `*_list` properties serialize as plain `list[str]` through the bridge
-      (StringVector -> list).
-    - The `*_list` properties are marked listenable in the stub but appear static in practice.
-    - `pitch_bend_range` valid range: 0-24 (clamped; setting 48 -> readback 24). Settable.
-    - `frequency_dial_mode_list` = `['ModulationHertz', 'ModulationBeat8th']` (internal names,
-      not UI labels).
-    - `midi_gate_list` = `['Off', 'On']`.
-    - `mod_mode_list` = `['None', 'Chorus', 'Wander', 'Granular']`.
-    - `mono_poly_list` = `['Mono', 'Poly']`.
-    - `pitch_mode_list` = `['Internal', 'MIDI']`.
-    - Default values: `frequency_dial_mode` = 0, `midi_gate` = 0, `mod_mode` = 0, `mono_poly` = 0,
-      `pitch_mode` = 0, `polyphony` = 2, `pitch_bend_range` = 2.
-
-### Open Questions
-
-None -- all questions resolved by probing.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`,
-`can_have_drum_pads`, `class_display_name`, `class_name`, `is_active`,
-`is_using_compare_preset_b`, `latency_in_ms`, `latency_in_samples`, `name`, `type`),
-SpectralResonatorDevice adds:
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`frequency_dial_mode`](#frequency_dial_mode)             | `int`                  | `get`/`set`/`listen` |
+| [`frequency_dial_mode_list`](#frequency_dial_mode_list)   | `StringVector`         | `get`/`listen`       |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`midi_gate`](#midi_gate)                                 | `int`                  | `get`/`set`/`listen` |
+| [`midi_gate_list`](#midi_gate_list)                       | `StringVector`         | `get`/`listen`       |
+| [`mod_mode`](#mod_mode)                                   | `int`                  | `get`/`set`/`listen` |
+| [`mod_mode_list`](#mod_mode_list)                         | `StringVector`         | `get`/`listen`       |
+| [`mono_poly`](#mono_poly)                                 | `int`                  | `get`/`set`/`listen` |
+| [`mono_poly_list`](#mono_poly_list)                       | `StringVector`         | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                  | `get`/`set`/`listen` |
+| [`pitch_mode`](#pitch_mode)                               | `int`                  | `get`/`set`/`listen` |
+| [`pitch_mode_list`](#pitch_mode_list)                     | `StringVector`         | `get`/`listen`       |
+| [`polyphony`](#polyphony)                                 | `int`                  | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `Device.View`          | `get`                |
 
-| Property                   | Type           | Settable | Listenable | Summary                                                          |
-| -------------------------- | -------------- | -------- | ---------- | ---------------------------------------------------------------- |
-| `frequency_dial_mode`      | `int`          | `int`    | `yes`      | Freq dial mode: 0 = Hertz, 1 = MIDI note.                        |
-| `frequency_dial_mode_list` | `list[str]`    | no       | `yes`      | List of available frequency dial mode names.                     |
-| `midi_gate`                | `int`          | `int`    | `yes`      | MIDI gate switch: 0 = Off, 1 = On.                               |
-| `midi_gate_list`           | `list[str]`    | no       | `yes`      | List of available MIDI gate options.                             |
-| `mod_mode`                 | `int`          | `int`    | `yes`      | Modulation mode: 0 = None, 1 = Chorus, 2 = Wander, 3 = Granular. |
-| `mod_mode_list`            | `list[str]`    | no       | `yes`      | List of available modulation mode names.                         |
-| `mono_poly`                | `int`          | `int`    | `yes`      | Mono/Poly switch: 0 = Mono, 1 = Poly.                            |
-| `mono_poly_list`           | `list[str]`    | no       | `yes`      | List of available mono/poly options.                             |
-| `pitch_bend_range`         | `int`          | `int`    | `yes`      | Pitch bend range in semitones (0-24). Settable.                  |
-| `pitch_mode`               | `int`          | `int`    | `yes`      | Pitch mode: 0 = Internal, 1 = MIDI.                              |
-| `pitch_mode_list`          | `list[str]`    | no       | `yes`      | List of available pitch mode names.                              |
-| `polyphony`                | `int`          | `int`    | `yes`      | Polyphony voice count index.                                     |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
 
 #### `frequency_dial_mode`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The mode of the frequency dial control. Values: 0 = Hertz, 1 = MIDI note values.
-Default: 0. Settable -- confirmed by probe.
+Return the current frequency dial mode index
 
 #### `frequency_dial_mode_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available frequency dial mode names. The stub includes a listener for this
-property, suggesting the list can change dynamically.
-Values: `['ModulationHertz', 'ModulationBeat8th']` (internal names).
+Return the current frequency dial mode list
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
 
 #### `midi_gate`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The state of the MIDI gate switch. Values: 0 = Off, 1 = On.
-Default: 0. Settable -- confirmed by probe.
+Return the current midi gate index
 
 #### `midi_gate_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available MIDI gate options. Values: `['Off', 'On']`.
+Return the current midi gate list
 
 #### `mod_mode`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The modulation mode. Values: 0 = None, 1 = Chorus, 2 = Wander, 3 = Granular.
-Default: 0. Settable -- confirmed by probe.
+Return the current mod mode index
 
 #### `mod_mode_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available modulation mode names. Values: `['None', 'Chorus', 'Wander', 'Granular']`.
+Return the current mod mode list
 
 #### `mono_poly`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The mono/poly switch state. Values: 0 = Mono, 1 = Poly.
-Default: 0. Settable -- confirmed by probe.
+Return the current mono poly mode index
 
 #### `mono_poly_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available mono/poly option names. Values: `['Mono', 'Poly']`.
+Return the current mono poly mode list
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
 
 #### `pitch_bend_range`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The pitch bend range in semitones. Valid range: 0-24 (values above 24 are clamped).
-Default: 2. Settable -- confirmed by probe.
+Return the current pitch bend range
 
 #### `pitch_mode`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The pitch mode. Values: 0 = Internal, 1 = MIDI.
-Default: 0. Settable -- confirmed by probe.
+Return the current pitch mode index
 
 #### `pitch_mode_list`
 
-- **Type:** `list[str]`
+- **Type:** `StringVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available pitch mode names. Values: `['Internal', 'MIDI']`.
+Return the current pitch mode list
 
 #### `polyphony`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The polyphony voice count index. Maps to voice counts as follows:
-0 = 2, 1 = 4, 2 = 8, 3 = 16 voices.
-Default: 2 (= 8 voices). Settable -- confirmed by probe.
+Return the current polyphony
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.

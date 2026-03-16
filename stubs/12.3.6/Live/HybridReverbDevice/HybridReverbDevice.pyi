@@ -1,63 +1,63 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import Device, DeviceType
-    from Live.DeviceParameter import DeviceParameter
+    from Live.Base import StringVector
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 
 
-class HybridReverbDevice:
+class HybridReverbDevice(Device):
     """This class represents a Hybrid Reverb device."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_ir_attack_time_listener(self, callback: Callable | None) -> None:
+    def add_ir_attack_time_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_attack_time" has changed.
         """
         ...
 
-    def add_ir_category_index_listener(self, callback: Callable | None) -> None:
+    def add_ir_category_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_category_index" has changed.
         """
         ...
 
-    def add_ir_decay_time_listener(self, callback: Callable | None) -> None:
+    def add_ir_decay_time_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_decay_time" has changed.
         """
         ...
 
-    def add_ir_file_index_listener(self, callback: Callable | None) -> None:
+    def add_ir_file_index_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_file_index" has changed.
         """
         ...
 
-    def add_ir_file_list_listener(self, callback: Callable | None) -> None:
+    def add_ir_file_list_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_file_list" has changed.
         """
         ...
 
-    def add_ir_size_factor_listener(self, callback: Callable | None) -> None:
+    def add_ir_size_factor_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_size_factor" has changed.
         """
         ...
 
-    def add_ir_time_shaping_on_listener(self, callback: Callable | None) -> None:
+    def add_ir_time_shaping_on_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "ir_time_shaping_on" has changed.
@@ -102,7 +102,7 @@ class HybridReverbDevice:
     @ir_attack_time.setter
     def ir_attack_time(self, value: float) -> None: ...
 
-    def ir_attack_time_has_listener(self, callback: Callable | None) -> bool:
+    def ir_attack_time_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_attack_time".
@@ -117,7 +117,7 @@ class HybridReverbDevice:
     @ir_category_index.setter
     def ir_category_index(self, value: int) -> None: ...
 
-    def ir_category_index_has_listener(self, callback: Callable | None) -> bool:
+    def ir_category_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_category_index".
@@ -125,7 +125,7 @@ class HybridReverbDevice:
         ...
 
     @property
-    def ir_category_list(self) -> tuple[str, ...]:
+    def ir_category_list(self) -> StringVector:
         """Return the current IR categories list"""
         ...
 
@@ -137,7 +137,7 @@ class HybridReverbDevice:
     @ir_decay_time.setter
     def ir_decay_time(self, value: float) -> None: ...
 
-    def ir_decay_time_has_listener(self, callback: Callable | None) -> bool:
+    def ir_decay_time_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_decay_time".
@@ -152,7 +152,7 @@ class HybridReverbDevice:
     @ir_file_index.setter
     def ir_file_index(self, value: int) -> None: ...
 
-    def ir_file_index_has_listener(self, callback: Callable | None) -> bool:
+    def ir_file_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_file_index".
@@ -160,11 +160,11 @@ class HybridReverbDevice:
         ...
 
     @property
-    def ir_file_list(self) -> tuple[str, ...]:
+    def ir_file_list(self) -> StringVector:
         """Return the current IR file list"""
         ...
 
-    def ir_file_list_has_listener(self, callback: Callable | None) -> bool:
+    def ir_file_list_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_file_list".
@@ -179,7 +179,7 @@ class HybridReverbDevice:
     @ir_size_factor.setter
     def ir_size_factor(self, value: float) -> None: ...
 
-    def ir_size_factor_has_listener(self, callback: Callable | None) -> bool:
+    def ir_size_factor_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_size_factor".
@@ -194,7 +194,7 @@ class HybridReverbDevice:
     @ir_time_shaping_on.setter
     def ir_time_shaping_on(self, value: bool) -> None: ...
 
-    def ir_time_shaping_on_has_listener(self, callback: Callable | None) -> bool:
+    def ir_time_shaping_on_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "ir_time_shaping_on".
@@ -233,53 +233,53 @@ class HybridReverbDevice:
     def name(self, value: str) -> None: ...
 
     @property
-    def parameters(self) -> tuple[DeviceParameter, ...]:
+    def parameters(self) -> ATimeableValueVector:
         """Const access to the list of available automatable parameters for this device."""
         ...
 
-    def remove_ir_attack_time_listener(self, callback: Callable | None) -> None:
+    def remove_ir_attack_time_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_attack_time".
         """
         ...
 
-    def remove_ir_category_index_listener(self, callback: Callable | None) -> None:
+    def remove_ir_category_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_category_index".
         """
         ...
 
-    def remove_ir_decay_time_listener(self, callback: Callable | None) -> None:
+    def remove_ir_decay_time_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_decay_time".
         """
         ...
 
-    def remove_ir_file_index_listener(self, callback: Callable | None) -> None:
+    def remove_ir_file_index_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_file_index".
         """
         ...
 
-    def remove_ir_file_list_listener(self, callback: Callable | None) -> None:
+    def remove_ir_file_list_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_file_list".
         """
         ...
 
-    def remove_ir_size_factor_listener(self, callback: Callable | None) -> None:
+    def remove_ir_size_factor_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_size_factor".
         """
         ...
 
-    def remove_ir_time_shaping_on_listener(self, callback: Callable | None) -> None:
+    def remove_ir_time_shaping_on_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "ir_time_shaping_on".

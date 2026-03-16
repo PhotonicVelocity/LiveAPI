@@ -3,9 +3,15 @@
 Three-stage pipeline for capturing Live API metadata and generating typed Python stubs.
 
 ```
-Stage 1: Capture + Probe  (inside Live)                → LiveTree.raw.json + LiveClasses.json
+Stage 1: Capture + Probe  (inside Live)                 → LiveTree.raw.json + LiveClasses.json
+- Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
+- Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
 Stage 2: Parse & Refine   (external + decompiled + LLM) → LiveTree.resolved.json
-Stage 3: Generate         (external)                   → stubs/<version>/Live/*.pyi
+- Parses raw capture into structured tree, merges probe results, extracts unresolved items (LiveTree.parsed.json)
+- Deterministic name resolution from decompiled Remote Scripts + usage hints (refinements.callsite.json)
+- LLM-guided refinement of unresolved items using tree structure, docstrings, usage hints, and M4L docs (refinements.llm.json)
+Stage 3: Generate         (external)                    → stubs/<version>/Live/*.pyi
+- Renders resolved tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
 ```
 
 ## Stage 1: Capture + Probe (runs inside Live)
@@ -169,6 +175,11 @@ python tools/parse/apply_refinements.py 12.3.6 \
   --input stubs/12.3.6/pipeline/LiveTree.callsite_resolved.json \
   --refinements stubs/12.3.6/pipeline/refinements.llm.json \
   --output stubs/12.3.6/pipeline/LiveTree.resolved.json
+
+# 8. Collect final set of unresolved items (should be minimal at this point)
+python tools/parse/extract_unresolved.py 12.3.6 \
+  --input stubs/12.3.6/pipeline/LiveTree.resolved.json \
+  --output stubs/12.3.6/pipeline/unresolved.final.json
 ```
 
 ### parse_apicapture_results.py
@@ -250,7 +261,7 @@ types, return types, and property types baked in. The resolved tree is the final
 ## Stage 3: Generate Stubs (runs outside Live)
 
 ```
-python tools/parse/generate_stubs.py 12.3.6
+python tools/generate/generate_stubs.py 12.3.6
 ```
 
 Reads `LiveTree.resolved.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement

@@ -1,95 +1,176 @@
-# CompressorDevice
+# CompressorDevice (Module)
+
+## CompressorDevice (Class)
 
 > `Live.CompressorDevice.CompressorDevice`
 
-This class represents a Compressor device in Live. A CompressorDevice is a subclass of
-Device -- it has all the children, properties, and methods of Device plus additional
-members for sidechain input routing.
+This class represents a Compressor device.
 
-The sidechain routing properties let you select the audio source feeding the compressor's
-sidechain detector. The available routing options mirror those shown in Live's sidechain
-section of the Compressor UI.
-
-??? note "Raw probe notes (temporary)"
-    - **Bridge type:** `"CompressorDevice"`.
-    - **class_name:** `"Compressor2"`.
-    - **class_display_name:** `"Compressor"`.
-    - **Device type:** Audio Effect.
-    - Routing properties use the same `RoutingType`/`RoutingChannel` serialization as track routing
-      (bridge encodes with `_pfl_type` markers, `display_name`, `category`/`layout`, `attached_object`).
-    - Default `input_routing_type`: `"No Input"` (category 6, no attached object).
-    - Default `input_routing_channel`: `""` (layout 2).
-    - `available_input_routing_types` in a fresh 4-track set: `["3-Audio", "4-Audio", "A-Reverb",
-      "B-Delay", "Main", "No Input"]` — same routing type categories as track routing.
-    - Setting `input_routing_type` to a value from `available_input_routing_types` works; read-back
-      matches the set value.
-    - All 4 properties are listenable (confirmed via `listen`/`unlisten` round-trip).
-    - In a default set, all routing types show a single channel with `display_name=""`, `layout=2`.
-      Multi-channel routing (e.g., L/R sub-channels) would appear with multi-output tracks.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), CompressorDevice adds:
-
-| Property                           | Type                   | Settable | Listenable | Summary                                                |
-| ---------------------------------- | ---------------------- | -------- | ---------- | ------------------------------------------------------ |
-| `available_input_routing_channels` | `list[RoutingChannel]` | no       | `yes`      | Available source channels for sidechain input routing. |
-| `available_input_routing_types`    | `list[RoutingType]`    | no       | `yes`      | Available source types for sidechain input routing.    |
-| `input_routing_channel`            | `RoutingChannel`       | yes      | `yes`      | Currently selected sidechain source channel.           |
-| `input_routing_type`               | `RoutingType`          | yes      | `yes`      | Currently selected sidechain source type.              |
+| Property                                                                | Type                   | Supports             |
+| ----------------------------------------------------------------------- | ---------------------- | -------------------- |
+| [`available_input_routing_channels`](#available_input_routing_channels) | `RoutingChannelVector` | `get`/`listen`       |
+| [`available_input_routing_types`](#available_input_routing_types)       | `RoutingTypeVector`    | `get`/`listen`       |
+| [`can_compare_ab`](#can_compare_ab)                                     | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                                   | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)                             | `bool`                 | `get`                |
+| [`canonical_parent`](#canonical_parent)                                 | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)                             | `str`                  | `get`                |
+| [`class_name`](#class_name)                                             | `str`                  | `get`                |
+| [`input_routing_channel`](#input_routing_channel)                       | `RoutingChannel`       | `get`/`set`/`listen` |
+| [`input_routing_type`](#input_routing_type)                             | `RoutingType`          | `get`/`set`/`listen` |
+| [`is_active`](#is_active)                                               | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b)               | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                                       | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)                             | `int`                  | `get`                |
+| [`name`](#name)                                                         | `str`                  | `get`/`set`          |
+| [`parameters`](#parameters)                                             | `ATimeableValueVector` | `get`                |
+| [`type`](#type)                                                         | `DeviceType`           | `get`                |
+| [`view`](#view)                                                         | `Device.View`          | `get`                |
 
 #### `available_input_routing_channels`
 
-- **Type:** `list[RoutingChannel]`
+- **Type:** `RoutingChannelVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available source channels for input routing in the compressor's sidechain.
-Each entry is a `RoutingChannel` with `display_name` and `layout` fields. The list updates
-when the available routing options change (e.g., tracks are added or removed, or the routing
-type changes). The listener fires when the list contents change.
+Return a list of source channels for input routing in the sidechain.
 
 #### `available_input_routing_types`
 
-- **Type:** `list[RoutingType]`
+- **Type:** `RoutingTypeVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The list of available source types for input routing in the compressor's sidechain. Each
-entry is a `RoutingType` with `display_name`, `category`, and `attached_object` fields.
-The list updates when available routing options change (e.g., tracks added/removed). The
-listener fires when the list contents change.
+Return a list of source types for input routing in the sidechain.
+
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
 
 #### `input_routing_channel`
 
-- **Type:** `RoutingChannel` (get) · `RoutingChannel` (set)
+- **Type:** `RoutingChannel`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The currently selected source channel for the compressor's sidechain input routing. The
-value is a `RoutingChannel` object with `display_name` and `layout` fields. Can be set to
-any value found in `available_input_routing_channels`. Default: `RoutingChannel("", layout=2)`.
+Get and set the current source channel for input routing in the sidechain. Raises ValueError if the channel isn't one of the current values in available_input_routing_channels.
 
 #### `input_routing_type`
 
-- **Type:** `RoutingType` (get) · `RoutingType` (set)
+- **Type:** `RoutingType`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The currently selected source type for the compressor's sidechain input routing. The value
-is a `RoutingType` object with `display_name`, `category`, and `attached_object` fields.
-Can be set to any value found in `available_input_routing_types`. Default:
-`RoutingType("No Input", category=6, attached_object=None)`.
+Get and set the current source type for input routing in the sidechain. Raises ValueError if the type isn't one of the current values in available_input_routing_types.
 
-### Methods
+#### `is_active`
 
-No additional methods beyond those inherited from Device (`save_preset_to_compare_ab_slot()`,
-`store_chosen_bank()`).
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
 
-### Open Questions
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
-- Does setting `input_routing_channel` or `input_routing_type` to an invalid value raise
-  `ValueError` immediately, or is the error deferred? (Untested -- would require constructing
-  an invalid routing object.)
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.

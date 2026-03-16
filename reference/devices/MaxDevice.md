@@ -1,167 +1,215 @@
-# MaxDevice
+# MaxDevice (Module)
+
+## MaxDevice (Class)
 
 > `Live.MaxDevice.MaxDevice`
 
-This class represents a Max for Live device in Live. A MaxDevice is a subclass of
-Device -- it has all the children, properties, and methods of Device plus additional
-members for accessing the device's audio and MIDI I/O routing and parameter bank
-configuration.
+This class represents a Max for Live device.
 
-Max for Live devices can expose audio and MIDI inputs and outputs that are accessible
-through the API, unlike standard Live devices.
-
-??? note "Raw probe notes (temporary)"
-    Probed with Live 12.3.5 using "Max Audio Effect", "Max Instrument", and "Max MIDI Effect".
-
-    - Bridge returns `type: "MaxDevice"` for all M4L device types.
-    - `class_name` is always `"MxDeviceAudioEffect"` regardless of M4L device kind (audio effect,
-      instrument, or MIDI effect). The standard `Device.type` property distinguishes them.
-    - All M4L devices expose `audio_inputs` and `audio_outputs` (at least one `DeviceIO` each for a
-      blank device). `midi_inputs` and `midi_outputs` are empty for blank M4L devices -- they only
-      appear when the Max patch exposes MIDI I/O objects.
-    - All four I/O list properties are listenable (listener fires when the I/O configuration changes).
-    - Each I/O list item is a `DeviceIO` object with its own OID and full routing capabilities.
-    - `bank_parameters_changed` listener fires successfully (event-only, no readable property).
-    - `get_bank_count()` returns `0` for blank M4L devices. `get_bank_name(0)` and
-      `get_bank_parameters(0)` raise `InternalError` when bank count is 0.
-      `get_bank_parameters(-1)` raises `"this device has no best-of bank"` for devices without
-      configured banks.
-
-### Open Questions
-
-- ~~What type do the `audio_inputs` / `audio_outputs` / `midi_inputs` / `midi_outputs`
-  lists contain?~~ **Resolved:** `DeviceIO` objects with their own OIDs and routing properties.
-- ~~What triggers the `bank_parameters_changed` event?~~ **Partially resolved:** Listener registers
-  successfully. Trigger condition not tested (would require editing a Max patch's bank configuration).
-- ~~Does `get_value_item_icons()` work for all parameter types?~~ **Unprobed.** Needs an M4L device
-  with list-style parameters.
-- Bank methods (`get_bank_name`, `get_bank_parameters`) fail with `InternalError` when called with
-  invalid indices or on devices with no banks. Need to test with an M4L device that has configured
-  parameter banks.
-
-### Children
-
-None beyond those inherited from Device (`parameters`, `view`).
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`,
-`can_have_drum_pads`, `class_display_name`, `class_name`, `is_active`,
-`is_using_compare_preset_b`, `latency_in_ms`, `latency_in_samples`, `name`, `type`),
-MaxDevice adds:
-
-| Property        | Type             | Settable | Listenable | Summary                                   |
-| --------------- | ---------------- | -------- | ---------- | ----------------------------------------- |
-| `audio_inputs`  | `list[DeviceIO]` | no       | `yes`      | Audio inputs exposed by this M4L device.  |
-| `audio_outputs` | `list[DeviceIO]` | no       | `yes`      | Audio outputs exposed by this M4L device. |
-| `midi_inputs`   | `list[DeviceIO]` | no       | `yes`      | MIDI inputs exposed by this M4L device.   |
-| `midi_outputs`  | `list[DeviceIO]` | no       | `yes`      | MIDI outputs exposed by this M4L device.  |
+| Property                                                  | Type                   | Supports       |
+| --------------------------------------------------------- | ---------------------- | -------------- |
+| [`audio_inputs`](#audio_inputs)                           | `Vector[DeviceIO]`     | `get`/`listen` |
+| [`audio_outputs`](#audio_outputs)                         | `Vector[DeviceIO]`     | `get`/`listen` |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`          |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`          |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`          |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`          |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`          |
+| [`class_name`](#class_name)                               | `str`                  | `get`          |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`          |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`    |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`          |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`          |
+| [`midi_inputs`](#midi_inputs)                             | `Vector[LomObject]`    | `get`/`listen` |
+| [`midi_outputs`](#midi_outputs)                           | `Vector[LomObject]`    | `get`/`listen` |
+| [`name`](#name)                                           | `str`                  | `get`/`set`    |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`          |
+| [`type`](#type)                                           | `DeviceType`           | `get`          |
+| [`view`](#view)                                           | `Device.View`          | `get`          |
 
 #### `audio_inputs`
 
-- **Type:** `list[DeviceIO]`
+- **Type:** `Vector[DeviceIO]`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Read-only list of all audio inputs that this Max for Live device offers. Each item is a
-`DeviceIO` object with its own OID and routing properties. Blank M4L devices have at least one
-audio input. Listener fires when the set of audio inputs changes.
+Const access to a list of all audio inputs of the device.
 
 #### `audio_outputs`
 
-- **Type:** `list[DeviceIO]`
+- **Type:** `Vector[DeviceIO]`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Read-only list of all audio outputs that this Max for Live device offers. Each item is a
-`DeviceIO` object. Blank M4L devices have at least one audio output. Listener fires when the
-set of audio outputs changes.
+Const access to a list of all audio outputs of the device.
+
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
 
 #### `midi_inputs`
 
-- **Type:** `list[DeviceIO]`
+- **Type:** `Vector[LomObject]`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `11.0`
 
-Read-only list of all MIDI inputs that this Max for Live device offers. Empty for blank M4L
-devices -- only populated when the Max patch exposes MIDI I/O objects. Listener fires when the
-set of MIDI inputs changes.
+Const access to a list of all midi outputs of the device.
 
 #### `midi_outputs`
 
-- **Type:** `list[DeviceIO]`
+- **Type:** `Vector[LomObject]`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `11.0`
 
-Read-only list of all MIDI outputs that this Max for Live device offers. Empty for blank M4L
-devices -- only populated when the Max patch exposes MIDI I/O objects. Listener fires when the
-set of MIDI outputs changes.
+Const access to a list of all midi outputs of the device.
 
-### Events
+#### `name`
 
-| Event                     | Listenable | Summary                                                |
-| ------------------------- | ---------- | ------------------------------------------------------ |
-| `bank_parameters_changed` | `yes`      | Fires when the device's parameter bank layout changes. |
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
 
-#### `bank_parameters_changed`
+Return access to the name of the device.
 
-- **Listenable:** `yes`
-- **Since:** `<11`
+#### `parameters`
 
-An event-only listenable with no corresponding readable property. The listener fires
-when the parameter bank configuration changes. There is no property to read -- only
-add/remove/has listener methods exist.
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `Device.View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.
 
 ### Methods
 
-In addition to all Device methods (`save_preset_to_compare_ab_slot()`,
-`store_chosen_bank()`), MaxDevice adds:
-
-| Method                                             | Returns | Summary                                         |
-| -------------------------------------------------- | ------- | ----------------------------------------------- |
-| `get_bank_count()`                                 | `int`   | Number of parameter banks.                      |
-| `get_bank_name(bank_index: int)`                   | `str`   | Name of a parameter bank by index.              |
-| `get_bank_parameters(bank_index: int)`             | `list`  | Parameter indices for a given bank.             |
-| `get_value_item_icons(parameter: DeviceParameter)` | `list`  | Icon identifiers for a list parameter's values. |
+| Method                                                                     | Returns |
+| -------------------------------------------------------------------------- | ------- |
+| [`get_bank_count()`](#get_bank_count)                                      | `int`   |
+| [`get_bank_name()`](#get_bank_namebank_index-int)                          | `str`   |
+| [`get_bank_parameters()`](#get_bank_parametersbank_index-int)              | `list`  |
+| [`get_value_item_icons()`](#get_value_item_iconsparameter-deviceparameter) | `list`  |
 
 #### `get_bank_count()`
 
 - **Returns:** `int`
-- **Since:** `<11`
 
-Returns the number of parameter banks for this device. Returns `0` for blank M4L devices
-(no configured banks). Related to hardware control surface integration.
+Get the number of parameter banks. This is related to hardware control surfaces.
 
 #### `get_bank_name(bank_index: int)`
 
 - **Returns:** `str`
 - **Args:**
-    - `bank_index: int` -- index of the bank to query
-- **Raises:** `InternalError` if index is out of range or device has no banks.
-- **Since:** `<11`
+  - `bank_index: int`
 
-Returns the name of the parameter bank at the given index. Raises `InternalError` when called
-on a device with zero banks.
+Get the name of a parameter bank given by index. This is related to hardware control surfaces.
 
 #### `get_bank_parameters(bank_index: int)`
 
-- **Returns:** `list[int]`
+- **Returns:** `list`
 - **Args:**
-    - `bank_index: int` -- index of the bank to query; `-1` refers to the "Best of" bank
-- **Raises:** `InternalError` if index is out of range. `"this device has no best-of bank"` for `-1` on
-  devices without configured banks.
-- **Since:** `<11`
+  - `bank_index: int`
 
-Returns the parameter indices for the bank at the given index. Empty slots are marked
-as `-1`. Passing `-1` as the bank index returns the "Best of" bank.
+Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces.
 
 #### `get_value_item_icons(parameter: DeviceParameter)`
 
-- **Returns:** `list[str]`
+- **Returns:** `list`
 - **Args:**
-    - `parameter: DeviceParameter` -- the parameter to query for icons
-- **Since:** `<11`
+  - `parameter: DeviceParameter`
 
-Returns a list of icon identifier strings for a list-style parameter's values. An empty
-string indicates no icon should be displayed for that value. An empty list means no icons
-should be displayed at all. Related to hardware control surface integration.
+Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.

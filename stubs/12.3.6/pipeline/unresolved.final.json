@@ -1,0 +1,53 @@
+{
+  "version": "12.3.6",
+  "items": {
+    "Live.Base.Vector.append": {
+      "signature": "append( (Vector)arg1, (object)arg2) -> None :",
+      "cpp_signature": "void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)",
+      "args": {
+        "value": {
+          "current_type": "LomObject",
+          "needs": [
+            "type"
+          ]
+        }
+      }
+    },
+    "Live.Base.subst_args": {
+      "signature": "subst_args( (Text)text [, (str)arg1='' [, (str)arg2='' [, (str)arg3='' [, (str)arg4='' [, (str)arg5='']]]]]) -> str :",
+      "cpp_signature": "std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> subst_args(TText [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='']]]]])",
+      "args": {
+        "arg1": {
+          "current_type": "str",
+          "needs": [
+            "name"
+          ]
+        },
+        "arg2": {
+          "current_type": "str",
+          "needs": [
+            "name"
+          ]
+        },
+        "arg3": {
+          "current_type": "str",
+          "needs": [
+            "name"
+          ]
+        },
+        "arg4": {
+          "current_type": "str",
+          "needs": [
+            "name"
+          ]
+        },
+        "arg5": {
+          "current_type": "str",
+          "needs": [
+            "name"
+          ]
+        }
+      }
+    }
+  }
+}

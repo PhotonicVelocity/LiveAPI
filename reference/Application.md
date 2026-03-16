@@ -1,430 +1,617 @@
-# Application
+# Application (Module)
+
+## Application (Class)
 
 > `Live.Application.Application`
 
-This class represents the Live application itself. It is the top-level entry point for the Live Object Model,
-reachable via the root path `live_app`. The Application object provides access to version information, CPU usage
-metrics, dialog management, the current Live Set (via `get_document()`), the browser, control surfaces, and the
-application view. It also exposes several module-level static functions (e.g., `get_application()`) and nested
-enum classes (`MessageButtons`, `PushDialogType`, `UnavailableFeature`, `Variants`).
+This class represents the Live application.
 
-### Open Questions
+**Access via:**
 
-- What are the actual enum values inside `MessageButtons`? The stub defines `OK_BUTTON` as the default but does
-  not enumerate the full set (e.g., OK/Cancel, Yes/No).
-- What are the actual enum values inside `PushDialogType`? The stub only references `MESSAGE_BOX` as a default.
-- What are the string values inside `Variants`? The stub says "holds strings representing what type of Live is
-  running" but does not list them (e.g., "Live", "Intro", "Lite", "Suite", "Beta"?).
-- What are the values inside `UnavailableFeature`? No members are listed in the stub.
-- The stub exposes `number_of_push_apps_running` — is this useful outside of Ableton's internal Push support code?
-- `show_message()` and `show_on_the_fly_message()` are in the stub but not in the Max docs. Are they accessible
-  from Max for Live, or only from control surface scripts?
-- `has_option()` checks for entries in `Options.txt` — what options are valid, and is this accessible from Max
-  for Live?
-- The module-level statics (`combine_apcs`, `encrypt_challenge`, `encrypt_challenge2`, `get_random_int`) appear
-  to be internal utilities. Are any of them useful for M4L?
-- `get_build_id()` and `get_variant()` are in the stub but not the Max docs — are they accessible from Max for
-  Live?
-- `control_surfaces` returns a list that may contain `None` entries for inactive slots. The Max docs say `id 0`
-  is returned instead. Which is accurate for the Python API?
-
-### Children
-
-| Child | Returns | Shape | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `browser` | `Browser` | `single` | `no` | Interface to Live's browser. |
-| `control_surfaces` | `Sequence[ControlSurfaceProxy?]` | `list` | `yes` | Control surfaces selected in Preferences. |
-| `view` | `Application.View` | `single` | `no` | View aspects of the application. |
-
-#### `browser`
-
-- **Returns:** `Browser`
-- **Shape:** `single`
-- **Listenable:** `no`
-- **Since:** `<11`
-
-Returns an interface to Live's content browser. The `Browser` class itself is documented separately. This child
-is present in the stub but not mentioned in the Max for Live Application docs.
-
-#### `control_surfaces`
-
-- **Returns:** `Sequence[ControlSurfaceProxy?]`
-- **Shape:** `list`
-- **Listenable:** `yes`
-- **Since:** `<11`
-
-A read-only list of the control surfaces currently selected in Live's Preferences, in the same order as the
-Preferences dialog. Each entry is a `ControlSurfaceProxy` object or `None` if no control surface is active at
-that slot. The listener fires when the set of active control surfaces changes.
-
-#### `view`
-
-- **Returns:** `Application.View`
-- **Shape:** `single`
-- **Listenable:** `no`
-- **Since:** `<11`
-
-The view component of the application, providing access to visibility state and focus management for Live's main
-view panels (Session, Arranger, Browser, Detail, etc.).
+- `Application.get_application`
 
 ### Properties
 
-| Property | Type | Settable | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `average_process_usage` | `float` | `no` | `yes` | Live's average CPU load. |
-| `canonical_parent` | `object` | `no` | `no` | The canonical parent of the application. |
-| `current_dialog_button_count` | `int` | `no` | `no` | Number of buttons on the current dialog. |
-| `current_dialog_message` | `str` | `no` | `no` | Text of the last dialog shown; empty if no dialog is open. |
-| `number_of_push_apps_running` | `int` | `no` | `no` | Number of connected Push apps. |
-| `open_dialog_count` | `int` | `no` | `yes` | Number of currently open dialogs. |
-| `peak_process_usage` | `float` | `no` | `yes` | Live's peak CPU load. |
-| `unavailable_features` | `UnavailableFeatureVector` | `no` | `yes` | Features unavailable in the current Live edition. |
+| Property                                                      | Type                       | Supports       |
+| ------------------------------------------------------------- | -------------------------- | -------------- |
+| [`average_process_usage`](#average_process_usage)             | `float`                    | `get`/`listen` |
+| [`browser`](#browser)                                         | `Browser`                  | `get`          |
+| [`canonical_parent`](#canonical_parent)                       | `None`                     | `get`          |
+| [`control_surfaces`](#control_surfaces)                       | `Vector[object]`           | `get`/`listen` |
+| [`current_dialog_button_count`](#current_dialog_button_count) | `int`                      | `get`          |
+| [`current_dialog_message`](#current_dialog_message)           | `str`                      | `get`          |
+| [`number_of_push_apps_running`](#number_of_push_apps_running) | `int`                      | `get`          |
+| [`open_dialog_count`](#open_dialog_count)                     | `int`                      | `get`/`listen` |
+| [`peak_process_usage`](#peak_process_usage)                   | `float`                    | `get`/`listen` |
+| [`unavailable_features`](#unavailable_features)               | `UnavailableFeatureVector` | `get`/`listen` |
+| [`view`](#view)                                               | `View`                     | `get`          |
 
 #### `average_process_usage`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `11.1`
 
-Reports Live's average CPU load. The Max docs note that Live's CPU meter shows audio processing load specifically,
-not the application's overall CPU usage. The listener fires whenever the reported average changes.
+Reports Live's average CPU load.
+
+#### `browser`
+
+- **Type:** `Browser`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns an interface to the browser.
 
 #### `canonical_parent`
 
-- **Type:** `object`
+- **Type:** `None`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-Returns the canonical parent of the Application object. Since Application is the root of the object hierarchy,
-this likely returns `None` or a module-level wrapper.
+Returns the canonical parent of the application.
+
+#### `control_surfaces`
+
+- **Type:** `Vector[object]`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Const access to a list of the control surfaces selected in preferences, in the same order. The list contains None if no control surface is active at that index.
 
 #### `current_dialog_button_count`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The number of buttons in the currently displayed message box. Useful in conjunction with
-`press_current_dialog_button()` to programmatically dismiss or respond to dialogs.
+Number of buttons on the current dialog.
 
 #### `current_dialog_message`
 
 - **Type:** `str`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-The text content of the last dialog that appeared. Returns an empty string if no dialogs are currently shown.
+Text of the last dialog that appeared; Empty if all dialogs just disappeared.
 
 #### `number_of_push_apps_running`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `11.3`
 
-Returns the number of Push hardware controllers currently connected and running their companion apps. Likely only
-relevant for Ableton's internal Push support code.
+Returns the number of connected Push apps.
 
 #### `open_dialog_count`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-The number of currently open dialog boxes in Live. Returns `0` if no dialog is open. The listener fires when a
-dialog opens or closes, making it useful for detecting when dialogs appear and need programmatic handling via
-`press_current_dialog_button()`.
+The number of open dialogs in Live. 0 if not dialog is open.
 
 #### `peak_process_usage`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `11.1`
 
-Reports Live's peak CPU load. As with `average_process_usage`, the Max docs note that Live's CPU meter shows
-audio processing load, not overall CPU usage.
+Reports Live's peak CPU load.
 
 #### `unavailable_features`
 
 - **Type:** `UnavailableFeatureVector`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-A list of features that are unavailable due to limitations of the current Live edition (e.g., features missing
-in Live Intro or Lite compared to Suite). The listener fires when the set of unavailable features changes.
+List of features that are unavailable due to limitations of the current Live edition.
+
+#### `view`
+
+- **Type:** `View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the applications view component.
 
 ### Methods
 
-| Method | Returns | Summary |
-| --- | --- | --- |
-| `get_bugfix_version()` | `int` | Bugfix version number (e.g., 5 in 12.3.5). |
-| `get_build_id()` | `str` | Build identifier string. |
-| `get_document()` | `Song` | Returns the current Live Set. |
-| `get_major_version()` | `int` | Major version number (e.g., 12 in 12.3.5). |
-| `get_minor_version()` | `int` | Minor version number (e.g., 3 in 12.3.5). |
-| `get_variant()` | `str` | Live edition variant string (one of `Variants`). |
-| `get_version_string()` | `str` | Full version string (e.g., `"12.3.5"`). |
-| `has_option(option_name)` | `bool` | Whether an entry exists in `Options.txt`. |
-| `press_current_dialog_button(index)` | `None` | Press a button by index on the current dialog. |
-| `show_message(text, buttons?, enable_markup?, show_success_icon?)` | `int` | Show a message box and return the pressed button index. |
-| `show_on_the_fly_message(message, buttons?, enable_markup?, ...)` | `int` | Show a message box with a raw string instead of a Text object. |
+| Method                                                                                                                                                                                      | Returns |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| [`get_bugfix_version()`](#get_bugfix_version)                                                                                                                                               | `int`   |
+| [`get_build_id()`](#get_build_id)                                                                                                                                                           | `str`   |
+| [`get_document()`](#get_document)                                                                                                                                                           | `Song`  |
+| [`get_major_version()`](#get_major_version)                                                                                                                                                 | `int`   |
+| [`get_minor_version()`](#get_minor_version)                                                                                                                                                 | `int`   |
+| [`get_variant()`](#get_variant)                                                                                                                                                             | `str`   |
+| [`get_version_string()`](#get_version_string)                                                                                                                                               | `str`   |
+| [`has_option()`](#has_optionoption-str)                                                                                                                                                     | `bool`  |
+| [`press_current_dialog_button()`](#press_current_dialog_buttonindex-int)                                                                                                                    | `None`  |
+| [`show_message()`](#show_messagetext-text-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false)                                                               | `int`   |
+| [`show_on_the_fly_message()`](#show_on_the_fly_messagemessage-str-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false-push_dialog_type-pushdialogtype-int-0) | `int`   |
 
 #### `get_bugfix_version()`
 
 - **Returns:** `int`
-- **Args:** None
-- **Since:** `<11`
 
-Returns the bugfix (patch) version number of the running Live instance. For example, returns `5` for Live 12.3.5.
+Returns an integer representing the bugfix version of Live.
 
 #### `get_build_id()`
 
 - **Returns:** `str`
-- **Args:** None
-- **Since:** `12.0`
 
-Returns a string identifying the specific build of Live. Useful for debugging or identifying exact build versions
-beyond the public version number.
+Returns a string identifying the build.
 
 #### `get_document()`
 
 - **Returns:** `Song`
-- **Args:** None
-- **Since:** `<11`
 
-Returns the current Live Set as a `Song` object. This is the primary way to navigate from the application level
-down into the document (tracks, scenes, clips, etc.).
+Returns the current Live Set.
 
 #### `get_major_version()`
 
 - **Returns:** `int`
-- **Args:** None
-- **Since:** `<11`
 
-Returns the major version number of the running Live instance. For example, returns `12` for Live 12.3.5.
+Returns an integer representing the major version of Live.
 
 #### `get_minor_version()`
 
 - **Returns:** `int`
-- **Args:** None
-- **Since:** `<11`
 
-Returns the minor version number of the running Live instance. For example, returns `3` for Live 12.3.5.
+Returns an integer representing the minor version of Live.
 
 #### `get_variant()`
 
 - **Returns:** `str`
-- **Args:** None
-- **Since:** `12.0`
 
-Returns a string from the `Application.Variants` enum identifying which edition of Live is running (e.g., "Live",
-"Suite", "Intro", "Lite" — exact values unknown, needs probing).
+Returns one of the strings in Live.Application.Variants.
 
 #### `get_version_string()`
 
 - **Returns:** `str`
-- **Args:** None
-- **Since:** `11.2`
 
-Returns the full version string of the running Live instance (e.g., `"12.3.5"`).
+Returns the full version string of Live.
 
-#### `has_option(option_name)`
+#### `has_option(option: str)`
 
 - **Returns:** `bool`
 - **Args:**
-  - `option_name: str` — the option key to look up
-- **Since:** `<11`
+  - `option: str`
 
-Returns `True` if the given entry exists in Live's `Options.txt` file, `False` otherwise. `Options.txt` is a
-text file in Live's Preferences folder that holds undocumented feature flags and configuration overrides.
+Returns True if the given entry exists in Options.txt, False otherwise.
 
-#### `press_current_dialog_button(index)`
+#### `press_current_dialog_button(index: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `index: int` — zero-based index of the button to press
-- **Since:** `<11`
+  - `index: int`
 
-Programmatically presses a button on the currently displayed message box. Use `current_dialog_button_count` to
-determine how many buttons are available, and `open_dialog_count` or its listener to detect when a dialog appears.
+Press a button, by index, on the current message box.
 
-#### `show_message(text, buttons?, enable_markup?, show_success_icon?)`
+#### `show_message(text: Text, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False)`
 
-- **Returns:** `int` — the index of the pressed button
+- **Returns:** `int`
 - **Args:**
-  - `text: Text` — a predefined text object to display
-  - `buttons: int` (optional, default `MessageButtons.OK_BUTTON`) — which buttons to show
-  - `enable_markup: bool` (optional, default `False`) — whether to enable markup rendering
-  - `show_success_icon: bool` (optional, default `False`) — whether to show a success icon
-- **Since:** `12.0`
+  - `text: Text`
+  - `buttons: MessageButtons | int = 0`
+  - `enable_markup: bool = False`
+  - `show_success_icon: bool = False`
 
-Shows a message box with the given predefined `Text` object and returns the index of the button pressed by the
-user. Not documented in the Max for Live docs — may only be available from control surface scripts.
+Shows a message box, returning the position of the pressed button.
 
-#### `show_on_the_fly_message(message, buttons?, enable_markup?, show_success_icon?, push_dialog_type?)`
+#### `show_on_the_fly_message(message: str, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = 0)`
 
-- **Returns:** `int` — the index of the pressed button
+- **Returns:** `int`
 - **Args:**
-  - `message: str` — the message string to display
-  - `buttons: int` (optional, default `MessageButtons.OK_BUTTON`) — which buttons to show
-  - `enable_markup: bool` (optional, default `False`) — whether to enable markup rendering
-  - `show_success_icon: bool` (optional, default `False`) — whether to show a success icon
-  - `push_dialog_type: int` (optional, default `PushDialogType.MESSAGE_BOX`) — dialog type for Push display
-- **Since:** `12.0`
+  - `message: str`
+  - `buttons: MessageButtons | int = 0`
+  - `enable_markup: bool = False`
+  - `show_success_icon: bool = False`
+  - `push_dialog_type: PushDialogType | int = 0`
 
-Same as `show_message()`, but accepts a raw string instead of a predefined `Text` object. This allows displaying
-arbitrary text at runtime. Not documented in the Max for Live docs — may only be available from control surface
-scripts.
+Same as show_message, but for when there is no predefined Text object.
 
----
-
-## Application.View
+## Application.View (Subclass)
 
 > `Live.Application.Application.View`
 
-Represents the view aspects of the Live application, providing control over which panels are visible and focused
-(Session, Arranger, Browser, Detail, etc.). Reachable via `live_app view`.
+This class represents the view aspects of the Live application.
+
+**Live Object:** `yes`
 
 ### Properties
 
-| Property | Type | Settable | Listenable | Summary |
-| --- | --- | --- | --- | --- |
-| `browse_mode` | `bool` | `no` | `yes` | Whether Hot-Swap mode is active for any target. |
-| `canonical_parent` | `object` | `no` | `no` | The canonical parent of the application view. |
-| `focused_document_view` | `str` | `no` | `yes` | Name of the focused document view (`"Session"` or `"Arranger"`). |
+| Property                                          | Type          | Supports       |
+| ------------------------------------------------- | ------------- | -------------- |
+| [`browse_mode`](#browse_mode)                     | `bool`        | `get`/`listen` |
+| [`canonical_parent`](#canonical_parent)           | `Application` | `get`          |
+| [`focused_document_view`](#focused_document_view) | `str`         | `get`/`listen` |
 
 #### `browse_mode`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-`True` if Hot-Swap mode is active for any target (i.e., the user or a script has engaged browser hot-swap to
-replace a device, sample, or preset). The listener fires when Hot-Swap mode is toggled on or off.
+Return true if HotSwap mode is active for any target.
 
 #### `canonical_parent`
 
-- **Type:** `object`
+- **Type:** `Application`
+- **Settable:** `no`
 - **Listenable:** `no`
-- **Since:** `<11`
 
-Returns the canonical parent of the application view, which is the `Application` object.
+Get the canonical parent of the application view.
 
 #### `focused_document_view`
 
 - **Type:** `str`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Returns the name of the document view shown in the currently focused window — either `"Session"` or `"Arranger"`.
-The listener fires when the user switches between Session and Arrangement view.
+Return the name of the document view ('Session' or 'Arranger') shown in the currently selected window.
 
 ### Methods
 
-| Method | Returns | Summary |
-| --- | --- | --- |
-| `available_main_views()` | `StringVector` | List of valid view identifier strings. |
-| `focus_view(view_name)` | `None` | Show and focus the named view. |
-| `hide_view(view_name)` | `None` | Hide the named view. |
-| `is_view_visible(identifier, main_window_only?)` | `bool` | Whether the named view is currently visible. |
-| `scroll_view(direction, view_name, modifier_pressed)` | `None` | Scroll the named view in the given direction. |
-| `show_view(view_name)` | `None` | Show the named view. |
-| `toggle_browse()` | `None` | Toggle Hot-Swap mode for the selected device. |
-| `zoom_view(direction, view_name, modifier_pressed)` | `None` | Zoom the named view in the given direction. |
+| Method                                                                           | Returns        |
+| -------------------------------------------------------------------------------- | -------------- |
+| [`available_main_views()`](#available_main_views)                                | `StringVector` |
+| [`focus_view()`](#focus_viewarg2-str)                                            | `None`         |
+| [`hide_view()`](#hide_viewview_name-str)                                         | `None`         |
+| [`is_view_visible()`](#is_view_visibleidentifier-str-main_window_only-bool-true) | `bool`         |
+| [`scroll_view()`](#scroll_viewdirection-int-view_name-str-modifier_pressed-bool) | `None`         |
+| [`show_view()`](#show_viewarg2-str)                                              | `None`         |
+| [`toggle_browse()`](#toggle_browse)                                              | `None`         |
+| [`zoom_view()`](#zoom_viewdirection-int-view_name-str-modifier_pressed-bool)     | `None`         |
 
 #### `available_main_views()`
 
 - **Returns:** `StringVector`
-- **Args:** None
-- **Since:** `<11`
 
-Returns a constant list of view name strings that can be used as arguments to the other view methods
-(`show_view`, `hide_view`, `focus_view`, `is_view_visible`, `scroll_view`, `zoom_view`). The Max docs list these
-as: `Browser`, `Arranger`, `Session`, `Detail`, `Detail/Clip`, `Detail/DeviceChain`.
+Return a list of strings with the available subcomponent views, which is to be specified, when using the rest of this classes functions. A 'subcomponent view' is a main view component of a document view, like the Session view, the Arranger or Detailview and so on...
 
-#### `focus_view(view_name)`
+#### `focus_view(arg2: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `view_name: str` — one of the identifiers from `available_main_views()`
-- **Since:** `<11`
+  - `arg2: str`
 
-Shows the named view and gives it keyboard focus. You can pass an empty string `" "` to refer to whichever of
-the Arrangement or Session View is currently visible in the main window.
+Show and focus one through the identifier string specified view.
 
-#### `hide_view(view_name)`
+#### `hide_view(view_name: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `view_name: str` — one of the identifiers from `available_main_views()`
-- **Since:** `<11`
+  - `view_name: str`
 
-Hides the named view. Passing an empty string `" "` refers to whichever of the Arrangement or Session View is
-visible in the main window.
+Hide one through the identifier string specified view.
 
-#### `is_view_visible(identifier, main_window_only?)`
+#### `is_view_visible(identifier: str, main_window_only: bool = True)`
 
 - **Returns:** `bool`
 - **Args:**
-  - `identifier: str` — the view name to check
-  - `main_window_only: bool` (optional, default `True`) — if `False`, also checks the second window
-- **Since:** `<11`
+  - `identifier: str`
+  - `main_window_only: bool = True`
 
-Returns `True` if the named view is currently visible. By default, only checks the main window. This property
-also supports a listener via `add_is_view_visible_listener(view_name, callback)` — note the listener takes the
-view name as a first argument, making it a parameterized listener.
+Return true if the through the identifier string specified view is currently visible. If main_window_only is set to False, this will also check in second window. Notifications from the second window are not yet supported.
 
-#### `scroll_view(direction, view_name, modifier_pressed)`
+#### `scroll_view(direction: int, view_name: str, modifier_pressed: bool)`
 
 - **Returns:** `None`
 - **Args:**
-  - `direction: int` — `0`=up, `1`=down, `2`=left, `3`=right
-  - `view_name: str` — one of the identifiers from `available_main_views()`
-  - `modifier_pressed: bool` — modifies behavior in certain views
-- **Since:** `<11`
+  - `direction: int`
+  - `view_name: str`
+  - `modifier_pressed: bool`
 
-Scrolls the named view in the given direction. Not all views support scrolling in all directions. An empty string
-`" "` refers to the currently visible Arrangement or Session View.
+Scroll through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
 
-- **Quirks:** `modifier_pressed` only affects **Arranger** scroll. Arranger left/right: modifier changes from
-  "move cursor" to "resize selection region" (shift+arrow equivalent). Session scroll moves track/scene selection.
-  Detail/DeviceChain only responds to left/right (device selection). Browser works all 4 directions.
-
-#### `show_view(view_name)`
+#### `show_view(arg2: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `view_name: str` — one of the identifiers from `available_main_views()`
-- **Raises:** Raises a runtime error if called during Live's initialization scope.
-- **Since:** `<11`
+  - `arg2: str`
 
-Shows the named view. Calling this during Live's initialization phase will throw a runtime error — use it only
-after initialization is complete.
+Show one through the identifier string specified view. Will throw a runtime error if this is called in Live's initialization scope.
 
 #### `toggle_browse()`
 
 - **Returns:** `None`
-- **Args:** None
-- **Since:** `<11`
 
-Reveals the device chain and the browser, and activates Hot-Swap mode for the currently selected device. Calling
-this again deactivates Hot-Swap mode. Equivalent to clicking the Hot-Swap button on a device.
+Reveals the device chain, the browser and starts hot swap for the selected device. Calling this function again stops hot swap.
 
-- **Quirks:** Targets the **selected** device (white outline), not the **appointed** device (blue hand). Once
-  hotswap is active, changing the selection does not redirect `hotswap_target`. Setting `Browser.hotswap_target`
-  directly is a simpler alternative to `select_device()` + `toggle_browse()`.
-
-#### `zoom_view(direction, view_name, modifier_pressed)`
+#### `zoom_view(direction: int, view_name: str, modifier_pressed: bool)`
 
 - **Returns:** `None`
 - **Args:**
-  - `direction: int` — `0`=up, `1`=down, `2`=left, `3`=right
-  - `view_name: str` — one of the identifiers from `available_main_views()`
-  - `modifier_pressed: bool` — modifies behavior in certain views
-- **Since:** `<11`
+  - `direction: int`
+  - `view_name: str`
+  - `modifier_pressed: bool`
 
-Zooms the named view in the given direction. An empty string `" "` refers to the currently visible Arrangement
-or Session View.
+Zoom through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
 
-- **Quirks:** Only the Arranger actually zooms. Session zoom is identical to Session scroll. `modifier_pressed`
-  only affects Arranger up/down zoom: without modifier, changes the selected track's height; with modifier,
-  changes all track heights simultaneously. Left/right (timeline zoom) are unaffected by modifier.
+## Enums
+
+### NavDirection
+
+> `Live.Application.Application.View.NavDirection`
+
+| Value | Name    |
+| ----- | ------- |
+| `0`   | `up`    |
+| `1`   | `down`  |
+| `2`   | `left`  |
+| `3`   | `right` |
+
+### MessageButtons
+
+> `Live.Application.MessageButtons`
+
+Specifies the characteristics of the message box, e.g. which buttons to show.
+
+| Value | Name                    |
+| ----- | ----------------------- |
+| `0`   | `OK_BUTTON`             |
+| `1`   | `OK_NEW_SET_BUTTON`     |
+| `2`   | `OK_RETRY_BUTTON`       |
+| `3`   | `SAVE_DONT_SAVE_BUTTON` |
+| `4`   | `OK_ACCOUNT_BUTTON`     |
+| `5`   | `OK_PURCHASE_BUTTON`    |
+
+### PushDialogType
+
+> `Live.Application.PushDialogType`
+
+Specifies the dialog type for Push.
+
+| Value | Name                                 |
+| ----- | ------------------------------------ |
+| `0`   | `MESSAGE_BOX`                        |
+| `5`   | `OUT_OF_UNLOCKS_DIALOG`              |
+| `7`   | `RENT_TO_OWN_LICENSE_EXPIRED_DIALOG` |
+
+### UnavailableFeature
+
+> `Live.Application.UnavailableFeature`
+
+| Value | Name                                     |
+| ----- | ---------------------------------------- |
+| `0`   | `note_velocity_ranges_and_probabilities` |
+
+### Variants
+
+> `Live.Application.Variants`
+
+Holds strings representing what type of Live is running.
+
+| Value      | Name       |
+| ---------- | ---------- |
+| `Beta`     | `BETA`     |
+| `Intro`    | `INTRO`    |
+| `Lite`     | `LITE`     |
+| `Standard` | `STANDARD` |
+| `Suite`    | `SUITE`    |
+| `Trial`    | `TRIAL`    |
+
+## ControlDescription (Type)
+
+> `Live.Application.ControlDescription`
+
+Describes a control present in a control surface proxy
+
+**Constructor:** `ControlDescription()`
+
+### Properties
+
+| Property        | Type  | Supports |
+| --------------- | ----- | -------- |
+| [`id`](#id)     | `int` | `get`    |
+| [`name`](#name) | `str` | `get`    |
+
+#### `id`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+## ControlDescriptionVector (Type)
+
+> `Live.Application.ControlDescriptionVector`
+
+A container for returning control descriptions.
+
+### Methods
+
+| Method                                         | Returns |
+| ---------------------------------------------- | ------- |
+| [`append()`](#appendvalue-controldescription)  | `None`  |
+| [`extend()`](#extendvalues-controldescription) | `None`  |
+
+#### `append(value: ControlDescription)`
+
+- **Returns:** `None`
+- **Args:**
+  - `value: ControlDescription`
+
+#### `extend(values: ControlDescription)`
+
+- **Returns:** `None`
+- **Args:**
+  - `values: ControlDescription`
+
+## ControlSurfaceProxy (Type)
+
+> `Live.Application.ControlSurfaceProxy`
+
+Represents a control surface running in a different process. For use by M4L
+
+### Properties
+
+| Property                                        | Type                       | Supports       |
+| ----------------------------------------------- | -------------------------- | -------------- |
+| [`control_descriptions`](#control_descriptions) | `ControlDescriptionVector` | `get`          |
+| [`pad_layout`](#pad_layout)                     | `str`                      | `get`/`listen` |
+| [`type_name`](#type_name)                       | `str`                      | `get`          |
+
+#### `control_descriptions`
+
+- **Type:** `ControlDescriptionVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+#### `pad_layout`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+The layout of pads on Push.
+
+#### `type_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+### Methods
+
+| Method                                                               | Returns                                 |
+| -------------------------------------------------------------------- | --------------------------------------- |
+| [`enable_receive_midi()`](#enable_receive_midienabled-bool)          | `None`                                  |
+| [`fetch_received_midi_messages()`](#fetch_received_midi_messages)    | `tuple[tuple[int, Ellipsis], Ellipsis]` |
+| [`fetch_received_values()`](#fetch_received_values)                  | `tuple[tuple[int, Any], Ellipsis]`      |
+| [`grab_control()`](#grab_controlcontrol-int)                         | `None`                                  |
+| [`release_control()`](#release_controlarg2-int)                      | `None`                                  |
+| [`send_midi()`](#send_midiarg2-tuple)                                | `None`                                  |
+| [`send_value()`](#send_valuearg2-tuple)                              | `None`                                  |
+| [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`                                  |
+| [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`                                  |
+
+#### `enable_receive_midi(enabled: bool)`
+
+- **Returns:** `None`
+- **Args:**
+  - `enabled: bool`
+
+#### `fetch_received_midi_messages()`
+
+- **Returns:** `tuple[tuple[int, Ellipsis], Ellipsis]`
+
+#### `fetch_received_values()`
+
+- **Returns:** `tuple[tuple[int, Any], Ellipsis]`
+
+#### `grab_control(control: int)`
+
+- **Returns:** `None`
+- **Args:**
+  - `control: int`
+
+#### `release_control(arg2: int)`
+
+- **Returns:** `None`
+- **Args:**
+  - `arg2: int`
+
+#### `send_midi(arg2: tuple)`
+
+- **Returns:** `None`
+- **Args:**
+  - `arg2: tuple`
+
+#### `send_value(arg2: tuple)`
+
+- **Returns:** `None`
+- **Args:**
+  - `arg2: tuple`
+
+#### `subscribe_to_control(control: int)`
+
+- **Returns:** `None`
+- **Args:**
+  - `control: int`
+
+#### `unsubscribe_from_control(control: int)`
+
+- **Returns:** `None`
+- **Args:**
+  - `control: int`
+
+## UnavailableFeatureVector (Type)
+
+> `Live.Application.UnavailableFeatureVector`
+
+A container for returning unavailable features.
+
+### Methods
+
+| Method                                         | Returns |
+| ---------------------------------------------- | ------- |
+| [`append()`](#appendvalue-unavailablefeature)  | `None`  |
+| [`extend()`](#extendvalues-unavailablefeature) | `None`  |
+
+#### `append(value: UnavailableFeature)`
+
+- **Returns:** `None`
+- **Args:**
+  - `value: UnavailableFeature`
+
+#### `extend(values: UnavailableFeature)`
+
+- **Returns:** `None`
+- **Args:**
+  - `values: UnavailableFeature`
+
+## Module Functions
+
+| Function                                                                           | Returns                |
+| ---------------------------------------------------------------------------------- | ---------------------- |
+| [`combine_apcs()`](#combine_apcs)                                                  | `bool`                 |
+| [`encrypt_challenge()`](#encrypt_challengedongle1-int-dongle2-int-key_index-int-0) | `tuple[int, Ellipsis]` |
+| [`encrypt_challenge2()`](#encrypt_challenge2challenge-int)                         | `int`                  |
+| [`get_application()`](#get_application)                                            | `Application`          |
+| [`get_random_int()`](#get_random_intmin_value-int-max_value-int)                   | `int`                  |
+
+### `combine_apcs()`
+
+- **Returns:** `bool`
+
+Returns true if multiple APCs should be combined.
+
+### `encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0)`
+
+- **Returns:** `tuple[int, Ellipsis]`
+- **Args:**
+  - `dongle1: int`
+  - `dongle2: int`
+  - `key_index: int = 0`
+
+Returns an encrypted challenge based on the TEA algortithm
+
+### `encrypt_challenge2(challenge: int)`
+
+- **Returns:** `int`
+- **Args:**
+  - `challenge: int`
+
+Returns the UMAC hash for the given challenge.
+
+### `get_application()`
+
+- **Returns:** `Application`
+
+Returns the application instance.
+
+### `get_random_int(min_value: int, max_value: int)`
+
+- **Returns:** `int`
+- **Args:**
+  - `min_value: int`
+  - `max_value: int`
+
+Returns a random integer from the given range.

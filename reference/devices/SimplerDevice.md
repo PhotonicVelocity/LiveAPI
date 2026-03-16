@@ -1,325 +1,452 @@
-# SimplerDevice
+# SimplerDevice (Module)
+
+## SimplerDevice (Class)
 
 > `Live.SimplerDevice.SimplerDevice`
 
-This class represents an instance of Simpler in Live. A SimplerDevice is a subclass of
-Device -- it has all the children, properties, and methods of Device plus additional
-members for sample playback, warping, slicing, and voice management.
+This class represents a Simpler device.
 
-Simpler has three playback modes: Classic, One-Shot, and Slicing. The available properties
-and methods vary depending on the active mode.
-
-??? note "Raw probe notes (temporary)"
-    - **Bridge type:** `"SimplerDevice"`.
-    - **`class_name`:** `"OriginalSimpler"`. **`class_display_name`:** `"Simpler"`.
-    - **`type`:** 1 (`INSTRUMENT`).
-    - **Insert name:** `"Simpler"` (matches `class_display_name`).
-    - **7 settable properties** round-trip confirmed: `note_pitch_bend_range` (default 48),
-      `pad_slicing` (default False), `pitch_bend_range` (default 5), `playback_mode` (default 0,
-      range 0–2), `retrigger` (default True), `slicing_playback_mode` (default 0, range 0–2),
-      `voices` (default 6, valid: 1,2,3,4,6,8,12,16,24,32).
-    - **6 read-only properties:** `can_warp_as` (False), `can_warp_double` (False), `can_warp_half`
-      (False), `multi_sample_mode` (False), `playing_position` (0.0), `playing_position_enabled`
-      (False). All return defaults when no sample is loaded.
-    - **All 13 properties are listenable.**
-    - **`sample` child:** Returns `None` when no sample is loaded (confirmed — does not throw).
-    - **All 6 methods** raise `InternalError` when no sample is loaded. This is expected — they
-      require an active sample.
-    - **`playback_mode`:** 0=Classic, 1=One-Shot, 2=Slicing. Plain `int`, not an enum.
-    - **`slicing_playback_mode`:** 0=Mono, 1=Poly, 2=Thru. Plain `int`, not an enum.
-    - **`voices`:** Valid values are 1,2,3,4,6,8,12,16,24,32 (not arbitrary). Invalid values throw.
-    - **View:** 8 read-only listenable `int` properties. All return `-1` when no sample is loaded.
-      `selected_slice` throws `AttributeError` when no sample is loaded and Simpler is not in
-      Slicing mode.
-
-### Children
-
-In addition to Device children (`parameters`, `view`), SimplerDevice adds:
-
-| Child    | Returns  | Shape    | Listenable | Summary                                 |
-| -------- | -------- | -------- | ---------- | --------------------------------------- |
-| `sample` | `Sample` | `single` | `yes`      | The sample currently loaded in Simpler. |
-
-#### `sample`
-
-- **Type:** `Sample` or `None`
-- **Listenable:** `yes`
-- **Since:** `<11`
-
-The sample currently loaded into Simpler. The listener fires when a new sample is loaded
-or the sample is replaced. Returns `None` if no sample is loaded.
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to all Device properties (`can_compare_ab`, `can_have_chains`, `can_have_drum_pads`,
-`class_display_name`, `class_name`, `is_active`, `is_using_compare_preset_b`, `latency_in_ms`,
-`latency_in_samples`, `name`, `type`), SimplerDevice adds:
+| Property                                                  | Type                   | Supports             |
+| --------------------------------------------------------- | ---------------------- | -------------------- |
+| [`can_compare_ab`](#can_compare_ab)                       | `bool`                 | `get`                |
+| [`can_have_chains`](#can_have_chains)                     | `bool`                 | `get`                |
+| [`can_have_drum_pads`](#can_have_drum_pads)               | `bool`                 | `get`                |
+| [`can_warp_as`](#can_warp_as)                             | `bool`                 | `get`/`listen`       |
+| [`can_warp_double`](#can_warp_double)                     | `bool`                 | `get`/`listen`       |
+| [`can_warp_half`](#can_warp_half)                         | `bool`                 | `get`/`listen`       |
+| [`canonical_parent`](#canonical_parent)                   | `Track`                | `get`                |
+| [`class_display_name`](#class_display_name)               | `str`                  | `get`                |
+| [`class_name`](#class_name)                               | `str`                  | `get`                |
+| [`is_active`](#is_active)                                 | `bool`                 | `get`                |
+| [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`          |
+| [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`                |
+| [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`                |
+| [`multi_sample_mode`](#multi_sample_mode)                 | `bool`                 | `get`/`listen`       |
+| [`name`](#name)                                           | `str`                  | `get`/`set`          |
+| [`note_pitch_bend_range`](#note_pitch_bend_range)         | `int`                  | `get`/`set`/`listen` |
+| [`pad_slicing`](#pad_slicing)                             | `bool`                 | `get`/`set`/`listen` |
+| [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`                |
+| [`pitch_bend_range`](#pitch_bend_range)                   | `int`                  | `get`/`set`/`listen` |
+| [`playback_mode`](#playback_mode)                         | `int`                  | `get`/`set`/`listen` |
+| [`playing_position`](#playing_position)                   | `float`                | `get`/`listen`       |
+| [`playing_position_enabled`](#playing_position_enabled)   | `bool`                 | `get`/`listen`       |
+| [`retrigger`](#retrigger)                                 | `bool`                 | `get`/`set`/`listen` |
+| [`sample`](#sample)                                       | `Sample`               | `get`/`listen`       |
+| [`slicing_playback_mode`](#slicing_playback_mode)         | `int`                  | `get`/`set`/`listen` |
+| [`type`](#type)                                           | `DeviceType`           | `get`                |
+| [`view`](#view)                                           | `View`                 | `get`                |
+| [`voices`](#voices)                                       | `int`                  | `get`/`set`/`listen` |
 
-| Property                   | Type    | Settable | Listenable | Summary                                                     |
-| -------------------------- | ------- | -------- | ---------- | ----------------------------------------------------------- |
-| `can_warp_as`              | `bool`  | no       | `yes`      | Whether `warp_as` is currently available.                   |
-| `can_warp_double`          | `bool`  | no       | `yes`      | Whether `warp_double` is currently available.               |
-| `can_warp_half`            | `bool`  | no       | `yes`      | Whether `warp_half` is currently available.                 |
-| `multi_sample_mode`        | `bool`  | no       | `yes`      | Whether Simpler is in multi-sample mode.                    |
-| `note_pitch_bend_range`    | `int`   | yes      | `yes`      | The per-note pitch bend range in semitones. Default 48.     |
-| `pad_slicing`              | `bool`  | yes      | `yes`      | Whether slices can be added by playing unassigned notes.    |
-| `pitch_bend_range`         | `int`   | yes      | `yes`      | The global pitch bend range in semitones. Default 5.        |
-| `playback_mode`            | `int`   | yes      | `yes`      | 0=Classic, 1=One-Shot, 2=Slicing. Default 0.               |
-| `playing_position`         | `float` | no       | `yes`      | Normalized playback position between start and end markers. |
-| `playing_position_enabled` | `bool`  | no       | `yes`      | Whether Simpler is currently playing back the sample.       |
-| `retrigger`                | `bool`  | yes      | `yes`      | Whether retrigger mode is enabled. Default True.            |
-| `slicing_playback_mode`    | `int`   | yes      | `yes`      | 0=Mono, 1=Poly, 2=Thru. Default 0.                         |
-| `voices`                   | `int`   | yes      | `yes`      | Polyphony voice count. Valid: 1,2,3,4,6,8,12,16,24,32.     |
+#### `can_compare_ab`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the Device has the capability to AB compare.
+
+#### `can_have_chains`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a rack.
+
+#### `can_have_drum_pads`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns true if the device is a drum rack.
 
 #### `can_warp_as`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether `warp_as` is currently available. Returns `False` when no sample is loaded.
+Returns true if warp_as is available.
 
 #### `can_warp_double`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether `warp_double` is currently available. Returns `False` when no sample is loaded.
+Returns true if warp_double is available.
 
 #### `can_warp_half`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether `warp_half` is currently available. Returns `False` when no sample is loaded.
+Returns true if warp_half is available.
+
+#### `canonical_parent`
+
+- **Type:** `Track`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the Device.
+
+#### `class_display_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+#### `class_name`
+
+- **Type:** `str`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to the name of the device's class.
+
+#### `is_active`
+
+- **Type:** `bool`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+#### `is_using_compare_preset_b`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+#### `latency_in_ms`
+
+- **Type:** `float`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in ms.
+
+#### `latency_in_samples`
+
+- **Type:** `int`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Returns the latency of the device in samples.
 
 #### `multi_sample_mode`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether Simpler is in multi-sample mode. Returns `False` when no sample is loaded.
+Returns whether Simpler is in mulit-sample mode.
+
+#### `name`
+
+- **Type:** `str`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Return access to the name of the device.
 
 #### `note_pitch_bend_range`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The per-note pitch bend range in semitones. Default 48.
+Access to the Note Pitch Bend Range in Simpler.
 
 #### `pad_slicing`
 
-- **Type:** `bool` (get) · `bool` (set)
+- **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether slices can be added by playing unassigned notes on the MIDI controller.
+When set to true, slices can be added in slicing mode by playing notes .that are not assigned to slices, yet.
+
+#### `parameters`
+
+- **Type:** `ATimeableValueVector`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Const access to the list of available automatable parameters for this device.
 
 #### `pitch_bend_range`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `11.3`
 
-The global pitch bend range in semitones. Default 5.
+Access to the Pitch Bend Range in Simpler.
 
 #### `playback_mode`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-0=Classic, 1=One-Shot, 2=Slicing. Default 0. Plain `int`, not an enum.
+Access to Simpler's playback mode.
 
 #### `playing_position`
 
 - **Type:** `float`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Normalized playback position between start and end markers. Returns `0.0` when no sample is loaded.
+Constant access to the current playing position in the sample. The returned value is the normalized position between sample start and end.
 
 #### `playing_position_enabled`
 
 - **Type:** `bool`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether Simpler is currently playing back the sample. Returns `False` when no sample is loaded.
+Returns whether Simpler is showing the playing position. The returned value is True while the sample is played back
 
 #### `retrigger`
 
-- **Type:** `bool` (get) · `bool` (set)
+- **Type:** `bool`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Whether retrigger mode is enabled. Default True.
+Access to Simpler's retrigger mode.
+
+#### `sample`
+
+- **Type:** `Sample`
+- **Settable:** `no`
+- **Listenable:** `yes`
+
+Get the loaded Sample.
 
 #### `slicing_playback_mode`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-0=Mono, 1=Poly, 2=Thru. Default 0. Plain `int`, not an enum.
+Access to Simpler's slicing playback mode.
+
+#### `type`
+
+- **Type:** `DeviceType`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Return the type of the device.
+
+#### `view`
+
+- **Type:** `View`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Representing the view aspects of a device.
 
 #### `voices`
 
-- **Type:** `int` (get) · `int` (set)
+- **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Polyphony voice count. Valid values are 1, 2, 3, 4, 6, 8, 12, 16, 24, 32 (not arbitrary). Invalid values throw.
+Access to the number of voices in Simpler.
 
 ### Methods
 
-In addition to all Device methods (`save_preset_to_compare_ab_slot()`, `store_chosen_bank()`),
-SimplerDevice adds:
-
-| Method                      | Returns | Summary                                                      |
-| --------------------------- | ------- | ------------------------------------------------------------ |
-| `crop()`                    | `None`  | Crop the sample to the region between start and end markers. |
-| `guess_playback_length()`   | `float` | Estimate the playback length in beats between the markers.   |
-| `reverse()`                 | `None`  | Reverse the loaded sample.                                   |
-| `warp_as(beat_time: float)` | `None`  | Warp the active region to fit the given beat length.         |
-| `warp_double()`             | `None`  | Double the playback tempo of the active region.              |
-| `warp_half()`               | `None`  | Halve the playback tempo of the active region.               |
-
-All methods raise `InternalError` when no sample is loaded.
+| Method                                              | Returns |
+| --------------------------------------------------- | ------- |
+| [`crop()`](#crop)                                   | `None`  |
+| [`guess_playback_length()`](#guess_playback_length) | `float` |
+| [`reverse()`](#reverse)                             | `None`  |
+| [`warp_as()`](#warp_asbeat_time-float)              | `None`  |
+| [`warp_double()`](#warp_double)                     | `None`  |
+| [`warp_half()`](#warp_half)                         | `None`  |
 
 #### `crop()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Crop the sample to the region between start and end markers.
+Crop the loaded sample to the active area between start- and end marker. Calling this method on an empty simpler raises an error.
 
 #### `guess_playback_length()`
 
 - **Returns:** `float`
-- **Since:** `<11`
 
-Estimate the playback length in beats between the markers.
+Return an estimated beat time for the playback length between start- and end-marker. Calling this method on an empty simpler raises an error.
 
 #### `reverse()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Reverse the loaded sample.
+Reverse the loaded sample. Calling this method on an empty simpler raises an error.
 
 #### `warp_as(beat_time: float)`
 
 - **Returns:** `None`
 - **Args:**
-  - `beat_time: float` -- the target beat length for the active region
-- **Since:** `<11`
+  - `beat_time: float`
 
-Warp the active region to fit the given beat length.
+Warp the playback region between start- and end-marker as the given length. Calling this method on an empty simpler raises an error.
 
 #### `warp_double()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Double the playback tempo of the active region.
+Doubles the tempo for region between start- and end-marker.
 
 #### `warp_half()`
 
 - **Returns:** `None`
-- **Since:** `<11`
 
-Halve the playback tempo of the active region.
+Halves the tempo for region between start- and end-marker.
 
----
+## SimplerDevice.View (Subclass)
 
-## SimplerDevice.View
+> `Live.SimplerDevice.SimplerDevice.View`
 
-Represents the view aspects of a Simpler device. Extends Device.View with sample display
-properties for visualizing the waveform, loop region, and slices.
+Representing the view aspects of a simpler device.
+
+**Live Object:** `yes`
 
 ### Properties
 
-In addition to `is_collapsed` (inherited from Device.View):
+| Property                                      | Type            | Supports             |
+| --------------------------------------------- | --------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)       | `SimplerDevice` | `get`                |
+| [`is_collapsed`](#is_collapsed)               | `bool`          | `get`/`set`          |
+| [`sample_end`](#sample_end)                   | `int`           | `get`/`listen`       |
+| [`sample_env_fade_in`](#sample_env_fade_in)   | `int`           | `get`/`listen`       |
+| [`sample_env_fade_out`](#sample_env_fade_out) | `int`           | `get`/`listen`       |
+| [`sample_loop_end`](#sample_loop_end)         | `int`           | `get`/`listen`       |
+| [`sample_loop_fade`](#sample_loop_fade)       | `int`           | `get`/`listen`       |
+| [`sample_loop_start`](#sample_loop_start)     | `int`           | `get`/`listen`       |
+| [`sample_start`](#sample_start)               | `int`           | `get`/`listen`       |
+| [`selected_slice`](#selected_slice)           | `int`           | `get`/`set`/`listen` |
 
-| Property              | Type  | Settable | Listenable | Summary                                                      |
-| --------------------- | ----- | -------- | ---------- | ------------------------------------------------------------ |
-| `sample_end`          | `int` | no       | `yes`      | Modulated sample end position in samples. -1 if no sample.   |
-| `sample_env_fade_in`  | `int` | no       | `yes`      | Envelope fade-in time in samples. -1 if no sample.           |
-| `sample_env_fade_out` | `int` | no       | `yes`      | Envelope fade-out time in samples. -1 if no sample.          |
-| `sample_loop_end`     | `int` | no       | `yes`      | Modulated loop end position in samples. -1 if no sample.     |
-| `sample_loop_fade`    | `int` | no       | `yes`      | Modulated loop crossfade length in samples. -1 if no sample. |
-| `sample_loop_start`   | `int` | no       | `yes`      | Modulated loop start position in samples. -1 if no sample.   |
-| `sample_start`        | `int` | no       | `yes`      | Modulated sample start position in samples. -1 if no sample. |
-| `selected_slice`      | `int` | no       | `yes`      | Currently selected slice time. Errors if no sample.          |
+#### `canonical_parent`
+
+- **Type:** `SimplerDevice`
+- **Settable:** `no`
+- **Listenable:** `no`
+
+Get the canonical parent of the View.
+
+#### `is_collapsed`
+
+- **Type:** `bool`
+- **Settable:** `yes`
+- **Listenable:** `no`
+
+Get/Set/Listen if the device is shown collapsed in the device chain.
 
 #### `sample_end`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Modulated sample end position in samples. Returns `-1` if no sample is loaded.
+Access to the modulated samples end position in samples. Returns -1 in case there is no sample loaded.
 
 #### `sample_env_fade_in`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Envelope fade-in time in samples. Returns `-1` if no sample is loaded.
+Access to the envelope fade-in time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
 
 #### `sample_env_fade_out`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Envelope fade-out time in samples. Returns `-1` if no sample is loaded.
+Access to the envelope fade-out time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
 
 #### `sample_loop_end`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Modulated loop end position in samples. Returns `-1` if no sample is loaded.
+Access to the modulated samples loop end position in samples. Returns -1 in case there is no sample loaded.
 
 #### `sample_loop_fade`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Modulated loop crossfade length in samples. Returns `-1` if no sample is loaded.
+Access to the modulated samples loop fade position in samples. Returns -1 in case there is no sample loaded.
 
 #### `sample_loop_start`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Modulated loop start position in samples. Returns `-1` if no sample is loaded.
+Access to the modulated samples loop start position in samples. Returns -1 in case there is no sample loaded.
 
 #### `sample_start`
 
 - **Type:** `int`
+- **Settable:** `no`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Modulated sample start position in samples. Returns `-1` if no sample is loaded.
+Access to the modulated samples start position in samples. Returns -1 in case there is no sample loaded.
 
 #### `selected_slice`
 
 - **Type:** `int`
+- **Settable:** `yes`
 - **Listenable:** `yes`
-- **Since:** `<11`
 
-Currently selected slice time.
+Access to the selected slice.
 
-- **Quirks:**
-    - Throws `AttributeError` when no sample is loaded and Simpler is not in Slicing mode.
+## Enums
+
+### PlaybackMode
+
+> `Live.SimplerDevice.PlaybackMode`
+
+| Value | Name       |
+| ----- | ---------- |
+| `0`   | `classic`  |
+| `1`   | `one_shot` |
+| `2`   | `slicing`  |
+
+### SlicingPlaybackMode
+
+> `Live.SimplerDevice.SlicingPlaybackMode`
+
+| Value | Name   |
+| ----- | ------ |
+| `0`   | `mono` |
+| `1`   | `poly` |
+| `2`   | `thru` |
+
+## Module Functions
+
+| Function                                                        | Returns     |
+| --------------------------------------------------------------- | ----------- |
+| [`get_available_voice_numbers()`](#get_available_voice_numbers) | `IntVector` |
+
+### `get_available_voice_numbers()`
+
+- **Returns:** `IntVector`
+
+Get a vector of valid Simpler voice numbers.

@@ -19,47 +19,26 @@ from io import StringIO
 from os import makedirs
 from os.path import abspath, exists, join
 
-# Map probed runtime type names to Python type annotation strings.
-# Values not in this map are treated as class names and passed through as-is.
-_TYPE_MAP: dict[str, str] = {
-    # Primitives
-    "bool": "bool",
-    "int": "int",
-    "float": "float",
-    "str": "str",
-    "NoneType": "None",
-    # Vector types -> tuple[element, ...]
-    "Vector": "tuple",
-    "StringVector": "tuple[str, ...]",
-    "IntVector": "tuple[int, ...]",
-    "IntU64Vector": "tuple[int, ...]",
-    "FloatVector": "tuple[float, ...]",
-    "BrowserItemVector": "tuple[BrowserItem, ...]",
-    "RoutingChannelVector": "tuple[RoutingChannel, ...]",
-    "RoutingTypeVector": "tuple[RoutingType, ...]",
-    "ObjectVector": "tuple[object, ...]",
-    "UnavailableFeatureVector": "tuple[UnavailableFeature, ...]",
-    "ATimeableValueVector": "tuple[DeviceParameter, ...]",
-    "WarpMarkerVector": "tuple[WarpMarker, ...]",
-    "MidiNoteVector": "tuple[MidiNote, ...]",
-    "EnvelopeEventVector": "tuple[EnvelopeEvent, ...]",
-    "ControlDescriptionVector": "tuple[ControlDescription, ...]",
-    "BrowserItemIterator": "BrowserItemIterator",
-    "RoutingChannelLayout": "RoutingChannelLayout",
-    # Python builtins that pass through
-    "list": "list",
-    "tuple": "tuple",
-    "object": "object",
-    "dict": "dict",
-}
+_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable, Iterable\n"
 
-_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable\n"
+# Extra header for files that define Vector types (need Generic, TypeVar, Iterator)
+_VECTOR_HEADER = (
+    "from __future__ import annotations\n"
+    "from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload\n"
+    "\nT = TypeVar('T')\n"
+)
 
 # Matches capitalized identifiers that could be class/enum references in type annotations.
 _TYPE_REF_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+)\b")
 
 # Matches Boost.Python init_doc arg patterns: (type)name or (type)name=default
 _INIT_ARG_RE = re.compile(r"\((\w+)\)(\w+)(?:=([^\s\],\)]+))?")
+
+# Extracts the short class name from a repr like "<class 'Module.ClassName'>".
+_CLASS_REPR_RE = re.compile(r"<class '(?:[\w.]+\.)?(\w+)'>")
+
+# Same as above but also captures the module prefix (e.g. "Device" from "<class 'Device.View'>").
+_CLASS_REPR_MODULE_RE = re.compile(r"<class '(?:(\w+)\.)?(\w+)'>")
 
 # Names that should never appear in TYPE_CHECKING imports.
 _SKIP_NAMES = {"None", "Callable", "Any", "TYPE_CHECKING", "IO", "Exception"}
@@ -75,6 +54,8 @@ class StubGenerator:
         self._module_classes: dict[str, set[str]] = {}
         self._nested_class_parent: dict[str, str] = {}  # "View" -> "Device" (nested class -> parent)
         self._enum_lookup: dict[str, int] = {}
+        self._vector_types: set[str] = set()  # class names that are vector types
+        self._vector_element_fallback: dict[str, str] = {}  # vector class -> default element type
 
     # ------------------------------------------------------------------
     # Phase 1: Indexing
@@ -107,6 +88,20 @@ class StubGenerator:
             if node_type == "enum" and node.get("members"):
                 for mname, mval in node["members"].items():
                     self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
+
+            # Detect vector types from iterable flag on class nodes
+            # Only treat as vector if it has mutable vector methods (append/extend);
+            # read-only iterables like BrowserItemIterator are not vectors.
+            if node_type == "class":
+                if node.get("iterable"):
+                    children = node.get("children", [])
+                    if any(c.get("name") in ("append", "extend") for c in children):
+                        self._vector_types.add(name)
+                element_repr = node.get("element_repr")
+                if element_repr:
+                    m = _CLASS_REPR_RE.match(element_repr)
+                    if m:
+                        self._vector_element_fallback[name] = m.group(1)
 
             # Recurse into children
             for child in node.get("children", []):
@@ -239,9 +234,13 @@ class StubGenerator:
             body, module_name, defined_names, is_class_file=False
         )
 
+        # Use vector header if this module defines any vector types
+        has_vectors = any(n.get("name", "") in self._vector_types for n in nodes if n.get("type") == "class")
+        header = _VECTOR_HEADER if has_vectors else _HEADER
+
         out_file = join(module_dir, "__init__.pyi")
         with open(out_file, "w", encoding="utf-8") as f:
-            f.write(_HEADER)
+            f.write(header)
             if import_main:
                 f.write(f"from .{module_name} import {module_name}\n")
             if type_checking_block:
@@ -267,7 +266,12 @@ class StubGenerator:
         class_path = f"{path}.{name}" if path else name
         pad = "    " * indent
 
-        buf.write(f"\n\n{pad}class {name}:")
+        # Determine base class
+        base = self._vector_base(name, node) or self._ancestor_base(node) or self._iterable_base(node)
+        if base:
+            buf.write(f"\n\n{pad}class {name}({base}):")
+        else:
+            buf.write(f"\n\n{pad}class {name}:")
         doc = node.get("description") or node.get("raw_doc")
         has_body = False
 
@@ -278,6 +282,11 @@ class StubGenerator:
         # Render __init__ for constructable classes
         if node.get("constructable") and node.get("init_doc"):
             self._render_init(node, buf, indent + 1, containing_class=name)
+            has_body = True
+
+        # Render dunder methods for the base Vector class
+        if name == "Vector" and base == "Generic[T]":
+            self._render_vector_dunders(buf, indent + 1)
             has_body = True
 
         # Render children
@@ -334,7 +343,9 @@ class StubGenerator:
         name = node["name"]
         pad = "    " * indent
 
-        buf.write(f"\n\n{pad}class {name}:")
+        base = self._ancestor_base(node)
+        base_str = f"({base})" if base else ""
+        buf.write(f"\n\n{pad}class {name}{base_str}:")
         doc = node.get("raw_doc")
         if doc:
             self._write_docstring(doc, buf, indent + 1)
@@ -353,11 +364,14 @@ class StubGenerator:
         name = node["name"]
         pad = "    " * indent
 
-        # Build args
+        # Build args — all parameters are positional-only (Boost.Python doesn't
+        # reliably support keyword arguments for Live API methods)
         args = node.get("args", [])
         formatted_args: list[str] = []
         for arg in args:
             formatted_args.append(self._format_arg(arg))
+        if len(formatted_args) > (1 if is_method else 0):
+            formatted_args.append("/")
 
         args_str = ", ".join(formatted_args)
 
@@ -388,6 +402,24 @@ class StubGenerator:
             )
             if probed_type else None
         )
+
+        # For generic vector bases (Vector, ObjectVector), parameterize with the
+        # property's element type. For specialized vectors (MidiNoteVector), keep the
+        # concrete class name — the class def already extends Vector[T].
+        _GENERIC_VECTORS = {"Vector", "ObjectVector"}
+        if type_str and type_str in _GENERIC_VECTORS:
+            element_repr = node.get("element_repr")
+            if element_repr:
+                elem = self._resolve_element_repr(element_repr, containing_class)
+                if elem:
+                    type_str = f"Vector[{elem}]"
+
+        if type_str in ("tuple", "list"):
+            element_repr = node.get("element_repr")
+            if element_repr:
+                elem = self._resolve_element_repr(element_repr, containing_class)
+                if elem:
+                    type_str = f"tuple[{elem}, ...]" if type_str == "tuple" else f"list[{elem}]"
 
         # Getter
         ret_annotation = f" -> {type_str}" if type_str else ""
@@ -422,11 +454,12 @@ class StubGenerator:
         buf.write(f'\n{pad}{name}: str = "{value}"')
 
     def _render_type_node(self, node: dict, buf: StringIO, indent: int) -> None:
-        """Render a type node (e.g. LimitationError as an Exception subclass)."""
+        """Render a type node (e.g. LimitationError)."""
         name = node["name"]
         pad = "    " * indent
-
-        buf.write(f"\n\n{pad}class {name}(Exception): ...")
+        base = self._ancestor_base(node)
+        base_str = f"({base})" if base else ""
+        buf.write(f"\n\n{pad}class {name}{base_str}: ...")
 
     def _render_children(
         self, children: list[dict], buf: StringIO, indent: int, path: str = "",
@@ -468,7 +501,7 @@ class StubGenerator:
         """
         if not probed_type:
             return "None"
-        resolved = _TYPE_MAP.get(probed_type, probed_type)
+        resolved = "None" if probed_type == "NoneType" else probed_type
         if resolved in self._nested_class_parent:
             # Extract parent from probed_repr if available (e.g. "<class 'Device.View'>" -> "Device")
             parent = None
@@ -591,6 +624,69 @@ class StubGenerator:
             if not child.get("ref"):
                 names.update(self._collect_defined_names(child))
         return names
+
+    def _render_vector_dunders(self, buf: StringIO, indent: int) -> None:
+        """Render dunder methods for the base Vector(Generic[T]) class."""
+        pad = "    " * indent
+        buf.write(f"\n\n{pad}def __iter__(self) -> Iterator[T]: ...")
+        buf.write(f"\n\n{pad}@overload")
+        buf.write(f"\n{pad}def __getitem__(self, index: int) -> T: ...")
+        buf.write(f"\n\n{pad}@overload")
+        buf.write(f"\n{pad}def __getitem__(self, index: slice) -> Vector[T]: ...")
+        buf.write(f"\n\n{pad}def __getitem__(self, index: int | slice) -> T | Vector[T]: ...")
+        buf.write(f"\n\n{pad}def __len__(self) -> int: ...")
+        buf.write(f"\n\n{pad}def __contains__(self, value: object) -> bool: ...")
+        buf.write(f"\n\n{pad}def __bool__(self) -> bool: ...")
+
+    def _ancestor_base(self, node: dict) -> str:
+        """Return the direct parent class from ancestors, or empty string."""
+        ancestors = node.get("ancestors", [])
+        if not ancestors:
+            return ""
+        # First ancestor is the direct parent; skip Boost.Python.instance (equivalent to object)
+        parent_repr = ancestors[0]
+        if "Boost.Python.instance" in parent_repr:
+            return ""
+        if "Boost.Python.enum" in parent_repr:
+            return "int"
+        m = _CLASS_REPR_MODULE_RE.match(parent_repr)
+        if not m:
+            return ""
+        parent_module, parent_class = m.group(1), m.group(2)
+        # Qualify with module when the parent class name matches the current class name
+        # (e.g. Device.View → "Device.View" not "View" which would be self-referential)
+        if parent_class == node.get("name") and parent_module:
+            return f"{parent_module}.{parent_class}"
+        return parent_class
+
+    def _resolve_element_repr(self, element_repr: str, containing_class: str = "") -> str | None:
+        """Extract and resolve a type name from an element_repr string like "<class 'Module.Name'>"."""
+        m = _CLASS_REPR_RE.match(element_repr)
+        if not m:
+            return None
+        return self._resolve_probed_type(m.group(1), containing_class=containing_class, probed_repr=element_repr)
+
+    def _iterable_base(self, node: dict) -> str:
+        """Return Iterable[T] for non-vector iterable classes, or empty string."""
+        if not node.get("iterable"):
+            return ""
+        element_repr = node.get("element_repr")
+        if not element_repr:
+            return "Iterable"
+        elem = self._resolve_element_repr(element_repr)
+        return f"Iterable[{elem}]" if elem else "Iterable"
+
+    def _vector_base(self, name: str, node: dict) -> str:
+        """Return the base class string for vector types, or empty string for non-vectors."""
+        if name not in self._vector_types:
+            return ""
+        if name == "Vector":
+            return "Generic[T]"
+        # Specialized vector: derive element type from fallback map (built during indexing)
+        elem = self._vector_element_fallback.get(name)
+        if elem:
+            return f"Vector[{elem}]"
+        return "Vector"
 
     def _write_docstring(self, doc: str, buf: StringIO, indent: int) -> None:
         """Write a docstring at the given indent level."""

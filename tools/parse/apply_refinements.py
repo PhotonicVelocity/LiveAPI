@@ -16,10 +16,10 @@ from copy import deepcopy
 from os.path import exists, join
 
 
-def apply(tree: dict, refinements: dict) -> dict:
+def apply(tree: dict, refinements: dict) -> tuple[dict, dict[str, int]]:
     """Apply refinements to a deep copy of the tree. Returns the modified tree."""
     tree = deepcopy(tree)
-    stats = {"arg_name": 0, "arg_type": 0, "return_type": 0, "property_type": 0}
+    stats = {"arg_name": 0, "arg_type": 0, "return_type": 0, "property_type": 0, "element_type": 0}
 
     def walk(node: dict, path: str) -> None:
         if node.get("ref"):
@@ -35,6 +35,8 @@ def apply(tree: dict, refinements: dict) -> dict:
                 _apply_function(node, ref, stats)
             elif node_type == "property":
                 _apply_property(node, ref, stats)
+            elif node_type == "class":
+                _apply_class(node, ref, stats)
 
         for child in node.get("children", []):
             if child is not None:
@@ -45,6 +47,9 @@ def apply(tree: dict, refinements: dict) -> dict:
         for child in module.get("children", []):
             if child is not None:
                 walk(child, module_path)
+
+    # Propagate class-level element_repr to properties that return those classes
+    _propagate_element_repr(tree, stats)
 
     return tree, stats
 
@@ -74,10 +79,53 @@ def _apply_function(node: dict, ref: dict, stats: dict) -> None:
 
 
 def _apply_property(node: dict, ref: dict, stats: dict) -> None:
-    """Apply probed_type refinement to a property node."""
+    """Apply probed_type or element_repr refinement to a property node."""
     if "probed_type" in ref:
         node["probed_type"] = ref["probed_type"]
         stats["property_type"] += 1
+    if "element_repr" in ref:
+        node["element_repr"] = ref["element_repr"]
+        stats["element_type"] += 1
+
+
+def _apply_class(node: dict, ref: dict, stats: dict) -> None:
+    """Apply element_repr refinement to a class node."""
+    if "element_repr" in ref:
+        saved_children = node.pop("children", None)
+        node["element_repr"] = ref["element_repr"]
+        if saved_children is not None:
+            node["children"] = saved_children
+        stats["element_type"] += 1
+
+
+def _propagate_element_repr(tree: dict, stats: dict) -> None:
+    """Propagate element_repr from class nodes to properties that return those classes."""
+    # Build map: class name -> element_repr (skip LomObject — it means the
+    # class holds heterogeneous types and isn't useful for individual properties)
+    class_element: dict[str, str] = {}
+    for module in tree.get("children", []):
+        for node in module.get("children", []):
+            if node.get("type") == "class" and node.get("element_repr"):
+                if "LomObject" not in node["element_repr"]:
+                    class_element[node["name"]] = node["element_repr"]
+
+    if not class_element:
+        return
+
+    # Stamp onto properties whose probed_type matches
+    def walk(node: dict) -> None:
+        if node.get("type") == "property" and not node.get("element_repr"):
+            elem = class_element.get(node.get("probed_type", ""))
+            if elem:
+                node["element_repr"] = elem
+                stats["element_type"] += 1
+        for child in node.get("children", []):
+            if child is not None:
+                walk(child)
+
+    for module in tree.get("children", []):
+        for node in module.get("children", []):
+            walk(node)
 
 
 def main():

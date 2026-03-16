@@ -1,41 +1,42 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.LomObject import LomObject
     from Live.MaxDevice import MaxDevice
-    from Live.Track import RoutingChannel, RoutingType
+    from Live.Track import RoutingChannel, RoutingChannelVector, RoutingType, RoutingTypeVector
 
 
 
-class DeviceIO:
+class DeviceIO(LomObject):
     """This class represents a specific input or output bus of a device."""
 
     @property
     def _live_ptr(self) -> int:
         ...
 
-    def add_available_routing_channels_listener(self, callback: Callable | None) -> None:
+    def add_available_routing_channels_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_routing_channels" has changed.
         """
         ...
 
-    def add_available_routing_types_listener(self, callback: Callable | None) -> None:
+    def add_available_routing_types_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "available_routing_types" has changed.
         """
         ...
 
-    def add_routing_channel_listener(self, callback: Callable | None) -> None:
+    def add_routing_channel_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "routing_channel" has changed.
         """
         ...
 
-    def add_routing_type_listener(self, callback: Callable | None) -> None:
+    def add_routing_type_listener(self, callback: Callable | None, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "routing_type" has changed.
@@ -43,11 +44,11 @@ class DeviceIO:
         ...
 
     @property
-    def available_routing_channels(self) -> tuple[RoutingChannel, ...]:
+    def available_routing_channels(self) -> RoutingChannelVector:
         """Return a list of channels for this IO endpoint."""
         ...
 
-    def available_routing_channels_has_listener(self, callback: Callable | None) -> bool:
+    def available_routing_channels_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_routing_channels".
@@ -55,11 +56,11 @@ class DeviceIO:
         ...
 
     @property
-    def available_routing_types(self) -> tuple[RoutingType, ...]:
+    def available_routing_types(self) -> RoutingTypeVector:
         """Return a list of available routing types for this IO endpoint."""
         ...
 
-    def available_routing_types_has_listener(self, callback: Callable | None) -> bool:
+    def available_routing_types_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "available_routing_types".
@@ -79,28 +80,28 @@ class DeviceIO:
     @default_external_routing_channel_is_none.setter
     def default_external_routing_channel_is_none(self, value: bool) -> None: ...
 
-    def remove_available_routing_channels_listener(self, callback: Callable | None) -> None:
+    def remove_available_routing_channels_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "available_routing_channels".
         """
         ...
 
-    def remove_available_routing_types_listener(self, callback: Callable | None) -> None:
+    def remove_available_routing_types_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "available_routing_types".
         """
         ...
 
-    def remove_routing_channel_listener(self, callback: Callable | None) -> None:
+    def remove_routing_channel_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "routing_channel".
         """
         ...
 
-    def remove_routing_type_listener(self, callback: Callable | None) -> None:
+    def remove_routing_type_listener(self, callback: Callable | None, /) -> None:
         """
         Remove a previously set listener function or method from
         property "routing_type".
@@ -119,7 +120,7 @@ class DeviceIO:
     @routing_channel.setter
     def routing_channel(self, value: RoutingChannel) -> None: ...
 
-    def routing_channel_has_listener(self, callback: Callable | None) -> bool:
+    def routing_channel_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "routing_channel".
@@ -138,7 +139,7 @@ class DeviceIO:
     @routing_type.setter
     def routing_type(self, value: RoutingType) -> None: ...
 
-    def routing_type_has_listener(self, callback: Callable | None) -> bool:
+    def routing_type_has_listener(self, callback: Callable | None, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "routing_type".
