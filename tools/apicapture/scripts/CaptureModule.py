@@ -104,6 +104,12 @@ def _walk(obj, seen: set[int]) -> dict:
                 child["values"] = repr(getattr(member, "values", None))
             except Exception:
                 pass
+            try:
+                bases = member.__bases__
+                if bases and bases != (object,):
+                    child["bases"] = [repr(b) for b in bases]
+            except Exception:
+                pass
             children.append(child)
         elif inspect.ismodule(member) or inspect.isclass(member) or inspect.isbuiltin(member) or inspect.isfunction(member):
             child = _walk(member, seen)

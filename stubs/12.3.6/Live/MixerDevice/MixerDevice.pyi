@@ -62,7 +62,7 @@ class MixerDevice(LomObject):
         """
         ...
 
-    class crossfade_assignments:
+    class crossfade_assignments(int):
         A: int = 0
         NONE: int = 1
         B: int = 2
@@ -102,7 +102,7 @@ class MixerDevice(LomObject):
         """
         ...
 
-    class panning_modes:
+    class panning_modes(int):
         stereo: int = 0
         stereo_split: int = 1
 

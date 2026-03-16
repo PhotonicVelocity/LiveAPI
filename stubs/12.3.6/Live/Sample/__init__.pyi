@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .Sample import Sample
 
 
-class SlicingBeatDivision:
+class SlicingBeatDivision(int):
     sixteenth: int = 0
     sixteenth_triplett: int = 1
     eighth: int = 2
@@ -16,13 +16,13 @@ class SlicingBeatDivision:
     two_bars: int = 9
     four_bars: int = 10
 
-class SlicingStyle:
+class SlicingStyle(int):
     transient: int = 0
     beat: int = 1
     region: int = 2
     manual: int = 3
 
-class TransientLoopMode:
+class TransientLoopMode(int):
     off: int = 0
     forward: int = 1
     alternate: int = 2

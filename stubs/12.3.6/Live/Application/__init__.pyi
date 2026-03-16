@@ -137,7 +137,7 @@ class ControlSurfaceProxy:
     def unsubscribe_from_control(self, control: int | None) -> None:
         ...
 
-class MessageButtons:
+class MessageButtons(int):
     """Specifies the characteristics of the message box, e.g. which buttons to show."""
     OK_BUTTON: int = 0
     OK_NEW_SET_BUTTON: int = 1
@@ -146,13 +146,13 @@ class MessageButtons:
     OK_ACCOUNT_BUTTON: int = 4
     OK_PURCHASE_BUTTON: int = 5
 
-class PushDialogType:
+class PushDialogType(int):
     """Specifies the dialog type for Push."""
     MESSAGE_BOX: int = 0
     OUT_OF_UNLOCKS_DIALOG: int = 5
     RENT_TO_OWN_LICENSE_EXPIRED_DIALOG: int = 7
 
-class UnavailableFeature:
+class UnavailableFeature(int):
     note_velocity_ranges_and_probabilities: int = 0
 
 class UnavailableFeatureVector(Vector[UnavailableFeature]):

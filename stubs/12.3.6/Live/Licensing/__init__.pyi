@@ -111,7 +111,7 @@ class StartupDialog:
     def set_notification_message(self, notification_text: str | None, show_progress_bar: bool | None) -> None:
         ...
 
-class TrialContext:
+class TrialContext(int):
     SAVE: int = 0
     FORCE_UPDATE: int = 2
     STARTUP: int = 3

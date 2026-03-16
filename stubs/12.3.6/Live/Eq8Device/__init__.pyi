@@ -3,11 +3,11 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .Eq8Device import Eq8Device
 
 
-class EditMode:
+class EditMode(int):
     a: int = 0
     b: int = 1
 
-class GlobalMode:
+class GlobalMode(int):
     stereo: int = 0
     left_right: int = 1
     mid_side: int = 2

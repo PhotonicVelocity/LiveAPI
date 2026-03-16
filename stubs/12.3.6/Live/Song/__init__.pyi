@@ -40,13 +40,13 @@ class BeatTime:
     @ticks.setter
     def ticks(self, value: int) -> None: ...
 
-class CaptureDestination:
+class CaptureDestination(int):
     """The destination for MIDI capture."""
     auto: int = 0
     session: int = 1
     arrangement: int = 2
 
-class CaptureMode:
+class CaptureMode(int):
     """The capture mode that is used for capture and insert scene."""
     all: int = 0
     all_except_selected: int = 1
@@ -126,7 +126,7 @@ class CuePoint(LomObject):
         """
         ...
 
-class Quantization:
+class Quantization(int):
     q_no_q: int = 0
     q_8_bars: int = 1
     q_4_bars: int = 2
@@ -142,7 +142,7 @@ class Quantization:
     q_sixtenth_triplet: int = 12
     q_thirtytwoth: int = 13
 
-class RecordingQuantization:
+class RecordingQuantization(int):
     rec_q_no_q: int = 0
     rec_q_quarter: int = 1
     rec_q_eight: int = 2
@@ -153,7 +153,7 @@ class RecordingQuantization:
     rec_q_sixtenth_sixtenth_triplet: int = 7
     rec_q_thirtysecond: int = 8
 
-class SessionRecordStatus:
+class SessionRecordStatus(int):
     off: int = 0
     on: int = 1
     transition: int = 2
@@ -195,7 +195,7 @@ class SmptTime:
     @seconds.setter
     def seconds(self, value: int) -> None: ...
 
-class TimeFormat:
+class TimeFormat(int):
     ms_time: int = 0
     smpte_24: int = 1
     smpte_25: int = 2

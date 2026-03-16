@@ -18,7 +18,7 @@ class ATimeableValueVector(Vector[DeviceParameter]):
     def extend(self, values: Iterable[DeviceParameter] | None) -> None:
         ...
 
-class DeviceType:
+class DeviceType(int):
     """The type of the device."""
     undefined: int = 0
     instrument: int = 1

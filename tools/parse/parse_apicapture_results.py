@@ -266,7 +266,7 @@ def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 
     def _collect_bases(node: TreeNode) -> None:
         if isinstance(node, dict):
-            if node.get("type") == "class" and not node.get("ref"):
+            if node.get("type") in ("class", "enum", "type") and not node.get("ref"):
                 bases = node.get("bases")
                 r = node.get("repr")
                 if bases and r:
@@ -301,7 +301,7 @@ def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     # Pass 2: replace bases with full ancestor chain on class nodes, keeping children last
     def _stamp_ancestors(node: TreeNode) -> None:
         if isinstance(node, dict):
-            if node.get("type") == "class":
+            if node.get("type") in ("class", "enum", "type"):
                 r = node.get("repr")
                 node.pop("bases", None)
                 saved_children = node.pop("children", None)

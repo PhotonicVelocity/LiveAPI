@@ -1039,7 +1039,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    class monitoring_states:
+    class monitoring_states(int):
         IN: int = 0
         AUTO: int = 1
         OFF: int = 2

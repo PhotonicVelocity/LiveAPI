@@ -333,7 +333,9 @@ class StubGenerator:
         name = node["name"]
         pad = "    " * indent
 
-        buf.write(f"\n\n{pad}class {name}:")
+        base = self._ancestor_base(node)
+        base_str = f"({base})" if base else ""
+        buf.write(f"\n\n{pad}class {name}{base_str}:")
         doc = node.get("raw_doc")
         if doc:
             self._write_docstring(doc, buf, indent + 1)
@@ -447,11 +449,12 @@ class StubGenerator:
         buf.write(f'\n{pad}{name}: str = "{value}"')
 
     def _render_type_node(self, node: dict, buf: StringIO, indent: int) -> None:
-        """Render a type node (e.g. LimitationError as an Exception subclass)."""
+        """Render a type node (e.g. LimitationError)."""
         name = node["name"]
         pad = "    " * indent
-
-        buf.write(f"\n\n{pad}class {name}(Exception): ...")
+        base = self._ancestor_base(node)
+        base_str = f"({base})" if base else ""
+        buf.write(f"\n\n{pad}class {name}{base_str}: ...")
 
     def _render_children(
         self, children: list[dict], buf: StringIO, indent: int, path: str = "",
@@ -637,8 +640,10 @@ class StubGenerator:
             return ""
         # First ancestor is the direct parent; skip Boost.Python.instance (equivalent to object)
         parent_repr = ancestors[0]
-        if "Boost.Python" in parent_repr:
+        if "Boost.Python.instance" in parent_repr:
             return ""
+        if "Boost.Python.enum" in parent_repr:
+            return "int"
         m = re.match(r"<class '(?:(\w+)\.)?(\w+)'>", parent_repr)
         if not m:
             return ""

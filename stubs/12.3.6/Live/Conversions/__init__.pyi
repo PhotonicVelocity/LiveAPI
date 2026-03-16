@@ -10,7 +10,7 @@ if TYPE_CHECKING:
 
 
 
-class AudioToMidiType:
+class AudioToMidiType(int):
     harmony_to_midi: int = 0
     melody_to_midi: int = 1
     drums_to_midi: int = 2

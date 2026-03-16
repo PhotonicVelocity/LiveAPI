@@ -9,7 +9,7 @@ if TYPE_CHECKING:
 
 
 
-class ClipLaunchQuantization:
+class ClipLaunchQuantization(int):
     q_global: int = 0
     q_none: int = 1
     q_8_bars: int = 2
@@ -26,7 +26,7 @@ class ClipLaunchQuantization:
     q_sixteenth_triplet: int = 13
     q_thirtysecond: int = 14
 
-class GridQuantization:
+class GridQuantization(int):
     no_grid: int = 0
     g_8_bars: int = 1
     g_4_bars: int = 2
@@ -39,7 +39,7 @@ class GridQuantization:
     g_thirtysecond: int = 9
     count: int = 10
 
-class LaunchMode:
+class LaunchMode(int):
     trigger: int = 0
     gate: int = 1
     toggle: int = 2
@@ -153,7 +153,7 @@ class WarpMarkerVector(Vector[WarpMarker]):
     def extend(self, values: Iterable[WarpMarker] | None) -> None:
         ...
 
-class WarpMode:
+class WarpMode(int):
     beats: int = 0
     tones: int = 1
     texture: int = 2

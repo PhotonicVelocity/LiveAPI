@@ -7,12 +7,12 @@ if TYPE_CHECKING:
 
 
 
-class PlaybackMode:
+class PlaybackMode(int):
     classic: int = 0
     one_shot: int = 1
     slicing: int = 2
 
-class SlicingPlaybackMode:
+class SlicingPlaybackMode(int):
     mono: int = 0
     poly: int = 1
     thru: int = 2

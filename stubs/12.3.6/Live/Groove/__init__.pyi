@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .Groove import Groove
 
 
-class Base:
+class Base(int):
     gb_four: int = 0
     gb_eight: int = 1
     gb_eight_triplet: int = 2

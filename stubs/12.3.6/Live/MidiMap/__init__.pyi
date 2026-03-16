@@ -46,7 +46,7 @@ class CCFeedbackRule:
     @enabled.setter
     def enabled(self, value: bool) -> None: ...
 
-class MapMode:
+class MapMode(int):
     absolute: int = 0
     relative_signed_bit: int = 1
     relative_binary_offset: int = 2

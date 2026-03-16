@@ -82,4 +82,12 @@ Done — added `_ancestor_base()` in `generate_stubs.py` that reads the `ancesto
 Uses the first ancestor (direct parent), skipping `Boost.Python.instance`. Qualifies with module name
 when the parent class name matches the current class (e.g. `Device.View` not self-referential `View`).
 
-## 11. `BrowserItemIterator` gets inheritance from `Vector[BrowserItem]`
+## ~~11. Enums and type nodes missing inheritance in stubs~~ ✓
+
+Done — added `bases` capture for enums in `CaptureModule.py` (same pattern as regular classes).
+Updated `resolve_inheritance` in `parse_apicapture_results.py` to process `enum` and `type` nodes
+(not just `class`). Updated `_ancestor_base()` in `generate_stubs.py` to map `Boost.Python.enum` → `int`.
+Removed hardcoded `Exception` from `_render_type_node` — now uses ancestor data.
+Result: enums render as `class FilterType(int):`, `LimitationError` renders as `class LimitationError(Exception):`.
+
+## 12. `BrowserItemIterator` gets inheritance from `Vector[BrowserItem]`

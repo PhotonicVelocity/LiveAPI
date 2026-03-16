@@ -18,7 +18,7 @@ class DeviceContainer(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-class DeviceInsertMode:
+class DeviceInsertMode(int):
     default: int = 0
     selected_left: int = 1
     selected_right: int = 2
@@ -37,7 +37,7 @@ class RoutingChannel:
         """The routing channel's Layout, e.g., mono or stereo."""
         ...
 
-class RoutingChannelLayout:
+class RoutingChannelLayout(int):
     midi: int = 0
     mono: int = 1
     stereo: int = 2
@@ -69,7 +69,7 @@ class RoutingType:
         """Display name of routing type."""
         ...
 
-class RoutingTypeCategory:
+class RoutingTypeCategory(int):
     external: int = 0
     rewire: int = 1
     resampling: int = 2

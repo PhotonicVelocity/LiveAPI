@@ -69,7 +69,7 @@ class BrowserItemVector(Vector[BrowserItem]):
     def extend(self, values: Iterable[BrowserItem] | None) -> None:
         ...
 
-class FilterType:
+class FilterType(int):
     disabled: int = -1
     hotswap_off: int = 0
     instrument_hotswap: int = 1
@@ -80,7 +80,7 @@ class FilterType:
     samples: int = 6
     count: int = 7
 
-class Relation:
+class Relation(int):
     ancestor: int = 0
     equal: int = 1
     descendant: int = 2

@@ -16,7 +16,7 @@ class Application(LomObject):
     class View(LomObject):
         """This class represents the view aspects of the Live application."""
 
-        class NavDirection:
+        class NavDirection(int):
             up: int = 0
             down: int = 1
             left: int = 2

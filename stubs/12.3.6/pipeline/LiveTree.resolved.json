@@ -44,6 +44,9 @@
                     "id": 42703995920,
                     "repr": "<class 'Application.NavDirection'>",
                     "raw_doc": null,
+                    "ancestors": [
+                      "<class 'Boost.Python.enum'>"
+                    ],
                     "members": {
                       "up": 0,
                       "down": 1,
@@ -2084,6 +2087,9 @@
             "id": 42703985680,
             "repr": "<class 'Application.MessageButtons'>",
             "raw_doc": "Specifies the characteristics of the message box, e.g. which buttons to show.",
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "OK_BUTTON": 0,
               "OK_NEW_SET_BUTTON": 1,
@@ -2099,6 +2105,9 @@
             "id": 42703986704,
             "repr": "<class 'Application.PushDialogType'>",
             "raw_doc": "Specifies the dialog type for Push.",
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "MESSAGE_BOX": 0,
               "OUT_OF_UNLOCKS_DIALOG": 5,
@@ -2111,6 +2120,9 @@
             "id": 42703987728,
             "repr": "<class 'Application.UnavailableFeature'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "note_velocity_ranges_and_probabilities": 0
             }
@@ -2198,37 +2210,37 @@
               {
                 "name": "BETA",
                 "type": "str",
-                "id": 4968258736,
+                "id": 4968083184,
                 "value": "'Beta'"
               },
               {
                 "name": "INTRO",
                 "type": "str",
-                "id": 4968259056,
+                "id": 4968085104,
                 "value": "'Intro'"
               },
               {
                 "name": "LITE",
                 "type": "str",
-                "id": 4968259184,
+                "id": 4968085232,
                 "value": "'Lite'"
               },
               {
                 "name": "STANDARD",
                 "type": "str",
-                "id": 4968259760,
+                "id": 4968077424,
                 "value": "'Standard'"
               },
               {
                 "name": "SUITE",
                 "type": "str",
-                "id": 4968253680,
+                "id": 4968075312,
                 "value": "'Suite'"
               },
               {
                 "name": "TRIAL",
                 "type": "str",
-                "id": 4968260912,
+                "id": 4968077936,
                 "value": "'Trial'"
               }
             ]
@@ -2565,7 +2577,10 @@
             "repr": "<class 'Live.Base.LimitationError'>",
             "raw_doc": null,
             "names": "None",
-            "values": "None"
+            "values": "None",
+            "ancestors": [
+              "<class 'Exception'>"
+            ]
           },
           {
             "name": "ObjectVector",
@@ -3686,6 +3701,9 @@
             "id": 42704003088,
             "repr": "<class 'Browser.FilterType'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "disabled": -1,
               "hotswap_off": 0,
@@ -3704,6 +3722,9 @@
             "id": 42704002064,
             "repr": "<class 'Browser.Relation'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "ancestor": 0,
               "equal": 1,
@@ -10781,6 +10802,9 @@
             "id": 42704118800,
             "repr": "<class 'Clip.ClipLaunchQuantization'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "q_global": 0,
               "q_none": 1,
@@ -10805,6 +10829,9 @@
             "id": 42704115728,
             "repr": "<class 'Clip.GridQuantization'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "no_grid": 0,
               "g_8_bars": 1,
@@ -10825,6 +10852,9 @@
             "id": 42704117776,
             "repr": "<class 'Clip.LaunchMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "trigger": 0,
               "gate": 1,
@@ -11103,6 +11133,9 @@
             "id": 42704116752,
             "repr": "<class 'Clip.WarpMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "beats": 0,
               "complex": 4,
@@ -11996,6 +12029,9 @@
             "id": 42704113680,
             "repr": "<class 'ClipSlot.ClipSlotPlayingState'>",
             "raw_doc": "",
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "stopped": 0,
               "started": 1,
@@ -12680,6 +12716,9 @@
             "id": 42703996944,
             "repr": "<class 'Conversions.AudioToMidiType'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "harmony_to_midi": 0,
               "melody_to_midi": 1,
@@ -13764,6 +13803,9 @@
             "id": 42704028688,
             "repr": "<class 'Device.DeviceType'>",
             "raw_doc": "The type of the device.",
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "undefined": 0,
               "instrument": 1,
@@ -14196,6 +14238,9 @@
             "id": 42704074768,
             "repr": "<class 'DeviceParameter.AutomationState'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "none": 0,
               "playing": 1,
@@ -14842,6 +14887,9 @@
             "id": 42704075792,
             "repr": "<class 'DeviceParameter.ParameterState'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "enabled": 0,
               "irrelevant": 1,
@@ -18386,6 +18434,9 @@
             "id": 42704036880,
             "repr": "<class 'Eq8Device.EditMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "a": 0,
               "b": 1
@@ -19094,6 +19145,9 @@
             "id": 42704035856,
             "repr": "<class 'Eq8Device.GlobalMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "stereo": 0,
               "left_right": 1,
@@ -19115,6 +19169,9 @@
             "id": 42704039952,
             "repr": "<class 'Groove.Base'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "gb_four": 0,
               "gb_eight": 1,
@@ -21284,6 +21341,9 @@
             "id": 42704288784,
             "repr": "<class 'Licensing.TrialContext'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "SAVE": 0,
               "FORCE_UPDATE": 2,
@@ -24108,6 +24168,9 @@
             "id": 42704284688,
             "repr": "<class 'MidiMap.MapMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "absolute": 0,
               "relative_signed_bit": 1,
@@ -24823,6 +24886,9 @@
                 "id": 42704071696,
                 "repr": "<class 'MixerDevice.crossfade_assignments'>",
                 "raw_doc": null,
+                "ancestors": [
+                  "<class 'Boost.Python.enum'>"
+                ],
                 "members": {
                   "A": 0,
                   "NONE": 1,
@@ -24906,6 +24972,9 @@
                 "id": 42704072720,
                 "repr": "<class 'MixerDevice.panning_modes'>",
                 "raw_doc": null,
+                "ancestors": [
+                  "<class 'Boost.Python.enum'>"
+                ],
                 "members": {
                   "stereo": 0,
                   "stereo_split": 1
@@ -29957,6 +30026,9 @@
             "id": 42704098320,
             "repr": "<class 'Sample.SlicingBeatDivision'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "sixteenth": 0,
               "sixteenth_triplett": 1,
@@ -29977,6 +30049,9 @@
             "id": 42704097296,
             "repr": "<class 'Sample.SlicingStyle'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "transient": 0,
               "beat": 1,
@@ -29990,6 +30065,9 @@
             "id": 42704096272,
             "repr": "<class 'Sample.TransientLoopMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "off": 0,
               "forward": 1,
@@ -31527,6 +31605,9 @@
             "id": 42704100368,
             "repr": "<class 'SimplerDevice.PlaybackMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "classic": 0,
               "one_shot": 1,
@@ -33971,6 +34052,9 @@
             "id": 42704101392,
             "repr": "<class 'SimplerDevice.SlicingPlaybackMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "mono": 0,
               "poly": 1,
@@ -34052,6 +34136,9 @@
             "id": 42704005136,
             "repr": "<class 'Song.CaptureDestination'>",
             "raw_doc": "The destination for MIDI capture.",
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "auto": 0,
               "session": 1,
@@ -34064,6 +34151,9 @@
             "id": 42704004112,
             "repr": "<class 'Song.CaptureMode'>",
             "raw_doc": "The capture mode that is used for capture and insert scene.",
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "all": 0,
               "all_except_selected": 1
@@ -34305,6 +34395,9 @@
             "id": 42704011280,
             "repr": "<class 'Song.Quantization'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "q_no_q": 0,
               "q_8_bars": 1,
@@ -34328,6 +34421,9 @@
             "id": 42704012304,
             "repr": "<class 'Song.RecordingQuantization'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "rec_q_no_q": 0,
               "rec_q_quarter": 1,
@@ -34346,6 +34442,9 @@
             "id": 42704007184,
             "repr": "<class 'Song.SessionRecordStatus'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "off": 0,
               "transition": 2,
@@ -40523,6 +40622,9 @@
             "id": 42704013328,
             "repr": "<class 'Song.TimeFormat'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "ms_time": 0,
               "smpte_24": 1,
@@ -42248,6 +42350,9 @@
             "id": 42704024592,
             "repr": "<class 'Track.DeviceInsertMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "default": 0,
               "selected_left": 1,
@@ -42291,6 +42396,9 @@
             "id": 42704021520,
             "repr": "<class 'Track.RoutingChannelLayout'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "mono": 1,
               "stereo": 2,
@@ -42410,6 +42518,9 @@
             "id": 42704018448,
             "repr": "<class 'Track.RoutingTypeCategory'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "external": 0,
               "rewire": 1,
@@ -45623,6 +45734,9 @@
                 "id": 42704026640,
                 "repr": "<class 'Track.monitoring_states'>",
                 "raw_doc": null,
+                "ancestors": [
+                  "<class 'Boost.Python.enum'>"
+                ],
                 "members": {
                   "IN": 0,
                   "AUTO": 1,
@@ -48029,6 +48143,9 @@
             "id": 42704060432,
             "repr": "<class 'WavetableDevice.EffectMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "none": 0,
               "frequency_modulation": 1,
@@ -48042,6 +48159,9 @@
             "id": 42704064528,
             "repr": "<class 'WavetableDevice.FilterRouting'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "serial": 0,
               "parallel": 1,
@@ -48054,6 +48174,9 @@
             "id": 42704043024,
             "repr": "<class 'WavetableDevice.ModulationSource'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "amp_envelope": 0,
               "envelope_2": 1,
@@ -48074,6 +48197,9 @@
             "id": 42704061456,
             "repr": "<class 'WavetableDevice.UnisonMode'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "none": 0,
               "classic": 1,
@@ -48090,6 +48216,9 @@
             "id": 42704063504,
             "repr": "<class 'WavetableDevice.VoiceCount'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "two": 0,
               "three": 1,
@@ -48106,6 +48235,9 @@
             "id": 42704062480,
             "repr": "<class 'WavetableDevice.Voicing'>",
             "raw_doc": null,
+            "ancestors": [
+              "<class 'Boost.Python.enum'>"
+            ],
             "members": {
               "mono": 0,
               "poly": 1

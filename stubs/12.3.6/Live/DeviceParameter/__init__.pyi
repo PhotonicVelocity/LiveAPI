@@ -3,12 +3,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 from .DeviceParameter import DeviceParameter
 
 
-class AutomationState:
+class AutomationState(int):
     none: int = 0
     playing: int = 1
     overridden: int = 2
 
-class ParameterState:
+class ParameterState(int):
     enabled: int = 0
     irrelevant: int = 1
     disabled: int = 2
