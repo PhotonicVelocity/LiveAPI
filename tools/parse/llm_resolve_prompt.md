@@ -115,9 +115,13 @@ four fields: `name`, `name_reason`, `type`, `type_reason`. Providing only some i
 ### General:
 
 - Use Python type names: `str`, `bool`, `int`, `float`, `Callable`, `Any`, `list[X]`, `tuple[X, ...]`.
+- Avoid shadowing Python builtins like `format` or `type` when naming args.
+- For boolean state args, use adjective names (e.g. `enabled` instead of `enable`)
 - For `element_repr` fields, use the `<class '...'>` repr format (e.g. `<class 'Track.Track'>`), NOT
   Python type names. This matches the repr format used throughout the parsed tree.
-- Always parameterize container types when the element type is known: `list[int]` not bare `list`.
+- Always parameterize container types when the element type is known: `list[int]` not bare `list`. 
+  Prefer `Iterable[X]` for function args that accept any iterable, and `list[X]` for properties that
+  return a list.
 - **Vector `extend` args must use `Iterable[T]`.** The `extend` method on Vector classes accepts an
   iterable of elements, not a single element. If `append` takes `MidiNote`, then `extend` takes
   `Iterable[MidiNote]`. Never use a bare element type for an `extend` argument.

@@ -5,7 +5,7 @@
       "args": {
         "arg2": {
           "name": "view_name",
-          "name_reason": "MaxForLive docs show view-related methods use 'view_name' parameter"
+          "name_reason": "MaxForLive docs show hide_view uses view_name parameter for view identification"
         }
       }
     },
@@ -13,7 +13,7 @@
       "args": {
         "arg2": {
           "name": "view_name",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'view_name'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'view_name'"
         }
       }
     },
@@ -21,7 +21,7 @@
       "args": {
         "arg2": {
           "name": "view_name",
-          "name_reason": "MaxForLive docs show view-related methods use 'view_name' parameter"
+          "name_reason": "MaxForLive docs show hide_view uses view_name parameter for view identification"
         }
       }
     },
@@ -29,7 +29,7 @@
       "args": {
         "arg2": {
           "name": "view_name",
-          "name_reason": "MaxForLive docs show view-related methods use 'view_name' parameter"
+          "name_reason": "MaxForLive docs show hide_view uses view_name parameter for view identification"
         }
       }
     },
@@ -37,15 +37,15 @@
       "args": {
         "arg2": {
           "name": "direction",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'direction'"
+          "name_reason": "MaxForLive docs explicitly document this as 'direction' parameter with 0=up, 1=down, 2=left, 3=right"
         },
         "arg3": {
           "name": "view_name",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'view_name'"
+          "name_reason": "MaxForLive docs explicitly document this as 'view_name' parameter"
         },
         "arg4": {
           "name": "modifier_pressed",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'modifier_pressed'"
+          "name_reason": "MaxForLive docs explicitly document this as 'modifier_pressed' parameter"
         }
       }
     },
@@ -53,15 +53,15 @@
       "args": {
         "arg2": {
           "name": "direction",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'direction'"
+          "name_reason": "MaxForLive docs explicitly document this as 'direction' parameter with 0=up, 1=down, 2=left, 3=right"
         },
         "arg3": {
           "name": "view_name",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'view_name'"
+          "name_reason": "MaxForLive docs explicitly document this as 'view_name' parameter"
         },
         "arg4": {
           "name": "modifier_pressed",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'modifier_pressed'"
+          "name_reason": "MaxForLive docs explicitly document this as 'modifier_pressed' parameter"
         }
       }
     },
@@ -69,7 +69,7 @@
       "args": {
         "arg2": {
           "name": "option_name",
-          "name_reason": "description says 'given entry exists in Options.txt' and this identifies an option"
+          "name_reason": "Description says 'given entry exists in Options.txt' - it's the name of the option entry"
         }
       }
     },
@@ -77,67 +77,67 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'index'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'index'"
         }
       }
     },
     "Live.Application.Application.unavailable_features": {
       "element_repr": "<class 'UnavailableFeature'>",
-      "element_repr_reason": "usage shows checking if specific UnavailableFeature enum values are in this container"
+      "element_repr_reason": "Usage shows comparison with UnavailableFeature enum values"
     },
     "Live.Application.ControlDescriptionVector": {
       "element_repr": "<class 'ControlDescription'>",
-      "element_repr_reason": "name suggests it contains ControlDescription objects"
+      "element_repr_reason": "Raw doc says 'container for returning control descriptions' and type skeleton shows ControlDescription class"
     },
     "Live.Application.ControlSurfaceProxy.control_descriptions": {
       "probed_type": "ControlDescriptionVector",
-      "probed_type_reason": "usage shows iterating over control descriptions, and ControlDescriptionVector exists in API"
+      "probed_type_reason": "Usage shows iteration over .name attribute, matching ControlDescription objects in ControlDescriptionVector"
     },
     "Live.Application.ControlSurfaceProxy.enable_receive_midi": {
       "args": {
         "arg2": {
           "name": "enabled",
-          "name_reason": "bool parameter for 'enable_receive_midi' function represents enabled state"
+          "name_reason": "Boolean parameter that enables/disables MIDI receive functionality"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.fetch_received_midi_messages": {
       "returns": {
         "type": "tuple[tuple[int, ...], ...]",
-        "type_reason": "usage shows iterating over MIDI messages, each message is a tuple of MIDI bytes"
+        "type_reason": "Usage shows iteration over MIDI messages, which are tuples of integers"
       }
     },
     "Live.Application.ControlSurfaceProxy.fetch_received_values": {
       "returns": {
-        "type": "tuple[tuple[int, Any], ...]",
-        "type_reason": "usage shows iterating over control_id, value pairs where control_id is int"
+        "type": "tuple[tuple[int, int], ...]",
+        "type_reason": "Usage shows iteration as 'for control_id, value in' indicating tuples of (int, int) pairs"
       }
     },
     "Live.Application.ControlSurfaceProxy.grab_control": {
       "args": {
         "arg2": {
           "name": "control",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'control'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'control'"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.pad_layout": {
       "probed_type": "str",
-      "probed_type_reason": "MaxForLive docs show this returns layout strings like 'note.melodic.64_notes'"
+      "probed_type_reason": "MaxForLive docs show this returns string layout names like 'note.melodic.64_notes'"
     },
     "Live.Application.ControlSurfaceProxy.send_midi": {
       "args": {
         "midi_event_bytes": {
           "type": "tuple[int, ...]",
-          "type_reason": "usage shows passing MIDI byte tuples like (175, 16, 16) and MaxForLive docs specify 'list of int'"
+          "type_reason": "Pinned type from manual hints - MIDI data values are always int tuples"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.send_value": {
       "args": {
         "value": {
-          "type": "tuple[Any, ...]",
-          "type_reason": "usage shows passing tuples like (mode,) and various value types"
+          "type": "tuple[int, ...]",
+          "type_reason": "Pinned type from manual hints - MIDI values are always int"
         }
       }
     },
@@ -145,37 +145,37 @@
       "args": {
         "arg2": {
           "name": "control",
-          "name_reason": "companion to grab_control which uses 'control' parameter"
+          "name_reason": "Matches grab_control parameter name for consistency - same concept of control identification"
         }
       }
     },
     "Live.Application.ControlSurfaceProxy.type_name": {
       "probed_type": "str",
-      "probed_type_reason": "usage shows returning string representation of control surface type"
+      "probed_type_reason": "Usage shows return obj.type_name suggesting a string name property"
     },
     "Live.Application.ControlSurfaceProxy.unsubscribe_from_control": {
       "args": {
         "arg2": {
           "name": "control",
-          "name_reason": "companion to subscribe_to_control which uses 'control' parameter"
+          "name_reason": "Matches subscribe_to_control parameter name for consistency - same concept of control identification"
         }
       }
     },
     "Live.Application.UnavailableFeatureVector": {
       "element_repr": "<class 'UnavailableFeature'>",
-      "element_repr_reason": "name suggests it contains UnavailableFeature objects"
+      "element_repr_reason": "Raw doc says 'container for returning unavailable features' and type skeleton shows UnavailableFeature enum"
     },
     "Live.Application.encrypt_challenge": {
       "returns": {
         "type": "tuple[int, ...]",
-        "type_reason": "description says 'returns an encrypted challenge' and usage assigns to variables expecting tuple"
+        "type_reason": "Description says returns encrypted challenge as tuple, usage shows tuple unpacking"
       }
     },
     "Live.Application.encrypt_challenge2": {
       "args": {
         "arg1": {
           "name": "challenge",
-          "name_reason": "description says 'UMAC hash for the given challenge'"
+          "name_reason": "Description says 'UMAC hash for the given challenge' - parameter is the challenge value"
         }
       }
     },
@@ -183,39 +183,39 @@
       "args": {
         "arg1": {
           "name": "min_value",
-          "name_reason": "description says 'random integer from the given range' - first arg is range minimum"
+          "name_reason": "Description says 'random integer from the given range' - first arg is range minimum"
         },
         "arg2": {
           "name": "max_value",
-          "name_reason": "description says 'random integer from the given range' - second arg is range maximum"
+          "name_reason": "Description says 'random integer from the given range' - second arg is range maximum"
         }
       }
     },
     "Live.Base.FloatVector": {
       "element_repr": "<class 'float'>",
-      "element_repr_reason": "docstring says 'container for returning floats from Live'"
+      "element_repr_reason": "Raw doc says 'container for returning floats from Live'"
     },
     "Live.Base.IntU64Vector": {
       "element_repr": "<class 'int'>",
-      "element_repr_reason": "docstring says 'container for returning unsigned long integers from Live'"
+      "element_repr_reason": "Raw doc says 'container for returning unsigned long integers from Live'"
     },
     "Live.Base.ObjectVector.append": {
       "args": {
         "value": {
           "type": "Any",
-          "type_reason": "ObjectVector contains arbitrary Python objects, so append accepts any type"
+          "type_reason": "ObjectVector contains arbitrary Python objects, so append accepts Any type"
         }
       }
     },
     "Live.Base.Text.text": {
       "probed_type": "str",
-      "probed_type_reason": "usage shows setting and getting string values for text property"
+      "probed_type_reason": "Usage shows string assignment and text property access"
     },
     "Live.Base.Vector.append": {
       "args": {
         "value": {
-          "type": "Any",
-          "type_reason": "Vector is generic LOM object container, append should accept any object type"
+          "type": "LomObject",
+          "type_reason": "Vector contains LomObject instances according to manual hints"
         }
       }
     },
@@ -223,35 +223,35 @@
       "args": {
         "arg1": {
           "name": "arg1",
-          "name_reason": "function substitutes placeholder arguments in text - keeping generic arg names"
+          "name_reason": "Function substitutes numbered arguments into text - keeping generic names matches the substitution pattern"
         },
         "arg2": {
           "name": "arg2",
-          "name_reason": "function substitutes placeholder arguments in text - keeping generic arg names"
+          "name_reason": "Function substitutes numbered arguments into text - keeping generic names matches the substitution pattern"
         },
         "arg3": {
           "name": "arg3",
-          "name_reason": "function substitutes placeholder arguments in text - keeping generic arg names"
+          "name_reason": "Function substitutes numbered arguments into text - keeping generic names matches the substitution pattern"
         },
         "arg4": {
           "name": "arg4",
-          "name_reason": "function substitutes placeholder arguments in text - keeping generic arg names"
+          "name_reason": "Function substitutes numbered arguments into text - keeping generic names matches the substitution pattern"
         },
         "arg5": {
           "name": "arg5",
-          "name_reason": "function substitutes placeholder arguments in text - keeping generic arg names"
+          "name_reason": "Function substitutes numbered arguments into text - keeping generic names matches the substitution pattern"
         }
       }
     },
     "Live.Browser.Browser.hotswap_target": {
       "probed_type": "Device",
-      "probed_type_reason": "manual hint states 'Browser.hotswap_target points to the Device that will be hotswapped'"
+      "probed_type_reason": "Manual hints state Browser.hotswap_target points to the Device that will be hotswapped"
     },
     "Live.Browser.Browser.load_item": {
       "args": {
         "arg2": {
           "name": "item",
-          "name_reason": "companion type is BrowserItem, so name it 'item'"
+          "name_reason": "MaxForLive docs show browser operations use 'item' parameter name consistently"
         }
       }
     },
@@ -259,7 +259,7 @@
       "args": {
         "arg2": {
           "name": "item",
-          "name_reason": "companion type is BrowserItem, so name it 'item'"
+          "name_reason": "MaxForLive docs show browser operations use 'item' parameter name consistently"
         }
       }
     },
@@ -267,37 +267,37 @@
       "args": {
         "arg2": {
           "name": "item",
-          "name_reason": "companion type is BrowserItem, so name it 'item'"
+          "name_reason": "MaxForLive docs show browser operations use 'item' parameter name consistently"
         }
       }
     },
     "Live.Browser.BrowserItem.iter_children": {
       "element_repr": "<class 'BrowserItem'>",
-      "element_repr_reason": "docstring says 'iterable access to the descendants of this browser item'"
+      "element_repr_reason": "Raw doc says 'descendants of this browser item' - returns BrowserItem children"
     },
     "Live.Browser.BrowserItemIterator": {
       "element_repr": "<class 'BrowserItem'>",
-      "element_repr_reason": "docstring says 'iterates over children of another BrowserItem'"
+      "element_repr_reason": "Raw doc says 'iterates over children of another BrowserItem'"
     },
     "Live.Chain.Chain.duplicate_device": {
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "description says 'duplicate the device at the given index in the chain'"
+          "name_reason": "Description says 'device at the given index' - parameter specifies which device to duplicate"
         }
       }
     },
     "Live.Chain.Chain.insert_device": {
       "returns": {
         "type": "Device",
-        "type_reason": "function inserts a device and returns the created device object"
+        "type_reason": "MaxForLive docs show insert_device creates and returns a Device instance"
       }
     },
     "Live.Clip.Clip.View.select_envelope_parameter": {
       "args": {
         "arg2": {
-          "name": "parameter",
-          "name_reason": "MaxForLive docs explicitly call this parameter '[DeviceParameter]'"
+          "name": "device_parameter",
+          "name_reason": "MaxForLive docs explicitly document this parameter as DeviceParameter"
         }
       }
     },
@@ -305,9 +305,9 @@
       "args": {
         "arg2": {
           "type": "Iterable[MidiNoteSpecification]",
-          "type_reason": "description says 'Python iterable holding Live.Clip.MidiNoteSpecification objects'",
+          "type_reason": "Description says 'Python iterable holding MidiNoteSpecification objects'",
           "name": "notes",
-          "name_reason": "MaxForLive docs explicitly name this 'notes' in dictionary format"
+          "name_reason": "MaxForLive docs show this parameter as 'notes' containing note specifications"
         }
       }
     },
@@ -315,7 +315,7 @@
       "args": {
         "warp_marker": {
           "type": "WarpMarker",
-          "type_reason": "companion name 'warp_marker' and WarpMarker class exists in API"
+          "type_reason": "Companion name suggests WarpMarker type, confirmed by description about warp marker operations"
         }
       }
     },
@@ -323,75 +323,75 @@
       "args": {
         "arg2": {
           "name": "notes",
-          "name_reason": "description says 'expects a list of notes' and MaxForLive docs use 'notes' key"
+          "name_reason": "MaxForLive docs show this parameter as 'notes' containing note dictionaries"
         }
       }
     },
     "Live.Clip.Clip.automation_envelope": {
       "args": {
         "arg2": {
-          "name": "parameter",
-          "name_reason": "companion type is DeviceParameter, so name it 'parameter'"
+          "name": "device_parameter",
+          "name_reason": "Type is DeviceParameter and description says 'envelope for the given parameter'"
         }
       }
     },
     "Live.Clip.Clip.clear_envelope": {
       "args": {
         "arg2": {
-          "name": "parameter",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'device_parameter'"
+          "name": "device_parameter",
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'device_parameter'"
         }
       }
     },
     "Live.Clip.Clip.create_automation_envelope": {
       "args": {
         "arg2": {
-          "name": "parameter",
-          "name_reason": "companion type is DeviceParameter, so name it 'parameter'"
+          "name": "device_parameter",
+          "name_reason": "Type is DeviceParameter and description says 'envelope for a given parameter'"
         }
       }
     },
     "Live.Clip.Clip.duplicate_notes_by_id": {
       "args": {
         "note_ids": {
-          "type": "list[int]",
-          "type_reason": "MaxForLive docs specify 'list of note IDs' which are integers"
+          "type": "Iterable[int]",
+          "type_reason": "MaxForLive docs show this as list of note IDs, which are integers"
         },
         "destination_time": {
           "type": "float | None",
-          "type_reason": "MaxForLive docs specify 'float/int' and default None, time values are floats"
+          "type_reason": "MaxForLive docs show this as optional float for time positioning"
         }
       }
     },
     "Live.Clip.Clip.get_notes": {
       "returns": {
         "type": "tuple[tuple[int, float, float, float, bool], ...]",
-        "type_reason": "description says 'tuple of tuples where each inner tuple contains pitch, time, duration, velocity, and mute state'"
+        "type_reason": "Description says tuple of tuples with pitch, time, duration, velocity, mute"
       }
     },
     "Live.Clip.Clip.get_notes_by_id": {
       "args": {
         "note_ids": {
-          "type": "list[int]",
-          "type_reason": "MaxForLive docs specify 'list of note IDs' which are integers"
+          "type": "Iterable[int]",
+          "type_reason": "MaxForLive docs show this as list of note IDs, which are integers"
         }
       }
     },
     "Live.Clip.Clip.get_selected_notes": {
       "returns": {
         "type": "tuple[tuple[int, float, float, float, bool], ...]",
-        "type_reason": "description says 'tuple of tuples where each inner tuple contains pitch, time, duration, velocity, and mute state'"
+        "type_reason": "Description says same format as get_notes - tuple of tuples with pitch, time, duration, velocity, mute"
       }
     },
     "Live.Clip.Clip.groove": {
       "probed_type": "Groove",
-      "probed_type_reason": "MaxForLive docs specify this returns a Groove object"
+      "probed_type_reason": "MaxForLive docs show this returns a Groove object"
     },
     "Live.Clip.Clip.move_playing_pos": {
       "args": {
         "arg2": {
           "name": "beats",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'beats'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'beats'"
         }
       }
     },
@@ -399,11 +399,11 @@
       "args": {
         "arg2": {
           "name": "quantization_grid",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'quantization_grid'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'quantization_grid'"
         },
         "arg3": {
           "name": "amount",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'amount'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'amount'"
         }
       }
     },
@@ -411,7 +411,7 @@
       "args": {
         "arg4": {
           "name": "amount",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'amount'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'amount'"
         }
       }
     },
@@ -419,29 +419,29 @@
       "args": {
         "arg2": {
           "name": "from_time",
-          "name_reason": "description says 'delete all notes starting in the given pitch- and time range'"
+          "name_reason": "Description says 'starting in the given pitch- and time range' - first time parameter"
         },
         "arg3": {
           "name": "from_pitch",
-          "name_reason": "description says 'delete all notes starting in the given pitch- and time range'"
+          "name_reason": "Description says 'starting in the given pitch- and time range' - first pitch parameter"
         },
         "arg4": {
           "name": "time_span",
-          "name_reason": "description says 'delete all notes starting in the given pitch- and time range'"
+          "name_reason": "Description says 'starting in the given pitch- and time range' - time span parameter"
         },
         "arg5": {
           "name": "pitch_span",
-          "name_reason": "description says 'delete all notes starting in the given pitch- and time range'"
+          "name_reason": "Description says 'starting in the given pitch- and time range' - pitch span parameter"
         }
       }
     },
     "Live.Clip.Clip.remove_notes_by_id": {
       "args": {
         "arg2": {
-          "type": "list[int]",
-          "type_reason": "MaxForLive docs specify 'list of note IDs' which are integers",
+          "type": "Iterable[int]",
+          "type_reason": "Description says 'matching the given note IDs' - iterable of integer IDs",
           "name": "note_ids",
-          "name_reason": "description says 'delete all notes matching the given note IDs'"
+          "name_reason": "MaxForLive docs show this parameter as list of note IDs"
         }
       }
     },
@@ -449,19 +449,19 @@
       "args": {
         "arg2": {
           "type": "tuple[tuple[int, float, float, float, bool], ...]",
-          "type_reason": "description says 'tuple of tuples where each inner tuple represents a note'",
+          "type_reason": "Description says 'same format as returned by get_selected_notes'",
           "name": "notes",
-          "name_reason": "description refers to replacing selection with notes"
+          "name_reason": "Description says 'tuple of tuples where each inner tuple represents a note'"
         }
       }
     },
     "Live.Clip.Clip.select_notes_by_id": {
       "args": {
         "arg2": {
-          "type": "list[int]",
-          "type_reason": "MaxForLive docs specify 'list of note IDs' which are integers",
+          "type": "Iterable[int]",
+          "type_reason": "MaxForLive docs show this as list of note IDs, which are integers",
           "name": "note_ids",
-          "name_reason": "description says 'selects all notes matching the given note IDs'"
+          "name_reason": "MaxForLive docs show this parameter as list of note IDs"
         }
       }
     },
@@ -469,7 +469,7 @@
       "args": {
         "arg2": {
           "name": "state",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'state'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'state'"
         }
       }
     },
@@ -477,9 +477,9 @@
       "args": {
         "arg2": {
           "type": "tuple[tuple[int, float, float, float, bool], ...]",
-          "type_reason": "description says 'tuple of tuples where each inner tuple represents a note'",
+          "type_reason": "Description says 'same format as returned by get_notes'",
           "name": "notes",
-          "name_reason": "description says the notes will be added to the clip"
+          "name_reason": "Description says 'tuple of tuples where each inner tuple represents a note'"
         }
       }
     },
@@ -487,7 +487,7 @@
       "args": {
         "arg2": {
           "name": "file_path",
-          "name_reason": "description says 'given absolute path to a valid audio file'"
+          "name_reason": "Manual hints specify audio clip creation should use 'file_path' parameter name"
         }
       }
     },
@@ -495,7 +495,7 @@
       "args": {
         "arg2": {
           "name": "target_clip_slot",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'target_clip_slot'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'target_clip_slot'"
         }
       }
     },
@@ -503,25 +503,25 @@
       "args": {
         "arg2": {
           "name": "state",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'state'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'state'"
         }
       }
     },
     "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad": {
       "returns": {
-        "type": "Track",
-        "type_reason": "function creates a new track with drum rack and returns the created track"
+        "type": "Device",
+        "type_reason": "Function creates a new drum rack device and returns it"
       }
     },
     "Live.Device.Device.store_chosen_bank": {
       "args": {
         "arg2": {
           "name": "script_index",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'script_index'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'script_index'"
         },
         "arg3": {
           "name": "bank_index",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'bank_index'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'bank_index'"
         }
       }
     },
@@ -529,7 +529,7 @@
       "args": {
         "arg2": {
           "name": "value",
-          "name_reason": "MaxForLive docs explicitly name this parameter 'value'"
+          "name_reason": "MaxForLive docs explicitly document this parameter as 'value'"
         }
       }
     },
@@ -537,11 +537,11 @@
       "args": {
         "arg2": {
           "name": "start_time",
-          "name_reason": "description says 'deletes the events in the specified time range'"
+          "name_reason": "Manual hints specify time range args should be named start_time and end_time"
         },
         "arg3": {
           "name": "end_time",
-          "name_reason": "description says 'deletes the events in the specified time range'"
+          "name_reason": "Manual hints specify time range args should be named start_time and end_time"
         }
       }
     },
@@ -549,11 +549,11 @@
       "args": {
         "arg2": {
           "name": "start_time",
-          "name_reason": "description says 'returns the events in the specified time range'"
+          "name_reason": "Manual hints specify time range args should be named start_time and end_time"
         },
         "arg3": {
           "name": "end_time",
-          "name_reason": "description says 'returns the events in the specified time range'"
+          "name_reason": "Manual hints specify time range args should be named start_time and end_time"
         }
       }
     },
@@ -561,15 +561,15 @@
       "args": {
         "arg2": {
           "name": "start_time",
-          "name_reason": "description says 'given a start time, a step length and a value'"
+          "name_reason": "Description says 'given a start time' - first parameter is the start time"
         },
         "arg3": {
           "name": "length",
-          "name_reason": "description says 'given a start time, a step length and a value'"
+          "name_reason": "Description says 'step length' - second parameter is the length"
         },
         "arg4": {
           "name": "value",
-          "name_reason": "description says 'given a start time, a step length and a value'"
+          "name_reason": "Description says 'and a value' - third parameter is the envelope value"
         }
       }
     },
@@ -577,85 +577,85 @@
       "args": {
         "arg2": {
           "name": "time",
-          "name_reason": "description says 'returns the parameter value at the specified time'"
+          "name_reason": "Description says 'parameter value at the specified time' - parameter is the time"
         }
       }
     },
     "Live.Licensing.PythonLicensingBridge.base_product_id": {
       "probed_type": "int",
-      "probed_type_reason": "returns Live's base product ID which is an integer identifier"
+      "probed_type_reason": "raw_doc says 'Returns Live's current base product ID' \u2014 IDs are typically integers"
     },
     "Live.Licensing.PythonLicensingBridge.get_startup_dialog": {
       "args": {
         "authorize_callable": {
           "type": "Callable",
-          "type_reason": "description says 'callables connected to its buttons' - these are callback functions"
+          "type_reason": "pinned type from manual hints"
         },
         "authorize_later_callable": {
           "type": "Callable",
-          "type_reason": "description says 'callables connected to its buttons' - these are callback functions"
+          "type_reason": "pinned type from manual hints"
         }
       }
     },
     "Live.Licensing.PythonLicensingBridge.in_sassafras_mode": {
       "probed_type": "bool",
-      "probed_type_reason": "sassafras mode is a binary state - either in this mode or not"
+      "probed_type_reason": "function names with 'is_' or 'in_' typically return boolean values"
     },
     "Live.Licensing.PythonLicensingBridge.license_must_match_variant": {
       "probed_type": "bool",
-      "probed_type_reason": "doc says 'Returns a bool indicating if we require the license information'"
+      "probed_type_reason": "raw_doc says 'Returns a bool indicating if we require the license information...'"
     },
     "Live.Licensing.PythonLicensingBridge.process_license_response": {
       "args": {
         "license_response_lines": {
           "type": "list[str]",
-          "type_reason": "description says 'list of strings, each representing a server response'"
+          "type_reason": "description says 'a list of strings, each representing a server response'"
         }
       }
     },
     "Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization": {
       "probed_type": "int",
-      "probed_type_reason": "doc says 'Returns the integer to send along with the Trial authorization request'"
+      "probed_type_reason": "raw_doc says 'Returns the integer to send along with the Trial authorization request'"
     },
     "Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes": {
       "probed_type": "bool",
-      "probed_type_reason": "doc says 'Returns true if the set has unsaved changes' - this is a boolean state"
+      "probed_type_reason": "raw_doc says 'Returns true if the set has unsaved changes'"
     },
     "Live.Licensing.PythonLicensingBridge.set_network_timer": {
       "args": {
         "callback": {
           "type": "Callable | None",
-          "type_reason": "description says 'Pass None as callback to stop the timer' so it accepts callable or None"
+          "type_reason": "pinned type from manual hints (docs say 'pass None to stop')"
         }
       }
     },
     "Live.Licensing.get_unlock_dir": {
       "returns": {
         "type": "tuple[str, bool]",
-        "type_reason": "description says 'Returns a tuple containing the unlock file directory and a flag' - directory is str, flag is bool"
+        "type_reason": "description says 'returns a tuple containing the unlock file directory and a flag' \u2014 directory is str, flag is bool"
       }
     },
     "Live.Listener.ListenerHandle.listener_func": {
       "probed_type": "Callable",
-      "probed_type_reason": "doc says 'Returns the original function' - this stores the callback function"
+      "probed_type_reason": "pinned type from manual hints"
     },
     "Live.Listener.ListenerHandle.listener_self": {
-      "probed_type": "Any",
-      "probed_type_reason": "doc says 'Returns the weak reference to original self' - weak reference to any object"
+      "probed_type": "object | None",
+      "probed_type_reason": "raw_doc says 'Returns the weak reference to original self, if it was a bound method' \u2014 weak reference or None"
     },
     "Live.Listener.ListenerHandle.name": {
       "probed_type": "str",
-      "probed_type_reason": "usage shows string operations like concatenation and doc says 'Prints the name'"
+      "probed_type_reason": "usage snippets show string operations like concatenation and comparison to string literals"
     },
     "Live.Listener.ListenerVector": {
       "element_repr": "<class 'ListenerHandle'>",
-      "element_repr_reason": "ListenerVector contains ListenerHandle instances based on the class name pattern"
+      "element_repr_reason": "raw_doc says 'A read only container for accessing a list of listeners' \u2014 contains ListenerHandle objects"
     },
     "Live.LooperDevice.LooperDevice.export_to_clip_slot": {
       "args": {
         "arg2": {
           "name": "clip_slot",
-          "name_reason": "M4L docs show parameter name as 'clip_slot'"
+          "name_reason": "M4L docs explicitly name the parameter 'clip_slot'"
         }
       }
     },
@@ -663,7 +663,7 @@
       "args": {
         "arg2": {
           "name": "bank_index",
-          "name_reason": "M4L docs show parameter name as 'bank_index'"
+          "name_reason": "M4L docs explicitly name the parameter 'bank_index'"
         }
       }
     },
@@ -671,59 +671,59 @@
       "args": {
         "arg2": {
           "name": "bank_index",
-          "name_reason": "M4L docs show parameter name as 'bank_index'"
+          "name_reason": "M4L docs explicitly name the parameter 'bank_index'"
         }
       },
       "returns": {
         "type": "list[int]",
-        "type_reason": "M4L docs say 'Returns [list of ints] The indices of the parameters'"
+        "type_reason": "M4L docs say 'Returns: [list of ints] The indices of the parameters'"
       }
     },
     "Live.MaxDevice.MaxDevice.get_value_item_icons": {
       "args": {
         "arg2": {
-          "name": "parameter",
-          "name_reason": "companion type is DeviceParameter, so name it parameter"
+          "name": "device_parameter",
+          "name_reason": "arg type is DeviceParameter, following naming guidance to hint at type"
         }
       },
       "returns": {
         "type": "list[str]",
-        "type_reason": "description says 'Get a list of icon identifier strings'"
+        "type_reason": "description mentions 'list of icon identifier strings'"
       }
     },
     "Live.MaxDevice.MaxDevice.is_using_compare_preset_b": {
       "probed_type": "bool",
-      "probed_type_reason": "doc says 'Returns whether the Device has loaded the preset' - this is a boolean state"
+      "probed_type_reason": "raw_doc says 'Returns whether the Device has loaded the preset' \u2014 'whether' indicates boolean return"
     },
     "Live.MidiMap.CCFeedbackRule.cc_value_map": {
       "element_repr": "<class 'int'>",
-      "element_repr_reason": "usage shows tuples of integers like 'tuple([int(...) for index in range(128)])'"
+      "element_repr_reason": "usage snippets show tuples of integers like tuple([1.5 + float(index)...]) and MIDI values are always int per domain facts"
     },
     "Live.MidiMap.NoteFeedbackRule.vel_map": {
       "element_repr": "<class 'int'>",
-      "element_repr_reason": "feedback map for velocity values which are integers, similar to cc_value_map pattern"
+      "element_repr_reason": "similar to cc_value_map and MIDI velocity values are int per domain facts"
     },
     "Live.MidiMap.PitchBendFeedbackRule.value_pair_map": {
       "element_repr": "<class 'tuple'>",
-      "element_repr_reason": "name indicates pairs of values, so tuple elements containing value pairs"
+      "element_repr_reason": "name suggests pairs (tuples of 2 elements) and usage shows tuple() assignment"
     },
     "Live.MidiMap.forward_midi_cc": {
       "args": {
         "arg1": {
           "name": "script_handle",
-          "name_reason": "call sites show 'script_handle' used most frequently"
+          "name_reason": "call site analysis shows 'script_handle' is most frequent with 11 votes"
         },
         "arg2": {
           "name": "midi_map_handle",
-          "name_reason": "call sites consistently use 'midi_map_handle'"
+          "name_reason": "call site analysis shows uniform usage of 'midi_map_handle' across all 14 call sites"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "call sites use 'channel' more than 'chan', matches other MidiMap functions"
+          "name": "midi_channel",
+          "name_reason": "call site analysis shows 'channel' is most frequent; using 'midi_channel' for module-wide consistency with other MidiMap functions"
         },
         "arg4": {
           "name": "cc_no",
-          "name_reason": "CC controller number parameter, matches call site usage"
+          "name_reason": "call site analysis shows equal usage of 'cc' and 'cc_no'; using 'cc_no' to be more specific"
         }
       }
     },
@@ -731,19 +731,19 @@
       "args": {
         "arg1": {
           "name": "script_handle",
-          "name_reason": "matches naming pattern from forward_midi_cc for consistency"
+          "name_reason": "call site analysis shows 'script_handle' used; consistent with forward_midi_cc"
         },
         "arg2": {
           "name": "midi_map_handle",
-          "name_reason": "call sites consistently use 'midi_map_handle' across all MidiMap functions"
+          "name_reason": "call site analysis shows uniform usage of 'midi_map_handle'; consistent with forward_midi_cc"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "MIDI channel parameter, matches other MidiMap function naming"
+          "name": "midi_channel",
+          "name_reason": "call site analysis shows 'chan'; using 'midi_channel' for module-wide consistency"
         },
         "arg4": {
           "name": "note",
-          "name_reason": "call sites use 'note' for the note number parameter"
+          "name_reason": "call site analysis shows 'note' used consistently"
         }
       }
     },
@@ -751,15 +751,15 @@
       "args": {
         "arg1": {
           "name": "script_handle",
-          "name_reason": "matches naming pattern from other forward_midi functions for consistency"
+          "name_reason": "call site analysis shows 'script_handle'; consistent with other forward functions"
         },
         "arg2": {
           "name": "midi_map_handle",
-          "name_reason": "call sites consistently use 'midi_map_handle' across all MidiMap functions"
+          "name_reason": "call site analysis shows 'midi_map_handle'; consistent with other MidiMap functions"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "MIDI channel parameter, matches other MidiMap function naming"
+          "name": "midi_channel",
+          "name_reason": "call site analysis shows 'channel'; using 'midi_channel' for module-wide consistency"
         }
       }
     },
@@ -767,19 +767,19 @@
       "args": {
         "arg1": {
           "name": "midi_map_handle",
-          "name_reason": "matches naming pattern from other map_midi functions for consistency"
+          "name_reason": "consistent with other MidiMap functions that take midi_map_handle as first arg"
         },
         "arg2": {
-          "name": "parameter",
-          "name_reason": "companion type is DeviceParameter, so name it parameter"
+          "name": "device_parameter",
+          "name_reason": "type is DeviceParameter, following naming guidance to hint at type"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "MIDI channel parameter, matches other MidiMap function naming"
+          "name": "midi_channel",
+          "name_reason": "consistent with other MidiMap functions using midi_channel"
         },
         "arg4": {
           "name": "note",
-          "name_reason": "MIDI note number parameter, matches forward_midi_note naming"
+          "name_reason": "consistent with forward_midi_note which uses 'note' for this concept"
         }
       }
     },
@@ -787,23 +787,23 @@
       "args": {
         "arg1": {
           "name": "midi_map_handle",
-          "name_reason": "call sites use 'midi_map_handle', matches other MidiMap functions"
+          "name_reason": "call site analysis and consistency with other MidiMap functions"
         },
         "arg2": {
-          "name": "parameter",
-          "name_reason": "call sites use 'parameter', companion type is DeviceParameter"
+          "name": "device_parameter",
+          "name_reason": "call site analysis shows 'parameter'; using 'device_parameter' to hint at type"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "call sites use 'message_channel' but 'channel' matches other MidiMap functions"
+          "name": "midi_channel",
+          "name_reason": "call site analysis shows 'message_channel'; using 'midi_channel' for consistency"
         },
         "arg4": {
           "name": "note",
-          "name_reason": "MIDI note number parameter, matches map_midi_note naming for consistency"
+          "name_reason": "call site analysis shows 'message_identifier'; using 'note' for consistency with other note functions"
         },
         "arg5": {
           "name": "feedback_rule",
-          "name_reason": "call sites use 'feedback_rule' for the NoteFeedbackRule parameter"
+          "name_reason": "call site analysis shows 'feedback_rule' used consistently"
         }
       }
     },
@@ -811,19 +811,19 @@
       "args": {
         "arg1": {
           "name": "midi_map_handle",
-          "name_reason": "matches naming pattern from other map_midi functions for consistency"
+          "name_reason": "consistent with other MidiMap functions"
         },
         "arg2": {
-          "name": "parameter",
-          "name_reason": "companion type is DeviceParameter, matches other map functions"
+          "name": "device_parameter",
+          "name_reason": "type is DeviceParameter, following naming guidance to hint at type"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "MIDI channel parameter, matches other MidiMap function naming"
+          "name": "midi_channel",
+          "name_reason": "consistent with other MidiMap functions using midi_channel"
         },
         "arg4": {
-          "name": "avoid_takeover",
-          "name_reason": "boolean parameter for pitchbend mapping behavior control"
+          "name": "needs_takeover",
+          "name_reason": "manual hints indicate this bool is for takeover to prevent value jumps"
         }
       }
     },
@@ -831,23 +831,23 @@
       "args": {
         "arg1": {
           "name": "midi_map_handle",
-          "name_reason": "call sites use 'midi_map_handle', matches other MidiMap functions"
+          "name_reason": "call site analysis and consistency with other MidiMap functions"
         },
         "arg2": {
-          "name": "parameter",
-          "name_reason": "call sites show 'parameter', companion type is DeviceParameter"
+          "name": "device_parameter",
+          "name_reason": "call site shows 'parameter'; using 'device_parameter' to hint at type"
         },
         "arg3": {
-          "name": "channel",
-          "name_reason": "MIDI channel parameter, matches other MidiMap function naming"
+          "name": "midi_channel",
+          "name_reason": "call site shows 'message_channel'; using 'midi_channel' for consistency"
         },
         "arg4": {
           "name": "feedback_rule",
-          "name_reason": "call sites use 'feedback_rule' for the PitchBendFeedbackRule parameter"
+          "name_reason": "call site analysis shows 'feedback_rule' most frequent"
         },
         "arg5": {
-          "name": "avoid_takeover",
-          "name_reason": "boolean parameter for pitchbend mapping behavior, matches map_midi_pitchbend"
+          "name": "needs_takeover",
+          "name_reason": "consistent with map_midi_pitchbend; manual hints indicate this bool is for takeover"
         }
       }
     },
@@ -855,89 +855,89 @@
       "args": {
         "arg1": {
           "name": "midi_map_handle",
-          "name_reason": "call sites use 'midi_map_handle', matches other MidiMap functions"
+          "name_reason": "call site analysis and consistency with other MidiMap functions"
         },
         "arg2": {
-          "name": "parameter",
-          "name_reason": "call sites use 'parameter', companion type is DeviceParameter"
+          "name": "device_parameter",
+          "name_reason": "call site shows 'parameter'; using 'device_parameter' to hint at type"
         }
       }
     },
     "Live.PluginDevice.PluginDevice.is_using_compare_preset_b": {
       "probed_type": "bool",
-      "probed_type_reason": "doc says 'Returns whether the Device has loaded the preset' - this is a boolean state"
+      "probed_type_reason": "raw_doc says 'Returns whether the Device has loaded the preset' \u2014 'whether' indicates boolean return"
     },
     "Live.RackDevice.RackDevice.View.selected_chain": {
-      "probed_type": "Chain",
-      "probed_type_reason": "M4L docs show 'selected_chain [Chain]' and usage shows chain operations"
+      "probed_type": "Chain | None",
+      "probed_type_reason": "M4L docs say 'Currently selected chain' and usage shows assignment and None checks"
     },
     "Live.RackDevice.RackDevice.copy_pad": {
       "args": {
         "arg2": {
           "name": "source_index",
-          "name_reason": "M4L docs show parameters as 'source_index' and 'destination_index'"
+          "name_reason": "M4L docs explicitly name the parameter 'source_index'"
         },
         "arg3": {
           "name": "destination_index",
-          "name_reason": "M4L docs show parameters as 'source_index' and 'destination_index'"
+          "name_reason": "M4L docs explicitly name the parameter 'destination_index'"
         }
       }
     },
     "Live.RackDevice.RackDevice.insert_chain": {
       "returns": {
         "type": "Chain",
-        "type_reason": "function inserts a new chain and returns it"
+        "type_reason": "M4L docs and function name indicate it returns the newly inserted chain"
       }
     },
     "Live.RackDevice.RackDevice.is_using_compare_preset_b": {
       "probed_type": "bool",
-      "probed_type_reason": "doc says 'Returns whether the Device has loaded the preset' - this is a boolean state"
+      "probed_type_reason": "raw_doc says 'Returns whether the Device has loaded the preset' \u2014 'whether' indicates boolean return"
     },
     "Live.Sample.Sample.slices": {
       "element_repr": "<class 'int'>",
-      "element_repr_reason": "M4L docs say 'list of int' for slice positions in sample frames"
+      "element_repr_reason": "M4L docs say 'positions of all playable slices...in sample frames' \u2014 positions are integers"
     },
     "Live.Scene.Scene.color_index": {
-      "probed_type": "int",
-      "probed_type_reason": "usage shows integer operations and comparison to None, represents color palette index"
+      "probed_type": "int | None",
+      "probed_type_reason": "raw_doc says 'Can be None for no color' and usage shows integer assignments and None checks"
     },
     "Live.Scene.Scene.set_fire_button_state": {
       "args": {
         "arg2": {
           "name": "state",
-          "name_reason": "M4L docs show parameter name as 'state'"
+          "name_reason": "M4L docs explicitly name the parameter 'state'"
         }
       }
     },
     "Live.Song.Song.View.detail_clip": {
-      "probed_type": "Clip",
-      "probed_type_reason": "M4L docs show 'detail_clip [Clip]' and usage shows clip operations"
+      "probed_type": "Clip | None",
+      "probed_type_reason": "M4L docs say 'The clip currently displayed' and usage shows assignment and comparison operations"
     },
     "Live.Song.Song.View.select_device": {
       "args": {
         "arg2": {
           "name": "device",
-          "name_reason": "call sites use 'device' most frequently, companion type is Device"
+          "name_reason": "call site analysis shows 'device' used; M4L docs refer to 'the given device object'"
         }
       }
     },
     "Live.Song.Song.View.selected_chain": {
-      "probed_type": "Chain",
-      "probed_type_reason": "M4L docs show 'selected_chain [Chain]' and usage shows chain operations"
+      "probed_type": "Chain | None",
+      "probed_type_reason": "M4L docs say 'The highlighted chain, or \"id 0\"' and usage shows assignment and None-like behavior"
     },
     "Live.Song.Song.View.selected_parameter": {
-      "probed_type": "DeviceParameter",
-      "probed_type_reason": "M4L docs show 'selected_parameter [DeviceParameter]'"
+      "probed_type": "DeviceParameter | None",
+      "probed_type_reason": "M4L docs say 'The selected parameter, or \"id 0\"' and type suggests None when no parameter selected"
     },
     "Live.Song.Song.appointed_device": {
-      "probed_type": "Device",
-      "probed_type_reason": "M4L docs show 'appointed_device [Device]' and usage shows device operations"
+      "probed_type": "Device | None",
+      "probed_type_reason": "M4L docs say 'The appointed device' and usage shows assignment of device objects and comparison with device objects"
     },
     "Live.Song.Song.create_audio_track": {
       "args": {
         "index": {
           "type": "int | None",
-          "type_reason": "M4L docs show index parameter that can be missing, C++ shows boost::python::api::object with None default"
+          "type_reason": "M4L docs show optional index parameter that can be omitted; cpp signature shows object but description clarifies int or None"
         }
       }
     },
@@ -945,7 +945,7 @@
       "args": {
         "index": {
           "type": "int | None",
-          "type_reason": "M4L docs show index parameter that can be missing, C++ shows boost::python::api::object with None default"
+          "type_reason": "M4L docs show optional index parameter that can be omitted; cpp signature shows object but description clarifies int or None"
         }
       }
     },
@@ -953,7 +953,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index'"
+          "name_reason": "M4L docs explicitly name the parameter 'index'"
         }
       }
     },
@@ -961,7 +961,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index'"
+          "name_reason": "M4L docs explicitly name the parameter 'index'"
         }
       }
     },
@@ -969,7 +969,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index'"
+          "name_reason": "M4L docs explicitly name the parameter 'index'"
         }
       }
     },
@@ -977,7 +977,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index'"
+          "name_reason": "M4L docs explicitly name the parameter 'index'"
         }
       }
     },
@@ -985,7 +985,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index'"
+          "name_reason": "M4L docs explicitly name the parameter 'index'"
         }
       }
     },
@@ -993,7 +993,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index'"
+          "name_reason": "M4L docs explicitly name the parameter 'index'"
         }
       }
     },
@@ -1001,15 +1001,15 @@
       "args": {
         "target": {
           "type": "Track | Chain",
-          "type_reason": "function finds position in a device chain, so target is Track or Chain containing devices"
+          "type_reason": "M4L docs show 'target' as live object that can contain devices \u2014 Track or Chain are the main device containers"
         }
       }
     },
     "Live.Song.Song.get_current_smpte_song_time": {
       "args": {
         "arg2": {
-          "name": "format",
-          "name_reason": "M4L docs show parameter name as 'format' for time code type"
+          "name": "smpte_format",
+          "name_reason": "M4L docs explain this is 'the time code type' with specific format values 0-5"
         }
       }
     },
@@ -1017,19 +1017,19 @@
       "args": {
         "default_value": {
           "type": "Any",
-          "type_reason": "get_data stores arbitrary persistent data; default can be any type"
+          "type_reason": "get_data stores arbitrary data; default can be any type"
         }
       },
       "returns": {
         "type": "Any",
-        "type_reason": "get_data returns arbitrary persistent data that was stored using set_data"
+        "type_reason": "get_data returns arbitrary persistent data"
       }
     },
     "Live.Song.Song.jump_by": {
       "args": {
         "arg2": {
           "name": "beats",
-          "name_reason": "M4L docs show parameter name as 'beats'"
+          "name_reason": "M4L docs explicitly name the parameter 'beats'"
         }
       }
     },
@@ -1037,7 +1037,7 @@
       "args": {
         "target": {
           "type": "Track | Chain",
-          "type_reason": "function moves device into a device chain, so target is Track or Chain containing devices"
+          "type_reason": "M4L docs show 'target' as live object that can contain devices \u2014 Track or Chain are the main device containers"
         }
       }
     },
@@ -1045,7 +1045,7 @@
       "args": {
         "arg2": {
           "name": "beats",
-          "name_reason": "M4L docs show parameter name as 'beats', same as jump_by"
+          "name_reason": "M4L docs explicitly name the parameter 'beats'"
         }
       }
     },
@@ -1060,18 +1060,18 @@
     "Live.Song.get_all_scales_ordered": {
       "returns": {
         "type": "tuple[tuple[str, tuple[int, ...]], ...]",
-        "type_reason": "usage shows tuple of tuples with scale name and note intervals"
+        "type_reason": "usage snippet shows tuples with name and notes: 'tuple([Scale(name=(x[0]), notes=(x[1]))'"
       }
     },
     "Live.TakeLane.TakeLane.create_audio_clip": {
       "args": {
         "arg2": {
           "name": "file_path",
-          "name_reason": "M4L docs show parameter name as 'file_path'"
+          "name_reason": "M4L docs explicitly name the parameter 'file_path'; manual hints specify this naming for audio file arguments"
         },
         "arg3": {
           "name": "start_time",
-          "name_reason": "M4L docs show parameter name as 'start_time'"
+          "name_reason": "M4L docs explicitly name the parameter 'start_time'"
         }
       }
     },
@@ -1079,11 +1079,11 @@
       "args": {
         "arg2": {
           "name": "start_time",
-          "name_reason": "M4L docs show parameter name as 'start_time'"
+          "name_reason": "M4L docs explicitly name the parameter 'start_time'"
         },
         "arg3": {
           "name": "length",
-          "name_reason": "M4L docs show parameter name as 'length'"
+          "name_reason": "M4L docs explicitly name the parameter 'length'"
         }
       }
     },
@@ -1091,11 +1091,11 @@
       "args": {
         "arg2": {
           "name": "file_path",
-          "name_reason": "M4L docs show parameter name as 'file_path'"
+          "name_reason": "M4L docs explicitly name the parameter 'file_path'; manual hints specify this naming for audio file arguments"
         },
         "arg3": {
-          "name": "start_time",
-          "name_reason": "M4L docs show parameter name as 'start_time' in TakeLane, same function signature"
+          "name": "position",
+          "name_reason": "M4L docs explicitly name the parameter 'position'"
         }
       }
     },
@@ -1103,25 +1103,25 @@
       "args": {
         "arg2": {
           "name": "start_time",
-          "name_reason": "M4L docs show parameter name as 'start_time'"
+          "name_reason": "M4L docs explicitly name the parameter 'start_time'"
         },
         "arg3": {
           "name": "length",
-          "name_reason": "M4L docs show parameter name as 'length'"
+          "name_reason": "M4L docs explicitly name the parameter 'length'"
         }
       }
     },
     "Live.Track.Track.create_take_lane": {
       "returns": {
         "type": "TakeLane",
-        "type_reason": "function creates a take lane and returns it"
+        "type_reason": "M4L docs and function name indicate it creates and returns a TakeLane object"
       }
     },
     "Live.Track.Track.duplicate_clip_slot": {
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "M4L docs show parameter name as 'index' and call sites commonly use 'index'"
+          "name_reason": "call site analysis shows 'index' as most frequent; M4L docs refer to slot index"
         }
       }
     },
@@ -1129,7 +1129,7 @@
       "args": {
         "arg2": {
           "name": "index",
-          "name_reason": "description says 'at a given index' and this matches other Track functions"
+          "name_reason": "description says 'at a given index in the devices list' and consistent with other device methods"
         }
       }
     },
@@ -1137,25 +1137,25 @@
       "args": {
         "default_value": {
           "type": "Any",
-          "type_reason": "get_data stores arbitrary persistent data; default can be any type"
+          "type_reason": "get_data stores arbitrary data; default can be any type"
         }
       },
       "returns": {
         "type": "Any",
-        "type_reason": "get_data returns arbitrary persistent data that was stored using set_data"
+        "type_reason": "get_data returns arbitrary persistent data"
       }
     },
     "Live.Track.Track.insert_device": {
       "returns": {
         "type": "Device",
-        "type_reason": "function inserts a device and returns the created device instance"
+        "type_reason": "function inserts a device and returns the created device object"
       }
     },
     "Live.Track.Track.jump_in_running_session_clip": {
       "args": {
         "arg2": {
           "name": "beats",
-          "name_reason": "M4L docs show parameter name as 'beats'"
+          "name_reason": "M4L docs explicitly name the parameter 'beats'"
         }
       }
     },
