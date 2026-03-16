@@ -107,6 +107,27 @@ jobs:
             [ -n "$post" ] && pkg_version="${version}.post${post}"
             zip_file="release/ableton-live-stubs-${pkg_version}.zip"
 
+            # Determine if this is the latest Live version across all stubs
+            latest_version=$(ls -d stubs/*/Live/ 2>/dev/null \
+              | sed 's|stubs/||;s|/Live/||' \
+              | grep -E '^[0-9]+\.[0-9]+(\.[0-9]+)?$' \
+              | sort -V | tail -1)
+            if [ "$version" = "$latest_version" ]; then
+              pip_cmd="pip install ableton-live-stubs"
+            else
+              pip_cmd="pip install ableton-live-stubs==${pkg_version}"
+            fi
+
+            notes="Python type stubs for Ableton Live ${version}.
+
+          Install via pip:
+          \`\`\`
+          ${pip_cmd}
+          \`\`\`
+
+          Or download the zip and add to your type checker's search path.
+          See [README](https://github.com/PhotonicVelocity/LiveAPI#using-the-stubs) for details."
+
             if gh release view "$tag" &>/dev/null; then
               # Remove old zip assets, upload new one
               gh release view "$tag" --json assets -q '.assets[].name' \
@@ -115,19 +136,12 @@ jobs:
                     gh release delete-asset "$tag" "$asset" --yes
                   done
               gh release upload "$tag" "$zip_file"
+              gh release edit "$tag" --notes "$notes"
               echo "Updated release $tag with new assets (${pkg_version})"
             else
               gh release create "$tag" "$zip_file" \
                 --title "Live ${version} API Stubs" \
-                --notes "Python type stubs for Ableton Live ${version}.
-
-          Install via pip:
-          \`\`\`
-          pip install ableton-live-stubs==${pkg_version}
-          \`\`\`
-
-          Or download the zip and add to your type checker's search path.
-          See [README](https://github.com/PhotonicVelocity/LiveAPI#using-the-stubs) for details."
+                --notes "$notes"
               echo "Created release $tag"
             fi
           done
