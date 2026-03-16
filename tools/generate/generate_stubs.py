@@ -34,6 +34,12 @@ _TYPE_REF_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+)\b")
 # Matches Boost.Python init_doc arg patterns: (type)name or (type)name=default
 _INIT_ARG_RE = re.compile(r"\((\w+)\)(\w+)(?:=([^\s\],\)]+))?")
 
+# Extracts the short class name from a repr like "<class 'Module.ClassName'>".
+_CLASS_REPR_RE = re.compile(r"<class '(?:[\w.]+\.)?(\w+)'>")
+
+# Same as above but also captures the module prefix (e.g. "Device" from "<class 'Device.View'>").
+_CLASS_REPR_MODULE_RE = re.compile(r"<class '(?:(\w+)\.)?(\w+)'>")
+
 # Names that should never appear in TYPE_CHECKING imports.
 _SKIP_NAMES = {"None", "Callable", "Any", "TYPE_CHECKING", "IO", "Exception"}
 
@@ -93,7 +99,7 @@ class StubGenerator:
                         self._vector_types.add(name)
                 element_repr = node.get("element_repr")
                 if element_repr:
-                    m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
+                    m = _CLASS_REPR_RE.match(element_repr)
                     if m:
                         self._vector_element_fallback[name] = m.group(1)
 
@@ -401,24 +407,16 @@ class StubGenerator:
         if type_str and type_str in _GENERIC_VECTORS:
             element_repr = node.get("element_repr")
             if element_repr:
-                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-                if m:
-                    elem = self._resolve_probed_type(
-                        m.group(1), containing_class=containing_class, probed_repr=element_repr,
-                    )
-                    if elem:
-                        type_str = f"Vector[{elem}]"
+                elem = self._resolve_element_repr(element_repr, containing_class)
+                if elem:
+                    type_str = f"Vector[{elem}]"
 
         if type_str in ("tuple", "list"):
             element_repr = node.get("element_repr")
             if element_repr:
-                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-                if m:
-                    elem = self._resolve_probed_type(
-                        m.group(1), containing_class=containing_class, probed_repr=element_repr,
-                    )
-                    if elem:
-                        type_str = f"tuple[{elem}, ...]" if type_str == "tuple" else f"list[{elem}]"
+                elem = self._resolve_element_repr(element_repr, containing_class)
+                if elem:
+                    type_str = f"tuple[{elem}, ...]" if type_str == "tuple" else f"list[{elem}]"
 
         # Getter
         ret_annotation = f" -> {type_str}" if type_str else ""
@@ -648,7 +646,7 @@ class StubGenerator:
             return ""
         if "Boost.Python.enum" in parent_repr:
             return "int"
-        m = re.match(r"<class '(?:(\w+)\.)?(\w+)'>", parent_repr)
+        m = _CLASS_REPR_MODULE_RE.match(parent_repr)
         if not m:
             return ""
         parent_module, parent_class = m.group(1), m.group(2)
@@ -658,6 +656,13 @@ class StubGenerator:
             return f"{parent_module}.{parent_class}"
         return parent_class
 
+    def _resolve_element_repr(self, element_repr: str, containing_class: str = "") -> str | None:
+        """Extract and resolve a type name from an element_repr string like "<class 'Module.Name'>"."""
+        m = _CLASS_REPR_RE.match(element_repr)
+        if not m:
+            return None
+        return self._resolve_probed_type(m.group(1), containing_class=containing_class, probed_repr=element_repr)
+
     def _iterable_base(self, node: dict) -> str:
         """Return Iterable[T] for non-vector iterable classes, or empty string."""
         if not node.get("iterable"):
@@ -665,12 +670,8 @@ class StubGenerator:
         element_repr = node.get("element_repr")
         if not element_repr:
             return "Iterable"
-        m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-        if m:
-            elem = self._resolve_probed_type(m.group(1), containing_class="", probed_repr=element_repr)
-            if elem:
-                return f"Iterable[{elem}]"
-        return "Iterable"
+        elem = self._resolve_element_repr(element_repr)
+        return f"Iterable[{elem}]" if elem else "Iterable"
 
     def _vector_base(self, name: str, node: dict) -> str:
         """Return the base class string for vector types, or empty string for non-vectors."""
