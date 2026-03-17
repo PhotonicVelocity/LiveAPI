@@ -262,15 +262,14 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
             for c, p, dt in fired
             if not (c == cls and p == prop)
         ]
-        if side_effects:
-            result["side_effects"] = side_effects
         if probe_timing["listener_time"] is not None:
             dt = probe_timing["listener_time"] - probe_timing["set_time"]
             result["listener_latency_ms"] = round(dt * 1000, 1)
 
         probe_timing["target"] = None
 
-        # 8. Undo.
+        # 8. Clear fired and undo.
+        fired.clear()
         song.undo()
 
         # 9. Yield to next tick.
@@ -281,7 +280,14 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
         undo_worked = fuzzy_eq(after_undo, orig)
         result["undo_tracked"] = undo_worked
 
-        # 11. Restore if undo didn't work.
+        # 11. Check which side effects fired during undo.
+        undo_fired = {(c, p) for c, p, dt in fired}
+        for effect in side_effects:
+            effect["undo_fires_listener"] = (effect["label"], effect["prop"]) in undo_fired
+        if side_effects:
+            result["side_effects"] = side_effects
+
+        # 12. Restore if undo didn't work.
         if not undo_worked:
             setattr(obj, prop, orig)
             yield
@@ -355,10 +361,9 @@ def probe_method(song, cls: str, method: str, args: list, check_fn, cleanup_fn, 
             {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
             for c, p, dt in fired
         ]
-        if side_effects:
-            result["side_effects"] = side_effects
 
-        # 7. Undo.
+        # 7. Clear fired and undo.
+        fired.clear()
         song.undo()
 
         # 8. Yield to next tick.
@@ -367,7 +372,14 @@ def probe_method(song, cls: str, method: str, args: list, check_fn, cleanup_fn, 
         # 9. Check effect gone → undo_tracked.
         result["undo_tracked"] = not check_fn()
 
-        # 10. If undo didn't work, run cleanup.
+        # 10. Check which side effects fired during undo.
+        undo_fired = {(c, p) for c, p, dt in fired}
+        for effect in side_effects:
+            effect["undo_fires_listener"] = (effect["label"], effect["prop"]) in undo_fired
+        if side_effects:
+            result["side_effects"] = side_effects
+
+        # 11. If undo didn't work, run cleanup.
         if not result["undo_tracked"] and cleanup_fn:
             cleanup_fn()
             yield
