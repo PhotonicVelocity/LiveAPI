@@ -63,6 +63,125 @@ SKIP_UNDO: set[str] = {
 }
 
 
+# ── Listenable properties (for side-effect detection) ─────────────────────────
+
+SONG_LISTENABLE: list[str] = [
+    "appointed_device",
+    "arrangement_overdub",
+    "back_to_arranger",
+    "can_capture_midi",
+    "can_jump_to_next_cue",
+    "can_jump_to_prev_cue",
+    "clip_trigger_quantization",
+    "count_in_duration",
+    "cue_points",
+    # "current_song_time" excluded — fires every audio tick (~80/s) even with transport stopped
+    "data",
+    "exclusive_arm",
+    "groove_amount",
+    "is_ableton_link_enabled",
+    "is_ableton_link_start_stop_sync_enabled",
+    "is_counting_in",
+    "is_playing",
+    "loop",
+    "loop_length",
+    "loop_start",
+    "metronome",
+    "midi_recording_quantization",
+    "nudge_down",
+    "nudge_up",
+    "overdub",
+    "punch_in",
+    "punch_out",
+    "re_enable_automation_enabled",
+    "record_mode",
+    "return_tracks",
+    "root_note",
+    "scale_information",
+    "scale_intervals",
+    "scale_mode",
+    "scale_name",
+    "scenes",
+    "session_automation_record",
+    "session_record",
+    "session_record_status",
+    "signature_denominator",
+    "signature_numerator",
+    "song_length",
+    "start_time",
+    "swing_amount",
+    "tempo",
+    "tempo_follower_enabled",
+    "tracks",
+    "tuning_system",
+    "visible_tracks",
+]
+
+VIEW_LISTENABLE: list[str] = [
+    "detail_clip",
+    "draw_mode",
+    "follow_song",
+    "selected_chain",
+    "selected_parameter",
+    "selected_scene",
+    "selected_track",
+]
+
+
+# ── Listener infrastructure ───────────────────────────────────────────────────
+
+
+def setup_listeners(
+    obj, cls: str, props: list[str], fired: list, probe_timing: dict, log,
+) -> list[tuple[str, Any]]:
+    """Add listeners for all listenable properties. Returns [(prop, callback)] for teardown.
+
+    probe_timing is a shared dict with:
+      - "target": (cls, prop) currently being probed, or None
+      - "set_time": monotonic time when the property was set
+      - "listener_time": monotonic time when the self-listener fired
+    """
+    import time
+
+    listeners: list[tuple[str, Any]] = []
+    for prop in props:
+        add_fn = getattr(obj, f"add_{prop}_listener", None)
+        if add_fn is None:
+            continue
+
+        def make_cb(c: str, p: str):
+            def callback():
+                fired.append((c, p))
+                target = probe_timing.get("target")
+                if target == (c, p):
+                    dt = time.monotonic() - probe_timing["set_time"]
+                    probe_timing["listener_time"] = time.monotonic()
+                    log(f"    [listener] {c}.{p} fired ({dt*1000:.1f}ms)")
+                else:
+                    log(f"    [listener] {c}.{p} fired")
+            return callback
+
+        cb = make_cb(cls, prop)
+        try:
+            add_fn(cb)
+            listeners.append((prop, cb))
+        except Exception:
+            pass
+    log(f"  Subscribed to {len(listeners)}/{len(props)} listeners on {cls}")
+    return listeners
+
+
+def teardown_listeners(obj, listeners: list[tuple[str, Any]]) -> None:
+    """Remove all listeners added by setup_listeners."""
+    for prop, cb in listeners:
+        remove_fn = getattr(obj, f"remove_{prop}_listener", None)
+        if remove_fn:
+            try:
+                remove_fn(cb)
+            except Exception:
+                pass
+
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 
@@ -75,21 +194,23 @@ def fuzzy_eq(a: Any, b: Any) -> bool:
     return a == b
 
 
-def probe_property(song, obj, cls: str, prop: str, test_value: Any, log):
-    """Probe a single property for undo tracking and async visibility.
+def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict, log):
+    """Probe a single property for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
 
     Steps:
       1. Read original value. Flip booleans automatically.
-      2. begin_undo_step, set, end_undo_step.
-      3. Read back immediately (same tick) → async_visibility = "immediate" if changed.
-      4. Yield to next tick.
-      5. If not immediate, read again → "next_tick" if changed, "no_change" otherwise.
-      6. Undo.
-      7. Yield to next tick (always — undo may also be async).
-      8. Read back → undo_tracked = True if original value restored.
-      9. If undo didn't work, redo to restore previous stack entry, then fix our property.
+      2. Clear fired listeners.
+      3. begin_undo_step, set, end_undo_step.
+      4. Read back immediately (same tick) → async_visibility = "immediate" if changed.
+      5. Yield to next tick.
+      6. If not immediate, read again → "next_tick" if changed, "no_change" otherwise.
+      7. Collect side effects from fired listeners.
+      8. Undo.
+      9. Yield to next tick (always — undo may also be async).
+      10. Read back → undo_tracked = True if original value restored.
+      11. If undo didn't work, restore manually with setattr.
     """
     result: dict[str, Any] = {}
 
@@ -105,19 +226,27 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, log):
             log(f"  [prop] {cls}.{prop}: skip — test_value matches original ({orig!r})")
             return result
 
-        # 2. begin_undo_step, set, end_undo_step.
+        # 2. Clear fired listeners and set timing target.
+        import time as _time
+
+        fired.clear()
+        probe_timing["target"] = (cls, prop)
+        probe_timing["listener_time"] = None
+
+        # 3. begin_undo_step, set, end_undo_step.
         song.begin_undo_step()
+        probe_timing["set_time"] = _time.monotonic()
         setattr(obj, prop, test_value)
         song.end_undo_step()
 
-        # 3. Read back immediately.
+        # 4. Read back immediately.
         readback = getattr(obj, prop)
         is_immediate = fuzzy_eq(readback, test_value)
 
-        # 4. Yield to next tick.
+        # 5. Yield to next tick.
         yield
 
-        # 5. If not immediate, check again.
+        # 6. If not immediate, check again.
         if is_immediate:
             result["async_visibility"] = "immediate"
         else:
@@ -127,18 +256,32 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, log):
             else:
                 result["async_visibility"] = "no_change"
 
-        # 6. Undo.
+        # 7. Collect side effects and listener timing.
+        side_effects = [
+            {"label": c, "prop": p}
+            for c, p in fired
+            if not (c == cls and p == prop)
+        ]
+        if side_effects:
+            result["side_effects"] = side_effects
+        if probe_timing["listener_time"] is not None:
+            dt = probe_timing["listener_time"] - probe_timing["set_time"]
+            result["listener_latency_ms"] = round(dt * 1000, 1)
+
+        probe_timing["target"] = None
+
+        # 8. Undo.
         song.undo()
 
-        # 7. Yield to next tick.
+        # 9. Yield to next tick.
         yield
 
-        # 8. Read back → undo tracking.
+        # 10. Read back → undo tracking.
         after_undo = getattr(obj, prop)
         undo_worked = fuzzy_eq(after_undo, orig)
         result["undo_tracked"] = undo_worked
 
-        # 9. Restore if undo didn't work.
+        # 11. Restore if undo didn't work.
         if not undo_worked:
             setattr(obj, prop, orig)
             yield
@@ -150,7 +293,9 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, log):
 
     tag = result.get("async_visibility", "?")
     undo = result.get("undo_tracked", "?")
-    log(f"  [prop] {cls}.{prop}: async={tag}, undo={undo}")
+    effects = result.get("side_effects", [])
+    effect_str = f", side_effects={[e['prop'] for e in effects]}" if effects else ""
+    log(f"  [prop] {cls}.{prop}: async={tag}, undo={undo}{effect_str}")
     return result
 
 
@@ -165,25 +310,31 @@ def run(song, log):
         "Song": {"properties": {}},
         "Song.View": {"properties": {}},
     }
+    fired: list[tuple[str, str]] = []
+    probe_timing: dict[str, Any] = {"target": None, "set_time": 0.0, "listener_time": None}
+
+    # Set up listeners for side-effect detection
+    view = song.view
+    song_listeners = setup_listeners(song, "Song", SONG_LISTENABLE, fired, probe_timing, log)
+    view_listeners = setup_listeners(view, "Song.View", VIEW_LISTENABLE, fired, probe_timing, log)
+    yield  # let listener setup settle
 
     # Song properties
     for prop, test_val in SONG_SETTABLE_PROPS:
         if prop in SKIP_UNDO:
             continue
-        gen = probe_property(song, song, "Song", prop, test_val, log)
-        # Drive the generator across ticks
+        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, log)
         try:
             while True:
                 next(gen)
-                yield  # cross tick boundary
+                yield
         except StopIteration as e:
             if e.value is not None:
                 results["Song"]["properties"][prop] = e.value
 
     # Song.View properties
-    view = song.view
     for prop, test_val in VIEW_SETTABLE_PROPS:
-        gen = probe_property(song, view, "Song.View", prop, test_val, log)
+        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, log)
         try:
             while True:
                 next(gen)
@@ -191,6 +342,10 @@ def run(song, log):
         except StopIteration as e:
             if e.value is not None:
                 results["Song.View"]["properties"][prop] = e.value
+
+    # Tear down listeners
+    teardown_listeners(song, song_listeners)
+    teardown_listeners(view, view_listeners)
 
     # Write results
     import Live  # type: ignore
