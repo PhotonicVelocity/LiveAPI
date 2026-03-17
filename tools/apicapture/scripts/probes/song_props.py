@@ -151,14 +151,14 @@ def setup_listeners(
 
         def make_cb(c: str, p: str):
             def callback():
-                fired.append((c, p))
+                now = time.monotonic()
+                set_time = probe_timing.get("set_time", 0.0)
+                dt = now - set_time
+                fired.append((c, p, dt))
                 target = probe_timing.get("target")
                 if target == (c, p):
-                    dt = time.monotonic() - probe_timing["set_time"]
-                    probe_timing["listener_time"] = time.monotonic()
-                    log(f"    [listener] {c}.{p} fired ({dt*1000:.1f}ms)")
-                else:
-                    log(f"    [listener] {c}.{p} fired")
+                    probe_timing["listener_time"] = now
+                log(f"    [listener] {c}.{p} fired ({dt*1000:.1f}ms)")
             return callback
 
         cb = make_cb(cls, prop)
@@ -258,8 +258,8 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
 
         # 7. Collect side effects and listener timing.
         side_effects = [
-            {"label": c, "prop": p}
-            for c, p in fired
+            {"label": c, "prop": p, "latency_ms": round(dt * 1000, 1)}
+            for c, p, dt in fired
             if not (c == cls and p == prop)
         ]
         if side_effects:
@@ -310,7 +310,7 @@ def run(song, log):
         "Song": {"properties": {}},
         "Song.View": {"properties": {}},
     }
-    fired: list[tuple[str, str]] = []
+    fired: list[tuple[str, str, float]] = []
     probe_timing: dict[str, Any] = {"target": None, "set_time": 0.0, "listener_time": None}
 
     # Set up listeners for side-effect detection
