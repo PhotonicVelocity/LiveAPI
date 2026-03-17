@@ -49,6 +49,9 @@ SONG_SETTABLE_PROPS: list[tuple[str, Any]] = [
     ("tempo_follower_enabled", True),
     ("is_ableton_link_enabled", True),
     ("is_ableton_link_start_stop_sync_enabled", True),
+    ("record_mode", True),
+    ("session_record", True),
+    ("session_automation_record", True),
 ]
 
 VIEW_SETTABLE_PROPS: list[tuple[str, Any]] = [
@@ -61,9 +64,6 @@ SKIP_UNDO: set[str] = {
     "is_playing",
     "nudge_down",
     "nudge_up",
-    "record_mode",
-    "session_record",
-    "session_automation_record",
     "current_song_time",
     "start_time",
 }
@@ -71,18 +71,30 @@ SKIP_UNDO: set[str] = {
 
 # ── Listenable properties (for side-effect detection) ─────────────────────────
 
-# Excluded from listening
-LISTENER_EXCLUDE: set[str] = {"current_song_time"} # fires every audio tick (~80/s)
+# Properties excluded from listener subscription — fire too frequently to be useful as listeners.
+LISTENER_EXCLUDE: set[str] = {"current_song_time"}  # fires every audio tick (~80/s)
+
+# Non-listenable properties to include in snapshots for restoration between probes.
+SNAPSHOT_EXTRA: set[str] = {"name"}
 
 
 def _discover_listenable(obj: object) -> list[str]:
-    """Discover listenable properties by finding add_*_listener methods on the object."""
-    props = []
-    for name in dir(obj):
-        if name.startswith("add_") and name.endswith("_listener"):
-            prop = name[4:-9]  # strip "add_" prefix and "_listener" suffix
-            if prop not in LISTENER_EXCLUDE:
-                props.append(prop)
+    """Properties safe to subscribe listeners to (excludes LISTENER_EXCLUDE)."""
+    return sorted(
+        name[4:-9] for name in dir(obj)
+        if name.startswith("add_") and name.endswith("_listener")
+        and name[4:-9] not in LISTENER_EXCLUDE
+    )
+    
+    
+def _discover_snapshot_props(listenable: list[str]) -> list[str]:
+    """Properties to snapshot and restore between probes.
+
+    Includes all listenable properties (even LISTENER_EXCLUDE ones) plus SNAPSHOT_EXTRA
+    for non-listenable properties that can drift during probes.
+    """
+    props = set(SNAPSHOT_EXTRA) | LISTENER_EXCLUDE
+    props.update(listenable)
     return sorted(props)
 
 
@@ -143,11 +155,11 @@ def teardown_listeners(obj: Song | Song.View, listeners: list[tuple[str, Any]]) 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 
-def snapshot_listenables(objects: list[tuple[Any, str, list[str]]]) -> dict[tuple[str, str], Any]:
-    """Read current values of all listenable properties.
+def snapshot_properties(objects: list[tuple[Any, str, list[str]]]) -> dict[tuple[str, str], Any]:
+    """Read current values of properties for pre/post-probe comparison and restoration.
 
     Args:
-        objects: [(obj, cls_name, prop_list), ...] — e.g. [(song, "Song", SONG_LISTENABLE), ...]
+        objects: [(obj, cls_name, prop_list), ...] — e.g. [(song, "Song", song_snapshot_props), ...]
 
     Returns:
         {(cls, prop): value, ...} for every readable property.
@@ -171,16 +183,73 @@ def fuzzy_eq(a: Any, b: Any) -> bool:
     return a == b
 
 
+def restore_side_effects(
+    snapshot: dict[tuple[str, str], Any], obj_by_cls: dict[str, Any], log: Callable,
+    skip: tuple[str, str] | None = None,
+) -> None:
+    """Restore any properties that drifted from their pre-probe snapshot values.
+
+    Stops playback first so current_song_time doesn't keep advancing between ticks.
+
+    Args:
+        skip: optional (cls, prop) to skip — the main probed property, handled separately.
+    """
+    # Stop playback first — otherwise current_song_time keeps advancing between ticks.
+    is_playing_key = ("Song", "is_playing")
+    if is_playing_key in snapshot and is_playing_key != skip:
+        playing_obj = obj_by_cls.get("Song")
+        if playing_obj is not None:
+            try:
+                if getattr(playing_obj, "is_playing") and not snapshot[is_playing_key]:
+                    setattr(playing_obj, "is_playing", False)
+                    log("    [restore] Song.is_playing: True → False")
+            except Exception:
+                pass
+
+    for (snap_cls, snap_prop), snap_val in snapshot.items():
+        if (snap_cls, snap_prop) == is_playing_key:
+            continue  # already handled above
+        if skip and (snap_cls, snap_prop) == skip:
+            continue
+        snap_obj = obj_by_cls.get(snap_cls)
+        if snap_obj is None:
+            continue
+        try:
+            current = getattr(snap_obj, snap_prop)
+            if not fuzzy_eq(current, snap_val):
+                setattr(snap_obj, snap_prop, snap_val)
+                log(f"    [restore] {snap_cls}.{snap_prop}: {current!r} → {snap_val!r}")
+        except Exception:
+            pass
+
+
 def probe_property(
     song: Song, obj: Song | Song.View, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict,
-    snapshot: dict, listenables: list[tuple[Any, str, list[str]]], log: Callable,
+    snapshot: dict, snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a single property for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
 
+    Steps:
+        1.  Read original value; skip if test_value matches.
+        2.  Clear fired listeners, set timing target.
+        3.  begin_undo_step → set property → end_undo_step.
+        4.  Read back immediately → classify "immediate" if value changed.
+        5.  Yield (tick boundary).
+        6.  Read back again → classify "next_tick" or "no_change".
+        7.  Collect side effects and listener timing from fired list.
+        8.  Clear fired list, call undo().
+        9.  Yield (tick boundary).
+        10. Read back → determine undo_tracked.
+        11. Check which side-effect listeners fired during undo and whether values restored.
+        12. Restore any side effects not cleaned up by undo (setattr from snapshot).
+        13. Yield (tick boundary — let restorations settle).
+        14. Restore main property if undo didn't work.
+        15. Yield (tick boundary).
+
     Args:
-        snapshot: {(cls, prop): value} — pre-probe snapshot of all listenable properties,
+        snapshot: {(cls, prop): value} — pre-probe snapshot of all snapshotted properties,
             used to check whether side effects are restored after undo.
     """
     result: dict[str, Any] = {}
@@ -253,7 +322,7 @@ def probe_property(
 
         # 11. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, dt in fired}
-        obj_by_cls = {c: o for o, c, _ in listenables}
+        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
         for effect in side_effects:
             key = (effect["label"], effect["prop"])
             effect["undo_fires_listener"] = key in undo_fired
@@ -266,7 +335,13 @@ def probe_property(
         if side_effects:
             result["side_effects"] = side_effects
 
-        # 12. Restore if undo didn't work.
+        # 12. Restore any side effects not cleaned up by undo.
+        restore_side_effects(snapshot, obj_by_cls, log, skip=(cls, prop))
+
+        # 13. Yield to let restorations settle.
+        yield
+
+        # 14. Restore main property if undo didn't work.
         if not undo_worked:
             setattr(obj, prop, orig)
             yield
@@ -287,7 +362,7 @@ def probe_property(
 def probe_method(
     song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
     cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict,
-    listenables: list[tuple[Any, str, list[str]]], log: Callable,
+    snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a method for undo tracking, async visibility, and side effects.
 
@@ -296,8 +371,8 @@ def probe_method(
     Args:
         check_fn: () -> bool — returns True if the method's effect is present.
         cleanup_fn: () -> None — restores state if undo didn't work. Can be None.
-        snapshot: {(cls, prop): value} — pre-probe snapshot of all listenable properties.
-        listenables: [(obj, cls, props), ...] — for resolving side effect objects.
+        snapshot: {(cls, prop): value} — pre-probe snapshot of all snapshotted properties.
+        snapshot_targets: [(obj, cls, props), ...] — for resolving side effect objects.
     """
     import time as _time
 
@@ -347,7 +422,7 @@ def probe_method(
 
         # 10. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, dt in fired}
-        obj_by_cls = {c: o for o, c, _ in listenables}
+        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
         for effect in side_effects:
             key = (effect["label"], effect["prop"])
             effect["undo_fires_listener"] = key in undo_fired
@@ -360,7 +435,13 @@ def probe_method(
         if side_effects:
             result["side_effects"] = side_effects
 
-        # 11. If undo didn't work, run cleanup.
+        # 11. Restore any side effects not cleaned up by undo.
+        restore_side_effects(snapshot, obj_by_cls, log)
+
+        # 12. Yield to let restorations settle.
+        yield
+
+        # 13. If undo didn't work, run cleanup.
         if not result["undo_tracked"] and cleanup_fn:
             cleanup_fn()
             yield
@@ -405,11 +486,14 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     fired: list[tuple[str, str, float]] = []
     probe_timing: dict[str, Any] = {"target": None, "set_time": 0.0, "listener_time": None}
 
-    # Set up listeners for side-effect detection
+    # Set up listeners and snapshot targets
     view = song.view
     song_listenable = _discover_listenable(song)
     view_listenable = _discover_listenable(view)
-    listenables = [(song, "Song", song_listenable), (view, "Song.View", view_listenable)]
+    snapshot_targets = [
+        (song, "Song", _discover_snapshot_props(song_listenable)),
+        (view, "Song.View", _discover_snapshot_props(view_listenable)),
+    ]
     song_listeners = setup_listeners(song, "Song", song_listenable, fired, probe_timing, log)
     view_listeners = setup_listeners(view, "Song.View", view_listenable, fired, probe_timing, log)
     yield  # let listener setup settle
@@ -418,8 +502,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     for prop, test_val in SONG_SETTABLE_PROPS:
         if prop in SKIP_UNDO:
             continue
-        snap = snapshot_listenables(listenables)
-        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, snap, listenables, log)
+        snap = snapshot_properties(snapshot_targets)
+        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, snap, snapshot_targets, log)
         try:
             while True:
                 next(gen)
@@ -430,8 +514,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Song.View properties
     for prop, test_val in VIEW_SETTABLE_PROPS:
-        snap = snapshot_listenables(listenables)
-        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, snap, listenables, log)
+        snap = snapshot_properties(snapshot_targets)
+        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, snap, snapshot_targets, log)
         try:
             while True:
                 next(gen)
@@ -448,9 +532,9 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     methods = results["Song"].setdefault("methods", {})
 
     def _run_method_probe(method, args, check_fn, cleanup_fn=None):
-        snap = snapshot_listenables(listenables)
+        snap = snapshot_properties(snapshot_targets)
         gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, snap,
-                           listenables, log)
+                           snapshot_targets, log)
         try:
             while True:
                 next(gen)
