@@ -96,17 +96,10 @@ Done — tightened vector detection in `generate_stubs.py` to require `append`/`
 iterables like `BrowserItemIterator` now get `Iterable[T]` base instead of `Vector[T]` via new
 `_iterable_base()` method.
 
-## 13. Same-named module/class ambiguity in stubs
+## ~~13. Same-named module/class ambiguity in stubs~~ ✓
 
-The generated stubs nest the main class in a same-named submodule (e.g., `Live/Song/Song.pyi` contains
-`class Song`, `Live/Application/Application.pyi` contains `class Application`). The `__init__.pyi`
-re-exports the class with `from .Song import Song`.
-
-Pyright sees `Live.Song` as both the **module** (the package) and the **class** (via re-export), causing
-functions like `get_application()` to show return type `Module(".Application") | Application` instead of
-just `Application`.
-
-Options:
-- Flatten the main class into `__init__.pyi` directly (loses the clean file separation)
-- Rename the inner module (e.g., `Live/Song/_song.pyi`) to avoid the name collision
-- Find a pyright-specific `__all__` or re-export pattern that disambiguates
+Done — flattened stub structure to match the real C extension module layout. Each submodule is now a
+single flat `.pyi` file (e.g., `Live/Song.pyi`) instead of a package directory with a same-named inner
+module (`Live/Song/Song.pyi`). The real `Live.Song` is a flat module (no `__path__`), not a package, so
+this is also more accurate. Updated `generate_stubs.py` to merge the main class and helper types into
+one file per module.

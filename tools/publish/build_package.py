@@ -70,22 +70,32 @@ pip install ableton-live-stubs
 Once installed, type checkers (pyright, mypy) automatically discover the `Live` module stubs.
 No configuration needed.
 
+Import types under `TYPE_CHECKING` to avoid runtime import errors (the `Live` module only exists inside
+Ableton Live's Python runtime):
+
 ```python
-from Live.Application import Application
-from Live.Song import Song
-from Live.Track import Track
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import Live
+    from Live.Song import Song
+
+def on_tempo_changed(song: Song) -> None:
+    app: Live.Application.Application = Live.Application.get_application()
+    print(f"Live {{app.get_major_version()}}: tempo is now {{song.tempo}}")
 ```
 
 ## Manual setup (without pip)
 
 Download the zip from the
 [GitHub release](https://github.com/PhotonicVelocity/LiveAPI/releases/tag/v{live_version})
-and add the extracted `Live/` directory to your type checker's search path:
+and add the extracted directory (the parent of `Live/`) to your type checker's stub path:
 
 ```json
 // pyrightconfig.json
 {{
-  "extraPaths": ["path/to/Live-stubs"]
+  "stubPath": "path/to/Live-stubs"
 }}
 ```
 

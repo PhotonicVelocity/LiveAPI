@@ -22,15 +22,28 @@ Published as a searchable site via GitHub Pages (MkDocs + Material theme).
 Pre-built stubs for each Live version are available in [`stubs/`](stubs/). Each version directory contains a `Live/`
 package with typed modules you can use for autocomplete and static analysis.
 
-To use in a Control Surface project, add the relevant `stubs/<version>/Live/` directory to your type checker's search
-path. The stubs include a `py.typed` marker for PEP 561 compatibility.
+To use in a Control Surface project, add the relevant `stubs/<version>/` directory to your type checker's stub path
+(e.g., `"stubPath": "stubs/12.3.6"` in pyrightconfig.json). The stubs include a `py.typed` marker for PEP 561
+compatibility.
+
+```python
+from __future__ import annotations
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    import Live
+    from Live.Song import Song
+
+def on_tempo_changed(song: Song) -> None:
+    app: Live.Application.Application = Live.Application.get_application()
+    print(f"Live {app.get_major_version()}: tempo is now {song.tempo}")
+```
 
 ## Project Structure
 
 ```
 reference/     Curated per-class API docs (the primary product)
 stubs/         Generated stubs per Live version (pipeline intermediates in pipeline/ subdir)
-MaxForLive/    API docs parsed from Max for Live HTML documentation
 tools/         APICapture and stub generation pipeline (see tools/README.md)
 ```
 

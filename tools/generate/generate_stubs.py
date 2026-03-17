@@ -1,8 +1,8 @@
 """Generate .pyi stub files from LiveTree.resolved.json.
 
 Walks the resolved tree and emits typed Python stubs for the Ableton Live Object Model.
-The tree structure drives the output layout: each namespace module becomes a package
-directory, and classes/enums/functions are rendered according to their node type.
+Each namespace module becomes a flat .pyi file under the Live/ package, mirroring how the
+real C extension module is structured (Live.Song is a module, not a package).
 
 Usage:
     python tools/parse/generate_stubs.py 12.3.6
@@ -132,18 +132,15 @@ class StubGenerator:
             pass
 
     def _write_module(self, module_node: dict) -> None:
-        """Write one namespace module as a package directory."""
+        """Write one namespace module as a flat .pyi file.
+
+        The real Live module is a C extension where each submodule (Live.Song, etc.) is a
+        flat module, not a package. We mirror this by writing a single {Module}.pyi file
+        containing the main class and all helper types.
+        """
         module_name = module_node["name"]
-        module_dir = join(self.output_dir, module_name)
-        makedirs(module_dir)
-
-        main_class, init_nodes = self._split_main_class(module_node)
-
-        if main_class is not None:
-            self._write_class_file(module_name, main_class, module_dir)
-            self._write_init_file(module_name, init_nodes, module_dir, import_main=True)
-        else:
-            self._write_init_file(module_name, init_nodes, module_dir, import_main=False)
+        main_class, other_nodes = self._split_main_class(module_node)
+        self._write_module_file(module_name, main_class, other_nodes)
 
     def _split_main_class(self, module_node: dict) -> tuple[dict | None, list[dict]]:
         """Split children into main-class node and remaining init-level nodes.
@@ -172,46 +169,21 @@ class StubGenerator:
     # File writers
     # ------------------------------------------------------------------
 
-    def _write_class_file(self, module_name: str, main_class_node: dict, module_dir: str) -> None:
-        """Write {Module}/{Module}.pyi containing the main class."""
-        buf = StringIO()
-        path = f"Live.{module_name}"
-        self._render_class(main_class_node, buf, indent=0, path=path)
-
-        body = buf.getvalue()
-
-        # Collect names defined in this file (the main class + its nested classes)
-        defined_names = self._collect_defined_names(main_class_node)
-
-        type_checking_block = self._build_type_checking_block(
-            body, module_name, defined_names, is_class_file=True
-        )
-
-        out_file = join(module_dir, f"{module_name}.pyi")
-        with open(out_file, "w", encoding="utf-8") as f:
-            f.write(_HEADER)
-            if type_checking_block:
-                f.write(f"\n{type_checking_block}\n")
-            f.write(body)
-            f.write(f"\n\n__all__ = [{module_name!r}]\n")
-
-    def _write_init_file(
-        self,
-        module_name: str,
-        nodes: list[dict],
-        module_dir: str,
-        *,
-        import_main: bool,
+    def _write_module_file(
+        self, module_name: str, main_class_node: dict | None, other_nodes: list[dict],
     ) -> None:
-        """Write {Module}/__init__.pyi with helper classes, enums, and functions."""
+        """Write {Module}.pyi as a flat file containing the main class and all helpers."""
         buf = StringIO()
         exports: list[str] = []
+        mod_path = f"Live.{module_name}"
 
-        if import_main:
+        # Render main class first (if present)
+        if main_class_node is not None:
+            self._render_class(main_class_node, buf, indent=0, path=mod_path)
             exports.append(module_name)
 
-        mod_path = f"Live.{module_name}"
-        for node in nodes:
+        # Render remaining nodes (helper classes, enums, functions)
+        for node in other_nodes:
             node_type = node.get("type", "")
             if node_type == "class":
                 self._render_class(node, buf, indent=0, path=mod_path)
@@ -229,20 +201,21 @@ class StubGenerator:
 
         body = buf.getvalue()
 
+        # Collect all defined names for import resolution
         defined_names = set(exports)
-        type_checking_block = self._build_type_checking_block(
-            body, module_name, defined_names, is_class_file=False
-        )
+        if main_class_node is not None:
+            defined_names.update(self._collect_defined_names(main_class_node))
+
+        type_checking_block = self._build_type_checking_block(body, module_name, defined_names)
 
         # Use vector header if this module defines any vector types
-        has_vectors = any(n.get("name", "") in self._vector_types for n in nodes if n.get("type") == "class")
+        all_nodes = ([main_class_node] if main_class_node else []) + other_nodes
+        has_vectors = any(n.get("name", "") in self._vector_types for n in all_nodes if n.get("type") == "class")
         header = _VECTOR_HEADER if has_vectors else _HEADER
 
-        out_file = join(module_dir, "__init__.pyi")
+        out_file = join(self.output_dir, f"{module_name}.pyi")
         with open(out_file, "w", encoding="utf-8") as f:
             f.write(header)
-            if import_main:
-                f.write(f"from .{module_name} import {module_name}\n")
             if type_checking_block:
                 f.write(f"\n{type_checking_block}\n")
             f.write(body)
@@ -568,8 +541,6 @@ class StubGenerator:
         body: str,
         module_name: str,
         defined_names: set[str],
-        *,
-        is_class_file: bool,
     ) -> str:
         """Scan body for type references and build an `if TYPE_CHECKING:` import block."""
         # Find all capitalized identifiers that could be class references
@@ -587,24 +558,18 @@ class StubGenerator:
         if not referenced:
             return ""
 
-        sibling_imports: list[str] = []
         cross_imports: dict[str, list[str]] = {}
 
         for cls in sorted(referenced):
             source_module = self._class_to_module[cls]
             if source_module == module_name:
-                if is_class_file:
-                    sibling_imports.append(cls)
-                # For __init__.pyi, skip — name is defined locally
-            else:
-                cross_imports.setdefault(source_module, []).append(cls)
+                continue  # defined in this file
+            cross_imports.setdefault(source_module, []).append(cls)
 
-        if not sibling_imports and not cross_imports:
+        if not cross_imports:
             return ""
 
         lines = ["if TYPE_CHECKING:"]
-        if sibling_imports:
-            lines.append(f"    from . import {', '.join(sorted(sibling_imports))}")
         for mod in sorted(cross_imports):
             names = ", ".join(sorted(cross_imports[mod]))
             lines.append(f"    from Live.{mod} import {names}")
