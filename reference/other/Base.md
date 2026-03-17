@@ -8,10 +8,10 @@ A simple container for returning floats from Live.
 
 ### Methods
 
-| Method                            | Returns |
-| --------------------------------- | ------- |
-| [`append()`](#appendvalue-float)  | `None`  |
-| [`extend()`](#extendvalues-float) | `None`  |
+| Method                                    | Returns |
+| ----------------------------------------- | ------- |
+| [`append()`](#appendvalue-float)          | `None`  |
+| [`extend()`](#extendvalues-iterablefloat) | `None`  |
 
 #### `append(value: float)`
 
@@ -19,11 +19,11 @@ A simple container for returning floats from Live.
 - **Args:**
   - `value: float`
 
-#### `extend(values: float)`
+#### `extend(values: Iterable[float])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: float`
+  - `values: Iterable[float]`
 
 ## IntU64Vector (Class)
 
@@ -33,10 +33,10 @@ A simple container for returning unsigned long integers from Live.
 
 ### Methods
 
-| Method                          | Returns |
-| ------------------------------- | ------- |
-| [`append()`](#appendvalue-int)  | `None`  |
-| [`extend()`](#extendvalues-int) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-int)          | `None`  |
+| [`extend()`](#extendvalues-iterableint) | `None`  |
 
 #### `append(value: int)`
 
@@ -44,11 +44,11 @@ A simple container for returning unsigned long integers from Live.
 - **Args:**
   - `value: int`
 
-#### `extend(values: int)`
+#### `extend(values: Iterable[int])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: int`
+  - `values: Iterable[int]`
 
 ## IntVector (Class)
 
@@ -58,10 +58,10 @@ A simple container for returning integers from Live.
 
 ### Methods
 
-| Method                          | Returns |
-| ------------------------------- | ------- |
-| [`append()`](#appendvalue-int)  | `None`  |
-| [`extend()`](#extendvalues-int) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-int)          | `None`  |
+| [`extend()`](#extendvalues-iterableint) | `None`  |
 
 #### `append(value: int)`
 
@@ -69,11 +69,11 @@ A simple container for returning integers from Live.
 - **Args:**
   - `value: int`
 
-#### `extend(values: int)`
+#### `extend(values: Iterable[int])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: int`
+  - `values: Iterable[int]`
 
 ## LimitationError (Class)
 
@@ -87,10 +87,10 @@ A simple read only container for returning python objects.
 
 ### Methods
 
-| Method                                  | Returns |
-| --------------------------------------- | ------- |
-| [`append()`](#appendvalue-any)          | `None`  |
-| [`extend()`](#extendvalues-iterableany) | `None`  |
+| Method                                     | Returns |
+| ------------------------------------------ | ------- |
+| [`append()`](#appendvalue-any)             | `None`  |
+| [`extend()`](#extendvalues-iterableobject) | `None`  |
 
 #### `append(value: Any)`
 
@@ -98,11 +98,11 @@ A simple read only container for returning python objects.
 - **Args:**
   - `value: Any`
 
-#### `extend(values: Iterable[Any])`
+#### `extend(values: Iterable[object])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: Iterable[Any]`
+  - `values: Iterable[object]`
 
 ## StringVector (Class)
 
@@ -112,10 +112,10 @@ A simple container for returning strings from Live.
 
 ### Methods
 
-| Method                          | Returns |
-| ------------------------------- | ------- |
-| [`append()`](#appendvalue-str)  | `None`  |
-| [`extend()`](#extendvalues-str) | `None`  |
+| Method                                  | Returns |
+| --------------------------------------- | ------- |
+| [`append()`](#appendvalue-str)          | `None`  |
+| [`extend()`](#extendvalues-iterablestr) | `None`  |
 
 #### `append(value: str)`
 
@@ -123,11 +123,11 @@ A simple container for returning strings from Live.
 - **Args:**
   - `value: str`
 
-#### `extend(values: str)`
+#### `extend(values: Iterable[str])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: str`
+  - `values: Iterable[str]`
 
 ## Text (Class)
 
@@ -204,8 +204,8 @@ A simple read only container for returning objects from Live.
 | [`__len__()`](#__len__)                        | `int`            |
 | [`__contains__()`](#__contains__value-object)  | `bool`           |
 | [`__bool__()`](#__bool__)                      | `bool`           |
-| [`append()`](#appendvalue-any)                 | `None`           |
-| [`extend()`](#extendvalues-iterableany)        | `None`           |
+| [`append()`](#appendvalue-lomobject)           | `None`           |
+| [`extend()`](#extendvalues-iterablelomobject)  | `None`           |
 
 #### `__iter__()`
 
@@ -243,24 +243,24 @@ A simple read only container for returning objects from Live.
 
 - **Returns:** `bool`
 
-#### `append(value: Any)`
+#### `append(value: LomObject)`
 
 - **Returns:** `None`
 - **Args:**
-  - `value: Any`
+  - `value: LomObject`
 
-#### `extend(values: Iterable[Any])`
+#### `extend(values: Iterable[LomObject])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: Iterable[Any]`
+  - `values: Iterable[LomObject]`
 
 ## Module Functions
 
 | Function                                                                            | Returns |
 | ----------------------------------------------------------------------------------- | ------- |
 | [`get_text()`](#get_textclassname-str-textname-str)                                 | `Text`  |
-| [`log()`](#logarg1-str)                                                             | `None`  |
+| [`log()`](#logstring-str)                                                           | `None`  |
 | [`subst_args()`](#subst_argstext-text-arg1-str-arg2-str-arg3-str-arg4-str-arg5-str) | `str`   |
 
 ### `get_text(classname: str, textname: str)`
@@ -272,11 +272,11 @@ A simple read only container for returning objects from Live.
 
 Retrieves the (translated) Text identified by `classname` and `textname`.
 
-### `log(arg1: str)`
+### `log(string: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg1: str`
+  - `string: str`
 
 ### `subst_args(text: Text, arg1: str = , arg2: str = , arg3: str = , arg4: str = , arg5: str = )`
 

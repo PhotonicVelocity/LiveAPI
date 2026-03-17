@@ -16,7 +16,7 @@ This class represents a Live set.
 
 | Property                                                                              | Type                    | Supports             |
 | ------------------------------------------------------------------------------------- | ----------------------- | -------------------- |
-| [`appointed_device`](#appointed_device)                                               | `Device`                | `get`/`set`/`listen` |
+| [`appointed_device`](#appointed_device)                                               | `Device \| None`        | `get`/`set`/`listen` |
 | [`arrangement_overdub`](#arrangement_overdub)                                         | `bool`                  | `get`/`set`/`listen` |
 | [`back_to_arranger`](#back_to_arranger)                                               | `bool`                  | `get`/`set`/`listen` |
 | [`can_capture_midi`](#can_capture_midi)                                               | `bool`                  | `get`/`listen`       |
@@ -77,7 +77,7 @@ This class represents a Live set.
 
 #### `appointed_device`
 
-- **Type:** `Device`
+- **Type:** `Device | None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 
@@ -562,7 +562,7 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 | [`get_beats_loop_length()`](#get_beats_loop_length)                                                   | `BeatTime` |
 | [`get_beats_loop_start()`](#get_beats_loop_start)                                                     | `BeatTime` |
 | [`get_current_beats_song_time()`](#get_current_beats_song_time)                                       | `BeatTime` |
-| [`get_current_smpte_song_time()`](#get_current_smpte_song_timeformat-int)                             | `SmptTime` |
+| [`get_current_smpte_song_time()`](#get_current_smpte_song_timesmpte_format-int)                       | `SmptTime` |
 | [`get_data()`](#get_datakey-str-default_value-any)                                                    | `Any`      |
 | [`is_cue_point_selected()`](#is_cue_point_selected)                                                   | `bool`     |
 | [`jump_by()`](#jump_bybeats-float)                                                                    | `None`     |
@@ -716,11 +716,11 @@ Get const access to the songs loop start, using a BeatTime class with the curren
 
 Get const access to the songs current playing position, using a BeatTime class with the current global set signature.
 
-#### `get_current_smpte_song_time(format: int)`
+#### `get_current_smpte_song_time(smpte_format: int)`
 
 - **Returns:** `SmptTime`
 - **Args:**
-  - `format: int`
+  - `smpte_format: int`
 
 Get const access to the songs current playing position, by specifying the SMPTE format in which you would like to receive the time.
 
@@ -860,17 +860,17 @@ Representing the view aspects of a Live document: The Session and Arrangerview.
 
 ### Properties
 
-| Property                                          | Type       | Supports             |
-| ------------------------------------------------- | ---------- | -------------------- |
-| [`canonical_parent`](#canonical_parent)           | `Song`     | `get`                |
-| [`detail_clip`](#detail_clip)                     | `None`     | `get`/`set`/`listen` |
-| [`draw_mode`](#draw_mode)                         | `bool`     | `get`/`set`/`listen` |
-| [`follow_song`](#follow_song)                     | `bool`     | `get`/`set`/`listen` |
-| [`highlighted_clip_slot`](#highlighted_clip_slot) | `ClipSlot` | `get`/`set`          |
-| [`selected_chain`](#selected_chain)               | `None`     | `get`/`set`/`listen` |
-| [`selected_parameter`](#selected_parameter)       | `None`     | `get`/`listen`       |
-| [`selected_scene`](#selected_scene)               | `Scene`    | `get`/`set`/`listen` |
-| [`selected_track`](#selected_track)               | `Track`    | `get`/`set`/`listen` |
+| Property                                          | Type                      | Supports             |
+| ------------------------------------------------- | ------------------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)           | `Song`                    | `get`                |
+| [`detail_clip`](#detail_clip)                     | `Clip \| None`            | `get`/`set`/`listen` |
+| [`draw_mode`](#draw_mode)                         | `bool`                    | `get`/`set`/`listen` |
+| [`follow_song`](#follow_song)                     | `bool`                    | `get`/`set`/`listen` |
+| [`highlighted_clip_slot`](#highlighted_clip_slot) | `ClipSlot`                | `get`/`set`          |
+| [`selected_chain`](#selected_chain)               | `Chain \| None`           | `get`/`set`/`listen` |
+| [`selected_parameter`](#selected_parameter)       | `DeviceParameter \| None` | `get`/`listen`       |
+| [`selected_scene`](#selected_scene)               | `Scene`                   | `get`/`set`/`listen` |
+| [`selected_track`](#selected_track)               | `Track`                   | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -882,7 +882,7 @@ Get the canonical parent of the song view.
 
 #### `detail_clip`
 
-- **Type:** `None`
+- **Type:** `Clip | None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 
@@ -914,7 +914,7 @@ Get/Set the clip slot, defined via the selected track and scene in the Session.W
 
 #### `selected_chain`
 
-- **Type:** `None`
+- **Type:** `Chain | None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 
@@ -922,7 +922,7 @@ Get the highlighted chain if available.
 
 #### `selected_parameter`
 
-- **Type:** `None`
+- **Type:** `DeviceParameter | None`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

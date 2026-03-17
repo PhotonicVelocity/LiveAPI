@@ -14,14 +14,14 @@ This class represents a drum group device pad in Live.
 
 ### Properties
 
-| Property                                | Type                | Supports             |
-| --------------------------------------- | ------------------- | -------------------- |
-| [`canonical_parent`](#canonical_parent) | `RackDevice`        | `get`                |
-| [`chains`](#chains)                     | `Vector[LomObject]` | `get`/`listen`       |
-| [`mute`](#mute)                         | `bool`              | `get`/`set`/`listen` |
-| [`name`](#name)                         | `str`               | `get`/`listen`       |
-| [`note`](#note)                         | `int`               | `get`                |
-| [`solo`](#solo)                         | `bool`              | `get`/`set`/`listen` |
+| Property                                | Type         | Supports             |
+| --------------------------------------- | ------------ | -------------------- |
+| [`canonical_parent`](#canonical_parent) | `RackDevice` | `get`                |
+| [`chains`](#chains)                     | `Vector`     | `get`/`listen`       |
+| [`mute`](#mute)                         | `bool`       | `get`/`set`/`listen` |
+| [`name`](#name)                         | `str`        | `get`/`listen`       |
+| [`note`](#note)                         | `int`        | `get`                |
+| [`solo`](#solo)                         | `bool`       | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -33,7 +33,7 @@ Get the canonical parent of the drum pad.
 
 #### `chains`
 
-- **Type:** `Vector[LomObject]`
+- **Type:** `Vector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 

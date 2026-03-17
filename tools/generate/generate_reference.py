@@ -16,7 +16,6 @@ import ast
 import re
 import subprocess
 import sys
-import textwrap
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -315,12 +314,15 @@ def parse_function_args(
     args_info = []
     arguments = node.args
 
-    # Build defaults mapping: defaults align to the end of args
-    num_args = len(arguments.args)
+    # Combine positional-only and regular args (positional-only come first)
+    all_args = list(arguments.posonlyargs) + list(arguments.args)
+
+    # Build defaults mapping: defaults align to the end of all_args
+    num_args = len(all_args)
     num_defaults = len(arguments.defaults)
     default_offset = num_args - num_defaults
 
-    for i, arg in enumerate(arguments.args):
+    for i, arg in enumerate(all_args):
         if arg.arg == "self":
             continue
         type_str = annotation_to_str(arg.annotation)
@@ -775,46 +777,32 @@ def generate_page_markdown(
 # ---------------------------------------------------------------------------
 
 
-def parse_namespace(ns_dir: Path) -> NamespaceData:
-    """Parse a single namespace directory and return structured data."""
-    ns_name = ns_dir.name  # e.g. "Song"
+def parse_namespace(stub_file: Path) -> NamespaceData:
+    """Parse a single flat .pyi stub file and return structured data.
+
+    Each stub file (e.g. Live/Song.pyi) contains the primary class plus any
+    helper types, enums, and module-level functions for that namespace.
+    """
+    ns_name = stub_file.stem  # e.g. "Song"
     namespace = f"Live.{ns_name}"
 
-    # Parse the __init__.pyi for enums, helper classes, and module functions
-    init_file = ns_dir / "__init__.pyi"
-    init_classes: list[ClassInfo] = []
-    init_enums: list[EnumInfo] = []
-    init_functions: list[MethodInfo] = []
-    if init_file.exists():
-        init_classes, init_enums, init_functions = parse_stub_file(init_file, namespace)
+    classes, enums, functions = parse_stub_file(stub_file, namespace)
 
-    # Parse the main class file (e.g., Song/Song.pyi)
-    main_file = ns_dir / f"{ns_name}.pyi"
+    # The primary class is the one matching the namespace name
     primary_class: ClassInfo | None = None
-    main_classes: list[ClassInfo] = []
-
-    if main_file.exists():
-        main_classes, main_enums, main_functions = parse_stub_file(main_file, namespace)
-        # The primary class is the one matching the namespace name
-        for cls in main_classes:
-            if cls.name == ns_name:
-                primary_class = cls
-                break
-        # Any extra classes in the main file that aren't the primary
-        extra_main = [c for c in main_classes if c.name != ns_name]
-        init_classes.extend(extra_main)
-        init_enums.extend(main_enums)
-        init_functions.extend(main_functions)
-
-    # Filter out the primary class from init_classes (it's re-exported)
-    init_classes = [c for c in init_classes if c.name != ns_name]
+    other_classes: list[ClassInfo] = []
+    for cls in classes:
+        if cls.name == ns_name:
+            primary_class = cls
+        else:
+            other_classes.append(cls)
 
     return NamespaceData(
         name=ns_name,
         primary_class=primary_class,
-        module_enums=init_enums,
-        module_functions=init_functions,
-        module_classes=init_classes,
+        module_enums=enums,
+        module_functions=functions,
+        module_classes=other_classes,
     )
 
 
@@ -995,19 +983,17 @@ def main() -> None:
     for subdir in ("tracks", "devices", "other"):
         (output_dir / subdir).mkdir(parents=True, exist_ok=True)
 
-    # Find all namespace directories (those containing .pyi files)
-    namespaces: list[str] = []
-    for item in sorted(stubs_dir.iterdir()):
-        if item.is_dir() and (item / "__init__.pyi").exists():
-            namespaces.append(item.name)
+    # Find all flat .pyi stub files (skip __init__.pyi)
+    stub_files = sorted(f for f in stubs_dir.iterdir() if f.suffix == ".pyi" and f.name != "__init__.pyi")
+    namespaces = [f.stem for f in stub_files]
 
     print(f"Found {len(namespaces)} namespaces in {stubs_dir}")
 
     # Pass 1: parse all namespaces
     all_ns: dict[str, NamespaceData] = {}
-    for ns_name in namespaces:
-        ns_dir = stubs_dir / ns_name
-        all_ns[ns_name] = parse_namespace(ns_dir)
+    for stub_file in stub_files:
+        ns_data = parse_namespace(stub_file)
+        all_ns[ns_data.name] = ns_data
 
     # Build cross-reference access map
     access_map = build_access_map(all_ns)

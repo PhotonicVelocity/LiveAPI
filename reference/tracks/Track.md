@@ -544,8 +544,8 @@ Representing the view aspects of a Track.
 | [`create_audio_clip()`](#create_audio_clipfile_path-str-position-float)                             | `Clip`     |
 | [`create_midi_clip()`](#create_midi_clipstart_time-float-length-float)                              | `Clip`     |
 | [`create_take_lane()`](#create_take_lane)                                                           | `TakeLane` |
-| [`delete_clip()`](#delete_cliparg2-clip)                                                            | `None`     |
-| [`delete_device()`](#delete_devicearg2-int)                                                         | `None`     |
+| [`delete_clip()`](#delete_clipslot-clip)                                                            | `None`     |
+| [`delete_device()`](#delete_devicedevice-int)                                                       | `None`     |
 | [`duplicate_clip_slot()`](#duplicate_clip_slotindex-int)                                            | `int`      |
 | [`duplicate_clip_to_arrangement()`](#duplicate_clip_to_arrangementclip-clip-destination_time-float) | `Clip`     |
 | [`duplicate_device()`](#duplicate_deviceindex-int)                                                  | `None`     |
@@ -579,19 +579,19 @@ Creates an empty MIDI clip and inserts it into the arrangement at the specified 
 
 Create a new TakeLane for this track.
 
-#### `delete_clip(arg2: Clip)`
+#### `delete_clip(slot: Clip)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: Clip`
+  - `slot: Clip`
 
 Delete the given clip. Raises a runtime error when the clip belongs to another track.
 
-#### `delete_device(arg2: int)`
+#### `delete_device(device: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: int`
+  - `device: int`
 
 Delete a device identified by the index in the 'devices' list.
 
@@ -817,10 +817,10 @@ A container for returning routing channels from Live.
 
 ### Methods
 
-| Method                                     | Returns |
-| ------------------------------------------ | ------- |
-| [`append()`](#appendvalue-routingchannel)  | `None`  |
-| [`extend()`](#extendvalues-routingchannel) | `None`  |
+| Method                                             | Returns |
+| -------------------------------------------------- | ------- |
+| [`append()`](#appendvalue-routingchannel)          | `None`  |
+| [`extend()`](#extendvalues-iterableroutingchannel) | `None`  |
 
 #### `append(value: RoutingChannel)`
 
@@ -828,11 +828,11 @@ A container for returning routing channels from Live.
 - **Args:**
   - `value: RoutingChannel`
 
-#### `extend(values: RoutingChannel)`
+#### `extend(values: Iterable[RoutingChannel])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: RoutingChannel`
+  - `values: Iterable[RoutingChannel]`
 
 ## RoutingType (Type)
 
@@ -880,10 +880,10 @@ A container for returning routing types from Live.
 
 ### Methods
 
-| Method                                  | Returns |
-| --------------------------------------- | ------- |
-| [`append()`](#appendvalue-routingtype)  | `None`  |
-| [`extend()`](#extendvalues-routingtype) | `None`  |
+| Method                                          | Returns |
+| ----------------------------------------------- | ------- |
+| [`append()`](#appendvalue-routingtype)          | `None`  |
+| [`extend()`](#extendvalues-iterableroutingtype) | `None`  |
 
 #### `append(value: RoutingType)`
 
@@ -891,8 +891,8 @@ A container for returning routing types from Live.
 - **Args:**
   - `value: RoutingType`
 
-#### `extend(values: RoutingType)`
+#### `extend(values: Iterable[RoutingType])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: RoutingType`
+  - `values: Iterable[RoutingType]`

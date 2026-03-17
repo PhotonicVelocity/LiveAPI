@@ -125,7 +125,7 @@ Returns the applications view component.
 | [`get_minor_version()`](#get_minor_version)                                                                                                                                                 | `int`   |
 | [`get_variant()`](#get_variant)                                                                                                                                                             | `str`   |
 | [`get_version_string()`](#get_version_string)                                                                                                                                               | `str`   |
-| [`has_option()`](#has_optionoption-str)                                                                                                                                                     | `bool`  |
+| [`has_option()`](#has_optionoption_name-str)                                                                                                                                                | `bool`  |
 | [`press_current_dialog_button()`](#press_current_dialog_buttonindex-int)                                                                                                                    | `None`  |
 | [`show_message()`](#show_messagetext-text-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false)                                                               | `int`   |
 | [`show_on_the_fly_message()`](#show_on_the_fly_messagemessage-str-buttons-messagebuttons-int-0-enable_markup-bool-false-show_success_icon-bool-false-push_dialog_type-pushdialogtype-int-0) | `int`   |
@@ -172,11 +172,11 @@ Returns one of the strings in Live.Application.Variants.
 
 Returns the full version string of Live.
 
-#### `has_option(option: str)`
+#### `has_option(option_name: str)`
 
 - **Returns:** `bool`
 - **Args:**
-  - `option: str`
+  - `option_name: str`
 
 Returns True if the given entry exists in Options.txt, False otherwise.
 
@@ -256,11 +256,11 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 | Method                                                                           | Returns        |
 | -------------------------------------------------------------------------------- | -------------- |
 | [`available_main_views()`](#available_main_views)                                | `StringVector` |
-| [`focus_view()`](#focus_viewarg2-str)                                            | `None`         |
+| [`focus_view()`](#focus_viewview-str)                                            | `None`         |
 | [`hide_view()`](#hide_viewview_name-str)                                         | `None`         |
 | [`is_view_visible()`](#is_view_visibleidentifier-str-main_window_only-bool-true) | `bool`         |
 | [`scroll_view()`](#scroll_viewdirection-int-view_name-str-modifier_pressed-bool) | `None`         |
-| [`show_view()`](#show_viewarg2-str)                                              | `None`         |
+| [`show_view()`](#show_viewview-str)                                              | `None`         |
 | [`toggle_browse()`](#toggle_browse)                                              | `None`         |
 | [`zoom_view()`](#zoom_viewdirection-int-view_name-str-modifier_pressed-bool)     | `None`         |
 
@@ -270,11 +270,11 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 Return a list of strings with the available subcomponent views, which is to be specified, when using the rest of this classes functions. A 'subcomponent view' is a main view component of a document view, like the Session view, the Arranger or Detailview and so on...
 
-#### `focus_view(arg2: str)`
+#### `focus_view(view: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: str`
+  - `view: str`
 
 Show and focus one through the identifier string specified view.
 
@@ -305,11 +305,11 @@ Return true if the through the identifier string specified view is currently vis
 
 Scroll through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
 
-#### `show_view(arg2: str)`
+#### `show_view(view: str)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: str`
+  - `view: str`
 
 Show one through the identifier string specified view. Will throw a runtime error if this is called in Live's initialization scope.
 
@@ -427,10 +427,10 @@ A container for returning control descriptions.
 
 ### Methods
 
-| Method                                         | Returns |
-| ---------------------------------------------- | ------- |
-| [`append()`](#appendvalue-controldescription)  | `None`  |
-| [`extend()`](#extendvalues-controldescription) | `None`  |
+| Method                                                 | Returns |
+| ------------------------------------------------------ | ------- |
+| [`append()`](#appendvalue-controldescription)          | `None`  |
+| [`extend()`](#extendvalues-iterablecontroldescription) | `None`  |
 
 #### `append(value: ControlDescription)`
 
@@ -438,11 +438,11 @@ A container for returning control descriptions.
 - **Args:**
   - `value: ControlDescription`
 
-#### `extend(values: ControlDescription)`
+#### `extend(values: Iterable[ControlDescription])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: ControlDescription`
+  - `values: Iterable[ControlDescription]`
 
 ## ControlSurfaceProxy (Type)
 
@@ -486,9 +486,9 @@ The layout of pads on Push.
 | [`fetch_received_midi_messages()`](#fetch_received_midi_messages)    | `tuple[tuple[int, Ellipsis], Ellipsis]` |
 | [`fetch_received_values()`](#fetch_received_values)                  | `tuple[tuple[int, Any], Ellipsis]`      |
 | [`grab_control()`](#grab_controlcontrol-int)                         | `None`                                  |
-| [`release_control()`](#release_controlarg2-int)                      | `None`                                  |
-| [`send_midi()`](#send_midiarg2-tuple)                                | `None`                                  |
-| [`send_value()`](#send_valuearg2-tuple)                              | `None`                                  |
+| [`release_control()`](#release_controlcontrol-int)                   | `None`                                  |
+| [`send_midi()`](#send_midimidi_event_bytes-tupleint-ellipsis)        | `None`                                  |
+| [`send_value()`](#send_valuevalue-tupleany-ellipsis)                 | `None`                                  |
 | [`subscribe_to_control()`](#subscribe_to_controlcontrol-int)         | `None`                                  |
 | [`unsubscribe_from_control()`](#unsubscribe_from_controlcontrol-int) | `None`                                  |
 
@@ -512,23 +512,23 @@ The layout of pads on Push.
 - **Args:**
   - `control: int`
 
-#### `release_control(arg2: int)`
+#### `release_control(control: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: int`
+  - `control: int`
 
-#### `send_midi(arg2: tuple)`
-
-- **Returns:** `None`
-- **Args:**
-  - `arg2: tuple`
-
-#### `send_value(arg2: tuple)`
+#### `send_midi(midi_event_bytes: tuple[int, Ellipsis])`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: tuple`
+  - `midi_event_bytes: tuple[int, Ellipsis]`
+
+#### `send_value(value: tuple[Any, Ellipsis])`
+
+- **Returns:** `None`
+- **Args:**
+  - `value: tuple[Any, Ellipsis]`
 
 #### `subscribe_to_control(control: int)`
 
@@ -550,10 +550,10 @@ A container for returning unavailable features.
 
 ### Methods
 
-| Method                                         | Returns |
-| ---------------------------------------------- | ------- |
-| [`append()`](#appendvalue-unavailablefeature)  | `None`  |
-| [`extend()`](#extendvalues-unavailablefeature) | `None`  |
+| Method                                                 | Returns |
+| ------------------------------------------------------ | ------- |
+| [`append()`](#appendvalue-unavailablefeature)          | `None`  |
+| [`extend()`](#extendvalues-iterableunavailablefeature) | `None`  |
 
 #### `append(value: UnavailableFeature)`
 
@@ -561,11 +561,11 @@ A container for returning unavailable features.
 - **Args:**
   - `value: UnavailableFeature`
 
-#### `extend(values: UnavailableFeature)`
+#### `extend(values: Iterable[UnavailableFeature])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: UnavailableFeature`
+  - `values: Iterable[UnavailableFeature]`
 
 ## Module Functions
 

@@ -11,7 +11,6 @@ This class represents a MIDI or Audio DSP-Device in Live.
 **Access via:**
 
 - `Chain.insert_device()`
-- `Song.appointed_device`
 - `Track.insert_device()`
 - `Track.View.selected_device`
 
@@ -220,10 +219,10 @@ The type of the device.
 
 ### Methods
 
-| Method                                      | Returns |
-| ------------------------------------------- | ------- |
-| [`append()`](#appendvalue-deviceparameter)  | `None`  |
-| [`extend()`](#extendvalues-deviceparameter) | `None`  |
+| Method                                              | Returns |
+| --------------------------------------------------- | ------- |
+| [`append()`](#appendvalue-deviceparameter)          | `None`  |
+| [`extend()`](#extendvalues-iterabledeviceparameter) | `None`  |
 
 #### `append(value: DeviceParameter)`
 
@@ -231,8 +230,8 @@ The type of the device.
 - **Args:**
   - `value: DeviceParameter`
 
-#### `extend(values: DeviceParameter)`
+#### `extend(values: Iterable[DeviceParameter])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: DeviceParameter`
+  - `values: Iterable[DeviceParameter]`

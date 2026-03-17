@@ -95,7 +95,7 @@ Returns true if the set has unsaved changes.
 | [`get_trial_time_left()`](#get_trial_time_left)                                                            | `str`            |
 | [`invoke_pack_installation_callback()`](#invoke_pack_installation_callback)                                | `None`           |
 | [`load_and_convert_legacy_unlock_cfg()`](#load_and_convert_legacy_unlock_cfg)                              | `dict`           |
-| [`process_license_response()`](#process_license_responselicense_response_lines-list)                       | `UnlockStatus`   |
+| [`process_license_response()`](#process_license_responselicense_response_lines-liststr)                    | `UnlockStatus`   |
 | [`process_trial_response()`](#process_trial_responsetrial_response_line-str)                               | `bool`           |
 | [`request_exit()`](#request_exitexit_code-int-0)                                                           | `None`           |
 | [`save_current_set()`](#save_current_set)                                                                  | `None`           |
@@ -157,11 +157,11 @@ Call package installation callback.
 
 Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object.
 
-#### `process_license_response(license_response_lines: list)`
+#### `process_license_response(license_response_lines: list[str])`
 
 - **Returns:** `UnlockStatus`
 - **Args:**
-  - `license_response_lines: list`
+  - `license_response_lines: list[str]`
 
 Processes a list of strings, each representing a server response to a product authorization.
 

@@ -106,12 +106,12 @@ Structure to define feedback properties of MIDI mappings.
 
 ### Properties
 
-| Property                            | Type                   | Supports    |
-| ----------------------------------- | ---------------------- | ----------- |
-| [`channel`](#channel)               | `int`                  | `get`/`set` |
-| [`delay_in_ms`](#delay_in_ms)       | `float`                | `get`/`set` |
-| [`enabled`](#enabled)               | `bool`                 | `get`/`set` |
-| [`value_pair_map`](#value_pair_map) | `tuple[int, Ellipsis]` | `get`/`set` |
+| Property                            | Type                     | Supports    |
+| ----------------------------------- | ------------------------ | ----------- |
+| [`channel`](#channel)               | `int`                    | `get`/`set` |
+| [`delay_in_ms`](#delay_in_ms)       | `float`                  | `get`/`set` |
+| [`enabled`](#enabled)               | `bool`                   | `get`/`set` |
+| [`value_pair_map`](#value_pair_map) | `tuple[tuple, Ellipsis]` | `get`/`set` |
 
 #### `channel`
 
@@ -133,7 +133,7 @@ Structure to define feedback properties of MIDI mappings.
 
 #### `value_pair_map`
 
-- **Type:** `tuple[int, Ellipsis]`
+- **Type:** `tuple[tuple, Ellipsis]`
 - **Settable:** `yes`
 - **Listenable:** `no`
 
@@ -160,44 +160,44 @@ Structure to define feedback properties of MIDI mappings.
 
 | Function                                                                                                                                                                                                                                       | Returns |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| [`forward_midi_cc()`](#forward_midi_ccscript_handle-int-midi_map_handle-int-channel-int-cc-int-should_consume_event-bool-true)                                                                                                                 | `bool`  |
-| [`forward_midi_note()`](#forward_midi_notescript_handle-int-midi_map_handle-int-channel-int-note-int-should_consume_event-bool-true)                                                                                                           | `bool`  |
-| [`forward_midi_pitchbend()`](#forward_midi_pitchbendscript_handle-int-midi_map_handle-int-channel-int)                                                                                                                                         | `bool`  |
+| [`forward_midi_cc()`](#forward_midi_ccscript_handle-int-midi_map_handle-int-midi_channel-int-controller_number-int-should_consume_event-bool-true)                                                                                             | `bool`  |
+| [`forward_midi_note()`](#forward_midi_notescript_handle-int-midi_map_handle-int-midi_channel-int-note-int-should_consume_event-bool-true)                                                                                                      | `bool`  |
+| [`forward_midi_pitchbend()`](#forward_midi_pitchbendscript_handle-int-midi_map_handle-int-midi_channel-int)                                                                                                                                    | `bool`  |
 | [`map_midi_cc()`](#map_midi_ccmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-avoid_takeover-bool-sensitivity-float-10)                                                                  | `bool`  |
 | [`map_midi_cc_with_feedback_map()`](#map_midi_cc_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-midi_channel-int-controller_number-int-map_mode-mapmode-feedback_rule-ccfeedbackrule-avoid_takeover-bool-sensitivity-float-10) | `bool`  |
-| [`map_midi_note()`](#map_midi_notemidi_map_handle-int-parameter-deviceparameter-channel-int-note-int)                                                                                                                                          | `bool`  |
-| [`map_midi_note_with_feedback_map()`](#map_midi_note_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-note-int-feedback_rule-notefeedbackrule)                                                                       | `bool`  |
-| [`map_midi_pitchbend()`](#map_midi_pitchbendmidi_map_handle-int-parameter-deviceparameter-channel-int-avoid_takeover-bool)                                                                                                                     | `bool`  |
-| [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-parameter-deviceparameter-channel-int-feedback_rule-pitchbendfeedbackrule-avoid_takeover-bool)                                             | `bool`  |
-| [`send_feedback_for_parameter()`](#send_feedback_for_parametermidi_map_handle-int-parameter-deviceparameter)                                                                                                                                   | `None`  |
+| [`map_midi_note()`](#map_midi_notemidi_map_handle-int-device_parameter-deviceparameter-midi_channel-int-note-int)                                                                                                                              | `bool`  |
+| [`map_midi_note_with_feedback_map()`](#map_midi_note_with_feedback_mapmidi_map_handle-int-device_parameter-deviceparameter-midi_channel-int-note-int-feedback_rule-notefeedbackrule)                                                           | `bool`  |
+| [`map_midi_pitchbend()`](#map_midi_pitchbendmidi_map_handle-int-device_parameter-deviceparameter-midi_channel-int-needs_takeover-bool)                                                                                                         | `bool`  |
+| [`map_midi_pitchbend_with_feedback_map()`](#map_midi_pitchbend_with_feedback_mapmidi_map_handle-int-device_parameter-deviceparameter-midi_channel-int-feedback_rule-pitchbendfeedbackrule-needs_takeover-bool)                                 | `bool`  |
+| [`send_feedback_for_parameter()`](#send_feedback_for_parametermidi_map_handle-int-device_parameter-deviceparameter)                                                                                                                            | `None`  |
 
-### `forward_midi_cc(script_handle: int, midi_map_handle: int, channel: int, cc: int, should_consume_event: bool = True)`
+### `forward_midi_cc(script_handle: int, midi_map_handle: int, midi_channel: int, controller_number: int, should_consume_event: bool = True)`
 
 - **Returns:** `bool`
 - **Args:**
   - `script_handle: int`
   - `midi_map_handle: int`
-  - `channel: int`
-  - `cc: int`
+  - `midi_channel: int`
+  - `controller_number: int`
   - `should_consume_event: bool = True`
 
-### `forward_midi_note(script_handle: int, midi_map_handle: int, channel: int, note: int, should_consume_event: bool = True)`
+### `forward_midi_note(script_handle: int, midi_map_handle: int, midi_channel: int, note: int, should_consume_event: bool = True)`
 
 - **Returns:** `bool`
 - **Args:**
   - `script_handle: int`
   - `midi_map_handle: int`
-  - `channel: int`
+  - `midi_channel: int`
   - `note: int`
   - `should_consume_event: bool = True`
 
-### `forward_midi_pitchbend(script_handle: int, midi_map_handle: int, channel: int)`
+### `forward_midi_pitchbend(script_handle: int, midi_map_handle: int, midi_channel: int)`
 
 - **Returns:** `bool`
 - **Args:**
   - `script_handle: int`
   - `midi_map_handle: int`
-  - `channel: int`
+  - `midi_channel: int`
 
 ### `map_midi_cc(midi_map_handle: int, parameter: DeviceParameter, midi_channel: int, controller_number: int, map_mode: MapMode, avoid_takeover: bool, sensitivity: float = 1.0)`
 
@@ -224,47 +224,47 @@ Structure to define feedback properties of MIDI mappings.
   - `avoid_takeover: bool`
   - `sensitivity: float = 1.0`
 
-### `map_midi_note(midi_map_handle: int, parameter: DeviceParameter, channel: int, note: int)`
+### `map_midi_note(midi_map_handle: int, device_parameter: DeviceParameter, midi_channel: int, note: int)`
 
 - **Returns:** `bool`
 - **Args:**
   - `midi_map_handle: int`
-  - `parameter: DeviceParameter`
-  - `channel: int`
+  - `device_parameter: DeviceParameter`
+  - `midi_channel: int`
   - `note: int`
 
-### `map_midi_note_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, channel: int, note: int, feedback_rule: NoteFeedbackRule)`
+### `map_midi_note_with_feedback_map(midi_map_handle: int, device_parameter: DeviceParameter, midi_channel: int, note: int, feedback_rule: NoteFeedbackRule)`
 
 - **Returns:** `bool`
 - **Args:**
   - `midi_map_handle: int`
-  - `parameter: DeviceParameter`
-  - `channel: int`
+  - `device_parameter: DeviceParameter`
+  - `midi_channel: int`
   - `note: int`
   - `feedback_rule: NoteFeedbackRule`
 
-### `map_midi_pitchbend(midi_map_handle: int, parameter: DeviceParameter, channel: int, avoid_takeover: bool)`
+### `map_midi_pitchbend(midi_map_handle: int, device_parameter: DeviceParameter, midi_channel: int, needs_takeover: bool)`
 
 - **Returns:** `bool`
 - **Args:**
   - `midi_map_handle: int`
-  - `parameter: DeviceParameter`
-  - `channel: int`
-  - `avoid_takeover: bool`
+  - `device_parameter: DeviceParameter`
+  - `midi_channel: int`
+  - `needs_takeover: bool`
 
-### `map_midi_pitchbend_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, channel: int, feedback_rule: PitchBendFeedbackRule, avoid_takeover: bool)`
+### `map_midi_pitchbend_with_feedback_map(midi_map_handle: int, device_parameter: DeviceParameter, midi_channel: int, feedback_rule: PitchBendFeedbackRule, needs_takeover: bool)`
 
 - **Returns:** `bool`
 - **Args:**
   - `midi_map_handle: int`
-  - `parameter: DeviceParameter`
-  - `channel: int`
+  - `device_parameter: DeviceParameter`
+  - `midi_channel: int`
   - `feedback_rule: PitchBendFeedbackRule`
-  - `avoid_takeover: bool`
+  - `needs_takeover: bool`
 
-### `send_feedback_for_parameter(midi_map_handle: int, parameter: DeviceParameter)`
+### `send_feedback_for_parameter(midi_map_handle: int, device_parameter: DeviceParameter)`
 
 - **Returns:** `None`
 - **Args:**
   - `midi_map_handle: int`
-  - `parameter: DeviceParameter`
+  - `device_parameter: DeviceParameter`

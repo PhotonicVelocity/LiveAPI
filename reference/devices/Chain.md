@@ -147,15 +147,15 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 | Method                                                                 | Returns  |
 | ---------------------------------------------------------------------- | -------- |
-| [`delete_device()`](#delete_devicearg2-int)                            | `None`   |
+| [`delete_device()`](#delete_devicedevice-int)                          | `None`   |
 | [`duplicate_device()`](#duplicate_deviceindex-int)                     | `None`   |
 | [`insert_device()`](#insert_devicedevice_name-str-device_index-int--1) | `Device` |
 
-#### `delete_device(arg2: int)`
+#### `delete_device(device: int)`
 
 - **Returns:** `None`
 - **Args:**
-  - `arg2: int`
+  - `device: int`
 
 Remove a device identified by its index from the chain. Throws runtime error if bad index.
 

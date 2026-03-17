@@ -18,7 +18,7 @@ This class represents a Rack device.
 | [`can_show_chains`](#can_show_chains)                     | `bool`                  | `get`                |
 | [`canonical_parent`](#canonical_parent)                   | `Track`                 | `get`                |
 | [`chain_selector`](#chain_selector)                       | `DeviceParameter`       | `get`                |
-| [`chains`](#chains)                                       | `Vector[LomObject]`     | `get`/`listen`       |
+| [`chains`](#chains)                                       | `Vector`                | `get`/`listen`       |
 | [`class_display_name`](#class_display_name)               | `str`                   | `get`                |
 | [`class_name`](#class_name)                               | `str`                   | `get`                |
 | [`drum_pads`](#drum_pads)                                 | `Vector[DrumPad]`       | `get`/`listen`       |
@@ -32,7 +32,7 @@ This class represents a Rack device.
 | [`macros_mapped`](#macros_mapped)                         | `tuple[bool, Ellipsis]` | `get`/`listen`       |
 | [`name`](#name)                                           | `str`                   | `get`/`set`          |
 | [`parameters`](#parameters)                               | `ATimeableValueVector`  | `get`                |
-| [`return_chains`](#return_chains)                         | `Vector[LomObject]`     | `get`/`listen`       |
+| [`return_chains`](#return_chains)                         | `Vector`                | `get`/`listen`       |
 | [`selected_variation_index`](#selected_variation_index)   | `int`                   | `get`/`set`          |
 | [`type`](#type)                                           | `DeviceType`            | `get`                |
 | [`variation_count`](#variation_count)                     | `int`                   | `get`/`listen`       |
@@ -90,7 +90,7 @@ Const access to the chain selector parameter.
 
 #### `chains`
 
-- **Type:** `Vector[LomObject]`
+- **Type:** `Vector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -202,7 +202,7 @@ Const access to the list of available automatable parameters for this device.
 
 #### `return_chains`
 
-- **Type:** `Vector[LomObject]`
+- **Type:** `Vector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -339,14 +339,14 @@ Representing the view aspects of a rack device.
 
 ### Properties
 
-| Property                                                  | Type         | Supports             |
-| --------------------------------------------------------- | ------------ | -------------------- |
-| [`canonical_parent`](#canonical_parent)                   | `RackDevice` | `get`                |
-| [`drum_pads_scroll_position`](#drum_pads_scroll_position) | `int`        | `get`/`set`/`listen` |
-| [`is_collapsed`](#is_collapsed)                           | `bool`       | `get`/`set`          |
-| [`is_showing_chain_devices`](#is_showing_chain_devices)   | `bool`       | `get`/`set`/`listen` |
-| [`selected_chain`](#selected_chain)                       | `None`       | `get`/`set`/`listen` |
-| [`selected_drum_pad`](#selected_drum_pad)                 | `DrumPad`    | `get`/`set`/`listen` |
+| Property                                                  | Type            | Supports             |
+| --------------------------------------------------------- | --------------- | -------------------- |
+| [`canonical_parent`](#canonical_parent)                   | `RackDevice`    | `get`                |
+| [`drum_pads_scroll_position`](#drum_pads_scroll_position) | `int`           | `get`/`set`/`listen` |
+| [`is_collapsed`](#is_collapsed)                           | `bool`          | `get`/`set`          |
+| [`is_showing_chain_devices`](#is_showing_chain_devices)   | `bool`          | `get`/`set`/`listen` |
+| [`selected_chain`](#selected_chain)                       | `Chain \| None` | `get`/`set`/`listen` |
+| [`selected_drum_pad`](#selected_drum_pad)                 | `DrumPad`       | `get`/`set`/`listen` |
 
 #### `canonical_parent`
 
@@ -382,7 +382,7 @@ Return whether the devices in the currently selected chain are visible. Throws a
 
 #### `selected_chain`
 
-- **Type:** `None`
+- **Type:** `Chain | None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 

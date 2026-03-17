@@ -22,7 +22,7 @@ This class represents the live browser data base.
 | [`current_project`](#current_project)   | `BrowserItem`       | `get`                |
 | [`drums`](#drums)                       | `BrowserItem`       | `get`                |
 | [`filter_type`](#filter_type)           | `int`               | `get`/`set`/`listen` |
-| [`hotswap_target`](#hotswap_target)     | `None`              | `get`/`set`/`listen` |
+| [`hotswap_target`](#hotswap_target)     | `Device \| None`    | `get`/`set`/`listen` |
 | [`instruments`](#instruments)           | `BrowserItem`       | `get`                |
 | [`legacy_libraries`](#legacy_libraries) | `BrowserItemVector` | `get`                |
 | [`max_for_live`](#max_for_live)         | `BrowserItem`       | `get`                |
@@ -84,7 +84,7 @@ Bang triggered when the hotswap target has changed.
 
 #### `hotswap_target`
 
-- **Type:** `None`
+- **Type:** `Device | None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 
@@ -217,8 +217,8 @@ Stop the current preview.
 
 | Value | Name                   |
 | ----- | ---------------------- |
+| ``    | `disabled`             |
 | `0`   | `hotswap_off`          |
-| `1`   | `disabled`             |
 | `1`   | `instrument_hotswap`   |
 | `2`   | `audio_effect_hotswap` |
 | `3`   | `midi_effect_hotswap`  |
@@ -344,10 +344,10 @@ A container for returning browser items from Live.
 
 ### Methods
 
-| Method                                  | Returns |
-| --------------------------------------- | ------- |
-| [`append()`](#appendvalue-browseritem)  | `None`  |
-| [`extend()`](#extendvalues-browseritem) | `None`  |
+| Method                                          | Returns |
+| ----------------------------------------------- | ------- |
+| [`append()`](#appendvalue-browseritem)          | `None`  |
+| [`extend()`](#extendvalues-iterablebrowseritem) | `None`  |
 
 #### `append(value: BrowserItem)`
 
@@ -355,8 +355,8 @@ A container for returning browser items from Live.
 - **Args:**
   - `value: BrowserItem`
 
-#### `extend(values: BrowserItem)`
+#### `extend(values: Iterable[BrowserItem])`
 
 - **Returns:** `None`
 - **Args:**
-  - `values: BrowserItem`
+  - `values: Iterable[BrowserItem]`

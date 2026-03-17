@@ -20,7 +20,7 @@ Represents a Tuning System and its properties.
 | [`highest_note`](#highest_note)                                         | `PitchClassAndOctave` | `get`/`set`/`listen` |
 | [`lowest_note`](#lowest_note)                                           | `PitchClassAndOctave` | `get`/`set`/`listen` |
 | [`name`](#name)                                                         | `str`                 | `get`/`set`/`listen` |
-| [`note_tunings`](#note_tunings)                                         | `list`                | `get`/`set`/`listen` |
+| [`note_tunings`](#note_tunings)                                         | `list[float]`         | `get`/`set`/`listen` |
 | [`number_of_notes_in_pseudo_octave`](#number_of_notes_in_pseudo_octave) | `int`                 | `get`                |
 | [`pseudo_octave_in_cents`](#pseudo_octave_in_cents)                     | `float`               | `get`                |
 | [`reference_pitch`](#reference_pitch)                                   | `ReferencePitch`      | `get`/`set`/`listen` |
@@ -59,7 +59,7 @@ Get/Set the name of the currently active tuning system.
 
 #### `note_tunings`
 
-- **Type:** `list`
+- **Type:** `list[float]`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 

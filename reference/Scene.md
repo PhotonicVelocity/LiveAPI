@@ -20,7 +20,7 @@ This class represents an series of ClipSlots in Lives Sessionview matrix.
 | [`canonical_parent`](#canonical_parent)                     | `Song`             | `get`                |
 | [`clip_slots`](#clip_slots)                                 | `Vector[ClipSlot]` | `get`/`listen`       |
 | [`color`](#color)                                           | `int`              | `get`/`set`/`listen` |
-| [`color_index`](#color_index)                               | `None`             | `get`/`set`/`listen` |
+| [`color_index`](#color_index)                               | `int \| None`      | `get`/`set`/`listen` |
 | [`is_empty`](#is_empty)                                     | `bool`             | `get`                |
 | [`is_triggered`](#is_triggered)                             | `bool`             | `get`/`listen`       |
 | [`name`](#name)                                             | `str`              | `get`/`set`/`listen` |
@@ -56,7 +56,7 @@ Get/set access to the color of the scene (RGB).
 
 #### `color_index`
 
-- **Type:** `None`
+- **Type:** `int | None`
 - **Settable:** `yes`
 - **Listenable:** `yes`
 

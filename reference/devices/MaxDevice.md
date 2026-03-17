@@ -24,8 +24,8 @@ This class represents a Max for Live device.
 | [`is_using_compare_preset_b`](#is_using_compare_preset_b) | `bool`                 | `get`/`set`    |
 | [`latency_in_ms`](#latency_in_ms)                         | `float`                | `get`          |
 | [`latency_in_samples`](#latency_in_samples)               | `int`                  | `get`          |
-| [`midi_inputs`](#midi_inputs)                             | `Vector[LomObject]`    | `get`/`listen` |
-| [`midi_outputs`](#midi_outputs)                           | `Vector[LomObject]`    | `get`/`listen` |
+| [`midi_inputs`](#midi_inputs)                             | `Vector`               | `get`/`listen` |
+| [`midi_outputs`](#midi_outputs)                           | `Vector`               | `get`/`listen` |
 | [`name`](#name)                                           | `str`                  | `get`/`set`    |
 | [`parameters`](#parameters)                               | `ATimeableValueVector` | `get`          |
 | [`type`](#type)                                           | `DeviceType`           | `get`          |
@@ -129,7 +129,7 @@ Returns the latency of the device in samples.
 
 #### `midi_inputs`
 
-- **Type:** `Vector[LomObject]`
+- **Type:** `Vector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -137,7 +137,7 @@ Const access to a list of all midi outputs of the device.
 
 #### `midi_outputs`
 
-- **Type:** `Vector[LomObject]`
+- **Type:** `Vector`
 - **Settable:** `no`
 - **Listenable:** `yes`
 
@@ -177,12 +177,12 @@ Representing the view aspects of a device.
 
 ### Methods
 
-| Method                                                                     | Returns |
-| -------------------------------------------------------------------------- | ------- |
-| [`get_bank_count()`](#get_bank_count)                                      | `int`   |
-| [`get_bank_name()`](#get_bank_namebank_index-int)                          | `str`   |
-| [`get_bank_parameters()`](#get_bank_parametersbank_index-int)              | `list`  |
-| [`get_value_item_icons()`](#get_value_item_iconsparameter-deviceparameter) | `list`  |
+| Method                                                                            | Returns     |
+| --------------------------------------------------------------------------------- | ----------- |
+| [`get_bank_count()`](#get_bank_count)                                             | `int`       |
+| [`get_bank_name()`](#get_bank_namebank_index-int)                                 | `str`       |
+| [`get_bank_parameters()`](#get_bank_parametersbank_index-int)                     | `list[int]` |
+| [`get_value_item_icons()`](#get_value_item_iconsdevice_parameter-deviceparameter) | `list[str]` |
 
 #### `get_bank_count()`
 
@@ -200,16 +200,16 @@ Get the name of a parameter bank given by index. This is related to hardware con
 
 #### `get_bank_parameters(bank_index: int)`
 
-- **Returns:** `list`
+- **Returns:** `list[int]`
 - **Args:**
   - `bank_index: int`
 
 Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces.
 
-#### `get_value_item_icons(parameter: DeviceParameter)`
+#### `get_value_item_icons(device_parameter: DeviceParameter)`
 
-- **Returns:** `list`
+- **Returns:** `list[str]`
 - **Args:**
-  - `parameter: DeviceParameter`
+  - `device_parameter: DeviceParameter`
 
 Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.
