@@ -103,3 +103,19 @@ single flat `.pyi` file (e.g., `Live/Song.pyi`) instead of a package directory w
 module (`Live/Song/Song.pyi`). The real `Live.Song` is a flat module (no `__path__`), not a package, so
 this is also more accurate. Updated `generate_stubs.py` to merge the main class and helper types into
 one file per module.
+
+## 14. `IntVector` does not inherit from `Vector` at runtime
+
+The stubs declare `class IntVector(Vector[int])`, but at runtime `IntVector` inherits from
+`Boost.Python.instance` directly — same as `Vector`. They are sibling classes, not parent/child.
+
+Runtime MRO (confirmed via probe):
+- `IntVector` → `Boost.Python.instance` → `object`
+- `Vector` → `Boost.Python.instance` → `object`
+
+Fix: change `IntVector` base class in `Base.pyi` stubs. It should not extend `Vector[int]`. It likely
+needs its own standalone class definition with the same container protocol methods (`__iter__`, `__len__`,
+`__getitem__`, etc.) parameterized with `int`.
+
+Check whether other `*Vector` types (e.g. `StringVector`, `ObjectVector`) have the same issue.
+one file per module.
