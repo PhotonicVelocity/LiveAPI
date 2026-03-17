@@ -203,4 +203,13 @@ class Eq8Device(Device):
         """Representing the view aspects of a device."""
         ...
 
-__all__ = ['Eq8Device']
+class EditMode(int):
+    a: int = 0
+    b: int = 1
+
+class GlobalMode(int):
+    stereo: int = 0
+    left_right: int = 1
+    mid_side: int = 2
+
+__all__ = ['Eq8Device', 'EditMode', 'GlobalMode']
