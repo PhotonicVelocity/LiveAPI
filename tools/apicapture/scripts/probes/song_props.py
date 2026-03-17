@@ -71,67 +71,19 @@ SKIP_UNDO: set[str] = {
 
 # ── Listenable properties (for side-effect detection) ─────────────────────────
 
-SONG_LISTENABLE: list[str] = [
-    "appointed_device",
-    "arrangement_overdub",
-    "back_to_arranger",
-    "can_capture_midi",
-    "can_jump_to_next_cue",
-    "can_jump_to_prev_cue",
-    "clip_trigger_quantization",
-    "count_in_duration",
-    "cue_points",
-    # "current_song_time" excluded — fires every audio tick (~80/s) even with transport stopped
-    "data",
-    "exclusive_arm",
-    "groove_amount",
-    "is_ableton_link_enabled",
-    "is_ableton_link_start_stop_sync_enabled",
-    "is_counting_in",
-    "is_playing",
-    "loop",
-    "loop_length",
-    "loop_start",
-    "metronome",
-    "midi_recording_quantization",
-    "nudge_down",
-    "nudge_up",
-    "overdub",
-    "punch_in",
-    "punch_out",
-    "re_enable_automation_enabled",
-    "record_mode",
-    "return_tracks",
-    "root_note",
-    "scale_information",
-    "scale_intervals",
-    "scale_mode",
-    "scale_name",
-    "scenes",
-    "session_automation_record",
-    "session_record",
-    "session_record_status",
-    "signature_denominator",
-    "signature_numerator",
-    "song_length",
-    "start_time",
-    "swing_amount",
-    "tempo",
-    "tempo_follower_enabled",
-    "tracks",
-    "tuning_system",
-    "visible_tracks",
-]
+# Excluded from listening
+LISTENER_EXCLUDE: set[str] = {"current_song_time"} # fires every audio tick (~80/s)
 
-VIEW_LISTENABLE: list[str] = [
-    "detail_clip",
-    "draw_mode",
-    "follow_song",
-    "selected_chain",
-    "selected_parameter",
-    "selected_scene",
-    "selected_track",
-]
+
+def _discover_listenable(obj: object) -> list[str]:
+    """Discover listenable properties by finding add_*_listener methods on the object."""
+    props = []
+    for name in dir(obj):
+        if name.startswith("add_") and name.endswith("_listener"):
+            prop = name[4:-9]  # strip "add_" prefix and "_listener" suffix
+            if prop not in LISTENER_EXCLUDE:
+                props.append(prop)
+    return sorted(props)
 
 
 # ── Listener infrastructure ───────────────────────────────────────────────────
@@ -455,9 +407,11 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Set up listeners for side-effect detection
     view = song.view
-    listenables = [(song, "Song", SONG_LISTENABLE), (view, "Song.View", VIEW_LISTENABLE)]
-    song_listeners = setup_listeners(song, "Song", SONG_LISTENABLE, fired, probe_timing, log)
-    view_listeners = setup_listeners(view, "Song.View", VIEW_LISTENABLE, fired, probe_timing, log)
+    song_listenable = _discover_listenable(song)
+    view_listenable = _discover_listenable(view)
+    listenables = [(song, "Song", song_listenable), (view, "Song.View", view_listenable)]
+    song_listeners = setup_listeners(song, "Song", song_listenable, fired, probe_timing, log)
+    view_listeners = setup_listeners(view, "Song.View", view_listenable, fired, probe_timing, log)
     yield  # let listener setup settle
 
     # Song properties
@@ -588,6 +542,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     teardown_listeners(view, view_listeners)
 
     # Write results
+    import Live
 
     app: Live.Application.Application = Live.Application.get_application()
     version = f"{app.get_major_version()}.{app.get_minor_version()}.{app.get_bugfix_version()}"
