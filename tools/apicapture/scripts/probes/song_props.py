@@ -588,9 +588,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     teardown_listeners(view, view_listeners)
 
     # Write results
-    import Live  # type: ignore
 
-    app: Live.Application.Application = Live.Application.get_application()  # type: ignore[assignment]
+    app: Live.Application.Application = Live.Application.get_application()
     version = f"{app.get_major_version()}.{app.get_minor_version()}.{app.get_bugfix_version()}"
     outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "stubs")
     outpath = os.path.join(outdir, version, "pipeline", "ProbeResults.json")
