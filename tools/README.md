@@ -24,31 +24,97 @@ output files in `stubs/<version>/pipeline/`:
 
 ### Install
 
-```
-python tools/install.py
+Symlink the `apicapture` directory into Ableton's MIDI Remote Scripts folder:
+
+```bash
+ln -s /path/to/LiveAPI/tools/apicapture \
+  ~/Music/Ableton/User\ Library/Remote\ Scripts/APICapture
 ```
 
-This copies the `apicapture` package into Ableton's MIDI Remote Scripts directory with the output path configured to
-`stubs/`. After installing, start Live and select **APICapture** as a Control Surface in Preferences → Link, Tempo &
-MIDI. Nothing runs automatically on startup — APICapture starts its tick loop and waits for trigger files.
+The output path (`stubs/`) is resolved automatically from the symlink target. After symlinking, start Live and select
+**APICapture** as a Control Surface in Preferences → Link, Tempo & MIDI. Nothing runs automatically on startup —
+APICapture starts its tick loop and waits for trigger files.
 
 ### Triggers
 
 All phases are triggered externally via files in `/tmp/`. APICapture polls for these once per tick and removes them on
 consumption.
 
-| Trigger                                | What it does                                          |
-| -------------------------------------- | ----------------------------------------------------- |
-| `touch /tmp/apicapture_capture`        | Raw capture — `dir()` tree dump → `LiveTree.raw.json` |
-| `touch /tmp/apicapture_probe`          | Basic probe — PropertyProbe only (no device loading)  |
-| `touch /tmp/apicapture_full_probe`     | Full probe — PropertyProbe + DeviceProbe              |
-| `touch /tmp/apicapture_run`            | Full pipeline — capture + full probe                  |
-| `echo verbose > /tmp/apicapture_probe` | Include instance data in probe output (for debugging) |
+| Trigger                                                       | What it does                                          |
+| ------------------------------------------------------------- | ----------------------------------------------------- |
+| `touch /tmp/apicapture_capture`                               | Raw capture — `dir()` tree dump → `LiveTree.raw.json` |
+| `touch /tmp/apicapture_probe`                                 | Basic probe — PropertyProbe only (no device loading)  |
+| `touch /tmp/apicapture_full_probe`                            | Full probe — PropertyProbe + DeviceProbe              |
+| `touch /tmp/apicapture_run`                                   | Full pipeline — capture + full probe                  |
+| `echo verbose > /tmp/apicapture_probe`                        | Include instance data in probe output (for debugging) |
+| `echo scripts/probes/foo.py > /tmp/apicapture_targeted_probe` | Run a targeted probe script (see below)               |
 
-Completion markers (`/tmp/apicapture_capture_done`, `/tmp/apicapture_probe_done`) are written when each phase finishes.
-They contain the build directory path so external scripts can auto-detect the version.
+Completion markers (`/tmp/apicapture_*_done`) are written when each phase finishes. They contain the build directory
+path so external scripts can auto-detect the version.
 
-### Hot Reload
+### Targeted Probes
+
+Targeted probes are standalone Python scripts that run inside Live for behavioral testing — async visibility, undo
+tracking, value ranges, error behavior, etc. They live in `apicapture/scripts/probes/` and are triggered without
+restarting Live.
+
+#### Triggering
+
+Echo the script path (relative to the `apicapture/` directory) into the trigger file:
+
+```bash
+echo scripts/probes/test_trigger.py > /tmp/apicapture_targeted_probe
+```
+
+A completion marker (`/tmp/apicapture_targeted_probe_done`) is written when the probe finishes.
+
+#### Writing a probe script
+
+A probe script must define a `run(song, log)` function. `song` is the `Live.Song.Song` object, `log` is the
+ControlSurface logger.
+
+**Single-tick probe** — runs entirely within one tick:
+
+```python
+def run(song, log):
+    log(f"tempo={song.tempo}")
+    log(f"tracks={len(song.tracks)}")
+```
+
+**Multi-tick probe** — use `yield` to release control and resume on the next tick. This is essential for probing async
+visibility: set a property, yield to let the engine process it, then read back:
+
+```python
+def run(song, log):
+    song.tempo = 140.0
+    log(f"same tick: tempo={song.tempo}")  # may still show old value for next_tick properties
+    yield
+    log(f"next tick: tempo={song.tempo}")  # guaranteed to reflect the new value
+```
+
+Each `yield` gives up control until the next `schedule_message` tick (~100ms). You can yield as many times as needed.
+
+#### Tailing the log
+
+To watch probe output in real time, filtering to just APICapture messages with timestamps:
+
+```bash
+tail -f stubs/<version>/Log.txt | grep --line-buffered "RemoteScriptMessage: (APICapture)" | sed 's/.*T\([0-9:\.]*\).*RemoteScriptMessage: /\1 /'
+```
+
+`Log.txt` is a convenience symlink to Live's real log at `~/Library/Preferences/Ableton/Live <version>/Log.txt`. It's
+gitignored since the path is machine-specific — create your own with:
+
+```bash
+ln -s ~/Library/Preferences/Ableton/Live\ 12.3.6/Log.txt stubs/12.3.6/Log.txt
+```
+
+#### Hot reload
+
+Probe scripts are loaded fresh on every trigger — edit the script, echo the trigger again, no restart needed. Changes to
+`APICapture.py` or `__init__.py` require a Live restart.
+
+### Hot Reload (capture/probe scripts)
 
 Scripts in `apicapture/scripts/` (CaptureModule, PropertyProbe, DeviceProbe) are reloaded via `importlib.reload()` on
 every trigger, so code changes take effect immediately after reinstalling. Changes to `APICapture.py` or `__init__.py`
@@ -293,7 +359,8 @@ tools/
 │   ├── scripts/
 │   │   ├── CaptureModule.py   Raw dir() tree capture
 │   │   ├── PropertyProbe.py   Synchronous property probing
-│   │   └── DeviceProbe.py     Tick-driven device probing
+│   │   ├── DeviceProbe.py     Tick-driven device probing
+│   │   └── probes/            Targeted probe scripts (run via trigger, no restart)
 │   └── helpers/
 │       └── app.py           Version number extraction
 ├── parse/                   Stages 2–3: parsing, refinement, generation

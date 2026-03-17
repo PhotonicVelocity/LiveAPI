@@ -65,6 +65,7 @@ class APICapture(ControlSurface):
         self.version = get_version_number(Live)
         self.outdir = os.path.join(outdir, self.version, "pipeline")
         self._device_probe: _device_probe_mod.DeviceProbe | None = None
+        self._targeted_probe_gen = None  # active targeted probe generator
         self._verbose = False
 
         if not os.path.exists(self.outdir):
@@ -98,6 +99,17 @@ class APICapture(ControlSurface):
             script_path = self._consume_script_trigger(TARGETED_PROBE_TRIGGER)
             if script_path is not None:
                 self._run_targeted_probe(script_path)
+            # Drive active targeted probe generator one step per tick
+            if self._targeted_probe_gen is not None:
+                try:
+                    next(self._targeted_probe_gen)
+                except StopIteration:
+                    self._targeted_probe_gen = None
+                    self._touch(TARGETED_PROBE_DONE)
+                    self.log_message("Targeted probe complete")
+                except Exception as e:
+                    self._targeted_probe_gen = None
+                    self.log_message(f"Targeted probe error: {e}")
             # Drive active device probe one step per tick
             if self._device_probe is not None:
                 if not self._device_probe.tick():
@@ -202,25 +214,36 @@ class APICapture(ControlSurface):
 
         The script must define a ``run(song, log)`` function.
         ``song`` is the Live.Song.Song object, ``log`` is the ControlSurface logger.
+
+        If ``run()`` is a generator (contains ``yield``), it is driven one step per tick.
+        Each ``yield`` gives up control until the next tick. If ``run()`` is a plain
+        function, it executes entirely within the current tick.
         """
         script_path = os.path.join(self.script_dir, script_path)
         self.log_message(f"Running targeted probe: {script_path}")
         try:
             import importlib.util
+            import inspect
 
-            spec = importlib.util.spec_from_file_location("_targeted_probe", script_path)
+            mod_name = "_targeted_probe"
+            spec = importlib.util.spec_from_file_location(mod_name, script_path)
             if spec is None or spec.loader is None:
                 self.log_message(f"Targeted probe error: cannot load {script_path}")
                 return
             mod = importlib.util.module_from_spec(spec)
+            sys.modules.pop(mod_name, None)
             spec.loader.exec_module(mod)
             if not hasattr(mod, "run"):
                 self.log_message(f"Targeted probe error: {script_path} has no run() function")
                 return
             song = self._c_instance.song()
-            mod.run(song, self.log_message)
-            self._touch(TARGETED_PROBE_DONE)
-            self.log_message("Targeted probe complete")
+            result = mod.run(song, self.log_message)
+            if inspect.isgenerator(result):
+                self._targeted_probe_gen = result
+                self.log_message("Targeted probe started (generator)")
+            else:
+                self._touch(TARGETED_PROBE_DONE)
+                self.log_message("Targeted probe complete")
         except Exception as e:
             self.log_message(f"Targeted probe error: {e}")
 
