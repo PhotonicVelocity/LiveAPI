@@ -258,7 +258,7 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
 
         # 7. Collect side effects and listener timing.
         side_effects = [
-            {"label": c, "prop": p, "latency_ms": round(dt * 1000, 1)}
+            {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
             for c, p, dt in fired
             if not (c == cls and p == prop)
         ]
@@ -297,6 +297,105 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
     effect_str = f", side_effects={[e['prop'] for e in effects]}" if effects else ""
     log(f"  [prop] {cls}.{prop}: async={tag}, undo={undo}{effect_str}")
     return result
+
+
+def probe_method(song, cls: str, method: str, args: list, check_fn, cleanup_fn, fired: list, probe_timing: dict, log):
+    """Probe a method for undo tracking, async visibility, and side effects.
+
+    This is a generator — each yield crosses a tick boundary.
+
+    Args:
+        check_fn: () -> bool — returns True if the method's effect is present.
+        cleanup_fn: () -> None — restores state if undo didn't work. Can be None.
+
+    Steps:
+      1. Clear fired listeners.
+      2. begin_undo_step, call method, end_undo_step.
+      3. Check effect immediately → async_visibility = "immediate" if present.
+      4. Yield to next tick.
+      5. If not immediate, check again → "next_tick" or "no_effect".
+      6. Collect side effects from fired listeners.
+      7. Undo.
+      8. Yield to next tick.
+      9. Check effect gone → undo_tracked.
+      10. If undo didn't work, run cleanup_fn.
+    """
+    import time as _time
+
+    result: dict[str, Any] = {}
+
+    try:
+        # 1. Clear fired listeners.
+        fired.clear()
+        probe_timing["target"] = None
+        probe_timing["set_time"] = _time.monotonic()
+
+        # 2. begin_undo_step, call method, end_undo_step.
+        song.begin_undo_step()
+        getattr(song, method)(*args)
+        song.end_undo_step()
+
+        # 3. Check effect immediately.
+        is_immediate = check_fn()
+
+        # 4. Yield to next tick.
+        yield
+
+        # 5. If not immediate, check again.
+        if is_immediate:
+            result["async_visibility"] = "immediate"
+        else:
+            if check_fn():
+                result["async_visibility"] = "next_tick"
+            else:
+                result["async_visibility"] = "no_effect"
+
+        # 6. Collect side effects.
+        side_effects = [
+            {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
+            for c, p, dt in fired
+        ]
+        if side_effects:
+            result["side_effects"] = side_effects
+
+        # 7. Undo.
+        song.undo()
+
+        # 8. Yield to next tick.
+        yield
+
+        # 9. Check effect gone → undo_tracked.
+        result["undo_tracked"] = not check_fn()
+
+        # 10. If undo didn't work, run cleanup.
+        if not result["undo_tracked"] and cleanup_fn:
+            cleanup_fn()
+            yield
+
+    except Exception as e:
+        result["async_visibility"] = result.get("async_visibility", "error")
+        result["undo_tracked"] = result.get("undo_tracked", "error")
+        result["error"] = str(e)[:200]
+
+    effects = result.get("side_effects", [])
+    effect_str = f", side_effects={[e['prop'] for e in effects]}" if effects else ""
+    tag = result.get("async_visibility", "?")
+    undo = result.get("undo_tracked", "?")
+    log(f"  [meth] {cls}.{method}: async={tag}, undo={undo}{effect_str}")
+    return result
+
+
+def _ptr_set(items) -> set[int]:
+    """Extract stable _live_ptr values from a list of Live API objects."""
+    return {item._live_ptr for item in items}
+
+
+def _find_new_index(items, before_ptrs: set[int]) -> int | None:
+    """Find the index of the first item whose _live_ptr wasn't in before_ptrs."""
+    for i, item in enumerate(items):
+        if item._live_ptr not in before_ptrs:
+            return i
+    return None
 
 
 def run(song, log):
@@ -343,6 +442,101 @@ def run(song, log):
             if e.value is not None:
                 results["Song.View"]["properties"][prop] = e.value
 
+    # ── Method probes ──────────────────────────────────────────────────────────
+    log("[song_props] Starting method probes")
+
+    if "Song" not in results:
+        results["Song"] = {"properties": {}, "methods": {}}
+    methods = results["Song"].setdefault("methods", {})
+
+    def _run_method_probe(method, args, check_fn, cleanup_fn=None):
+        gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, log)
+        try:
+            while True:
+                next(gen)
+                yield
+        except StopIteration as e:
+            return e.value
+
+    # create_scene
+    ids_before = _ptr_set(song.scenes)
+    gen = _run_method_probe(
+        "create_scene", [len(ids_before)],
+        check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
+        cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["create_scene"] = r
+
+    # create_midi_track
+    ids_before = _ptr_set(song.tracks)
+    gen = _run_method_probe(
+        "create_midi_track", [len(ids_before)],
+        check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["create_midi_track"] = r
+
+    # create_audio_track
+    ids_before = _ptr_set(song.tracks)
+    gen = _run_method_probe(
+        "create_audio_track", [len(ids_before)],
+        check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["create_audio_track"] = r
+
+    # create_return_track
+    ids_before = _ptr_set(song.return_tracks)
+    gen = _run_method_probe(
+        "create_return_track", [],
+        check_fn=lambda: bool(_ptr_set(song.return_tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_return_track(_find_new_index(song.return_tracks, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["create_return_track"] = r
+
+    # duplicate_scene
+    ids_before = _ptr_set(song.scenes)
+    gen = _run_method_probe(
+        "duplicate_scene", [0],
+        check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
+        cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["duplicate_scene"] = r
+
+    # duplicate_track
+    ids_before = _ptr_set(song.tracks)
+    gen = _run_method_probe(
+        "duplicate_track", [0],
+        check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["duplicate_track"] = r
+
+    # set_or_delete_cue
+    ids_before = _ptr_set(song.cue_points)
+    gen = _run_method_probe(
+        "set_or_delete_cue", [],
+        check_fn=lambda: _ptr_set(song.cue_points) != ids_before,
+    )
+    r = yield from gen
+    if r: methods["set_or_delete_cue"] = r
+
+    # capture_and_insert_scene
+    ids_before = _ptr_set(song.scenes)
+    gen = _run_method_probe(
+        "capture_and_insert_scene", [0],
+        check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
+        cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
+    )
+    r = yield from gen
+    if r: methods["capture_and_insert_scene"] = r
+
     # Tear down listeners
     teardown_listeners(song, song_listeners)
     teardown_listeners(view, view_listeners)
@@ -364,7 +558,8 @@ def run(song, log):
     for cls, data in results.items():
         if cls not in existing_classes:
             existing_classes[cls] = {"properties": {}, "methods": {}}
-        existing_classes[cls]["properties"].update(data["properties"])
+        existing_classes[cls]["properties"].update(data.get("properties", {}))
+        existing_classes[cls].setdefault("methods", {}).update(data.get("methods", {}))
 
     elapsed = round(time.monotonic() - t0, 1)
     output = {
@@ -377,5 +572,6 @@ def run(song, log):
     with open(outpath, "w") as f:
         json.dump(output, f, indent=2)
 
-    total = sum(len(d["properties"]) for d in results.values())
-    log(f"[song_props] Done — {total} properties probed in {elapsed}s, wrote {outpath}")
+    total_props = sum(len(d.get("properties", {})) for d in results.values())
+    total_methods = sum(len(d.get("methods", {})) for d in results.values())
+    log(f"[song_props] Done — {total_props} properties, {total_methods} methods probed in {elapsed}s, wrote {outpath}")
