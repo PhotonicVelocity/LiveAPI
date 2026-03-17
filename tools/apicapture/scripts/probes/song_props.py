@@ -13,7 +13,13 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from collections.abc import Callable, Generator
+
+    from Live.Application.Application import Application
+    from Live.Song.Song import Song
 
 
 # ── Settable properties with safe test values ──────────────────────────────────
@@ -132,7 +138,7 @@ VIEW_LISTENABLE: list[str] = [
 
 
 def setup_listeners(
-    obj, cls: str, props: list[str], fired: list, probe_timing: dict, log,
+    obj: Song | Song.View, cls: str, props: list[str], fired: list, probe_timing: dict, log: Callable,
 ) -> list[tuple[str, Any]]:
     """Add listeners for all listenable properties. Returns [(prop, callback)] for teardown.
 
@@ -171,7 +177,7 @@ def setup_listeners(
     return listeners
 
 
-def teardown_listeners(obj, listeners: list[tuple[str, Any]]) -> None:
+def teardown_listeners(obj: Song | Song.View, listeners: list[tuple[str, Any]]) -> None:
     """Remove all listeners added by setup_listeners."""
     for prop, cb in listeners:
         remove_fn = getattr(obj, f"remove_{prop}_listener", None)
@@ -214,9 +220,9 @@ def fuzzy_eq(a: Any, b: Any) -> bool:
 
 
 def probe_property(
-    song, obj, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict, snapshot: dict,
-    listenables: list[tuple[Any, str, list[str]]], log,
-):
+    song: Song, obj: Song | Song.View, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict,
+    snapshot: dict, listenables: list[tuple[Any, str, list[str]]], log: Callable,
+) -> Generator[None, None, dict[str, Any]]:
     """Probe a single property for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
@@ -327,9 +333,10 @@ def probe_property(
 
 
 def probe_method(
-    song, cls: str, method: str, args: list, check_fn, cleanup_fn, fired: list, probe_timing: dict, snapshot: dict,
-    listenables: list[tuple[Any, str, list[str]]], log,
-):
+    song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
+    cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict,
+    listenables: list[tuple[Any, str, list[str]]], log: Callable,
+) -> Generator[None, None, dict[str, Any]]:
     """Probe a method for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
@@ -432,7 +439,7 @@ def _find_new_index(items, before_ptrs: set[int]) -> int | None:
     return None
 
 
-def run(song, log):
+def run(song: Song, log: Callable) -> Generator[None, None, None]:
     """Probe all settable Song and Song.View properties."""
     import time
     from datetime import datetime
@@ -583,7 +590,7 @@ def run(song, log):
     # Write results
     import Live  # type: ignore
 
-    app = Live.Application.get_application()
+    app: Application = Live.Application.get_application()  # type: ignore[assignment]
     version = f"{app.get_major_version()}.{app.get_minor_version()}.{app.get_bugfix_version()}"
     outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "stubs")
     outpath = os.path.join(outdir, version, "pipeline", "ProbeResults.json")
