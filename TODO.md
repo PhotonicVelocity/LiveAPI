@@ -95,3 +95,7 @@ Result: enums render as `class FilterType(int):`, `LimitationError` renders as `
 Done — tightened vector detection in `generate_stubs.py` to require `append`/`extend` children. Read-only
 iterables like `BrowserItemIterator` now get `Iterable[T]` base instead of `Vector[T]` via new
 `_iterable_base()` method.
+
+# Probe TODOs
+
+## 1. Check for side effects in properties that aren't listenable (e.g. `song.highlited_clip_slot`)

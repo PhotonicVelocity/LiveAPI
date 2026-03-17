@@ -99,6 +99,11 @@ def run_probes(
             except Exception as e:
                 print(f"  ERROR in probe_{category}: {e}", file=sys.stderr)
 
+        # Call teardown if the module defines one
+        teardown = getattr(mod, "_teardown", None)
+        if teardown:
+            teardown(ctx)
+
     return ctx.to_dict()
 
 

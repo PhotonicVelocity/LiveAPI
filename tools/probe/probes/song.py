@@ -9,7 +9,105 @@ from tools.probe.base import ProbeContext
 CLASS_NAME = "Song"
 
 
+# ── Listenable properties (from stubs/12.3.6/Live/Song/Song.pyi) ─────────────
+
+SONG_LISTENABLE: list[str] = [
+    "appointed_device",
+    "arrangement_overdub",
+    "back_to_arranger",
+    "can_capture_midi",
+    "can_jump_to_next_cue",
+    "can_jump_to_prev_cue",
+    "clip_trigger_quantization",
+    "count_in_duration",
+    "cue_points",
+    "current_song_time",
+    "data",
+    "exclusive_arm",
+    "groove_amount",
+    "is_ableton_link_enabled",
+    "is_ableton_link_start_stop_sync_enabled",
+    "is_counting_in",
+    "is_playing",
+    "loop",
+    "loop_length",
+    "loop_start",
+    "metronome",
+    "midi_recording_quantization",
+    "nudge_down",
+    "nudge_up",
+    "overdub",
+    "punch_in",
+    "punch_out",
+    "re_enable_automation_enabled",
+    "record_mode",
+    "return_tracks",
+    "root_note",
+    "scale_information",
+    "scale_intervals",
+    "scale_mode",
+    "scale_name",
+    "scenes",
+    "session_automation_record",
+    "session_record",
+    "session_record_status",
+    "signature_denominator",
+    "signature_numerator",
+    "song_length",
+    "start_time",
+    "swing_amount",
+    "tempo",
+    "tempo_follower_enabled",
+    "tracks",
+    "tuning_system",
+    "visible_tracks",
+]
+
+VIEW_LISTENABLE: list[str] = [
+    "detail_clip",
+    "draw_mode",
+    "follow_song",
+    "selected_chain",
+    "selected_parameter",
+    "selected_scene",
+    "selected_track",
+]
+
+
 # ── Helpers ────────────────────────────────────────────────────────────────────
+
+# Cached OIDs and snapshot, populated by _setup()
+_state: dict[str, Any] = {}
+
+
+def _setup(ctx: ProbeContext) -> None:
+    """Subscribe to all listenable properties and take initial snapshot."""
+    if _state.get("ready"):
+        return
+
+    song_oid = ctx.song_oid
+    view_oid = ctx.resolve_child(song_oid, "view")
+    if not view_oid:
+        raise RuntimeError("Could not resolve Song.View")
+
+    _state["song_oid"] = song_oid
+    _state["view_oid"] = view_oid
+
+    snapshot = ctx.subscribe_all({
+        "Song": (song_oid, SONG_LISTENABLE),
+        "Song.View": (view_oid, VIEW_LISTENABLE),
+    })
+    _state["snapshot"] = snapshot
+    _state["ready"] = True
+
+    print(f"  Initial Song snapshot: {len(snapshot.get('Song', {}))} values")
+    print(f"  Initial Song.View snapshot: {len(snapshot.get('Song.View', {}))} values")
+
+
+def _teardown(ctx: ProbeContext) -> None:
+    """Unsubscribe all listeners."""
+    ctx.unsubscribe_all()
+    _state.clear()
 
 
 def _song_oid(ctx: ProbeContext) -> str:
@@ -17,10 +115,8 @@ def _song_oid(ctx: ProbeContext) -> str:
 
 
 def _view_oid(ctx: ProbeContext) -> str:
-    oid = ctx.resolve_child(ctx.song_oid, "view")
-    if not oid:
-        raise RuntimeError("Could not resolve Song.View")
-    return oid
+    _setup(ctx)
+    return _state["view_oid"]
 
 
 def _first_track_oid(ctx: ProbeContext) -> str:
@@ -100,6 +196,7 @@ VIEW_SETTABLE_PROPS: list[tuple[str, Any]] = [
 
 def probe_undo(ctx: ProbeContext) -> None:
     """Probe undo tracking and async visibility for every settable Song property."""
+    _setup(ctx)
     song = _song_oid(ctx)
 
     for prop, test_val in SONG_SETTABLE_PROPS:
@@ -438,6 +535,7 @@ def _probe_method_undo_capture_and_insert_scene(ctx: ProbeContext) -> None:
 
 def probe_async(ctx: ProbeContext) -> None:
     """Probe async visibility for properties skipped in undo probing."""
+    _setup(ctx)
     song = _song_oid(ctx)
 
     # These are transport/momentary props — still useful to know async visibility
@@ -477,6 +575,7 @@ def probe_async(ctx: ProbeContext) -> None:
 
 def probe_range(ctx: ProbeContext) -> None:
     """Probe value ranges and boundary behavior for Song properties."""
+    _setup(ctx)
     song = _song_oid(ctx)
 
     # tempo: documented as 20.0–999.0
@@ -527,6 +626,7 @@ def probe_range(ctx: ProbeContext) -> None:
 
 def probe_error(ctx: ProbeContext) -> None:
     """Probe error conditions and messages for Song properties and methods."""
+    _setup(ctx)
     song = _song_oid(ctx)
 
     # tempo with bad types

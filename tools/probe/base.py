@@ -96,6 +96,84 @@ class ProbeContext:
         """Wait for bridge drain — guarantees the next call runs on a new tick."""
         self.client.async_wait()
 
+    # ── Listener infrastructure ──────────────────────────────────────────────
+
+    def subscribe_all(self, targets: dict[str, tuple[str, list[str]]]) -> dict[str, Any]:
+        """Bulk-subscribe to listenable properties and snapshot initial values.
+
+        Args:
+            targets: {label: (oid, [prop_names])} — label is used for logging
+                     and event grouping (e.g. "Song", "Song.View").
+
+        Returns:
+            Initial snapshot: {label: {prop: value}} for all readable properties.
+        """
+        self._sub_ids: list[str] = []
+        self._sub_map: dict[str, tuple[str, str]] = {}  # sub_id → (label, prop)
+        snapshot: dict[str, dict[str, Any]] = {}
+
+        for label, (oid, props) in targets.items():
+            # Bulk subscribe
+            items = [{"oid": oid, "prop": p} for p in props]
+            result = self.client.request("listen_bulk", {"items": items})
+            for key, sub_info in result.items():
+                sub_id = sub_info["sub_id"]
+                prop = key.split(":", 1)[1]  # "o_1:tempo" → "tempo"
+                self._sub_ids.append(sub_id)
+                self._sub_map[sub_id] = (label, prop)
+
+            # Get initial values
+            values = self.client.request("get_many", {"oid": oid, "props": props})
+            snapshot[label] = values
+
+            print(f"  Subscribed to {len(result)}/{len(props)} properties on {label}")
+
+        # Drain any stale events from subscription setup
+        self.wait()
+        self.client.poll(timeout=0.0)
+        self.client.drain_events()
+
+        return snapshot
+
+    def unsubscribe_all(self) -> None:
+        """Unsubscribe all listeners registered via subscribe_all."""
+        for sub_id in getattr(self, "_sub_ids", []):
+            try:
+                self.client.request("unlisten", {"sub_id": sub_id})
+            except Exception:
+                pass
+        self._sub_ids = []
+        self._sub_map = {}
+
+    def collect_fired_listeners(self) -> list[dict[str, Any]]:
+        """Wait for the bridge drain cycle and collect all listener events that fired.
+
+        Events are delivered on the bridge's drain cycle, which runs at the end of
+        each tick. A sleep alone won't trigger a drain — we need an RPC round-trip
+        to cause the bridge to tick and flush queued events.
+
+        Returns:
+            List of {"label": str, "prop": str, "value": Any}
+        """
+        self.wait()
+        # Trigger a bridge tick so it drains pending events to the socket
+        self.get(self.song_oid, "is_playing")
+        raw = self.client.drain_events()
+
+        result = []
+        for e in raw:
+            if e.get("type") != "event":
+                continue
+            sub_id = e.get("sub_id", "")
+            label, prop = self._sub_map.get(sub_id, ("?", "?"))
+            result.append({"label": label, "prop": prop, "value": e.get("value")})
+        return result
+
+    def drain_events(self) -> None:
+        """Discard any pending events (triggers a bridge tick to flush)."""
+        self.get(self.song_oid, "is_playing")
+        self.client.drain_events()
+
     # ── Undo/Async probe ────────────────────────────────────────────────────
 
     def probe_property_undo_async(
@@ -109,20 +187,25 @@ class ProbeContext:
         restore_value: Any = None,
         is_color: bool = False,
     ) -> ProbeResult:
-        """Probe a settable property for undo tracking and async visibility.
+        """Probe a settable property for undo tracking, async visibility, and side effects.
 
         Methodology:
-          1. Read original value
-          2. Set test value inside an undo group
-          3. Immediate readback → async visibility
-          4. Wait, then undo
-          5. Readback after undo → undo tracking
-          6. Restore if undo didn't revert
+          1. Drain stale events
+          2. Read original value
+          3. Set test value inside an undo group
+          4. Immediate get → async visibility
+          5. Collect fired listeners → side effects
+          6. Undo, check readback → undo tracking
+          7. Redo + restore
         """
         eq = compare or fuzzy_eq
         result = self._record(cls, prop, "property")
+        has_listeners = bool(getattr(self, "_sub_map", {}))
 
         try:
+            if has_listeners:
+                self.drain_events()
+
             orig = self.get(obj_oid, prop)
 
             # For booleans, always use the opposite of the current value
@@ -140,26 +223,38 @@ class ProbeContext:
             self.call(self.song_oid, "begin_undo_step")
             self.set(obj_oid, prop, test_value)
 
-            # Immediate readback
-            immediate = self.get(obj_oid, prop)
+            # Async visibility via immediate get readback
+            readback = self.get(obj_oid, prop)
+            if eq(readback, test_value):
+                result.set("async_visibility", "immediate")
+            elif eq(readback, orig):
+                result.set("async_visibility", "next_tick")
+            elif is_color and readback != orig:
+                result.set("async_visibility", "immediate")
+            else:
+                result.set("async_visibility", f"unexpected:{readback!r}")
 
             self.call(self.song_oid, "end_undo_step")
 
-            if eq(immediate, test_value):
-                result.set("async_visibility", "immediate")
-            elif eq(immediate, orig):
-                result.set("async_visibility", "next_tick")
-            elif is_color and immediate != orig:
-                result.set("async_visibility", "immediate")
+            # Side effects via listeners — end_undo_step RPC triggers a bridge
+            # tick that drains queued events to the socket
+            if has_listeners:
+                fired = self.collect_fired_listeners()
+                side_effects = [
+                    {"label": e["label"], "prop": e["prop"], "timing": "next_tick"}
+                    for e in fired
+                    if not (e["label"] == cls and e["prop"] == prop)
+                ]
+                if side_effects:
+                    result.set("side_effects", side_effects)
             else:
-                result.set("async_visibility", f"unexpected:{immediate!r}")
-
-            # Wait for undo stack
-            self.wait()
+                self.wait()
 
             # Undo
             self.call(self.song_oid, "undo")
             self.wait()
+            if has_listeners:
+                self.drain_events()
 
             # Check undo
             after_undo = self.get(obj_oid, prop)
@@ -170,14 +265,17 @@ class ProbeContext:
             else:
                 result.set("undo_tracked", f"unexpected:{after_undo!r}")
 
-            # Redo to neutralize our undo (keeps the undo stack clean for the next probe),
-            # then always manually restore to original regardless of undo outcome.
+            # Redo to neutralize our undo, then manually restore
             self.call(self.song_oid, "redo")
             self.wait()
+            if has_listeners:
+                self.drain_events()
             rv = restore_value if restore_value is not None else orig
             if not eq(self.get(obj_oid, prop), rv):
                 self.set(obj_oid, prop, rv)
                 self.wait()
+                if has_listeners:
+                    self.drain_events()
 
         except Exception as e:
             result.set("async_visibility", "error")
@@ -197,44 +295,70 @@ class ProbeContext:
         check_fn: Callable[[], bool] | None = None,
         cleanup_fn: Callable[[], None] | None = None,
     ) -> ProbeResult:
-        """Probe a method for undo tracking.
+        """Probe a method for undo tracking, async visibility, and side effects.
+
+        Uses listeners (if subscribed) for async visibility and side-effect detection.
+        Uses check_fn for undo tracking verification.
 
         Args:
             check_fn: Returns True if the method's effect is still present.
-            cleanup_fn: Called after probe to restore state.
+            cleanup_fn: Called after probe to restore state if undo didn't work.
         """
         result = self._record(cls, method_name, "method")
+        has_listeners = bool(getattr(self, "_sub_map", {}))
 
         try:
+            # Drain stale events
+            if has_listeners:
+                self.drain_events()
+
             self.call(call_oid, method_name, args)
 
-            # Check immediately (before wait) for async visibility
-            immediate = check_fn() if check_fn else None
-
+            # Async visibility via check_fn (immediate get readback)
+            immediate_check = check_fn() if check_fn else None
             self.wait()
-
             after_wait = check_fn() if check_fn else None
-
             if check_fn is not None:
-                if immediate:
+                if immediate_check:
                     result.set("async_visibility", "immediate")
                 elif after_wait:
                     result.set("async_visibility", "next_tick")
                 else:
-                    result.set("async_visibility", f"unclear:immediate={immediate},after_wait={after_wait}")
+                    result.set("async_visibility", f"unclear:immediate={immediate_check},after={after_wait}")
+
+            # Side effects via listeners — all fired listeners are side effects for methods
+            # Inherit timing from the primary effect's async visibility
+            effect_timing = "immediate" if immediate_check else "next_tick"
+            if has_listeners:
+                fired = self.collect_fired_listeners()
+                side_effects = [
+                    {"label": e["label"], "prop": e["prop"], "timing": effect_timing}
+                    for e in fired
+                ]
+                if side_effects:
+                    result.set("side_effects", side_effects)
+
+            self.wait()
+            if has_listeners:
+                self.drain_events()
+
+            # Verify effect is present before undo (for undo tracking check)
+            before_undo = check_fn() if check_fn else None
 
             self.call(self.song_oid, "undo")
             self.wait()
+            if has_listeners:
+                self.drain_events()
 
             after_undo = check_fn() if check_fn else None
 
             if check_fn is not None:
-                if after_wait and not after_undo:
+                if before_undo and not after_undo:
                     result.set("undo_tracked", True)
-                elif after_wait and after_undo:
+                elif before_undo and after_undo:
                     result.set("undo_tracked", False)
                 else:
-                    result.set("undo_tracked", f"unclear:before={after_wait},after={after_undo}")
+                    result.set("undo_tracked", f"unclear:before={before_undo},after={after_undo}")
             else:
                 result.set("undo_tracked", "unknown")
 
@@ -268,6 +392,9 @@ class ProbeContext:
                     self.wait()
                 except Exception:
                     pass
+
+        if has_listeners:
+            self.drain_events()
 
         self._log(cls, method_name, "method", result)
         return result
