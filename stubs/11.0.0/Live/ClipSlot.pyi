@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from . import ClipSlotPlayingState
     from Live.Clip import Clip
     from Live.LomObject import LomObject
     from Live.Track import Track
@@ -282,4 +281,9 @@ class ClipSlot(LomObject):
         """returns true if the clip slot will record on being fired."""
         ...
 
-__all__ = ['ClipSlot']
+class ClipSlotPlayingState(int):
+    stopped: int = 0
+    started: int = 1
+    recording: int = 2
+
+__all__ = ['ClipSlot', 'ClipSlotPlayingState']
