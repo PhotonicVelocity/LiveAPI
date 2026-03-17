@@ -185,6 +185,25 @@ def teardown_listeners(obj, listeners: list[tuple[str, Any]]) -> None:
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 
+def snapshot_listenables(objects: list[tuple[Any, str, list[str]]]) -> dict[tuple[str, str], Any]:
+    """Read current values of all listenable properties.
+
+    Args:
+        objects: [(obj, cls_name, prop_list), ...] — e.g. [(song, "Song", SONG_LISTENABLE), ...]
+
+    Returns:
+        {(cls, prop): value, ...} for every readable property.
+    """
+    snap: dict[tuple[str, str], Any] = {}
+    for obj, cls, props in objects:
+        for prop in props:
+            try:
+                snap[(cls, prop)] = getattr(obj, prop)
+            except Exception:
+                pass
+    return snap
+
+
 def fuzzy_eq(a: Any, b: Any) -> bool:
     """Compare with tolerance for float precision."""
     if isinstance(a, float) and isinstance(b, float):
@@ -194,23 +213,17 @@ def fuzzy_eq(a: Any, b: Any) -> bool:
     return a == b
 
 
-def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict, log):
+def probe_property(
+    song, obj, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict, snapshot: dict,
+    listenables: list[tuple[Any, str, list[str]]], log,
+):
     """Probe a single property for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
 
-    Steps:
-      1. Read original value. Flip booleans automatically.
-      2. Clear fired listeners.
-      3. begin_undo_step, set, end_undo_step.
-      4. Read back immediately (same tick) → async_visibility = "immediate" if changed.
-      5. Yield to next tick.
-      6. If not immediate, read again → "next_tick" if changed, "no_change" otherwise.
-      7. Collect side effects from fired listeners.
-      8. Undo.
-      9. Yield to next tick (always — undo may also be async).
-      10. Read back → undo_tracked = True if original value restored.
-      11. If undo didn't work, restore manually with setattr.
+    Args:
+        snapshot: {(cls, prop): value} — pre-probe snapshot of all listenable properties,
+            used to check whether side effects are restored after undo.
     """
     result: dict[str, Any] = {}
 
@@ -280,10 +293,18 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
         undo_worked = fuzzy_eq(after_undo, orig)
         result["undo_tracked"] = undo_worked
 
-        # 11. Check which side effects fired during undo.
+        # 11. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, dt in fired}
+        obj_by_cls = {c: o for o, c, _ in listenables}
         for effect in side_effects:
-            effect["undo_fires_listener"] = (effect["label"], effect["prop"]) in undo_fired
+            key = (effect["label"], effect["prop"])
+            effect["undo_fires_listener"] = key in undo_fired
+            if key in snapshot:
+                try:
+                    current = getattr(obj_by_cls[effect["label"]], effect["prop"])
+                    effect["undo_restores_value"] = fuzzy_eq(current, snapshot[key])
+                except Exception:
+                    pass
         if side_effects:
             result["side_effects"] = side_effects
 
@@ -305,7 +326,10 @@ def probe_property(song, obj, cls: str, prop: str, test_value: Any, fired: list,
     return result
 
 
-def probe_method(song, cls: str, method: str, args: list, check_fn, cleanup_fn, fired: list, probe_timing: dict, log):
+def probe_method(
+    song, cls: str, method: str, args: list, check_fn, cleanup_fn, fired: list, probe_timing: dict, snapshot: dict,
+    listenables: list[tuple[Any, str, list[str]]], log,
+):
     """Probe a method for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
@@ -313,18 +337,8 @@ def probe_method(song, cls: str, method: str, args: list, check_fn, cleanup_fn, 
     Args:
         check_fn: () -> bool — returns True if the method's effect is present.
         cleanup_fn: () -> None — restores state if undo didn't work. Can be None.
-
-    Steps:
-      1. Clear fired listeners.
-      2. begin_undo_step, call method, end_undo_step.
-      3. Check effect immediately → async_visibility = "immediate" if present.
-      4. Yield to next tick.
-      5. If not immediate, check again → "next_tick" or "no_effect".
-      6. Collect side effects from fired listeners.
-      7. Undo.
-      8. Yield to next tick.
-      9. Check effect gone → undo_tracked.
-      10. If undo didn't work, run cleanup_fn.
+        snapshot: {(cls, prop): value} — pre-probe snapshot of all listenable properties.
+        listenables: [(obj, cls, props), ...] — for resolving side effect objects.
     """
     import time as _time
 
@@ -372,10 +386,18 @@ def probe_method(song, cls: str, method: str, args: list, check_fn, cleanup_fn, 
         # 9. Check effect gone → undo_tracked.
         result["undo_tracked"] = not check_fn()
 
-        # 10. Check which side effects fired during undo.
+        # 10. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, dt in fired}
+        obj_by_cls = {c: o for o, c, _ in listenables}
         for effect in side_effects:
-            effect["undo_fires_listener"] = (effect["label"], effect["prop"]) in undo_fired
+            key = (effect["label"], effect["prop"])
+            effect["undo_fires_listener"] = key in undo_fired
+            if key in snapshot:
+                try:
+                    current = getattr(obj_by_cls[effect["label"]], effect["prop"])
+                    effect["undo_restores_value"] = fuzzy_eq(current, snapshot[key])
+                except Exception:
+                    pass
         if side_effects:
             result["side_effects"] = side_effects
 
@@ -426,6 +448,7 @@ def run(song, log):
 
     # Set up listeners for side-effect detection
     view = song.view
+    listenables = [(song, "Song", SONG_LISTENABLE), (view, "Song.View", VIEW_LISTENABLE)]
     song_listeners = setup_listeners(song, "Song", SONG_LISTENABLE, fired, probe_timing, log)
     view_listeners = setup_listeners(view, "Song.View", VIEW_LISTENABLE, fired, probe_timing, log)
     yield  # let listener setup settle
@@ -434,7 +457,8 @@ def run(song, log):
     for prop, test_val in SONG_SETTABLE_PROPS:
         if prop in SKIP_UNDO:
             continue
-        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, log)
+        snap = snapshot_listenables(listenables)
+        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, snap, listenables, log)
         try:
             while True:
                 next(gen)
@@ -445,7 +469,8 @@ def run(song, log):
 
     # Song.View properties
     for prop, test_val in VIEW_SETTABLE_PROPS:
-        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, log)
+        snap = snapshot_listenables(listenables)
+        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, snap, listenables, log)
         try:
             while True:
                 next(gen)
@@ -462,7 +487,9 @@ def run(song, log):
     methods = results["Song"].setdefault("methods", {})
 
     def _run_method_probe(method, args, check_fn, cleanup_fn=None):
-        gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, log)
+        snap = snapshot_listenables(listenables)
+        gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, snap,
+                           listenables, log)
         try:
             while True:
                 next(gen)
