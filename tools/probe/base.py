@@ -92,9 +92,13 @@ class ProbeContext:
         """Call a method on an object."""
         return self.client.request("call", {"oid": oid, "method": method, "args": args or []})
 
-    def wait(self) -> None:
-        """Wait for bridge drain — guarantees the next call runs on a new tick."""
+    def release(self) -> None:
+        """Release the bridge — sleeps past the drain window so the next RPC runs on a new tick."""
         self.client.async_wait()
+
+    def wait_for_next_tick(self) -> None:
+        """Wait for the next tick by sending a ping."""
+        self.client.request("ping", {})
 
     # ── Listener infrastructure ──────────────────────────────────────────────
 
@@ -129,7 +133,7 @@ class ProbeContext:
             print(f"  Subscribed to {len(result)}/{len(props)} properties on {label}")
 
         # Drain any stale events from subscription setup
-        self.wait()
+        self.release()
         self.client.poll(timeout=0.0)
         self.client.drain_events()
 
@@ -146,18 +150,11 @@ class ProbeContext:
         self._sub_map = {}
 
     def collect_fired_listeners(self) -> list[dict[str, Any]]:
-        """Wait for the bridge drain cycle and collect all listener events that fired.
+        """Collect all listener events that have fired.
 
-        Events are delivered on the bridge's drain cycle, which runs at the end of
-        each tick. A sleep alone won't trigger a drain — we need an RPC round-trip
-        to cause the bridge to tick and flush queued events.
-
-        Returns:
-            List of {"label": str, "prop": str, "value": Any}
+        Polls the socket briefly to read any events flushed by the bridge.
         """
-        self.wait()
-        # Trigger a bridge tick so it drains pending events to the socket
-        self.get(self.song_oid, "is_playing")
+        self.client.poll(timeout=0.0)
         raw = self.client.drain_events()
 
         result = []
@@ -169,9 +166,9 @@ class ProbeContext:
             result.append({"label": label, "prop": prop, "value": e.get("value")})
         return result
 
-    def drain_events(self) -> None:
-        """Discard any pending events (triggers a bridge tick to flush)."""
-        self.get(self.song_oid, "is_playing")
+    def discard_events(self) -> None:
+        """Read and discard any pending events from the socket."""
+        self.client.poll(timeout=0.0)
         self.client.drain_events()
 
     # ── Undo/Async probe ────────────────────────────────────────────────────
@@ -185,33 +182,35 @@ class ProbeContext:
         *,
         compare: Callable[[Any, Any], bool] | None = None,
         restore_value: Any = None,
-        is_color: bool = False,
     ) -> ProbeResult:
         """Probe a settable property for undo tracking, async visibility, and side effects.
 
         Methodology:
-          1. Drain stale events
-          2. Read original value
-          3. Set test value inside an undo group
-          4. Immediate get → async visibility
-          5. Collect fired listeners → side effects
-          6. Undo, check readback → undo tracking
-          7. Redo + restore
+          1. Ping to sync with bridge (flushes pending events). Drain stale events.
+          2. Read original value.
+          3. Start undo group, set test value, end undo group.
+          4. Get property value → if changed, async_visibility = "immediate".
+          5. Release bridge and ping to sync with next tick.
+          6. If async wasn't immediate, get again → "next_tick" or "no_change".
+          7. Collect fired listeners for side effects (they should all have fired by now).
+          8. Undo, check readback → undo tracking. Wait a tick before get if async isn't immediate.
+          9. Redo + restore if undo didn't work (e.g. because it popped a previous entry)
+          10. release
         """
         eq = compare or fuzzy_eq
         result = self._record(cls, prop, "property")
         has_listeners = bool(getattr(self, "_sub_map", {}))
 
         try:
+            # 1. Ping to sync with bridge. Drain stale events.
+            self.wait_for_next_tick()
             if has_listeners:
-                self.drain_events()
+                self.discard_events()
 
+            # 2. Read original value.
             orig = self.get(obj_oid, prop)
-
-            # For booleans, always use the opposite of the current value
             if isinstance(orig, bool):
                 test_value = not orig
-
             if eq(orig, test_value):
                 result.set("async_visibility", "skip")
                 result.set("undo_tracked", "skip")
@@ -219,63 +218,64 @@ class ProbeContext:
                 self._log(cls, prop, "property", result)
                 return result
 
-            # Set inside undo group
+            # 3. Start undo group, set test value, end undo group.
             self.call(self.song_oid, "begin_undo_step")
             self.set(obj_oid, prop, test_value)
-
-            # Async visibility via immediate get readback
-            readback = self.get(obj_oid, prop)
-            if eq(readback, test_value):
-                result.set("async_visibility", "immediate")
-            elif eq(readback, orig):
-                result.set("async_visibility", "next_tick")
-            elif is_color and readback != orig:
-                result.set("async_visibility", "immediate")
-            else:
-                result.set("async_visibility", f"unexpected:{readback!r}")
-
             self.call(self.song_oid, "end_undo_step")
 
-            # Side effects via listeners — end_undo_step RPC triggers a bridge
-            # tick that drains queued events to the socket
+            # 4. Get property value → async visibility.
+            readback = self.get(obj_oid, prop)
+            is_immediate = eq(readback, test_value)
+
+            # 5. Release bridge and ping to sync with next tick.
+            self.release()
+            self.wait_for_next_tick()
+
+            # 6. If async wasn't immediate, get again to confirm next_tick.
+            if is_immediate:
+                result.set("async_visibility", "immediate")
+            else:
+                readback_next = self.get(obj_oid, prop)
+                if eq(readback_next, test_value):
+                    result.set("async_visibility", "next_tick")
+                else:
+                    result.set("async_visibility", "no_change")
+
+            # 7. Collect fired listeners for side effects.
             if has_listeners:
                 fired = self.collect_fired_listeners()
                 side_effects = [
-                    {"label": e["label"], "prop": e["prop"], "timing": "next_tick"}
+                    {"label": e["label"], "prop": e["prop"]}
                     for e in fired
                     if not (e["label"] == cls and e["prop"] == prop)
                 ]
                 if side_effects:
                     result.set("side_effects", side_effects)
-            else:
-                self.wait()
 
-            # Undo
+            # 8. Undo, check readback → undo tracking.
             self.call(self.song_oid, "undo")
-            self.wait()
-            if has_listeners:
-                self.drain_events()
-
-            # Check undo
-            after_undo = self.get(obj_oid, prop)
-            if eq(after_undo, orig):
-                result.set("undo_tracked", True)
-            elif eq(after_undo, test_value) or (is_color and after_undo != orig):
-                result.set("undo_tracked", False)
+            if is_immediate:
+                after_undo = self.get(obj_oid, prop)
             else:
-                result.set("undo_tracked", f"unexpected:{after_undo!r}")
+                self.release()
+                self.wait_for_next_tick()
+                after_undo = self.get(obj_oid, prop)
+            result.set("undo_tracked", eq(after_undo, orig))
 
-            # Redo to neutralize our undo, then manually restore
-            self.call(self.song_oid, "redo")
-            self.wait()
-            if has_listeners:
-                self.drain_events()
-            rv = restore_value if restore_value is not None else orig
-            if not eq(self.get(obj_oid, prop), rv):
-                self.set(obj_oid, prop, rv)
-                self.wait()
-                if has_listeners:
-                    self.drain_events()
+            # 9. Cleanup + release.
+            undo_worked = eq(after_undo, orig)
+            if not undo_worked:
+                # Undo popped a previous entry — redo to restore it, then fix our property.
+                self.call(self.song_oid, "redo")
+                if not is_immediate:
+                    self.release()
+                    self.wait_for_next_tick()
+                rv = restore_value if restore_value is not None else orig
+                if not eq(self.get(obj_oid, prop), rv):
+                    self.set(obj_oid, prop, rv)
+                    
+            # 10. Release
+            self.release()
 
         except Exception as e:
             result.set("async_visibility", "error")
@@ -297,68 +297,84 @@ class ProbeContext:
     ) -> ProbeResult:
         """Probe a method for undo tracking, async visibility, and side effects.
 
-        Uses listeners (if subscribed) for async visibility and side-effect detection.
-        Uses check_fn for undo tracking verification.
+        Methodology:
+          1. Ping to sync with bridge. Drain stale events.
+          2. Record pre-state via check_fn.
+          3. Start undo group, call method, end undo group.
+          4. Check effect immediately via check_fn → if changed, async = "immediate".
+          5. Release + ping to sync with next tick.
+          6. If effect wasn't immediate, check again → "next_tick" or "no_effect".
+          7. Collect fired listeners for side effects.
+          8. Undo, check via check_fn → undo tracking. Wait a tick if async wasn't immediate.
+          9. Redo + cleanup if undo didn't work (e.g. because it popped a previous entry).
+          10. Release.
 
         Args:
-            check_fn: Returns True if the method's effect is still present.
+            check_fn: Returns True if the method's effect is present.
             cleanup_fn: Called after probe to restore state if undo didn't work.
         """
         result = self._record(cls, method_name, "method")
         has_listeners = bool(getattr(self, "_sub_map", {}))
 
         try:
-            # Drain stale events
+            # 1. Ping to sync with bridge. Drain stale events.
+            self.wait_for_next_tick()
             if has_listeners:
-                self.drain_events()
+                self.discard_events()
 
+            # 2. Record pre-state.
+            before = check_fn() if check_fn else None
+
+            # 3. Start undo group, call method, end undo group.
+            self.call(self.song_oid, "begin_undo_step")
             self.call(call_oid, method_name, args)
+            self.call(self.song_oid, "end_undo_step")
 
-            # Async visibility via check_fn (immediate get readback)
-            immediate_check = check_fn() if check_fn else None
-            self.wait()
-            after_wait = check_fn() if check_fn else None
+            # 4. Check effect immediately.
+            is_immediate = False
             if check_fn is not None:
-                if immediate_check:
-                    result.set("async_visibility", "immediate")
-                elif after_wait:
-                    result.set("async_visibility", "next_tick")
-                else:
-                    result.set("async_visibility", f"unclear:immediate={immediate_check},after={after_wait}")
+                after = check_fn()
+                is_immediate = after and not before if before is not None else after
 
-            # Side effects via listeners — all fired listeners are side effects for methods
-            # Inherit timing from the primary effect's async visibility
-            effect_timing = "immediate" if immediate_check else "next_tick"
+            # 5. Release + ping to sync with next tick.
+            self.release()
+            self.wait_for_next_tick()
+
+            # 6. If effect wasn't immediate, check again.
+            if check_fn is not None:
+                if is_immediate:
+                    result.set("async_visibility", "immediate")
+                else:
+                    after_tick = check_fn()
+                    effect_present = after_tick and not before if before is not None else after_tick
+                    if effect_present:
+                        result.set("async_visibility", "next_tick")
+                    else:
+                        result.set("async_visibility", "no_effect")
+
+            # 7. Collect fired listeners for side effects.
             if has_listeners:
                 fired = self.collect_fired_listeners()
-                side_effects = [
-                    {"label": e["label"], "prop": e["prop"], "timing": effect_timing}
-                    for e in fired
-                ]
-                if side_effects:
-                    result.set("side_effects", side_effects)
+                if fired:
+                    result.set("side_effects", [
+                        {"label": e["label"], "prop": e["prop"]}
+                        for e in fired
+                    ])
 
-            self.wait()
-            if has_listeners:
-                self.drain_events()
-
-            # Verify effect is present before undo (for undo tracking check)
-            before_undo = check_fn() if check_fn else None
-
+            # 8. Undo, check via check_fn → undo tracking.
             self.call(self.song_oid, "undo")
-            self.wait()
-            if has_listeners:
-                self.drain_events()
-
-            after_undo = check_fn() if check_fn else None
+            if not is_immediate:
+                self.release()
+                self.wait_for_next_tick()
 
             if check_fn is not None:
-                if before_undo and not after_undo:
-                    result.set("undo_tracked", True)
-                elif before_undo and after_undo:
-                    result.set("undo_tracked", False)
+                after_undo = check_fn()
+                if before is not None:
+                    # Effect should be gone after undo if tracked
+                    undo_reverted = not after_undo if before is False else after_undo == before
                 else:
-                    result.set("undo_tracked", f"unclear:before={before_undo},after={after_undo}")
+                    undo_reverted = not after_undo
+                result.set("undo_tracked", undo_reverted)
             else:
                 result.set("undo_tracked", "unknown")
 
@@ -366,35 +382,26 @@ class ProbeContext:
             result.set("undo_tracked", "error")
             result.set("error", str(e)[:200])
 
-        # After undo: if undo-tracked, the effect is already gone — no cleanup needed.
-        # If NOT undo-tracked, undo popped a previous entry — redo to restore it,
-        # then run cleanup to remove our method's effect.
+        # 9. Redo + cleanup if undo didn't work.
         undo_result = result.data.get("undo_tracked")
-        if undo_result is True:
-            # Effect already undone. Redo stack has our method — clear it with
-            # an empty undo group so nothing can accidentally redo it.
-            self.call(self.song_oid, "begin_undo_step")
-            self.call(self.song_oid, "end_undo_step")
-            self.wait()
-        else:
-            # Undo hit a previous entry — redo to restore it
+        if undo_result is not True:
+            # Undo hit a previous entry — redo to restore it.
             self.call(self.song_oid, "redo")
-            self.wait()
-            # Run cleanup to remove our method's effect, wrapped in undo group
-            # that we immediately undo so the stack stays clean
+            if not is_immediate:
+                self.release()
+                self.wait_for_next_tick()
+            # Run cleanup to remove our method's effect.
             if cleanup_fn:
                 try:
                     self.call(self.song_oid, "begin_undo_step")
                     cleanup_fn()
                     self.call(self.song_oid, "end_undo_step")
-                    self.wait()
                     self.call(self.song_oid, "undo")
-                    self.wait()
                 except Exception:
                     pass
 
-        if has_listeners:
-            self.drain_events()
+        # 10. Release.
+        self.release()
 
         self._log(cls, method_name, "method", result)
         return result
