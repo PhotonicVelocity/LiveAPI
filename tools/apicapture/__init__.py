@@ -1,8 +1,8 @@
 from .APICapture import APICapture
 
-OUTPUTFOLDER = (
-    "%%%OUTPUTFOLDER%%%"  # this is a placeholder value that is replaced at installation
-)
+import os as _os
+
+OUTPUTFOLDER = _os.path.join(_os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))), "stubs")
 
 
 def create_instance(c_instance):

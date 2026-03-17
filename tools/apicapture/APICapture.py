@@ -42,13 +42,15 @@ CAPTURE_TRIGGER = "/tmp/apicapture_capture"
 PROBE_TRIGGER = "/tmp/apicapture_probe"
 FULL_PROBE_TRIGGER = "/tmp/apicapture_full_probe"
 RUN_TRIGGER = "/tmp/apicapture_run"
+TARGETED_PROBE_TRIGGER = "/tmp/apicapture_targeted_probe"
 
 # Completion markers — written by each phase so external scripts can poll for progress.
 CAPTURE_DONE = "/tmp/apicapture_capture_done"
 PROBE_DONE = "/tmp/apicapture_probe_done"
+TARGETED_PROBE_DONE = "/tmp/apicapture_targeted_probe_done"
 
-ALL_TRIGGERS = (CAPTURE_TRIGGER, PROBE_TRIGGER, FULL_PROBE_TRIGGER, RUN_TRIGGER)
-ALL_MARKERS = (CAPTURE_DONE, PROBE_DONE)
+ALL_TRIGGERS = (CAPTURE_TRIGGER, PROBE_TRIGGER, FULL_PROBE_TRIGGER, RUN_TRIGGER, TARGETED_PROBE_TRIGGER)
+ALL_MARKERS = (CAPTURE_DONE, PROBE_DONE, TARGETED_PROBE_DONE)
 
 
 class APICapture(ControlSurface):
@@ -93,6 +95,9 @@ class APICapture(ControlSurface):
             if opts is not None:
                 self._run_capture()
                 self._run_full_probe(verbose=opts.get("verbose", False))
+            script_path = self._consume_script_trigger(TARGETED_PROBE_TRIGGER)
+            if script_path is not None:
+                self._run_targeted_probe(script_path)
             # Drive active device probe one step per tick
             if self._device_probe is not None:
                 if not self._device_probe.tick():
@@ -179,6 +184,45 @@ class APICapture(ControlSurface):
                 self.log_message("Probe complete (no devices to probe)")
         except Exception as e:
             self.log_message(f"Full probe error: {e}")
+
+    def _consume_script_trigger(self, path: str) -> str | None:
+        """Read and remove a trigger file whose content is a script path. Returns the path, or None if absent."""
+        if not os.path.exists(path):
+            return None
+        try:
+            with open(path, "r") as f:
+                content = f.read().strip()
+        except Exception:
+            content = ""
+        os.remove(path)
+        return content if content else None
+
+    def _run_targeted_probe(self, script_path: str):
+        """Load and run a targeted probe script.
+
+        The script must define a ``run(song, log)`` function.
+        ``song`` is the Live.Song.Song object, ``log`` is the ControlSurface logger.
+        """
+        script_path = os.path.join(self.script_dir, script_path)
+        self.log_message(f"Running targeted probe: {script_path}")
+        try:
+            import importlib.util
+
+            spec = importlib.util.spec_from_file_location("_targeted_probe", script_path)
+            if spec is None or spec.loader is None:
+                self.log_message(f"Targeted probe error: cannot load {script_path}")
+                return
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            if not hasattr(mod, "run"):
+                self.log_message(f"Targeted probe error: {script_path} has no run() function")
+                return
+            song = self._c_instance.song()
+            mod.run(song, self.log_message)
+            self._touch(TARGETED_PROBE_DONE)
+            self.log_message("Targeted probe complete")
+        except Exception as e:
+            self.log_message(f"Targeted probe error: {e}")
 
     def disconnect(self):
         ControlSurface.disconnect(self)
