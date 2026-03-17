@@ -10,6 +10,9 @@ release/
 stubs/*/pipeline/
 stubs/*/Log.txt
 
+# Hand-written reference docs (partial, not tracked — probe data is authoritative)
+doc/live-api/
+
 # Decompiled Remote Scripts (cloned for call-site analysis)
 doc/decompiled/
 
