@@ -95,3 +95,18 @@ Result: enums render as `class FilterType(int):`, `LimitationError` renders as `
 Done — tightened vector detection in `generate_stubs.py` to require `append`/`extend` children. Read-only
 iterables like `BrowserItemIterator` now get `Iterable[T]` base instead of `Vector[T]` via new
 `_iterable_base()` method.
+
+## 13. Same-named module/class ambiguity in stubs
+
+The generated stubs nest the main class in a same-named submodule (e.g., `Live/Song/Song.pyi` contains
+`class Song`, `Live/Application/Application.pyi` contains `class Application`). The `__init__.pyi`
+re-exports the class with `from .Song import Song`.
+
+Pyright sees `Live.Song` as both the **module** (the package) and the **class** (via re-export), causing
+functions like `get_application()` to show return type `Module(".Application") | Application` instead of
+just `Application`.
+
+Options:
+- Flatten the main class into `__init__.pyi` directly (loses the clean file separation)
+- Rename the inner module (e.g., `Live/Song/_song.pyi`) to avoid the name collision
+- Find a pyright-specific `__all__` or re-export pattern that disambiguates
