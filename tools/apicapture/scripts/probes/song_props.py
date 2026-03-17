@@ -18,8 +18,8 @@ from typing import TYPE_CHECKING, Any
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
-    from Live.Application.Application import Application
-    from Live.Song.Song import Song
+    import Live
+    from Live.Song import Song
 
 
 # ── Settable properties with safe test values ──────────────────────────────────
@@ -590,7 +590,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Write results
     import Live  # type: ignore
 
-    app: Application = Live.Application.get_application()  # type: ignore[assignment]
+    app: Live.Application.Application = Live.Application.get_application()  # type: ignore[assignment]
     version = f"{app.get_major_version()}.{app.get_minor_version()}.{app.get_bugfix_version()}"
     outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "stubs")
     outpath = os.path.join(outdir, version, "pipeline", "ProbeResults.json")
