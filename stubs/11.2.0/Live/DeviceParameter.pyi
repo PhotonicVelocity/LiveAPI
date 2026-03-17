@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from . import AutomationState
     from Live.Base import StringVector
     from Live.Device import Device
     from Live.LomObject import LomObject
@@ -217,4 +216,14 @@ class DeviceParameter(LomObject):
         """Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False."""
         ...
 
-__all__ = ['DeviceParameter']
+class AutomationState(int):
+    none: int = 0
+    playing: int = 1
+    overridden: int = 2
+
+class ParameterState(int):
+    enabled: int = 0
+    irrelevant: int = 1
+    disabled: int = 2
+
+__all__ = ['DeviceParameter', 'AutomationState', 'ParameterState']

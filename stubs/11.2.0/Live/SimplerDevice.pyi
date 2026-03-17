@@ -2,6 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.Base import IntVector
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Sample import Sample
     from Live.Track import Track
@@ -671,4 +672,18 @@ class SimplerDevice(Device):
         """Halves the tempo for region between start- and end-marker."""
         ...
 
-__all__ = ['SimplerDevice']
+class PlaybackMode(int):
+    classic: int = 0
+    one_shot: int = 1
+    slicing: int = 2
+
+class SlicingPlaybackMode(int):
+    mono: int = 0
+    poly: int = 1
+    thru: int = 2
+
+def get_available_voice_numbers() -> IntVector:
+    """Get a vector of valid Simpler voice numbers."""
+    ...
+
+__all__ = ['SimplerDevice', 'PlaybackMode', 'SlicingPlaybackMode', 'get_available_voice_numbers']
