@@ -291,6 +291,9 @@ def probe_property(
             log(f"  [prop] {cls}.{prop}: skip — test_value matches original ({orig!r})")
             return result
 
+        result["from"] = _json_safe(orig)
+        result["to"] = _json_safe(test_value)
+
         # 2. Clear fired listeners and set timing target.
         import time as _time
 
@@ -357,6 +360,7 @@ def probe_property(
 
         # 11. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, _ in fired}
+        result["undo_fires_listener"] = (cls, prop) in undo_fired
         for effect in side_effects:
             key = (effect["label"], effect["prop"])
             effect["undo_fires_listener"] = key in undo_fired
