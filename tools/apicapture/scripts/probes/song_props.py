@@ -5,6 +5,10 @@ which is essential for accurately classifying async visibility — a property is
 if the new value is readable on the same tick as the set, "next_tick" if it only appears
 after yielding.
 
+Note: async_visibility describes when the LOM property is readable, not when the underlying
+action takes effect. Transport methods like stop_all_clips act on the audio engine immediately
+but the Python-visible property (e.g. clip.is_playing) updates on the next tick.
+
 Usage:
     echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe
 
@@ -39,7 +43,6 @@ from typing import TYPE_CHECKING, Any
 
 from Live.Base import IntVector, Vector
 from Live.LomObject import LomObject
-from Live.Device import Device
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -67,7 +70,7 @@ SONG_SETTABLE_PROPS: list[tuple[str, Any]] = [
     ("punch_out", True),
     ("root_note", 2),  # 0=C, 2=D
     ("scale_mode", True),
-    ("scale_name", "Minor"),
+    ("scale_name", "Dorian"),
     ("signature_denominator", 8),
     ("signature_numerator", 3),
     ("swing_amount", 0.6),
@@ -699,14 +702,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             return e.value
 
     # Song.back_to_arranger — Live sets it True (e.g. on scene fire), user can only clear to False
-    song.scenes[0].fire()
-    yield  # let fire take effect
-    if song.back_to_arranger:
-        r = yield from _run_obj_prop_probe(song, "Song", "back_to_arranger", False)
-        if r:
-            results["Song"]["properties"]["back_to_arranger"] = r
-    else:
-        log("  [skip] Song.back_to_arranger — firing scene didn't set it True")
+    if not song.back_to_arranger:
+        song.scenes[0].fire()
+        yield
+    r = yield from _run_obj_prop_probe(song, "Song", "back_to_arranger", False)
+    if r:
+        results["Song"]["properties"]["back_to_arranger"] = r
 
     # Song.View.selected_scene — pick a different scene (middle index)
     scenes = song.scenes
@@ -732,22 +733,21 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     else:
         log("  [skip] Song.View.selected_track — need ≥2 tracks")
 
-    # Song.appointed_device — use devices from return tracks (present in minimal sets)
-    return_tracks = song.return_tracks
-    all_devices: list[Device] = []
-    for rt in return_tracks:
-        all_devices.extend(rt.devices)
+    # Song.appointed_device — pick a device that differs from current
+    devices_a = list(song.tracks[0].devices)
+    devices_b = list(song.tracks[1].devices) if len(song.tracks) > 1 else []
+    all_devices = devices_a + devices_b
     if len(all_devices) >= 2:
         current_device = song.appointed_device
-        if current_device is not None:
-            target_device = all_devices[1] if all_devices[0]._live_ptr == current_device._live_ptr else all_devices[0]
+        if current_device is not None and current_device._live_ptr == all_devices[0]._live_ptr:
+            target_device = all_devices[1]
         else:
             target_device = all_devices[0]
         r = yield from _run_obj_prop_probe(song, "Song", "appointed_device", target_device)
         if r:
             results["Song"]["properties"]["appointed_device"] = r
     else:
-        log(f"  [skip] Song.appointed_device — need ≥2 devices on return tracks (found {len(all_devices)})")
+        log(f"  [skip] Song.appointed_device — need ≥2 devices (found {len(all_devices)})")
 
     # ── Method probes ──────────────────────────────────────────────────────────
     log("[song_props] Starting method probes")
@@ -920,13 +920,29 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["play_selection"] = r
 
-    # stop_all_clips — stops clips, not transport. Needs playing clips to observe effect.
-    gen = _run_method_probe(
-        "stop_all_clips", [True],
-        check_fn=lambda: False,  # no clips playing in minimal set — always no_effect
-    )
-    r = yield from gen
-    if r: methods["stop_all_clips"] = r
+    # stop_all_clips — fire a clip first, then probe stopping it
+    clip_slot = song.tracks[0].clip_slots[0]
+    if clip_slot.has_clip:
+        # Temporarily disable launch quantization so clip starts immediately
+        orig_quant = song.clip_trigger_quantization
+        song.clip_trigger_quantization = 0  # type: ignore[assignment]  # Quantization enum accepts int at runtime
+        yield
+        clip_slot.fire()
+        yield
+        gen = _run_method_probe(
+            "stop_all_clips", [True],
+            check_fn=lambda: not clip_slot.clip.is_playing,
+            cleanup_fn=lambda: song.stop_playing(),
+        )
+        r = yield from gen
+        if r: methods["stop_all_clips"] = r
+        if song.is_playing:
+            song.stop_playing()
+            yield
+        song.clip_trigger_quantization = orig_quant
+        yield
+    else:
+        log("  [skip] stop_all_clips — no clips found in set")
 
     # jump_by — move song position forward
     song.current_song_time = 0.0
@@ -950,38 +966,31 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # jump_to_next_cue / jump_to_prev_cue — need a cue point first
-    song.current_song_time = 0.0
-    yield
-    song.set_or_delete_cue()  # create cue at position 0
-    yield
+    # jump_to_prev_cue / jump_to_next_cue — use existing cue points
     if len(song.cue_points) > 0:
-        # Move past the cue so we can jump back
-        song.current_song_time = 8.0
+        # Position past all cue points so we can jump back
+        song.current_song_time = song.song_length
         yield
 
         gen = _run_method_probe(
             "jump_to_prev_cue", [],
-            check_fn=lambda: song.current_song_time < 8.0,
+            check_fn=lambda: song.current_song_time < song.song_length,
         )
         r = yield from gen
         if r: methods["jump_to_prev_cue"] = r
 
-        # Now jump forward
+        # Position at start so we can jump forward
+        song.current_song_time = 0.0
+        yield
+
         gen = _run_method_probe(
             "jump_to_next_cue", [],
             check_fn=lambda: song.current_song_time > 0.0,
         )
         r = yield from gen
         if r: methods["jump_to_next_cue"] = r
-
-        # Clean up cue
-        song.current_song_time = 0.0
-        yield
-        song.set_or_delete_cue()  # toggle deletes it
-        yield
     else:
-        log("  [skip] jump_to_prev_cue / jump_to_next_cue — no cue point created")
+        log("  [skip] jump_to_prev_cue / jump_to_next_cue — no cue points in set")
 
     # Reset position
     song.current_song_time = 0.0
@@ -1008,17 +1017,13 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     view_methods = results["Song.View"].setdefault("methods", {})
 
-    # select_device — use a return track device. Called on view, not song.
-    return_tracks = song.return_tracks
-    rt_devices: list[Device] = []
-    for rt in return_tracks:
-        rt_devices.extend(rt.devices)
-    if len(rt_devices) >= 2:
+    # select_device — pick a device that differs from current appointment
+    if len(all_devices) >= 2:
         current = song.appointed_device
-        if current is not None and current._live_ptr == rt_devices[0]._live_ptr:
-            target_device = rt_devices[1]
+        if current is not None and current._live_ptr == all_devices[0]._live_ptr:
+            target_device = all_devices[1]
         else:
-            target_device = rt_devices[0]
+            target_device = all_devices[0]
         snap, snap_json = snapshot_properties(snapshot_targets)
         gen = probe_method(
             song, "Song.View", "select_device", [target_device, True],
@@ -1036,7 +1041,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             if e.value is not None:
                 view_methods["select_device"] = e.value
     else:
-        log(f"  [skip] Song.View.select_device — need ≥2 devices on return tracks (found {len(rt_devices)})")
+        log(f"  [skip] Song.View.select_device — need ≥2 devices (found {len(all_devices)})")
 
     # Tear down listeners
     teardown_listeners(song, song_listeners)

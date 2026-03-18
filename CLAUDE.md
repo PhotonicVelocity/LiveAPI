@@ -45,6 +45,11 @@ Probes should avoid edge cases in their baseline measurements (e.g. use middle i
 end-of-list selection quirks). Quirky behaviors discovered during probing should be noted for later targeted tests that
 specifically document those edge cases.
 
+Probes run against Live's built-in Demo Set, which provides a rich environment (tracks with devices, clips with
+automation, chains, MIDI content). A JSON dump of the demo set's structure is available at
+`~/dev/ableton-api/PythonForLive/tests/integration/fixtures/demo_song_export.json` — use it to find specific objects
+by index when writing probes (e.g. which track has a rack device, which clip slot has a clip).
+
 ```bash
 echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe   # trigger a targeted probe
 cat /tmp/apicapture_targeted_probe_done                               # read output path when done
