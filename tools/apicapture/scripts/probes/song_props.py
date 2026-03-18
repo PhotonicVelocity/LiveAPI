@@ -10,7 +10,7 @@ Usage:
 
 TODO: Not yet probed
     Song properties:
-        - back_to_arranger — engine-driven status flag, set may be ignored
+        - ✓ back_to_arranger — probed with scene fire precondition
     Song.View properties (need runtime objects):
         - detail_clip (Clip | None)
         - highlighted_clip_slot (ClipSlot)
@@ -668,8 +668,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             if e.value is not None:
                 results["Song.View"]["properties"][prop] = e.value
 
-    # ── Object-reference property probes ─────────────────────────────────────
-    # These can't go in the static lists — test values are runtime objects.
+    # ── Special-case property probes ─────────────────────────────────────────
+    # These need runtime preconditions or object values and can't go in the static lists.
 
     def _run_obj_prop_probe(obj, cls, prop, test_val):
         snap, snap_json = snapshot_properties(snapshot_targets)
@@ -680,6 +680,16 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
                 yield
         except StopIteration as e:
             return e.value
+
+    # Song.back_to_arranger — Live sets it True (e.g. on scene fire), user can only clear to False
+    song.scenes[0].fire()
+    yield  # let fire take effect
+    if song.back_to_arranger:
+        r = yield from _run_obj_prop_probe(song, "Song", "back_to_arranger", False)
+        if r:
+            results["Song"]["properties"]["back_to_arranger"] = r
+    else:
+        log("  [skip] Song.back_to_arranger — firing scene didn't set it True")
 
     # Song.View.selected_scene — pick a different scene (middle index)
     scenes = song.scenes
