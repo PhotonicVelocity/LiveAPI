@@ -7,6 +7,31 @@ after yielding.
 
 Usage:
     echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe
+
+TODO: Not yet probed
+    Song properties:
+        - back_to_arranger — engine-driven status flag, set may be ignored
+    Song.View properties (need runtime objects):
+        - detail_clip (Clip | None)
+        - highlighted_clip_slot (ClipSlot)
+        - selected_chain (Chain | None)
+    Song methods — undo infrastructure (used by probe itself):
+        - begin_undo_step, end_undo_step, undo, redo
+    Song methods — delete (now probed, also used as cleanup):
+        - ✓ delete_track, delete_scene, delete_return_track
+    Song methods — read-only queries:
+        - find_device_position, get_beats_loop_length, get_beats_loop_start
+        - get_current_beats_song_time, get_current_smpte_song_time
+        - get_data, is_cue_point_selected
+    Song methods — transport/position:
+        - continue_playing, start_playing, stop_playing, play_selection
+        - stop_all_clips, jump_by, jump_to_next_cue, jump_to_prev_cue
+        - scrub_by, tap_tempo
+    Song methods — state-changing with preconditions:
+        - capture_midi, force_link_beat_time, re_enable_automation
+        - trigger_session_record, set_data, move_device
+    Song.View methods:
+        - select_device (needs runtime Device object)
 """
 
 from __future__ import annotations
@@ -159,23 +184,29 @@ def teardown_listeners(obj: Song | Song.View, listeners: list[tuple[str, Any]]) 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
 
-def snapshot_properties(objects: list[tuple[Any, str, list[str]]]) -> dict[tuple[str, str], Any]:
+def snapshot_properties(
+    objects: list[tuple[Any, str, list[str]]],
+) -> tuple[dict[tuple[str, str], Any], dict[tuple[str, str], Any]]:
     """Read current values of properties for pre/post-probe comparison and restoration.
 
     Args:
         objects: [(obj, cls_name, prop_list), ...] — e.g. [(song, "Song", song_snapshot_props), ...]
 
     Returns:
-        {(cls, prop): value, ...} for every readable property.
+        (raw, serialized) — raw holds live objects for comparison/restore,
+        serialized holds _json_safe values captured eagerly for output.
     """
-    snap: dict[tuple[str, str], Any] = {}
+    raw: dict[tuple[str, str], Any] = {}
+    serialized: dict[tuple[str, str], Any] = {}
     for obj, cls, props in objects:
         for prop in props:
             try:
-                snap[(cls, prop)] = getattr(obj, prop)
+                val = getattr(obj, prop)
+                raw[(cls, prop)] = val
+                serialized[(cls, prop)] = _json_safe(val)
             except Exception:
                 pass
-    return snap
+    return raw, serialized
 
 
 def fuzzy_eq(a: Any, b: Any) -> bool:
@@ -251,7 +282,7 @@ def restore_side_effects(
 
 def probe_property(
     song: Song, obj: Song | Song.View, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict,
-    snapshot: dict, snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
+    snapshot: dict, snap_json: dict, snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a single property for undo tracking, async visibility, and side effects.
 
@@ -336,7 +367,7 @@ def probe_property(
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
-                    effect["from"] = _json_safe(snapshot[key])
+                    effect["from"] = snap_json[key]
                     effect["to"] = _json_safe(after)
                 except Exception:
                     pass
@@ -401,7 +432,7 @@ def probe_property(
 
 def probe_method(
     song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
-    cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict,
+    cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict, snap_json: dict,
     snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a method for undo tracking, async visibility, and side effects.
@@ -455,7 +486,7 @@ def probe_method(
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
-                    effect["from"] = _json_safe(snapshot[key])
+                    effect["from"] = snap_json[key]
                     effect["to"] = _json_safe(after)
                 except Exception:
                     pass
@@ -552,8 +583,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     for prop, test_val in SONG_SETTABLE_PROPS:
         if prop in SKIP_UNDO:
             continue
-        snap = snapshot_properties(snapshot_targets)
-        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, snap, snapshot_targets, log)
+        snap, snap_json = snapshot_properties(snapshot_targets)
+        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, snap, snap_json, snapshot_targets, log)
         try:
             while True:
                 next(gen)
@@ -564,8 +595,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Song.View properties
     for prop, test_val in VIEW_SETTABLE_PROPS:
-        snap = snapshot_properties(snapshot_targets)
-        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, snap, snapshot_targets, log)
+        snap, snap_json = snapshot_properties(snapshot_targets)
+        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, snap, snap_json, snapshot_targets, log)
         try:
             while True:
                 next(gen)
@@ -578,8 +609,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # These can't go in the static lists — test values are runtime objects.
 
     def _run_obj_prop_probe(obj, cls, prop, test_val):
-        snap = snapshot_properties(snapshot_targets)
-        gen = probe_property(song, obj, cls, prop, test_val, fired, probe_timing, snap, snapshot_targets, log)
+        snap, snap_json = snapshot_properties(snapshot_targets)
+        gen = probe_property(song, obj, cls, prop, test_val, fired, probe_timing, snap, snap_json, snapshot_targets, log)
         try:
             while True:
                 next(gen)
@@ -636,8 +667,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     methods = results["Song"].setdefault("methods", {})
 
     def _run_method_probe(method, args, check_fn, cleanup_fn=None):
-        snap = snapshot_properties(snapshot_targets)
-        gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, snap,
+        snap, snap_json = snapshot_properties(snapshot_targets)
+        gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, snap, snap_json,
                            snapshot_targets, log)
         try:
             while True:
@@ -724,6 +755,56 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["capture_and_insert_scene"] = r
+
+    # delete_scene — create a temp scene first, then probe deleting it
+    ids_before_scene = _ptr_set(song.scenes)
+    mid = len(song.scenes) // 2
+    song.create_scene(mid)
+    yield  # let creation settle
+    ids_with_temp = _ptr_set(song.scenes)
+    gen = _run_method_probe(
+        "delete_scene", [mid],
+        check_fn=lambda: len(song.scenes) < len(ids_with_temp),
+    )
+    r = yield from gen
+    if r: methods["delete_scene"] = r
+    # Clean up: if undo restored the temp scene, delete it
+    if len(song.scenes) > len(ids_before_scene):
+        song.delete_scene(mid)
+        yield
+
+    # delete_track — create a temp midi track first, then probe deleting it
+    num_tracks_before = len(song.tracks)
+    mid = num_tracks_before // 2
+    song.create_midi_track(mid)
+    yield  # let creation settle
+    ids_with_temp = _ptr_set(song.tracks)
+    gen = _run_method_probe(
+        "delete_track", [mid],
+        check_fn=lambda: len(song.tracks) < len(ids_with_temp),
+    )
+    r = yield from gen
+    if r: methods["delete_track"] = r
+    # Clean up: if undo restored the temp track, delete it
+    if len(song.tracks) > num_tracks_before:
+        song.delete_track(mid)
+        yield
+
+    # delete_return_track — create a temp return track first, then probe deleting it
+    num_rt_before = len(song.return_tracks)
+    song.create_return_track()
+    yield  # let creation settle
+    ids_with_temp = _ptr_set(song.return_tracks)
+    gen = _run_method_probe(
+        "delete_return_track", [len(song.return_tracks) - 1],
+        check_fn=lambda: len(song.return_tracks) < len(ids_with_temp),
+    )
+    r = yield from gen
+    if r: methods["delete_return_track"] = r
+    # Clean up: if undo restored the temp return track, delete it
+    if len(song.return_tracks) > num_rt_before:
+        song.delete_return_track(len(song.return_tracks) - 1)
+        yield
 
     # Tear down listeners
     teardown_listeners(song, song_listeners)
