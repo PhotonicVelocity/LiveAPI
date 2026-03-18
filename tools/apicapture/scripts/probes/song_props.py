@@ -25,9 +25,10 @@ TODO: Not yet probed
         - tap_tempo, needs custom probing
     Song methods — state-changing with preconditions:
         - capture_midi, force_link_beat_time, re_enable_automation
-        - trigger_session_record, set_data, move_device
+        - trigger_session_record, move_device
+        - ✓ set_data
     Song.View methods:
-        - select_device (needs runtime Device object)
+        - ✓ select_device
 """
 
 from __future__ import annotations
@@ -100,6 +101,9 @@ NOTES: dict[str, str] = {
     "Song.back_to_arranger": "Can only be set False. Engine sets it True on certain actions (e.g. scene fire).",
     "Song.record_mode": "is_playing side effect depends on 'Record Starts Playback' preference.",
     "Song.session_record": "is_playing side effect depends on 'Record Starts Playback' preference.",
+    "Song.set_data": "Value is immediately readable via get_data on the same tick.",
+    "Song.appointed_device": "Listener does not fire on programmatic changes (setattr or select_device). Likely UI-driven only.",
+    "Song.View.select_device": "Appoints the device but does not fire the appointed_device listener (see appointed_device note).",
     "Song.stop_all_clips": "Does not stop song transport, only clips.",
 }
 
@@ -491,6 +495,7 @@ def probe_method(
     song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
     cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict, snap_json: dict,
     snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
+    *, obj: Any = None,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a method for undo tracking, async visibility, and side effects.
 
@@ -515,8 +520,9 @@ def probe_method(
         probe_timing["set_time"] = _time.monotonic()
 
         # 2. begin_undo_step, call method, end_undo_step.
+        target = obj if obj is not None else song
         song.begin_undo_step()
-        getattr(song, method)(*args)
+        getattr(target, method)(*args)
         song.end_undo_step()
 
         # 3. Check effect immediately.
@@ -980,6 +986,57 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Reset position
     song.current_song_time = 0.0
     yield
+
+    # ── Data store method probes ───────────────────────────────────────────────
+    log("[song_props] Starting data store method probes")
+
+    # set_data — store a test value, check it persists
+    test_key = "__liverelay_probe_test"
+    gen = _run_method_probe(
+        "set_data", [test_key, "probe_value"],
+        check_fn=lambda: song.get_data(test_key, None) == "probe_value",
+        cleanup_fn=lambda: song.set_data(test_key, None),
+    )
+    r = yield from gen
+    if r: methods["set_data"] = r
+    # Clean up test key
+    song.set_data(test_key, None)
+    yield
+
+    # ── Song.View method probes ────────────────────────────────────────────────
+    log("[song_props] Starting Song.View method probes")
+
+    view_methods = results["Song.View"].setdefault("methods", {})
+
+    # select_device — use a return track device. Called on view, not song.
+    return_tracks = song.return_tracks
+    rt_devices: list[Device] = []
+    for rt in return_tracks:
+        rt_devices.extend(rt.devices)
+    if len(rt_devices) >= 2:
+        current = song.appointed_device
+        if current is not None and current._live_ptr == rt_devices[0]._live_ptr:
+            target_device = rt_devices[1]
+        else:
+            target_device = rt_devices[0]
+        snap, snap_json = snapshot_properties(snapshot_targets)
+        gen = probe_method(
+            song, "Song.View", "select_device", [target_device, True],
+            check_fn=lambda: (song.appointed_device is not None
+                              and song.appointed_device._live_ptr == target_device._live_ptr),
+            cleanup_fn=None, fired=fired, probe_timing=probe_timing,
+            snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets, log=log,
+            obj=view,
+        )
+        try:
+            while True:
+                next(gen)
+                yield
+        except StopIteration as e:
+            if e.value is not None:
+                view_methods["select_device"] = e.value
+    else:
+        log(f"  [skip] Song.View.select_device — need ≥2 devices on return tracks (found {len(rt_devices)})")
 
     # Tear down listeners
     teardown_listeners(song, song_listeners)
