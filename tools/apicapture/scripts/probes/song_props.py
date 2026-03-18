@@ -756,55 +756,35 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["capture_and_insert_scene"] = r
 
-    # delete_scene — create a temp scene first, then probe deleting it
-    ids_before_scene = _ptr_set(song.scenes)
-    mid = len(song.scenes) // 2
-    song.create_scene(mid)
-    yield  # let creation settle
-    ids_with_temp = _ptr_set(song.scenes)
+    # delete_scene (middle index — undo restores it)
+    num_scenes = len(song.scenes)
+    ids_before = _ptr_set(song.scenes)
     gen = _run_method_probe(
-        "delete_scene", [mid],
-        check_fn=lambda: len(song.scenes) < len(ids_with_temp),
+        "delete_scene", [num_scenes // 2],
+        check_fn=lambda: len(song.scenes) < num_scenes,
     )
     r = yield from gen
     if r: methods["delete_scene"] = r
-    # Clean up: if undo restored the temp scene, delete it
-    if len(song.scenes) > len(ids_before_scene):
-        song.delete_scene(mid)
-        yield
 
-    # delete_track — create a temp midi track first, then probe deleting it
-    num_tracks_before = len(song.tracks)
-    mid = num_tracks_before // 2
-    song.create_midi_track(mid)
-    yield  # let creation settle
-    ids_with_temp = _ptr_set(song.tracks)
+    # delete_track (middle index — undo restores it)
+    num_tracks = len(song.tracks)
+    ids_before = _ptr_set(song.tracks)
     gen = _run_method_probe(
-        "delete_track", [mid],
-        check_fn=lambda: len(song.tracks) < len(ids_with_temp),
+        "delete_track", [num_tracks // 2],
+        check_fn=lambda: len(song.tracks) < num_tracks,
     )
     r = yield from gen
     if r: methods["delete_track"] = r
-    # Clean up: if undo restored the temp track, delete it
-    if len(song.tracks) > num_tracks_before:
-        song.delete_track(mid)
-        yield
 
-    # delete_return_track — create a temp return track first, then probe deleting it
-    num_rt_before = len(song.return_tracks)
-    song.create_return_track()
-    yield  # let creation settle
-    ids_with_temp = _ptr_set(song.return_tracks)
+    # delete_return_track (middle index — undo restores it)
+    num_rt = len(song.return_tracks)
+    ids_before = _ptr_set(song.return_tracks)
     gen = _run_method_probe(
-        "delete_return_track", [len(song.return_tracks) - 1],
-        check_fn=lambda: len(song.return_tracks) < len(ids_with_temp),
+        "delete_return_track", [num_rt // 2],
+        check_fn=lambda: len(song.return_tracks) < num_rt,
     )
     r = yield from gen
     if r: methods["delete_return_track"] = r
-    # Clean up: if undo restored the temp return track, delete it
-    if len(song.return_tracks) > num_rt_before:
-        song.delete_return_track(len(song.return_tracks) - 1)
-        yield
 
     # Tear down listeners
     teardown_listeners(song, song_listeners)
