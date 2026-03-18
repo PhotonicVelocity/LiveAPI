@@ -267,6 +267,7 @@ def _check_unlistened_side_effects(
                         "prop": prop,
                         "from": snap_json[key],
                         "to": _json_safe(current),
+                        "_raw_after": current,
                         "unlistened": True,
                     })
             except Exception:
@@ -405,6 +406,7 @@ def probe_property(
                     after = getattr(obj_by_cls[c], p)
                     effect["from"] = snap_json[key]
                     effect["to"] = _json_safe(after)
+                    effect["_raw_after"] = after  # stashed for undo comparison
                 except Exception:
                     pass
             side_effects.append(effect)
@@ -440,9 +442,16 @@ def probe_property(
             if key in snapshot:
                 try:
                     current = getattr(obj_by_cls[effect["label"]], effect["prop"])
-                    effect["undo_restores_value"] = fuzzy_eq(current, snapshot[key])
+                    if fuzzy_eq(current, snapshot[key]):
+                        effect["undo_result"] = "restored"
+                    elif "_raw_after" in effect and fuzzy_eq(current, effect["_raw_after"]):
+                        effect["undo_result"] = "unchanged"
+                    else:
+                        effect["undo_result"] = "changed"
+                        effect["undo_value"] = _json_safe(current)
                 except Exception:
                     pass
+            effect.pop("_raw_after", None)
         if side_effects:
             result["side_effects"] = side_effects
 
@@ -530,6 +539,7 @@ def probe_method(
                     after = getattr(obj_by_cls[c], p)
                     effect["from"] = snap_json[key]
                     effect["to"] = _json_safe(after)
+                    effect["_raw_after"] = after
                 except Exception:
                     pass
             side_effects.append(effect)
@@ -556,9 +566,16 @@ def probe_method(
             if key in snapshot:
                 try:
                     current = getattr(obj_by_cls[effect["label"]], effect["prop"])
-                    effect["undo_restores_value"] = fuzzy_eq(current, snapshot[key])
+                    if fuzzy_eq(current, snapshot[key]):
+                        effect["undo_result"] = "restored"
+                    elif "_raw_after" in effect and fuzzy_eq(current, effect["_raw_after"]):
+                        effect["undo_result"] = "unchanged"
+                    else:
+                        effect["undo_result"] = "changed"
+                        effect["undo_value"] = _json_safe(current)
                 except Exception:
                     pass
+            effect.pop("_raw_after", None)
         if side_effects:
             result["side_effects"] = side_effects
 
