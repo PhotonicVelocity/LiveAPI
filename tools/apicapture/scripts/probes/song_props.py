@@ -101,8 +101,12 @@ SKIP_UNDO: set[str] = {
 # Properties excluded from listener subscription — fire too frequently to be useful as listeners.
 LISTENER_EXCLUDE: set[str] = {"current_song_time"}  # fires every audio tick (~80/s)
 
-# Non-listenable properties to include in snapshots for restoration between probes.
-SNAPSHOT_EXTRA: set[str] = {"name"}
+# Non-listenable properties to include in snapshots, keyed by class name.
+# When probing other modules, add entries here for cross-module properties to track.
+SNAPSHOT_EXTRA: dict[str, set[str]] = {
+    "Song": {"name"},
+    "Song.View": {"highlighted_clip_slot"},
+}
 
 
 def _discover_listenable(obj: object) -> list[str]:
@@ -114,13 +118,13 @@ def _discover_listenable(obj: object) -> list[str]:
     )
     
     
-def _discover_snapshot_props(listenable: list[str]) -> list[str]:
+def _discover_snapshot_props(listenable: list[str], cls: str) -> list[str]:
     """Properties to snapshot and restore between probes.
 
     Includes all listenable properties (even LISTENER_EXCLUDE ones) plus SNAPSHOT_EXTRA
     for non-listenable properties that can drift during probes.
     """
-    props = set(SNAPSHOT_EXTRA) | LISTENER_EXCLUDE
+    props = set(SNAPSHOT_EXTRA.get(cls, set())) | LISTENER_EXCLUDE
     props.update(listenable)
     return sorted(props)
 
@@ -236,6 +240,38 @@ def _json_safe(val: Any) -> Any:
     if isinstance(val, (Vector, IntVector)):
         return [f"ptr:{item._live_ptr}" if isinstance(item, LomObject) else item for item in val]
     return repr(val)
+
+
+def _check_unlistened_side_effects(
+    snapshot: dict, snap_json: dict, obj_by_cls: dict[str, Any],
+    already_seen: set[tuple[str, str]], skip: tuple[str, str] | None = None,
+) -> list[dict[str, Any]]:
+    """Check SNAPSHOT_EXTRA properties for changes not caught by listeners.
+
+    Returns side effect dicts for any that changed, excluding already_seen keys.
+    """
+    effects = []
+    for cls_name, extras in SNAPSHOT_EXTRA.items():
+        obj = obj_by_cls.get(cls_name)
+        if obj is None:
+            continue
+        for prop in extras:
+            key = (cls_name, prop)
+            if key in already_seen or key == skip or key not in snapshot:
+                continue
+            try:
+                current = getattr(obj, prop)
+                if not fuzzy_eq(current, snapshot[key]):
+                    effects.append({
+                        "label": cls_name,
+                        "prop": prop,
+                        "from": snap_json[key],
+                        "to": _json_safe(current),
+                        "unlistened": True,
+                    })
+            except Exception:
+                pass
+    return effects
 
 
 def restore_side_effects(
@@ -357,11 +393,13 @@ def probe_property(
         # 7. Collect side effects and listener timing.
         obj_by_cls = {c: o for o, c, _ in snapshot_targets}
         side_effects = []
+        seen_keys: set[tuple[str, str]] = set()
         for c, p, dt in fired:
             if c == cls and p == prop:
                 continue
             effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
             key = (c, p)
+            seen_keys.add(key)
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
@@ -370,6 +408,10 @@ def probe_property(
                 except Exception:
                     pass
             side_effects.append(effect)
+        # Check SNAPSHOT_EXTRA for unlistened side effects.
+        side_effects.extend(_check_unlistened_side_effects(
+            snapshot, snap_json, obj_by_cls, seen_keys, skip=(cls, prop),
+        ))
 
         if probe_timing["listener_time"] is not None:
             dt = probe_timing["listener_time"] - probe_timing["set_time"]
@@ -478,9 +520,11 @@ def probe_method(
         # 6. Collect side effects.
         obj_by_cls = {c: o for o, c, _ in snapshot_targets}
         side_effects = []
+        seen_keys: set[tuple[str, str]] = set()
         for c, p, dt in fired:
             effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
             key = (c, p)
+            seen_keys.add(key)
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
@@ -489,6 +533,10 @@ def probe_method(
                 except Exception:
                     pass
             side_effects.append(effect)
+        # Check SNAPSHOT_EXTRA for unlistened side effects.
+        side_effects.extend(_check_unlistened_side_effects(
+            snapshot, snap_json, obj_by_cls, seen_keys,
+        ))
 
         # 7. Clear fired and undo.
         fired.clear()
@@ -570,8 +618,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song_listenable = _discover_listenable(song)
     view_listenable = _discover_listenable(view)
     snapshot_targets = [
-        (song, "Song", _discover_snapshot_props(song_listenable)),
-        (view, "Song.View", _discover_snapshot_props(view_listenable)),
+        (song, "Song", _discover_snapshot_props(song_listenable, "Song")),
+        (view, "Song.View", _discover_snapshot_props(view_listenable, "Song.View")),
     ]
     song_listeners = setup_listeners(song, "Song", song_listenable, fired, probe_timing, log)
     view_listeners = setup_listeners(view, "Song.View", view_listenable, fired, probe_timing, log)
