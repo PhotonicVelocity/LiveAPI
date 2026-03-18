@@ -17,8 +17,6 @@ TODO: Not yet probed
         - selected_chain (Chain | None)
     Song methods — undo infrastructure (used by probe itself):
         - begin_undo_step, end_undo_step, undo, redo
-    Song methods — delete (now probed, also used as cleanup):
-        - ✓ delete_track, delete_scene, delete_return_track
     Song methods — read-only queries:
         - find_device_position, get_beats_loop_length, get_beats_loop_start
         - get_current_beats_song_time, get_current_smpte_song_time
