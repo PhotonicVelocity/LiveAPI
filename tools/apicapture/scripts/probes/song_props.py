@@ -9,8 +9,6 @@ Usage:
     echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe
 
 TODO: Not yet probed
-    Song properties:
-        - ✓ back_to_arranger — probed with scene fire precondition
     Song.View properties (need runtime objects):
         - detail_clip (Clip | None)
         - highlighted_clip_slot (ClipSlot)
@@ -93,6 +91,15 @@ SKIP_UNDO: set[str] = {
     "nudge_up",
     "current_song_time",
     "start_time",
+}
+
+
+# ── Behavioral notes (merged into results for downstream enrichment) ──────────
+
+NOTES: dict[str, str] = {
+    "Song.back_to_arranger": "Can only be set False. Engine sets it True on certain actions (e.g. scene fire).",
+    "Song.record_mode": "is_playing side effect depends on 'Record Starts Playback' preference.",
+    "Song.session_record": "is_playing side effect depends on 'Record Starts Playback' preference.",
 }
 
 
@@ -882,6 +889,13 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             existing_classes[cls] = {"properties": {}, "methods": {}}
         existing_classes[cls]["properties"].update(data.get("properties", {}))
         existing_classes[cls].setdefault("methods", {}).update(data.get("methods", {}))
+
+    # Merge behavioral notes into results
+    for key, note in NOTES.items():
+        cls, member = key.split(".", 1)
+        for section in ("properties", "methods"):
+            if member in existing_classes.get(cls, {}).get(section, {}):
+                existing_classes[cls][section][member]["notes"] = note
 
     elapsed = round(time.monotonic() - t0, 1)
     output = {
