@@ -20,9 +20,9 @@ TODO: Not yet probed
         - get_current_beats_song_time, get_current_smpte_song_time
         - get_data, is_cue_point_selected
     Song methods — transport/position:
-        - continue_playing, start_playing, stop_playing, play_selection
-        - stop_all_clips, jump_by, jump_to_next_cue, jump_to_prev_cue
-        - scrub_by, tap_tempo
+        - ✓ continue_playing, start_playing, stop_playing, play_selection
+        - ✓ stop_all_clips, jump_by, jump_to_next_cue, jump_to_prev_cue, scrub_by
+        - tap_tempo, needs custom probing
     Song methods — state-changing with preconditions:
         - capture_midi, force_link_beat_time, re_enable_automation
         - trigger_session_record, set_data, move_device
@@ -100,6 +100,7 @@ NOTES: dict[str, str] = {
     "Song.back_to_arranger": "Can only be set False. Engine sets it True on certain actions (e.g. scene fire).",
     "Song.record_mode": "is_playing side effect depends on 'Record Starts Playback' preference.",
     "Song.session_record": "is_playing side effect depends on 'Record Starts Playback' preference.",
+    "Song.stop_all_clips": "Does not stop song transport, only clips.",
 }
 
 
@@ -563,7 +564,10 @@ def probe_method(
         yield
 
         # 9. Check effect gone → undo_tracked.
-        result["undo_tracked"] = not check_fn()
+        if result.get("async_visibility") == "no_effect":
+            result["undo_tracked"] = "n/a"
+        else:
+            result["undo_tracked"] = not check_fn()
 
         # 10. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, _ in fired}
@@ -593,7 +597,7 @@ def probe_method(
         yield
 
         # 13. If undo didn't work, run cleanup.
-        if not result["undo_tracked"] and cleanup_fn:
+        if result["undo_tracked"] is not True and cleanup_fn:
             cleanup_fn()
             yield
 
@@ -865,6 +869,117 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["delete_return_track"] = r
+
+    # ── Transport / position method probes ───────────────────────────────────
+    log("[song_props] Starting transport/position method probes")
+
+    # start_playing
+    gen = _run_method_probe(
+        "start_playing", [],
+        check_fn=lambda: song.is_playing,
+        cleanup_fn=lambda: song.stop_playing(),
+    )
+    r = yield from gen
+    if r: methods["start_playing"] = r
+
+    # stop_playing — start first so we can test stopping
+    song.start_playing()
+    yield
+    gen = _run_method_probe(
+        "stop_playing", [],
+        check_fn=lambda: not song.is_playing,
+    )
+    r = yield from gen
+    if r: methods["stop_playing"] = r
+    # Ensure stopped
+    if song.is_playing:
+        song.stop_playing()
+        yield
+
+    # continue_playing
+    gen = _run_method_probe(
+        "continue_playing", [],
+        check_fn=lambda: song.is_playing,
+        cleanup_fn=lambda: song.stop_playing(),
+    )
+    r = yield from gen
+    if r: methods["continue_playing"] = r
+
+    # play_selection
+    gen = _run_method_probe(
+        "play_selection", [],
+        check_fn=lambda: song.is_playing,
+        cleanup_fn=lambda: song.stop_playing(),
+    )
+    r = yield from gen
+    if r: methods["play_selection"] = r
+
+    # stop_all_clips — stops clips, not transport. Needs playing clips to observe effect.
+    gen = _run_method_probe(
+        "stop_all_clips", [True],
+        check_fn=lambda: False,  # no clips playing in minimal set — always no_effect
+    )
+    r = yield from gen
+    if r: methods["stop_all_clips"] = r
+
+    # jump_by — move song position forward
+    song.current_song_time = 0.0
+    yield
+    gen = _run_method_probe(
+        "jump_by", [4.0],
+        check_fn=lambda: song.current_song_time >= 4.0,
+    )
+    r = yield from gen
+    if r: methods["jump_by"] = r
+    song.current_song_time = 0.0
+    yield
+
+    # scrub_by — similar to jump_by
+    gen = _run_method_probe(
+        "scrub_by", [4.0],
+        check_fn=lambda: song.current_song_time >= 4.0,
+    )
+    r = yield from gen
+    if r: methods["scrub_by"] = r
+    song.current_song_time = 0.0
+    yield
+
+    # jump_to_next_cue / jump_to_prev_cue — need a cue point first
+    song.current_song_time = 0.0
+    yield
+    song.set_or_delete_cue()  # create cue at position 0
+    yield
+    if len(song.cue_points) > 0:
+        # Move past the cue so we can jump back
+        song.current_song_time = 8.0
+        yield
+
+        gen = _run_method_probe(
+            "jump_to_prev_cue", [],
+            check_fn=lambda: song.current_song_time < 8.0,
+        )
+        r = yield from gen
+        if r: methods["jump_to_prev_cue"] = r
+
+        # Now jump forward
+        gen = _run_method_probe(
+            "jump_to_next_cue", [],
+            check_fn=lambda: song.current_song_time > 0.0,
+        )
+        r = yield from gen
+        if r: methods["jump_to_next_cue"] = r
+
+        # Clean up cue
+        song.current_song_time = 0.0
+        yield
+        song.set_or_delete_cue()  # toggle deletes it
+        yield
+    else:
+        log("  [skip] jump_to_prev_cue / jump_to_next_cue — no cue point created")
+
+    # Reset position
+    song.current_song_time = 0.0
+    yield
 
     # Tear down listeners
     teardown_listeners(song, song_listeners)
