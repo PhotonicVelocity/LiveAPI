@@ -17,6 +17,7 @@ from typing import TYPE_CHECKING, Any
 
 from Live.Base import IntVector, Vector
 from Live.LomObject import LomObject
+from Live.Device import Device
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
@@ -572,6 +573,60 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         except StopIteration as e:
             if e.value is not None:
                 results["Song.View"]["properties"][prop] = e.value
+
+    # ── Object-reference property probes ─────────────────────────────────────
+    # These can't go in the static lists — test values are runtime objects.
+
+    def _run_obj_prop_probe(obj, cls, prop, test_val):
+        snap = snapshot_properties(snapshot_targets)
+        gen = probe_property(song, obj, cls, prop, test_val, fired, probe_timing, snap, snapshot_targets, log)
+        try:
+            while True:
+                next(gen)
+                yield
+        except StopIteration as e:
+            return e.value
+
+    # Song.View.selected_scene — pick a different scene (middle index)
+    scenes = song.scenes
+    if len(scenes) >= 2:
+        current_scene = view.selected_scene
+        mid = len(scenes) // 2
+        target_scene = scenes[mid] if scenes[mid]._live_ptr != current_scene._live_ptr else scenes[mid - 1]
+        r = yield from _run_obj_prop_probe(view, "Song.View", "selected_scene", target_scene)
+        if r:
+            results["Song.View"]["properties"]["selected_scene"] = r
+    else:
+        log("  [skip] Song.View.selected_scene — need ≥2 scenes")
+
+    # Song.View.selected_track — pick a different track (middle index)
+    tracks = song.tracks
+    if len(tracks) >= 2:
+        current_track = view.selected_track
+        mid = len(tracks) // 2
+        target_track = tracks[mid] if tracks[mid]._live_ptr != current_track._live_ptr else tracks[mid - 1]
+        r = yield from _run_obj_prop_probe(view, "Song.View", "selected_track", target_track)
+        if r:
+            results["Song.View"]["properties"]["selected_track"] = r
+    else:
+        log("  [skip] Song.View.selected_track — need ≥2 tracks")
+
+    # Song.appointed_device — use devices from return tracks (present in minimal sets)
+    return_tracks = song.return_tracks
+    all_devices: list[Device] = []
+    for rt in return_tracks:
+        all_devices.extend(rt.devices)
+    if len(all_devices) >= 2:
+        current_device = song.appointed_device
+        if current_device is not None:
+            target_device = all_devices[1] if all_devices[0]._live_ptr == current_device._live_ptr else all_devices[0]
+        else:
+            target_device = all_devices[0]
+        r = yield from _run_obj_prop_probe(song, "Song", "appointed_device", target_device)
+        if r:
+            results["Song"]["properties"]["appointed_device"] = r
+    else:
+        log(f"  [skip] Song.appointed_device — need ≥2 devices on return tracks (found {len(all_devices)})")
 
     # ── Method probes ──────────────────────────────────────────────────────────
     log("[song_props] Starting method probes")
