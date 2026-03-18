@@ -335,7 +335,8 @@ def probe_property(
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
-                    effect["effect"] = [_json_safe(snapshot[key]), _json_safe(after)]
+                    effect["from"] = _json_safe(snapshot[key])
+                    effect["to"] = _json_safe(after)
                 except Exception:
                     pass
             side_effects.append(effect)
@@ -415,6 +416,8 @@ def probe_method(
     import time as _time
 
     result: dict[str, Any] = {}
+    if args:
+        result["args"] = [_json_safe(a) for a in args]
 
     try:
         # 1. Clear fired listeners.
@@ -451,7 +454,8 @@ def probe_method(
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
-                    effect["effect"] = [_json_safe(snapshot[key]), _json_safe(after)]
+                    effect["from"] = _json_safe(snapshot[key])
+                    effect["to"] = _json_safe(after)
                 except Exception:
                     pass
             side_effects.append(effect)
@@ -587,30 +591,30 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         except StopIteration as e:
             return e.value
 
-    # create_scene
+    # create_scene (middle index to avoid end-of-list selection edge case)
     ids_before = _ptr_set(song.scenes)
     gen = _run_method_probe(
-        "create_scene", [len(ids_before)],
+        "create_scene", [len(song.scenes) // 2],
         check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
         cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
     )
     r = yield from gen
     if r: methods["create_scene"] = r
 
-    # create_midi_track
+    # create_midi_track (middle index to avoid end-of-list selection edge case)
     ids_before = _ptr_set(song.tracks)
     gen = _run_method_probe(
-        "create_midi_track", [len(ids_before)],
+        "create_midi_track", [len(song.tracks) // 2],
         check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
         cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
     )
     r = yield from gen
     if r: methods["create_midi_track"] = r
 
-    # create_audio_track
+    # create_audio_track (middle index to avoid end-of-list selection edge case)
     ids_before = _ptr_set(song.tracks)
     gen = _run_method_probe(
-        "create_audio_track", [len(ids_before)],
+        "create_audio_track", [len(song.tracks) // 2],
         check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
         cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
     )
@@ -627,20 +631,20 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["create_return_track"] = r
 
-    # duplicate_scene
+    # duplicate_scene (middle index to avoid edge cases)
     ids_before = _ptr_set(song.scenes)
     gen = _run_method_probe(
-        "duplicate_scene", [0],
+        "duplicate_scene", [len(song.scenes) // 2],
         check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
         cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
     )
     r = yield from gen
     if r: methods["duplicate_scene"] = r
 
-    # duplicate_track
+    # duplicate_track (middle index to avoid edge cases)
     ids_before = _ptr_set(song.tracks)
     gen = _run_method_probe(
-        "duplicate_track", [0],
+        "duplicate_track", [len(song.tracks) // 2],
         check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
         cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
     )
@@ -656,10 +660,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["set_or_delete_cue"] = r
 
-    # capture_and_insert_scene
+    # capture_and_insert_scene (middle index to avoid edge cases)
     ids_before = _ptr_set(song.scenes)
     gen = _run_method_probe(
-        "capture_and_insert_scene", [0],
+        "capture_and_insert_scene", [len(song.scenes) // 2],
         check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
         cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
     )

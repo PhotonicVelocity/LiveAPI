@@ -31,6 +31,25 @@ before continuing work. The summary may lose repo-specific constraints that are 
 - Do not amend commits unless explicitly requested.
 - If unexpected modifications appear, stop and ask before proceeding.
 
+## Targeted Probing
+
+The targeted probe phase (`tools/apicapture/scripts/probes/`) formalizes the ad-hoc exploratory probing previously done
+in `PythonForLive/.tmp/`. Each probe script runs inside Live via the APICapture trigger system and produces structured,
+deterministic results in `stubs/<version>/pipeline/ProbeResults.json`.
+
+The goal is to systematically document Live API behavioral metadata — undo tracking, async visibility, side effects,
+argument ranges, error conditions — that isn't available from introspection alone. Results should be reproducible and
+machine-parseable so downstream tooling (stub generation, reference docs) can consume them directly.
+
+Probes should avoid edge cases in their baseline measurements (e.g. use middle indices for create/duplicate to avoid
+end-of-list selection quirks). Quirky behaviors discovered during probing should be noted for later targeted tests that
+specifically document those edge cases.
+
+```bash
+echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe   # trigger a targeted probe
+cat /tmp/apicapture_targeted_probe_done                               # read output path when done
+```
+
 ## APICapture Hot Reload
 
 The APICapture Control Surface runs from a **copy** in `~/Music/Ableton/User Library/Remote Scripts/APICapture/`, not
