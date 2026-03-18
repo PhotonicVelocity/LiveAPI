@@ -15,6 +15,9 @@ import json
 import os
 from typing import TYPE_CHECKING, Any
 
+from Live.Base import IntVector, Vector
+from Live.LomObject import LomObject
+
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
@@ -175,12 +178,34 @@ def snapshot_properties(objects: list[tuple[Any, str, list[str]]]) -> dict[tuple
 
 
 def fuzzy_eq(a: Any, b: Any) -> bool:
-    """Compare with tolerance for float precision."""
+    """Compare with tolerance for floats, and by _live_ptr for Live API objects."""
     if isinstance(a, float) and isinstance(b, float):
         return abs(a - b) < 0.01
     if isinstance(a, (int, float)) and isinstance(b, (int, float)):
         return abs(float(a) - float(b)) < 0.01
+    # Single Live API objects — compare by ptr
+    if isinstance(a, LomObject) and isinstance(b, LomObject):
+        return a._live_ptr == b._live_ptr
+    # Vectors — compare element-wise (by ptr for LomObjects, by value for primitives)
+    if isinstance(a, (Vector, IntVector)) and isinstance(b, (Vector, IntVector)):
+        return _vector_key(a) == _vector_key(b)
     return a == b
+
+
+def _vector_key(vec: Vector | IntVector) -> list:  # type: ignore[type-arg]
+    """Convert a Vector to a comparable list — ptrs for LomObjects, values for primitives."""
+    return [item._live_ptr if isinstance(item, LomObject) else item for item in vec]
+
+
+def _json_safe(val: Any) -> Any:
+    """Return val as-is if JSON-serializable, otherwise use _live_ptr or repr()."""
+    if val is None or isinstance(val, (bool, int, float, str)):
+        return val
+    if isinstance(val, LomObject):
+        return f"ptr:{val._live_ptr}"
+    if isinstance(val, (Vector, IntVector)):
+        return [f"ptr:{item._live_ptr}" if isinstance(item, LomObject) else item for item in val]
+    return repr(val)
 
 
 def restore_side_effects(
@@ -297,11 +322,21 @@ def probe_property(
                 result["async_visibility"] = "no_change"
 
         # 7. Collect side effects and listener timing.
-        side_effects = [
-            {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
-            for c, p, dt in fired
-            if not (c == cls and p == prop)
-        ]
+        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
+        side_effects = []
+        for c, p, dt in fired:
+            if c == cls and p == prop:
+                continue
+            effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
+            key = (c, p)
+            if key in snapshot:
+                try:
+                    after = getattr(obj_by_cls[c], p)
+                    effect["effect"] = [_json_safe(snapshot[key]), _json_safe(after)]
+                except Exception:
+                    pass
+            side_effects.append(effect)
+
         if probe_timing["listener_time"] is not None:
             dt = probe_timing["listener_time"] - probe_timing["set_time"]
             result["listener_latency_ms"] = round(dt * 1000, 1)
@@ -321,8 +356,7 @@ def probe_property(
         result["undo_tracked"] = undo_worked
 
         # 11. Check which side effects fired during undo and whether values restored.
-        undo_fired = {(c, p) for c, p, dt in fired}
-        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
+        undo_fired = {(c, p) for c, p, _ in fired}
         for effect in side_effects:
             key = (effect["label"], effect["prop"])
             effect["undo_fires_listener"] = key in undo_fired
@@ -405,10 +439,18 @@ def probe_method(
                 result["async_visibility"] = "no_effect"
 
         # 6. Collect side effects.
-        side_effects = [
-            {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
-            for c, p, dt in fired
-        ]
+        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
+        side_effects = []
+        for c, p, dt in fired:
+            effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
+            key = (c, p)
+            if key in snapshot:
+                try:
+                    after = getattr(obj_by_cls[c], p)
+                    effect["effect"] = [_json_safe(snapshot[key]), _json_safe(after)]
+                except Exception:
+                    pass
+            side_effects.append(effect)
 
         # 7. Clear fired and undo.
         fired.clear()
@@ -421,8 +463,7 @@ def probe_method(
         result["undo_tracked"] = not check_fn()
 
         # 10. Check which side effects fired during undo and whether values restored.
-        undo_fired = {(c, p) for c, p, dt in fired}
-        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
+        undo_fired = {(c, p) for c, p, _ in fired}
         for effect in side_effects:
             key = (effect["label"], effect["prop"])
             effect["undo_fires_listener"] = key in undo_fired
