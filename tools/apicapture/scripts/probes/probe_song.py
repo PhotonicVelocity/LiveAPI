@@ -295,11 +295,11 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         results["Song"] = {"properties": {}, "methods": {}}
     methods = results["Song"].setdefault("methods", {})
 
-    def _run_method_probe(method, args, check_fn, cleanup_fn=None):
+    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, effect=None):
         snap, snap_json = snapshot_properties(snapshot_targets)
         gen = probe_method(
             song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing,
-            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log, effect=effect,
         )
         try:
             while True:
@@ -314,6 +314,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "create_scene", [len(song.scenes) // 2],
         check_fn=lambda: bool(ptr_set(song.scenes) - ids_before),
         cleanup_fn=lambda: song.delete_scene(find_new_index(song.scenes, ids_before)),
+        effect="Song.scenes",
     )
     r = yield from gen
     if r: methods["create_scene"] = r
@@ -324,6 +325,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "create_midi_track", [len(song.tracks) // 2],
         check_fn=lambda: bool(ptr_set(song.tracks) - ids_before),
         cleanup_fn=lambda: song.delete_track(find_new_index(song.tracks, ids_before)),
+        effect="Song.tracks",
     )
     r = yield from gen
     if r: methods["create_midi_track"] = r
@@ -334,6 +336,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "create_audio_track", [len(song.tracks) // 2],
         check_fn=lambda: bool(ptr_set(song.tracks) - ids_before),
         cleanup_fn=lambda: song.delete_track(find_new_index(song.tracks, ids_before)),
+        effect="Song.tracks",
     )
     r = yield from gen
     if r: methods["create_audio_track"] = r
@@ -344,6 +347,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "create_return_track", [],
         check_fn=lambda: bool(ptr_set(song.return_tracks) - ids_before),
         cleanup_fn=lambda: song.delete_return_track(find_new_index(song.return_tracks, ids_before)),
+        effect="Song.return_tracks",
     )
     r = yield from gen
     if r: methods["create_return_track"] = r
@@ -354,6 +358,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "duplicate_scene", [len(song.scenes) // 2],
         check_fn=lambda: bool(ptr_set(song.scenes) - ids_before),
         cleanup_fn=lambda: song.delete_scene(find_new_index(song.scenes, ids_before)),
+        effect="Song.scenes",
     )
     r = yield from gen
     if r: methods["duplicate_scene"] = r
@@ -364,6 +369,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "duplicate_track", [len(song.tracks) // 2],
         check_fn=lambda: bool(ptr_set(song.tracks) - ids_before),
         cleanup_fn=lambda: song.delete_track(find_new_index(song.tracks, ids_before)),
+        effect="Song.tracks",
     )
     r = yield from gen
     if r: methods["duplicate_track"] = r
@@ -373,6 +379,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "set_or_delete_cue", [],
         check_fn=lambda: ptr_set(song.cue_points) != ids_before,
+        effect="Song.cue_points",
     )
     r = yield from gen
     if r: methods["set_or_delete_cue"] = r
@@ -383,6 +390,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "capture_and_insert_scene", [len(song.scenes) // 2],
         check_fn=lambda: bool(ptr_set(song.scenes) - ids_before),
         cleanup_fn=lambda: song.delete_scene(find_new_index(song.scenes, ids_before)),
+        effect="Song.scenes",
     )
     r = yield from gen
     if r: methods["capture_and_insert_scene"] = r
@@ -392,6 +400,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "delete_scene", [num_scenes // 2],
         check_fn=lambda: len(song.scenes) < num_scenes,
+        effect="Song.scenes",
     )
     r = yield from gen
     if r: methods["delete_scene"] = r
@@ -401,6 +410,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "delete_track", [num_tracks // 2],
         check_fn=lambda: len(song.tracks) < num_tracks,
+        effect="Song.tracks",
     )
     r = yield from gen
     if r: methods["delete_track"] = r
@@ -410,6 +420,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "delete_return_track", [num_rt // 2],
         check_fn=lambda: len(song.return_tracks) < num_rt,
+        effect="Song.return_tracks",
     )
     r = yield from gen
     if r: methods["delete_return_track"] = r
@@ -422,6 +433,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "start_playing", [],
         check_fn=lambda: song.is_playing,
         cleanup_fn=lambda: song.stop_playing(),
+        effect="Song.is_playing",
     )
     r = yield from gen
     if r: methods["start_playing"] = r
@@ -432,6 +444,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "stop_playing", [],
         check_fn=lambda: not song.is_playing,
+        effect="Song.is_playing",
     )
     r = yield from gen
     if r: methods["stop_playing"] = r
@@ -444,6 +457,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "continue_playing", [],
         check_fn=lambda: song.is_playing,
         cleanup_fn=lambda: song.stop_playing(),
+        effect="Song.is_playing",
     )
     r = yield from gen
     if r: methods["continue_playing"] = r
@@ -453,6 +467,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "play_selection", [],
         check_fn=lambda: song.is_playing,
         cleanup_fn=lambda: song.stop_playing(),
+        effect="Song.is_playing",
     )
     r = yield from gen
     if r: methods["play_selection"] = r
@@ -553,6 +568,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "move_device", [device_to_move, track0, num_devs_t0],
         check_fn=lambda: len(track0.devices) > num_devs_t0,
+        effect="Track.devices",
     )
     r = yield from gen
     if r: methods["move_device"] = r
@@ -562,6 +578,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "trigger_session_record", [],
         check_fn=lambda: song.session_record,
         cleanup_fn=lambda: song.stop_playing(),
+        effect="Song.session_record",
     )
     r = yield from gen
     if r: methods["trigger_session_record"] = r

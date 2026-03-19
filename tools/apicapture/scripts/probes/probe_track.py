@@ -257,12 +257,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     methods = results["Track"].setdefault("methods", {})
 
-    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, obj=None):
+    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, obj=None, effect=None):
         snap, snap_json = snapshot_properties(snapshot_targets)
         gen = probe_method(
             song, "Track" if obj is None else "Track.View", method, args, check_fn, cleanup_fn,
             fired, probe_timing, snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
-            obj=obj if obj is not None else track,
+            obj=obj if obj is not None else track, effect=effect,
         )
         try:
             while True:
@@ -278,6 +278,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         check_fn=lambda: any(
             c.start_time == 500.0 for c in track.arrangement_clips
         ),
+        effect="Track.arrangement_clips",
     )
     r = yield from gen
     if r: methods["create_midi_clip"] = r
@@ -306,6 +307,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "duplicate_clip_to_arrangement", [clip_to_dup, 600.0],  # far position to avoid overlap
         check_fn=lambda: len(track.arrangement_clips) > num_arr_before,
+        effect="Track.arrangement_clips",
     )
     r = yield from gen
     if r: methods["duplicate_clip_to_arrangement"] = r
@@ -315,6 +317,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "duplicate_device", [1],
         check_fn=lambda: len(track.devices) > num_devs_before,
+        effect="Track.devices",
     )
     r = yield from gen
     if r: methods["duplicate_device"] = r
@@ -324,6 +327,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "delete_device", [num_devs - 1],
         check_fn=lambda: len(track.devices) < num_devs,
+        effect="Track.devices",
     )
     r = yield from gen
     if r: methods["delete_device"] = r
@@ -372,6 +376,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "create_take_lane", [],
         check_fn=lambda: len(track.take_lanes) > num_lanes_before,  # type: ignore[attr-defined]
+        effect="Track.take_lanes",
     )
     r = yield from gen
     if r: methods["create_take_lane"] = r
@@ -387,6 +392,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         cleanup_fn=None, fired=fired, probe_timing=probe_timing,
         snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
         snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=audio_track,
+        effect="Track.arrangement_clips",
     )
     try:
         while True:
@@ -401,6 +407,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "insert_device", ["Compressor", -1],
         check_fn=lambda: len(track.devices) > num_devs_before,
+        effect="Track.devices",
     )
     r = yield from gen
     if r: methods["insert_device"] = r

@@ -407,11 +407,15 @@ def probe_method(
     song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
     cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict, snap_json: dict,
     snapshot_targets: list[tuple[Any, str, list[str]]], snapshot_extra: dict[str, set[str]],
-    log: Callable, *, obj: Any = None,
+    log: Callable, *, obj: Any = None, effect: str | None = None,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a method for undo tracking, async visibility, and side effects.
 
     This is a generator — each yield crosses a tick boundary.
+
+    Args:
+        effect: optional "Class.prop" string identifying the primary effect (e.g. "Song.tracks").
+            If provided, that entry is promoted from side_effects to a top-level "effect" field.
     """
     result: dict[str, Any] = {}
     if args:
@@ -449,18 +453,18 @@ def probe_method(
         side_effects = []
         seen_keys: set[tuple[str, str]] = set()
         for c, p, dt in fired:
-            effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
+            se: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
             key = (c, p)
             seen_keys.add(key)
             if key in snapshot:
                 try:
                     after = getattr(obj_by_cls[c], p)
-                    effect["from"] = snap_json[key]
-                    effect["to"] = json_safe(after)
-                    effect["_raw_after"] = after
+                    se["from"] = snap_json[key]
+                    se["to"] = json_safe(after)
+                    se["_raw_after"] = after
                 except Exception:
                     pass
-            side_effects.append(effect)
+            side_effects.append(se)
         side_effects.extend(check_unlistened_side_effects(
             snapshot, snap_json, obj_by_cls, seen_keys, snapshot_extra,
         ))
@@ -480,22 +484,37 @@ def probe_method(
 
         # 10. Check which side effects fired during undo and whether values restored.
         undo_fired = {(c, p) for c, p, _ in fired}
-        for effect in side_effects:
-            key = (effect["label"], effect["prop"])
-            effect["undo_fires_listener"] = key in undo_fired
+        for se in side_effects:
+            key = (se["label"], se["prop"])
+            se["undo_fires_listener"] = key in undo_fired
             if key in snapshot:
                 try:
-                    current = getattr(obj_by_cls[effect["label"]], effect["prop"])
+                    current = getattr(obj_by_cls[se["label"]], se["prop"])
                     if fuzzy_eq(current, snapshot[key]):
-                        effect["undo_result"] = "restored"
-                    elif "_raw_after" in effect and fuzzy_eq(current, effect["_raw_after"]):
-                        effect["undo_result"] = "unchanged"
+                        se["undo_result"] = "restored"
+                    elif "_raw_after" in se and fuzzy_eq(current, se["_raw_after"]):
+                        se["undo_result"] = "unchanged"
                     else:
-                        effect["undo_result"] = "changed"
-                        effect["undo_value"] = json_safe(current)
+                        se["undo_result"] = "changed"
+                        se["undo_value"] = json_safe(current)
                 except Exception:
                     pass
-            effect.pop("_raw_after", None)
+            se.pop("_raw_after", None)
+
+        # Promote primary effect from side_effects to top-level "effect" field.
+        if effect:
+            effect_cls, effect_prop = effect.split(".", 1)
+            primary = None
+            remaining = []
+            for se in side_effects:
+                if se.get("label") == effect_cls and se.get("prop") == effect_prop and primary is None:
+                    primary = se
+                else:
+                    remaining.append(se)
+            if primary is not None:
+                result["effect"] = primary
+                side_effects = remaining
+
         if side_effects:
             result["side_effects"] = side_effects
 
