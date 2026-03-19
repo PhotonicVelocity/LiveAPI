@@ -33,7 +33,7 @@ def load_demo_set() -> None:
     tell application "System Events"
         tell process "Live"
             click menu item "Load Demo Set" of menu "Help" of menu bar 1
-            delay 2
+            delay 0.5
             -- Live uses a custom dialog (AXGroup), not a native sheet.
             -- The "Don't Save" button uses a curly apostrophe (U+2019).
             try

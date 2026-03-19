@@ -676,6 +676,16 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     view_listeners = setup_listeners(view, "Song.View", view_listenable, fired, probe_timing, log)
     yield  # let listener setup settle
 
+    # Switch to session view and set a known starting state.
+    # The demo set opens in arrangement view with a stale detail_clip reference;
+    # switching to session and setting highlighted_clip_slot establishes a stable
+    # session context so all probes start from consistent state.
+    import Live
+    Live.Application.get_application().view.show_view("Session")
+    view.highlighted_clip_slot = song.tracks[0].clip_slots[0]
+    yield
+    fired.clear()  # discard listeners fired by the view switch
+
     # Song properties
     for prop, test_val in SONG_SETTABLE_PROPS:
         if prop in SKIP_UNDO:
