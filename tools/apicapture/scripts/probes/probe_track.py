@@ -171,6 +171,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     if track.back_to_arranger:
         track.back_to_arranger = False
         yield
+    song.current_song_time = 0.0
+    yield
 
     # ── Routing property probes ─────────────────────────────────────────────
     log("[probe_track] Starting routing property probes")
@@ -340,6 +342,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     if song.back_to_arranger:
         song.back_to_arranger = False
         yield
+    song.current_song_time = 0.0
+    yield
 
     # set_data
     test_key = "__probe_track_test"
