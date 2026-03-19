@@ -10,11 +10,8 @@ Usage:
 
 Skipped members:
     - fold_state, is_showing_chains — need a group track (demo set has none)
-    - current_input/output_routing, current_input/output_sub_routing — string-based API broken
+    - current_input/output_routing, current_input/output_sub_routing — string-based API deprecated
     - get_data — read-only
-    - jump_in_running_session_clip — needs a running session clip
-    - insert_device — needs a device URI/browser item
-    - create_audio_clip — needs a valid audio file path
 """
 
 from __future__ import annotations
@@ -378,6 +375,60 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["create_take_lane"] = r
+
+    # create_audio_clip — use an audio track (track 10, Vocal Main) and silence.wav
+    audio_track = song.tracks[10]
+    wav_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "silence.wav")
+    num_arr_before = len(audio_track.arrangement_clips)
+    snap, snap_json = snapshot_properties(snapshot_targets)
+    gen = probe_method(
+        song, "Track", "create_audio_clip", [wav_path, 500.0],
+        check_fn=lambda: len(audio_track.arrangement_clips) > num_arr_before,
+        cleanup_fn=None, fired=fired, probe_timing=probe_timing,
+        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
+        snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=audio_track,
+    )
+    try:
+        while True:
+            next(gen)
+            yield
+    except StopIteration as e:
+        if e.value is not None:
+            methods["create_audio_clip"] = e.value
+
+    # insert_device — insert a Compressor at end of track 0
+    num_devs_before = len(track.devices)
+    gen = _run_method_probe(
+        "insert_device", ["Compressor", -1],
+        check_fn=lambda: len(track.devices) > num_devs_before,
+    )
+    r = yield from gen
+    if r: methods["insert_device"] = r
+
+    # jump_in_running_session_clip — fire a clip, then jump
+    orig_quant = song.clip_trigger_quantization
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]
+    yield
+    track.clip_slots[0].fire()
+    yield
+    song.clip_trigger_quantization = orig_quant
+    yield
+    gen = _run_method_probe(
+        "jump_in_running_session_clip", [4.0],
+        check_fn=lambda: False,  # no observable property change, just moves position within clip
+    )
+    r = yield from gen
+    if r: methods["jump_in_running_session_clip"] = r
+    if song.is_playing:
+        song.stop_playing()
+        yield
+    song.stop_all_clips(False)
+    yield
+    if song.back_to_arranger:
+        song.back_to_arranger = False
+        yield
+    song.current_song_time = 0.0
+    yield
 
     # ── Track.View method probes ──────────────────────────────────────────────
     log("[probe_track] Starting Track.View method probes")
