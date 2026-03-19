@@ -13,10 +13,8 @@ Usage:
     echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe
 
 TODO: Not yet probed
-    Song.View properties (need runtime objects):
-        - detail_clip (Clip | None)
-        - highlighted_clip_slot (ClipSlot)
-        - selected_chain (Chain | None)
+    Song.View properties:
+        - ✓ detail_clip, highlighted_clip_slot, selected_chain
     Song methods — undo infrastructure (used by probe itself):
         - begin_undo_step, end_undo_step, undo, redo
     Song methods — read-only queries:
@@ -478,7 +476,10 @@ def probe_property(
 
         # 14. Restore main property if undo didn't work.
         if not undo_worked:
-            setattr(obj, prop, orig)
+            try:
+                setattr(obj, prop, orig)
+            except Exception:
+                pass  # some properties reject None or stale objects
             yield
 
     except Exception as e:
@@ -748,6 +749,50 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             results["Song"]["properties"]["appointed_device"] = r
     else:
         log(f"  [skip] Song.appointed_device — need ≥2 devices (found {len(all_devices)})")
+
+    # Song.View.detail_clip — set to a clip; ensure we pick one that differs from current
+    target_clip = None
+    for si in range(len(song.scenes)):
+        cs = song.tracks[0].clip_slots[si]
+        if cs.has_clip:
+            clip = cs.clip
+            if view.detail_clip is None or view.detail_clip._live_ptr != clip._live_ptr:
+                target_clip = clip
+                break
+    if target_clip is not None:
+        r = yield from _run_obj_prop_probe(view, "Song.View", "detail_clip", target_clip)
+        if r:
+            results["Song.View"]["properties"]["detail_clip"] = r
+    else:
+        log("  [skip] Song.View.detail_clip — no different clip found on track 0")
+
+    # Song.View.highlighted_clip_slot — set to a different slot (middle track, middle scene)
+    mid_track = len(song.tracks) // 2
+    mid_scene = len(song.scenes) // 2
+    target_slot = song.tracks[mid_track].clip_slots[mid_scene]
+    current_slot = view.highlighted_clip_slot
+    if current_slot is None or current_slot._live_ptr != target_slot._live_ptr:
+        r = yield from _run_obj_prop_probe(view, "Song.View", "highlighted_clip_slot", target_slot)
+        if r:
+            results["Song.View"]["properties"]["highlighted_clip_slot"] = r
+
+    # Song.View.selected_chain — select drum rack track, then pick a different chain
+    drum_rack = song.tracks[2].devices[0]  # Drum Rack on track 2
+    chains = drum_rack.chains  # type: ignore[attr-defined]  # RackDevice at runtime
+    if len(chains) >= 2:
+        # Select track 2 so chains are visible
+        view.selected_track = song.tracks[2]
+        yield
+        current_chain = view.selected_chain
+        if current_chain is not None and current_chain._live_ptr == chains[0]._live_ptr:
+            target_chain = chains[1]
+        else:
+            target_chain = chains[0]
+        r = yield from _run_obj_prop_probe(view, "Song.View", "selected_chain", target_chain)
+        if r:
+            results["Song.View"]["properties"]["selected_chain"] = r
+    else:
+        log(f"  [skip] Song.View.selected_chain — need ≥2 chains (found {len(chains)})")
 
     # ── Method probes ──────────────────────────────────────────────────────────
     log("[song_props] Starting method probes")
