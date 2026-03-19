@@ -17,7 +17,7 @@ TODO: Not yet probed
         - ✓ detail_clip, highlighted_clip_slot, selected_chain
     Song methods — undo infrastructure (used by probe itself):
         - begin_undo_step, end_undo_step, undo, redo
-    Song methods — read-only queries:
+    Song methods — read-only queries (no behavioral metadata to probe):
         - find_device_position, get_beats_loop_length, get_beats_loop_start
         - get_current_beats_song_time, get_current_smpte_song_time
         - get_data, is_cue_point_selected
@@ -99,14 +99,34 @@ SKIP_UNDO: set[str] = {
 # ── Behavioral notes (merged into results for downstream enrichment) ──────────
 
 NOTES: dict[str, str] = {
-    "Song.back_to_arranger": "Can only be set False. Engine sets it True on certain actions (e.g. scene fire).",
-    "Song.record_mode": "is_playing side effect depends on 'Record Starts Playback' preference.",
-    "Song.session_record": "is_playing side effect depends on 'Record Starts Playback' preference.",
-    "Song.set_data": "Value is immediately readable via get_data on the same tick.",
-    "Song.appointed_device": "Listener does not fire on programmatic changes (setattr or select_device). Likely UI-driven only.",
-    "Song.View.select_device": "Appoints the device but does not fire the appointed_device listener (see appointed_device note).",
-    "Song.re_enable_automation": "re_enable_automation_enabled is only set by UI interaction (physical knob override), not by programmatic param.value changes.",
-    "Song.stop_all_clips": "Does not stop song transport, only clips.",
+    "Song.appointed_device": (
+        "The ``appointed_device`` listener does not fire on programmatic changes "
+        "(``setattr`` or ``select_device``). It appears to be UI-driven only."
+    ),
+    "Song.back_to_arranger": (
+        "Can only be set to ``False``. The engine sets it to ``True`` when session "
+        "clips are triggered (e.g. via ``Scene.fire()``)."
+    ),
+    "Song.record_mode": (
+        "The ``is_playing`` side effect depends on the 'Record Starts Playback' preference."
+    ),
+    "Song.re_enable_automation": (
+        "``re_enable_automation_enabled`` is only set by physical UI interaction "
+        "(e.g. moving a mapped knob), not by programmatic ``param.value`` changes."
+    ),
+    "Song.session_record": (
+        "The ``is_playing`` side effect depends on the 'Record Starts Playback' preference."
+    ),
+    "Song.set_data": (
+        "The stored value is immediately readable via ``get_data`` on the same tick."
+    ),
+    "Song.stop_all_clips": (
+        "Does not stop the song transport — only stops clip playback."
+    ),
+    "Song.View.select_device": (
+        "Does not fire the ``appointed_device`` listener even when "
+        "``should_appoint_device`` is ``True``."
+    ),
 }
 
 
@@ -1162,12 +1182,21 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         existing_classes[cls]["properties"].update(data.get("properties", {}))
         existing_classes[cls].setdefault("methods", {}).update(data.get("methods", {}))
 
-    # Merge behavioral notes into results
+    # Merge behavioral notes into results (probed members get inline notes,
+    # unprobed members go into a top-level "notes" dict for downstream enrichment)
+    orphan_notes: dict[str, str] = {}
     for key, note in NOTES.items():
-        cls, member = key.split(".", 1)
-        for section in ("properties", "methods"):
-            if member in existing_classes.get(cls, {}).get(section, {}):
-                existing_classes[cls][section][member]["notes"] = note
+        # Keys like "Song.View.select_device" — class name may contain dots
+        placed = False
+        for cls in existing_classes:
+            if key.startswith(cls + "."):
+                member = key[len(cls) + 1:]
+                for section in ("properties", "methods"):
+                    if member in existing_classes[cls].get(section, {}):
+                        existing_classes[cls][section][member]["notes"] = note
+                        placed = True
+        if not placed:
+            orphan_notes[key] = note
 
     elapsed = round(time.monotonic() - t0, 1)
     output = {
@@ -1176,6 +1205,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "elapsed_seconds": elapsed,
         "classes": existing_classes,
     }
+    if orphan_notes:
+        output["notes"] = orphan_notes
 
     with open(outpath, "w") as f:
         json.dump(output, f, indent=2)
