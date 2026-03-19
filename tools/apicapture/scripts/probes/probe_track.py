@@ -10,7 +10,6 @@ Usage:
 
 Skipped members:
     - fold_state, is_showing_chains — need a group track (demo set has none)
-    - Routing properties — need available routing objects/names, special-case
     - get_data — read-only
     - jump_in_running_session_clip — needs a running session clip
     - insert_device — needs a device URI/browser item
@@ -142,6 +141,110 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         except StopIteration as e:
             if e.value is not None:
                 results["Track.View"]["properties"][prop] = e.value
+
+    # ── Routing property probes ─────────────────────────────────────────────
+    log("[probe_track] Starting routing property probes")
+
+    def _run_prop_probe(obj, cls, prop, test_val):
+        snap, snap_json = snapshot_properties(snapshot_targets)
+        gen = probe_property(
+            song, obj, cls, prop, test_val, fired, probe_timing,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+        )
+        try:
+            while True:
+                next(gen)
+                yield
+        except StopIteration as e:
+            return e.value
+
+    # input_routing_type — pick a different type from available list
+    avail_in_types = track.available_input_routing_types
+    current_in_type = track.input_routing_type
+    target_in_type = None
+    for rt in avail_in_types:
+        if rt.display_name != current_in_type.display_name:
+            target_in_type = rt
+            break
+    if target_in_type is not None:
+        r = yield from _run_prop_probe(track, "Track", "input_routing_type", target_in_type)
+        if r:
+            results["Track"]["properties"]["input_routing_type"] = r
+
+    # output_routing_type — pick a different type from available list
+    avail_out_types = track.available_output_routing_types
+    current_out_type = track.output_routing_type
+    target_out_type = None
+    for rt in avail_out_types:
+        if rt.display_name != current_out_type.display_name:
+            target_out_type = rt
+            break
+    if target_out_type is not None:
+        r = yield from _run_prop_probe(track, "Track", "output_routing_type", target_out_type)
+        if r:
+            results["Track"]["properties"]["output_routing_type"] = r
+
+    # input_routing_channel — pick a different channel from available list
+    avail_in_channels = track.available_input_routing_channels
+    current_in_channel = track.input_routing_channel
+    target_in_channel = None
+    for rc in avail_in_channels:
+        if rc.display_name != current_in_channel.display_name:
+            target_in_channel = rc
+            break
+    if target_in_channel is not None:
+        r = yield from _run_prop_probe(track, "Track", "input_routing_channel", target_in_channel)
+        if r:
+            results["Track"]["properties"]["input_routing_channel"] = r
+
+    # output_routing_channel — pick a different channel from available list
+    avail_out_channels = track.available_output_routing_channels
+    current_out_channel = track.output_routing_channel
+    target_out_channel = None
+    for rc in avail_out_channels:
+        if rc.display_name != current_out_channel.display_name:
+            target_out_channel = rc
+            break
+    if target_out_channel is not None:
+        r = yield from _run_prop_probe(track, "Track", "output_routing_channel", target_out_channel)
+        if r:
+            results["Track"]["properties"]["output_routing_channel"] = r
+
+    # current_input_routing — string-based routing (pick different from available)
+    avail_in_names = list(track.input_routings)
+    current_in_name = track.current_input_routing
+    target_in_name = next((n for n in avail_in_names if n != current_in_name), None)
+    if target_in_name is not None:
+        r = yield from _run_prop_probe(track, "Track", "current_input_routing", target_in_name)
+        if r:
+            results["Track"]["properties"]["current_input_routing"] = r
+
+    # current_output_routing — string-based routing
+    avail_out_names = list(track.output_routings)
+    current_out_name = track.current_output_routing
+    target_out_name = next((n for n in avail_out_names if n != current_out_name), None)
+    if target_out_name is not None:
+        r = yield from _run_prop_probe(track, "Track", "current_output_routing", target_out_name)
+        if r:
+            results["Track"]["properties"]["current_output_routing"] = r
+
+    # current_input_sub_routing — string-based sub-routing
+    avail_in_sub = list(track.input_sub_routings)
+    current_in_sub = track.current_input_sub_routing
+    target_in_sub = next((n for n in avail_in_sub if n != current_in_sub), None)
+    if target_in_sub is not None:
+        r = yield from _run_prop_probe(track, "Track", "current_input_sub_routing", target_in_sub)
+        if r:
+            results["Track"]["properties"]["current_input_sub_routing"] = r
+
+    # current_output_sub_routing — string-based sub-routing
+    avail_out_sub = list(track.output_sub_routings)
+    current_out_sub = track.current_output_sub_routing
+    target_out_sub = next((n for n in avail_out_sub if n != current_out_sub), None)
+    if target_out_sub is not None:
+        r = yield from _run_prop_probe(track, "Track", "current_output_sub_routing", target_out_sub)
+        if r:
+            results["Track"]["properties"]["current_output_sub_routing"] = r
 
     # ── Method probes ──────────────────────────────────────────────────────────
     log("[probe_track] Starting method probes")
