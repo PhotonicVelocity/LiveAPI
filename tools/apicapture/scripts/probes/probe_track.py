@@ -10,6 +10,7 @@ Usage:
 
 Skipped members:
     - fold_state, is_showing_chains — need a group track (demo set has none)
+    - current_input/output_routing, current_input/output_sub_routing — string-based API broken
     - get_data — read-only
     - jump_in_running_session_clip — needs a running session clip
     - insert_device — needs a device URI/browser item
@@ -66,7 +67,15 @@ SKIP_UNDO: set[str] = {
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
 
-NOTES: dict[str, str] = {}
+NOTES: dict[str, str] = {
+    "Track.current_input_routing": (
+        "String-based routing API. Getter returns a prefixed format (e.g. ``'Ext: All Ins'``) "
+        "that doesn't match ``input_routings`` values. Use ``input_routing_type`` instead."
+    ),
+    "Track.current_output_routing": (
+        "String-based routing API. Use ``output_routing_type`` instead for reliable programmatic control."
+    ),
+}
 
 
 # ── Module-specific config ────────────────────────────────────────────────────
@@ -197,54 +206,31 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         if r:
             results["Track"]["properties"]["input_routing_channel"] = r
 
-    # output_routing_channel — pick a different channel from available list
-    avail_out_channels = track.available_output_routing_channels
-    current_out_channel = track.output_routing_channel
-    target_out_channel = None
-    for rc in avail_out_channels:
-        if rc.display_name != current_out_channel.display_name:
-            target_out_channel = rc
-            break
-    if target_out_channel is not None:
-        r = yield from _run_prop_probe(track, "Track", "output_routing_channel", target_out_channel)
-        if r:
-            results["Track"]["properties"]["output_routing_channel"] = r
+    # output_routing_channel — "Main" only has one empty channel, so switch to "Ext. Out" first
+    orig_out_type = track.output_routing_type
+    ext_out = next((rt for rt in track.available_output_routing_types if rt.display_name == "Ext. Out"), None)
+    if ext_out is not None:
+        track.output_routing_type = ext_out
+        yield
+        avail_out_channels = track.available_output_routing_channels
+        current_out_channel = track.output_routing_channel
+        target_out_channel = None
+        for rc in avail_out_channels:
+            if rc.display_name != current_out_channel.display_name:
+                target_out_channel = rc
+                break
+        if target_out_channel is not None:
+            r = yield from _run_prop_probe(track, "Track", "output_routing_channel", target_out_channel)
+            if r:
+                results["Track"]["properties"]["output_routing_channel"] = r
+        # Restore original output routing
+        track.output_routing_type = orig_out_type
+        yield
 
-    # current_input_routing — string-based routing (pick different from available)
-    avail_in_names = list(track.input_routings)
-    current_in_name = track.current_input_routing
-    target_in_name = next((n for n in avail_in_names if n != current_in_name), None)
-    if target_in_name is not None:
-        r = yield from _run_prop_probe(track, "Track", "current_input_routing", target_in_name)
-        if r:
-            results["Track"]["properties"]["current_input_routing"] = r
-
-    # current_output_routing — string-based routing
-    avail_out_names = list(track.output_routings)
-    current_out_name = track.current_output_routing
-    target_out_name = next((n for n in avail_out_names if n != current_out_name), None)
-    if target_out_name is not None:
-        r = yield from _run_prop_probe(track, "Track", "current_output_routing", target_out_name)
-        if r:
-            results["Track"]["properties"]["current_output_routing"] = r
-
-    # current_input_sub_routing — string-based sub-routing
-    avail_in_sub = list(track.input_sub_routings)
-    current_in_sub = track.current_input_sub_routing
-    target_in_sub = next((n for n in avail_in_sub if n != current_in_sub), None)
-    if target_in_sub is not None:
-        r = yield from _run_prop_probe(track, "Track", "current_input_sub_routing", target_in_sub)
-        if r:
-            results["Track"]["properties"]["current_input_sub_routing"] = r
-
-    # current_output_sub_routing — string-based sub-routing
-    avail_out_sub = list(track.output_sub_routings)
-    current_out_sub = track.current_output_sub_routing
-    target_out_sub = next((n for n in avail_out_sub if n != current_out_sub), None)
-    if target_out_sub is not None:
-        r = yield from _run_prop_probe(track, "Track", "current_output_sub_routing", target_out_sub)
-        if r:
-            results["Track"]["properties"]["current_output_sub_routing"] = r
+    # String-based routing (current_input_routing, etc.) — skipped.
+    # The getter returns a prefixed format ("Ext: All Ins") that doesn't match the
+    # available names from input_routings ("All Ins"). Setting with available names
+    # silently fails (no_change). Use the object-based API (input_routing_type, etc.) instead.
 
     # ── Method probes ──────────────────────────────────────────────────────────
     log("[probe_track] Starting method probes")
