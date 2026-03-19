@@ -45,6 +45,16 @@ Probes should avoid edge cases in their baseline measurements (e.g. use middle i
 end-of-list selection quirks). Quirky behaviors discovered during probing should be noted for later targeted tests that
 specifically document those edge cases.
 
+**Side effects are best-effort.** What fires depends on the current state of the set — which track is selected, which
+panel is open, what clips exist, etc. The probe captures whatever side effects occur during that run, but the list is
+not exhaustive. When documenting side effects in stubs or reference docs, use language like "side effects may include"
+rather than treating the list as definitive. Specific quirks (e.g. `detail_clip` view-context behavior,
+`appointed_device` listener not firing programmatically) should get dedicated probes or NOTES entries.
+
+**Probes must leave the set untouched.** Each probe restores state after itself so that subsequent probes start from a
+clean baseline. This also ensures re-run stability during development (avoids reloading the set between runs). The
+restore loop runs up to 3 passes to handle cascading next_tick side effects.
+
 Probes run against Live's built-in Demo Set, which provides a rich environment (tracks with devices, clips with
 automation, chains, MIDI content). A JSON dump of the demo set's structure is available at
 `~/dev/ableton-api/PythonForLive/tests/integration/fixtures/demo_song_export.json` — use it to find specific objects
