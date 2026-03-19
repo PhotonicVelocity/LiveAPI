@@ -347,7 +347,7 @@ def restore_side_effects(
 
 
 def probe_property(
-    song: Song, obj: Song | Song.View, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict,
+    song: Song, obj: Any, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict,
     snapshot: dict, snap_json: dict, snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a single property for undo tracking, async visibility, and side effects.
@@ -750,98 +750,51 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         song.back_to_arranger = False
         yield
 
-    # Song.View.selected_scene — pick a different scene (middle index)
-    scenes = song.scenes
-    if len(scenes) >= 2:
-        current_scene = view.selected_scene
-        mid = len(scenes) // 2
-        target_scene = scenes[mid] if scenes[mid]._live_ptr != current_scene._live_ptr else scenes[mid - 1]
-        r = yield from _run_obj_prop_probe(view, "Song.View", "selected_scene", target_scene)
-        if r:
-            results["Song.View"]["properties"]["selected_scene"] = r
-    else:
-        log("  [skip] Song.View.selected_scene — need ≥2 scenes")
+    # Song.View.selected_scene
+    r = yield from _run_obj_prop_probe(view, "Song.View", "selected_scene", song.scenes[6])
+    if r:
+        results["Song.View"]["properties"]["selected_scene"] = r
 
-    # Song.View.selected_track — pick a different track (middle index)
-    tracks = song.tracks
-    if len(tracks) >= 2:
-        current_track = view.selected_track
-        mid = len(tracks) // 2
-        target_track = tracks[mid] if tracks[mid]._live_ptr != current_track._live_ptr else tracks[mid - 1]
-        r = yield from _run_obj_prop_probe(view, "Song.View", "selected_track", target_track)
-        if r:
-            results["Song.View"]["properties"]["selected_track"] = r
-    else:
-        log("  [skip] Song.View.selected_track — need ≥2 tracks")
+    # Song.View.selected_track
+    r = yield from _run_obj_prop_probe(view, "Song.View", "selected_track", song.tracks[7])
+    if r:
+        results["Song.View"]["properties"]["selected_track"] = r
 
-    # Song.appointed_device — pick a device that differs from current
-    devices_a = list(song.tracks[0].devices)
-    devices_b = list(song.tracks[1].devices) if len(song.tracks) > 1 else []
-    all_devices = devices_a + devices_b
-    if len(all_devices) >= 2:
-        current_device = song.appointed_device
-        if current_device is not None and current_device._live_ptr == all_devices[0]._live_ptr:
-            target_device = all_devices[1]
-        else:
-            target_device = all_devices[0]
-        r = yield from _run_obj_prop_probe(song, "Song", "appointed_device", target_device)
-        if r:
-            results["Song"]["properties"]["appointed_device"] = r
-    else:
-        log(f"  [skip] Song.appointed_device — need ≥2 devices (found {len(all_devices)})")
+    # Song.appointed_device — track 0 device 1 (Utility)
+    r = yield from _run_obj_prop_probe(song, "Song", "appointed_device", song.tracks[0].devices[1])
+    if r:
+        results["Song"]["properties"]["appointed_device"] = r
 
     # Song.View.detail_clip — set to a clip; ensure we pick one that differs from current
-    target_clip = None
-    for si in range(len(song.scenes)):
-        cs = song.tracks[0].clip_slots[si]
-        if cs.has_clip:
-            clip = cs.clip
-            if view.detail_clip is None or view.detail_clip._live_ptr != clip._live_ptr:
-                target_clip = clip
-                break
-    if target_clip is not None:
-        r = yield from _run_obj_prop_probe(view, "Song.View", "detail_clip", target_clip)
-        if r:
-            results["Song.View"]["properties"]["detail_clip"] = r
+    target_clip = song.tracks[1].clip_slots[1].clip
+    r = yield from _run_obj_prop_probe(view, "Song.View", "detail_clip", target_clip)
+    if r:
+        results["Song.View"]["properties"]["detail_clip"] = r
     else:
         log("  [skip] Song.View.detail_clip — no different clip found on track 0")
 
-    # Song.View.highlighted_clip_slot — set to a different slot (middle track, middle scene)
-    mid_track = len(song.tracks) // 2
-    mid_scene = len(song.scenes) // 2
-    target_slot = song.tracks[mid_track].clip_slots[mid_scene]
-    current_slot = view.highlighted_clip_slot
-    if current_slot is None or current_slot._live_ptr != target_slot._live_ptr:
-        r = yield from _run_obj_prop_probe(view, "Song.View", "highlighted_clip_slot", target_slot)
-        if r:
-            results["Song.View"]["properties"]["highlighted_clip_slot"] = r
+    # Song.View.highlighted_clip_slot — track 7, scene 6
+    r = yield from _run_obj_prop_probe(view, "Song.View", "highlighted_clip_slot", song.tracks[7].clip_slots[6])
+    if r:
+        results["Song.View"]["properties"]["highlighted_clip_slot"] = r
 
-    # Song.View.selected_chain — select drum rack track, then pick a different chain
-    drum_rack = song.tracks[2].devices[0]  # Drum Rack on track 2
-    chains = drum_rack.chains  # type: ignore[attr-defined]  # RackDevice at runtime
-    if len(chains) >= 2:
-        # Save view state before switching to drum rack track
-        orig_track = view.selected_track
-        orig_scene = view.selected_scene
-        orig_detail = view.detail_clip
-        view.selected_track = song.tracks[2]
-        yield
-        current_chain = view.selected_chain
-        if current_chain is not None and current_chain._live_ptr == chains[0]._live_ptr:
-            target_chain = chains[1]
-        else:
-            target_chain = chains[0]
-        r = yield from _run_obj_prop_probe(view, "Song.View", "selected_chain", target_chain)
-        if r:
-            results["Song.View"]["properties"]["selected_chain"] = r
-        # Restore view state
-        view.selected_track = orig_track
-        view.selected_scene = orig_scene
-        if orig_detail is not None:
-            view.detail_clip = orig_detail
-        yield
-    else:
-        log(f"  [skip] Song.View.selected_chain — need ≥2 chains (found {len(chains)})")
+    # Song.View.selected_chain — drum rack on track 2, chain 5
+    orig_track = view.selected_track
+    orig_scene = view.selected_scene
+    orig_detail = view.detail_clip
+    view.selected_track = song.tracks[2]
+    yield
+    drum_rack = song.tracks[2].devices[0]
+    target_chain = drum_rack.chains[5]  # type: ignore[attr-defined]  # RackDevice at runtime
+    r = yield from _run_obj_prop_probe(view, "Song.View", "selected_chain", target_chain)
+    if r:
+        results["Song.View"]["properties"]["selected_chain"] = r
+    # Restore view state
+    view.selected_track = orig_track
+    view.selected_scene = orig_scene
+    if orig_detail is not None:
+        view.detail_clip = orig_detail
+    yield
 
     # ── Method probes ──────────────────────────────────────────────────────────
     log("[song_props] Starting method probes")
@@ -1015,36 +968,32 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["play_selection"] = r
 
-    # stop_all_clips — fire a clip first, then probe stopping it
+    # stop_all_clips — fire track 0 slot 0 clip, then probe stopping it
     clip_slot = song.tracks[0].clip_slots[0]
-    if clip_slot.has_clip:
-        # Disable launch quantization and fire clip BEFORE taking snapshot
-        orig_quant = song.clip_trigger_quantization
-        song.clip_trigger_quantization = 0  # type: ignore[assignment]  # Quantization enum accepts int at runtime
+    orig_quant = song.clip_trigger_quantization
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]  # Quantization enum accepts int at runtime
+    yield
+    clip_slot.fire()
+    yield
+    # Restore quantization before probe so snapshot captures original value
+    song.clip_trigger_quantization = orig_quant
+    yield
+    gen = _run_method_probe(
+        "stop_all_clips", [False],
+        check_fn=lambda: not clip_slot.clip.is_playing,
+        cleanup_fn=lambda: song.stop_playing(),
+    )
+    r = yield from gen
+    if r: methods["stop_all_clips"] = r
+    if song.is_playing:
+        song.stop_playing()
         yield
-        clip_slot.fire()
+    # Firing the clip sets back_to_arranger (next_tick, so restore can't catch it)
+    song.stop_all_clips(False)
+    yield
+    if song.back_to_arranger:
+        song.back_to_arranger = False
         yield
-        # Restore quantization before probe so snapshot captures original value
-        song.clip_trigger_quantization = orig_quant
-        yield
-        gen = _run_method_probe(
-            "stop_all_clips", [False],
-            check_fn=lambda: not clip_slot.clip.is_playing,
-            cleanup_fn=lambda: song.stop_playing(),
-        )
-        r = yield from gen
-        if r: methods["stop_all_clips"] = r
-        if song.is_playing:
-            song.stop_playing()
-            yield
-        # Firing the clip sets back_to_arranger (next_tick, so restore can't catch it)
-        song.stop_all_clips(False)
-        yield
-        if song.back_to_arranger:
-            song.back_to_arranger = False
-            yield
-    else:
-        log("  [skip] stop_all_clips — no clips found in set")
 
     # jump_by — move song position forward
     song.current_song_time = 0.0
@@ -1068,31 +1017,25 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # jump_to_prev_cue / jump_to_next_cue — use existing cue points
-    if len(song.cue_points) > 0:
-        # Position past all cue points so we can jump back
-        song.current_song_time = song.song_length
-        yield
+    # jump_to_prev_cue — position past all cue points so we can jump back
+    song.current_song_time = song.song_length
+    yield
+    gen = _run_method_probe(
+        "jump_to_prev_cue", [],
+        check_fn=lambda: song.current_song_time < song.song_length,
+    )
+    r = yield from gen
+    if r: methods["jump_to_prev_cue"] = r
 
-        gen = _run_method_probe(
-            "jump_to_prev_cue", [],
-            check_fn=lambda: song.current_song_time < song.song_length,
-        )
-        r = yield from gen
-        if r: methods["jump_to_prev_cue"] = r
-
-        # Position at start so we can jump forward
-        song.current_song_time = 0.0
-        yield
-
-        gen = _run_method_probe(
-            "jump_to_next_cue", [],
-            check_fn=lambda: song.current_song_time > 0.0,
-        )
-        r = yield from gen
-        if r: methods["jump_to_next_cue"] = r
-    else:
-        log("  [skip] jump_to_prev_cue / jump_to_next_cue — no cue points in set")
+    # jump_to_next_cue — position at start so we can jump forward
+    song.current_song_time = 0.0
+    yield
+    gen = _run_method_probe(
+        "jump_to_next_cue", [],
+        check_fn=lambda: song.current_song_time > 0.0,
+    )
+    r = yield from gen
+    if r: methods["jump_to_next_cue"] = r
 
     # Reset position
     song.current_song_time = 0.0
@@ -1153,31 +1096,66 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     view_methods = results["Song.View"].setdefault("methods", {})
 
-    # select_device — pick a device that differs from current appointment
-    if len(all_devices) >= 2:
-        current = song.appointed_device
-        if current is not None and current._live_ptr == all_devices[0]._live_ptr:
-            target_device = all_devices[1]
-        else:
-            target_device = all_devices[0]
-        snap, snap_json = snapshot_properties(snapshot_targets)
-        gen = probe_method(
-            song, "Song.View", "select_device", [target_device, True],
-            check_fn=lambda: (song.appointed_device is not None
-                              and song.appointed_device._live_ptr == target_device._live_ptr),
-            cleanup_fn=None, fired=fired, probe_timing=probe_timing,
-            snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets, log=log,
-            obj=view,
-        )
-        try:
-            while True:
-                next(gen)
-                yield
-        except StopIteration as e:
-            if e.value is not None:
-                view_methods["select_device"] = e.value
-    else:
-        log(f"  [skip] Song.View.select_device — need ≥2 devices (found {len(all_devices)})")
+    # select_device — use track 1 device 0 (Strum-o-Matic)
+    target_device = song.tracks[1].devices[0]
+    snap, snap_json = snapshot_properties(snapshot_targets)
+    gen = probe_method(
+        song, "Song.View", "select_device", [target_device, True],
+        check_fn=lambda: (song.appointed_device is not None
+                          and song.appointed_device._live_ptr == target_device._live_ptr),
+        cleanup_fn=None, fired=fired, probe_timing=probe_timing,
+        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets, log=log,
+        obj=view,
+    )
+    try:
+        while True:
+            next(gen)
+            yield
+    except StopIteration as e:
+        if e.value is not None:
+            view_methods["select_device"] = e.value
+
+    # ── CuePoint probes ─────────────────────────────────────────────────────
+    log("[song_props] Starting CuePoint probes")
+
+    results["CuePoint"] = {"properties": {}, "methods": {}}
+
+    # CuePoint.name (settable, listenable) — cue 0 is "Intro" at time 0.0
+    cue = song.cue_points[0]
+    snap, snap_json = snapshot_properties(snapshot_targets)
+    gen = probe_property(
+        song, cue, "CuePoint", "name", "__probe_test__", fired, probe_timing,
+        snap, snap_json, snapshot_targets, log,
+    )
+    try:
+        while True:
+            next(gen)
+            yield
+    except StopIteration as e:
+        if e.value is not None:
+            results["CuePoint"]["properties"]["name"] = e.value
+
+    # CuePoint.jump() — cue 1 is "Verse 1" at time 32.0
+    cue1 = song.cue_points[1]
+    song.current_song_time = 0.0
+    yield
+    snap, snap_json = snapshot_properties(snapshot_targets)
+    gen = probe_method(
+        song, "CuePoint", "jump", [],
+        check_fn=lambda: song.current_song_time > 0.0,
+        cleanup_fn=None, fired=fired, probe_timing=probe_timing,
+        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets, log=log,
+        obj=cue1,
+    )
+    try:
+        while True:
+            next(gen)
+            yield
+    except StopIteration as e:
+        if e.value is not None:
+            results["CuePoint"]["methods"]["jump"] = e.value
+    song.current_song_time = 0.0
+    yield
 
     # Tear down listeners
     teardown_listeners(song, song_listeners)
