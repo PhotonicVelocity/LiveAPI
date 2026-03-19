@@ -45,7 +45,9 @@ user_script_dir = os.path.join(
     user_scripts_path, args.name or "APICapture"
 )
 
-if os.path.isdir(user_script_dir):
+if os.path.islink(user_script_dir):
+    os.remove(user_script_dir)
+elif os.path.isdir(user_script_dir):
     shutil.rmtree(user_script_dir)
 
 shutil.copytree(src_dir, user_script_dir)

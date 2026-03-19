@@ -78,6 +78,8 @@ class APICapture(ControlSurface):
                 self.log_message(f"Removed stale trigger: {trigger}")
 
         self.log_message("APICapture ready — waiting for trigger files")
+        with open("/tmp/apicapture_ready", "w") as f:
+            f.write("")
         self.schedule_message(1, self._tick)
 
     def _tick(self):
