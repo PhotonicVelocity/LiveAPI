@@ -292,14 +292,19 @@ def _check_unlistened_side_effects(
 def restore_side_effects(
     snapshot: dict[tuple[str, str], Any], obj_by_cls: dict[str, Any], log: Callable,
     skip: tuple[str, str] | None = None,
-) -> None:
+) -> bool:
     """Restore any properties that drifted from their pre-probe snapshot values.
 
     Stops playback first so current_song_time doesn't keep advancing between ticks.
 
     Args:
         skip: optional (cls, prop) to skip — the main probed property, handled separately.
+
+    Returns:
+        True if any property was restored.
     """
+    changed = False
+
     # Stop playback first — otherwise current_song_time keeps advancing between ticks.
     is_playing_key = ("Song", "is_playing")
     if is_playing_key in snapshot and is_playing_key != skip:
@@ -309,6 +314,7 @@ def restore_side_effects(
                 if getattr(playing_obj, "is_playing") and not snapshot[is_playing_key]:
                     setattr(playing_obj, "is_playing", False)
                     log("    [restore] Song.is_playing: True → False")
+                    changed = True
             except Exception:
                 pass
 
@@ -325,8 +331,11 @@ def restore_side_effects(
             if not fuzzy_eq(current, snap_val):
                 setattr(snap_obj, snap_prop, snap_val)
                 log(f"    [restore] {snap_cls}.{snap_prop}: {current!r} → {snap_val!r}")
+                changed = True
         except Exception:
             pass
+
+    return changed
 
 
 def probe_property(
@@ -470,10 +479,12 @@ def probe_property(
             result["side_effects"] = side_effects
 
         # 12. Restore any side effects not cleaned up by undo.
-        restore_side_effects(snapshot, obj_by_cls, log, skip=(cls, prop))
-
-        # 13. Yield to let restorations settle.
-        yield
+        #     Loop because restoring one property (e.g. is_playing) can cause
+        #     next_tick side effects on others (e.g. detail_clip).
+        for _ in range(3):
+            if not restore_side_effects(snapshot, obj_by_cls, log, skip=(cls, prop)):
+                break
+            yield  # let restorations settle, then check again
 
         # 14. Restore main property if undo didn't work.
         if not undo_worked:
@@ -602,10 +613,11 @@ def probe_method(
             result["side_effects"] = side_effects
 
         # 11. Restore any side effects not cleaned up by undo.
-        restore_side_effects(snapshot, obj_by_cls, log)
-
-        # 12. Yield to let restorations settle.
-        yield
+        #     Loop because restoring one property can cause next_tick side effects on others.
+        for _ in range(3):
+            if not restore_side_effects(snapshot, obj_by_cls, log):
+                break
+            yield  # let restorations settle, then check again
 
         # 13. If undo didn't work, run cleanup.
         if result["undo_tracked"] is not True and cleanup_fn:
@@ -710,6 +722,15 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from _run_obj_prop_probe(song, "Song", "back_to_arranger", False)
     if r:
         results["Song"]["properties"]["back_to_arranger"] = r
+    # Clean up — scene fire starts playback and sets back_to_arranger True
+    if song.is_playing:
+        song.stop_playing()
+        yield
+    song.stop_all_clips(False)  # immediate stop, no quantization
+    yield
+    if song.back_to_arranger:
+        song.back_to_arranger = False
+        yield
 
     # Song.View.selected_scene — pick a different scene (middle index)
     scenes = song.scenes
@@ -781,7 +802,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     drum_rack = song.tracks[2].devices[0]  # Drum Rack on track 2
     chains = drum_rack.chains  # type: ignore[attr-defined]  # RackDevice at runtime
     if len(chains) >= 2:
-        # Select track 2 so chains are visible
+        # Save view state before switching to drum rack track
+        orig_track = view.selected_track
+        orig_scene = view.selected_scene
+        orig_detail = view.detail_clip
         view.selected_track = song.tracks[2]
         yield
         current_chain = view.selected_chain
@@ -792,6 +816,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         r = yield from _run_obj_prop_probe(view, "Song.View", "selected_chain", target_chain)
         if r:
             results["Song.View"]["properties"]["selected_chain"] = r
+        # Restore view state
+        view.selected_track = orig_track
+        view.selected_scene = orig_scene
+        if orig_detail is not None:
+            view.detail_clip = orig_detail
+        yield
     else:
         log(f"  [skip] Song.View.selected_chain — need ≥2 chains (found {len(chains)})")
 
@@ -822,6 +852,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["create_scene"] = r
+
 
     # create_midi_track (middle index to avoid end-of-list selection edge case)
     ids_before = _ptr_set(song.tracks)
@@ -969,14 +1000,17 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # stop_all_clips — fire a clip first, then probe stopping it
     clip_slot = song.tracks[0].clip_slots[0]
     if clip_slot.has_clip:
-        # Temporarily disable launch quantization so clip starts immediately
+        # Disable launch quantization and fire clip BEFORE taking snapshot
         orig_quant = song.clip_trigger_quantization
         song.clip_trigger_quantization = 0  # type: ignore[assignment]  # Quantization enum accepts int at runtime
         yield
         clip_slot.fire()
         yield
+        # Restore quantization before probe so snapshot captures original value
+        song.clip_trigger_quantization = orig_quant
+        yield
         gen = _run_method_probe(
-            "stop_all_clips", [True],
+            "stop_all_clips", [False],
             check_fn=lambda: not clip_slot.clip.is_playing,
             cleanup_fn=lambda: song.stop_playing(),
         )
@@ -985,8 +1019,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         if song.is_playing:
             song.stop_playing()
             yield
-        song.clip_trigger_quantization = orig_quant
+        # Firing the clip sets back_to_arranger (next_tick, so restore can't catch it)
+        song.stop_all_clips(False)
         yield
+        if song.back_to_arranger:
+            song.back_to_arranger = False
+            yield
     else:
         log("  [skip] stop_all_clips — no clips found in set")
 
