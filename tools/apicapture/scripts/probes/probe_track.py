@@ -60,9 +60,7 @@ VIEW_SETTABLE_PROPS: list[tuple[str, Any]] = [
 ]
 
 # Properties skipped from undo probing.
-SKIP_UNDO: set[str] = {
-    "back_to_arranger",  # engine-driven, same as Song.back_to_arranger
-}
+SKIP_UNDO: set[str] = set()
 
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
@@ -143,8 +141,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             if e.value is not None:
                 results["Track.View"]["properties"][prop] = e.value
 
-    # ── Routing property probes ─────────────────────────────────────────────
-    log("[probe_track] Starting routing property probes")
+    # ── Special-case property probes ─────────────────────────────────────────
 
     def _run_prop_probe(obj, cls, prop, test_val):
         snap, snap_json = snapshot_properties(snapshot_targets)
@@ -158,6 +155,25 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
                 yield
         except StopIteration as e:
             return e.value
+
+    # Track.back_to_arranger — same as Song, engine sets True on session clip trigger
+    if not track.back_to_arranger:
+        song.scenes[0].fire()
+        yield
+    r = yield from _run_prop_probe(track, "Track", "back_to_arranger", False)
+    if r:
+        results["Track"]["properties"]["back_to_arranger"] = r
+    if song.is_playing:
+        song.stop_playing()
+        yield
+    song.stop_all_clips(False)
+    yield
+    if track.back_to_arranger:
+        track.back_to_arranger = False
+        yield
+
+    # ── Routing property probes ─────────────────────────────────────────────
+    log("[probe_track] Starting routing property probes")
 
     # input_routing_type — pick a different type from available list
     avail_in_types = track.available_input_routing_types
