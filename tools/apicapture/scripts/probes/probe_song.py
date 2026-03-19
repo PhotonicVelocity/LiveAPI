@@ -1,16 +1,19 @@
-"""Probe undo tracking and async visibility for settable Song properties.
+"""Probe the Song module — Song, Song.View, and CuePoint classes.
 
-Runs inside Live via the targeted probe trigger. Uses yield to cross tick boundaries,
-which is essential for accurately classifying async visibility — a property is "immediate"
-if the new value is readable on the same tick as the set, "next_tick" if it only appears
-after yielding.
+Probes undo tracking, async visibility, side effects, and behavioral metadata
+for all settable properties and state-changing methods. Runs inside Live via
+the targeted probe trigger.
 
-Note: async_visibility describes when the LOM property is readable, not when the underlying
-action takes effect. Transport methods like stop_all_clips act on the audio engine immediately
-but the Python-visible property (e.g. clip.is_playing) updates on the next tick.
+Uses yield to cross tick boundaries, which is essential for accurately classifying
+async visibility — a property is "immediate" if the new value is readable on the
+same tick as the set, "next_tick" if it only appears after yielding.
+
+Note: async_visibility describes when the LOM property is readable, not when the
+underlying action takes effect. Transport methods like stop_all_clips act on the
+audio engine immediately but the Python-visible property updates on the next tick.
 
 Usage:
-    echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe
+    echo scripts/probes/probe_song.py > /tmp/apicapture_targeted_probe
 
 Skipped members:
     - begin_undo_step, end_undo_step, undo, redo — undo infrastructure used by the probe itself
