@@ -67,15 +67,7 @@ SKIP_UNDO: set[str] = {
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
 
-NOTES: dict[str, str] = {
-    "Track.current_input_routing": (
-        "String-based routing API. Getter returns a prefixed format (e.g. ``'Ext: All Ins'``) "
-        "that doesn't match ``input_routings`` values. Use ``input_routing_type`` instead."
-    ),
-    "Track.current_output_routing": (
-        "String-based routing API. Use ``output_routing_type`` instead for reliable programmatic control."
-    ),
-}
+NOTES: dict[str, str] = {}
 
 
 # ── Module-specific config ────────────────────────────────────────────────────
