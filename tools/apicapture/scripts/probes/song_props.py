@@ -26,8 +26,8 @@ TODO: Not yet probed
         - ✓ stop_all_clips, jump_by, jump_to_next_cue, jump_to_prev_cue, scrub_by
         - tap_tempo, needs custom probing
     Song methods — state-changing with preconditions:
-        - capture_midi, force_link_beat_time, re_enable_automation
-        - trigger_session_record, move_device
+        - capture_midi, force_link_beat_time, trigger_session_record, move_device
+        - re_enable_automation — can't trigger programmatically (UI-driven flag)
         - ✓ set_data
     Song.View methods:
         - ✓ select_device
@@ -105,6 +105,7 @@ NOTES: dict[str, str] = {
     "Song.set_data": "Value is immediately readable via get_data on the same tick.",
     "Song.appointed_device": "Listener does not fire on programmatic changes (setattr or select_device). Likely UI-driven only.",
     "Song.View.select_device": "Appoints the device but does not fire the appointed_device listener (see appointed_device note).",
+    "Song.re_enable_automation": "re_enable_automation_enabled is only set by UI interaction (physical knob override), not by programmatic param.value changes.",
     "Song.stop_all_clips": "Does not stop song transport, only clips.",
 }
 
@@ -1056,6 +1057,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Clean up test key
     song.set_data(test_key, None)
     yield
+
 
     # ── Song.View method probes ────────────────────────────────────────────────
     log("[song_props] Starting Song.View method probes")
