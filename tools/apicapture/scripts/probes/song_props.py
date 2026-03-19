@@ -12,27 +12,13 @@ but the Python-visible property (e.g. clip.is_playing) updates on the next tick.
 Usage:
     echo scripts/probes/song_props.py > /tmp/apicapture_targeted_probe
 
-TODO: Not yet probed
-    Song.View properties:
-        - ✓ detail_clip, highlighted_clip_slot, selected_chain
-    Song methods — undo infrastructure (used by probe itself):
-        - begin_undo_step, end_undo_step, undo, redo
-    Song methods — read-only queries (no behavioral metadata to probe):
-        - find_device_position, get_beats_loop_length, get_beats_loop_start
-        - get_current_beats_song_time, get_current_smpte_song_time
-        - get_data, is_cue_point_selected
-    Song methods — transport/position:
-        - ✓ continue_playing, start_playing, stop_playing, play_selection
-        - ✓ stop_all_clips, jump_by, jump_to_next_cue, jump_to_prev_cue, scrub_by
-        - tap_tempo, needs custom probing
-    Song methods — state-changing with preconditions:
-        - ✓ move_device, trigger_session_record
-        - capture_midi — needs MIDI input, not probeable without external controller
-        - force_link_beat_time — no observable effect without Link peers
-        - re_enable_automation — can't trigger programmatically (UI-driven flag)
-        - ✓ set_data
-    Song.View methods:
-        - ✓ select_device
+Skipped members:
+    - begin_undo_step, end_undo_step, undo, redo — undo infrastructure used by the probe itself
+    - get_data, find_device_position, get_beats_*, get_current_*, is_cue_point_selected — read-only
+    - tap_tempo — pass-through to Live's internal tap averaging, no behavioral metadata to capture
+    - capture_midi — requires external MIDI input
+    - force_link_beat_time — no observable effect without Link peers
+    - re_enable_automation — can't trigger programmatically (UI-driven flag)
 """
 
 from __future__ import annotations
