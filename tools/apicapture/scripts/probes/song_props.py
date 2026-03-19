@@ -26,7 +26,9 @@ TODO: Not yet probed
         - ✓ stop_all_clips, jump_by, jump_to_next_cue, jump_to_prev_cue, scrub_by
         - tap_tempo, needs custom probing
     Song methods — state-changing with preconditions:
-        - capture_midi, force_link_beat_time, trigger_session_record, move_device
+        - ✓ move_device, trigger_session_record
+        - capture_midi — needs MIDI input, not probeable without external controller
+        - force_link_beat_time — no observable effect without Link peers
         - re_enable_automation — can't trigger programmatically (UI-driven flag)
         - ✓ set_data
     Song.View methods:
@@ -1126,6 +1128,39 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.set_data(test_key, None)
     yield
 
+
+    # ── State-changing methods with preconditions ───────────────────────────
+    log("[song_props] Starting precondition method probes")
+
+    # move_device — move Auto Filter from track 1 to end of track 0
+    track0 = song.tracks[0]
+    track1 = song.tracks[1]
+    num_devs_t0 = len(track0.devices)
+    # Track 1 device 1 is Auto Filter (a simple audio effect, movable between tracks)
+    device_to_move = track1.devices[1]
+    gen = _run_method_probe(
+        "move_device", [device_to_move, track0, num_devs_t0],
+        check_fn=lambda: len(track0.devices) > num_devs_t0,
+    )
+    r = yield from gen
+    if r: methods["move_device"] = r
+
+    # trigger_session_record — starts session recording
+    gen = _run_method_probe(
+        "trigger_session_record", [],
+        check_fn=lambda: song.session_record,
+        cleanup_fn=lambda: song.stop_playing(),
+    )
+    r = yield from gen
+    if r: methods["trigger_session_record"] = r
+    if song.is_playing:
+        song.stop_playing()
+        yield
+    song.stop_all_clips(False)
+    yield
+    if song.back_to_arranger:
+        song.back_to_arranger = False
+        yield
 
     # ── Song.View method probes ────────────────────────────────────────────────
     log("[song_props] Starting Song.View method probes")
