@@ -76,6 +76,12 @@ SNAPSHOT_EXTRA: dict[str, set[str]] = {
     "Track": {"name"},
 }
 
+# Cross-module listenable properties to subscribe to for side effect detection.
+CROSS_MODULE_LISTENERS: dict[str, list[str]] = {
+    "Song": ["is_playing", "back_to_arranger"],
+    "Song.View": ["detail_clip"],
+}
+
 
 # ── Main probe ────────────────────────────────────────────────────────────────
 
@@ -101,12 +107,19 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Set up listeners and snapshot targets
     track_listenable = discover_listenable(track, LISTENER_EXCLUDE)
     view_listenable = discover_listenable(track_view, LISTENER_EXCLUDE)
+    cross_song_props = CROSS_MODULE_LISTENERS.get("Song", [])
+    cross_view_props = CROSS_MODULE_LISTENERS.get("Song.View", [])
     snapshot_targets = [
         (track, "Track", discover_snapshot_props(track_listenable, "Track", LISTENER_EXCLUDE, SNAPSHOT_EXTRA)),
         (track_view, "Track.View", discover_snapshot_props(view_listenable, "Track.View", LISTENER_EXCLUDE, SNAPSHOT_EXTRA)),
+        (song, "Song", cross_song_props),
+        (song.view, "Song.View", cross_view_props),
     ]
     track_listeners = setup_listeners(track, "Track", track_listenable, fired, probe_timing, log)
     view_listeners = setup_listeners(track_view, "Track.View", view_listenable, fired, probe_timing, log)
+    # Cross-module listeners for side effect detection
+    song_listeners = setup_listeners(song, "Song", cross_song_props, fired, probe_timing, log)
+    song_view_listeners = setup_listeners(song.view, "Song.View", cross_view_props, fired, probe_timing, log)
     yield  # let listener setup settle
 
     # Track properties
@@ -383,6 +396,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Tear down listeners
     teardown_listeners(track, track_listeners)
     teardown_listeners(track_view, view_listeners)
+    teardown_listeners(song, song_listeners)
+    teardown_listeners(song.view, song_view_listeners)
 
     # Write results
     import Live
