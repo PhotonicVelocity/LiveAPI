@@ -30,13 +30,21 @@ import json
 import os
 from typing import TYPE_CHECKING, Any
 
-from Live.Base import IntVector, Vector
-from Live.LomObject import LomObject
+from _probe_base import (
+    discover_listenable,
+    discover_snapshot_props,
+    find_new_index,
+    probe_method,
+    probe_property,
+    ptr_set,
+    setup_listeners,
+    snapshot_properties,
+    teardown_listeners,
+)
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Generator
 
-    import Live
     from Live.Song import Song
 
 
@@ -121,544 +129,19 @@ NOTES: dict[str, str] = {
 }
 
 
-# ── Listenable properties (for side-effect detection) ─────────────────────────
+# ── Module-specific config ────────────────────────────────────────────────────
 
 # Properties excluded from listener subscription — fire too frequently to be useful as listeners.
 LISTENER_EXCLUDE: set[str] = {"current_song_time"}  # fires every audio tick (~80/s)
 
 # Non-listenable properties to include in snapshots, keyed by class name.
-# When probing other modules, add entries here for cross-module properties to track.
 SNAPSHOT_EXTRA: dict[str, set[str]] = {
     "Song": {"name"},
     "Song.View": {"highlighted_clip_slot"},
 }
 
 
-def _discover_listenable(obj: object) -> list[str]:
-    """Properties safe to subscribe listeners to (excludes LISTENER_EXCLUDE)."""
-    return sorted(
-        name[4:-9] for name in dir(obj)
-        if name.startswith("add_") and name.endswith("_listener")
-        and name[4:-9] not in LISTENER_EXCLUDE
-    )
-    
-    
-def _discover_snapshot_props(listenable: list[str], cls: str) -> list[str]:
-    """Properties to snapshot and restore between probes.
-
-    Includes all listenable properties (even LISTENER_EXCLUDE ones) plus SNAPSHOT_EXTRA
-    for non-listenable properties that can drift during probes.
-    """
-    props = set(SNAPSHOT_EXTRA.get(cls, set())) | LISTENER_EXCLUDE
-    props.update(listenable)
-    return sorted(props)
-
-
-# ── Listener infrastructure ───────────────────────────────────────────────────
-
-
-def setup_listeners(
-    obj: Song | Song.View, cls: str, props: list[str], fired: list, probe_timing: dict, log: Callable,
-) -> list[tuple[str, Any]]:
-    """Add listeners for all listenable properties. Returns [(prop, callback)] for teardown.
-
-    probe_timing is a shared dict with:
-      - "target": (cls, prop) currently being probed, or None
-      - "set_time": monotonic time when the property was set
-      - "listener_time": monotonic time when the self-listener fired
-    """
-    import time
-
-    listeners: list[tuple[str, Any]] = []
-    for prop in props:
-        add_fn = getattr(obj, f"add_{prop}_listener", None)
-        if add_fn is None:
-            continue
-
-        def make_cb(c: str, p: str):
-            def callback():
-                now = time.monotonic()
-                set_time = probe_timing.get("set_time", 0.0)
-                dt = now - set_time
-                fired.append((c, p, dt))
-                target = probe_timing.get("target")
-                if target == (c, p):
-                    probe_timing["listener_time"] = now
-                log(f"    [listener] {c}.{p} fired ({dt*1000:.1f}ms)")
-            return callback
-
-        cb = make_cb(cls, prop)
-        try:
-            add_fn(cb)
-            listeners.append((prop, cb))
-        except Exception:
-            pass
-    log(f"  Subscribed to {len(listeners)}/{len(props)} listeners on {cls}")
-    return listeners
-
-
-def teardown_listeners(obj: Song | Song.View, listeners: list[tuple[str, Any]]) -> None:
-    """Remove all listeners added by setup_listeners."""
-    for prop, cb in listeners:
-        remove_fn = getattr(obj, f"remove_{prop}_listener", None)
-        if remove_fn:
-            try:
-                remove_fn(cb)
-            except Exception:
-                pass
-
-
-# ── Helpers ────────────────────────────────────────────────────────────────────
-
-
-def snapshot_properties(
-    objects: list[tuple[Any, str, list[str]]],
-) -> tuple[dict[tuple[str, str], Any], dict[tuple[str, str], Any]]:
-    """Read current values of properties for pre/post-probe comparison and restoration.
-
-    Args:
-        objects: [(obj, cls_name, prop_list), ...] — e.g. [(song, "Song", song_snapshot_props), ...]
-
-    Returns:
-        (raw, serialized) — raw holds live objects for comparison/restore,
-        serialized holds _json_safe values captured eagerly for output.
-    """
-    raw: dict[tuple[str, str], Any] = {}
-    serialized: dict[tuple[str, str], Any] = {}
-    for obj, cls, props in objects:
-        for prop in props:
-            try:
-                val = getattr(obj, prop)
-                raw[(cls, prop)] = val
-                serialized[(cls, prop)] = _json_safe(val)
-            except Exception:
-                pass
-    return raw, serialized
-
-
-def fuzzy_eq(a: Any, b: Any) -> bool:
-    """Compare with tolerance for floats, and by _live_ptr for Live API objects."""
-    if isinstance(a, float) and isinstance(b, float):
-        return abs(a - b) < 0.01
-    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
-        return abs(float(a) - float(b)) < 0.01
-    # Single Live API objects — compare by ptr
-    if isinstance(a, LomObject) and isinstance(b, LomObject):
-        return a._live_ptr == b._live_ptr
-    # Vectors — compare element-wise (by ptr for LomObjects, by value for primitives)
-    if isinstance(a, (Vector, IntVector)) and isinstance(b, (Vector, IntVector)):
-        return _vector_key(a) == _vector_key(b)
-    return a == b
-
-
-def _vector_key(vec: Vector | IntVector) -> list:  # type: ignore[type-arg]
-    """Convert a Vector to a comparable list — ptrs for LomObjects, values for primitives."""
-    return [item._live_ptr if isinstance(item, LomObject) else item for item in vec]
-
-
-def _json_safe(val: Any) -> Any:
-    """Return val as-is if JSON-serializable, otherwise use _live_ptr or repr()."""
-    if val is None or isinstance(val, (bool, int, float, str)):
-        return val
-    if isinstance(val, LomObject):
-        return f"ptr:{val._live_ptr}"
-    if isinstance(val, (Vector, IntVector)):
-        return [f"ptr:{item._live_ptr}" if isinstance(item, LomObject) else item for item in val]
-    return repr(val)
-
-
-def _check_unlistened_side_effects(
-    snapshot: dict, snap_json: dict, obj_by_cls: dict[str, Any],
-    already_seen: set[tuple[str, str]], skip: tuple[str, str] | None = None,
-) -> list[dict[str, Any]]:
-    """Check SNAPSHOT_EXTRA properties for changes not caught by listeners.
-
-    Returns side effect dicts for any that changed, excluding already_seen keys.
-    """
-    effects = []
-    for cls_name, extras in SNAPSHOT_EXTRA.items():
-        obj = obj_by_cls.get(cls_name)
-        if obj is None:
-            continue
-        for prop in extras:
-            key = (cls_name, prop)
-            if key in already_seen or key == skip or key not in snapshot:
-                continue
-            try:
-                current = getattr(obj, prop)
-                if not fuzzy_eq(current, snapshot[key]):
-                    effects.append({
-                        "label": cls_name,
-                        "prop": prop,
-                        "from": snap_json[key],
-                        "to": _json_safe(current),
-                        "_raw_after": current,
-                        "unlistened": True,
-                    })
-            except Exception:
-                pass
-    return effects
-
-
-def restore_side_effects(
-    snapshot: dict[tuple[str, str], Any], obj_by_cls: dict[str, Any], log: Callable,
-    skip: tuple[str, str] | None = None,
-) -> bool:
-    """Restore any properties that drifted from their pre-probe snapshot values.
-
-    Stops playback first so current_song_time doesn't keep advancing between ticks.
-
-    Args:
-        skip: optional (cls, prop) to skip — the main probed property, handled separately.
-
-    Returns:
-        True if any property was restored.
-    """
-    changed = False
-
-    # Stop playback first — otherwise current_song_time keeps advancing between ticks.
-    is_playing_key = ("Song", "is_playing")
-    if is_playing_key in snapshot and is_playing_key != skip:
-        playing_obj = obj_by_cls.get("Song")
-        if playing_obj is not None:
-            try:
-                if getattr(playing_obj, "is_playing") and not snapshot[is_playing_key]:
-                    setattr(playing_obj, "is_playing", False)
-                    log("    [restore] Song.is_playing: True → False")
-                    changed = True
-            except Exception:
-                pass
-
-    for (snap_cls, snap_prop), snap_val in snapshot.items():
-        if (snap_cls, snap_prop) == is_playing_key:
-            continue  # already handled above
-        if skip and (snap_cls, snap_prop) == skip:
-            continue
-        snap_obj = obj_by_cls.get(snap_cls)
-        if snap_obj is None:
-            continue
-        try:
-            current = getattr(snap_obj, snap_prop)
-            if not fuzzy_eq(current, snap_val):
-                setattr(snap_obj, snap_prop, snap_val)
-                log(f"    [restore] {snap_cls}.{snap_prop}: {current!r} → {snap_val!r}")
-                changed = True
-        except Exception:
-            pass
-
-    return changed
-
-
-def probe_property(
-    song: Song, obj: Any, cls: str, prop: str, test_value: Any, fired: list, probe_timing: dict,
-    snapshot: dict, snap_json: dict, snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
-) -> Generator[None, None, dict[str, Any]]:
-    """Probe a single property for undo tracking, async visibility, and side effects.
-
-    This is a generator — each yield crosses a tick boundary.
-
-    Steps:
-        1.  Read original value; skip if test_value matches.
-        2.  Clear fired listeners, set timing target.
-        3.  begin_undo_step → set property → end_undo_step.
-        4.  Read back immediately → classify "immediate" if value changed.
-        5.  Yield (tick boundary).
-        6.  Read back again → classify "next_tick" or "no_change".
-        7.  Collect side effects and listener timing from fired list.
-        8.  Clear fired list, call undo().
-        9.  Yield (tick boundary).
-        10. Read back → determine undo_tracked.
-        11. Check which side-effect listeners fired during undo and whether values restored.
-        12. Restore any side effects not cleaned up by undo (setattr from snapshot).
-        13. Yield (tick boundary — let restorations settle).
-        14. Restore main property if undo didn't work.
-        15. Yield (tick boundary).
-
-    Args:
-        snapshot: {(cls, prop): value} — pre-probe snapshot of all snapshotted properties,
-            used to check whether side effects are restored after undo.
-    """
-    result: dict[str, Any] = {}
-
-    try:
-        # 1. Read original value.
-        orig = getattr(obj, prop)
-        if isinstance(orig, bool):
-            test_value = not orig
-        if fuzzy_eq(orig, test_value):
-            result["async_visibility"] = "skip"
-            result["undo_tracked"] = "skip"
-            result["notes"] = f"test_value matches original ({orig!r})"
-            log(f"  [prop] {cls}.{prop}: skip — test_value matches original ({orig!r})")
-            return result
-
-        result["from"] = _json_safe(orig)
-        result["to"] = _json_safe(test_value)
-
-        # 2. Clear fired listeners and set timing target.
-        import time as _time
-
-        fired.clear()
-        probe_timing["target"] = (cls, prop)
-        probe_timing["listener_time"] = None
-
-        # 3. begin_undo_step, set, end_undo_step.
-        song.begin_undo_step()
-        probe_timing["set_time"] = _time.monotonic()
-        setattr(obj, prop, test_value)
-        song.end_undo_step()
-
-        # 4. Read back immediately.
-        readback = getattr(obj, prop)
-        is_immediate = fuzzy_eq(readback, test_value)
-
-        # 5. Yield to next tick.
-        yield
-
-        # 6. If not immediate, check again.
-        if is_immediate:
-            result["async_visibility"] = "immediate"
-        else:
-            readback_next = getattr(obj, prop)
-            if fuzzy_eq(readback_next, test_value):
-                result["async_visibility"] = "next_tick"
-            else:
-                result["async_visibility"] = "no_change"
-
-        # 7. Collect side effects and listener timing.
-        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
-        side_effects = []
-        seen_keys: set[tuple[str, str]] = set()
-        for c, p, dt in fired:
-            if c == cls and p == prop:
-                continue
-            effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
-            key = (c, p)
-            seen_keys.add(key)
-            if key in snapshot:
-                try:
-                    after = getattr(obj_by_cls[c], p)
-                    effect["from"] = snap_json[key]
-                    effect["to"] = _json_safe(after)
-                    effect["_raw_after"] = after  # stashed for undo comparison
-                except Exception:
-                    pass
-            side_effects.append(effect)
-        # Check SNAPSHOT_EXTRA for unlistened side effects.
-        side_effects.extend(_check_unlistened_side_effects(
-            snapshot, snap_json, obj_by_cls, seen_keys, skip=(cls, prop),
-        ))
-
-        if probe_timing["listener_time"] is not None:
-            dt = probe_timing["listener_time"] - probe_timing["set_time"]
-            result["listener_latency_ms"] = round(dt * 1000, 1)
-
-        probe_timing["target"] = None
-
-        # 8. Clear fired and undo.
-        fired.clear()
-        song.undo()
-
-        # 9. Yield to next tick.
-        yield
-
-        # 10. Read back → undo tracking.
-        after_undo = getattr(obj, prop)
-        undo_worked = fuzzy_eq(after_undo, orig)
-        result["undo_tracked"] = undo_worked
-
-        # 11. Check which side effects fired during undo and whether values restored.
-        undo_fired = {(c, p) for c, p, _ in fired}
-        result["undo_fires_listener"] = (cls, prop) in undo_fired
-        for effect in side_effects:
-            key = (effect["label"], effect["prop"])
-            effect["undo_fires_listener"] = key in undo_fired
-            if key in snapshot:
-                try:
-                    current = getattr(obj_by_cls[effect["label"]], effect["prop"])
-                    if fuzzy_eq(current, snapshot[key]):
-                        effect["undo_result"] = "restored"
-                    elif "_raw_after" in effect and fuzzy_eq(current, effect["_raw_after"]):
-                        effect["undo_result"] = "unchanged"
-                    else:
-                        effect["undo_result"] = "changed"
-                        effect["undo_value"] = _json_safe(current)
-                except Exception:
-                    pass
-            effect.pop("_raw_after", None)
-        if side_effects:
-            result["side_effects"] = side_effects
-
-        # 12. Restore any side effects not cleaned up by undo.
-        #     Loop because restoring one property (e.g. is_playing) can cause
-        #     next_tick side effects on others (e.g. detail_clip).
-        for _ in range(3):
-            if not restore_side_effects(snapshot, obj_by_cls, log, skip=(cls, prop)):
-                break
-            yield  # let restorations settle, then check again
-
-        # 14. Restore main property if undo didn't work.
-        if not undo_worked:
-            try:
-                setattr(obj, prop, orig)
-            except Exception:
-                pass  # some properties reject None or stale objects
-            yield
-
-    except Exception as e:
-        result["async_visibility"] = result.get("async_visibility", "error")
-        result["undo_tracked"] = result.get("undo_tracked", "error")
-        result["error"] = str(e)[:200]
-
-    tag = result.get("async_visibility", "?")
-    undo = result.get("undo_tracked", "?")
-    effects = result.get("side_effects", [])
-    effect_str = f", side_effects={[e['prop'] for e in effects]}" if effects else ""
-    log(f"  [prop] {cls}.{prop}: async={tag}, undo={undo}{effect_str}")
-    return result
-
-
-def probe_method(
-    song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
-    cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict, snap_json: dict,
-    snapshot_targets: list[tuple[Any, str, list[str]]], log: Callable,
-    *, obj: Any = None,
-) -> Generator[None, None, dict[str, Any]]:
-    """Probe a method for undo tracking, async visibility, and side effects.
-
-    This is a generator — each yield crosses a tick boundary.
-
-    Args:
-        check_fn: () -> bool — returns True if the method's effect is present.
-        cleanup_fn: () -> None — restores state if undo didn't work. Can be None.
-        snapshot: {(cls, prop): value} — pre-probe snapshot of all snapshotted properties.
-        snapshot_targets: [(obj, cls, props), ...] — for resolving side effect objects.
-    """
-    import time as _time
-
-    result: dict[str, Any] = {}
-    if args:
-        result["args"] = [_json_safe(a) for a in args]
-
-    try:
-        # 1. Clear fired listeners.
-        fired.clear()
-        probe_timing["target"] = None
-        probe_timing["set_time"] = _time.monotonic()
-
-        # 2. begin_undo_step, call method, end_undo_step.
-        target = obj if obj is not None else song
-        song.begin_undo_step()
-        getattr(target, method)(*args)
-        song.end_undo_step()
-
-        # 3. Check effect immediately.
-        is_immediate = check_fn()
-
-        # 4. Yield to next tick.
-        yield
-
-        # 5. If not immediate, check again.
-        if is_immediate:
-            result["async_visibility"] = "immediate"
-        else:
-            if check_fn():
-                result["async_visibility"] = "next_tick"
-            else:
-                result["async_visibility"] = "no_effect"
-
-        # 6. Collect side effects.
-        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
-        side_effects = []
-        seen_keys: set[tuple[str, str]] = set()
-        for c, p, dt in fired:
-            effect: dict[str, Any] = {"label": c, "prop": p, "listener_latency_ms": round(dt * 1000, 1)}
-            key = (c, p)
-            seen_keys.add(key)
-            if key in snapshot:
-                try:
-                    after = getattr(obj_by_cls[c], p)
-                    effect["from"] = snap_json[key]
-                    effect["to"] = _json_safe(after)
-                    effect["_raw_after"] = after
-                except Exception:
-                    pass
-            side_effects.append(effect)
-        # Check SNAPSHOT_EXTRA for unlistened side effects.
-        side_effects.extend(_check_unlistened_side_effects(
-            snapshot, snap_json, obj_by_cls, seen_keys,
-        ))
-
-        # 7. Clear fired and undo.
-        fired.clear()
-        song.undo()
-
-        # 8. Yield to next tick.
-        yield
-
-        # 9. Check effect gone → undo_tracked.
-        if result.get("async_visibility") == "no_effect":
-            result["undo_tracked"] = "n/a"
-        else:
-            result["undo_tracked"] = not check_fn()
-
-        # 10. Check which side effects fired during undo and whether values restored.
-        undo_fired = {(c, p) for c, p, _ in fired}
-        for effect in side_effects:
-            key = (effect["label"], effect["prop"])
-            effect["undo_fires_listener"] = key in undo_fired
-            if key in snapshot:
-                try:
-                    current = getattr(obj_by_cls[effect["label"]], effect["prop"])
-                    if fuzzy_eq(current, snapshot[key]):
-                        effect["undo_result"] = "restored"
-                    elif "_raw_after" in effect and fuzzy_eq(current, effect["_raw_after"]):
-                        effect["undo_result"] = "unchanged"
-                    else:
-                        effect["undo_result"] = "changed"
-                        effect["undo_value"] = _json_safe(current)
-                except Exception:
-                    pass
-            effect.pop("_raw_after", None)
-        if side_effects:
-            result["side_effects"] = side_effects
-
-        # 11. Restore any side effects not cleaned up by undo.
-        #     Loop because restoring one property can cause next_tick side effects on others.
-        for _ in range(3):
-            if not restore_side_effects(snapshot, obj_by_cls, log):
-                break
-            yield  # let restorations settle, then check again
-
-        # 13. If undo didn't work, run cleanup.
-        if result["undo_tracked"] is not True and cleanup_fn:
-            cleanup_fn()
-            yield
-
-    except Exception as e:
-        result["async_visibility"] = result.get("async_visibility", "error")
-        result["undo_tracked"] = result.get("undo_tracked", "error")
-        result["error"] = str(e)[:200]
-
-    effects = result.get("side_effects", [])
-    effect_str = f", side_effects={[e['prop'] for e in effects]}" if effects else ""
-    tag = result.get("async_visibility", "?")
-    undo = result.get("undo_tracked", "?")
-    log(f"  [meth] {cls}.{method}: async={tag}, undo={undo}{effect_str}")
-    return result
-
-
-def _ptr_set(items) -> set[int]:
-    """Extract stable _live_ptr values from a list of Live API objects."""
-    return {item._live_ptr for item in items}
-
-
-def _find_new_index(items, before_ptrs: set[int]) -> int | None:
-    """Find the index of the first item whose _live_ptr wasn't in before_ptrs."""
-    for i, item in enumerate(items):
-        if item._live_ptr not in before_ptrs:
-            return i
-    return None
+# ── Main probe ────────────────────────────────────────────────────────────────
 
 
 def run(song: Song, log: Callable) -> Generator[None, None, None]:
@@ -667,7 +150,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     from datetime import datetime
 
     t0 = time.monotonic()
-    log("[song_props] Starting property probes")
+    log("[probe_song] Starting property probes")
     results: dict[str, dict[str, dict[str, Any]]] = {
         "Song": {"properties": {}},
         "Song.View": {"properties": {}},
@@ -677,20 +160,17 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Set up listeners and snapshot targets
     view = song.view
-    song_listenable = _discover_listenable(song)
-    view_listenable = _discover_listenable(view)
+    song_listenable = discover_listenable(song, LISTENER_EXCLUDE)
+    view_listenable = discover_listenable(view, LISTENER_EXCLUDE)
     snapshot_targets = [
-        (song, "Song", _discover_snapshot_props(song_listenable, "Song")),
-        (view, "Song.View", _discover_snapshot_props(view_listenable, "Song.View")),
+        (song, "Song", discover_snapshot_props(song_listenable, "Song", LISTENER_EXCLUDE, SNAPSHOT_EXTRA)),
+        (view, "Song.View", discover_snapshot_props(view_listenable, "Song.View", LISTENER_EXCLUDE, SNAPSHOT_EXTRA)),
     ]
     song_listeners = setup_listeners(song, "Song", song_listenable, fired, probe_timing, log)
     view_listeners = setup_listeners(view, "Song.View", view_listenable, fired, probe_timing, log)
     yield  # let listener setup settle
 
     # Switch to session view and set a known starting state.
-    # The demo set opens in arrangement view with a stale detail_clip reference;
-    # switching to session and setting highlighted_clip_slot establishes a stable
-    # session context so all probes start from consistent state.
     import Live
     Live.Application.get_application().view.show_view("Session")
     view.highlighted_clip_slot = song.tracks[0].clip_slots[0]
@@ -702,7 +182,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         if prop in SKIP_UNDO:
             continue
         snap, snap_json = snapshot_properties(snapshot_targets)
-        gen = probe_property(song, song, "Song", prop, test_val, fired, probe_timing, snap, snap_json, snapshot_targets, log)
+        gen = probe_property(
+            song, song, "Song", prop, test_val, fired, probe_timing,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+        )
         try:
             while True:
                 next(gen)
@@ -714,7 +197,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Song.View properties
     for prop, test_val in VIEW_SETTABLE_PROPS:
         snap, snap_json = snapshot_properties(snapshot_targets)
-        gen = probe_property(song, view, "Song.View", prop, test_val, fired, probe_timing, snap, snap_json, snapshot_targets, log)
+        gen = probe_property(
+            song, view, "Song.View", prop, test_val, fired, probe_timing,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+        )
         try:
             while True:
                 next(gen)
@@ -728,7 +214,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     def _run_obj_prop_probe(obj, cls, prop, test_val):
         snap, snap_json = snapshot_properties(snapshot_targets)
-        gen = probe_property(song, obj, cls, prop, test_val, fired, probe_timing, snap, snap_json, snapshot_targets, log)
+        gen = probe_property(
+            song, obj, cls, prop, test_val, fired, probe_timing,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+        )
         try:
             while True:
                 next(gen)
@@ -768,7 +257,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     if r:
         results["Song"]["properties"]["appointed_device"] = r
 
-    # Song.View.detail_clip — set to a clip; ensure we pick one that differs from current
+    # Song.View.detail_clip — track 1 slot 1 clip (Strum-o-Matic)
     target_clip = song.tracks[1].clip_slots[1].clip
     r = yield from _run_obj_prop_probe(view, "Song.View", "detail_clip", target_clip)
     if r:
@@ -800,7 +289,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     yield
 
     # ── Method probes ──────────────────────────────────────────────────────────
-    log("[song_props] Starting method probes")
+    log("[probe_song] Starting method probes")
 
     if "Song" not in results:
         results["Song"] = {"properties": {}, "methods": {}}
@@ -808,8 +297,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     def _run_method_probe(method, args, check_fn, cleanup_fn=None):
         snap, snap_json = snapshot_properties(snapshot_targets)
-        gen = probe_method(song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing, snap, snap_json,
-                           snapshot_targets, log)
+        gen = probe_method(
+            song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+        )
         try:
             while True:
                 next(gen)
@@ -818,88 +309,86 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             return e.value
 
     # create_scene (middle index to avoid end-of-list selection edge case)
-    ids_before = _ptr_set(song.scenes)
+    ids_before = ptr_set(song.scenes)
     gen = _run_method_probe(
         "create_scene", [len(song.scenes) // 2],
-        check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
-        cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.scenes) - ids_before),
+        cleanup_fn=lambda: song.delete_scene(find_new_index(song.scenes, ids_before)),
     )
     r = yield from gen
     if r: methods["create_scene"] = r
 
-
     # create_midi_track (middle index to avoid end-of-list selection edge case)
-    ids_before = _ptr_set(song.tracks)
+    ids_before = ptr_set(song.tracks)
     gen = _run_method_probe(
         "create_midi_track", [len(song.tracks) // 2],
-        check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
-        cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_track(find_new_index(song.tracks, ids_before)),
     )
     r = yield from gen
     if r: methods["create_midi_track"] = r
 
     # create_audio_track (middle index to avoid end-of-list selection edge case)
-    ids_before = _ptr_set(song.tracks)
+    ids_before = ptr_set(song.tracks)
     gen = _run_method_probe(
         "create_audio_track", [len(song.tracks) // 2],
-        check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
-        cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_track(find_new_index(song.tracks, ids_before)),
     )
     r = yield from gen
     if r: methods["create_audio_track"] = r
 
     # create_return_track
-    ids_before = _ptr_set(song.return_tracks)
+    ids_before = ptr_set(song.return_tracks)
     gen = _run_method_probe(
         "create_return_track", [],
-        check_fn=lambda: bool(_ptr_set(song.return_tracks) - ids_before),
-        cleanup_fn=lambda: song.delete_return_track(_find_new_index(song.return_tracks, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.return_tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_return_track(find_new_index(song.return_tracks, ids_before)),
     )
     r = yield from gen
     if r: methods["create_return_track"] = r
 
     # duplicate_scene (middle index to avoid edge cases)
-    ids_before = _ptr_set(song.scenes)
+    ids_before = ptr_set(song.scenes)
     gen = _run_method_probe(
         "duplicate_scene", [len(song.scenes) // 2],
-        check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
-        cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.scenes) - ids_before),
+        cleanup_fn=lambda: song.delete_scene(find_new_index(song.scenes, ids_before)),
     )
     r = yield from gen
     if r: methods["duplicate_scene"] = r
 
     # duplicate_track (middle index to avoid edge cases)
-    ids_before = _ptr_set(song.tracks)
+    ids_before = ptr_set(song.tracks)
     gen = _run_method_probe(
         "duplicate_track", [len(song.tracks) // 2],
-        check_fn=lambda: bool(_ptr_set(song.tracks) - ids_before),
-        cleanup_fn=lambda: song.delete_track(_find_new_index(song.tracks, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.tracks) - ids_before),
+        cleanup_fn=lambda: song.delete_track(find_new_index(song.tracks, ids_before)),
     )
     r = yield from gen
     if r: methods["duplicate_track"] = r
 
     # set_or_delete_cue
-    ids_before = _ptr_set(song.cue_points)
+    ids_before = ptr_set(song.cue_points)
     gen = _run_method_probe(
         "set_or_delete_cue", [],
-        check_fn=lambda: _ptr_set(song.cue_points) != ids_before,
+        check_fn=lambda: ptr_set(song.cue_points) != ids_before,
     )
     r = yield from gen
     if r: methods["set_or_delete_cue"] = r
 
     # capture_and_insert_scene (middle index to avoid edge cases)
-    ids_before = _ptr_set(song.scenes)
+    ids_before = ptr_set(song.scenes)
     gen = _run_method_probe(
         "capture_and_insert_scene", [len(song.scenes) // 2],
-        check_fn=lambda: bool(_ptr_set(song.scenes) - ids_before),
-        cleanup_fn=lambda: song.delete_scene(_find_new_index(song.scenes, ids_before)),
+        check_fn=lambda: bool(ptr_set(song.scenes) - ids_before),
+        cleanup_fn=lambda: song.delete_scene(find_new_index(song.scenes, ids_before)),
     )
     r = yield from gen
     if r: methods["capture_and_insert_scene"] = r
 
     # delete_scene (middle index — undo restores it)
     num_scenes = len(song.scenes)
-    ids_before = _ptr_set(song.scenes)
     gen = _run_method_probe(
         "delete_scene", [num_scenes // 2],
         check_fn=lambda: len(song.scenes) < num_scenes,
@@ -909,7 +398,6 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # delete_track (middle index — undo restores it)
     num_tracks = len(song.tracks)
-    ids_before = _ptr_set(song.tracks)
     gen = _run_method_probe(
         "delete_track", [num_tracks // 2],
         check_fn=lambda: len(song.tracks) < num_tracks,
@@ -919,7 +407,6 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # delete_return_track (middle index — undo restores it)
     num_rt = len(song.return_tracks)
-    ids_before = _ptr_set(song.return_tracks)
     gen = _run_method_probe(
         "delete_return_track", [num_rt // 2],
         check_fn=lambda: len(song.return_tracks) < num_rt,
@@ -928,7 +415,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     if r: methods["delete_return_track"] = r
 
     # ── Transport / position method probes ───────────────────────────────────
-    log("[song_props] Starting transport/position method probes")
+    log("[probe_song] Starting transport/position method probes")
 
     # start_playing
     gen = _run_method_probe(
@@ -948,7 +435,6 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["stop_playing"] = r
-    # Ensure stopped
     if song.is_playing:
         song.stop_playing()
         yield
@@ -974,11 +460,10 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # stop_all_clips — fire track 0 slot 0 clip, then probe stopping it
     clip_slot = song.tracks[0].clip_slots[0]
     orig_quant = song.clip_trigger_quantization
-    song.clip_trigger_quantization = 0  # type: ignore[assignment]  # Quantization enum accepts int at runtime
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]
     yield
     clip_slot.fire()
     yield
-    # Restore quantization before probe so snapshot captures original value
     song.clip_trigger_quantization = orig_quant
     yield
     gen = _run_method_probe(
@@ -991,14 +476,13 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     if song.is_playing:
         song.stop_playing()
         yield
-    # Firing the clip sets back_to_arranger (next_tick, so restore can't catch it)
     song.stop_all_clips(False)
     yield
     if song.back_to_arranger:
         song.back_to_arranger = False
         yield
 
-    # jump_by — move song position forward
+    # jump_by
     song.current_song_time = 0.0
     yield
     gen = _run_method_probe(
@@ -1010,7 +494,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # scrub_by — similar to jump_by
+    # scrub_by
     gen = _run_method_probe(
         "scrub_by", [4.0],
         check_fn=lambda: song.current_song_time >= 4.0,
@@ -1020,7 +504,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # jump_to_prev_cue — position past all cue points so we can jump back
+    # jump_to_prev_cue
     song.current_song_time = song.song_length
     yield
     gen = _run_method_probe(
@@ -1030,7 +514,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["jump_to_prev_cue"] = r
 
-    # jump_to_next_cue — position at start so we can jump forward
+    # jump_to_next_cue
     song.current_song_time = 0.0
     yield
     gen = _run_method_probe(
@@ -1045,9 +529,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     yield
 
     # ── Data store method probes ───────────────────────────────────────────────
-    log("[song_props] Starting data store method probes")
+    log("[probe_song] Starting data store method probes")
 
-    # set_data — store a test value, check it persists
     test_key = "__liverelay_probe_test"
     gen = _run_method_probe(
         "set_data", [test_key, "probe_value"],
@@ -1056,19 +539,16 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["set_data"] = r
-    # Clean up test key
     song.set_data(test_key, None)
     yield
 
-
     # ── State-changing methods with preconditions ───────────────────────────
-    log("[song_props] Starting precondition method probes")
+    log("[probe_song] Starting precondition method probes")
 
     # move_device — move Auto Filter from track 1 to end of track 0
     track0 = song.tracks[0]
     track1 = song.tracks[1]
     num_devs_t0 = len(track0.devices)
-    # Track 1 device 1 is Auto Filter (a simple audio effect, movable between tracks)
     device_to_move = track1.devices[1]
     gen = _run_method_probe(
         "move_device", [device_to_move, track0, num_devs_t0],
@@ -1077,7 +557,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["move_device"] = r
 
-    # trigger_session_record — starts session recording
+    # trigger_session_record
     gen = _run_method_probe(
         "trigger_session_record", [],
         check_fn=lambda: song.session_record,
@@ -1095,7 +575,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         yield
 
     # ── Song.View method probes ────────────────────────────────────────────────
-    log("[song_props] Starting Song.View method probes")
+    log("[probe_song] Starting Song.View method probes")
 
     view_methods = results["Song.View"].setdefault("methods", {})
 
@@ -1107,8 +587,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         check_fn=lambda: (song.appointed_device is not None
                           and song.appointed_device._live_ptr == target_device._live_ptr),
         cleanup_fn=None, fired=fired, probe_timing=probe_timing,
-        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets, log=log,
-        obj=view,
+        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
+        snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=view,
     )
     try:
         while True:
@@ -1119,7 +599,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             view_methods["select_device"] = e.value
 
     # ── CuePoint probes ─────────────────────────────────────────────────────
-    log("[song_props] Starting CuePoint probes")
+    log("[probe_song] Starting CuePoint probes")
 
     results["CuePoint"] = {"properties": {}, "methods": {}}
 
@@ -1128,7 +608,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     snap, snap_json = snapshot_properties(snapshot_targets)
     gen = probe_property(
         song, cue, "CuePoint", "name", "__probe_test__", fired, probe_timing,
-        snap, snap_json, snapshot_targets, log,
+        snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
     )
     try:
         while True:
@@ -1147,8 +627,8 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         song, "CuePoint", "jump", [],
         check_fn=lambda: song.current_song_time > 0.0,
         cleanup_fn=None, fired=fired, probe_timing=probe_timing,
-        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets, log=log,
-        obj=cue1,
+        snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
+        snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=cue1,
     )
     try:
         while True:
@@ -1165,8 +645,6 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     teardown_listeners(view, view_listeners)
 
     # Write results
-    import Live
-
     app: Live.Application.Application = Live.Application.get_application()
     version = f"{app.get_major_version()}.{app.get_minor_version()}.{app.get_bugfix_version()}"
     outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "stubs")
@@ -1184,11 +662,9 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         existing_classes[cls]["properties"].update(data.get("properties", {}))
         existing_classes[cls].setdefault("methods", {}).update(data.get("methods", {}))
 
-    # Merge behavioral notes into results (probed members get inline notes,
-    # unprobed members go into a top-level "notes" dict for downstream enrichment)
+    # Merge behavioral notes
     orphan_notes: dict[str, str] = {}
     for key, note in NOTES.items():
-        # Keys like "Song.View.select_device" — class name may contain dots
         placed = False
         for cls in existing_classes:
             if key.startswith(cls + "."):
@@ -1215,4 +691,4 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     total_props = sum(len(d.get("properties", {})) for d in results.values())
     total_methods = sum(len(d.get("methods", {})) for d in results.values())
-    log(f"[song_props] Done — {total_props} properties, {total_methods} methods probed in {elapsed}s, wrote {outpath}")
+    log(f"[probe_song] Done — {total_props} properties, {total_methods} methods probed in {elapsed}s, wrote {outpath}")

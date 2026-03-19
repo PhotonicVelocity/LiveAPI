@@ -227,6 +227,11 @@ class APICapture(ControlSurface):
             import importlib.util
             import inspect
 
+            # Add the script's directory to sys.path so it can import siblings
+            script_dir = os.path.dirname(script_path)
+            if script_dir not in sys.path:
+                sys.path.insert(0, script_dir)
+
             mod_name = "_targeted_probe"
             spec = importlib.util.spec_from_file_location(mod_name, script_path)
             if spec is None or spec.loader is None:
@@ -234,6 +239,8 @@ class APICapture(ControlSurface):
                 return
             mod = importlib.util.module_from_spec(spec)
             sys.modules.pop(mod_name, None)
+            # Also clear cached probe base module so it picks up changes on reload
+            sys.modules.pop("_probe_base", None)
             spec.loader.exec_module(mod)
             if not hasattr(mod, "run"):
                 self.log_message(f"Targeted probe error: {script_path} has no run() function")
