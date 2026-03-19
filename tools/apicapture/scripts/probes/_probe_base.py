@@ -30,23 +30,49 @@ def fuzzy_eq(a: Any, b: Any) -> bool:
     if isinstance(a, LomObject) and isinstance(b, LomObject):
         return a._live_ptr == b._live_ptr
     if isinstance(a, (Vector, IntVector)) and isinstance(b, (Vector, IntVector)):
-        return _vector_key(a) == _vector_key(b)
+        return _seq_key(a) == _seq_key(b)
+    # Generic iterable comparison (RoutingTypeVector, StringVector, etc.)
+    # Only if both have __len__ and __iter__ (duck-typed containers).
+    if hasattr(a, "__len__") and hasattr(b, "__len__") and not isinstance(a, (str, bytes)):
+        try:
+            return _seq_key(a) == _seq_key(b)
+        except (TypeError, RuntimeError):
+            pass
     return a == b
 
 
-def _vector_key(vec: Vector | IntVector) -> list:  # type: ignore[type-arg]
-    """Convert a Vector to a comparable list — ptrs for LomObjects, values for primitives."""
-    return [item._live_ptr if isinstance(item, LomObject) else item for item in vec]
+def _seq_key(seq: Any) -> list:
+    """Convert a sequence to a comparable list — ptrs for LomObjects, values for primitives."""
+    return [item._live_ptr if isinstance(item, LomObject) else item for item in seq]
 
 
 def json_safe(val: Any) -> Any:
-    """Return val as-is if JSON-serializable, otherwise use _live_ptr or repr()."""
+    """Return val as-is if JSON-serializable, otherwise use _live_ptr or repr().
+
+    Handles Live API objects by type:
+    - LomObject → "ptr:<id>"
+    - Vector/IntVector → list of ptr or primitive values
+    - Objects with display_name (RoutingType, RoutingChannel) → display_name string
+    - Iterables of JSON-safe items (StringVector, etc.) → list
+    """
     if val is None or isinstance(val, (bool, int, float, str)):
         return val
     if isinstance(val, LomObject):
         return f"ptr:{val._live_ptr}"
     if isinstance(val, (Vector, IntVector)):
         return [f"ptr:{item._live_ptr}" if isinstance(item, LomObject) else item for item in val]
+    # Objects with display_name (RoutingType, RoutingChannel, etc.)
+    display_name = getattr(val, "display_name", None)
+    if display_name is not None:
+        return display_name
+    # Iterable containers (StringVector, RoutingTypeVector, RoutingChannelVector, etc.)
+    try:
+        items = list(val)
+        if items and all(isinstance(item, (bool, int, float, str)) for item in items):
+            return items
+        return [json_safe(item) for item in items]
+    except (TypeError, RuntimeError):
+        pass
     return repr(val)
 
 
