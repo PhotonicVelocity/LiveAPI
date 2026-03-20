@@ -91,6 +91,7 @@ SNAPSHOT_EXTRA: dict[str, set[str]] = {}
 
 CROSS_MODULE_LISTENERS: dict[str, list[str]] = {
     "Song": ["is_playing", "back_to_arranger"],
+    "ClipSlot": ["playing_status", "is_triggered"],
 }
 
 
@@ -117,13 +118,17 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Set up listeners and snapshot targets on the clip
     clip_listenable = discover_listenable(clip, LISTENER_EXCLUDE)
+    clip_slot = track.clip_slots[0]
     cross_song_props = CROSS_MODULE_LISTENERS.get("Song", [])
+    cross_slot_props = CROSS_MODULE_LISTENERS.get("ClipSlot", [])
     snapshot_targets = [
         (clip, "Clip", discover_snapshot_props(clip_listenable, "Clip", LISTENER_EXCLUDE, SNAPSHOT_EXTRA)),
         (song, "Song", cross_song_props),
+        (clip_slot, "ClipSlot", cross_slot_props),
     ]
     clip_listeners = setup_listeners(clip, "Clip", clip_listenable, fired, probe_timing, log)
     song_listeners = setup_listeners(song, "Song", cross_song_props, fired, probe_timing, log)
+    slot_listeners = setup_listeners(clip_slot, "ClipSlot", cross_slot_props, fired, probe_timing, log)
     yield
 
     # Switch to session view
@@ -370,6 +375,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     # Tear down listeners
     teardown_listeners(clip, clip_listeners)
     teardown_listeners(song, song_listeners)
+    teardown_listeners(clip_slot, slot_listeners)
 
     # Write results
     app: Live.Application.Application = Live.Application.get_application()
