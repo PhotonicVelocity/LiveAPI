@@ -260,24 +260,6 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["crop"] = r
 
-    # duplicate_region — duplicate a region of the clip (MIDI only)
-    orig_loop_end2 = clip.loop_end
-    gen = _run_method_probe(
-        "duplicate_region", [0.0, 4.0, clip.loop_end],  # start, length, dest_time
-        check_fn=lambda: clip.loop_end > orig_loop_end2,
-        effect="Clip.loop_end", effect_obj=clip,
-    )
-    r = yield from gen
-    if r: methods["duplicate_region"] = r
-
-    # quantize — quantize all notes (MIDI only, but shouldn't error on audio)
-    gen = _run_method_probe(
-        "quantize", [4, 1.0],  # grid=1/16, amount=100%
-        check_fn=lambda: False,  # no easily observable property change
-    )
-    r = yield from gen
-    if r: methods["quantize"] = r
-
     # move_playing_pos — move the play position within the clip
     # Need clip to be playing first
     song.clip_trigger_quantization = 0  # type: ignore[assignment]
