@@ -414,18 +414,39 @@ def probe_method(
     This is a generator — each yield crosses a tick boundary.
 
     Args:
-        effect: optional "Class.prop" string identifying the primary effect (e.g. "Song.tracks").
-            If provided, that entry is promoted from side_effects to a top-level "effect" field.
+        effect: "Class.prop" string identifying the primary effect (e.g. "Song.tracks").
+            The method's async_visibility, undo_tracked, from/to, and listener data are
+            measured on this property. It is recorded as the top-level "effect" field and
+            excluded from side_effects.
+        check_fn: () -> bool — fallback for detecting the effect when the named property
+            isn't in the listener/snapshot system. Used for async visibility detection.
     """
     result: dict[str, Any] = {}
     if args:
         result["args"] = [json_safe(a) for a in args]
 
     try:
+        # Resolve the effect property for direct measurement.
+        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
+        effect_cls = effect_prop = None
+        effect_obj = None
+        effect_key = None
+        effect_orig = None
+        if effect:
+            effect_cls, effect_prop = effect.split(".", 1)
+            effect_obj = obj_by_cls.get(effect_cls)
+            effect_key = (effect_cls, effect_prop)
+            if effect_obj is not None:
+                try:
+                    effect_orig = getattr(effect_obj, effect_prop)
+                except Exception:
+                    pass
+
         # 1. Clear fired listeners.
         fired.clear()
-        probe_timing["target"] = None
+        probe_timing["target"] = effect_key
         probe_timing["set_time"] = _time_module.monotonic()
+        probe_timing["listener_time"] = None
 
         # 2. begin_undo_step, call method, end_undo_step.
         target = obj if obj is not None else song
@@ -433,23 +454,34 @@ def probe_method(
         getattr(target, method)(*args)
         song.end_undo_step()
 
-        # 3. Check effect immediately.
-        is_immediate = check_fn()
+        # 3. Check effect immediately — use the named property if available, else check_fn.
+        if effect_obj is not None and effect_orig is not None:
+            try:
+                readback = getattr(effect_obj, effect_prop)
+                is_immediate = not fuzzy_eq(readback, effect_orig)
+            except Exception:
+                is_immediate = check_fn()
+        else:
+            is_immediate = check_fn()
 
         # 4. Yield to next tick.
         yield
 
-        # 5. If not immediate, check again.
+        # 5. Classify async visibility.
         if is_immediate:
-            result["async_visibility"] = "immediate"
+            async_vis = "immediate"
         else:
-            if check_fn():
-                result["async_visibility"] = "next_tick"
+            if effect_obj is not None and effect_orig is not None:
+                try:
+                    readback_next = getattr(effect_obj, effect_prop)
+                    has_effect = not fuzzy_eq(readback_next, effect_orig)
+                except Exception:
+                    has_effect = check_fn()
             else:
-                result["async_visibility"] = "no_effect"
+                has_effect = check_fn()
+            async_vis = "next_tick" if has_effect else "no_effect"
 
-        # 6. Collect side effects.
-        obj_by_cls = {c: o for o, c, _ in snapshot_targets}
+        # 6. Collect side effects from fired listeners.
         side_effects = []
         seen_keys: set[tuple[str, str]] = set()
         for c, p, dt in fired:
@@ -469,21 +501,67 @@ def probe_method(
             snapshot, snap_json, obj_by_cls, seen_keys, snapshot_extra,
         ))
 
-        # 7. Clear fired and undo.
+        # 7. Build the primary effect entry.
+        effect_data: dict[str, Any] | None = None
+        if effect:
+            effect_data = {"label": effect_cls, "prop": effect_prop}
+            effect_data["async_visibility"] = async_vis
+            # Capture from/to on the effect property.
+            if effect_key in snapshot:
+                effect_data["from"] = snap_json[effect_key]
+            if effect_obj is not None:
+                try:
+                    after_val = getattr(effect_obj, effect_prop)
+                    effect_data["to"] = json_safe(after_val)
+                    effect_data["_raw_after"] = after_val
+                except Exception:
+                    pass
+            # Capture listener latency if the effect's listener fired.
+            if probe_timing["listener_time"] is not None:
+                dt = probe_timing["listener_time"] - probe_timing["set_time"]
+                effect_data["listener_latency_ms"] = round(dt * 1000, 1)
+            probe_timing["target"] = None
+
+        # 8. Clear fired and undo.
         fired.clear()
         song.undo()
 
-        # 8. Yield to next tick.
+        # 9. Yield to next tick.
         yield
 
-        # 9. Check effect gone → undo_tracked.
-        if result.get("async_visibility") == "no_effect":
-            result["undo_tracked"] = "n/a"
+        # 10. Check undo tracking on the effect property.
+        if async_vis == "no_effect":
+            undo_tracked = "n/a"
+        elif effect_obj is not None and effect_orig is not None:
+            try:
+                after_undo = getattr(effect_obj, effect_prop)
+                undo_tracked = fuzzy_eq(after_undo, effect_orig)
+            except Exception:
+                undo_tracked = not check_fn()
         else:
-            result["undo_tracked"] = not check_fn()
+            undo_tracked = not check_fn()
 
-        # 10. Check which side effects fired during undo and whether values restored.
+        # 11. Check undo behavior on side effects and the primary effect.
         undo_fired = {(c, p) for c, p, _ in fired}
+
+        if effect_data is not None:
+            effect_data["undo_tracked"] = undo_tracked
+            effect_data["undo_fires_listener"] = effect_key in undo_fired
+            # Check undo_result on the effect property.
+            if effect_key in snapshot and effect_obj is not None:
+                try:
+                    current = getattr(effect_obj, effect_prop)
+                    if fuzzy_eq(current, snapshot[effect_key]):
+                        effect_data["undo_result"] = "restored"
+                    elif "_raw_after" in effect_data and fuzzy_eq(current, effect_data["_raw_after"]):
+                        effect_data["undo_result"] = "unchanged"
+                    else:
+                        effect_data["undo_result"] = "changed"
+                        effect_data["undo_value"] = json_safe(current)
+                except Exception:
+                    pass
+            effect_data.pop("_raw_after", None)
+
         for se in side_effects:
             key = (se["label"], se["prop"])
             se["undo_fires_listener"] = key in undo_fired
@@ -501,19 +579,18 @@ def probe_method(
                     pass
             se.pop("_raw_after", None)
 
-        # Promote primary effect from side_effects to top-level "effect" field.
-        if effect:
-            effect_cls, effect_prop = effect.split(".", 1)
-            primary = None
-            remaining = []
-            for se in side_effects:
-                if se.get("label") == effect_cls and se.get("prop") == effect_prop and primary is None:
-                    primary = se
-                else:
-                    remaining.append(se)
-            if primary is not None:
-                result["effect"] = primary
-                side_effects = remaining
+        # Remove the primary effect from side_effects (if it was captured there too).
+        if effect_key:
+            side_effects = [se for se in side_effects
+                           if not (se.get("label") == effect_cls and se.get("prop") == effect_prop)]
+
+        # Write results.
+        if effect_data is not None:
+            result["effect"] = effect_data
+        else:
+            # No named effect — put async/undo at top level (legacy format).
+            result["async_visibility"] = async_vis
+            result["undo_tracked"] = undo_tracked
 
         if side_effects:
             result["side_effects"] = side_effects

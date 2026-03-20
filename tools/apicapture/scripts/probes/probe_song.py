@@ -551,6 +551,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "set_data", [test_key, "probe_value"],
         check_fn=lambda: song.get_data(test_key, None) == "probe_value",
         cleanup_fn=lambda: song.set_data(test_key, None),
+        effect="Song.data",
     )
     r = yield from gen
     if r: methods["set_data"] = r
