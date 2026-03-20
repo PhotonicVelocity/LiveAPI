@@ -15,7 +15,6 @@ Pipeline steps:
 5c. build_type_map — build C++ → Python type mapping from signature pairs (stored in ctx, no tree changes)
 5d. resolve_signatures — resolve raw signature parts into clean structured args and returns
 6. merge_probe_data — merge runtime probe results (LiveClasses.json) onto matching tree nodes
-7. merge_behavioral_data — merge targeted probe results (ProbeResults.json) onto matching tree nodes
 
 Usage:
     python tools/parse/parse_apicapture_results.py 12.3.6
@@ -1203,107 +1202,6 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return tree
 
 
-def merge_behavioral_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
-    """Merge targeted probe results (ProbeResults.json) onto matching tree nodes.
-
-    Stamps behavioral_async, behavioral_notes, and behavioral_effect onto property and method
-    nodes. These fields are used by generate_stubs.py to append Notes: sections to docstrings.
-    Skips gracefully if no behavioral data is available in ctx.
-    """
-    behavioral: dict[str, Any] = ctx.get("behavioral_data", {})
-    classes = behavioral.get("classes", {})
-    if not classes:
-        return tree
-
-    stamped_props = 0
-    stamped_methods = 0
-
-    def _find_class_node(probe_name: str) -> dict | None:
-        """Find a class node in the tree matching a probe class name like 'Song' or 'Song.View'."""
-        parts = probe_name.split(".")
-        # Navigate into tree["tree"] if the root is a wrapper dict
-        root = tree.get("tree", tree) if isinstance(tree, dict) else tree
-        for module in root.get("children", []):
-            if not isinstance(module, dict) or module.get("type") != "module":
-                continue
-            for child in module.get("children", []):
-                if isinstance(child, dict) and child.get("type") == "class" and child.get("name") == parts[0]:
-                    node = child
-                    for inner in parts[1:]:
-                        found = None
-                        for c in node.get("children", []):
-                            if isinstance(c, dict) and c.get("type") == "class" and c.get("name") == inner:
-                                found = c
-                                break
-                        if found is None:
-                            return None
-                        node = found
-                    return node
-        return None
-
-    def _simplify_side_effects(raw_effects: list[dict]) -> list[dict[str, str]]:
-        """Reduce side effects to unique (class, prop) pairs."""
-        seen: set[tuple[str, str]] = set()
-        result = []
-        for effect in raw_effects:
-            key = (effect.get("label", ""), effect.get("prop", ""))
-            if key not in seen:
-                seen.add(key)
-                result.append({"class": key[0], "prop": key[1]})
-        return result
-
-    for probe_cls_name, cls_entry in classes.items():
-        class_node = _find_class_node(probe_cls_name)
-        if class_node is None:
-            continue
-
-        children = class_node.get("children", [])
-
-        # Stamp properties
-        for prop_name, prop_data in cls_entry.get("properties", {}).items():
-            for child in children:
-                if child.get("name") == prop_name and child.get("type") in ("property", "getset_descriptor"):
-                    child["behavioral_async"] = prop_data.get("async_visibility")
-                    child["behavioral_undo"] = prop_data.get("undo_tracked")
-                    notes = prop_data.get("notes")
-                    if notes:
-                        child["behavioral_notes"] = notes
-                    side_effects = prop_data.get("side_effects")
-                    if side_effects:
-                        child["behavioral_side_effects"] = _simplify_side_effects(side_effects)
-                    stamped_props += 1
-                    break
-
-        # Stamp methods
-        for method_name, method_data in cls_entry.get("methods", {}).items():
-            for child in children:
-                if child.get("name") == method_name and child.get("type") in (
-                    "function", "builtin_function_or_method", "method_descriptor",
-                ):
-                    effect = method_data.get("effect")
-                    if effect:
-                        child["behavioral_effect"] = {
-                            "label": effect.get("label"),
-                            "prop": effect.get("prop"),
-                        }
-                        child["behavioral_async"] = effect.get("async_visibility")
-                        child["behavioral_undo"] = effect.get("undo_tracked")
-                    else:
-                        child["behavioral_async"] = method_data.get("async_visibility")
-                        child["behavioral_undo"] = method_data.get("undo_tracked")
-                    notes = method_data.get("notes")
-                    if notes:
-                        child["behavioral_notes"] = notes
-                    side_effects = method_data.get("side_effects")
-                    if side_effects:
-                        child["behavioral_side_effects"] = _simplify_side_effects(side_effects)
-                    stamped_methods += 1
-                    break
-
-    ctx["stats"]["behavioral_properties"] = stamped_props
-    ctx["stats"]["behavioral_methods"] = stamped_methods
-    return tree
-
 
 # ------------------------------------------------------------------------------- #
 # Pipeline
@@ -1320,7 +1218,6 @@ STEPS: list[PipelineStep] = [
     build_type_map,
     resolve_signatures,
     merge_probe_data,
-    merge_behavioral_data,
 ]
 
 
@@ -1388,11 +1285,6 @@ def main() -> None:
     if probe_path.exists():
         with open(probe_path, "r", encoding="utf-8") as f:
             ctx["probe_data"] = json.load(f)
-
-    behavioral_path = pipeline_dir / "ProbeResults.json"
-    if behavioral_path.exists():
-        with open(behavioral_path, "r", encoding="utf-8") as f:
-            ctx["behavioral_data"] = json.load(f)
 
     parsed, ctx = run_pipeline(data, ctx)
     stats = ctx.get("stats", {})

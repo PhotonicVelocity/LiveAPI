@@ -354,7 +354,7 @@ class StubGenerator:
 
         buf.write(f"\n\n{pad}def {name}({args_str}) -> {ret_type}:")
 
-        doc = node.get("description")
+        doc = self._append_behavioral_notes(node.get("description"), node, is_method=True)
         if doc:
             self._write_docstring(doc, buf, indent + 1)
 
@@ -399,7 +399,7 @@ class StubGenerator:
         buf.write(f"\n\n{pad}@property")
         buf.write(f"\n{pad}def {name}(self){ret_annotation}:")
 
-        doc = node.get("raw_doc")
+        doc = self._append_behavioral_notes(node.get("raw_doc"), node)
         if doc:
             self._write_docstring(doc, buf, indent + 1)
 
@@ -653,6 +653,35 @@ class StubGenerator:
             return f"Vector[{elem}]"
         return "Vector"
 
+    def _behavioral_notes(self, node: dict, *, is_method: bool = False) -> list[str]:
+        """Build behavioral note bullets from stamped probe data."""
+        notes = []
+        async_vis = node.get("behavioral_async")
+        if async_vis == "next_tick":
+            if is_method:
+                effect = node.get("behavioral_effect")
+                if effect:
+                    prop = f"``{effect['label']}.{effect['prop']}``"
+                    notes.append(f"{prop} is not readable until the next tick.")
+                else:
+                    notes.append("Effect is not visible until the next tick.")
+            else:
+                notes.append("Value is not readable until the next tick after setting.")
+        behavioral_notes = node.get("behavioral_notes")
+        if behavioral_notes:
+            notes.append(behavioral_notes)
+        return notes
+
+    def _append_behavioral_notes(self, doc: str | None, node: dict, *, is_method: bool = False) -> str | None:
+        """Append a Notes: section to a docstring if there are behavioral notes."""
+        bullets = self._behavioral_notes(node, is_method=is_method)
+        if not bullets:
+            return doc
+        notes_block = "Notes:\n\n" + "\n".join(f"- {b}" for b in bullets)
+        if doc:
+            return f"{doc.rstrip()}\n\n{notes_block}"
+        return notes_block
+
     def _write_docstring(self, doc: str, buf: StringIO, indent: int) -> None:
         """Write a docstring at the given indent level."""
         pad = "    " * indent
@@ -666,7 +695,7 @@ class StubGenerator:
                 if stripped:
                     buf.write(f"\n{pad}{stripped}")
                 else:
-                    buf.write("")
+                    buf.write("\n")
             buf.write(f'\n{pad}"""')
 
 
