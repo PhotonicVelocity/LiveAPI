@@ -436,7 +436,7 @@ def probe_method(
         _effect_key = None
         _effect_orig = None
         if effect:
-            _effect_cls, _effect_prop = effect.split(".", 1)
+            _effect_cls, _effect_prop = effect.rsplit(".", 1)
             _effect_obj = effect_obj if effect_obj is not None else obj_by_cls.get(_effect_cls)
             _effect_key = (_effect_cls, _effect_prop)
             if _effect_obj is not None:
@@ -605,7 +605,8 @@ def probe_method(
             yield
 
         # 12. If undo didn't work, run cleanup.
-        if result["undo_tracked"] is not True and cleanup_fn:
+        effective_undo = undo_tracked if effect_data is not None else result.get("undo_tracked")
+        if effective_undo is not True and cleanup_fn:
             cleanup_fn()
             yield
 

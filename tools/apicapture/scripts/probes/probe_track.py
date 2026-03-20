@@ -395,7 +395,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         cleanup_fn=None, fired=fired, probe_timing=probe_timing,
         snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
         snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=audio_track,
-        effect="Track.arrangement_clips",
+        effect="Track.arrangement_clips", effect_obj=audio_track,
     )
     try:
         while True:
@@ -447,7 +447,11 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     view_methods = results["Track.View"].setdefault("methods", {})
 
-    # select_instrument — selects the track's instrument device
+    # select_instrument — select a non-instrument device first, then probe select_instrument
+    # Track 0 device 1 is Utility (not the instrument), device 0 is Drift (the instrument)
+    song.view.select_device(track.devices[1])
+    yield
+    yield
     gen = _run_method_probe(
         "select_instrument", [],
         check_fn=lambda: False,
