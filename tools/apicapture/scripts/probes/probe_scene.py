@@ -54,6 +54,20 @@ NOTES: dict[str, str] = {
         "With quantization, the effect is on ``is_triggered``. "
         "Supports press/release for Gate and Repeat launch modes."
     ),
+    "Scene.tempo": (
+        "Setting a value auto-enables ``tempo_enabled``. "
+        "A value of ``-1`` means 'use song tempo'."
+    ),
+    "Scene.time_signature_denominator": (
+        "Setting a value auto-enables ``time_signature_enabled`` and initializes "
+        "``time_signature_numerator`` to ``4`` if unset. "
+        "A value of ``-1`` means 'use song time signature'."
+    ),
+    "Scene.time_signature_numerator": (
+        "Setting a value auto-enables ``time_signature_enabled`` and initializes "
+        "``time_signature_denominator`` to ``4`` if unset. "
+        "A value of ``-1`` means 'use song time signature'."
+    ),
 }
 
 
