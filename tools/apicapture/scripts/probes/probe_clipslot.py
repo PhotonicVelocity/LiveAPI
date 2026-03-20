@@ -42,7 +42,15 @@ SKIP_UNDO: set[str] = set()
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
 
-NOTES: dict[str, str] = {}
+NOTES: dict[str, str] = {
+    "ClipSlot.fire": (
+        "With quantization, the effect is on ``is_triggered``."
+    ),
+    "ClipSlot.set_fire_button_state": (
+        "With quantization, the effect is on ``is_triggered``. "
+        "Supports press/release for Gate and Repeat launch modes."
+    ),
+}
 
 
 # ── Module-specific config ────────────────────────────────────────────────────
