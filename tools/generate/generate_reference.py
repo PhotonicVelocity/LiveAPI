@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import argparse
 import ast
+import json
 import re
 import subprocess
 import sys
@@ -200,6 +201,54 @@ AccessMap = dict[str, list[tuple[str, str, str]]]
 
 # Members to exclude from access-via (parent references, not useful for discovery)
 ACCESS_VIA_SKIP_MEMBERS = {"canonical_parent", "_live_ptr"}
+
+
+class BehavioralLookup:
+    """Load and query ProbeResults.json for behavioral metadata."""
+
+    def __init__(self, path: Path):
+        with open(path) as f:
+            data = json.load(f)
+        self._classes: dict = data.get("classes", {})
+        self._notes: dict = data.get("notes", {})
+
+    def get_property(self, class_name: str, prop_name: str) -> dict | None:
+        return self._classes.get(class_name, {}).get("properties", {}).get(prop_name)
+
+    def get_method(self, class_name: str, method_name: str) -> dict | None:
+        return self._classes.get(class_name, {}).get("methods", {}).get(method_name)
+
+    def get_orphan_note(self, key: str) -> str | None:
+        return self._notes.get(key)
+
+
+def _strip_notes_section(docstring: str) -> str:
+    """Strip the Notes: section from a docstring (added by generate_stubs)."""
+    if "Notes:" not in docstring:
+        return docstring
+    return docstring.split("Notes:")[0].rstrip()
+
+
+def _build_notes_bullets(bdata: dict, *, is_method: bool = False) -> list[str]:
+    """Build Notes bullets from behavioral probe data."""
+    bullets = []
+    # Notes from NOTES dict
+    notes = bdata.get("notes")
+    if notes:
+        # Convert RST backticks to markdown
+        bullets.append(notes.replace("``", "`"))
+    # Side effects
+    side_effects = bdata.get("side_effects", [])
+    if side_effects:
+        seen: set[tuple[str, str]] = set()
+        refs = []
+        for se in side_effects:
+            key = (se.get("label", ""), se.get("prop", ""))
+            if key not in seen:
+                seen.add(key)
+                refs.append(f"`{key[0]}.{key[1]}`")
+        bullets.append(f"Side effects may include: {', '.join(refs)}.")
+    return bullets
 
 
 # ---------------------------------------------------------------------------
@@ -498,6 +547,8 @@ def _render_class_body(
     access_map: AccessMap | None = None,
     title: str | None = None,
     skip_enums: bool = False,
+    behavioral: BehavioralLookup | None = None,
+    behavioral_class_name: str = "",
 ) -> list[str]:
     """Render a class section (heading, description, properties, methods, enums).
 
@@ -570,10 +621,26 @@ def _render_class_body(
             lines.append(f"- **Type:** `{prop.type}`")
             lines.append(f"- **Settable:** `{'yes' if prop.settable else 'no'}`")
             lines.append(f"- **Listenable:** `{'yes' if prop.listenable else 'no'}`")
+            bdata = behavioral.get_property(behavioral_class_name, prop.name) if behavioral else None
+            if bdata:
+                async_vis = bdata.get("async_visibility")
+                if async_vis:
+                    lines.append(f"- **Async:** `{async_vis}`")
+                undo = bdata.get("undo_tracked")
+                if undo is not None:
+                    lines.append(f"- **Undo:** `{'yes' if undo is True else 'no' if undo is False else undo}`")
             lines.append("")
             if prop.docstring:
-                lines.append(prop.docstring)
+                lines.append(_strip_notes_section(prop.docstring))
                 lines.append("")
+            if bdata:
+                bullets = _build_notes_bullets(bdata)
+                if bullets:
+                    lines.append("**Notes:**")
+                    lines.append("")
+                    for b in bullets:
+                        lines.append(f"- {b}")
+                    lines.append("")
 
     # --- Methods ---
     if cls.methods:
@@ -599,10 +666,36 @@ def _render_class_body(
                 lines.append("- **Args:**")
                 for arg_line in format_args_detail(method.args):
                     lines.append(arg_line)
+            bdata = behavioral.get_method(behavioral_class_name, method.name) if behavioral else None
+            if bdata:
+                effect = bdata.get("effect")
+                if effect:
+                    lines.append(f"- **Effect:** `{effect.get('label')}.{effect.get('prop')}`")
+                    async_vis = effect.get("async_visibility")
+                    if async_vis:
+                        lines.append(f"- **Async:** `{async_vis}`")
+                    undo = effect.get("undo_tracked")
+                    if undo is not None:
+                        lines.append(f"- **Undo:** `{'yes' if undo is True else 'no' if undo is False else undo}`")
+                else:
+                    async_vis = bdata.get("async_visibility")
+                    if async_vis:
+                        lines.append(f"- **Async:** `{async_vis}`")
+                    undo = bdata.get("undo_tracked")
+                    if undo is not None:
+                        lines.append(f"- **Undo:** `{'yes' if undo is True else 'no' if undo is False else undo}`")
             lines.append("")
             if method.docstring:
-                lines.append(method.docstring)
+                lines.append(_strip_notes_section(method.docstring))
                 lines.append("")
+            if bdata:
+                bullets = _build_notes_bullets(bdata, is_method=True)
+                if bullets:
+                    lines.append("**Notes:**")
+                    lines.append("")
+                    for b in bullets:
+                        lines.append(f"- {b}")
+                    lines.append("")
 
     # --- Class-level enums (e.g. enums inside View) ---
     if not skip_enums and cls.enums:
@@ -699,6 +792,7 @@ def generate_page_markdown(
     module_functions: list[MethodInfo],
     module_classes: list[ClassInfo],
     access_map: AccessMap | None = None,
+    behavioral: BehavioralLookup | None = None,
 ) -> str:
     """Generate the full markdown page for a namespace.
 
@@ -720,14 +814,19 @@ def generate_page_markdown(
         # --- Primary class (properties/methods, enums hoisted to module level) ---
         lines.extend(
             _render_class_body(
-                primary_class, 2, access_map, title=f"{primary_class.name} (Class)", skip_enums=True
+                primary_class, 2, access_map, title=f"{primary_class.name} (Class)", skip_enums=True,
+                behavioral=behavioral, behavioral_class_name=primary_class.name,
             )
         )
 
         # --- Inner classes (View, etc.) rendered AFTER the primary class ---
         for inner in primary_class.inner_classes:
             title = f"{primary_class.name}.{inner.name} (Subclass)"
-            lines.extend(_render_class_body(inner, 2, access_map, title=title, skip_enums=True))
+            bcn = f"{primary_class.name}.{inner.name}"
+            lines.extend(_render_class_body(
+                inner, 2, access_map, title=title, skip_enums=True,
+                behavioral=behavioral, behavioral_class_name=bcn,
+            ))
 
         # --- Enums — collect from primary class, inner classes, and module level ---
         ns_path = primary_class.namespace  # e.g. "Live.Application"
@@ -740,7 +839,10 @@ def generate_page_markdown(
 
         # --- Types — module-level helper classes at same heading level ---
         for type_cls in module_classes:
-            lines.extend(_render_class_body(type_cls, 2, access_map, title=f"{type_cls.name} (Type)"))
+            lines.extend(_render_class_body(
+                type_cls, 2, access_map, title=f"{type_cls.name} (Type)",
+                behavioral=behavioral, behavioral_class_name=type_cls.name,
+            ))
 
         # --- Module functions ---
         if module_functions:
@@ -757,11 +859,18 @@ def generate_page_markdown(
             for cls in module_classes:
                 all_enums.extend(_collect_enums_with_paths(cls, ns_path))
                 lines.extend(
-                    _render_class_body(cls, 2, access_map, title=f"{cls.name} (Class)", skip_enums=True)
+                    _render_class_body(
+                        cls, 2, access_map, title=f"{cls.name} (Class)", skip_enums=True,
+                        behavioral=behavioral, behavioral_class_name=cls.name,
+                    )
                 )
                 for inner in cls.inner_classes:
                     title = f"{cls.name}.{inner.name} (Subclass)"
-                    lines.extend(_render_class_body(inner, 2, access_map, title=title, skip_enums=True))
+                    bcn = f"{cls.name}.{inner.name}"
+                    lines.extend(_render_class_body(
+                        inner, 2, access_map, title=title, skip_enums=True,
+                        behavioral=behavioral, behavioral_class_name=bcn,
+                    ))
 
         if all_enums:
             lines.extend(_render_enums_section(all_enums, "##", "###"))
@@ -968,10 +1077,12 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Generate reference docs from .pyi stubs")
     parser.add_argument("--stubs", default="stubs/12.3.6/Live", help="Path to Live stubs directory")
     parser.add_argument("--output", default="reference", help="Output directory for generated markdown")
+    parser.add_argument("--behavioral", help="Path to ProbeResults.json for behavioral metadata")
     args = parser.parse_args()
 
     stubs_dir = Path(args.stubs)
     output_dir = Path(args.output)
+    behavioral = BehavioralLookup(Path(args.behavioral)) if args.behavioral else None
 
     if not stubs_dir.exists():
         print(f"Error: stubs directory not found: {stubs_dir}", file=sys.stderr)
@@ -1009,6 +1120,7 @@ def main() -> None:
             ns_data.module_functions,
             ns_data.module_classes,
             access_map=access_map,
+            behavioral=behavioral,
         )
         out_file = output_dir / ns_relpath(ns_name)
         out_file.parent.mkdir(parents=True, exist_ok=True)
