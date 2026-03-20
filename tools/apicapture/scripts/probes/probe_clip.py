@@ -15,8 +15,10 @@ Skipped members:
     - replace_selected_notes — needs selected notes
     - groove — needs a Groove object (demo set has none)
     - position — only meaningful while clip is playing
-    - is_playing (settable) — transport control, deferred
-    - quantize, quantize_pitch, duplicate_region, duplicate_notes_by_id — MIDI-only
+    - quantize_pitch, duplicate_notes_by_id — need specific note IDs
+    - set_notes, apply_note_modifications — need note data structures
+    - select_notes_by_id — needs note IDs
+    - get_notes*, get_selected_notes* — read-only
 """
 
 from __future__ import annotations
@@ -320,6 +322,69 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["stop_scrub"] = r
+
+    # ── MIDI / session clip specific ─────────────────────────────────────────
+    log("[probe_clip] Starting MIDI/session-specific probes")
+
+    # is_playing (settable on session clips — starts/stops clip playback)
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]
+    yield
+    snap, snap_json = snapshot_properties(snapshot_targets)
+    gen = probe_property(
+        song, clip, "Clip", "is_playing", True, fired, probe_timing,
+        snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+    )
+    try:
+        while True:
+            next(gen)
+            yield
+    except StopIteration as e:
+        if e.value is not None:
+            results["Clip"]["properties"]["is_playing"] = e.value
+    song.clip_trigger_quantization = orig_quant
+    if song.is_playing:
+        song.stop_playing()
+        yield
+    song.stop_all_clips(False)
+    yield
+    if song.back_to_arranger:
+        song.back_to_arranger = False
+        yield
+    song.current_song_time = 0.0
+    yield
+
+    # quantize — quantize all notes to grid
+    gen = _run_method_probe(
+        "quantize", [4, 1.0],  # grid=1/16, amount=100%
+        check_fn=lambda: False,  # no easily observable property change
+    )
+    r = yield from gen
+    if r: methods["quantize"] = r
+
+    # duplicate_region — duplicate notes in a region
+    orig_loop_end3 = clip.loop_end
+    gen = _run_method_probe(
+        "duplicate_region", [0.0, 4.0, clip.loop_end],  # start, length, dest_time
+        check_fn=lambda: clip.loop_end > orig_loop_end3,
+        effect="Clip.loop_end", effect_obj=clip,
+    )
+    r = yield from gen
+    if r: methods["duplicate_region"] = r
+
+    # select_all_notes / deselect_all_notes
+    gen = _run_method_probe(
+        "select_all_notes", [],
+        check_fn=lambda: False,
+    )
+    r = yield from gen
+    if r: methods["select_all_notes"] = r
+
+    gen = _run_method_probe(
+        "deselect_all_notes", [],
+        check_fn=lambda: False,
+    )
+    r = yield from gen
+    if r: methods["deselect_all_notes"] = r
 
     # ── Audio-specific properties ─────────────────────────────────────────────
     # Use track 10 (Vocal Main) which has audio clips
