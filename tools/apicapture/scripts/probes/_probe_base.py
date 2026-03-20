@@ -533,12 +533,17 @@ def probe_method(
         yield
 
         # 10. Check undo tracking on the effect property.
+        #     For collections (Vector, etc.), compare by length since undo may restore
+        #     items with different _live_ptr values (new wrapper objects).
         if async_vis == "no_effect":
             undo_tracked = "n/a"
         elif _effect_obj is not None and _effect_orig is not None:
             try:
                 after_undo = getattr(_effect_obj, _effect_prop)
-                undo_tracked = fuzzy_eq(after_undo, _effect_orig)
+                if hasattr(_effect_orig, "__len__") and not isinstance(_effect_orig, (str, bytes)):
+                    undo_tracked = len(after_undo) == len(_effect_orig)
+                else:
+                    undo_tracked = fuzzy_eq(after_undo, _effect_orig)
             except Exception:
                 undo_tracked = not check_fn()
         else:

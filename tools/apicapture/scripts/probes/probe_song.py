@@ -126,6 +126,15 @@ NOTES: dict[str, str] = {
         "Does not fire the ``appointed_device`` listener even when "
         "``should_appoint_device`` is ``True``."
     ),
+    "Song.delete_scene": (
+        "Undo restores the scene but as a new object — existing references become invalid."
+    ),
+    "Song.delete_track": (
+        "Undo restores the track but as a new object — existing references become invalid."
+    ),
+    "Song.delete_return_track": (
+        "Undo restores the return track but as a new object — existing references become invalid."
+    ),
 }
 
 

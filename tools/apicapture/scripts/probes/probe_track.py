@@ -62,7 +62,11 @@ SKIP_UNDO: set[str] = set()
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
 
-NOTES: dict[str, str] = {}
+NOTES: dict[str, str] = {
+    "Track.delete_device": (
+        "Undo restores the device but as a new object — existing references become invalid."
+    ),
+}
 
 
 # ── Module-specific config ────────────────────────────────────────────────────
