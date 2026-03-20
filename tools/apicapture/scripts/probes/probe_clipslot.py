@@ -42,7 +42,12 @@ SKIP_UNDO: set[str] = set()
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
 
-NOTES: dict[str, str] = {}
+NOTES: dict[str, str] = {
+    "ClipSlot.stop": (
+        "Has no observable effect when called inside ``begin_undo_step``/``end_undo_step``. "
+        "Call directly without undo wrapping."
+    ),
+}
 
 
 # ── Module-specific config ────────────────────────────────────────────────────
@@ -160,11 +165,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # stop — fire first, then stop
+    # stop — fire first, ensure playing, then probe stop
     song.clip_trigger_quantization = 0  # type: ignore[assignment]
     yield
     slot_with_clip.fire()
     yield
+    yield  # extra tick — fire is next_tick
     song.clip_trigger_quantization = orig_quant
     yield
     gen = _run_method_probe(
