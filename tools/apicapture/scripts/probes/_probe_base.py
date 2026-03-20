@@ -407,7 +407,7 @@ def probe_method(
     song: Song, cls: str, method: str, args: list, check_fn: Callable[[], bool],
     cleanup_fn: Callable[[], None] | None, fired: list, probe_timing: dict, snapshot: dict, snap_json: dict,
     snapshot_targets: list[tuple[Any, str, list[str]]], snapshot_extra: dict[str, set[str]],
-    log: Callable, *, obj: Any = None, effect: str | None = None,
+    log: Callable, *, obj: Any = None, effect: str | None = None, effect_obj: Any = None,
 ) -> Generator[None, None, dict[str, Any]]:
     """Probe a method for undo tracking, async visibility, and side effects.
 
@@ -418,6 +418,9 @@ def probe_method(
             The method's async_visibility, undo_tracked, from/to, and listener data are
             measured on this property. It is recorded as the top-level "effect" field and
             excluded from side_effects.
+        effect_obj: optional object to read the effect property from. If not provided,
+            the object is looked up from snapshot_targets by class name. Use this when
+            the effect is on an object not in snapshot_targets (e.g. a specific ClipSlot).
         check_fn: () -> bool — fallback for detecting the effect when the named property
             isn't in the listener/snapshot system. Used for async visibility detection.
     """
@@ -428,23 +431,23 @@ def probe_method(
     try:
         # Resolve the effect property for direct measurement.
         obj_by_cls = {c: o for o, c, _ in snapshot_targets}
-        effect_cls = effect_prop = None
-        effect_obj = None
-        effect_key = None
-        effect_orig = None
+        _effect_cls = _effect_prop = None
+        _effect_obj = None
+        _effect_key = None
+        _effect_orig = None
         if effect:
-            effect_cls, effect_prop = effect.split(".", 1)
-            effect_obj = obj_by_cls.get(effect_cls)
-            effect_key = (effect_cls, effect_prop)
-            if effect_obj is not None:
+            _effect_cls, _effect_prop = effect.split(".", 1)
+            _effect_obj = effect_obj if effect_obj is not None else obj_by_cls.get(_effect_cls)
+            _effect_key = (_effect_cls, _effect_prop)
+            if _effect_obj is not None:
                 try:
-                    effect_orig = getattr(effect_obj, effect_prop)
+                    _effect_orig = getattr(_effect_obj, _effect_prop)
                 except Exception:
                     pass
 
         # 1. Clear fired listeners.
         fired.clear()
-        probe_timing["target"] = effect_key
+        probe_timing["target"] = _effect_key
         probe_timing["set_time"] = _time_module.monotonic()
         probe_timing["listener_time"] = None
 
@@ -455,10 +458,10 @@ def probe_method(
         song.end_undo_step()
 
         # 3. Check effect immediately — use the named property if available, else check_fn.
-        if effect_obj is not None and effect_orig is not None:
+        if _effect_obj is not None and _effect_orig is not None:
             try:
-                readback = getattr(effect_obj, effect_prop)
-                is_immediate = not fuzzy_eq(readback, effect_orig)
+                readback = getattr(_effect_obj, _effect_prop)
+                is_immediate = not fuzzy_eq(readback, _effect_orig)
             except Exception:
                 is_immediate = check_fn()
         else:
@@ -471,10 +474,10 @@ def probe_method(
         if is_immediate:
             async_vis = "immediate"
         else:
-            if effect_obj is not None and effect_orig is not None:
+            if _effect_obj is not None and _effect_orig is not None:
                 try:
-                    readback_next = getattr(effect_obj, effect_prop)
-                    has_effect = not fuzzy_eq(readback_next, effect_orig)
+                    readback_next = getattr(_effect_obj, _effect_prop)
+                    has_effect = not fuzzy_eq(readback_next, _effect_orig)
                 except Exception:
                     has_effect = check_fn()
             else:
@@ -504,14 +507,14 @@ def probe_method(
         # 7. Build the primary effect entry.
         effect_data: dict[str, Any] | None = None
         if effect:
-            effect_data = {"label": effect_cls, "prop": effect_prop}
+            effect_data = {"label": _effect_cls, "prop": _effect_prop}
             effect_data["async_visibility"] = async_vis
             # Capture from/to on the effect property.
-            if effect_key in snapshot:
-                effect_data["from"] = snap_json[effect_key]
-            if effect_obj is not None:
+            if _effect_key in snapshot:
+                effect_data["from"] = snap_json[_effect_key]
+            if _effect_obj is not None:
                 try:
-                    after_val = getattr(effect_obj, effect_prop)
+                    after_val = getattr(_effect_obj, _effect_prop)
                     effect_data["to"] = json_safe(after_val)
                     effect_data["_raw_after"] = after_val
                 except Exception:
@@ -532,10 +535,10 @@ def probe_method(
         # 10. Check undo tracking on the effect property.
         if async_vis == "no_effect":
             undo_tracked = "n/a"
-        elif effect_obj is not None and effect_orig is not None:
+        elif _effect_obj is not None and _effect_orig is not None:
             try:
-                after_undo = getattr(effect_obj, effect_prop)
-                undo_tracked = fuzzy_eq(after_undo, effect_orig)
+                after_undo = getattr(_effect_obj, _effect_prop)
+                undo_tracked = fuzzy_eq(after_undo, _effect_orig)
             except Exception:
                 undo_tracked = not check_fn()
         else:
@@ -546,12 +549,12 @@ def probe_method(
 
         if effect_data is not None:
             effect_data["undo_tracked"] = undo_tracked
-            effect_data["undo_fires_listener"] = effect_key in undo_fired
+            effect_data["undo_fires_listener"] = _effect_key in undo_fired
             # Check undo_result on the effect property.
-            if effect_key in snapshot and effect_obj is not None:
+            if _effect_key in snapshot and _effect_obj is not None:
                 try:
-                    current = getattr(effect_obj, effect_prop)
-                    if fuzzy_eq(current, snapshot[effect_key]):
+                    current = getattr(_effect_obj, _effect_prop)
+                    if fuzzy_eq(current, snapshot[_effect_key]):
                         effect_data["undo_result"] = "restored"
                     elif "_raw_after" in effect_data and fuzzy_eq(current, effect_data["_raw_after"]):
                         effect_data["undo_result"] = "unchanged"
@@ -580,9 +583,9 @@ def probe_method(
             se.pop("_raw_after", None)
 
         # Remove the primary effect from side_effects (if it was captured there too).
-        if effect_key:
+        if _effect_key:
             side_effects = [se for se in side_effects
-                           if not (se.get("label") == effect_cls and se.get("prop") == effect_prop)]
+                           if not (se.get("label") == _effect_cls and se.get("prop") == _effect_prop)]
 
         # Write results.
         if effect_data is not None:

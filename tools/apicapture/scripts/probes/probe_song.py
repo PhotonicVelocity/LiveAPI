@@ -295,11 +295,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         results["Song"] = {"properties": {}, "methods": {}}
     methods = results["Song"].setdefault("methods", {})
 
-    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, effect=None):
+    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, effect=None, effect_obj=None):
         snap, snap_json = snapshot_properties(snapshot_targets)
         gen = probe_method(
             song, "Song", method, args, check_fn, cleanup_fn, fired, probe_timing,
-            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log, effect=effect,
+            snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+            effect=effect, effect_obj=effect_obj,
         )
         try:
             while True:
@@ -485,6 +486,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         "stop_all_clips", [False],
         check_fn=lambda: not clip_slot.clip.is_playing,
         cleanup_fn=lambda: song.stop_playing(),
+        effect="Clip.is_playing", effect_obj=clip_slot.clip,
     )
     r = yield from gen
     if r: methods["stop_all_clips"] = r
@@ -503,6 +505,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "jump_by", [4.0],
         check_fn=lambda: song.current_song_time >= 4.0,
+        effect="Song.current_song_time", effect_obj=song,
     )
     r = yield from gen
     if r: methods["jump_by"] = r
@@ -513,6 +516,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "scrub_by", [4.0],
         check_fn=lambda: song.current_song_time >= 4.0,
+        effect="Song.current_song_time", effect_obj=song,
     )
     r = yield from gen
     if r: methods["scrub_by"] = r
@@ -525,6 +529,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "jump_to_prev_cue", [],
         check_fn=lambda: song.current_song_time < song.song_length,
+        effect="Song.current_song_time", effect_obj=song,
     )
     r = yield from gen
     if r: methods["jump_to_prev_cue"] = r
@@ -535,6 +540,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "jump_to_next_cue", [],
         check_fn=lambda: song.current_song_time > 0.0,
+        effect="Song.current_song_time", effect_obj=song,
     )
     r = yield from gen
     if r: methods["jump_to_next_cue"] = r

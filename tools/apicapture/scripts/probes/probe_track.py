@@ -257,12 +257,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     methods = results["Track"].setdefault("methods", {})
 
-    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, obj=None, effect=None):
+    def _run_method_probe(method, args, check_fn, cleanup_fn=None, *, obj=None, effect=None, effect_obj=None):
         snap, snap_json = snapshot_properties(snapshot_targets)
         gen = probe_method(
             song, "Track" if obj is None else "Track.View", method, args, check_fn, cleanup_fn,
             fired, probe_timing, snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
-            obj=obj if obj is not None else track, effect=effect,
+            obj=obj if obj is not None else track, effect=effect, effect_obj=effect_obj,
         )
         try:
             while True:
@@ -288,15 +288,16 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "delete_clip", [clip_to_delete],
         check_fn=lambda: not track.clip_slots[0].has_clip,
+        effect="ClipSlot.has_clip", effect_obj=track.clip_slots[0],
     )
     r = yield from gen
     if r: methods["delete_clip"] = r
 
-    # duplicate_clip_slot — duplicate slot 0 into next free slot
-    num_clips_before = sum(1 for cs in track.clip_slots if cs.has_clip)
+    # duplicate_clip_slot — duplicate slot 0 into next free slot (lands in slot 1)
     gen = _run_method_probe(
         "duplicate_clip_slot", [0],
-        check_fn=lambda: sum(1 for cs in track.clip_slots if cs.has_clip) > num_clips_before,
+        check_fn=lambda: track.clip_slots[1].has_clip,
+        effect="ClipSlot.has_clip", effect_obj=track.clip_slots[1],
     )
     r = yield from gen
     if r: methods["duplicate_clip_slot"] = r
@@ -344,6 +345,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     gen = _run_method_probe(
         "stop_all_clips", [False],
         check_fn=lambda: not track.clip_slots[0].clip.is_playing,
+        effect="Track.playing_slot_index",
         cleanup_fn=lambda: song.stop_playing(),
     )
     r = yield from gen
