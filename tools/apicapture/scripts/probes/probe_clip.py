@@ -85,7 +85,7 @@ NOTES: dict[str, str] = {
 
 # ── Module-specific config ────────────────────────────────────────────────────
 
-LISTENER_EXCLUDE: set[str] = {"current_song_time"}
+LISTENER_EXCLUDE: set[str] = {"current_song_time", "playing_position"}  # fires every audio tick while playing
 
 SNAPSHOT_EXTRA: dict[str, set[str]] = {}
 
