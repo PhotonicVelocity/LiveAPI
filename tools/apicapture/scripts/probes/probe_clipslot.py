@@ -42,12 +42,7 @@ SKIP_UNDO: set[str] = set()
 
 # ── Behavioral notes ──────────────────────────────────────────────────────────
 
-NOTES: dict[str, str] = {
-    "ClipSlot.stop": (
-        "Has no observable effect when called inside ``begin_undo_step``/``end_undo_step``. "
-        "Call directly without undo wrapping."
-    ),
-}
+NOTES: dict[str, str] = {}
 
 
 # ── Module-specific config ────────────────────────────────────────────────────
