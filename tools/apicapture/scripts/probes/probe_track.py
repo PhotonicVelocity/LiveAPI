@@ -42,7 +42,7 @@ if TYPE_CHECKING:
 
 TRACK_SETTABLE_PROPS: list[tuple[str, Any]] = [
     ("arm", True),
-    ("color", 42),
+    ("color", 12243060),
     ("color_index", 10),
     ("current_monitoring_state", 2),  # 0=in, 1=auto, 2=off
     ("implicit_arm", True),

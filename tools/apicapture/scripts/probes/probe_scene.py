@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 # ── Settable properties ───────────────────────────────────────────────────────
 
 SCENE_SETTABLE_PROPS: list[tuple[str, Any]] = [
-    ("color", 42),
+    ("color", 12243060),
     ("color_index", 10),
     ("name", "__probe_test__"),
     ("tempo", 140.0),

@@ -40,7 +40,7 @@ if TYPE_CHECKING:
 # ── Settable properties — universal (work on both MIDI and audio clips) ───────
 
 CLIP_SETTABLE_PROPS: list[tuple[str, Any]] = [
-    ("color", 42),
+    ("color", 12243060),  # RGB int — 0xBAD074 (pale green)
     ("color_index", 10),
     ("end_marker", 16.0),
     ("launch_mode", 1),  # 0=trigger, 1=gate, 2=toggle, 3=repeat
