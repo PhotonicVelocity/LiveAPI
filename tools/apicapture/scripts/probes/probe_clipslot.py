@@ -214,14 +214,17 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     r = yield from gen
     if r: methods["duplicate_clip_to"] = r
 
-    # set_fire_button_state — set to True then undo
+    # set_fire_button_state — like fire(), starts clip playback
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]
+    yield
     gen = _run_method_probe(
         "set_fire_button_state", [True],
-        check_fn=lambda: slot_with_clip.is_triggered,
-        effect="ClipSlot.is_triggered", effect_obj=slot_with_clip,
+        check_fn=lambda: slot_with_clip.is_playing,
+        effect="ClipSlot.is_playing", effect_obj=slot_with_clip,
     )
     r = yield from gen
     if r: methods["set_fire_button_state"] = r
+    song.clip_trigger_quantization = orig_quant
     if song.is_playing:
         song.stop_playing()
         yield
