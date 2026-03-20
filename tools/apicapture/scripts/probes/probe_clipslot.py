@@ -160,14 +160,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # stop — fire first, ensure playing, then probe stop
+    # stop — fire first, ensure playing, keep quantization disabled so stop is immediate
     song.clip_trigger_quantization = 0  # type: ignore[assignment]
     yield
     slot_with_clip.fire()
     yield
     yield  # extra tick — fire is next_tick
-    song.clip_trigger_quantization = orig_quant
-    yield
     gen = _run_method_probe(
         "stop", [],
         check_fn=lambda: not slot_with_clip.is_playing,
@@ -175,6 +173,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["stop"] = r
+    song.clip_trigger_quantization = orig_quant
     if song.is_playing:
         song.stop_playing()
         yield

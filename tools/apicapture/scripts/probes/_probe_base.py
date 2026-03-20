@@ -512,6 +512,8 @@ def probe_method(
             # Capture from/to on the effect property.
             if _effect_key in snapshot:
                 effect_data["from"] = snap_json[_effect_key]
+            elif _effect_orig is not None:
+                effect_data["from"] = json_safe(_effect_orig)
             if _effect_obj is not None:
                 try:
                     after_val = getattr(_effect_obj, _effect_prop)
@@ -556,10 +558,11 @@ def probe_method(
             effect_data["undo_tracked"] = undo_tracked
             effect_data["undo_fires_listener"] = _effect_key in undo_fired
             # Check undo_result on the effect property.
-            if _effect_key in snapshot and _effect_obj is not None:
+            _snap_orig = snapshot.get(_effect_key, _effect_orig)
+            if _snap_orig is not None and _effect_obj is not None:
                 try:
                     current = getattr(_effect_obj, _effect_prop)
-                    if fuzzy_eq(current, snapshot[_effect_key]):
+                    if fuzzy_eq(current, _snap_orig):
                         effect_data["undo_result"] = "restored"
                     elif "_raw_after" in effect_data and fuzzy_eq(current, effect_data["_raw_after"]):
                         effect_data["undo_result"] = "unchanged"
