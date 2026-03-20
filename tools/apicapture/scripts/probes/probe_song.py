@@ -683,10 +683,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
             existing_classes = json.load(f).get("classes", {})
 
     for cls, data in results.items():
-        if cls not in existing_classes:
-            existing_classes[cls] = {"properties": {}, "methods": {}}
-        existing_classes[cls]["properties"].update(data.get("properties", {}))
-        existing_classes[cls].setdefault("methods", {}).update(data.get("methods", {}))
+        existing_classes[cls] = data
 
     # Merge behavioral notes
     orphan_notes: dict[str, str] = {}
