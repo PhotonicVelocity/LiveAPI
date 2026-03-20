@@ -423,9 +423,11 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     yield
     song.clip_trigger_quantization = orig_quant
     yield
+    running_clip = track.clip_slots[0].clip
     gen = _run_method_probe(
         "jump_in_running_session_clip", [4.0],
-        check_fn=lambda: False,  # no observable property change, just moves position within clip
+        check_fn=lambda: False,
+        effect="Clip.playing_position", effect_obj=running_clip,
     )
     r = yield from gen
     if r: methods["jump_in_running_session_clip"] = r
@@ -445,11 +447,12 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     view_methods = results["Track.View"].setdefault("methods", {})
 
-    # select_instrument — selects the track's instrument device, returns bool
+    # select_instrument — selects the track's instrument device
     gen = _run_method_probe(
         "select_instrument", [],
-        check_fn=lambda: False,  # returns bool, no observable state change to check
+        check_fn=lambda: False,
         obj=track_view,
+        effect="Track.View.selected_device", effect_obj=track_view,
     )
     r = yield from gen
     if r: view_methods["select_instrument"] = r

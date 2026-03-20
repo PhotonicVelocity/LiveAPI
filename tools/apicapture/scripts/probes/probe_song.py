@@ -613,6 +613,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         cleanup_fn=None, fired=fired, probe_timing=probe_timing,
         snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
         snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=view,
+        effect="Song.appointed_device",
     )
     try:
         while True:
@@ -653,6 +654,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         cleanup_fn=None, fired=fired, probe_timing=probe_timing,
         snapshot=snap, snap_json=snap_json, snapshot_targets=snapshot_targets,
         snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=cue1,
+        effect="Song.current_song_time", effect_obj=song,
     )
     try:
         while True:
