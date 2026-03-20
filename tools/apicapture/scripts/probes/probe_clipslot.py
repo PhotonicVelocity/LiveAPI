@@ -91,6 +91,13 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song_listeners = setup_listeners(song, "Song", cross_song_props, fired, probe_timing, log)
     yield
 
+    # Switch to session view for consistent clip slot behavior
+    import Live
+    Live.Application.get_application().view.show_view("Session")
+    song.view.highlighted_clip_slot = slot_with_clip
+    yield
+    fired.clear()
+
     # ── Properties ────────────────────────────────────────────────────────────
 
     for prop, test_val in CLIPSLOT_SETTABLE_PROPS:
