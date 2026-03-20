@@ -13,6 +13,10 @@ Skipped members:
     - note_number_to_name — utility, read-only
     - move_warp_marker — needs warp markers
     - replace_selected_notes — needs selected notes
+    - groove — needs a Groove object (demo set has none)
+    - position — only meaningful while clip is playing
+    - is_playing (settable) — transport control, deferred
+    - quantize, quantize_pitch, duplicate_region, duplicate_notes_by_id — MIDI-only
 """
 
 from __future__ import annotations
