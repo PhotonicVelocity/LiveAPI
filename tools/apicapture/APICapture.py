@@ -112,6 +112,8 @@ class APICapture(ControlSurface):
                 except Exception as e:
                     self._targeted_probe_gen = None
                     self.log_message(f"Targeted probe error: {e}")
+                    with open(TARGETED_PROBE_DONE, "w") as f:
+                        f.write(f"error: {e}")
             # Drive active device probe one step per tick
             if self._device_probe is not None:
                 if not self._device_probe.tick():
@@ -255,6 +257,8 @@ class APICapture(ControlSurface):
                 self.log_message("Targeted probe complete")
         except Exception as e:
             self.log_message(f"Targeted probe error: {e}")
+            with open(TARGETED_PROBE_DONE, "w") as f:
+                f.write(f"error: {e}")
 
     def disconnect(self):
         ControlSurface.disconnect(self)

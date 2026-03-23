@@ -87,6 +87,18 @@ NOTES: dict[str, str] = {
         "Undoing a warping change on audio clips invalidates the Python object reference — "
         "re-fetch the clip from its ``ClipSlot`` after undo."
     ),
+    "Clip.has_envelopes": (
+        "Includes both automation envelopes (device parameters) and MIDI clip envelopes "
+        "(pitch bend, channel pressure, etc.)."
+    ),
+    "Clip.clear_all_envelopes": (
+        "Only clears automation envelopes (device parameters). MIDI clip envelopes "
+        "(pitch bend, channel pressure, etc.) are not affected."
+    ),
+    "Clip.automation_envelopes": (
+        "Returns only automation envelopes (device parameters). MIDI clip envelopes "
+        "(pitch bend, channel pressure, etc.) are not included."
+    ),
 }
 
 
@@ -457,7 +469,61 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         r = yield from gen
         if r: methods["apply_note_modifications"] = r
 
-    # ── Audio-specific properties ─────────────────────────────────────────────
+    # replace_selected_notes — select notes, then replace with modified versions
+    all_notes_rsn = clip.get_all_notes_extended()
+    if len(all_notes_rsn) > 0:
+        clip.select_all_notes()
+        yield
+        selected = clip.get_selected_notes()  # legacy tuple format
+        if selected:
+            # Modify first note's velocity
+            modified = []
+            for note in selected:
+                pitch, t, dur, vel, muted = note
+                modified.append((pitch, t, dur, max(1, vel - 10), muted))
+            orig_vel_rsn = selected[0][3]
+            gen = _run_method_probe(
+                "replace_selected_notes", [tuple(modified)],
+                check_fn=lambda: clip.get_selected_notes()[0][3] != orig_vel_rsn if clip.get_selected_notes() else False,
+            )
+            r = yield from gen
+            if r: methods["replace_selected_notes"] = r
+        clip.deselect_all_notes()
+        yield
+
+    # ── Envelope methods ──────────────────────────────────────────────────────
+    # Utility is devices[1] on track 0. Gain (param 9) already has an envelope in
+    # the demo set; Device On (param 0) does not.
+    utility = track.devices[1]
+    param_no_env = utility.parameters[0]   # Device On — no envelope
+    param_has_env = utility.parameters[9]  # Gain — has envelope
+
+    # create_automation_envelope — create on a param that has no envelope yet
+    gen = _run_method_probe(
+        "create_automation_envelope", [param_no_env],
+        check_fn=lambda: clip.automation_envelope(param_no_env) is not None,
+    )
+    r = yield from gen
+    if r: methods["create_automation_envelope"] = r
+
+    # clear_envelope — clear the existing Gain envelope
+    gen = _run_method_probe(
+        "clear_envelope", [param_has_env],
+        check_fn=lambda: clip.automation_envelope(param_has_env) is None,
+    )
+    r = yield from gen
+    if r: methods["clear_envelope"] = r
+
+    # clear_all_envelopes — has_envelopes stays True even after clearing, so check
+    # that specific known envelopes are gone instead
+    gen = _run_method_probe(
+        "clear_all_envelopes", [],
+        check_fn=lambda: clip.automation_envelope(param_has_env) is None,
+    )
+    r = yield from gen
+    if r: methods["clear_all_envelopes"] = r
+
+    # ── Audio-specific properties and methods ─────────────────────────────────
     # Use track 10 (Vocal Main) slot 1 which has an audio clip
     audio_track = song.tracks[10]
     audio_slot = audio_track.clip_slots[1]
@@ -490,9 +556,33 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
                     # Prefix with "audio:" to distinguish from MIDI clip results
                     results["Clip"]["properties"][prop] = e.value
 
+        # move_warp_marker — move a warp marker by a beat time amount
+        # The last warp marker is the shadow marker and can't be moved.
+        # Use the first marker (index 0).
+        warp_markers = audio_clip.warp_markers
+        if len(warp_markers) > 1:
+            marker_time = warp_markers[0].beat_time
+            snap_wm, snap_json_wm = snapshot_properties(audio_snapshot_targets)
+            gen = probe_method(
+                song, "Clip", "move_warp_marker", [marker_time, marker_time + 0.5],
+                check_fn=lambda: False,
+                cleanup_fn=None, fired=fired, probe_timing=probe_timing,
+                snapshot=snap_wm, snap_json=snap_json_wm, snapshot_targets=audio_snapshot_targets,
+                snapshot_extra=SNAPSHOT_EXTRA, log=log, obj=audio_clip,
+                effect="Clip.warp_markers", effect_obj=audio_clip,
+            )
+            try:
+                while True:
+                    next(gen)
+                    yield
+            except StopIteration as e:
+                if e.value is not None:
+                    methods["move_warp_marker"] = e.value
+        else:
+            log("[probe_clip] audio clip has <2 warp markers, skipping move_warp_marker")
+
         # warping — special case: undo invalidates the clip reference, so we
         # manually probe and re-fetch from the slot after undo.
-        import time as _time
         orig_warping = audio_clip.warping
         test_warping = not orig_warping
         fired.clear()
@@ -500,7 +590,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         probe_timing["listener_time"] = None
 
         song.begin_undo_step()
-        probe_timing["set_time"] = _time.monotonic()
+        probe_timing["set_time"] = time.monotonic()
         audio_clip.warping = test_warping
         song.end_undo_step()
 
