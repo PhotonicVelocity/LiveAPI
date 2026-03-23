@@ -454,9 +454,9 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
         if r: methods["apply_note_modifications"] = r
 
     # ── Audio-specific properties ─────────────────────────────────────────────
-    # Use track 10 (Vocal Main) which has audio clips
+    # Use track 10 (Vocal Main) slot 1 which has an audio clip
     audio_track = song.tracks[10]
-    audio_slot = audio_track.clip_slots[0]
+    audio_slot = audio_track.clip_slots[1]
     if audio_slot.has_clip:
         audio_clip = audio_slot.clip
         log(f"[probe_clip] Probing audio-specific properties on {audio_track.name}")
