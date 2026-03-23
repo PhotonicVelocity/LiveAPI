@@ -557,9 +557,9 @@ def probe_method(
         if effect_data is not None:
             effect_data["undo_tracked"] = undo_tracked
             effect_data["undo_fires_listener"] = _effect_key in undo_fired
-            # Check undo_result on the effect property.
+            # Check undo_result on the effect property (skip if no_effect — nothing to undo).
             _snap_orig = snapshot.get(_effect_key, _effect_orig)
-            if _snap_orig is not None and _effect_obj is not None:
+            if async_vis != "no_effect" and _snap_orig is not None and _effect_obj is not None:
                 try:
                     current = getattr(_effect_obj, _effect_prop)
                     if fuzzy_eq(current, _snap_orig):
@@ -607,8 +607,9 @@ def probe_method(
             result["side_effects"] = side_effects
 
         # 11. Restore side effects (loop for cascading next_tick effects).
+        #     Skip the effect property — it's the probe target, not a side effect.
         for _ in range(3):
-            if not restore_side_effects(snapshot, obj_by_cls, log):
+            if not restore_side_effects(snapshot, obj_by_cls, log, skip=_effect_key):
                 break
             yield
 

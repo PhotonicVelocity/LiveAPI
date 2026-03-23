@@ -106,7 +106,10 @@ NOTES: dict[str, str] = {
 
 LISTENER_EXCLUDE: set[str] = {"current_song_time", "playing_position"}  # fires every audio tick while playing
 
-SNAPSHOT_EXTRA: dict[str, set[str]] = {}
+SNAPSHOT_EXTRA: dict[str, set[str]] = {
+    "ClipSlot": {"is_playing", "has_clip"},
+    "Clip": {"is_playing"},
+}
 
 CROSS_MODULE_LISTENERS: dict[str, list[str]] = {
     "Song": ["is_playing", "back_to_arranger"],
@@ -137,7 +140,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Set up listeners and snapshot targets on the clip
     clip_listenable = discover_listenable(clip, LISTENER_EXCLUDE)
-    clip_slot = track.clip_slots[0]
+    clip_slot = track.clip_slots[2]
     cross_song_props = CROSS_MODULE_LISTENERS.get("Song", [])
     cross_slot_props = CROSS_MODULE_LISTENERS.get("ClipSlot", [])
     snapshot_targets = [
@@ -217,7 +220,9 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     song.current_song_time = 0.0
     yield
 
-    # stop — keep quantization disabled so stop is immediate
+    # stop — explicitly disable quantization so stop is immediate
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]
+    yield
     clip.fire()
     yield
     yield  # fire is next_tick
