@@ -15,8 +15,7 @@ Skipped members:
     - replace_selected_notes — needs selected notes
     - groove — needs a Groove object (demo set has none)
     - position — only meaningful while clip is playing
-    - is_playing (settable) — transport control, deferred
-    - quantize, quantize_pitch, duplicate_region, duplicate_notes_by_id — MIDI-only
+    - get_notes*, get_selected_notes* — read-only
 """
 
 from __future__ import annotations
@@ -112,7 +111,7 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
 
     # Use track 0 slot 0 (MIDI clip)
     track = song.tracks[0]
-    clip = track.clip_slots[0].clip
+    clip = track.clip_slots[2].clip
 
     results: dict[str, dict[str, dict[str, Any]]] = {
         "Clip": {"properties": {}, "methods": {}},
@@ -320,6 +319,139 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
     )
     r = yield from gen
     if r: methods["stop_scrub"] = r
+
+    # ── MIDI / session clip specific ─────────────────────────────────────────
+    log("[probe_clip] Starting MIDI/session-specific probes")
+
+    # is_playing (settable on session clips — starts/stops clip playback)
+    song.clip_trigger_quantization = 0  # type: ignore[assignment]
+    yield
+    snap, snap_json = snapshot_properties(snapshot_targets)
+    gen = probe_property(
+        song, clip, "Clip", "is_playing", True, fired, probe_timing,
+        snap, snap_json, snapshot_targets, SNAPSHOT_EXTRA, log,
+    )
+    try:
+        while True:
+            next(gen)
+            yield
+    except StopIteration as e:
+        if e.value is not None:
+            results["Clip"]["properties"]["is_playing"] = e.value
+    song.clip_trigger_quantization = orig_quant
+    if song.is_playing:
+        song.stop_playing()
+        yield
+    song.stop_all_clips(False)
+    yield
+    if song.back_to_arranger:
+        song.back_to_arranger = False
+        yield
+    song.current_song_time = 0.0
+    yield
+
+    # quantize — quantize all notes to grid, check if note positions changed
+    notes_before = [n.start_time for n in clip.get_all_notes_extended()]
+    gen = _run_method_probe(
+        "quantize", [4, 1.0],  # grid=1/16, amount=100%
+        check_fn=lambda: [n.start_time for n in clip.get_all_notes_extended()] != notes_before,
+    )
+    r = yield from gen
+    if r: methods["quantize"] = r
+
+    # duplicate_region — duplicate notes in a region, check note count
+    note_count_before = len(clip.get_all_notes_extended())
+    gen = _run_method_probe(
+        "duplicate_region", [0.0, 4.0, clip.loop_end],  # start, length, dest_time
+        check_fn=lambda: len(clip.get_all_notes_extended()) > note_count_before,
+    )
+    r = yield from gen
+    if r: methods["duplicate_region"] = r
+
+    # select_all_notes — check via get_selected_notes_extended count
+    gen = _run_method_probe(
+        "select_all_notes", [],
+        check_fn=lambda: len(clip.get_selected_notes_extended()) > 0,
+    )
+    r = yield from gen
+    if r: methods["select_all_notes"] = r
+
+    # deselect_all_notes — select first then deselect
+    clip.select_all_notes()
+    yield
+    gen = _run_method_probe(
+        "deselect_all_notes", [],
+        check_fn=lambda: len(clip.get_selected_notes_extended()) == 0,
+    )
+    r = yield from gen
+    if r: methods["deselect_all_notes"] = r
+
+    # quantize_pitch — quantize notes of a specific pitch
+    # Find a pitch that exists in the clip
+    all_notes_qp = clip.get_all_notes_extended()
+    qp_pitch = all_notes_qp[0].pitch if len(all_notes_qp) > 0 else 60
+    notes_before_qp = [n.start_time for n in all_notes_qp if n.pitch == qp_pitch]
+    gen = _run_method_probe(
+        "quantize_pitch", [qp_pitch, 4, 1.0],  # grid=1/16, amount=100%
+        check_fn=lambda: [n.start_time for n in clip.get_all_notes_extended() if n.pitch == qp_pitch] != notes_before_qp,
+    )
+    r = yield from gen
+    if r: methods["quantize_pitch"] = r
+
+    # add_new_notes — add a note via MidiNoteSpecification
+    import Live.Clip
+    note_count_before2 = len(clip.get_all_notes_extended())
+    spec = Live.Clip.MidiNoteSpecification(pitch=64, start_time=0.0, duration=0.5, velocity=100.0)
+    gen = _run_method_probe(
+        "add_new_notes", [[spec]],
+        check_fn=lambda: len(clip.get_all_notes_extended()) > note_count_before2,
+    )
+    r = yield from gen
+    if r: methods["add_new_notes"] = r
+
+    # set_notes — add notes via legacy tuple format (pitch, time, duration, velocity, muted)
+    note_count_before3 = len(clip.get_all_notes_extended())
+    gen = _run_method_probe(
+        "set_notes", [((62, 0.0, 0.5, 100, False),)],
+        check_fn=lambda: len(clip.get_all_notes_extended()) > note_count_before3,
+    )
+    r = yield from gen
+    if r: methods["set_notes"] = r
+
+    # duplicate_notes_by_id — duplicate existing notes by their IDs
+    all_notes = clip.get_all_notes_extended()
+    if len(all_notes) > 0:
+        note_ids = [all_notes[0].note_id]
+        note_count_before4 = len(clip.get_all_notes_extended())
+        gen = _run_method_probe(
+            "duplicate_notes_by_id", [note_ids],
+            check_fn=lambda: len(clip.get_all_notes_extended()) > note_count_before4,
+        )
+        r = yield from gen
+        if r: methods["duplicate_notes_by_id"] = r
+
+    # select_notes_by_id — select specific notes by ID
+    all_notes = clip.get_all_notes_extended()
+    if len(all_notes) > 0:
+        note_ids = [all_notes[0].note_id]
+        gen = _run_method_probe(
+            "select_notes_by_id", [note_ids],
+            check_fn=lambda: len(clip.get_selected_notes_extended()) > 0,
+        )
+        r = yield from gen
+        if r: methods["select_notes_by_id"] = r
+
+    # apply_note_modifications — modify existing notes
+    all_notes = clip.get_all_notes_extended()
+    if len(all_notes) > 0:
+        orig_vel = all_notes[0].velocity
+        all_notes[0].velocity = 50.0
+        gen = _run_method_probe(
+            "apply_note_modifications", [all_notes],
+            check_fn=lambda: clip.get_all_notes_extended()[0].velocity != orig_vel,
+        )
+        r = yield from gen
+        if r: methods["apply_note_modifications"] = r
 
     # ── Audio-specific properties ─────────────────────────────────────────────
     # Use track 10 (Vocal Main) which has audio clips
