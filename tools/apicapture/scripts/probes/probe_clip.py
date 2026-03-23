@@ -67,7 +67,7 @@ AUDIO_SETTABLE_PROPS: list[tuple[str, Any]] = [
     ("pitch_fine", 0.5),
     ("ram_mode", True),
     ("warp_mode", 1),  # WarpMode enum
-    ("warping", True),
+    # warping — handled as special case (undo invalidates the clip reference)
 ]
 
 SKIP_UNDO: set[str] = set()
@@ -82,6 +82,10 @@ NOTES: dict[str, str] = {
     "Clip.set_fire_button_state": (
         "With quantization, the effect is on ``is_triggered``. "
         "Supports press/release for Gate and Repeat launch modes."
+    ),
+    "Clip.warping": (
+        "Undoing a warping change on audio clips invalidates the Python object reference — "
+        "re-fetch the clip from its ``ClipSlot`` after undo."
     ),
 }
 
@@ -486,9 +490,63 @@ def run(song: Song, log: Callable) -> Generator[None, None, None]:
                     # Prefix with "audio:" to distinguish from MIDI clip results
                     results["Clip"]["properties"][prop] = e.value
 
+        # warping — special case: undo invalidates the clip reference, so we
+        # manually probe and re-fetch from the slot after undo.
+        import time as _time
+        orig_warping = audio_clip.warping
+        test_warping = not orig_warping
+        fired.clear()
+        probe_timing["target"] = ("Clip", "warping")
+        probe_timing["listener_time"] = None
+
+        song.begin_undo_step()
+        probe_timing["set_time"] = _time.monotonic()
+        audio_clip.warping = test_warping
+        song.end_undo_step()
+
+        readback = audio_clip.warping
+        is_immediate = readback == test_warping
+        yield
+
+        if is_immediate:
+            async_vis = "immediate"
+        elif audio_clip.warping == test_warping:
+            async_vis = "next_tick"
+        else:
+            async_vis = "no_change"
+
+        latency = None
+        if probe_timing["listener_time"] is not None:
+            latency = round((probe_timing["listener_time"] - probe_timing["set_time"]) * 1000, 1)
+
+        fired.clear()
+        song.undo()
+        yield
+
+        # Re-fetch clip after undo (warping undo invalidates the reference)
+        audio_clip_after = audio_slot.clip
+        undo_worked = audio_clip_after.warping == orig_warping
+
+        warping_result: dict[str, Any] = {
+            "from": orig_warping,
+            "to": test_warping,
+            "async_visibility": async_vis,
+            "undo_tracked": undo_worked,
+        }
+        if latency is not None:
+            warping_result["listener_latency_ms"] = latency
+        warping_result["notes"] = NOTES.get("Clip.warping", "")
+        results["Clip"]["properties"]["warping"] = warping_result
+
+        # Re-set up listeners on the new clip reference for teardown
+        teardown_listeners(audio_clip, audio_listeners)
+        audio_clip = audio_clip_after
+        audio_listeners = setup_listeners(audio_clip, "Clip", audio_listenable, fired, probe_timing, log)
+        yield
+
         teardown_listeners(audio_clip, audio_listeners)
     else:
-        log("[probe_clip] No audio clip at track 10 slot 0, skipping audio properties")
+        log("[probe_clip] No audio clip at track 10 slot 1, skipping audio properties")
 
     # Tear down listeners
     teardown_listeners(clip, clip_listeners)
