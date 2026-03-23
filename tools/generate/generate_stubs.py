@@ -25,7 +25,7 @@ _HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING,
 _VECTOR_HEADER = (
     "from __future__ import annotations\n"
     "from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload\n"
-    "\nT = TypeVar('T')\n"
+    "\nT = TypeVar('T', covariant=True)\n"
 )
 
 # Matches capitalized identifiers that could be class/enum references in type annotations.
@@ -257,9 +257,13 @@ class StubGenerator:
             self._render_init(node, buf, indent + 1, containing_class=name)
             has_body = True
 
-        # Render dunder methods for the base Vector class
-        if name == "Vector" and base == "Generic[T]":
-            self._render_vector_dunders(buf, indent + 1)
+        # Render container dunder methods for vector types
+        if name in self._vector_types:
+            if name == "Vector":
+                self._render_vector_dunders(buf, indent + 1)
+            else:
+                elem = self._vector_element_fallback.get(name, "Any")
+                self._render_vector_dunders(buf, indent + 1, elem=elem, cls=name)
             has_body = True
 
         # Render children
@@ -590,15 +594,21 @@ class StubGenerator:
                 names.update(self._collect_defined_names(child))
         return names
 
-    def _render_vector_dunders(self, buf: StringIO, indent: int) -> None:
-        """Render dunder methods for the base Vector(Generic[T]) class."""
+    def _render_vector_dunders(self, buf: StringIO, indent: int,
+                               elem: str = "T", cls: str = "Vector[T]") -> None:
+        """Render container dunder methods for a vector class.
+
+        For the generic ``Vector``, *elem* is ``T`` and *cls* is ``Vector[T]``.
+        For specialized vectors, *elem* is the concrete element type (e.g. ``int``)
+        and *cls* is the class name (e.g. ``IntVector``).
+        """
         pad = "    " * indent
-        buf.write(f"\n\n{pad}def __iter__(self) -> Iterator[T]: ...")
+        buf.write(f"\n\n{pad}def __iter__(self) -> Iterator[{elem}]: ...")
         buf.write(f"\n\n{pad}@overload")
-        buf.write(f"\n{pad}def __getitem__(self, index: int) -> T: ...")
+        buf.write(f"\n{pad}def __getitem__(self, index: int) -> {elem}: ...")
         buf.write(f"\n\n{pad}@overload")
-        buf.write(f"\n{pad}def __getitem__(self, index: slice) -> Vector[T]: ...")
-        buf.write(f"\n\n{pad}def __getitem__(self, index: int | slice) -> T | Vector[T]: ...")
+        buf.write(f"\n{pad}def __getitem__(self, index: slice) -> {cls}: ...")
+        buf.write(f"\n\n{pad}def __getitem__(self, index: int | slice) -> {elem} | {cls}: ...")
         buf.write(f"\n\n{pad}def __len__(self) -> int: ...")
         buf.write(f"\n\n{pad}def __contains__(self, value: object) -> bool: ...")
         buf.write(f"\n\n{pad}def __bool__(self) -> bool: ...")
@@ -642,16 +652,17 @@ class StubGenerator:
         return f"Iterable[{elem}]" if elem else "Iterable"
 
     def _vector_base(self, name: str, node: dict) -> str:
-        """Return the base class string for vector types, or empty string for non-vectors."""
+        """Return the base class string for vector types, or empty string for non-vectors.
+
+        Only the generic ``Vector`` class gets a base (``Generic[T]``).
+        Specialized vectors are standalone — at runtime they inherit from
+        ``Boost.Python.instance``, not from ``Vector``.
+        """
         if name not in self._vector_types:
             return ""
         if name == "Vector":
             return "Generic[T]"
-        # Specialized vector: derive element type from fallback map (built during indexing)
-        elem = self._vector_element_fallback.get(name)
-        if elem:
-            return f"Vector[{elem}]"
-        return "Vector"
+        return ""
 
     def _write_docstring(self, doc: str, buf: StringIO, indent: int) -> None:
         """Write a docstring at the given indent level."""

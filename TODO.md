@@ -104,18 +104,10 @@ module (`Live/Song/Song.pyi`). The real `Live.Song` is a flat module (no `__path
 this is also more accurate. Updated `generate_stubs.py` to merge the main class and helper types into
 one file per module.
 
-## 14. `IntVector` does not inherit from `Vector` at runtime
+## ~~14. `IntVector` does not inherit from `Vector` at runtime~~ ✓
 
-The stubs declare `class IntVector(Vector[int])`, but at runtime `IntVector` inherits from
-`Boost.Python.instance` directly — same as `Vector`. They are sibling classes, not parent/child.
-
-Runtime MRO (confirmed via probe):
-- `IntVector` → `Boost.Python.instance` → `object`
-- `Vector` → `Boost.Python.instance` → `object`
-
-Fix: change `IntVector` base class in `Base.pyi` stubs. It should not extend `Vector[int]`. It likely
-needs its own standalone class definition with the same container protocol methods (`__iter__`, `__len__`,
-`__getitem__`, etc.) parameterized with `int`.
-
-Check whether other `*Vector` types (e.g. `StringVector`, `ObjectVector`) have the same issue.
-one file per module.
+Done — all 16 vector types (`IntVector`, `FloatVector`, `MidiNoteVector`, etc.) are siblings of `Vector`
+at runtime, each inheriting from `Boost.Python.instance` directly. Updated `_vector_base()` in
+`generate_stubs.py` to stop emitting `Vector[T]` as the base for specialized vectors.
+`_render_vector_dunders()` now parameterizes dunder methods (`__iter__`, `__getitem__`, `__len__`, etc.)
+per vector type. Each specialized vector is a standalone class with its own container protocol.
