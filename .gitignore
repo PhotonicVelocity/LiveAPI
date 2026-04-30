@@ -20,3 +20,4 @@ doc/max-for-live-docs/
 Icon?
 Backup/
 Cache.cfg
+*.asd
