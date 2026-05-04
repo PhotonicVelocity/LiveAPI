@@ -24,7 +24,96 @@ Architectural and formatting decisions for the LiveAPI project. Updated as decis
 - **`doc/`** — project-level documentation (this file, contributing guide, pipeline plans).
 - **`web/`** removed — replaced by MkDocs + GitHub Pages.
 
+## Stub Accuracy and Pipeline Posture
+
+**Principle.** Stubs exist to give Remote Script developers type checking and autocomplete. Accuracy beats
+prettiness — a stub that misleads is worse than one that looks generic. The Live API binding is messy
+(Boost.Python positional-only, runtime type coercion, internal C++ crashes on bad input); the stubs should
+reflect what the binding actually does, not what its prose documentation suggests.
+
+### What's already correct
+
+The current stubs emit **PEP 570 positional-only markers (`, /`)** on every callable method with args.
+Pyright and mypy reject kwarg calls (`zoom_view(direction=1, ...)`) at type-check time. Names in the
+signature serve as readable labels for autocomplete hints, hover docs, and pyright error messages — but
+cannot be used as kwargs in checked code. This is the right answer to "how do we keep readable names
+without letting users type them as kwargs"; it stays.
+
+### Failure modes to avoid
+
+- **Types looser than the binding accepts.** Pyright accepts a Python `list`; the underlying Boost.Python
+  binding requires the specific `TVector` type and crashes with `InternalError`. Concrete example today:
+  `Clip.add_new_notes(notes: Iterable[MidiNoteSpecification] | None, /)` — sister method
+  `apply_note_modifications` is documented as failing exactly this way (P4L work confirms). This is the
+  highest-impact misleading class because `, /` doesn't help — pyright still accepts a wrong-type call.
+- **Pervasive `T | None` parser defaults.** Today's parser widens every positional arg to `T | None`.
+  Pyright accepts `None`; the runtime usually crashes. Visible across most stub files; not introduced by
+  the LLM — this is a parser default. Affects every method, every property setter; the broadest
+  misleading surface in the codebase.
+- **Name semantics that don't describe the parameter accurately.** Lower-stakes than the above (`, /`
+  prevents kwarg calls, so pyright won't accept `f(wrong_name=...)`) but still affects hover hints and IDE
+  inlay-hint readability. A name from a source that misjudges intent — e.g., a doc that names the M4L
+  proxy parameter rather than the underlying binding's conceptual parameter — misleads readers about what
+  the arg means even when they can't call it as a kwarg.
+
+### Decisions
+
+1. **Version coverage: latest 12.x only.** Drop active maintenance of earlier versions. Existing
+   `stubs/11.*` and `stubs/12.0–12.2` directories remain as frozen historical artifacts but no longer
+   participate in regeneration. Anyone needing older-version stubs can rebuild from a tagged commit.
+
+2. **Refinement strictness — signatures carry verified types; names are descriptive labels.** With `, /`
+   in place, kwarg-callability is not the bar for arg names. The bar shifts:
+   - Arg **names**: emit any informative descriptor sourced from callsite analysis, parsed C++ signature
+     (when non-generic), MaxForLive docs, or hand-stamped manual overrides. Otherwise `argN`. The name is
+     a readable label; `, /` already prevents kwarg use.
+   - Arg **types**: must reflect what the underlying binding actually accepts. Sources: probe data (the
+     type observed at runtime), parsed C++ signature, hand-stamped manual overrides. Otherwise `Any`.
+     Prose docstrings and M4L type claims are **not** acceptable type sources — they describe a
+     related-but-distinct API.
+   - Return **types** and property **types**: same rule — verified sources only, otherwise `Any`.
+   - Generic-looking but truthful beats pretty but wrong.
+
+3. **MaxForLive docs: split role.** Names from M4L docs are acceptable in signatures (paired with `, /`
+   they're descriptive labels, not callable kwargs). Types and shape claims from M4L are demoted to
+   docstrings only. The current LLM-resolve pipeline used M4L docs to drive both names and types into
+   signatures; the type-side of that is the misleading-stubs risk we're correcting.
+
+4. **LLM-resolve removed.** With kwarg-callability solved structurally by `, /`, the LLM's main output
+   (arg names, ~61% of its fixes) is lower-stakes — but a deterministic name lookup using the same
+   sources (M4L docs, callsite, parsed C++ signature) does the same job without an API key, batched calls,
+   nondeterminism, or per-version cost. For the LLM's type-resolution work (~39% of its fixes), prose-
+   inferred types are exactly the wrong source given the strictness rule above. Replaced by
+   `manual_refinements.json` for hand-curated overrides plus the existing `callsite_resolve.py`. The
+   pipeline becomes capture → parse → resolve (callsite + probe + manual) → generate.
+
+5. **Parser defaults audit (same branch as LLM removal).** `parse_apicapture_results.py` currently emits
+   `T | None` on every positional arg as a defensive default. This is the broadest misleading surface in
+   the codebase, and removing the LLM does not fix it. The cleanup branch (`stub-pipeline-cleanup`)
+   audits every parser-introduced widening and emits the captured type without unwarranted `| None`
+   decoration.
+
+6. **Stub usability tests in CI.** `ast.parse()` on every emitted `.pyi` (syntax validity) and `pyright`
+   against the stubs themselves (internal consistency) are wired into CI on the cleanup branch. Both gate
+   any change that would alter the stubs.
+
+### What this changes operationally
+
+- The Parse Pipeline section below describes the **current** pipeline (LLM-resolve still in place). It
+  will be revised when the cleanup branch lands. Until then, the description is accurate to `main` only.
+- `tools/parse/llm_resolve.py`, `tools/parse/llm_resolve_prompt.md`, and the LLM-prompt-related parts of
+  `tools/parse/llm_hints.md` are slated for deletion. The deterministic-hint content of `llm_hints.md`
+  migrates to `manual_refinements.json`.
+- `MaxForLive/` stays in the repo as input. The new pipeline reads it for: (a) arg names that make their
+  way into signatures (paired with `, /`, decision #3); (b) prose content that flows into stub docstrings.
+  Its type/shape claims are not consumed.
+- `extract_unresolved.py` stays. Its output becomes the queue of "things still needing a hand-stamped
+  answer" — consumed when populating `manual_refinements.json` rather than by the LLM.
+
 ## Parse Pipeline
+
+> _Note: this section describes the pipeline on `main` today. It will be rewritten when the
+> `stub-pipeline-cleanup` branch lands per the Stub Accuracy decisions above._
 
 The pipeline transforms raw API captures into typed Python stubs through four stages:
 
