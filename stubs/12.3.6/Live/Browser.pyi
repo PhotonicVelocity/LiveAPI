@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, Ty
 T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
+    from Live.Device import Device
     from Live.LomObject import LomObject
 
 
@@ -84,12 +85,12 @@ class Browser(LomObject):
         ...
 
     @property
-    def hotswap_target(self) -> BrowserItem | None:
+    def hotswap_target(self) -> Device | None:
         """Bang triggered when the hotswap target has changed."""
         ...
 
     @hotswap_target.setter
-    def hotswap_target(self, value: BrowserItem | None) -> None: ...
+    def hotswap_target(self, value: Device | None) -> None: ...
 
     def hotswap_target_has_listener(self, callback: Callable, /) -> bool:
         """

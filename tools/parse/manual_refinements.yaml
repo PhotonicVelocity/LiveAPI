@@ -33,10 +33,20 @@ _meta:
 # confirms the underlying type via assignments / reads in shipped Remote Scripts.
 
 "Live.Browser.Browser.hotswap_target":
-  probed_type: "BrowserItem | None"
+  probed_type: "Device | None"
   source: |
-    Docstring: "Bang triggered when the hotswap target has changed." Property is a
-    BrowserItem reference; None when no hotswap is active.
+    Probed against Live 12.3.5 (MS33 in the curated baseline at doc/live-api/Browser.md):
+    "During active hotswap, hotswap_target returns the Device object being swapped, not a
+    BrowserItem." The stub's earlier BrowserItem annotation was incorrect — though the C++
+    signature for relation_to_hotswap_target takes NPythonBrowser::TPythonBrowserItem and
+    originally suggested otherwise. None when no hotswap is active. Settable: assigning a
+    Device handle activates hotswap; assigning None deactivates.
+  _note: |
+    Push2/browser_component.py:538 still trips pyright because Push2 does
+    `self._browser.hotswap_target.selected_preset_index = ...` — selected_preset_index is
+    on PluginDevice, not the base Device. Push2 narrows via runtime context that pyright
+    can't see; that's Push2's concern, not the stub's. After this fix the audit finding
+    becomes part of the deferred / declined bucket, not a stub bug.
 
 "Live.Clip.Clip.groove":
   probed_type: "Groove | None"

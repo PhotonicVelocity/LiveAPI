@@ -13,7 +13,7 @@ References:
 
 from __future__ import annotations
 
-from Live.Browser import BrowserItem
+from Live.Browser import Browser, BrowserItem
 from Live.Chain import Chain
 from Live.Clip import Clip
 from Live.Device import Device
@@ -53,9 +53,13 @@ def read_selected_parameter(song: Song) -> DeviceParameter | None:
     return song.view.selected_parameter
 
 
-def read_hotswap_target(browser_item: BrowserItem) -> object:
-    # The Browser, not BrowserItem, has hotswap_target — but this exercises that the
-    # property type is BrowserItem | None on Browser. Using `object` as the param to
-    # avoid coupling this test to internal Browser details.
-    _ = browser_item.children  # exercise the unrelated children property
-    return None
+def read_browser_item_children(browser_item: BrowserItem) -> object:
+    return browser_item.children
+
+
+def hotswap_to_device(browser: Browser, device: Device | None) -> Device | None:
+    # Browser.hotswap_target is Device | None per probe (MS33 in doc/live-api/Browser.md):
+    # during active hotswap it returns the Device being swapped, not a BrowserItem.
+    # Settable: assigning a Device handle activates hotswap; None deactivates.
+    browser.hotswap_target = device
+    return browser.hotswap_target
