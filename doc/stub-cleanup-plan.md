@@ -109,7 +109,68 @@ After Step 6 is stable, `git rm` everything that's no longer in the active pipel
 - `tools/parse/build_type_skeleton.py` if it was only feeding the LLM prompt.
 - Update the [decisions.md](decisions.md) Parse Pipeline section to describe the new minimal pipeline.
 
-### Step 8 — Re-publish
+### Step 8 — Offline corpus audit tool
+
+`tools/verify/audit_corpus.py` — runs pyright over the full decompiled Ableton Remote Script
+corpus using our stubs as the type source, filters out internal-module imports, decompilation
+artifacts, and errors that don't mention a class declared in our stubs. Surfaces only places
+where the stubs disagree with working production code. Not a CI gate — research tool used to
+inform manual refinements and Tier 4 expansion.
+
+### Step 9 — Manual refinements infrastructure
+
+`tools/parse/manual_refinements.yaml` + `tools/parse/apply_manual_refinements.py`. YAML for
+human-readability and per-entry comments. Each entry must include a `source` field documenting
+why the override is justified. Supports renaming positional args, overriding arg/return types,
+and overriding property `probed_type`. Wired into `run_parse_pipeline.py` as Stage 2b.
+
+### Step 10 — Generator fix: enum-arg widening
+
+Boost.Python enum bindings accept either the enum value or the underlying int at runtime — but
+the generator emits args typed as the bare enum class. Pyright correctly rejects `int` when the
+stub says `MapMode`. Fix: when the resolved arg type is a known enum class, emit `EnumName | int`.
+Eliminates Group A of the audit findings entirely (one code change, applies to every enum-typed
+parameter across the API).
+
+### Step 11 — Generator fix: NoneType → Any fallback
+
+The generator currently emits `-> None` and `value: None` setters when the property's
+`probed_type` is `NoneType`. That happens when the probe observed `None` at probe time but the
+property is actually nullable (e.g., `Song.View.selected_chain` is `Chain | None` — the probe
+saw None because no chain was selected). Fix: emit `Any` instead of literal `None` for
+NoneType-probed cases. Manual refinements then narrow the specific 10 known cases to the right
+`T | None`. Honest fallback for any future cases the refinement file doesn't yet cover.
+
+### Step 12 — Targeted manual refinements
+
+Populate `manual_refinements.yaml` with the corrections from Steps 10–11 not handled by the
+generator:
+
+- **10 NoneType-property entries** — `Song.View.selected_chain`, `Song.appointed_device`,
+  `Clip.groove`, `Browser.hotswap_target`, etc. Override `probed_type` to the right `T | None`.
+  Source: probe observed None but the docstring + Live API behavior establishes the underlying
+  type.
+- **6 feedback-rule entries** — `map_midi_cc_with_feedback_map.feedback_rule` etc. Widen to
+  `T | None` where Ableton's `_Framework/ControlSurface.py` passes None at runtime. Source:
+  audit finding from corpus.
+
+**argN cosmetic pass deferred** — the user explicitly asked to skip for this phase; will live
+on a follow-up branch if pursued.
+
+### Step 13 — Investigate Groups D & E
+
+`BrowserItem.children` override conflict (3 hits) and `DrumPad.parameters` missing (2 hits).
+Each needs investigation to know whether it's a stub fix, a parser/probe gap, or noise. Defer
+until Step 12 lands; could be either a refinement entry or a follow-up issue.
+
+### Step 14 — Expand Tier 4 with audit-informed tests
+
+Add hand-picked usage tests covering the patterns Step 12 fixed — assigning `Chain` to
+`View.selected_chain`, calling `map_midi_cc_with_feedback_map` with `None` for the feedback
+rule, calling `map_midi_cc` with `int` for `map_mode`. Future regressions in these areas will
+break the test suite.
+
+### Step 15 — Re-publish
 
 When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed accurate:
 
@@ -120,14 +181,23 @@ When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed 
 
 ## Status
 
-| Step                             | Status                                                |
-| -------------------------------- | ----------------------------------------------------- |
-| 1. Verification CI               | done — baseline: T1 ✓, T4 ✓, T2 29 errs               |
-| 2. Strip pipeline to parse-only  | done — T2 dropped 29 → 3                              |
-| 3. ~~Callsite refinement~~       | dropped — same vein as LLM                            |
-| 4. ~~`manual_refinements.json`~~ | dropped — only add if Step 5 surfaces a need          |
-| 5. Parser `T \| None` audit      | done — bug at generate_stubs.py:514, ~120 → 3         |
-| 6. Trim version coverage         | done — release.yml scoped to 12.x auto-publish        |
-| 7. Delete refinement machinery   | done — 7 files removed, README + decisions updated    |
-| 7b. Property-override Liskov fix | done — T2 dropped 3 → 0 (skip override on probe fail) |
-| 8. Re-publish                    | not started                                           |
+| Step                                      | Status                                                |
+| ----------------------------------------- | ----------------------------------------------------- |
+| 1. Verification CI                        | done — baseline: T1 ✓, T4 ✓, T2 29 errs               |
+| 2. Strip pipeline to parse-only           | done — T2 dropped 29 → 3                              |
+| 3. ~~Callsite refinement~~                | dropped — same vein as LLM                            |
+| 4. ~~`manual_refinements.json`~~          | superseded by Step 9 (yaml-based, narrower scope)     |
+| 5. Parser `T \| None` audit               | done — bug at generate_stubs.py:514, ~120 → 3         |
+| 6. Trim version coverage                  | done — release.yml scoped to 12.x auto-publish        |
+| 7. Delete refinement machinery            | done — 7 files removed, README + decisions updated    |
+| 7b. Property-override Liskov fix          | done — T2 dropped 3 → 0 (skip override on probe fail) |
+| 8. Offline corpus audit tool              | done — 12,094 raw → 40 candidates                     |
+| 9. Manual refinements infrastructure      | done — yaml + apply script + run_parse_pipeline wire  |
+| 10. Generator fix: enum-arg widening      | not started                                           |
+| 11. Generator fix: NoneType → Any         | not started                                           |
+| 12. Targeted refinements (16 entries)     | not started                                           |
+| 13. Investigate `BrowserItem` / `DrumPad` | not started                                           |
+| 14. Expand Tier 4 with audit findings     | not started                                           |
+| 15. Re-publish                            | not started                                           |
+
+`argN` cosmetic pass: deferred. Not part of this branch unless explicitly re-scoped.
