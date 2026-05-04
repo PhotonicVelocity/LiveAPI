@@ -267,11 +267,14 @@ _meta:
   args:
     arg2: note
     arg3: source
+    arg4: amount
   source: |
-    Imported from refinements.callsite.json (deterministic AST analysis
-    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
-      - arg2 -> note  [callsite analysis]: definition votes 6/7 for 'note'
-      - arg3 -> source  [callsite analysis]: definition votes 1/2 for 'source'
+    Mixed-source consolidation:
+      - arg2 -> note   [callsite]: definition votes 6/7 for 'note'
+      - arg3 -> source [callsite]: definition votes 1/2 for 'source'
+      - arg4 -> amount [LLM / M4L docs]: MaxForLive docs explicitly name this
+        parameter 'amount'. Sister method `quantize(quantization_grid, amount)`
+        confirms the semantics — `amount` is the 0.0–1.0 quantization strength.
 
 "Live.ClipSlot.ClipSlot.create_clip":
   args:

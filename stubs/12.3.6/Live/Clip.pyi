@@ -918,7 +918,7 @@ class Clip(LomObject):
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, note: int, source: int, arg4: float, /) -> None:
+    def quantize_pitch(self, note: int, source: int, amount: float, /) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 

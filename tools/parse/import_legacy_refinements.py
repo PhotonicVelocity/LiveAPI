@@ -138,43 +138,68 @@ def main() -> int:
     total_entries = 0
     total_renames = 0
 
-    callsite_paths: set[str] = set()
-    if args.source in ("both", "callsite"):
-        cs = json.loads((pipeline / "refinements.callsite.json").read_text())
-        out.write("\n# ─── from refinements.callsite.json (deterministic, vote-counted) ─────────────\n")
-        for path, ref in cs.get("refinements", {}).items():
-            renames = ref.get("args") or {}
-            if not renames:
-                continue
-            node = tree_index.get(path)
-            if not node:
-                out.write(f"\n# SKIP: {path} not found in parsed tree\n")
-                continue
-            n = _emit_arg_rename_entry(out, path, node.get("args") or [], renames, origin="callsite")
-            if n:
-                callsite_paths.add(path)
-                total_entries += 1
-                total_renames += n
+    # Per-arg merge: callsite wins ties, LLM fills gaps. Per-path emission keeps the
+    # source citations distinct so reviewers can see which name came from which source.
+    cs_data = json.loads((pipeline / "refinements.callsite.json").read_text()) \
+        if args.source in ("both", "callsite") else {"refinements": {}}
+    llm_data = json.loads((pipeline / "refinements.llm.json").read_text()) \
+        if args.source in ("both", "llm") else {"refinements": {}}
 
-    if args.source in ("both", "llm"):
-        llm = json.loads((pipeline / "refinements.llm.json").read_text())
-        out.write("\n# ─── from refinements.llm.json (LLM-derived; per-arg source labels) ──────────\n")
-        out.write("# Paths already emitted from callsite are skipped — callsite is more authoritative.\n")
-        for path, ref in llm.get("refinements", {}).items():
-            args_renames = ref.get("args") or {}
-            if not args_renames:
-                continue
-            if path in callsite_paths:
-                out.write(f"\n# SKIP {path}: already emitted from callsite (deterministic supersedes LLM)\n")
-                continue
-            node = tree_index.get(path)
-            if not node:
-                out.write(f"\n# SKIP: {path} not found in parsed tree\n")
-                continue
-            n = _emit_arg_rename_entry(out, path, node.get("args") or [], args_renames, origin="llm")
-            if n:
-                total_entries += 1
-                total_renames += n
+    cs_refs = cs_data.get("refinements", {})
+    llm_refs = llm_data.get("refinements", {})
+    all_paths = sorted(set(cs_refs) | set(llm_refs))
+
+    out.write("\n# Per-path consolidated entries. Callsite wins ties; LLM fills gaps.\n")
+    for path in all_paths:
+        node = tree_index.get(path)
+        if not node:
+            out.write(f"\n# SKIP: {path} not found in parsed tree\n")
+            continue
+        actual_arg_names = {a.get("name") for a in (node.get("args") or [])}
+
+        cs_args = (cs_refs.get(path) or {}).get("args") or {}
+        llm_args = (llm_refs.get(path) or {}).get("args") or {}
+
+        merged_renames: list[tuple[str, str, str, str]] = []  # (from, to, source_label, source_text)
+        for from_name in actual_arg_names:
+            if from_name in cs_args:
+                fix = cs_args[from_name]
+                votes = fix.get("_votes") or {}
+                total = fix.get("_total_defs") or sum(votes.values())
+                top = votes.get(fix.get("name"), 0)
+                merged_renames.append(
+                    (from_name, fix["name"], "callsite", f"definition votes {top}/{total} for {fix['name']!r}")
+                )
+            elif from_name in llm_args:
+                fix = llm_args[from_name]
+                if "name" not in fix or fix["name"] == from_name:
+                    continue
+                reason = fix.get("name_reason", "")
+                merged_renames.append(
+                    (from_name, fix["name"], _classify_llm_source(reason), reason.replace("\n", " ").strip())
+                )
+
+        merged_renames = [r for r in merged_renames if r[0] != r[1]]
+        if not merged_renames:
+            continue
+
+        out.write(f"\n{_yaml_string(path)}:\n")
+        out.write("  args:\n")
+        for from_name, new_name, _, _ in merged_renames:
+            out.write(f"    {from_name}: {new_name}\n")
+        out.write("  source: |\n")
+        sources_used = sorted({label for _, _, label, _ in merged_renames})
+        if sources_used == ["callsite"]:
+            out.write("    Imported from refinements.callsite.json (AST analysis, vote-counted):\n")
+        elif "callsite" in sources_used:
+            out.write("    Mixed-source: callsite (deterministic) + LLM (filling gaps):\n")
+        else:
+            out.write("    Imported from refinements.llm.json (LLM-derived):\n")
+        for from_name, new_name, label, text in merged_renames:
+            out.write(f"      - {from_name} -> {new_name}  [{label}]: {text}\n")
+
+        total_entries += 1
+        total_renames += len(merged_renames)
 
     if args.include_types:
         out.write("\n# TODO: --include-types is wired but type-override emission not yet implemented.\n")
