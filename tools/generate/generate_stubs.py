@@ -511,8 +511,12 @@ class StubGenerator:
                 if enum_class in self._class_to_module:
                     arg_type = f"{enum_class} | int"
 
-        # When default is None, widen type to accept None
-        if str(default) == "None" and "None" not in arg_type:
+        # When the explicit default value is the literal None (string "None" in the parsed
+        # tree), widen type to accept None. NB: an arg with no default has default == None
+        # (Python None, meaning "no default"), which must NOT trigger widening.
+        # `default == "None"` correctly distinguishes the two cases (Python None != "None"),
+        # whereas `str(default) == "None"` would conflate them.
+        if default == "None" and "None" not in arg_type:
             arg_type = f"{arg_type} | None"
 
         s = f"{name}: {arg_type}"

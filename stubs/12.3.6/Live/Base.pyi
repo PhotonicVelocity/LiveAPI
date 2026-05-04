@@ -27,10 +27,10 @@ class FloatVector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: float | None, /) -> None:
+    def append(self, value: float, /) -> None:
         ...
 
-    def extend(self, values: Iterable[float] | None, /) -> None:
+    def extend(self, values: Iterable[float], /) -> None:
         ...
 
 class IntU64Vector(Iterable):
@@ -52,10 +52,10 @@ class IntU64Vector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: int | None, /) -> None:
+    def append(self, value: int, /) -> None:
         ...
 
-    def extend(self, values: Iterable[int] | None, /) -> None:
+    def extend(self, values: Iterable[int], /) -> None:
         ...
 
 class IntVector(Iterable[int]):
@@ -77,10 +77,10 @@ class IntVector(Iterable[int]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: int | None, /) -> None:
+    def append(self, value: int, /) -> None:
         ...
 
-    def extend(self, values: Iterable[int] | None, /) -> None:
+    def extend(self, values: Iterable[int], /) -> None:
         ...
 
 class LimitationError(Exception): ...
@@ -104,10 +104,10 @@ class ObjectVector(Iterable[object]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: object | None, /) -> None:
+    def append(self, value: object, /) -> None:
         ...
 
-    def extend(self, values: Iterable[object] | None, /) -> None:
+    def extend(self, values: Iterable[object], /) -> None:
         ...
 
 class StringVector(Iterable[str]):
@@ -129,10 +129,10 @@ class StringVector(Iterable[str]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: str | None, /) -> None:
+    def append(self, value: str, /) -> None:
         ...
 
-    def extend(self, values: Iterable[str] | None, /) -> None:
+    def extend(self, values: Iterable[str], /) -> None:
         ...
 
 class Text:
@@ -179,20 +179,20 @@ class Vector(Generic[T]):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: LomObject | None, /) -> None:
+    def append(self, value: LomObject, /) -> None:
         ...
 
-    def extend(self, values: Iterable[LomObject] | None, /) -> None:
+    def extend(self, values: Iterable[LomObject], /) -> None:
         ...
 
-def get_text(classname: str | None, textname: str | None, /) -> Text:
+def get_text(classname: str, textname: str, /) -> Text:
     """Retrieves the (translated) Text identified by `classname` and `textname`."""
     ...
 
-def log(arg1: str | None, /) -> None:
+def log(arg1: str, /) -> None:
     ...
 
-def subst_args(text: Text | None, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '', /) -> str:
+def subst_args(text: Text, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '', /) -> str:
     ...
 
 __all__ = ['FloatVector', 'IntU64Vector', 'IntVector', 'LimitationError', 'ObjectVector', 'StringVector', 'Text', 'Timer', 'Vector', 'get_text', 'log', 'subst_args']

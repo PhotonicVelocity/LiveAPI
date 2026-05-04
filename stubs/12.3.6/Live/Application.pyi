@@ -27,28 +27,28 @@ class Application(LomObject):
         def _live_ptr(self) -> int:
             ...
 
-        def add_browse_mode_listener(self, callback: Callable | None, /) -> None:
+        def add_browse_mode_listener(self, callback: Callable, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "browse_mode" has changed.
             """
             ...
 
-        def add_focused_document_view_listener(self, callback: Callable | None, /) -> None:
+        def add_focused_document_view_listener(self, callback: Callable, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "focused_document_view" has changed.
             """
             ...
 
-        def add_is_view_visible_listener(self, arg2: str | None, callback: Callable | None, /) -> None:
+        def add_is_view_visible_listener(self, arg2: str, callback: Callable, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_view_visible" has changed.
             """
             ...
 
-        def add_view_focus_changed_listener(self, callback: Callable | None, /) -> None:
+        def add_view_focus_changed_listener(self, callback: Callable, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "view_focus_changed" has changed.
@@ -69,7 +69,7 @@ class Application(LomObject):
             """Return true if HotSwap mode is active for any target."""
             ...
 
-        def browse_mode_has_listener(self, callback: Callable | None, /) -> bool:
+        def browse_mode_has_listener(self, callback: Callable, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "browse_mode".
@@ -81,7 +81,7 @@ class Application(LomObject):
             """Get the canonical parent of the application view."""
             ...
 
-        def focus_view(self, arg2: str | None, /) -> None:
+        def focus_view(self, arg2: str, /) -> None:
             """Show and focus one through the identifier string specified view."""
             ...
 
@@ -93,18 +93,18 @@ class Application(LomObject):
             """
             ...
 
-        def focused_document_view_has_listener(self, callback: Callable | None, /) -> bool:
+        def focused_document_view_has_listener(self, callback: Callable, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "focused_document_view".
             """
             ...
 
-        def hide_view(self, arg2: str | None, /) -> None:
+        def hide_view(self, arg2: str, /) -> None:
             """Hide one through the identifier string specified view."""
             ...
 
-        def is_view_visible(self, identifier: str | None, main_window_only: bool = True, /) -> bool:
+        def is_view_visible(self, identifier: str, main_window_only: bool = True, /) -> bool:
             """
             Return true if the through the identifier string specified view is currently
             visible. If main_window_only is set to False, this will also check in second
@@ -112,42 +112,42 @@ class Application(LomObject):
             """
             ...
 
-        def is_view_visible_has_listener(self, arg2: str | None, callback: Callable | None, /) -> bool:
+        def is_view_visible_has_listener(self, arg2: str, callback: Callable, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_view_visible".
             """
             ...
 
-        def remove_browse_mode_listener(self, callback: Callable | None, /) -> None:
+        def remove_browse_mode_listener(self, callback: Callable, /) -> None:
             """
             Remove a previously set listener function or method from
             property "browse_mode".
             """
             ...
 
-        def remove_focused_document_view_listener(self, callback: Callable | None, /) -> None:
+        def remove_focused_document_view_listener(self, callback: Callable, /) -> None:
             """
             Remove a previously set listener function or method from
             property "focused_document_view".
             """
             ...
 
-        def remove_is_view_visible_listener(self, arg2: str | None, callback: Callable | None, /) -> None:
+        def remove_is_view_visible_listener(self, arg2: str, callback: Callable, /) -> None:
             """
             Remove a previously set listener function or method from
             property "is_view_visible".
             """
             ...
 
-        def remove_view_focus_changed_listener(self, callback: Callable | None, /) -> None:
+        def remove_view_focus_changed_listener(self, callback: Callable, /) -> None:
             """
             Remove a previously set listener function or method from
             property "view_focus_changed".
             """
             ...
 
-        def scroll_view(self, arg2: int | None, arg3: str | None, arg4: bool | None, /) -> None:
+        def scroll_view(self, arg2: int, arg3: str, arg4: bool, /) -> None:
             """
             Scroll through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -155,7 +155,7 @@ class Application(LomObject):
             """
             ...
 
-        def show_view(self, arg2: str | None, /) -> None:
+        def show_view(self, arg2: str, /) -> None:
             """
             Show one through the identifier string specified view. Will throw a
             runtime error if this is called in Live's initialization scope.
@@ -169,14 +169,14 @@ class Application(LomObject):
             """
             ...
 
-        def view_focus_changed_has_listener(self, callback: Callable | None, /) -> bool:
+        def view_focus_changed_has_listener(self, callback: Callable, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "view_focus_changed".
             """
             ...
 
-        def zoom_view(self, arg2: int | None, arg3: str | None, arg4: bool | None, /) -> None:
+        def zoom_view(self, arg2: int, arg3: str, arg4: bool, /) -> None:
             """
             Zoom through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -184,35 +184,35 @@ class Application(LomObject):
             """
             ...
 
-    def add_average_process_usage_listener(self, callback: Callable | None, /) -> None:
+    def add_average_process_usage_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "average_process_usage" has changed.
         """
         ...
 
-    def add_control_surfaces_listener(self, callback: Callable | None, /) -> None:
+    def add_control_surfaces_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "control_surfaces" has changed.
         """
         ...
 
-    def add_open_dialog_count_listener(self, callback: Callable | None, /) -> None:
+    def add_open_dialog_count_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "open_dialog_count" has changed.
         """
         ...
 
-    def add_peak_process_usage_listener(self, callback: Callable | None, /) -> None:
+    def add_peak_process_usage_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "peak_process_usage" has changed.
         """
         ...
 
-    def add_unavailable_features_listener(self, callback: Callable | None, /) -> None:
+    def add_unavailable_features_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "unavailable_features" has changed.
@@ -224,7 +224,7 @@ class Application(LomObject):
         """Reports Live's average CPU load."""
         ...
 
-    def average_process_usage_has_listener(self, callback: Callable | None, /) -> bool:
+    def average_process_usage_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "average_process_usage".
@@ -249,7 +249,7 @@ class Application(LomObject):
         """
         ...
 
-    def control_surfaces_has_listener(self, callback: Callable | None, /) -> bool:
+    def control_surfaces_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "control_surfaces".
@@ -294,7 +294,7 @@ class Application(LomObject):
         """Returns the full version string of Live."""
         ...
 
-    def has_option(self, arg2: str | None, /) -> bool:
+    def has_option(self, arg2: str, /) -> bool:
         """Returns True if the given entry exists in Options.txt, False otherwise."""
         ...
 
@@ -308,7 +308,7 @@ class Application(LomObject):
         """The number of open dialogs in Live. 0 if not dialog is open."""
         ...
 
-    def open_dialog_count_has_listener(self, callback: Callable | None, /) -> bool:
+    def open_dialog_count_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "open_dialog_count".
@@ -320,57 +320,57 @@ class Application(LomObject):
         """Reports Live's peak CPU load."""
         ...
 
-    def peak_process_usage_has_listener(self, callback: Callable | None, /) -> bool:
+    def peak_process_usage_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "peak_process_usage".
         """
         ...
 
-    def press_current_dialog_button(self, arg2: int | None, /) -> None:
+    def press_current_dialog_button(self, arg2: int, /) -> None:
         """Press a button, by index, on the current message box."""
         ...
 
-    def remove_average_process_usage_listener(self, callback: Callable | None, /) -> None:
+    def remove_average_process_usage_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "average_process_usage".
         """
         ...
 
-    def remove_control_surfaces_listener(self, callback: Callable | None, /) -> None:
+    def remove_control_surfaces_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "control_surfaces".
         """
         ...
 
-    def remove_open_dialog_count_listener(self, callback: Callable | None, /) -> None:
+    def remove_open_dialog_count_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "open_dialog_count".
         """
         ...
 
-    def remove_peak_process_usage_listener(self, callback: Callable | None, /) -> None:
+    def remove_peak_process_usage_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "peak_process_usage".
         """
         ...
 
-    def remove_unavailable_features_listener(self, callback: Callable | None, /) -> None:
+    def remove_unavailable_features_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "unavailable_features".
         """
         ...
 
-    def show_message(self, text: Text | None, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, /) -> int:
+    def show_message(self, text: Text, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, /) -> int:
         """Shows a message box, returning the position of the pressed button."""
         ...
 
-    def show_on_the_fly_message(self, message: str | None, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = 0, /) -> int:
+    def show_on_the_fly_message(self, message: str, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = 0, /) -> int:
         """Same as show_message, but for when there is no predefined Text object."""
         ...
 
@@ -379,7 +379,7 @@ class Application(LomObject):
         """List of features that are unavailable due to limitations of the current Live edition."""
         ...
 
-    def unavailable_features_has_listener(self, callback: Callable | None, /) -> bool:
+    def unavailable_features_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "unavailable_features".
@@ -423,30 +423,30 @@ class ControlDescriptionVector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: ControlDescription | None, /) -> None:
+    def append(self, value: ControlDescription, /) -> None:
         ...
 
-    def extend(self, values: Iterable[ControlDescription] | None, /) -> None:
+    def extend(self, values: Iterable[ControlDescription], /) -> None:
         ...
 
 class ControlSurfaceProxy:
     """Represents a control surface running in a different process. For use by M4L"""
 
-    def add_control_values_arrived_listener(self, callback: Callable | None, /) -> None:
+    def add_control_values_arrived_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "control_values_arrived" has changed.
         """
         ...
 
-    def add_midi_received_listener(self, callback: Callable | None, /) -> None:
+    def add_midi_received_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "midi_received" has changed.
         """
         ...
 
-    def add_pad_layout_listener(self, callback: Callable | None, /) -> None:
+    def add_pad_layout_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "pad_layout" has changed.
@@ -457,14 +457,14 @@ class ControlSurfaceProxy:
     def control_descriptions(self):
         ...
 
-    def control_values_arrived_has_listener(self, callback: Callable | None, /) -> bool:
+    def control_values_arrived_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "control_values_arrived".
         """
         ...
 
-    def enable_receive_midi(self, arg2: bool | None, /) -> None:
+    def enable_receive_midi(self, arg2: bool, /) -> None:
         ...
 
     def fetch_received_midi_messages(self) -> tuple:
@@ -473,10 +473,10 @@ class ControlSurfaceProxy:
     def fetch_received_values(self) -> tuple:
         ...
 
-    def grab_control(self, arg2: int | None, /) -> None:
+    def grab_control(self, arg2: int, /) -> None:
         ...
 
-    def midi_received_has_listener(self, callback: Callable | None, /) -> bool:
+    def midi_received_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "midi_received".
@@ -488,51 +488,51 @@ class ControlSurfaceProxy:
         """The layout of pads on Push."""
         ...
 
-    def pad_layout_has_listener(self, callback: Callable | None, /) -> bool:
+    def pad_layout_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "pad_layout".
         """
         ...
 
-    def release_control(self, arg2: int | None, /) -> None:
+    def release_control(self, arg2: int, /) -> None:
         ...
 
-    def remove_control_values_arrived_listener(self, callback: Callable | None, /) -> None:
+    def remove_control_values_arrived_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "control_values_arrived".
         """
         ...
 
-    def remove_midi_received_listener(self, callback: Callable | None, /) -> None:
+    def remove_midi_received_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "midi_received".
         """
         ...
 
-    def remove_pad_layout_listener(self, callback: Callable | None, /) -> None:
+    def remove_pad_layout_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "pad_layout".
         """
         ...
 
-    def send_midi(self, arg2: tuple | None, /) -> None:
+    def send_midi(self, arg2: tuple, /) -> None:
         ...
 
-    def send_value(self, arg2: tuple | None, /) -> None:
+    def send_value(self, arg2: tuple, /) -> None:
         ...
 
-    def subscribe_to_control(self, arg2: int | None, /) -> None:
+    def subscribe_to_control(self, arg2: int, /) -> None:
         ...
 
     @property
     def type_name(self):
         ...
 
-    def unsubscribe_from_control(self, arg2: int | None, /) -> None:
+    def unsubscribe_from_control(self, arg2: int, /) -> None:
         ...
 
 class MessageButtons(int):
@@ -572,10 +572,10 @@ class UnavailableFeatureVector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: UnavailableFeature | None, /) -> None:
+    def append(self, value: UnavailableFeature, /) -> None:
         ...
 
-    def extend(self, values: Iterable[UnavailableFeature] | None, /) -> None:
+    def extend(self, values: Iterable[UnavailableFeature], /) -> None:
         ...
 
 class Variants:
@@ -591,11 +591,11 @@ def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
     ...
 
-def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0, /) -> tuple:
+def encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0, /) -> tuple:
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 
-def encrypt_challenge2(arg1: int | None, /) -> int:
+def encrypt_challenge2(arg1: int, /) -> int:
     """Returns the UMAC hash for the given challenge."""
     ...
 
@@ -603,7 +603,7 @@ def get_application() -> Application:
     """Returns the application instance."""
     ...
 
-def get_random_int(arg1: int | None, arg2: int | None, /) -> int:
+def get_random_int(arg1: int, arg2: int, /) -> int:
     """Returns a random integer from the given range."""
     ...
 

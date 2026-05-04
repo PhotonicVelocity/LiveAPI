@@ -17,56 +17,56 @@ class Chain(DeviceContainer):
     def _live_ptr(self) -> int:
         ...
 
-    def add_color_index_listener(self, callback: Callable | None, /) -> None:
+    def add_color_index_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color_index" has changed.
         """
         ...
 
-    def add_color_listener(self, callback: Callable | None, /) -> None:
+    def add_color_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color" has changed.
         """
         ...
 
-    def add_devices_listener(self, callback: Callable | None, /) -> None:
+    def add_devices_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "devices" has changed.
         """
         ...
 
-    def add_is_auto_colored_listener(self, callback: Callable | None, /) -> None:
+    def add_is_auto_colored_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_auto_colored" has changed.
         """
         ...
 
-    def add_mute_listener(self, callback: Callable | None, /) -> None:
+    def add_mute_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mute" has changed.
         """
         ...
 
-    def add_muted_via_solo_listener(self, callback: Callable | None, /) -> None:
+    def add_muted_via_solo_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "muted_via_solo" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable | None, /) -> None:
+    def add_name_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_solo_listener(self, callback: Callable | None, /) -> None:
+    def add_solo_listener(self, callback: Callable, /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "solo" has changed.
@@ -86,7 +86,7 @@ class Chain(DeviceContainer):
     @color.setter
     def color(self, value: int) -> None: ...
 
-    def color_has_listener(self, callback: Callable | None, /) -> bool:
+    def color_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color".
@@ -101,14 +101,14 @@ class Chain(DeviceContainer):
     @color_index.setter
     def color_index(self, value: int) -> None: ...
 
-    def color_index_has_listener(self, callback: Callable | None, /) -> bool:
+    def color_index_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color_index".
         """
         ...
 
-    def delete_device(self, arg2: int | None, /) -> None:
+    def delete_device(self, arg2: int, /) -> None:
         """Remove a device identified by its index from the chain. Throws runtime error if bad index."""
         ...
 
@@ -117,14 +117,14 @@ class Chain(DeviceContainer):
         """Return const access to all available Devices that are present in the chains"""
         ...
 
-    def devices_has_listener(self, callback: Callable | None, /) -> bool:
+    def devices_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "devices".
         """
         ...
 
-    def duplicate_device(self, arg2: int | None, /) -> None:
+    def duplicate_device(self, arg2: int, /) -> None:
         """Duplicate the device at the given index in the chain."""
         ...
 
@@ -160,7 +160,7 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def insert_device(self, device_name: str | None, device_index: int = -1, /) -> LomObject:
+    def insert_device(self, device_name: str, device_index: int = -1, /) -> LomObject:
         """Add a device at a given index in the chain. At end if -1."""
         ...
 
@@ -176,7 +176,7 @@ class Chain(DeviceContainer):
     @is_auto_colored.setter
     def is_auto_colored(self, value: bool) -> None: ...
 
-    def is_auto_colored_has_listener(self, callback: Callable | None, /) -> bool:
+    def is_auto_colored_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_auto_colored".
@@ -199,7 +199,7 @@ class Chain(DeviceContainer):
     @mute.setter
     def mute(self, value: bool) -> None: ...
 
-    def mute_has_listener(self, callback: Callable | None, /) -> bool:
+    def mute_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mute".
@@ -214,7 +214,7 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def muted_via_solo_has_listener(self, callback: Callable | None, /) -> bool:
+    def muted_via_solo_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "muted_via_solo".
@@ -229,63 +229,63 @@ class Chain(DeviceContainer):
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable | None, /) -> bool:
+    def name_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def remove_color_index_listener(self, callback: Callable | None, /) -> None:
+    def remove_color_index_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "color_index".
         """
         ...
 
-    def remove_color_listener(self, callback: Callable | None, /) -> None:
+    def remove_color_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "color".
         """
         ...
 
-    def remove_devices_listener(self, callback: Callable | None, /) -> None:
+    def remove_devices_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "devices".
         """
         ...
 
-    def remove_is_auto_colored_listener(self, callback: Callable | None, /) -> None:
+    def remove_is_auto_colored_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_auto_colored".
         """
         ...
 
-    def remove_mute_listener(self, callback: Callable | None, /) -> None:
+    def remove_mute_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "mute".
         """
         ...
 
-    def remove_muted_via_solo_listener(self, callback: Callable | None, /) -> None:
+    def remove_muted_via_solo_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "muted_via_solo".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable | None, /) -> None:
+    def remove_name_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_solo_listener(self, callback: Callable | None, /) -> None:
+    def remove_solo_listener(self, callback: Callable, /) -> None:
         """
         Remove a previously set listener function or method from
         property "solo".
@@ -304,7 +304,7 @@ class Chain(DeviceContainer):
     @solo.setter
     def solo(self, value: bool) -> None: ...
 
-    def solo_has_listener(self, callback: Callable | None, /) -> bool:
+    def solo_has_listener(self, callback: Callable, /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "solo".

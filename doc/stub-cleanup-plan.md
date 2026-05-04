@@ -120,13 +120,13 @@ When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed 
 
 ## Status
 
-| Step                             | Status                                       |
-| -------------------------------- | -------------------------------------------- |
-| 1. Verification CI               | done — baseline: T1 ✓, T4 ✓, T2 29 errs      |
-| 2. Strip pipeline to parse-only  | done — T2 dropped 29 → 3                     |
-| 3. ~~Callsite refinement~~       | dropped — same vein as LLM                   |
-| 4. ~~`manual_refinements.json`~~ | dropped — only add if Step 5 surfaces a need |
-| 5. Parser `T \| None` audit      | not started                                  |
-| 6. Trim version coverage         | not started                                  |
-| 7. Delete refinement machinery   | not started                                  |
-| 8. Re-publish                    | not started                                  |
+| Step                             | Status                                        |
+| -------------------------------- | --------------------------------------------- |
+| 1. Verification CI               | done — baseline: T1 ✓, T4 ✓, T2 29 errs       |
+| 2. Strip pipeline to parse-only  | done — T2 dropped 29 → 3                      |
+| 3. ~~Callsite refinement~~       | dropped — same vein as LLM                    |
+| 4. ~~`manual_refinements.json`~~ | dropped — only add if Step 5 surfaces a need  |
+| 5. Parser `T \| None` audit      | done — bug at generate_stubs.py:514, ~120 → 3 |
+| 6. Trim version coverage         | not started                                   |
+| 7. Delete refinement machinery   | not started                                   |
+| 8. Re-publish                    | not started                                   |

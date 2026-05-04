@@ -45,10 +45,10 @@ class ListenerVector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: ListenerHandle | None, /) -> None:
+    def append(self, value: ListenerHandle, /) -> None:
         ...
 
-    def extend(self, values: Iterable[ListenerHandle] | None, /) -> None:
+    def extend(self, values: Iterable[ListenerHandle], /) -> None:
         ...
 
 __all__ = ['ListenerHandle', 'ListenerVector']
