@@ -494,11 +494,14 @@ cover yet, that becomes the next slice's target.
 
 The dimensions don't get built in order; they get built _as the slice's target needs them._
 
-1. **Slice 1 — `Song.tempo` (the contracts).** Canonical simple property: settable, undo-tracked, immediate,
-   no preconditions, no side-effects worth naming. The probe is trivial; the deliverable is the contracts
-   the previous attempt didn't lock down — see ["What this means for Slice 1"](#what-this-means-for-slice-1)
-   above. Renders one fully-verified property in the published reference. Adds the dimensions: `async_class`,
-   `undo_tracked`, `notes`.
+1. **Slice 1 — `Song.tempo` (the contracts). _This is the MVP._** Canonical simple property: settable,
+   undo-tracked, immediate, no preconditions, no side-effects worth naming. The probe is trivial; the
+   deliverable is the contracts the previous attempt didn't lock down — see ["What this means for Slice
+   1"](#what-this-means-for-slice-1) above. Renders one fully-verified property end-to-end. Adds the
+   dimensions: `async_class`, `undo_tracked`, `notes`. Lives on a branch until MVP is publishable; merging
+   to main flips the canonical site in a single swap-day deploy (see
+   [Publishing](#publishing-and-staging)). Slices 2+ are post-MVP expansions, each independently shippable
+   against the same plumbing.
 2. **Slice 2 — `Song.overdub` (state tagging + preconditions).** A property whose mutation is silently
    ignored under one precondition (no track armed) and effective under another (track armed). Forces the
    precondition table to grow from "trivial" to actually useful, and forces the renderer to display the
@@ -528,18 +531,51 @@ speculation.
 
 ## Salvage from `doc/live-api/`
 
-The 41 untracked baseline files are the seed corpus for both `Notes:` blocks and `behavioral.json` hypotheses.
-Salvage path:
+The 41 untracked baseline files are the **seed corpus across all slices** — not a one-time migration to
+complete before MVP. Each slice picks a target, draws what's relevant from the baseline (probe notes, open
+questions, behavioral observations), turns it into a hypothesis record, and ships. The baseline gets drained
+gradually as slices cover its content.
 
-1. Categorize each "Probe Notes" / "Open Questions" bullet as either prose (→ `Notes:`) or structured (→
-   behavioral hypothesis).
-2. Once content is migrated, the originals get deleted (they're un-versioned scratch anyway).
-3. The new `reference/` markdown is generated from the merge — no hand-edits to it.
+Two anchors:
+
+1. The baseline is _unversioned scratch_. Don't treat it as canon; don't preserve its formatting. Treat it
+   as a notebook of prior probing that hasn't yet been turned into structured hypotheses.
+2. Once a member's content has been fully absorbed into hypothesis records, its baseline file can be
+   deleted — but there's no rush, and partial absorption is fine. A baseline file with three bullets
+   migrated and seven still pending stays where it is.
+
+There is also a separate floor to honor: the **existing live `reference/*.md`** files (slim, hand-written,
+already publicly served). Anything the new generator emits at a public URL has to be at least as informative
+as what's there now, or the public face of the project regresses. See [Publishing and
+staging](#publishing-and-staging) for how that floor is preserved during MVP.
+
+## Publishing and staging
+
+The repo is public, but the site is recent and unstarred — no known external citations to defend. That
+makes the publishing strategy simple:
+
+**Swap-day.** MVP work lives on a branch (`behavioral-pipeline-architecture` and descendants). The current
+site keeps serving the existing slim reference unchanged until MVP is publishable. When it is, a single
+merge to main flips the canonical site to the new generator output in one deploy.
+
+The only obligation: **prospective URL stability from Slice 1 forward.** The new generator emits explicit
+anchor IDs derived from dotted paths (`#live-song-song-tempo`) so future heading rewords don't break
+inbound links. Slug changes between old and new slim-vs-rich layout are accepted as a one-time event with
+no redirect plan; this is the cheapest moment to incur it.
+
+If the repo gains visible traction during MVP development (stars, external links discovered), revisit. The
+fallback is **side-by-side preview** at a separate path (`/LiveAPI/preview/`) until the new content is
+unambiguously better, with redirects on slug changes. More plumbing; only worth it if there's something to
+defend.
 
 ## Open questions
 
-1. **Per-version vs canonical sidecar.** Does `behavioral.json` live per-stub-version, or is there one
-   canonical file with per-version overrides? Defer until Slice 1 has data.
+1. **Sidecar version axis.** _Decided._ MVP ships **12.x only** — one sidecar (`behavioral.12.json`),
+   probed against the latest 12.x. The architecture supports **per-major** sidecars
+   (`behavioral.<major>.json`) as the post-MVP target; an **11.x backfill** is a planned one-time pass after
+   MVP, not its own Slice. Per-minor-with-inheritance is rejected as overhead with no commensurate value.
+   Drift detection within a major runs against new minors as Ableton ships them; `verified_against` records
+   the latest minor each sidecar was probed against.
 2. **`Notes:` editability across versions.** When 12.4 ships, do we copy the 12.3.6 stubs forward and
    re-apply `Notes:` blocks? Or extract `Notes:` to a sidecar and inject at codegen time? Defer; depends on
    how often prose actually changes between versions.
@@ -575,10 +611,12 @@ Salvage path:
     once enough hypotheses exist), what does the human-readable report look like? Per-member status table on
     the reference site? A CI-emitted markdown summary on each Live release PR? Defer until we have real drift
     to look at.
-11. **Citability of the published reference.** Step 4 of the loop relies on stable URLs. The current MkDocs
-    site uses class-name-based slugs; member anchors depend on heading text. Audit whether existing slugs
-    are stable enough to cite from P4L source files, or whether members should get explicit anchor IDs
-    derived from their dotted path.
+11. **Citability of the published reference.** _Decided._ Prospective only — repo is recent, unstarred, no
+    known external citations to defend. The new generator emits **explicit anchor IDs derived from dotted
+    paths** (`#live-song-song-tempo`) from Slice 1 onward, so future heading rewords never break inbound
+    links. Slug changes between the old slim layout and the new rich layout are a one-time accepted event,
+    no redirect plan. Revisit if the repo gains visible traction during MVP development; fallback is the
+    side-by-side preview strategy noted in [Publishing](#publishing-and-staging).
 
 ## What this supersedes (eventually)
 
