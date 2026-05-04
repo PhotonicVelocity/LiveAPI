@@ -7,7 +7,6 @@ if TYPE_CHECKING:
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
-    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
@@ -325,7 +324,7 @@ class RackDevice(Device):
         """
         ...
 
-    def insert_chain(self, index: int = -1, /) -> LomObject:
+    def insert_chain(self, index: int = -1, /) -> Chain:
         """Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence."""
         ...
 

@@ -461,7 +461,7 @@ class Sample(LomObject):
         ...
 
     @property
-    def slices(self) -> tuple:
+    def slices(self) -> tuple[int, ...]:
         """Access to the list of slice points in sample time in the sample."""
         ...
 

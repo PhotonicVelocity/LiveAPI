@@ -44,7 +44,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 #     "probed_type":  "Type"                        # override the property's probed type
 #     "source":       "<rationale citation>"        # required
 #   }
-ALLOWED_FIELDS = {"args", "arg_types", "return_type", "probed_type", "source", "_note"}
+ALLOWED_FIELDS = {"args", "arg_types", "return_type", "probed_type", "element_repr", "source", "_note"}
 
 
 def _walk(node: dict, path: str = "") -> Iterator[tuple[str, dict]]:
@@ -131,6 +131,14 @@ def _apply_one(node: dict, refinement: dict, dotted_path: str) -> list[str]:
             refinement["probed_type"], old, "probed_type", dotted_path, log
         )
         log.append(f"  {dotted_path}: probed_type {old!r} -> {node['probed_type']!r}")
+
+    # --- element_repr override (for Vector/iterable parameterization) -------------------
+    if "element_repr" in refinement:
+        old = node.get("element_repr")
+        node["element_repr"] = _resolve_value(
+            refinement["element_repr"], old, "element_repr", dotted_path, log
+        )
+        log.append(f"  {dotted_path}: element_repr {old!r} -> {node['element_repr']!r}")
 
     return log
 

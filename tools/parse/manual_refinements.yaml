@@ -226,18 +226,24 @@ _meta:
 "Live.Application.ControlSurfaceProxy.send_midi":
   args:
     arg2: midi_event_bytes
+  arg_types:
+    midi_event_bytes:
+      from: object
+      to: "tuple[int, ...]"
   source: |
-    Imported from refinements.callsite.json (deterministic AST analysis
-    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
-      - arg2 -> midi_event_bytes  [callsite analysis]: definition votes 10/20 for 'midi_event_bytes'
+    arg2 rename — callsite (deterministic AST analysis): definition votes 10/20 for 'midi_event_bytes'.
+    type — usage snippets show tuples of MIDI byte values being passed.
 
 "Live.Application.ControlSurfaceProxy.send_value":
   args:
     arg2: value
+  arg_types:
+    value:
+      from: object
+      to: "tuple[Any, ...]"
   source: |
-    Imported from refinements.callsite.json (deterministic AST analysis
-    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
-      - arg2 -> value  [callsite analysis]: definition votes 16/19 for 'value'
+    arg2 rename — callsite (deterministic AST analysis): definition votes 16/19 for 'value'.
+    type — usage shows various values wrapped in tuples being sent.
 
 "Live.Base.log":
   args:
@@ -518,9 +524,14 @@ _meta:
 "Live.Clip.Clip.replace_selected_notes":
   args:
     arg2: notes
+  arg_types:
+    notes:
+      from: object
+      to: "tuple[tuple[int, float, float, float, bool], ...]"
   source: |
-    Imported from refinements.llm.json (LLM-derived; source labels per arg):
-      - arg2 -> notes  [docstring]: description says 'tuple of tuples where each inner tuple represents a note'
+    arg2 rename — LLM (docstring): "tuple of tuples where each inner tuple represents a note".
+    type — same docstring: format matches get_selected_notes return shape:
+    (pitch, time, duration, velocity, mute) per note.
 
 "Live.Clip.Clip.select_notes_by_id":
   args:
@@ -539,9 +550,14 @@ _meta:
 "Live.Clip.Clip.set_notes":
   args:
     arg2: notes
+  arg_types:
+    notes:
+      from: object
+      to: "tuple[tuple[int, float, float, float, bool], ...]"
   source: |
-    Imported from refinements.llm.json (LLM-derived; source labels per arg):
-      - arg2 -> notes  [docstring]: description says 'tuple of tuples where each inner tuple represents a note'
+    arg2 rename — LLM (docstring): "tuple of tuples where each inner tuple represents a note".
+    type — same docstring: format matches get_notes return shape:
+    (pitch, time, duration, velocity, mute) per note.
 
 "Live.ClipSlot.ClipSlot.create_audio_clip":
   args:
@@ -633,16 +649,22 @@ _meta:
 "Live.MaxDevice.MaxDevice.get_bank_parameters":
   args:
     arg2: bank_index
+  return_type:
+    from: null
+    to: "list[int]"
   source: |
-    Imported from refinements.llm.json (LLM-derived; source labels per arg):
-      - arg2 -> bank_index  [M4L docs]: M4L docs explicitly name the parameter 'bank_index'
+    arg2 rename — LLM (M4L docs): docs explicitly name the parameter 'bank_index'.
+    return — M4L docs say "list of ints" (parameter indices).
 
 "Live.MaxDevice.MaxDevice.get_value_item_icons":
   args:
     arg2: device_parameter
+  return_type:
+    from: null
+    to: "list[str]"
   source: |
-    Imported from refinements.llm.json (LLM-derived; source labels per arg):
-      - arg2 -> device_parameter  [structural / other]: type is DeviceParameter and method operates on parameter's values
+    arg2 rename — LLM (structural): type is DeviceParameter; method operates on parameter values.
+    return — description says "list of icon identifier strings".
 
 "Live.MidiMap.forward_midi_cc":
   args:
@@ -866,3 +888,428 @@ _meta:
       - arg2 -> beats  [M4L docs]: M4L docs explicitly name the parameter 'beats'
 
 # Emitted 83 entries containing 126 arg renames.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Imported type-fix refinements from refinements.llm.json
+#
+# Per-entry reviewed before merge. Iterable[T] entries on vector-parameter
+# functions are explicitly REJECTED (see comments below) because the runtime
+# Boost.Python binding requires the native vector type, not any Iterable —
+# accepting a plain list at the type-checker level would re-introduce the
+# misleading-stubs failure mode (cf. P4L confirmed crash on Clip.add_new_notes
+# when passed a list rather than MidiNoteVector).
+# ──────────────────────────────────────────────────────────────────────────────
+
+# ─── Property probed_type (12 new entries; 8 nullable-ref ones already above) ─
+
+"Live.Application.ControlSurfaceProxy.control_descriptions":
+  probed_type:
+    from: null
+    to: ControlDescriptionVector
+  source: |
+    Probe couldn't reach this class (ControlSurfaceProxy is M4L-only). LLM
+    inferred from usage snippets showing iteration with .name attribute access.
+    The class ControlDescriptionVector exists in our stubs as the iterable type.
+
+"Live.Application.ControlSurfaceProxy.pad_layout":
+  probed_type:
+    from: null
+    to: str
+  source: |
+    M4L docs show string layout values like 'session' and 'note.drums.64_pads'.
+
+"Live.Application.ControlSurfaceProxy.type_name":
+  probed_type:
+    from: null
+    to: str
+  source: Property name + usage context indicate string return for control surface type.
+
+"Live.Base.Text.text":
+  probed_type:
+    from: null
+    to: str
+  source: Usage snippets show string assignment and retrieval; class is Text wrapping a string.
+
+"Live.Licensing.PythonLicensingBridge.base_product_id":
+  probed_type:
+    from: null
+    to: str
+  source: |
+    raw_doc: "Returns Live's current base product ID" — product IDs are string identifiers.
+
+"Live.Licensing.PythonLicensingBridge.in_sassafras_mode":
+  probed_type:
+    from: null
+    to: bool
+  source: Property name pattern "in X mode" indicates a boolean flag.
+
+"Live.Licensing.PythonLicensingBridge.license_must_match_variant":
+  probed_type:
+    from: null
+    to: bool
+  source: |
+    raw_doc: "Returns a bool indicating if we require..." — explicitly typed bool.
+
+"Live.Licensing.PythonLicensingBridge.random_number_for_trial_authorization":
+  probed_type:
+    from: null
+    to: int
+  source: |
+    raw_doc: "Returns the integer to send along with the Trial authorization request".
+
+"Live.Licensing.PythonLicensingBridge.set_has_unsaved_changes":
+  probed_type:
+    from: null
+    to: bool
+  source: |
+    raw_doc: "Returns true if the set has unsaved changes" — explicitly bool.
+
+"Live.Listener.ListenerHandle.listener_func":
+  probed_type:
+    from: null
+    to: Callable
+  source: raw_doc says "Returns the original function" — functions are Callable.
+
+"Live.Listener.ListenerHandle.listener_self":
+  probed_type:
+    from: null
+    to: Any
+  source: |
+    raw_doc says "weak reference to original self" — can be any object instance, so Any.
+
+"Live.Listener.ListenerHandle.name":
+  probed_type:
+    from: null
+    to: str
+  source: Property name + usage patterns indicate string identifier.
+
+# ─── Element type for Vector/iterable parameterization (12 entries) ───────────
+
+"Live.Application.Application.unavailable_features":
+  element_repr:
+    from: null
+    to: "<class 'UnavailableFeature'>"
+  source: |
+    Property's probed_type is UnavailableFeatureVector; element type is the
+    UnavailableFeature enum. Usage snippets confirm iteration yields enum values.
+
+"Live.Application.ControlDescriptionVector":
+  element_repr:
+    from: null
+    to: "<class 'ControlDescription'>"
+  source: Class name pattern; container of ControlDescription objects.
+
+"Live.Application.UnavailableFeatureVector":
+  element_repr:
+    from: null
+    to: "<class 'UnavailableFeature'>"
+  source: Class name pattern; container of UnavailableFeature enum values.
+
+"Live.Base.FloatVector":
+  element_repr:
+    from: null
+    to: "<class 'float'>"
+  source: raw_doc says "container for returning floats from Live".
+
+"Live.Base.IntU64Vector":
+  element_repr:
+    from: null
+    to: "<class 'int'>"
+  source: raw_doc says "container for returning unsigned long integers".
+
+"Live.Browser.BrowserItem.iter_children":
+  element_repr:
+    from: null
+    to: "<class 'BrowserItem'>"
+  source: Iterator over children browser items yields BrowserItem objects.
+
+"Live.Browser.BrowserItemIterator":
+  element_repr:
+    from: null
+    to: "<class 'BrowserItem'>"
+  source: raw_doc says "iterates over children of another BrowserItem".
+
+"Live.Listener.ListenerVector":
+  element_repr:
+    from: null
+    to: "<class 'ListenerHandle'>"
+  source: |
+    raw_doc says "container for accessing a list of listeners" — contains
+    ListenerHandle instances.
+
+"Live.MidiMap.CCFeedbackRule.cc_value_map":
+  element_repr:
+    from: null
+    to: "<class 'int'>"
+  source: MIDI CC values are integers in range 0-127.
+
+"Live.MidiMap.NoteFeedbackRule.vel_map":
+  element_repr:
+    from: null
+    to: "<class 'int'>"
+  source: MIDI velocity values are integers in range 0-127.
+
+"Live.MidiMap.PitchBendFeedbackRule.value_pair_map":
+  element_repr:
+    from: null
+    to: "<class 'tuple'>"
+  source: Field name + context indicates tuples of value pairs.
+
+"Live.Sample.Sample.slices":
+  element_repr:
+    from: null
+    to: "<class 'int'>"
+  source: |
+    M4L docs say "positions of all playable slices in sample frames" — frame
+    positions are integers.
+
+# ─── Argument types: low-risk fixes from M4L docs / docstrings (11 entries) ───
+
+# send_midi and send_value type fixes consolidated above (~line 226).
+
+"Live.Base.ObjectVector.append":
+  arg_types:
+    value:
+      from: object
+      to: Any
+  source: |
+    ObjectVector holds arbitrary Python objects as boost::python::api::object —
+    Any matches the underlying binding contract.
+
+"Live.Base.Vector.append":
+  arg_types:
+    value:
+      from: object
+      to: LomObject
+  source: |
+    Vector holds LomObject instances (TWeakPtr<TPyHandleBase> at the C++ layer) —
+    the companion type for Vector contents.
+
+"Live.Clip.Clip.add_warp_marker":
+  arg_types:
+    warp_marker:
+      from: object
+      to: WarpMarker
+  source: |
+    Method literally adds a WarpMarker; companion class name + API context.
+    Native Boost.Python binding takes the WarpMarker class instance.
+
+"Live.Clip.Clip.duplicate_notes_by_id":
+  arg_types:
+    destination_time:
+      from: object
+      to: "float | None"
+  source: |
+    M4L docs explicitly note destination_time as optional float; None means
+    default behavior (notes stay at original time).
+
+"Live.Licensing.PythonLicensingBridge.get_startup_dialog":
+  arg_types:
+    authorize_callable:
+      from: object
+      to: Callable
+    authorize_later_callable:
+      from: object
+      to: Callable
+  source: |
+    raw_doc: "callables connected to its buttons" — both args are callback functions.
+
+"Live.Licensing.PythonLicensingBridge.process_license_response":
+  arg_types:
+    license_response_lines:
+      from: object
+      to: "list[str]"
+  source: raw_doc explicitly says "list of strings, each representing a server response".
+
+"Live.Licensing.PythonLicensingBridge.set_network_timer":
+  arg_types:
+    callback:
+      from: object
+      to: "Callable | None"
+  source: raw_doc says "Pass None as callback to stop the timer".
+
+"Live.Song.Song.create_audio_track":
+  arg_types:
+    index:
+      from: object
+      to: "int | None"
+  source: |
+    M4L docs say optional index parameter; usage shows the function called with
+    no args (default = None means "append at end").
+
+"Live.Song.Song.create_midi_track":
+  arg_types:
+    index:
+      from: object
+      to: "int | None"
+  source: Same pattern as create_audio_track — M4L docs explicit.
+
+"Live.Song.Song.get_data":
+  arg_types:
+    default_value:
+      from: object
+      to: Any
+  return_type:
+    from: null
+    to: Any
+  source: |
+    arg type — usage shows various default-value types (bool, int, list, str, None).
+    get_data accepts any default and returns whatever was stored (or the default).
+
+"Live.Song.Song.set_data":
+  arg_types:
+    value:
+      from: object
+      to: Any
+  source: Usage shows various stored types — set_data accepts arbitrary persistent data.
+
+"Live.Track.Track.get_data":
+  arg_types:
+    default_value:
+      from: object
+      to: Any
+  return_type:
+    from: null
+    to: Any
+  source: Same pattern as Song.get_data — Track-level persistent data store.
+
+"Live.Track.Track.set_data":
+  arg_types:
+    value:
+      from: object
+      to: Any
+  source: Same pattern as Song.set_data.
+
+# Conservative widenings on find_device_position / move_device — M4L docs say
+# "chain container", which is Track or Chain. May be too narrow if Live ever
+# accepts other containers (DrumChain, RackDevice). Refinement targets the
+# documented contract; widen later if drift surfaces it.
+
+"Live.Song.Song.find_device_position":
+  arg_types:
+    target:
+      from: object
+      to: "Track | Chain"
+  source: M4L docs describe `target` as a chain container — Track or Chain in current Live.
+
+"Live.Song.Song.move_device":
+  arg_types:
+    target:
+      from: object
+      to: "Track | Chain"
+  source: Same pattern as find_device_position.
+
+# ─── Argument types: REJECTED Iterable[T] for vector-parameter functions ──────
+#
+# The following arg_type fixes from refinements.llm.json widen vector-parameter
+# functions to `Iterable[T]`. They are NOT applied here — see doc/decisions.md
+# "Stub Accuracy and Pipeline Posture": the runtime Boost.Python binding
+# requires the native vector class (e.g. MidiNoteVector, IntU64Vector), and a
+# plain Python list raises InternalError. P4L confirmed this exact failure on
+# Clip.apply_note_modifications. Iterable[T] in the stub would re-introduce
+# the misleading-stubs bug we're cleaning up.
+#
+# Cases reviewed and skipped:
+#   Clip.add_new_notes.arg2 → Iterable[MidiNoteSpecification]  REJECTED
+#   Clip.duplicate_notes_by_id.note_ids → Iterable[int]        REJECTED
+#   Clip.get_notes_by_id.note_ids → Iterable[int]              REJECTED
+#   Clip.remove_notes_by_id.arg2 → Iterable[int]               REJECTED
+#   Clip.select_notes_by_id.arg2 → Iterable[int]               REJECTED
+#
+# These remain as `object` (the parser's default for unresolved types).
+# Resolving them properly requires runtime probing to confirm which native
+# vector class each accepts (likely MidiNoteVector / IntU64Vector). Deferred
+# to the behavioral pipeline; explicitly NOT a refinement target in this pass.
+
+# ─── Tuple-of-tuples format for note set/replace ──────────────────────────────
+# Documented format from get_notes / get_selected_notes; safe to mirror.
+
+# replace_selected_notes and set_notes type fixes consolidated above (~line 524).
+
+# ─── Return types (16 entries, all from explicit M4L docs / docstrings) ──────
+
+"Live.Application.ControlSurfaceProxy.fetch_received_midi_messages":
+  return_type:
+    from: null
+    to: "tuple[tuple[int, ...], ...]"
+  source: Usage shows iteration over message tuples containing MIDI byte data.
+
+"Live.Application.ControlSurfaceProxy.fetch_received_values":
+  return_type:
+    from: null
+    to: "tuple[tuple[int, Any], ...]"
+  source: Usage shows unpacking tuples with control_id (int) and value pairs.
+
+"Live.Application.encrypt_challenge":
+  return_type:
+    from: null
+    to: "tuple[int, ...]"
+  source: Usage shows encryption function returning tuple of integer values.
+
+"Live.Chain.Chain.insert_device":
+  return_type:
+    from: null
+    to: Device
+  source: |
+    M4L docs and function semantics: returns the inserted Device. Sister
+    Track.insert_device behaves identically.
+
+"Live.Clip.Clip.get_notes":
+  return_type:
+    from: null
+    to: "tuple[tuple[int, float, float, float, bool], ...]"
+  source: |
+    Description: tuple of (pitch, time, duration, velocity, mute) per note.
+
+"Live.Clip.Clip.get_selected_notes":
+  return_type:
+    from: null
+    to: "tuple[tuple[int, float, float, float, bool], ...]"
+  source: Description says same format as get_notes.
+
+"Live.Conversions.move_devices_on_track_to_new_drum_rack_pad":
+  return_type:
+    from: null
+    to: Track
+  source: Function creates a new track with drum rack and returns it.
+
+"Live.Licensing.get_unlock_dir":
+  return_type:
+    from: null
+    to: "tuple[str, bool]"
+  source: |
+    Description: "tuple containing the unlock file directory and a flag" —
+    directory is str, flag is bool.
+
+# get_bank_parameters and get_value_item_icons return-type fixes consolidated above
+# with their arg-rename entries (~line 649).
+
+"Live.RackDevice.RackDevice.insert_chain":
+  return_type:
+    from: null
+    to: Chain
+  source: 'M4L docs: function inserts and returns a Chain.'
+
+# Song.Song.get_data return-type consolidated above with its arg_types entry (~line 1160).
+
+"Live.Song.get_all_scales_ordered":
+  return_type:
+    from: null
+    to: "tuple[tuple[str, tuple[int, ...]], ...]"
+  source: |
+    Usage shows tuple of scale tuples with name and note intervals — (name,
+    intervals) pairs.
+
+"Live.Track.Track.create_take_lane":
+  return_type:
+    from: null
+    to: TakeLane
+  source: M4L docs say "Creates a take lane for this track" — returns TakeLane.
+
+# Track.Track.get_data return-type consolidated above with its arg_types entry (~line 1183).
+
+"Live.Track.Track.insert_device":
+  return_type:
+    from: null
+    to: Device
+  source: 'M4L docs: inserts and returns the Device.'

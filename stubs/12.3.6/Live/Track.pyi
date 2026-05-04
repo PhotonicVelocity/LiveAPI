@@ -622,7 +622,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def create_take_lane(self) -> LomObject:
+    def create_take_lane(self) -> TakeLane:
         """Create a new TakeLane for this track."""
         ...
 
@@ -788,7 +788,7 @@ class Track(DeviceContainer):
     @fold_state.setter
     def fold_state(self, value: bool) -> None: ...
 
-    def get_data(self, key: str, default_value: object, /) -> object:
+    def get_data(self, key: str, default_value: Any, /) -> Any:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -974,7 +974,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def insert_device(self, device_name: str, device_index: int = -1, /) -> LomObject:
+    def insert_device(self, device_name: str, device_index: int = -1, /) -> Device:
         """Add a device at a given index in the 'devices' list. At end if -1."""
         ...
 
@@ -1545,7 +1545,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def set_data(self, key: str, value: object, /) -> None:
+    def set_data(self, key: str, value: Any, /) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 

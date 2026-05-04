@@ -12,32 +12,32 @@ class ListenerHandle:
         ...
 
     @property
-    def listener_func(self):
+    def listener_func(self) -> Callable:
         """Returns the original function"""
         ...
 
     @property
-    def listener_self(self):
+    def listener_self(self) -> Any:
         """Returns the weak reference to original self, if it was a bound method"""
         ...
 
     @property
-    def name(self):
+    def name(self) -> str:
         """Prints the name of the property that this listener is connected to"""
         ...
 
-class ListenerVector(Iterable):
+class ListenerVector(Iterable[ListenerHandle]):
     """A read only container for accessing a list of listeners."""
 
-    def __iter__(self) -> Iterator[Any]: ...
+    def __iter__(self) -> Iterator[ListenerHandle]: ...
 
     @overload
-    def __getitem__(self, index: int) -> Any: ...
+    def __getitem__(self, index: int) -> ListenerHandle: ...
 
     @overload
     def __getitem__(self, index: slice) -> ListenerVector: ...
 
-    def __getitem__(self, index: int | slice) -> Any | ListenerVector: ...
+    def __getitem__(self, index: int | slice) -> ListenerHandle | ListenerVector: ...
 
     def __len__(self) -> int: ...
 

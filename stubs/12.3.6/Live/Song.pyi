@@ -752,7 +752,7 @@ class Song(LomObject):
         """
         ...
 
-    def create_audio_track(self, index: object | None = None, /) -> Track:
+    def create_audio_track(self, index: int | None = None, /) -> Track:
         """
         Create a new audio track at the optional given index and return it.If the index is -1,
         the new track is added at the end. It will create a default audio track if possible.
@@ -760,7 +760,7 @@ class Song(LomObject):
         """
         ...
 
-    def create_midi_track(self, index: object | None = None, /) -> Track:
+    def create_midi_track(self, index: int | None = None, /) -> Track:
         """
         Create a new midi track at the optional given index and return it.If the index is -1,
         the new track is added at the end.It will create a default midi track if possible.
@@ -879,7 +879,7 @@ class Song(LomObject):
         """Get the current Live Set's path on disk."""
         ...
 
-    def find_device_position(self, device: Device, target: LomObject, target_position: int, /) -> int:
+    def find_device_position(self, device: Device, target: Track | Chain, target_position: int, /) -> int:
         """
         Returns the closest possible position to the given target, where the
         device can be inserted. If inserting is not possible at all (i.e. if
@@ -922,7 +922,7 @@ class Song(LomObject):
         """
         ...
 
-    def get_data(self, key: str, default_value: object, /) -> object:
+    def get_data(self, key: str, default_value: Any, /) -> Any:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -1117,7 +1117,7 @@ class Song(LomObject):
         """
         ...
 
-    def move_device(self, device: Device, target: LomObject, target_position: int, /) -> int:
+    def move_device(self, device: Device, target: Track | Chain, target_position: int, /) -> int:
         """Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to."""
         ...
 
@@ -1744,7 +1744,7 @@ class Song(LomObject):
         """
         ...
 
-    def set_data(self, key: str, value: object, /) -> None:
+    def set_data(self, key: str, value: Any, /) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 
@@ -2135,7 +2135,7 @@ class TimeFormat(int):
     smpte_30_drop: int = 4
     smpte_29: int = 5
 
-def get_all_scales_ordered() -> tuple:
+def get_all_scales_ordered() -> tuple[tuple[str, tuple[int, ...]], ...]:
     """Get an ordered tuple of tuples of all available scale names to intervals."""
     ...
 

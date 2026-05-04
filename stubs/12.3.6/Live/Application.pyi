@@ -404,18 +404,18 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector(Iterable):
+class ControlDescriptionVector(Iterable[ControlDescription]):
     """A container for returning control descriptions."""
 
-    def __iter__(self) -> Iterator[Any]: ...
+    def __iter__(self) -> Iterator[ControlDescription]: ...
 
     @overload
-    def __getitem__(self, index: int) -> Any: ...
+    def __getitem__(self, index: int) -> ControlDescription: ...
 
     @overload
     def __getitem__(self, index: slice) -> ControlDescriptionVector: ...
 
-    def __getitem__(self, index: int | slice) -> Any | ControlDescriptionVector: ...
+    def __getitem__(self, index: int | slice) -> ControlDescription | ControlDescriptionVector: ...
 
     def __len__(self) -> int: ...
 
@@ -454,7 +454,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def control_descriptions(self):
+    def control_descriptions(self) -> ControlDescriptionVector:
         ...
 
     def control_values_arrived_has_listener(self, callback: Callable, /) -> bool:
@@ -467,10 +467,10 @@ class ControlSurfaceProxy:
     def enable_receive_midi(self, enabled: bool, /) -> None:
         ...
 
-    def fetch_received_midi_messages(self) -> tuple:
+    def fetch_received_midi_messages(self) -> tuple[tuple[int, ...], ...]:
         ...
 
-    def fetch_received_values(self) -> tuple:
+    def fetch_received_values(self) -> tuple[tuple[int, Any], ...]:
         ...
 
     def grab_control(self, control: int, /) -> None:
@@ -484,7 +484,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def pad_layout(self):
+    def pad_layout(self) -> str:
         """The layout of pads on Push."""
         ...
 
@@ -519,17 +519,17 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def send_midi(self, midi_event_bytes: tuple, /) -> None:
+    def send_midi(self, midi_event_bytes: tuple[int, ...], /) -> None:
         ...
 
-    def send_value(self, value: tuple, /) -> None:
+    def send_value(self, value: tuple[Any, ...], /) -> None:
         ...
 
     def subscribe_to_control(self, control: int, /) -> None:
         ...
 
     @property
-    def type_name(self):
+    def type_name(self) -> str:
         ...
 
     def unsubscribe_from_control(self, control: int, /) -> None:
@@ -553,18 +553,18 @@ class PushDialogType(int):
 class UnavailableFeature(int):
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector(Iterable):
+class UnavailableFeatureVector(Iterable[UnavailableFeature]):
     """A container for returning unavailable features."""
 
-    def __iter__(self) -> Iterator[Any]: ...
+    def __iter__(self) -> Iterator[UnavailableFeature]: ...
 
     @overload
-    def __getitem__(self, index: int) -> Any: ...
+    def __getitem__(self, index: int) -> UnavailableFeature: ...
 
     @overload
     def __getitem__(self, index: slice) -> UnavailableFeatureVector: ...
 
-    def __getitem__(self, index: int | slice) -> Any | UnavailableFeatureVector: ...
+    def __getitem__(self, index: int | slice) -> UnavailableFeature | UnavailableFeatureVector: ...
 
     def __len__(self) -> int: ...
 
@@ -591,7 +591,7 @@ def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
     ...
 
-def encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0, /) -> tuple:
+def encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0, /) -> tuple[int, ...]:
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 

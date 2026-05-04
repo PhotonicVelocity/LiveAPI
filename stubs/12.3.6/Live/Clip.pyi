@@ -293,7 +293,7 @@ class Clip(LomObject):
         """
         ...
 
-    def add_warp_marker(self, warp_marker: object, /) -> None:
+    def add_warp_marker(self, warp_marker: WarpMarker, /) -> None:
         """
         Available for AudioClips only.
         Adds the specified warp marker, if possible.
@@ -425,7 +425,7 @@ class Clip(LomObject):
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: object, destination_time: object | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: object, destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -523,7 +523,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_notes(self, from_time: float, from_pitch: int, time_span: float, pitch_span: int, /) -> tuple:
+    def get_notes(self, from_time: float, from_pitch: int, time_span: float, pitch_span: int, /) -> tuple[tuple[int, float, float, float, bool], ...]:
         """
         Returns a tuple of tuples where each inner tuple represents
         a note starting in the given pitch- and time range.
@@ -544,7 +544,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_selected_notes(self) -> tuple:
+    def get_selected_notes(self) -> tuple[tuple[int, float, float, float, bool], ...]:
         """
         Returns a tuple of tuples where each inner tuple
         represents a selected note. The inner tuple contains
@@ -1209,7 +1209,7 @@ class Clip(LomObject):
         """
         ...
 
-    def replace_selected_notes(self, notes: tuple, /) -> None:
+    def replace_selected_notes(self, notes: tuple[tuple[int, float, float, float, bool], ...], /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_selected_notes. The
@@ -1268,7 +1268,7 @@ class Clip(LomObject):
         """Set the clip's fire button state directly. Supports all launch modes."""
         ...
 
-    def set_notes(self, notes: tuple, /) -> None:
+    def set_notes(self, notes: tuple[tuple[int, float, float, float, bool], ...], /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_notes. The
