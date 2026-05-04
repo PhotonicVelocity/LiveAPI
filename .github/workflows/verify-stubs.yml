@@ -1,0 +1,55 @@
+name: Verify Stubs
+
+on:
+  push:
+    paths:
+      - "stubs/**"
+      - "tools/verify/**"
+      - "tests/usage/**"
+      - ".github/workflows/verify-stubs.yml"
+      - "pyrightconfig.json"
+  pull_request:
+    paths:
+      - "stubs/**"
+      - "tools/verify/**"
+      - "tests/usage/**"
+      - ".github/workflows/verify-stubs.yml"
+      - "pyrightconfig.json"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pyright
+        run: pip install pyright==1.1.408
+
+      - name: Tier 1 — ast.parse
+        run: python tools/verify/parse_check.py 12.3.6
+
+      - name: Tier 4 — usage tests
+        run: pyright tests/usage/
+
+      - name: Tier 2 — stubs internal consistency (tracking)
+        # Tracking-only during cleanup; see tools/verify/README.md.
+        # Output is captured and the error count surfaced in the job summary,
+        # but a non-zero exit does not fail the build.
+        continue-on-error: true
+        run: |
+          set +e
+          pyright stubs/12.3.6/Live | tee /tmp/tier2.txt
+          tail -1 /tmp/tier2.txt > /tmp/tier2-summary.txt
+
+      - name: Surface Tier 2 count in job summary
+        if: always()
+        run: |
+          echo "## Tier 2 (tracking)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          tail -1 /tmp/tier2.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY

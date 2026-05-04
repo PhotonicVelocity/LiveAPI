@@ -115,13 +115,13 @@ When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed 
 
 ## Status
 
-| Step                            | Status      |
-| ------------------------------- | ----------- |
-| 1. Verification CI              | not started |
-| 2. Strip pipeline to parse-only | not started |
-| 3. Re-add callsite refinement   | not started |
-| 4. Add manual_refinements.json  | not started |
-| 5. Parser `T \| None` audit     | not started |
-| 6. Trim version coverage        | not started |
-| 7. Delete LLM machinery         | not started |
-| 8. Re-publish                   | not started |
+| Step                            | Status                                  |
+| ------------------------------- | --------------------------------------- |
+| 1. Verification CI              | done — baseline: T1 ✓, T4 ✓, T2 29 errs |
+| 2. Strip pipeline to parse-only | not started                             |
+| 3. Re-add callsite refinement   | not started                             |
+| 4. Add manual_refinements.json  | not started                             |
+| 5. Parser `T \| None` audit     | not started                             |
+| 6. Trim version coverage        | not started                             |
+| 7. Delete LLM machinery         | not started                             |
+| 8. Re-publish                   | not started                             |
