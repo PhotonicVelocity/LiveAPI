@@ -62,30 +62,32 @@ without letting users type them as kwargs"; it stays.
    `stubs/11.*` and `stubs/12.0–12.2` directories remain as frozen historical artifacts but no longer
    participate in regeneration. Anyone needing older-version stubs can rebuild from a tagged commit.
 
-2. **Refinement strictness — signatures carry verified types; names are descriptive labels.** With `, /`
-   in place, kwarg-callability is not the bar for arg names. The bar shifts:
-   - Arg **names**: emit any informative descriptor sourced from callsite analysis, parsed C++ signature
-     (when non-generic), MaxForLive docs, or hand-stamped manual overrides. Otherwise `argN`. The name is
-     a readable label; `, /` already prevents kwarg use.
-   - Arg **types**: must reflect what the underlying binding actually accepts. Sources: probe data (the
-     type observed at runtime), parsed C++ signature, hand-stamped manual overrides. Otherwise `Any`.
-     Prose docstrings and M4L type claims are **not** acceptable type sources — they describe a
-     related-but-distinct API.
-   - Return **types** and property **types**: same rule — verified sources only, otherwise `Any`.
+2. **Refinement strictness — only what we can scrape from Live itself.** All signature content comes from
+   sources that observe the binding directly. With `, /` (PEP 570) on every callable, kwarg-callability is
+   already prevented by the type checker; names are decorative labels for autocomplete and hover. That
+   removes the loudest misleading-stubs failure mode but doesn't license loose sourcing — names that
+   don't accurately describe the parameter still mislead readers about meaning.
+   - Arg **names**: from the parsed C++ signature embedded in the raw docstring (when non-generic) or
+     structural inference. Otherwise `argN`. **No external doc lookups** — not callsite analysis on
+     decompiled Remote Scripts, not MaxForLive docs, not LLM resolution. Each is evidence of how someone
+     _used_ the API, not evidence of how the binding is _defined_.
+   - Arg **types**: from probe data (type observed at runtime) or parsed C++ signature only. Otherwise
+     `Any`. Prose docstrings and M4L type claims are not acceptable type sources.
+   - Return **types** and property **types**: same rule — what we observed from Live, otherwise `Any`.
    - Generic-looking but truthful beats pretty but wrong.
 
-3. **MaxForLive docs: split role.** Names from M4L docs are acceptable in signatures (paired with `, /`
-   they're descriptive labels, not callable kwargs). Types and shape claims from M4L are demoted to
-   docstrings only. The current LLM-resolve pipeline used M4L docs to drive both names and types into
-   signatures; the type-side of that is the misleading-stubs risk we're correcting.
+3. **MaxForLive docs: docstring-only.** M4L describes a related-but-distinct API. Its content flows into
+   `.pyi` docstrings as informational prose ("Max for Live names this parameter `direction`") and never
+   into signatures. The LLM-resolve pipeline used M4L docs to drive both names and types into
+   signatures; that path is the misleading-stubs risk we're correcting.
 
-4. **LLM-resolve removed.** With kwarg-callability solved structurally by `, /`, the LLM's main output
-   (arg names, ~61% of its fixes) is lower-stakes — but a deterministic name lookup using the same
-   sources (M4L docs, callsite, parsed C++ signature) does the same job without an API key, batched calls,
-   nondeterminism, or per-version cost. For the LLM's type-resolution work (~39% of its fixes), prose-
-   inferred types are exactly the wrong source given the strictness rule above. Replaced by
-   `manual_refinements.json` for hand-curated overrides plus the existing `callsite_resolve.py`. The
-   pipeline becomes capture → parse → resolve (callsite + probe + manual) → generate.
+4. **LLM-resolve and callsite-resolve both removed.** Both relied on external evidence about how someone
+   uses the API rather than what Live itself reports — the LLM via M4L docs and prose docstrings,
+   `callsite_resolve.py` via decompiled Ableton Remote Scripts. Same accuracy concern, same drop. The
+   pipeline becomes the minimal capture → parse → generate. If a specific case surfaces during the
+   parser audit (decision #5) or later that genuinely needs a hand-stamped override, a
+   `manual_refinements.json` may be added with a strict bar (rationale and source citation per entry);
+   not added by default.
 
 5. **Parser defaults audit (same branch as LLM removal).** `parse_apicapture_results.py` currently emits
    `T | None` on every positional arg as a defensive default. This is the broadest misleading surface in
@@ -99,16 +101,19 @@ without letting users type them as kwargs"; it stays.
 
 ### What this changes operationally
 
-- The Parse Pipeline section below describes the **current** pipeline (LLM-resolve still in place). It
-  will be revised when the cleanup branch lands. Until then, the description is accurate to `main` only.
-- `tools/parse/llm_resolve.py`, `tools/parse/llm_resolve_prompt.md`, and the LLM-prompt-related parts of
-  `tools/parse/llm_hints.md` are slated for deletion. The deterministic-hint content of `llm_hints.md`
-  migrates to `manual_refinements.json`.
-- `MaxForLive/` stays in the repo as input. The new pipeline reads it for: (a) arg names that make their
-  way into signatures (paired with `, /`, decision #3); (b) prose content that flows into stub docstrings.
-  Its type/shape claims are not consumed.
-- `extract_unresolved.py` stays. Its output becomes the queue of "things still needing a hand-stamped
-  answer" — consumed when populating `manual_refinements.json` rather than by the LLM.
+- The Parse Pipeline section below describes the pipeline as it existed on `main` before the cleanup
+  branch. The active pipeline on `stub-pipeline-cleanup` is the minimal capture → parse → generate; that
+  section will be rewritten when the cleanup lands.
+- Slated for deletion in the cleanup branch's Step 7: `tools/parse/llm_resolve.py`,
+  `tools/parse/llm_resolve_prompt.md`, `tools/parse/llm_hints.md`, `tools/parse/callsite_resolve.py`,
+  `tools/parse/extract_unresolved.py`, `tools/parse/apply_refinements.py`,
+  `tools/parse/build_type_skeleton.py` (if only used by the LLM prompt), and any LLM batch / cache
+  directories. None are wired into the active pipeline; they remain in the tree until verification
+  confirms the minimal pipeline meets the bar.
+- `MaxForLive/` stays in the repo as input — the new pipeline reads it for prose content that flows into
+  stub docstrings only. Its names, types, and shape claims do not reach signatures.
+- `doc/decompiled/AbletonLive12_MIDIRemoteScripts/` (gitignored) keeps its role as the corpus for
+  Tier 4 usage tests but no longer participates in stub generation.
 
 ## Parse Pipeline
 

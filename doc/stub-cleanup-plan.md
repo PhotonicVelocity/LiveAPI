@@ -64,24 +64,23 @@ Reduce the pipeline to capture → parse → generate. Stage 3 reads `LiveTree.p
 This is the most aggressive step; expect significant churn in the stubs. Verification tells us whether the
 churn is acceptable or whether the parser needs immediate help.
 
-### Step 3 — Re-add `callsite_resolve` as the only refinement
+### Step 3 — _(dropped)_ Callsite refinement
 
-Per decisions.md, callsite analysis stays — it's deterministic, useful, and grounds arg names from real
-usage in Ableton's own decompiled scripts.
+Originally planned to re-add `callsite_resolve.py` for arg-name resolution from decompiled Remote
+Scripts. **Dropped:** with `, /` (PEP 570) on every callable signature, names are decorative — they show
+in autocomplete hints but cannot be used as kwargs. Callsite-resolved names are evidence of how Ableton's
+engineers _wrote_ their code, not evidence of what the binding _accepts_; the same accuracy concern that
+motivated dropping the LLM applies. The strict posture is: only what we scrape from Live itself (probe
+data + parsed C++ signatures + structural inference) feeds the stubs.
 
-- `run_parse_pipeline.py` → parse → callsite_resolve → apply_refinements → generate.
-- Regenerate 12.3.6 stubs; verify; observe what improved.
+### Step 4 — _(dropped)_ `manual_refinements.json`
 
-### Step 4 — Add `manual_refinements.json`
-
-Hand-stamped overrides for the stable type fixes the LLM was producing (or for any new findings from
-P4L work, etc.).
-
-- New `tools/parse/manual_refinements/12.json` (one per major version, but only 12 active).
-- `apply_refinements.py` extended (or a sibling) to merge manual refinements onto the callsite-resolved
-  tree.
-- Migrate the deterministic content of `llm_hints.md` into the manual file. Delete `llm_hints.md`.
-- Regenerate, verify.
+Originally planned as the hand-curated escape hatch for type fixes the LLM was producing. **Dropped for
+now:** in the strict-from-Live posture, the only refinements that should land are corrections to known
+wrongness, not "make stubs prettier" entries. If a specific case surfaces during Step 5 (parser audit) or
+later that genuinely needs a manual override, we'll add the file then with a strict bar (rationale and
+source citation per entry). Keeping it out by default avoids recreating the slippery-slope problem the
+LLM removal solved.
 
 ### Step 5 — Audit parser `T | None` defaults
 
@@ -98,11 +97,17 @@ The biggest accuracy improvement, and the most potentially-disruptive — affect
   if/when Pages is re-enabled.
 - `release/` directory and `dist/` artifacts for old versions left as-is for forensic record.
 
-### Step 7 — Delete LLM machinery
+### Step 7 — Delete refinement machinery
 
-After Step 6 is stable, `git rm` the LLM-related files: `llm_resolve.py`, `llm_resolve_prompt.md`,
-`extract_unresolved.py` if no longer needed, related batch / cache directories. Update
-[decisions.md](decisions.md) Parse Pipeline section to describe the new pipeline.
+After Step 6 is stable, `git rm` everything that's no longer in the active pipeline:
+
+- `tools/parse/llm_resolve.py`, `tools/parse/llm_resolve_prompt.md`, `tools/parse/llm_hints.md`,
+  `tools/parse/batches/` and any LLM cache/output directories.
+- `tools/parse/callsite_resolve.py` (no longer used).
+- `tools/parse/extract_unresolved.py` and `tools/parse/apply_refinements.py` (helpers for the dropped
+  refinement steps).
+- `tools/parse/build_type_skeleton.py` if it was only feeding the LLM prompt.
+- Update the [decisions.md](decisions.md) Parse Pipeline section to describe the new minimal pipeline.
 
 ### Step 8 — Re-publish
 
@@ -115,13 +120,13 @@ When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed 
 
 ## Status
 
-| Step                            | Status                                  |
-| ------------------------------- | --------------------------------------- |
-| 1. Verification CI              | done — baseline: T1 ✓, T4 ✓, T2 29 errs |
-| 2. Strip pipeline to parse-only | done — T2 dropped 29 → 3                |
-| 3. Re-add callsite refinement   | not started                             |
-| 4. Add manual_refinements.json  | not started                             |
-| 5. Parser `T \| None` audit     | not started                             |
-| 6. Trim version coverage        | not started                             |
-| 7. Delete LLM machinery         | not started                             |
-| 8. Re-publish                   | not started                             |
+| Step                             | Status                                       |
+| -------------------------------- | -------------------------------------------- |
+| 1. Verification CI               | done — baseline: T1 ✓, T4 ✓, T2 29 errs      |
+| 2. Strip pipeline to parse-only  | done — T2 dropped 29 → 3                     |
+| 3. ~~Callsite refinement~~       | dropped — same vein as LLM                   |
+| 4. ~~`manual_refinements.json`~~ | dropped — only add if Step 5 surfaces a need |
+| 5. Parser `T \| None` audit      | not started                                  |
+| 6. Trim version coverage         | not started                                  |
+| 7. Delete refinement machinery   | not started                                  |
+| 8. Re-publish                    | not started                                  |
