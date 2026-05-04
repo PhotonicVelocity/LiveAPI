@@ -56,6 +56,8 @@ class StubGenerator:
         self._enum_lookup: dict[str, int] = {}
         self._vector_types: set[str] = set()  # class names that are vector types
         self._vector_element_fallback: dict[str, str] = {}  # vector class -> default element type
+        self._typed_properties: dict[str, set[str]] = {}  # class name -> property names with probed_type
+        self._class_ancestors: dict[str, list[str]] = {}  # class name -> ancestor class names
 
     # ------------------------------------------------------------------
     # Phase 1: Indexing
@@ -102,6 +104,26 @@ class StubGenerator:
                     m = _CLASS_REPR_RE.match(element_repr)
                     if m:
                         self._vector_element_fallback[name] = m.group(1)
+
+                # Index ancestors and typed properties so we can suppress
+                # subclass property overrides that re-declare a parent property
+                # with no new probe info — see _render_property.
+                ancestors_raw = node.get("ancestors") or []
+                ancestor_names: list[str] = []
+                for a in ancestors_raw:
+                    m = _CLASS_REPR_RE.match(a)
+                    if m:
+                        # ancestor entries look like "<class 'Module.ClassName'>";
+                        # take the trailing ClassName which is what we key by.
+                        ancestor_names.append(m.group(1).split(".")[-1])
+                self._class_ancestors[name] = ancestor_names
+
+                typed_props: set[str] = set()
+                for child in node.get("children", []):
+                    if child.get("type") == "property" and child.get("probed_type"):
+                        typed_props.add(child.get("name", ""))
+                if typed_props:
+                    self._typed_properties[name] = typed_props
 
             # Recurse into children
             for child in node.get("children", []):
@@ -364,10 +386,27 @@ class StubGenerator:
 
         buf.write(f"\n{pad}    ...")
 
+    def _parent_has_typed_property(self, class_name: str, prop_name: str) -> bool:
+        """True iff any ancestor of `class_name` declares `prop_name` with a probed type."""
+        if not class_name:
+            return False
+        for ancestor in self._class_ancestors.get(class_name, []):
+            if prop_name in self._typed_properties.get(ancestor, set()):
+                return True
+        return False
+
     def _render_property(
         self, node: dict, buf: StringIO, indent: int, path: str = "", containing_class: str = "",
     ) -> None:
-        """Render a property node with optional setter."""
+        """Render a property node with optional setter.
+
+        Skip the override entirely when the subclass has no probe info AND a parent
+        class declares the same-named property with full info. The probe explicitly
+        recorded `probed: False` for those cases (e.g. Device.is_using_compare_preset_b
+        on container subclasses where reading the property raises at runtime). Emitting
+        a typeless override there produces a Liskov violation against the parent's
+        typed property; not emitting lets normal inheritance fill in the correct shape.
+        """
         name = node["name"]
         pad = "    " * indent
 
@@ -379,6 +418,9 @@ class StubGenerator:
             )
             if probed_type else None
         )
+
+        if not probed_type and self._parent_has_typed_property(containing_class, name):
+            return
 
         # For generic vector bases (Vector, ObjectVector), parameterize with the
         # property's element type. For specialized vectors (MidiNoteVector), keep the
