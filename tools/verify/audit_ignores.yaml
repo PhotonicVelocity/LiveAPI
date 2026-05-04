@@ -49,3 +49,82 @@ ignores:
       surface as audit noise. We've already addressed the legitimate stub-side issues these
       paths revealed (feedback_rule nullability — see Step 12 refinements). Remaining errors
       from these paths are framework-internal and out of scope for the LiveAPI stubs.
+
+  - id: remotesl-device-parameter-narrowing
+    investigated: 2026-05-04
+    probe_to_verify: |
+      Could be confirmed by probing Live.MidiMap.map_midi_cc(handle, None, ...) and
+      Live.MidiMap.send_feedback_for_parameter(handle, None) at runtime. If the binding
+      raises (most likely), the ignore stays correct. If it accepts None as an unmap
+      sentinel (less likely), the stub should be widened to DeviceParameter | None and this
+      ignore removed.
+    match:
+      file_contains: "RemoteSL"
+      message_contains: 'of type "DeviceParameter"'
+    rationale: |
+      RemoteSL/EffectController.py and MixerController.py do
+      `parameter = s.assigned_parameter()` where `s` is a strip object from internal
+      _Framework code that has no stub. Pyright treats `s.assigned_parameter()` return as
+      Unknown — and Unknown narrows to `Unknown | None` for any method call without a stub.
+      The corpus code guards with `if s.assigned_parameter():` before calling map_midi_cc,
+      but pyright doesn't carry that narrowing across separate method-call expressions.
+      This is pyright noise from typeless receivers, not evidence that Ableton actually
+      passes None to `parameter`. Our stub claiming DeviceParameter (non-Optional) is
+      almost certainly correct; verification deferred to runtime probing on the behavioral
+      pipeline branch.
+
+  - id: push2-hotswap-target-narrowing
+    investigated: 2026-05-04
+    match:
+      file_contains: "Push2/browser_component.py"
+      message_contains: "selected_preset_index"
+    rationale: |
+      Push2/browser_component.py:538 does
+        self._browser.hotswap_target.selected_preset_index = item.preset_index
+      inside an `if isinstance(item, PluginPresetBrowserItem)` block. Browser.hotswap_target
+      is correctly typed Device | None (refined in Step 12; corrected in subsequent commit
+      after this audit finding surfaced the original BrowserItem mistake). Device doesn't
+      have selected_preset_index — PluginDevice does. Push2 narrows hotswap_target to a
+      plugin device via runtime context that pyright can't see; the stub is correct.
+      Push2's pattern would type-check cleanly with a `cast(PluginDevice, ...)` they could
+      add — that's their concern, not the stub's.
+
+  - id: push-modelnode-liskov
+    investigated: 2026-05-04
+    match:
+      file_contains: "Push/navigation_node.py"
+      message_contains: "_get_selected_child_from_model"
+    rationale: |
+      Push subclasses Push.navigation_node.ModelNode and overrides
+      _get_selected_child_from_model. `ModelNode` is part of Push's own framework, not a
+      Live API class declared in our stubs. The Liskov mismatch is internal to Push's
+      class hierarchy and has nothing to do with our stub correctness. Surfaced here only
+      because the override return type mentions `DrumPad` (a Live class), which our
+      Live-class filter catches.
+
+  - id: ableton-v3-notification-render-liskov
+    investigated: 2026-05-04
+    match:
+      file_contains: "ableton/v3/control_surface/display/view/notification.py"
+      message_contains: '"render" overrides class "View"'
+    rationale: |
+      The View class here is ableton.v3.control_surface.display.view.View — Ableton's
+      internal display framework, not Live.Song.View or any other class from our stubs.
+      The Liskov mismatch on `render` is between two ableton.v3 framework classes; our
+      stubs aren't involved. Surfaced only because of the bare-class-name "View" in the
+      message overlapping with our Live.Song.Song.View / Live.Track.Track.View nested
+      classes.
+
+  - id: ableton-v3-module-as-value
+    investigated: 2026-05-04
+    match:
+      file_contains: "ableton/v3/live/action.py"
+      message_contains: 'Module("Live.'
+    rationale: |
+      action.py contains assignments where the right-hand side resolves to a `Live.X`
+      module (e.g. `Module("Live.ClipSlot")`) rather than an instance of the `Live.X.X`
+      class. This is a decompilation artifact: the original source presumably had
+      `from Live.ClipSlot import ClipSlot` followed by an instance assignment, but the
+      decompiler reconstructed it such that the module symbol leaks through. Not a real
+      stub issue — three near-identical hits on lines 191/199/207 for
+      ClipSlot / Scene / Track respectively.
