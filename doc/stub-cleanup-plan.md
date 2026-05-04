@@ -193,9 +193,9 @@ When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed 
 | 7b. Property-override Liskov fix          | done — T2 dropped 3 → 0 (skip override on probe fail) |
 | 8. Offline corpus audit tool              | done — 12,094 raw → 40 candidates                     |
 | 9. Manual refinements infrastructure      | done — yaml + apply script + run_parse_pipeline wire  |
-| 10. Generator fix: enum-arg widening      | not started                                           |
-| 11. Generator fix: NoneType → Any         | not started                                           |
-| 12. Targeted refinements (16 entries)     | not started                                           |
+| 10. Generator fix: enum-arg widening      | done — 11 audit candidates cleared                    |
+| 11. Generator fix: NoneType → Any         | done — emits Any instead of literal None              |
+| 12. Targeted refinements (11 entries)     | done — audit 29 → 19 candidates remaining             |
 | 13. Investigate `BrowserItem` / `DrumPad` | not started                                           |
 | 14. Expand Tier 4 with audit findings     | not started                                           |
 | 15. Re-publish                            | not started                                           |

@@ -15,8 +15,101 @@
 #     _note:          "<optional free-text>"
 #
 # ─────────────────────────────────────────────────────────────────────────────
-# Empty for now. Populate per the audit findings + arg-name pass.
 
 _meta:
   format_version: 1
   applies_to_version: "12.x"
+
+# ─── Nullable-reference properties (probe observed None at probe time) ────────
+#
+# These properties are conceptually `T | None` but the probe happened to observe
+# None on the test instance (e.g. no chain was selected when probing
+# Song.View.selected_chain). The generator now emits `Any` for all NoneType-probed
+# properties (see generate_stubs.py _resolve_probed_type); these refinements
+# narrow `Any` to the specific `T | None` for the cases where T is known.
+#
+# Source for all 8: docstring describes the property as a nullable reference; type
+# inferred from the property name and Live API conventions; the corpus audit also
+# confirms the underlying type via assignments / reads in shipped Remote Scripts.
+
+"Live.Browser.Browser.hotswap_target":
+  probed_type: "BrowserItem | None"
+  source: |
+    Docstring: "Bang triggered when the hotswap target has changed." Property is a
+    BrowserItem reference; None when no hotswap is active.
+
+"Live.Clip.Clip.groove":
+  probed_type: "Groove | None"
+  source: |
+    Docstring: "Get the groove associated with this clip." None when the clip has
+    no groove assigned.
+
+"Live.RackDevice.RackDevice.View.selected_chain":
+  probed_type: "Chain | None"
+  source: |
+    Docstring: "Return access to the currently selected chain." None when nothing
+    is selected.
+
+"Live.Scene.Scene.color_index":
+  probed_type: "int | None"
+  source: |
+    Docstring: "Get/set access to the color index of the scene. Can be None for
+    no color." Explicit nullability documented.
+
+"Live.Song.Song.View.detail_clip":
+  probed_type: "Clip | None"
+  source: |
+    Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
+    None when no clip is shown in detail view.
+
+"Live.Song.Song.View.selected_chain":
+  probed_type: "Chain | None"
+  source: |
+    Docstring: "Get the highlighted chain if available." Audit corpus confirms
+    Chain assignment at Push2/track_selection.py:95 and pushbase/selection.py:54.
+
+"Live.Song.Song.View.selected_parameter":
+  probed_type: "DeviceParameter | None"
+  source: |
+    Docstring: "Get the currently selected device parameter." Read-only nullable
+    reference; None when no parameter is selected.
+
+"Live.Song.Song.appointed_device":
+  probed_type: "Device | None"
+  source: |
+    Docstring: "Read, write, and listen access to the appointed Device." None when
+    no device is appointed.
+
+# ─── Feedback-rule parameters: missing nullability ────────────────────────────
+#
+# The feedback-rule parameter on the three with_feedback_map MIDI mapping
+# functions is documented as required, but Ableton's own _Framework/ControlSurface.py
+# (and ableton/v2/control_surface/control_surface.py) passes None at runtime for
+# all three. The Boost.Python binding accepts None; our stub claiming a non-None
+# parameter type is strictly narrower than the runtime.
+
+"Live.MidiMap.map_midi_cc_with_feedback_map":
+  arg_types:
+    feedback_rule: "CCFeedbackRule | None"
+  source: |
+    Audit found None passed at _Framework/ControlSurface.py:488 and
+    ableton/v2/control_surface/control_surface.py:438 — Ableton's official base
+    classes pass None when no feedback rule applies.
+
+"Live.MidiMap.map_midi_note_with_feedback_map":
+  arg_types:
+    arg5: "NoteFeedbackRule | None"
+  source: |
+    Audit found None passed at _Framework/ControlSurface.py:485 and
+    ableton/v2/control_surface/control_surface.py:435. The parameter is currently
+    named `arg5` in the stub (parser couldn't resolve a name); only the type is
+    overridden here. Renaming to a descriptive name is deferred (argN cosmetic
+    pass not in scope).
+
+"Live.MidiMap.map_midi_pitchbend_with_feedback_map":
+  arg_types:
+    arg4: "PitchBendFeedbackRule | None"
+  source: |
+    Audit found None passed at _Framework/ControlSurface.py:491 and
+    ableton/v2/control_surface/control_surface.py:441. Same naming caveat as the
+    note variant — only the type is overridden here.

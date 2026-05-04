@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
+    from Live.Chain import Chain
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
@@ -121,12 +122,12 @@ class RackDevice(Device):
             ...
 
         @property
-        def selected_chain(self) -> Any:
+        def selected_chain(self) -> Chain | None:
             """Return access to the currently selected chain."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: Any) -> None: ...
+        def selected_chain(self, value: Chain | None) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable, /) -> bool:
             """

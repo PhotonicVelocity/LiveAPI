@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from Live.ClipSlot import ClipSlot
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
+    from Live.Groove import Groove
     from Live.LomObject import LomObject
     from Live.Track import Track
 
@@ -561,12 +562,12 @@ class Clip(LomObject):
         ...
 
     @property
-    def groove(self) -> Any:
+    def groove(self) -> Groove | None:
         """Get the groove associated with this clip."""
         ...
 
     @groove.setter
-    def groove(self, value: Any) -> None: ...
+    def groove(self, value: Groove | None) -> None: ...
 
     def groove_has_listener(self, callback: Callable, /) -> bool:
         """

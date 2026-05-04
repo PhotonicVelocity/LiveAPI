@@ -3,9 +3,11 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import IntVector, Vector
+    from Live.Chain import Chain
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
+    from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
     from Live.LomObject import LomObject
@@ -80,12 +82,12 @@ class Song(LomObject):
             ...
 
         @property
-        def detail_clip(self) -> Any:
+        def detail_clip(self) -> Clip | None:
             """Get/Set the Clip that is currently visible in Lives Detailview."""
             ...
 
         @detail_clip.setter
-        def detail_clip(self, value: Any) -> None: ...
+        def detail_clip(self, value: Clip | None) -> None: ...
 
         def detail_clip_has_listener(self, callback: Callable, /) -> bool:
             """
@@ -186,12 +188,12 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_chain(self) -> Any:
+        def selected_chain(self) -> Chain | None:
             """Get the highlighted chain if available."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: Any) -> None: ...
+        def selected_chain(self, value: Chain | None) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable, /) -> bool:
             """
@@ -201,7 +203,7 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_parameter(self) -> Any:
+        def selected_parameter(self) -> DeviceParameter | None:
             """Get the currently selected device parameter."""
             ...
 
@@ -590,12 +592,12 @@ class Song(LomObject):
         ...
 
     @property
-    def appointed_device(self) -> Any:
+    def appointed_device(self) -> Device | None:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: Any) -> None: ...
+    def appointed_device(self, value: Device | None) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable, /) -> bool:
         """
