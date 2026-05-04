@@ -3,12 +3,15 @@ name: Release Stubs
 on:
   push:
     branches: [main]
-    paths: ["stubs/*/Live/**"]
+    # Auto-publish only for 12.x changes. 11.x and earlier are frozen historical
+    # artifacts — see doc/decisions.md "Stub Accuracy and Pipeline Posture".
+    # Manual dispatch (below) still accepts any version as an escape hatch.
+    paths: ["stubs/12.*/Live/**"]
 
   workflow_dispatch:
     inputs:
       version:
-        description: "Live version to release (e.g. 12.3.6)"
+        description: "Live version to release (e.g. 12.3.6). Manual dispatch bypasses the 12.x-only filter."
         required: true
       post:
         description: "Post-release number (leave empty for initial release)"
@@ -52,7 +55,9 @@ jobs:
             changed_versions=$(git diff --name-only HEAD~1 -- stubs/ \
               | sed -n 's|^stubs/\([^/]*\)/Live/.*|\1|p' | sort -u)
             for version in $changed_versions; do
-              [[ "$version" =~ ^[0-9]+\.[0-9]+(\.[0-9]+)?$ ]] || continue
+              # Auto-publish gated to 12.x only. Manual dispatch can still target
+              # older versions explicitly when needed (escape hatch).
+              [[ "$version" =~ ^12\.[0-9]+(\.[0-9]+)?$ ]] || continue
               [ -f "stubs/$version/Live/__init__.pyi" ] || continue
 
               tag="v${version}"
