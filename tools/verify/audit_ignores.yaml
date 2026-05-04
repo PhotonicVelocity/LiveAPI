@@ -1,0 +1,51 @@
+# Audit findings we've investigated and decided to ignore.
+#
+# Each entry suppresses a class of diagnostic from `tools/verify/audit_corpus.py`. Entries
+# must include a `rationale` documenting the investigation outcome and a date so that future
+# re-investigation can decide whether the entry is still valid.
+#
+# Match shape: AND of optional matchers (`file_contains`, `message_contains`). At least one
+# matcher must be present.
+#
+# Per doc/decisions.md "Stub Accuracy and Pipeline Posture" — we only suppress findings that
+# correspond to corpus-side issues (decompilation artifacts, Ableton-side patterns) or to
+# behavior the stubs deliberately don't promise. Real stub bugs are *fixed*, not ignored.
+
+ignores:
+  - id: drumpad-parameters
+    investigated: 2026-05-04
+    match:
+      file_contains: "Push/navigation_node.py"
+      message_contains: 'Cannot access attribute "parameters" for class "DrumPad"'
+    rationale: |
+      DrumPad does not expose a `parameters` attribute at runtime — confirmed via the curated
+      doc/live-api/DrumPad.md baseline (chains, mute, name, note, solo, canonical_parent,
+      delete_all_chains() only). Push's access at navigation_node.py:402 is either guarded in
+      a way decompilation lost (try/except guards often don't survive decompilation) or a
+      latent bug in Push itself. Our stub is correct.
+
+  - id: browseritem-children-override
+    investigated: 2026-05-04
+    match:
+      file_contains: "Push2/browser_component.py"
+      message_contains: '"children" incorrectly overrides property of same name in class "BrowserItem"'
+    rationale: |
+      Our BrowserItem.children stub is typed as BrowserItemVector — accurately reflecting the
+      C++ binding return type. Push2 subclasses override children with a plain Python list,
+      which is genuinely Liskov-incompatible with BrowserItemVector. Widening our base type to
+      Iterable[BrowserItem] to accommodate Push2 would lose subscriptability and other
+      vector ops for legitimate base-class consumers. Push2's pattern works at runtime via
+      duck-typed iteration; pyright correctly flags the structural incompatibility. This is
+      Ableton's own non-standard pattern, not a stub bug.
+
+  - id: ableton-v2-feedback-rule-decompiled-paths
+    investigated: 2026-05-04
+    match:
+      file_contains: "ableton/v2/control_surface/control_surface.py"
+      message_contains: "is not assignable to"
+    rationale: |
+      ableton.v2 / ableton.v3 modules are Ableton-internal frameworks layered on top of the
+      Live API. They have their own type narrowing patterns and decompilation artifacts that
+      surface as audit noise. We've already addressed the legitimate stub-side issues these
+      paths revealed (feedback_rule nullability — see Step 12 refinements). Remaining errors
+      from these paths are framework-internal and out of scope for the LiveAPI stubs.

@@ -33,6 +33,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 CONFIG = REPO_ROOT / "tools" / "verify" / "audit_pyrightconfig.json"
+IGNORES = REPO_ROOT / "tools" / "verify" / "audit_ignores.yaml"
 
 # Imports of these modules / packages are out-of-scope; we have no stubs for them.
 INTERNAL_PREFIXES = (
@@ -84,6 +85,34 @@ def _mentions_live_class(message: str, live_classes: set[str]) -> bool:
     return False
 
 
+def _load_ignores() -> list[dict]:
+    """Parse audit_ignores.yaml. Returns [] when missing or empty."""
+    if not IGNORES.exists():
+        return []
+    try:
+        import yaml  # noqa: PLC0415  (optional dependency for ignore support)
+    except ImportError:
+        print(
+            f"warning: PyYAML not available — ignore list at {IGNORES.relative_to(REPO_ROOT)} "
+            "will not be applied. Install with `pip install pyyaml`.",
+            file=sys.stderr,
+        )
+        return []
+    data = yaml.safe_load(IGNORES.read_text()) or {}
+    return data.get("ignores") or []
+
+
+def _matches_ignore(file: str, message: str, entry: dict) -> bool:
+    match = entry.get("match") or {}
+    if not match:
+        return False
+    if "file_contains" in match and match["file_contains"] not in file:
+        return False
+    if "message_contains" in match and match["message_contains"] not in message:
+        return False
+    return True
+
+
 def _is_internal_import(message: str) -> bool:
     """Drop pyright errors about imports of Ableton-internal modules."""
     if "Import" not in message and "could not be resolved" not in message:
@@ -118,6 +147,7 @@ def main() -> int:
     args = parser.parse_args()
 
     live_classes = _live_class_names()
+    ignores = _load_ignores()
 
     print(f"Running pyright with --project {CONFIG.relative_to(REPO_ROOT)} ...", file=sys.stderr)
     result = subprocess.run(
@@ -145,6 +175,8 @@ def main() -> int:
     dropped_mangled = 0
     dropped_decomp = 0
     dropped_no_live = 0
+    dropped_ignored = 0
+    ignored_by_id: dict[str, int] = {}
     for d in diags:
         msg = d.get("message", "")
         if _is_internal_import(msg):
@@ -159,6 +191,13 @@ def main() -> int:
         if not args.all_noise and not _mentions_live_class(msg, live_classes):
             dropped_no_live += 1
             continue
+        # Ignore-list match (after Live-class filter so the count reflects real-signal noise)
+        file = d.get("file", "")
+        matched_id = next((e.get("id", "?") for e in ignores if _matches_ignore(file, msg, e)), None)
+        if matched_id is not None:
+            dropped_ignored += 1
+            ignored_by_id[matched_id] = ignored_by_id.get(matched_id, 0) + 1
+            continue
         kept.append(d)
 
     print(
@@ -167,9 +206,14 @@ def main() -> int:
         f"{dropped_mangled} mangled-attrs · "
         f"{dropped_decomp} decompilation-noise · "
         f"{dropped_no_live} no-Live-class · "
+        f"{dropped_ignored} ignored · "
         f"{len(kept)} kept",
         file=sys.stderr,
     )
+    if ignored_by_id:
+        print("ignored breakdown:", file=sys.stderr)
+        for ig_id, count in sorted(ignored_by_id.items()):
+            print(f"  {count:4d}  {ig_id}", file=sys.stderr)
 
     if args.raw:
         for d in kept:

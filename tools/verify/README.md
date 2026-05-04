@@ -93,6 +93,42 @@ have the wrong type, or the pattern was misread. Investigate before adjusting ei
 When the corpus pin is bumped (because a new Live version's decompiled scripts land), update the commit hash
 in this README and in the test files; verify all citations still resolve to expected line ranges.
 
+## Offline corpus audit (not in CI)
+
+`tools/verify/audit_corpus.py` runs pyright over the full decompiled Ableton Remote Script corpus
+(`doc/decompiled/AbletonLive12_MIDIRemoteScripts/`) using our stubs as the type source. Surfaces places
+where the stubs disagree with working production code. Filters out internal-module imports, decompilation
+artifacts, and errors that don't mention a class declared in our stubs. Not a CI gate — research tool.
+
+```bash
+python3 tools/verify/audit_corpus.py             # grouped summary (default)
+python3 tools/verify/audit_corpus.py --raw       # ungrouped, full message text
+python3 tools/verify/audit_corpus.py --top 30    # top 30 grouped shapes
+python3 tools/verify/audit_corpus.py --all-noise # disable Live-class restriction
+```
+
+### Suppressing investigated-and-declined findings
+
+`tools/verify/audit_ignores.yaml` records audit findings we've investigated and decided not to fix. Each
+entry includes a `rationale` and `investigated` date so future re-investigation can decide whether the
+entry is still valid. Match shape:
+
+```yaml
+ignores:
+  - id: <stable-identifier>
+    investigated: <YYYY-MM-DD>
+    match:
+      file_contains: <substring> # optional
+      message_contains: <substring> # optional; at least one matcher required
+    rationale: |
+      Why this finding is corpus-side noise / Ableton-side pattern / out-of-scope —
+      not a real stub bug to fix.
+```
+
+The audit script applies these after the standard filters and surfaces a per-id breakdown so it's clear
+how many findings each ignore is suppressing. **Real stub bugs are fixed, not ignored** — only add an
+entry once you've confirmed the finding is corpus-side or out-of-scope.
+
 ## Commands
 
 ```bash
