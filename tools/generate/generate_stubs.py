@@ -54,6 +54,7 @@ class StubGenerator:
         self._module_classes: dict[str, set[str]] = {}
         self._nested_class_parent: dict[str, str] = {}  # "View" -> "Device" (nested class -> parent)
         self._enum_lookup: dict[str, int] = {}
+        self._enum_classes: set[str] = set()  # bare class names of enum nodes (for arg widening)
         self._vector_types: set[str] = set()  # class names that are vector types
         self._vector_element_fallback: dict[str, str] = {}  # vector class -> default element type
         self._typed_properties: dict[str, set[str]] = {}  # class name -> property names with probed_type
@@ -86,10 +87,14 @@ class StubGenerator:
                 self._class_to_module[name] = module_name
                 self._module_classes[module_name].add(name)
 
-            # Index enum members for default resolution
-            if node_type == "enum" and node.get("members"):
-                for mname, mval in node["members"].items():
-                    self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
+            # Index enum members for default resolution and the bare class name for
+            # arg-type widening (Boost.Python enum bindings accept both the enum value
+            # and the underlying int — see _format_arg).
+            if node_type == "enum":
+                self._enum_classes.add(name)
+                if node.get("members"):
+                    for mname, mval in node["members"].items():
+                        self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
 
             # Detect vector types from iterable flag on class nodes
             # Only treat as vector if it has mutable vector methods (append/extend);
@@ -519,8 +524,15 @@ class StubGenerator:
         Uses probed_repr (e.g. "<class 'Device.View'>") for precise parent resolution.
         """
         if not probed_type:
-            return "None"
-        resolved = "None" if probed_type == "NoneType" else probed_type
+            return "Any"
+        # NoneType-probed properties are nullable references where the probe happened to
+        # see None at probe time (e.g. Song.View.selected_chain has no chain selected).
+        # Emit Any as an honest "we don't know T" rather than literal `None`, which would
+        # render setters as `value: None` and produce false reportIncompatibleMethodOverride
+        # errors when subclasses assign real values. Manual refinements in
+        # tools/parse/manual_refinements.yaml override Any with the correct `T | None` for
+        # known cases; see doc/decisions.md.
+        resolved = "Any" if probed_type == "NoneType" else probed_type
         if resolved in self._nested_class_parent:
             # Extract parent from probed_repr if available (e.g. "<class 'Device.View'>" -> "Device")
             parent = None
@@ -552,6 +564,14 @@ class StubGenerator:
                 # Check if the enum class is known
                 if enum_class in self._class_to_module:
                     arg_type = f"{enum_class} | int"
+
+        # When the arg type IS an enum class, widen to accept the underlying int too —
+        # Boost.Python enum bindings accept either the enum value or its int representation
+        # at runtime, so the bare-enum claim is too narrow. Audit on the corpus surfaced
+        # this on Live.MidiMap.map_midi_cc(map_mode: MapMode, ...) being called with int
+        # in Ableton's own shipped Remote Scripts.
+        if arg_type in self._enum_classes:
+            arg_type = f"{arg_type} | int"
 
         # When the explicit default value is the literal None (string "None" in the parsed
         # tree), widen type to accept None. NB: an arg with no default has default == None

@@ -140,10 +140,10 @@ def forward_midi_note(arg1: int, arg2: int, arg3: int, arg4: int, should_consume
 def forward_midi_pitchbend(arg1: int, arg2: int, arg3: int, /) -> bool:
     ...
 
-def map_midi_cc(midi_map_handle: int, parameter: DeviceParameter, midi_channel: int, controller_number: int, map_mode: MapMode, avoid_takeover: bool, sensitivity: float = 1.0, /) -> bool:
+def map_midi_cc(midi_map_handle: int, parameter: DeviceParameter, midi_channel: int, controller_number: int, map_mode: MapMode | int, avoid_takeover: bool, sensitivity: float = 1.0, /) -> bool:
     ...
 
-def map_midi_cc_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, midi_channel: int, controller_number: int, map_mode: MapMode, feedback_rule: CCFeedbackRule, avoid_takeover: bool, sensitivity: float = 1.0, /) -> bool:
+def map_midi_cc_with_feedback_map(midi_map_handle: int, parameter: DeviceParameter, midi_channel: int, controller_number: int, map_mode: MapMode | int, feedback_rule: CCFeedbackRule, avoid_takeover: bool, sensitivity: float = 1.0, /) -> bool:
     ...
 
 def map_midi_note(arg1: int, arg2: DeviceParameter, arg3: int, arg4: int, /) -> bool:

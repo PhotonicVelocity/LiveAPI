@@ -80,12 +80,12 @@ class Song(LomObject):
             ...
 
         @property
-        def detail_clip(self) -> None:
+        def detail_clip(self) -> Any:
             """Get/Set the Clip that is currently visible in Lives Detailview."""
             ...
 
         @detail_clip.setter
-        def detail_clip(self, value: None) -> None: ...
+        def detail_clip(self, value: Any) -> None: ...
 
         def detail_clip_has_listener(self, callback: Callable, /) -> bool:
             """
@@ -186,12 +186,12 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_chain(self) -> None:
+        def selected_chain(self) -> Any:
             """Get the highlighted chain if available."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: None) -> None: ...
+        def selected_chain(self, value: Any) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable, /) -> bool:
             """
@@ -201,7 +201,7 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_parameter(self) -> None:
+        def selected_parameter(self) -> Any:
             """Get the currently selected device parameter."""
             ...
 
@@ -590,12 +590,12 @@ class Song(LomObject):
         ...
 
     @property
-    def appointed_device(self) -> None:
+    def appointed_device(self) -> Any:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: None) -> None: ...
+    def appointed_device(self, value: Any) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -693,7 +693,7 @@ class Song(LomObject):
         ...
 
     @property
-    def canonical_parent(self) -> None:
+    def canonical_parent(self) -> Any:
         """Get the canonical parent of the song."""
         ...
 

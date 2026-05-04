@@ -561,12 +561,12 @@ class Clip(LomObject):
         ...
 
     @property
-    def groove(self) -> None:
+    def groove(self) -> Any:
         """Get the groove associated with this clip."""
         ...
 
     @groove.setter
-    def groove(self, value: None) -> None: ...
+    def groove(self, value: Any) -> None: ...
 
     def groove_has_listener(self, callback: Callable, /) -> bool:
         """

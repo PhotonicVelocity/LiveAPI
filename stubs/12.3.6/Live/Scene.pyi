@@ -119,12 +119,12 @@ class Scene(LomObject):
         ...
 
     @property
-    def color_index(self) -> None:
+    def color_index(self) -> Any:
         """Get/set access to the color index of the scene. Can be None for no color."""
         ...
 
     @color_index.setter
-    def color_index(self, value: None) -> None: ...
+    def color_index(self, value: Any) -> None: ...
 
     def color_index_has_listener(self, callback: Callable, /) -> bool:
         """

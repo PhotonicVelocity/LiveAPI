@@ -237,7 +237,7 @@ class Application(LomObject):
         ...
 
     @property
-    def canonical_parent(self) -> None:
+    def canonical_parent(self) -> Any:
         """Returns the canonical parent of the application."""
         ...
 
@@ -572,7 +572,7 @@ class UnavailableFeatureVector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: UnavailableFeature, /) -> None:
+    def append(self, value: UnavailableFeature | int, /) -> None:
         ...
 
     def extend(self, values: Iterable[UnavailableFeature], /) -> None:
