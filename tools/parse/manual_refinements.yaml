@@ -83,33 +83,38 @@ _meta:
   probed_type:
     from: NoneType
     to: "Chain | None"
+  confidence: high
   source: |
-    Docstring: "Return access to the currently selected chain." None when nothing
-    is selected.
+    Docstring: "Return access to the currently selected chain." Corpus-verified —
+    Ableton's pushbase / Push2 read and assign Chain values to this property.
 
 "Live.Scene.Scene.color_index":
   probed_type:
     from: NoneType
     to: "int | None"
+  confidence: high
   source: |
     Docstring: "Get/set access to the color index of the scene. Can be None for
-    no color." Explicit nullability documented.
+    no color." Explicit nullability documented in raw_doc.
 
 "Live.Song.Song.View.detail_clip":
   probed_type:
     from: NoneType
     to: "Clip | None"
+  confidence: high
   source: |
     Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
-    None when no clip is shown in detail view.
+    Corpus-verified — Push and Push2 both read and assign Clip values here.
 
 "Live.Song.Song.View.selected_chain":
   probed_type:
     from: NoneType
     to: "Chain | None"
+  confidence: high
   source: |
-    Docstring: "Get the highlighted chain if available." Audit corpus confirms
-    Chain assignment at Push2/track_selection.py:95 and pushbase/selection.py:54.
+    Docstring: "Get the highlighted chain if available." Corpus-verified —
+    Push2/track_selection.py:95 and pushbase/selection.py:54 both assign Chain
+    values to this property.
 
 "Live.Song.Song.View.selected_parameter":
   probed_type:
@@ -123,9 +128,11 @@ _meta:
   probed_type:
     from: NoneType
     to: "Device | None"
+  confidence: high
   source: |
-    Docstring: "Read, write, and listen access to the appointed Device." None when
-    no device is appointed.
+    Docstring: "Read, write, and listen access to the appointed Device." Corpus-
+    verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
+    values here.
 
 # ─── Feedback-rule parameters: missing nullability ────────────────────────────
 #
@@ -975,7 +982,11 @@ _meta:
   probed_type:
     from: null
     to: bool
-  source: Property name pattern "in X mode" indicates a boolean flag.
+  confidence: low
+  source: |
+    Property name pattern "in X mode" suggests boolean. No raw_doc, no usage
+    snippets, no M4L doc — pure naming inference. Watch for drift if a probe
+    ever reaches this property.
 
 "Live.Licensing.PythonLicensingBridge.license_must_match_variant":
   probed_type:
@@ -1087,7 +1098,11 @@ _meta:
   element_repr:
     from: null
     to: "<class 'tuple'>"
-  source: Field name + context indicates tuples of value pairs.
+  confidence: low
+  source: |
+    Field name + context suggests tuples of value pairs, but element type is
+    bare `tuple` (no inner type info) — vague. May want tighter shape if a
+    probe or corpus pattern surfaces it.
 
 "Live.Sample.Sample.slices":
   element_repr:
@@ -1115,18 +1130,21 @@ _meta:
     value:
       from: object
       to: LomObject
+  confidence: high
   source: |
     Vector holds LomObject instances (TWeakPtr<TPyHandleBase> at the C++ layer) —
-    the companion type for Vector contents.
+    well-documented contract for the Vector parent class.
 
 "Live.Clip.Clip.add_warp_marker":
   arg_types:
     warp_marker:
       from: object
       to: WarpMarker
+  confidence: high
   source: |
     Method literally adds a WarpMarker; companion class name + API context.
-    Native Boost.Python binding takes the WarpMarker class instance.
+    Native Boost.Python binding takes the WarpMarker class instance — the
+    "literal" type for this argument.
 
 "Live.Clip.Clip.duplicate_notes_by_id":
   arg_types:
