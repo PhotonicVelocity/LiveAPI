@@ -281,7 +281,7 @@ class RackDevice(Device):
         """Return const access to the name of the device's class."""
         ...
 
-    def copy_pad(self, arg2: int, arg3: int, /) -> None:
+    def copy_pad(self, source_index: int, destination_index: int, /) -> None:
         """Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127."""
         ...
 

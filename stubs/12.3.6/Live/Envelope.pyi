@@ -21,19 +21,19 @@ class Envelope(LomObject):
         """Get the canonical parent of the envelope."""
         ...
 
-    def delete_events_in_range(self, arg2: float, arg3: float, /) -> None:
+    def delete_events_in_range(self, start_time: float, end_time: float, /) -> None:
         """Deletes the events in the specified time range."""
         ...
 
-    def events_in_range(self, arg2: float, arg3: float, /) -> EnvelopeEventVector:
+    def events_in_range(self, start_time: float, end_time: float, /) -> EnvelopeEventVector:
         """Returns the events in the specified time range."""
         ...
 
-    def insert_step(self, arg2: float, arg3: float, arg4: float, /) -> None:
+    def insert_step(self, start_time: float, length: float, value: float, /) -> None:
         """Given a start time, a step length and a value, creates a step in the envelope."""
         ...
 
-    def value_at_time(self, arg2: float, /) -> float:
+    def value_at_time(self, time: float, /) -> float:
         """Returns the parameter value at the specified time."""
         ...
 

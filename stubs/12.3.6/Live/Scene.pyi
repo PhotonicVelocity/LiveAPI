@@ -249,7 +249,7 @@ class Scene(LomObject):
         """
         ...
 
-    def set_fire_button_state(self, arg2: bool, /) -> None:
+    def set_fire_button_state(self, state: bool, /) -> None:
         """Set the scene's fire button state directly. Supports all launch modes."""
         ...
 

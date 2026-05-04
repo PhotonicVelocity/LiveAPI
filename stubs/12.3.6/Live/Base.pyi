@@ -189,7 +189,7 @@ def get_text(classname: str, textname: str, /) -> Text:
     """Retrieves the (translated) Text identified by `classname` and `textname`."""
     ...
 
-def log(arg1: str, /) -> None:
+def log(string: str, /) -> None:
     ...
 
 def subst_args(text: Text, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '', /) -> str:

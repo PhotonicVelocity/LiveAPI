@@ -53,7 +53,7 @@ class Clip(LomObject):
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, arg2: DeviceParameter, /) -> None:
+        def select_envelope_parameter(self, device_parameter: DeviceParameter, /) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -202,7 +202,7 @@ class Clip(LomObject):
         """
         ...
 
-    def add_new_notes(self, arg2: object, /) -> IntU64Vector:
+    def add_new_notes(self, notes: object, /) -> IntU64Vector:
         """
         Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification
         objects. The objects will be used to construct new notes in the clip.
@@ -321,7 +321,7 @@ class Clip(LomObject):
         """
         ...
 
-    def apply_note_modifications(self, arg2: MidiNoteVector, /) -> None:
+    def apply_note_modifications(self, notes: MidiNoteVector, /) -> None:
         """
         Expects a list of notes as returned from get_notes_extended. The content
         of the list will be used to modify existing notes in the clip, based on
@@ -335,7 +335,7 @@ class Clip(LomObject):
         """
         ...
 
-    def automation_envelope(self, arg2: DeviceParameter, /) -> Envelope:
+    def automation_envelope(self, device_parameter: DeviceParameter, /) -> Envelope:
         """Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track."""
         ...
 
@@ -368,7 +368,7 @@ class Clip(LomObject):
         """Clears all envelopes for this clip."""
         ...
 
-    def clear_envelope(self, arg2: DeviceParameter, /) -> None:
+    def clear_envelope(self, device_parameter: DeviceParameter, /) -> None:
         """Clears the envelope of this clips given parameter."""
         ...
 
@@ -402,7 +402,7 @@ class Clip(LomObject):
         """
         ...
 
-    def create_automation_envelope(self, arg2: DeviceParameter, /) -> Envelope:
+    def create_automation_envelope(self, device_parameter: DeviceParameter, /) -> Envelope:
         """Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created."""
         ...
 
@@ -779,7 +779,7 @@ class Clip(LomObject):
         """
         ...
 
-    def move_playing_pos(self, arg2: float, /) -> None:
+    def move_playing_pos(self, beats: float, /) -> None:
         """
         Jump forward or backward by the specified relative amount in beats.
         Will do nothing, if the Clip is not playing.
@@ -914,11 +914,11 @@ class Clip(LomObject):
         """
         ...
 
-    def quantize(self, arg2: int, arg3: float, /) -> None:
+    def quantize(self, quantization_grid: int, amount: float, /) -> None:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, arg2: int, arg3: int, arg4: float, /) -> None:
+    def quantize_pitch(self, note: int, source: int, arg4: float, /) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 
@@ -1073,11 +1073,11 @@ class Clip(LomObject):
         """
         ...
 
-    def remove_notes(self, arg2: float, arg3: int, arg4: float, arg5: int, /) -> None:
+    def remove_notes(self, from_time: float, from_pitch: int, time_span: float, pitch_span: int, /) -> None:
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, arg2: object, /) -> None:
+    def remove_notes_by_id(self, note_ids: object, /) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1209,7 +1209,7 @@ class Clip(LomObject):
         """
         ...
 
-    def replace_selected_notes(self, arg2: tuple, /) -> None:
+    def replace_selected_notes(self, notes: tuple, /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_selected_notes. The
@@ -1260,15 +1260,15 @@ class Clip(LomObject):
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, arg2: object, /) -> None:
+    def select_notes_by_id(self, note_ids: object, /) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 
-    def set_fire_button_state(self, arg2: bool, /) -> None:
+    def set_fire_button_state(self, state: bool, /) -> None:
         """Set the clip's fire button state directly. Supports all launch modes."""
         ...
 
-    def set_notes(self, arg2: tuple, /) -> None:
+    def set_notes(self, notes: tuple, /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_notes. The

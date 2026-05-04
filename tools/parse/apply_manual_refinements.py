@@ -60,11 +60,37 @@ def _walk(node: dict, path: str = "") -> Iterator[tuple[str, dict]]:
             yield from _walk(child, path)
 
 
+def _resolve_value(spec: object, current: object, field: str, path: str, log: list[str]) -> object:
+    """Resolve a refinement field value.
+
+    Accepts either:
+      - A bare scalar (just the new value). Compact form.
+      - A dict with `to` (and optional `from`). Verbose form; validates that the
+        recorded `from` matches the actual current value, warns on mismatch.
+
+    The mismatch warning is the early-warning system for drift: if Live changes
+    the underlying type/name between versions and a refinement's `from` no longer
+    matches, the refinement is probably stale and should be re-validated.
+    """
+    if isinstance(spec, dict) and ("to" in spec or "from" in spec):
+        if "to" not in spec:
+            log.append(f"  WARN {path} {field}: dict without `to` field; skipping")
+            return current
+        recorded_from = spec.get("from")
+        if recorded_from is not None and recorded_from != current:
+            log.append(
+                f"  WARN {path} {field}: recorded from {recorded_from!r} doesn't match "
+                f"actual {current!r} — refinement may be stale"
+            )
+        return spec["to"]
+    return spec
+
+
 def _apply_one(node: dict, refinement: dict, dotted_path: str) -> list[str]:
     """Apply a single refinement entry to a tree node. Return per-field log lines."""
     log: list[str] = []
 
-    # --- arg name renames -------------------------------------------------
+    # --- arg name renames (key = from, value = to; no separate from/to dict needed) -----
     arg_renames = refinement.get("args") or {}
     if arg_renames:
         args = node.get("args") or []
@@ -76,7 +102,7 @@ def _apply_one(node: dict, refinement: dict, dotted_path: str) -> list[str]:
                 arg["name"] = arg_renames[cur_name]
                 log.append(f"  {dotted_path}: arg {cur_name!r} -> {arg['name']!r}")
 
-    # --- arg type overrides ----------------------------------------------
+    # --- arg type overrides (supports compact str or {from, to} dict) -------------------
     arg_types = refinement.get("arg_types") or {}
     if arg_types:
         args = node.get("args") or []
@@ -84,20 +110,26 @@ def _apply_one(node: dict, refinement: dict, dotted_path: str) -> list[str]:
             cur_name = arg.get("name")
             if cur_name in arg_types:
                 old = arg.get("type")
-                arg["type"] = arg_types[cur_name]
+                arg["type"] = _resolve_value(
+                    arg_types[cur_name], old, f"arg_types[{cur_name}]", dotted_path, log
+                )
                 log.append(f"  {dotted_path}: arg {cur_name!r} type {old!r} -> {arg['type']!r}")
 
-    # --- return type override --------------------------------------------
+    # --- return type override -----------------------------------------------------------
     if "return_type" in refinement:
         returns = node.setdefault("returns", {})
         old = returns.get("type")
-        returns["type"] = refinement["return_type"]
+        returns["type"] = _resolve_value(
+            refinement["return_type"], old, "return_type", dotted_path, log
+        )
         log.append(f"  {dotted_path}: return type {old!r} -> {returns['type']!r}")
 
-    # --- property probed_type override -----------------------------------
+    # --- property probed_type override --------------------------------------------------
     if "probed_type" in refinement:
         old = node.get("probed_type")
-        node["probed_type"] = refinement["probed_type"]
+        node["probed_type"] = _resolve_value(
+            refinement["probed_type"], old, "probed_type", dotted_path, log
+        )
         log.append(f"  {dotted_path}: probed_type {old!r} -> {node['probed_type']!r}")
 
     return log
@@ -137,7 +169,28 @@ def main() -> int:
         print(f"error: parsed tree not found at {parsed_path}", file=sys.stderr)
         return 2
 
-    refinements = yaml.safe_load(refinements_path.read_text()) or {}
+    yaml_text = refinements_path.read_text()
+    refinements = yaml.safe_load(yaml_text) or {}
+
+    # PyYAML's default behavior on duplicate top-level keys is silent "last wins" —
+    # which can drop type overrides when a later entry only re-declares args (or vice
+    # versa). Detect dups by re-scanning the source text and fail fast so the maintainer
+    # consolidates the entries.
+    import re as _re
+    counts: dict[str, int] = {}
+    for line in yaml_text.splitlines():
+        m = _re.match(r'^("Live\.[^"]+"):', line)
+        if m:
+            counts[m.group(1)] = counts.get(m.group(1), 0) + 1
+    dups = [k for k, n in counts.items() if n > 1]
+    if dups:
+        print("manual_refinements.yaml has duplicate top-level keys:", file=sys.stderr)
+        for k in dups:
+            print(f"  {k}  (×{counts[k]})", file=sys.stderr)
+        print("Consolidate them into single entries — PyYAML silently overrides later "
+              "duplicates and you may lose fields.", file=sys.stderr)
+        return 2
+
     parsed = json.loads(parsed_path.read_text())
 
     refinements = {k: v for k, v in refinements.items() if not k.startswith("_")}

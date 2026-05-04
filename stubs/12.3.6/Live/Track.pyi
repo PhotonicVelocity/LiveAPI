@@ -608,14 +608,14 @@ class Track(DeviceContainer):
         """
         ...
 
-    def create_audio_clip(self, arg2: str, arg3: float, /) -> Clip:
+    def create_audio_clip(self, file_path: str, position: float, /) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
         """
         ...
 
-    def create_midi_clip(self, arg2: float, arg3: float, /) -> Clip:
+    def create_midi_clip(self, start_time: float, length: float, /) -> Clip:
         """
         Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
@@ -720,11 +720,11 @@ class Track(DeviceContainer):
         """
         ...
 
-    def delete_clip(self, arg2: Clip, /) -> None:
+    def delete_clip(self, slot: Clip, /) -> None:
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, arg2: int, /) -> None:
+    def delete_device(self, device: int, /) -> None:
         """Delete a device identified by the index in the 'devices' list."""
         ...
 
@@ -744,7 +744,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def duplicate_clip_slot(self, arg2: int, /) -> int:
+    def duplicate_clip_slot(self, index: int, /) -> int:
         """
         Duplicate a clip and put it into the next free slot and return the index
         of the destination slot. A new scene is created if no free slot is
@@ -761,7 +761,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def duplicate_device(self, arg2: int, /) -> None:
+    def duplicate_device(self, index: int, /) -> None:
         """Duplicate a device at a given index in the 'devices' list."""
         ...
 
@@ -1025,7 +1025,7 @@ class Track(DeviceContainer):
         """return False if the track is hidden within a folded group track."""
         ...
 
-    def jump_in_running_session_clip(self, arg2: float, /) -> None:
+    def jump_in_running_session_clip(self, beats: float, /) -> None:
         """
         Jump forward or backward in the currently running Sessionclip (if any)
         by the specified relative amount in beats. Does nothing if no Session Clip

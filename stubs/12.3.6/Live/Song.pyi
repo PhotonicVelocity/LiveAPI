@@ -183,7 +183,7 @@ class Song(LomObject):
             """
             ...
 
-        def select_device(self, arg2: Device, should_appoint_device: bool = True, /) -> None:
+        def select_device(self, device: Device, should_appoint_device: bool = True, /) -> None:
             """Select the given device."""
             ...
 
@@ -776,7 +776,7 @@ class Song(LomObject):
         """
         ...
 
-    def create_scene(self, arg2: int, /) -> Scene:
+    def create_scene(self, index: int, /) -> Scene:
         """
         Create a new scene at the given index. If the index is -1,
         the new scene is added at the end. If the index is invalid or
@@ -818,35 +818,35 @@ class Song(LomObject):
         """
         ...
 
-    def delete_return_track(self, arg2: int, /) -> None:
+    def delete_return_track(self, index: int, /) -> None:
         """
         Delete the return track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_scene(self, arg2: int, /) -> None:
+    def delete_scene(self, index: int, /) -> None:
         """
         Delete the scene with the given index. If no scene with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_track(self, arg2: int, /) -> None:
+    def delete_track(self, index: int, /) -> None:
         """
         Delete the track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def duplicate_scene(self, arg2: int, /) -> None:
+    def duplicate_scene(self, index: int, /) -> None:
         """
         Duplicates a scene and selects the new one.
         Raises a limitation error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def duplicate_track(self, arg2: int, /) -> None:
+    def duplicate_track(self, index: int, /) -> None:
         """
         Duplicates a track and selects the new one.
         If the track is inside a folded group track, the group track is unfolded.
@@ -915,7 +915,7 @@ class Song(LomObject):
         """
         ...
 
-    def get_current_smpte_song_time(self, arg2: int, /) -> SmptTime:
+    def get_current_smpte_song_time(self, smpte_format: int, /) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.
@@ -1010,7 +1010,7 @@ class Song(LomObject):
         """
         ...
 
-    def jump_by(self, arg2: float, /) -> None:
+    def jump_by(self, beats: float, /) -> None:
         """Set a new playing pos, relative to the current one."""
         ...
 
@@ -1693,7 +1693,7 @@ class Song(LomObject):
         """
         ...
 
-    def scrub_by(self, arg2: float, /) -> None:
+    def scrub_by(self, beats: float, /) -> None:
         """Same as jump_by, but does not stop playback."""
         ...
 

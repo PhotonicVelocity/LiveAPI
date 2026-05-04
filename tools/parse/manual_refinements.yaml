@@ -7,12 +7,21 @@
 # Schema (per dotted path):
 #
 #   "<dotted path>":
-#     args:           { argN: real_name, ... }   # rename positional args by current name
-#     arg_types:      { name: Type, ... }        # override an arg's type by name
-#     return_type:    Type                       # override the return type
-#     probed_type:    Type                       # override property's probed type
-#     source:         "<rationale citation>"     # required
-#     _note:          "<optional free-text>"
+#     args:        { argN: real_name }              # rename positional args (key=from, value=to)
+#     arg_types:   { name: <type-spec>, ... }       # override an arg's type by name
+#     return_type: <type-spec>                      # override the return type
+#     probed_type: <type-spec>                      # override property's probed type
+#     source:      "<rationale citation>"           # required
+#     _note:       "<optional free-text>"
+#
+# <type-spec> can be either:
+#   - A bare scalar:    "Chain | None"
+#   - A {from, to} dict for diff visibility:
+#       from: NoneType
+#       to:   "Chain | None"
+#
+# When `from` is provided, the applier validates it against the parsed-tree value
+# and warns on mismatch — early-warning system for drift across Live versions.
 #
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -33,7 +42,9 @@ _meta:
 # confirms the underlying type via assignments / reads in shipped Remote Scripts.
 
 "Live.Browser.Browser.hotswap_target":
-  probed_type: "Device | None"
+  probed_type:
+    from: NoneType
+    to: "Device | None"
   source: |
     Probed against Live 12.3.5 (MS33 in the curated baseline at doc/live-api/Browser.md):
     "During active hotswap, hotswap_target returns the Device object being swapped, not a
@@ -49,43 +60,57 @@ _meta:
     becomes part of the deferred / declined bucket, not a stub bug.
 
 "Live.Clip.Clip.groove":
-  probed_type: "Groove | None"
+  probed_type:
+    from: NoneType
+    to: "Groove | None"
   source: |
     Docstring: "Get the groove associated with this clip." None when the clip has
     no groove assigned.
 
 "Live.RackDevice.RackDevice.View.selected_chain":
-  probed_type: "Chain | None"
+  probed_type:
+    from: NoneType
+    to: "Chain | None"
   source: |
     Docstring: "Return access to the currently selected chain." None when nothing
     is selected.
 
 "Live.Scene.Scene.color_index":
-  probed_type: "int | None"
+  probed_type:
+    from: NoneType
+    to: "int | None"
   source: |
     Docstring: "Get/set access to the color index of the scene. Can be None for
     no color." Explicit nullability documented.
 
 "Live.Song.Song.View.detail_clip":
-  probed_type: "Clip | None"
+  probed_type:
+    from: NoneType
+    to: "Clip | None"
   source: |
     Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
     None when no clip is shown in detail view.
 
 "Live.Song.Song.View.selected_chain":
-  probed_type: "Chain | None"
+  probed_type:
+    from: NoneType
+    to: "Chain | None"
   source: |
     Docstring: "Get the highlighted chain if available." Audit corpus confirms
     Chain assignment at Push2/track_selection.py:95 and pushbase/selection.py:54.
 
 "Live.Song.Song.View.selected_parameter":
-  probed_type: "DeviceParameter | None"
+  probed_type:
+    from: NoneType
+    to: "DeviceParameter | None"
   source: |
     Docstring: "Get the currently selected device parameter." Read-only nullable
     reference; None when no parameter is selected.
 
 "Live.Song.Song.appointed_device":
-  probed_type: "Device | None"
+  probed_type:
+    from: NoneType
+    to: "Device | None"
   source: |
     Docstring: "Read, write, and listen access to the appointed Device." None when
     no device is appointed.
@@ -100,26 +125,741 @@ _meta:
 
 "Live.MidiMap.map_midi_cc_with_feedback_map":
   arg_types:
-    feedback_rule: "CCFeedbackRule | None"
+    feedback_rule:
+      from: CCFeedbackRule
+      to: "CCFeedbackRule | None"
   source: |
     Audit found None passed at _Framework/ControlSurface.py:488 and
     ableton/v2/control_surface/control_surface.py:438 — Ableton's official base
     classes pass None when no feedback rule applies.
 
+# Note: map_midi_note_with_feedback_map and map_midi_pitchbend_with_feedback_map
+# combine arg-name renames (imported below) with the feedback-rule type widening
+# documented above. They live as single consolidated entries here rather than
+# duplicate entries in the import block — duplicate top-level keys would otherwise
+# cause silent override (PyYAML's "last wins" behavior).
+
 "Live.MidiMap.map_midi_note_with_feedback_map":
+  args:
+    arg1: midi_map_handle
+    arg2: device_parameter
+    arg3: midi_channel
+    arg4: note
+    arg5: feedback_rule
   arg_types:
-    arg5: "NoteFeedbackRule | None"
+    feedback_rule:
+      from: NoteFeedbackRule
+      to: "NoteFeedbackRule | None"
   source: |
-    Audit found None passed at _Framework/ControlSurface.py:485 and
-    ableton/v2/control_surface/control_surface.py:435. The parameter is currently
-    named `arg5` in the stub (parser couldn't resolve a name); only the type is
-    overridden here. Renaming to a descriptive name is deferred (argN cosmetic
-    pass not in scope).
+    Arg renames imported from refinements.llm.json (callsite-cited):
+      - arg1 -> midi_map_handle, arg2 -> device_parameter, arg3 -> midi_channel,
+        arg4 -> note, arg5 -> feedback_rule  (consistent with the rest of the
+        MidiMap family; original sources cite call-site naming).
+    feedback_rule type widened to None: audit found None passed at
+    _Framework/ControlSurface.py:485 and ableton/v2/control_surface/control_surface.py:435.
 
 "Live.MidiMap.map_midi_pitchbend_with_feedback_map":
+  args:
+    arg1: midi_map_handle
+    arg2: device_parameter
+    arg3: midi_channel
+    arg4: feedback_rule
+    arg5: needs_takeover
   arg_types:
-    arg4: "PitchBendFeedbackRule | None"
+    feedback_rule:
+      from: PitchBendFeedbackRule
+      to: "PitchBendFeedbackRule | None"
   source: |
-    Audit found None passed at _Framework/ControlSurface.py:491 and
-    ableton/v2/control_surface/control_surface.py:441. Same naming caveat as the
-    note variant — only the type is overridden here.
+    Arg renames imported from refinements.llm.json (structural / consistency):
+      - arg1 -> midi_map_handle, arg2 -> device_parameter, arg3 -> midi_channel,
+        arg4 -> feedback_rule, arg5 -> needs_takeover.
+    feedback_rule type widened to None: audit found None passed at
+    _Framework/ControlSurface.py:491 and ableton/v2/control_surface/control_surface.py:441.
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Imported arg-name renames from refinements.{llm,callsite}.json
+#
+# Generated via tools/parse/import_legacy_refinements.py on 2026-05-04 against the
+# previously-produced refinement artifacts. Each entry retains its original source
+# citation (callsite vote count or LLM `name_reason`) so the strict-source bar from
+# doc/decisions.md is preserved per refinement. Names are decorative — , / makes
+# every callable positional-only at the type-checker level, so the worst case for a
+# wrong name is autocomplete inaccuracy, not a kwarg-call failure.
+#
+# Where the same path appeared in both callsite and LLM files, callsite wins —
+# deterministic AST analysis supersedes prose-inferred LLM resolution.
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Each entry below corresponds to a single dotted-path member; bring them across
+# into tools/parse/manual_refinements.yaml after reviewing each `source` line.
+#
+# This script defaults to arg-name renames only. Pass --include-types to also
+# emit higher-risk type overrides (each warrants per-entry review against the
+# binding before merging).
+
+# ─── from refinements.callsite.json (deterministic, vote-counted) ─────────────
+
+"Live.Application.Application.View.focus_view":
+  args:
+    arg2: view
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> view  [callsite analysis]: definition votes 2/2 for 'view'
+
+"Live.Application.Application.View.show_view":
+  args:
+    arg2: view
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> view  [callsite analysis]: definition votes 3/3 for 'view'
+
+"Live.Application.ControlSurfaceProxy.release_control":
+  args:
+    arg2: control
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> control  [callsite analysis]: definition votes 3/3 for 'control'
+
+"Live.Application.ControlSurfaceProxy.send_midi":
+  args:
+    arg2: midi_event_bytes
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> midi_event_bytes  [callsite analysis]: definition votes 10/20 for 'midi_event_bytes'
+
+"Live.Application.ControlSurfaceProxy.send_value":
+  args:
+    arg2: value
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> value  [callsite analysis]: definition votes 16/19 for 'value'
+
+"Live.Base.log":
+  args:
+    arg1: string
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg1 -> string  [callsite analysis]: definition votes 3/3 for 'string'
+
+"Live.Chain.Chain.delete_device":
+  args:
+    arg2: device
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> device  [callsite analysis]: definition votes 1/1 for 'device'
+
+"Live.Track.Track.delete_device":
+  args:
+    arg2: device
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> device  [callsite analysis]: definition votes 1/1 for 'device'
+
+"Live.Clip.Clip.quantize_pitch":
+  args:
+    arg2: note
+    arg3: source
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> note  [callsite analysis]: definition votes 6/7 for 'note'
+      - arg3 -> source  [callsite analysis]: definition votes 1/2 for 'source'
+
+"Live.ClipSlot.ClipSlot.create_clip":
+  args:
+    arg2: pages
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> pages  [callsite analysis]: definition votes 1/2 for 'pages'
+
+"Live.Track.Track.delete_clip":
+  args:
+    arg2: slot
+  source: |
+    Imported from refinements.callsite.json (deterministic AST analysis
+    of decompiled Ableton Remote Scripts, vote-counted across def signatures):
+      - arg2 -> slot  [callsite analysis]: definition votes 1/1 for 'slot'
+
+# ─── from refinements.llm.json (LLM-derived; per-arg source labels) ──────────
+# Paths already emitted from callsite are skipped — callsite is more authoritative.
+
+"Live.Application.Application.View.add_is_view_visible_listener":
+  args:
+    arg2: view_name
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> view_name  [C++ signature]: C++ signature shows TString parameter for view identifier
+
+"Live.Application.Application.View.hide_view":
+  args:
+    arg2: view_name
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> view_name  [M4L docs]: MaxForLive docs explicitly name this parameter 'view_name'
+
+"Live.Application.Application.View.is_view_visible_has_listener":
+  args:
+    arg2: view_name
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> view_name  [C++ signature]: C++ signature shows TString parameter for view identifier
+
+"Live.Application.Application.View.remove_is_view_visible_listener":
+  args:
+    arg2: view_name
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> view_name  [C++ signature]: C++ signature shows TString parameter for view identifier
+
+"Live.Application.Application.View.scroll_view":
+  args:
+    arg2: direction
+    arg3: view_name
+    arg4: modifier_pressed
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> direction  [M4L docs]: MaxForLive docs and call site evidence consistently use 'direction'
+      - arg3 -> view_name  [M4L docs]: MaxForLive docs explicitly name this parameter 'view_name'
+      - arg4 -> modifier_pressed  [M4L docs]: MaxForLive docs explicitly name this parameter 'modifier_pressed'
+
+"Live.Application.Application.View.zoom_view":
+  args:
+    arg2: direction
+    arg3: view_name
+    arg4: modifier_pressed
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> direction  [M4L docs]: MaxForLive docs explicitly name this parameter 'direction'
+      - arg3 -> view_name  [M4L docs]: MaxForLive docs explicitly name this parameter 'view_name'
+      - arg4 -> modifier_pressed  [M4L docs]: MaxForLive docs explicitly name this parameter 'modifier_pressed'
+
+"Live.Application.Application.has_option":
+  args:
+    arg2: option_name
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> option_name  [docstring]: description says 'given entry exists in Options.txt' - the entry is an option name
+
+"Live.Application.Application.press_current_dialog_button":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: MaxForLive docs explicitly name this parameter 'index'
+
+"Live.Application.ControlSurfaceProxy.enable_receive_midi":
+  args:
+    arg2: enabled
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> enabled  [structural / other]: boolean parameter controlling whether MIDI receive is enabled
+
+"Live.Application.ControlSurfaceProxy.grab_control":
+  args:
+    arg2: control
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> control  [M4L docs]: MaxForLive docs explicitly name this parameter 'control'
+
+# SKIP Live.Application.ControlSurfaceProxy.send_midi: already emitted from callsite (deterministic supersedes LLM)
+
+# SKIP Live.Application.ControlSurfaceProxy.send_value: already emitted from callsite (deterministic supersedes LLM)
+
+"Live.Application.ControlSurfaceProxy.subscribe_to_control":
+  args:
+    arg2: control
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> control  [structural / other]: parallel with grab_control method which takes a control parameter
+
+"Live.Application.ControlSurfaceProxy.unsubscribe_from_control":
+  args:
+    arg2: control
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> control  [structural / other]: parallel with subscribe_to_control method which takes a control parameter
+
+"Live.Application.encrypt_challenge2":
+  args:
+    arg1: challenge
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> challenge  [docstring]: description says 'UMAC hash for the given challenge' - parameter is the challenge
+
+"Live.Application.get_random_int":
+  args:
+    arg1: min_value
+    arg2: max_value
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> min_value  [structural / other]: function returns random int from range - first arg is minimum
+      - arg2 -> max_value  [structural / other]: function returns random int from range - second arg is maximum
+
+"Live.Browser.Browser.load_item":
+  args:
+    arg2: item
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> item  [M4L docs]: MaxForLive docs and type suggest browser item to load
+
+"Live.Browser.Browser.preview_item":
+  args:
+    arg2: item
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> item  [M4L docs]: MaxForLive docs and type suggest browser item to preview
+
+"Live.Browser.Browser.relation_to_hotswap_target":
+  args:
+    arg2: item
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> item  [docstring]: description says 'relation between the given browser item' - parameter is the item
+
+"Live.Chain.Chain.duplicate_device":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [docstring]: description says 'duplicate the device at the given index'
+
+"Live.Clip.Clip.View.select_envelope_parameter":
+  args:
+    arg2: device_parameter
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> device_parameter  [M4L docs]: MaxForLive docs explicitly name this parameter as DeviceParameter
+
+"Live.Clip.Clip.add_new_notes":
+  args:
+    arg2: notes
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> notes  [M4L docs]: MaxForLive docs and call sites consistently use 'notes'
+
+"Live.Clip.Clip.apply_note_modifications":
+  args:
+    arg2: notes
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> notes  [docstring]: description says 'list of notes as returned from get_notes_extended'
+
+"Live.Clip.Clip.automation_envelope":
+  args:
+    arg2: device_parameter
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> device_parameter  [docstring]: description says 'return the envelope for the given parameter'
+
+"Live.Clip.Clip.clear_envelope":
+  args:
+    arg2: device_parameter
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> device_parameter  [M4L docs]: MaxForLive docs explicitly name this parameter 'device_parameter'
+
+"Live.Clip.Clip.create_automation_envelope":
+  args:
+    arg2: device_parameter
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> device_parameter  [docstring]: description says 'creates an envelope for a given parameter'
+
+"Live.Clip.Clip.move_playing_pos":
+  args:
+    arg2: beats
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> beats  [M4L docs]: MaxForLive docs explicitly name this parameter 'beats'
+
+"Live.Clip.Clip.quantize":
+  args:
+    arg2: quantization_grid
+    arg3: amount
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> quantization_grid  [M4L docs]: MaxForLive docs explicitly name this parameter 'quantization_grid'
+      - arg3 -> amount  [M4L docs]: MaxForLive docs explicitly name this parameter 'amount'
+
+# SKIP Live.Clip.Clip.quantize_pitch: already emitted from callsite (deterministic supersedes LLM)
+
+"Live.Clip.Clip.remove_notes":
+  args:
+    arg2: from_time
+    arg3: from_pitch
+    arg4: time_span
+    arg5: pitch_span
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> from_time  [C++ signature]: pattern with get_notes signature suggests time range parameters
+      - arg3 -> from_pitch  [C++ signature]: pattern with get_notes signature suggests pitch range parameters
+      - arg4 -> time_span  [C++ signature]: pattern with get_notes signature suggests time range span
+      - arg5 -> pitch_span  [C++ signature]: pattern with get_notes signature suggests pitch range span
+
+"Live.Clip.Clip.remove_notes_by_id":
+  args:
+    arg2: note_ids
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> note_ids  [M4L docs]: MaxForLive docs say this takes a list of note IDs
+
+"Live.Clip.Clip.replace_selected_notes":
+  args:
+    arg2: notes
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> notes  [docstring]: description says 'tuple of tuples where each inner tuple represents a note'
+
+"Live.Clip.Clip.select_notes_by_id":
+  args:
+    arg2: note_ids
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> note_ids  [M4L docs]: MaxForLive docs say this selects notes associated with provided IDs
+
+"Live.Clip.Clip.set_fire_button_state":
+  args:
+    arg2: state
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> state  [M4L docs]: MaxForLive docs explicitly name this parameter 'state'
+
+"Live.Clip.Clip.set_notes":
+  args:
+    arg2: notes
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> notes  [docstring]: description says 'tuple of tuples where each inner tuple represents a note'
+
+"Live.ClipSlot.ClipSlot.create_audio_clip":
+  args:
+    arg2: file_path
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> file_path  [M4L docs]: MaxForLive docs explicitly name this parameter 'path'
+
+"Live.ClipSlot.ClipSlot.duplicate_clip_to":
+  args:
+    arg2: target_clip_slot
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> target_clip_slot  [M4L docs]: MaxForLive docs explicitly name this parameter 'target_clip_slot'
+
+"Live.ClipSlot.ClipSlot.set_fire_button_state":
+  args:
+    arg2: state
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> state  [M4L docs]: MaxForLive docs explicitly name this parameter 'state'
+
+"Live.Device.Device.store_chosen_bank":
+  args:
+    arg2: script_index
+    arg3: bank_index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> script_index  [M4L docs]: MaxForLive docs explicitly name this parameter 'script_index'
+      - arg3 -> bank_index  [M4L docs]: MaxForLive docs explicitly name this parameter 'bank_index'
+
+"Live.DeviceParameter.DeviceParameter.str_for_value":
+  args:
+    arg2: value
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> value  [M4L docs]: MaxForLive docs explicitly name this parameter 'value'
+
+"Live.Envelope.Envelope.delete_events_in_range":
+  args:
+    arg2: start_time
+    arg3: end_time
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> start_time  [structural / other]: function deletes events in time range - first arg is start
+      - arg3 -> end_time  [structural / other]: function deletes events in time range - second arg is end
+
+"Live.Envelope.Envelope.events_in_range":
+  args:
+    arg2: start_time
+    arg3: end_time
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> start_time  [structural / other]: function returns events in time range - first arg is start
+      - arg3 -> end_time  [structural / other]: function returns events in time range - second arg is end
+
+"Live.Envelope.Envelope.insert_step":
+  args:
+    arg2: start_time
+    arg3: length
+    arg4: value
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
+      - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
+      - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
+
+"Live.Envelope.Envelope.value_at_time":
+  args:
+    arg2: time
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> time  [docstring]: description says 'parameter value at the specified time' - argument is the time
+
+"Live.LooperDevice.LooperDevice.export_to_clip_slot":
+  args:
+    arg2: clip_slot
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> clip_slot  [M4L docs]: M4L docs explicitly name the parameter 'clip_slot'
+
+"Live.MaxDevice.MaxDevice.get_bank_name":
+  args:
+    arg2: bank_index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> bank_index  [M4L docs]: M4L docs explicitly name the parameter 'bank_index'
+
+"Live.MaxDevice.MaxDevice.get_bank_parameters":
+  args:
+    arg2: bank_index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> bank_index  [M4L docs]: M4L docs explicitly name the parameter 'bank_index'
+
+"Live.MaxDevice.MaxDevice.get_value_item_icons":
+  args:
+    arg2: device_parameter
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> device_parameter  [structural / other]: type is DeviceParameter and method operates on parameter's values
+
+"Live.MidiMap.forward_midi_cc":
+  args:
+    arg1: script_handle
+    arg2: midi_map_handle
+    arg3: midi_channel
+    arg4: controller_number
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> script_handle  [callsite]: call site names show 'script_handle' used most frequently
+      - arg2 -> midi_map_handle  [callsite]: call site names consistently use 'midi_map_handle'
+      - arg3 -> midi_channel  [callsite]: call site names use 'channel' — qualified as 'midi_channel' for consistency with other MidiMap functions
+      - arg4 -> controller_number  [callsite]: call site names use 'cc' or 'cc_no' — expanded to full descriptive name
+
+"Live.MidiMap.forward_midi_note":
+  args:
+    arg1: script_handle
+    arg2: midi_map_handle
+    arg3: midi_channel
+    arg4: note
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> script_handle  [callsite]: call site names show 'script_handle' pattern consistent with forward_midi_cc
+      - arg2 -> midi_map_handle  [callsite]: call site names consistently use 'midi_map_handle'
+      - arg3 -> midi_channel  [callsite]: call site names use 'chan' — qualified as 'midi_channel' for consistency
+      - arg4 -> note  [callsite]: call site names consistently use 'note'
+
+"Live.MidiMap.forward_midi_pitchbend":
+  args:
+    arg1: script_handle
+    arg2: midi_map_handle
+    arg3: midi_channel
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> script_handle  [callsite]: call site names use 'script_handle' consistent with other forward functions
+      - arg2 -> midi_map_handle  [callsite]: call site names consistently use 'midi_map_handle'
+      - arg3 -> midi_channel  [callsite]: call site names use 'channel' — qualified as 'midi_channel' for consistency
+
+"Live.MidiMap.map_midi_note":
+  args:
+    arg1: midi_map_handle
+    arg2: device_parameter
+    arg3: midi_channel
+    arg4: note
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> midi_map_handle  [structural / other]: consistent with other MidiMap functions that take handle as first arg
+      - arg2 -> device_parameter  [structural / other]: type is DeviceParameter — qualified to distinguish from generic parameter
+      - arg3 -> midi_channel  [structural / other]: MIDI channel parameter for consistency with other MidiMap functions
+      - arg4 -> note  [structural / other]: MIDI note number parameter
+
+# Live.MidiMap.map_midi_note_with_feedback_map — entry consolidated above with the
+# feedback_rule type widening; see line ~142.
+
+"Live.MidiMap.map_midi_pitchbend":
+  args:
+    arg1: midi_map_handle
+    arg2: device_parameter
+    arg3: midi_channel
+    arg4: needs_takeover
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> midi_map_handle  [structural / other]: consistent with other MidiMap functions
+      - arg2 -> device_parameter  [structural / other]: type is DeviceParameter — qualified to distinguish from generic parameter
+      - arg3 -> midi_channel  [structural / other]: MIDI channel parameter for consistency
+      - arg4 -> needs_takeover  [structural / other]: manual hints say bools in pitchbend methods indicate whether takeover is needed
+
+# Live.MidiMap.map_midi_pitchbend_with_feedback_map — entry consolidated above with the
+# feedback_rule type widening; see line ~161.
+
+"Live.MidiMap.send_feedback_for_parameter":
+  args:
+    arg1: midi_map_handle
+    arg2: device_parameter
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg1 -> midi_map_handle  [callsite]: call site names consistently use 'midi_map_handle'
+      - arg2 -> device_parameter  [callsite]: call site names use 'parameter' — qualified as 'device_parameter'
+
+"Live.RackDevice.RackDevice.copy_pad":
+  args:
+    arg2: source_index
+    arg3: destination_index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> source_index  [M4L docs]: M4L docs explicitly name this parameter 'source_index'
+      - arg3 -> destination_index  [M4L docs]: M4L docs explicitly name this parameter 'destination_index'
+
+"Live.Scene.Scene.set_fire_button_state":
+  args:
+    arg2: state
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> state  [M4L docs]: M4L docs explicitly name the parameter 'state'
+
+"Live.Song.Song.View.select_device":
+  args:
+    arg2: device
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> device  [M4L docs]: call site names use 'device' most frequently and M4L docs refer to 'device object'
+
+"Live.Song.Song.create_scene":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: M4L docs explicitly name the parameter 'index'
+
+"Live.Song.Song.delete_return_track":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: M4L docs explicitly name the parameter 'index'
+
+"Live.Song.Song.delete_scene":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: M4L docs explicitly name the parameter 'index'
+
+"Live.Song.Song.delete_track":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: M4L docs explicitly name the parameter 'index'
+
+"Live.Song.Song.duplicate_scene":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: M4L docs explicitly name the parameter 'index'
+
+"Live.Song.Song.duplicate_track":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: M4L docs explicitly name the parameter 'index'
+
+"Live.Song.Song.get_current_smpte_song_time":
+  args:
+    arg2: smpte_format
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> smpte_format  [M4L docs]: M4L docs describe 'format [int] is the time code type' — SMPTE format selector
+
+"Live.Song.Song.jump_by":
+  args:
+    arg2: beats
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> beats  [M4L docs]: M4L docs explicitly name the parameter 'beats'
+
+"Live.Song.Song.scrub_by":
+  args:
+    arg2: beats
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> beats  [M4L docs]: M4L docs explicitly name the parameter 'beats'
+
+"Live.TakeLane.TakeLane.create_audio_clip":
+  args:
+    arg2: file_path
+    arg3: start_time
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> file_path  [M4L docs]: M4L docs explicitly name the parameter 'file_path'
+      - arg3 -> start_time  [M4L docs]: M4L docs explicitly name the parameter 'start_time'
+
+"Live.TakeLane.TakeLane.create_midi_clip":
+  args:
+    arg2: start_time
+    arg3: length
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> start_time  [M4L docs]: M4L docs explicitly name the parameter 'start_time'
+      - arg3 -> length  [M4L docs]: M4L docs explicitly name the parameter 'length'
+
+"Live.Track.Track.create_audio_clip":
+  args:
+    arg2: file_path
+    arg3: position
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> file_path  [M4L docs]: M4L docs explicitly name the parameter 'file_path'
+      - arg3 -> position  [M4L docs]: M4L docs explicitly name the parameter 'position'
+
+"Live.Track.Track.create_midi_clip":
+  args:
+    arg2: start_time
+    arg3: length
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> start_time  [M4L docs]: M4L docs explicitly name the parameter 'start_time'
+      - arg3 -> length  [M4L docs]: M4L docs explicitly name the parameter 'length'
+
+"Live.Track.Track.duplicate_clip_slot":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [M4L docs]: call site names use 'index' most frequently and M4L docs use 'index'
+
+"Live.Track.Track.duplicate_device":
+  args:
+    arg2: index
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> index  [docstring]: description mentions 'index in the devices list' — device position index
+
+"Live.Track.Track.jump_in_running_session_clip":
+  args:
+    arg2: beats
+  source: |
+    Imported from refinements.llm.json (LLM-derived; source labels per arg):
+      - arg2 -> beats  [M4L docs]: M4L docs explicitly name the parameter 'beats'
+
+# Emitted 83 entries containing 126 arg renames.

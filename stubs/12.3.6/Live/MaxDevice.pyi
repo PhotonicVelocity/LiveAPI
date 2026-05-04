@@ -117,15 +117,15 @@ class MaxDevice(Device):
         """Get the number of parameter banks. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_name(self, arg2: int, /) -> str:
+    def get_bank_name(self, bank_index: int, /) -> str:
         """Get the name of a parameter bank given by index. This is related to hardware control surfaces."""
         ...
 
-    def get_bank_parameters(self, arg2: int, /) -> list:
+    def get_bank_parameters(self, bank_index: int, /) -> list:
         """Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces."""
         ...
 
-    def get_value_item_icons(self, arg2: DeviceParameter, /) -> list:
+    def get_value_item_icons(self, device_parameter: DeviceParameter, /) -> list:
         """Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces."""
         ...
 

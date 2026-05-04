@@ -41,7 +41,7 @@ class Application(LomObject):
             """
             ...
 
-        def add_is_view_visible_listener(self, arg2: str, callback: Callable, /) -> None:
+        def add_is_view_visible_listener(self, view_name: str, callback: Callable, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_view_visible" has changed.
@@ -81,7 +81,7 @@ class Application(LomObject):
             """Get the canonical parent of the application view."""
             ...
 
-        def focus_view(self, arg2: str, /) -> None:
+        def focus_view(self, view: str, /) -> None:
             """Show and focus one through the identifier string specified view."""
             ...
 
@@ -100,7 +100,7 @@ class Application(LomObject):
             """
             ...
 
-        def hide_view(self, arg2: str, /) -> None:
+        def hide_view(self, view_name: str, /) -> None:
             """Hide one through the identifier string specified view."""
             ...
 
@@ -112,7 +112,7 @@ class Application(LomObject):
             """
             ...
 
-        def is_view_visible_has_listener(self, arg2: str, callback: Callable, /) -> bool:
+        def is_view_visible_has_listener(self, view_name: str, callback: Callable, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_view_visible".
@@ -133,7 +133,7 @@ class Application(LomObject):
             """
             ...
 
-        def remove_is_view_visible_listener(self, arg2: str, callback: Callable, /) -> None:
+        def remove_is_view_visible_listener(self, view_name: str, callback: Callable, /) -> None:
             """
             Remove a previously set listener function or method from
             property "is_view_visible".
@@ -147,7 +147,7 @@ class Application(LomObject):
             """
             ...
 
-        def scroll_view(self, arg2: int, arg3: str, arg4: bool, /) -> None:
+        def scroll_view(self, direction: int, view_name: str, modifier_pressed: bool, /) -> None:
             """
             Scroll through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -155,7 +155,7 @@ class Application(LomObject):
             """
             ...
 
-        def show_view(self, arg2: str, /) -> None:
+        def show_view(self, view: str, /) -> None:
             """
             Show one through the identifier string specified view. Will throw a
             runtime error if this is called in Live's initialization scope.
@@ -176,7 +176,7 @@ class Application(LomObject):
             """
             ...
 
-        def zoom_view(self, arg2: int, arg3: str, arg4: bool, /) -> None:
+        def zoom_view(self, direction: int, view_name: str, modifier_pressed: bool, /) -> None:
             """
             Zoom through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -294,7 +294,7 @@ class Application(LomObject):
         """Returns the full version string of Live."""
         ...
 
-    def has_option(self, arg2: str, /) -> bool:
+    def has_option(self, option_name: str, /) -> bool:
         """Returns True if the given entry exists in Options.txt, False otherwise."""
         ...
 
@@ -327,7 +327,7 @@ class Application(LomObject):
         """
         ...
 
-    def press_current_dialog_button(self, arg2: int, /) -> None:
+    def press_current_dialog_button(self, index: int, /) -> None:
         """Press a button, by index, on the current message box."""
         ...
 
@@ -464,7 +464,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def enable_receive_midi(self, arg2: bool, /) -> None:
+    def enable_receive_midi(self, enabled: bool, /) -> None:
         ...
 
     def fetch_received_midi_messages(self) -> tuple:
@@ -473,7 +473,7 @@ class ControlSurfaceProxy:
     def fetch_received_values(self) -> tuple:
         ...
 
-    def grab_control(self, arg2: int, /) -> None:
+    def grab_control(self, control: int, /) -> None:
         ...
 
     def midi_received_has_listener(self, callback: Callable, /) -> bool:
@@ -495,7 +495,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def release_control(self, arg2: int, /) -> None:
+    def release_control(self, control: int, /) -> None:
         ...
 
     def remove_control_values_arrived_listener(self, callback: Callable, /) -> None:
@@ -519,20 +519,20 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def send_midi(self, arg2: tuple, /) -> None:
+    def send_midi(self, midi_event_bytes: tuple, /) -> None:
         ...
 
-    def send_value(self, arg2: tuple, /) -> None:
+    def send_value(self, value: tuple, /) -> None:
         ...
 
-    def subscribe_to_control(self, arg2: int, /) -> None:
+    def subscribe_to_control(self, control: int, /) -> None:
         ...
 
     @property
     def type_name(self):
         ...
 
-    def unsubscribe_from_control(self, arg2: int, /) -> None:
+    def unsubscribe_from_control(self, control: int, /) -> None:
         ...
 
 class MessageButtons(int):
@@ -595,7 +595,7 @@ def encrypt_challenge(dongle1: int, dongle2: int, key_index: int = 0, /) -> tupl
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 
-def encrypt_challenge2(arg1: int, /) -> int:
+def encrypt_challenge2(challenge: int, /) -> int:
     """Returns the UMAC hash for the given challenge."""
     ...
 
@@ -603,7 +603,7 @@ def get_application() -> Application:
     """Returns the application instance."""
     ...
 
-def get_random_int(arg1: int, arg2: int, /) -> int:
+def get_random_int(min_value: int, max_value: int, /) -> int:
     """Returns a random integer from the given range."""
     ...
 
