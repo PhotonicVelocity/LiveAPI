@@ -1,0 +1,10 @@
+# Development dependencies for the stub generation pipeline.
+# Not required at runtime by consumers of the published `ableton-live-stubs`
+# package — only needed locally when running the parse / generate pipeline
+# or the verify scripts.
+#
+# Install with:
+#   pip install -r requirements-dev.txt
+
+pyyaml>=6.0
+pyright>=1.1.408

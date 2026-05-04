@@ -1,0 +1,22 @@
+# Hand-curated overrides for stub generation, applied after parse_apicapture_results.py
+# produces LiveTree.parsed.json. Per doc/decisions.md ("Stub Accuracy and Pipeline Posture"),
+# refinements are *only* used to correct known wrongness — not to make stubs prettier.
+# Every entry below MUST include a `source` field documenting why the override is justified.
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Schema (per dotted path):
+#
+#   "<dotted path>":
+#     args:           { argN: real_name, ... }   # rename positional args by current name
+#     arg_types:      { name: Type, ... }        # override an arg's type by name
+#     return_type:    Type                       # override the return type
+#     probed_type:    Type                       # override property's probed type
+#     source:         "<rationale citation>"     # required
+#     _note:          "<optional free-text>"
+#
+# ─────────────────────────────────────────────────────────────────────────────
+# Empty for now. Populate per the audit findings + arg-name pass.
+
+_meta:
+  format_version: 1
+  applies_to_version: "12.x"

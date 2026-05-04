@@ -1,10 +1,11 @@
-"""Run Stage 2: parse raw capture into a structured tree.
+"""Run Stage 2: parse raw capture into a structured tree, then apply manual refinements.
 
-Stage 2 is intentionally minimal — capture → parse → generate. The previous
-LLM-resolve, callsite-resolve, and apply-refinements steps were stripped per
-doc/decisions.md (see "Stub Accuracy and Pipeline Posture"). Helper scripts
-remain in this directory but are no longer wired into the active pipeline;
-they may be re-introduced in later cleanup steps.
+Stage 2 is intentionally minimal:
+  1. parse_apicapture_results.py — raw capture → LiveTree.parsed.json
+  2. apply_manual_refinements.py — applies tools/parse/manual_refinements.json
+     in-place onto LiveTree.parsed.json. Used to correct known wrongness
+     (e.g. nullable references the probe observed as None at probe time);
+     not used to make stubs prettier. See doc/decisions.md.
 
 Usage:
     python tools/parse/run_parse_pipeline.py 12.3.6
@@ -32,14 +33,21 @@ def run(args: list[str], label: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Stage 2: parse raw capture")
+    parser = argparse.ArgumentParser(description="Run Stage 2: parse raw capture and apply manual refinements")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
+    parser.add_argument("--skip-refinements", action="store_true", help="Skip the manual_refinements.yaml step")
     args = parser.parse_args()
 
     run(
         ["tools/parse/parse_apicapture_results.py", args.version],
-        "Stage 2: Parse raw capture",
+        "Stage 2a: Parse raw capture",
     )
+
+    if not args.skip_refinements:
+        run(
+            ["tools/parse/apply_manual_refinements.py", args.version, "--quiet"],
+            "Stage 2b: Apply manual refinements",
+        )
 
     print(f"\nStage 2 complete. Parsed tree at stubs/{args.version}/pipeline/LiveTree.parsed.json")
 
