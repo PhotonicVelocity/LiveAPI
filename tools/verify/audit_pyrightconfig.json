@@ -1,0 +1,18 @@
+{
+  "//": "Pyright config for the offline corpus audit. Points at the published stubs and",
+  "//.": "the decompiled Ableton Remote Script corpus. Relative paths are resolved from",
+  "//..": "this file's directory (tools/verify/).",
+  "stubPath": "../../stubs/12.3.6",
+  "include": ["../../doc/decompiled/AbletonLive12_MIDIRemoteScripts"],
+  "exclude": [
+    "**/__pycache__",
+    "**/*.pyc"
+  ],
+  "pythonVersion": "3.12",
+  "reportMissingImports": "warning",
+  "reportMissingTypeStubs": "none",
+  "reportGeneralTypeIssues": "warning",
+  "reportAttributeAccessIssue": "warning",
+  "reportArgumentType": "warning",
+  "reportCallIssue": "warning"
+}
