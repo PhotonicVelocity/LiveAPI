@@ -1,7 +1,7 @@
 """Clip and ClipSlot listener registration patterns.
 
-Patterns drawn from:
-  doc/decompiled/AbletonLive12_MIDIRemoteScripts/LV2_LX2_LC2_LD2/LV2TransportController.py:99-148
+Patterns drawn from gluon/AbletonLive12_MIDIRemoteScripts @ 810ef77:
+  https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/LV2TransportController.py#L99-L148
 
 The listener API is one of the most-used Live API surfaces by Remote Scripts.
 """
@@ -16,7 +16,7 @@ from Live.Song import Song
 
 
 def add_clip_listeners(song: Song, on_playing_changed: Callable[[], None]) -> None:
-    # LV2TransportController.py:111-123
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/LV2TransportController.py#L111-L123
     for track in song.tracks:
         for slot in track.clip_slots:
             if slot.has_clip:
@@ -27,7 +27,8 @@ def add_clip_listeners(song: Song, on_playing_changed: Callable[[], None]) -> No
 
 
 def remove_clip_listener_safely(clip: Clip, callback: Callable[[], None]) -> None:
-    # LV2TransportController.py:138-148 — guarded removal.
+    # Guarded removal pattern:
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/LV2TransportController.py#L138-L148
     try:
         if clip.playing_status_has_listener(callback):
             clip.remove_playing_status_listener(callback)
@@ -36,7 +37,7 @@ def remove_clip_listener_safely(clip: Clip, callback: Callable[[], None]) -> Non
 
 
 def remove_slot_listener_safely(slot: ClipSlot, callback: Callable[[], None]) -> None:
-    # LV2TransportController.py:125-136
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/LV2TransportController.py#L125-L136
     try:
         if slot.has_clip_has_listener(callback):
             slot.remove_has_clip_listener(callback)

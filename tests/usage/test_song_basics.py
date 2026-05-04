@@ -1,9 +1,10 @@
 """Song-level basics: tempo, transport, tracks/scenes iteration.
 
-Patterns drawn from:
-  - doc/decompiled/AbletonLive12_MIDIRemoteScripts/_Axiom/Transport.py
-  - doc/decompiled/AbletonLive12_MIDIRemoteScripts/Launchpad_Pro/SpecialSessionRecordingComponent.py
-  - doc/decompiled/AbletonLive12_MIDIRemoteScripts/Axiom_49_61_Classic/Axiom.py
+Patterns drawn from gluon/AbletonLive12_MIDIRemoteScripts @ 810ef77:
+  - _Axiom/Transport.py
+  - Launchpad_Pro/SpecialSessionRecordingComponent.py
+  - Axiom_49_61_Classic/Axiom.py
+  - LV2_LX2_LC2_LD2/FaderfoxHelper.py
 
 These functions are never executed; they exist for pyright to type-check against the stubs.
 """
@@ -15,7 +16,7 @@ from Live.Song import Song
 
 
 def transport_toggle(song: Song) -> None:
-    # _Axiom/Transport.py:27,30 — direct boolean assignment to is_playing.
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/_Axiom/Transport.py#L27-L30
     if song.is_playing:
         song.is_playing = False
     else:
@@ -28,7 +29,7 @@ def tempo_read_write(song: Song) -> None:
 
 
 def application_access() -> None:
-    # Axiom_49_61_Classic/Axiom.py:32 — module-level entry point.
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/Axiom_49_61_Classic/Axiom.py#L32
     app = Live.Application.get_application()
     major: int = app.get_major_version()
     minor: int = app.get_minor_version()
@@ -36,12 +37,13 @@ def application_access() -> None:
 
 
 def iterate_tracks(song: Song) -> None:
-    # FaderfoxScript pattern — for-loop over song.tracks.
+    # Common idiom — `for track in song.tracks:` appears throughout the corpus,
+    # e.g. https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/LV2TransportController.py#L113
     for track in song.tracks:
         _ = track.name
 
 
 def master_track_access(song: Song) -> None:
-    # FaderfoxHelper.py:131,141 — master_track read.
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/FaderfoxHelper.py#L131-L141
     master = song.master_track
     _ = master.name

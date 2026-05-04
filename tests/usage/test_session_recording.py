@@ -1,7 +1,7 @@
 """Session recording state and transport controls.
 
-Patterns drawn from:
-  doc/decompiled/AbletonLive12_MIDIRemoteScripts/Launchpad_Pro/SpecialSessionRecordingComponent.py
+Patterns drawn from gluon/AbletonLive12_MIDIRemoteScripts @ 810ef77:
+  https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/Launchpad_Pro/SpecialSessionRecordingComponent.py
 """
 
 from __future__ import annotations
@@ -10,7 +10,7 @@ from Live.Song import Song
 
 
 def maybe_start_playback(song: Song) -> None:
-    # Launchpad_Pro/SpecialSessionRecordingComponent.py:44 — only start if not playing.
+    # https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/Launchpad_Pro/SpecialSessionRecordingComponent.py#L44
     if not song.is_playing:
         song.start_playing()
 

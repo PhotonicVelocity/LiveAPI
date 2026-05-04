@@ -32,11 +32,13 @@ this down. Running with `--strict` (or in CI's eventual gated mode) requires zer
 
 ### Tier 4 — Usage tests (`pyright tests/usage/`)
 
-Hand-picked usage patterns drawn from real Ableton-shipped Remote Scripts in
-`doc/decompiled/AbletonLive12_MIDIRemoteScripts/` (gitignored — patterns copied into the test files
-verbatim with attribution comments). Each pattern is something Ableton's own engineers wrote and shipped, so
-it is by definition working production usage. If our stubs reject any of these patterns, the stubs are wrong
-about something Ableton's code already does.
+Hand-picked usage patterns drawn from real Ableton-shipped Remote Scripts at
+[gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts), pinned to
+commit `810ef77`. The repo is auto-cloned to `doc/decompiled/` (gitignored) for offline use, but the test
+files cite the upstream URL with line anchors so the references stay stable across local clones. Each
+pattern is something Ableton's own engineers wrote and shipped, so it is by definition working production
+usage. If our stubs reject any of these patterns, the stubs are wrong about something Ableton's code already
+does.
 
 Patterns are deliberately curated, not auto-extracted (auto-extraction at scale recreates the
 cargo-culted-content problem the LLM removal is solving). Expand the set when later cleanup steps surface
@@ -73,15 +75,23 @@ by the parser-defaults audit (Step 5).
 
 ## Adding a usage test
 
-1. Find a working pattern in `doc/decompiled/AbletonLive12_MIDIRemoteScripts/<some-script>/`.
-2. Copy it into a new file in `tests/usage/`, with a top-of-file comment citing the source script and line
-   numbers.
+1. Find a working pattern in the
+   [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts) corpus
+   (auto-cloned at `doc/decompiled/AbletonLive12_MIDIRemoteScripts/`).
+2. Copy it into a new file in `tests/usage/`, with a top-of-file comment and inline references citing the
+   **upstream URL** with line anchors, pinned to commit `810ef77`. Format:
+   ```
+   https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/<path>#L<start>-L<end>
+   ```
 3. Trim to the smallest snippet that demonstrates the pattern; remove unrelated logic.
 4. Add explicit type annotations on parameters so the test pins down the expected stub shape.
 5. Run `tools/verify/run.sh` locally — the new test should pyright-clean.
 
 If the new test fails against current stubs, that's a real finding — either the stubs are missing something,
 have the wrong type, or the pattern was misread. Investigate before adjusting either side.
+
+When the corpus pin is bumped (because a new Live version's decompiled scripts land), update the commit hash
+in this README and in the test files; verify all citations still resolve to expected line ranges.
 
 ## Commands
 

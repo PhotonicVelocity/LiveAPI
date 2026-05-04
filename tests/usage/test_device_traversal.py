@@ -1,7 +1,9 @@
 """Device traversal: top-level devices and into RackDevice chains.
 
-Patterns drawn from common Remote Script idioms (FaderfoxDeviceController, Push2 device
-selection). Walks the device tree under a track and into rack chains.
+Common idioms from gluon/AbletonLive12_MIDIRemoteScripts @ 810ef77 — iterating
+`track.devices` and inspecting class type and parameter counts. The corpus uses this
+pattern across many controllers; representative example:
+  https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/LV2_LX2_LC2_LD2/FaderfoxDeviceController.py
 """
 
 from __future__ import annotations

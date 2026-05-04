@@ -1,7 +1,7 @@
 """Listening to visible_tracks changes.
 
-Pattern from:
-  doc/decompiled/AbletonLive12_MIDIRemoteScripts/Axiom_49_61_Classic/Axiom.py:21-39
+Pattern from gluon/AbletonLive12_MIDIRemoteScripts @ 810ef77:
+  https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/Axiom_49_61_Classic/Axiom.py#L21-L39
 """
 
 from __future__ import annotations
