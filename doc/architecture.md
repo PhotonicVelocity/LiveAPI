@@ -16,6 +16,12 @@ The static surface (types, settability, listenability, signatures) is solved end
 `tools/run_pipeline.py`. What stalled — and what this document re-architects — is the **behavioral surface**:
 the per-member metadata that explains _how_ a property or method behaves at runtime.
 
+The end goal of the project isn't a schema or a sidecar file. It's a **clear methodology for determining,
+recording, and verifying how Live behaves**, applied consistently across every member surfaced in the
+reference. The schema is one expression of that methodology; the probe is another; the published reference
+is the third. All three exist to make the methodology repeatable, defensible against drift across Live
+versions, and honest about its own confidence.
+
 ## The developer loop
 
 The architecture is shaped by a specific recurring workflow — every other design choice in this document
@@ -196,12 +202,13 @@ invariant before writing N independent operation rules that each duplicate the s
 
 ### What the case study implies
 
-- The schema is six dimensions, not four. `invariants` and `operation_rules` are the missing ones, and they're
-  both verifiable, not prose.
-- The cost is real: each new dimension is its own probe code, its own schema, its own reference render. Slice
-  4 (`invariants`) and Slice 5 (`operation_rules`) get added to the slice plan below.
-- Warp markers themselves don't get fully reference-rendered until Slice 5 lands. That's acceptable — earlier
-  slices ship value for simpler members first.
+- The schema is six dimensions, not four. `invariants` and `operation_rules` are the missing ones; both are
+  verifiable, not prose.
+- Each new dimension expands what kinds of hypotheses the system can express, which expands what kinds of
+  members can be reference-rendered. Warp markers specifically need `invariants` and `operation_rules` to be
+  fully captured.
+- The slice plan below uses members as units, not dimensions. Warp markers come in as the slice that adds
+  invariants and operation rules, not as a final mop-up.
 
 ## What the previous attempt got wrong
 
@@ -217,6 +224,74 @@ one probe pass producing authoritative truth. That doesn't terminate, because:
 Outcome: noisy partial graphs, unclear what was bug vs missing-precondition, and an open-ended exploration
 with no defined done-state. The complexity here is what stalled the project.
 
+## Concrete failure modes on `integrate-targeted-probes`
+
+The unmerged branch `integrate-targeted-probes` (tip `a6c878c`) is the previous attempt's stall point. It
+produced real probe output (`ProbeResults.json` for ~4 classes, validating the schema shape) but never landed
+on main. Reading the branch corroborates the abstract failures above with specifics worth naming — each one
+becomes a design rule for the new attempt.
+
+- **Schema thrash mid-build.** The `effect` field on method probes was rewritten across ~20 commits — first
+  treated as one side-effect among many, then promoted to a primary measurement, then re-parameterized with
+  `effect_obj` for cross-object cases (`b8ba118`, `410fd19`, `0b54259`, `c3e2932`, …). Each rewrite cascaded
+  into `probe_method()` changes, parameter renames (`effect` vs `_effect_cls`), and downstream merger updates.
+  **Rule:** lock the per-dimension schema before any probe code lands. If the schema needs a change, that's
+  its own slice; you don't refactor the probe and the merger and the renderer in flight.
+
+- **Preconditions scattered inline.** "Fire a scene, then probe `Song.back_to_arranger`, then reset playhead"
+  lived as procedural setup inside probe scripts. Every new precondition added per-class probe code, and the
+  same setup got duplicated across `probe_song.py` and `probe_track.py` with subtle drift.
+  **Rule:** preconditions are declarative data, not code. A precondition table keyed by member, consumed by
+  a single resolver, separate from the probe driver.
+
+- **Per-class boilerplate not abstracted.** `probe_song.py` and `probe_track.py` total 1,246 LOC for two
+  classes. The structural skeleton (set up listeners → discover props → loop properties → loop methods → write
+  JSON) is identical between them; the variation is just data — which properties, which methods, which
+  preconditions. `_probe_base.py` extracted utility primitives but not the loop itself.
+  **Rule:** one probe driver, data tables per class. A class isn't a script; it's a row in a table.
+
+- **Cascading state restoration as a kludge.** `restore_side_effects()` runs up to 3 iterations to chase
+  listener-driven cascades, with `is_playing` special-cased to stop first (`f0959f7`). Each new probe
+  surfaced a new restoration edge case patched in place.
+  **Rule:** state restoration is best-effort. If a probe drifts Live's state, the next probe re-snapshots
+  from where things actually are; we don't try to put Live back to pristine. Order probes to minimize
+  cross-contamination instead of cleaning up after each one.
+
+- **Decoupled producer and consumer.** `merge_behavioral_data` in `parse_apicapture_results.py` and
+  `stamp_behavioral.py` both walk the parsed tree with copy-pasted node-finding logic. The reference
+  generator on `claude/generate-reference-docs-4l248` hard-codes shape assumptions about `effect.label`,
+  `side_effects[*].prop`, etc. — silent breakage if the probe output schema drifts.
+  **Rule:** single stamping function, schema-validated between layers. Probe output is validated against the
+  locked schema before merge; merge happens in one place; reference render reads the merged tree, not the raw
+  probe output.
+
+### What we'll salvage cleanly
+
+From `_probe_base.py` (~644 LOC) the well-factored primitives survive a redesign without modification:
+`fuzzy_eq()`, `json_safe()`, `_seq_key()`, `discover_listenable()`, `discover_snapshot_props()`,
+`setup_listeners()` / `teardown_listeners()` (lifecycle only — the closure-mutating callbacks they install
+get redesigned), `ptr_set()`, `find_new_index()`. The two-phase generator yield pattern (snapshot → mutate →
+yield tick → check state) is sound. The branch is a parts donor for these; everything else gets rebuilt
+against the new framing.
+
+### What this means for Slice 1
+
+The probe itself was never the hard part on the previous attempt — the orchestration was. Slice 1's
+deliverable is **the contracts**, not the data:
+
+1. The locked hypothesis spec format (one struct, validated). Covers a simple property: action, named
+   targets, expected change, prose. No invariants or operation rules yet.
+2. The precondition table format. Trivial members may need none, but the table exists from day one so
+   later slices extend it instead of inventing it.
+3. The single stamping function that validates probe output against the spec format and merges into the
+   reference tree.
+4. The cold-path `--only <member>` entry point so investigations can run one hypothesis at a time.
+5. A reference render path that reads the merged tree, not the raw probe output.
+
+If any of those five pieces feels hand-wavy when Slice 1 starts, stop and resolve before writing probe code.
+The previous attempt wrote probe code first and let the contracts emerge; that's what produced the schema
+thrash and the dual merging paths.
+
 ## The inversion: verify hypotheses, don't discover
 
 The new architecture is **hypothesis-verify**, not **discover**:
@@ -230,6 +305,109 @@ The new architecture is **hypothesis-verify**, not **discover**:
 
 This inverts the burden. Humans seed once; automation defends forever. The done-state is well-defined per
 member.
+
+## Methodology: hypothesis names targets explicitly
+
+The previous attempt's specific stall point: side-effect probing tried to **discover** what fired by hooking
+listeners on everything, mutating, and attributing whatever fired. That produced false positives (passive-tick
+noise), state-dependent flapping (a fire only happens when a preference is enabled), and an open-ended cleanup
+loop (cascading restoration). The fix is structural: **the probe doesn't sweep, it asks specific questions.**
+
+### The shape of a hypothesis
+
+A hypothesis names exactly:
+
+1. The member being probed (`Live.Song.Track.delete_clip`).
+2. The action performed on it (call signature and arguments, or property assignment).
+3. The **named targets** whose state or listener firing is asserted on, with the expected change ("becomes
+   `null`", "fires within 2 ticks", "raises `Segment length out of range`").
+4. The precondition under which the assertion holds, if any (`"track_armed"`,
+   `"pref.auto_clip_switch_on_delete = true"`).
+5. The prose description that becomes the reference text.
+
+The probe takes the hypothesis, sets up the precondition, performs the action, and **checks just the named
+targets**. Anything else that happens in Live during the probe is invisible to the verifier. Either the named
+assertions hold or they don't — binary, deterministic, no attribution problem.
+
+### Discovery is human / LLM judgment, not algorithm
+
+The natural follow-up: how does the hypothesis come to know about a target like "playback starts" in the
+first place? The answer is iterative refinement during cold-path investigation:
+
+1. Write the hypothesis covering what's expected (`delete_clip` removes the clip, undo-tracked, immediate).
+2. Run the probe. It verifies what's named.
+3. **Look at Live during the probe** (manually, or via a dedicated investigation tool that snapshots state
+   liberally). Notice playback started.
+4. Amend the hypothesis to add `"$song.is_playing becomes true within 2 ticks"` as a named target.
+5. Re-run. The new assertion now either verifies or fails.
+6. Notice it only fires when a certain preference is enabled. Add the precondition. Re-run with both states.
+
+The "smarts" — figuring out what to assert next — live in the human or LLM doing the investigation, not in
+the probe driver. The driver verifies what's named; nothing more, nothing less. This is the explicit reversal
+of the previous attempt's "broad-listener catch-everything" reflex.
+
+The probe harness can offer an optional **investigation mode** that snapshots widely (every listenable
+property on the relevant objects) and shows the diff to the human — but that output is _input to the human's
+hypothesis writing_, not a value that gets ingested into the schema. The verified record only ever contains
+what was deliberately named.
+
+### Verification gates the driver applies
+
+These are the few gates that are still automatic, because they don't depend on what the hypothesis claims —
+they just check that the named claims are robust:
+
+- **Repetition.** Each verification runs N times (default N = 3). All N runs must yield the same result for
+  the hypothesis to be `verified`. If they diverge, it's recorded as `intermittent` and surfaced as a quirk
+  in the reference rather than a hard fact.
+- **Bounded timing window.** Listener-fire assertions specify a tick window (`within_ticks: 2`). The probe
+  checks only within that window. Late fires are out of scope, not silently attributed.
+- **State tagging.** When the same hypothesis is run under different preconditions and yields different
+  outcomes, both rows are kept (`verified` / `armed` and `verified-as-noop` / `unarmed`, for example). The
+  reference renders both — no collapsing into a misleading single answer.
+
+### Optional null-control variant
+
+A side-effect hypothesis (target `Y` fires when action `X` runs) _can_ include a paired null control: target
+`Y` does **not** fire when action `X` is _not_ run, in the same precondition. When present, this raises
+confidence — the fire is causally tied to the action, not coincidental. When absent (e.g., for mutating
+methods with no clean no-op variant), the assertion still holds; it just carries lower confidence.
+
+The null control is part of the hypothesis spec, not a probe-driver gate applied universally. The author opts
+into it where it adds value; the architecture doesn't force it on every probe.
+
+### Confidence levels
+
+| Level                        | Meaning                                                                             |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| `verified`                   | All named assertions held across all N runs in the recorded precondition.           |
+| `verified-with-null-control` | Same, plus the optional null control held — fire is causally tied to the action.    |
+| `state-dependent`            | Same hypothesis verified differently across preconditions. Reference shows the map. |
+| `intermittent`               | Repetition unstable. Reference flags it; consumers shouldn't depend on it.          |
+| `mismatch`                   | A named assertion failed. Either Live changed, or the hypothesis is wrong.          |
+| `unprobed-precondition`      | Precondition couldn't be set up. Hypothesis remains an open question.               |
+| `unprobed`                   | Hypothesis is in the sidecar but no probe run has covered it yet.                   |
+
+The reference renders behavior at the confidence level it has. A `verified-with-null-control` side-effect is
+a hard bullet; an `intermittent` one is a "fires inconsistently" caveat; an `unprobed` one is "expected, not
+yet checked." Consumers see the level and decide.
+
+### What this means for repo shape
+
+A real concern: _"we end up with a huge repo of custom super-detailed scripts probing every member."_ The
+mitigation, not avoidance:
+
+- **Per-member detail is irreducible.** Each member that gets reference-rendered has a hypothesis specifying
+  named targets, preconditions, prose. There's no algorithmic way around naming what `delete_clip` actually
+  does.
+- **But the detail is data, not code.** Hypotheses live in a declarative spec format (YAML / JSON), not in
+  per-class Python files. One probe driver consumes the spec. New members add a row, not a script.
+- **If you find yourself wanting to write per-class Python, that's a signal.** Either the spec format isn't
+  expressive enough (extend it, in its own slice) or the member is genuinely a special case (rare; flag it
+  explicitly and budget for it). The previous attempt's `probe_song.py` (~726 LOC) and `probe_track.py`
+  (~520 LOC) were what happened when that signal got ignored.
+- **The hypothesis _is_ the documentation.** Prose lives next to the assertions in the same record. The
+  reference render reads the prose for description and the assertions for the structured metadata; nothing
+  is duplicated, nothing drifts.
 
 ## The two-source merge
 
@@ -252,32 +430,38 @@ Lives in the `.pyi` because Remote Script authors read these in their editor —
 shows up. Prose only. (TBD: edited per-version vs extracted to a cross-version prose sidecar and injected at
 codegen time. Defer until we know how often prose actually changes between versions.)
 
-### `behavioral.json` sidecar (structured)
+### `behavioral.json` sidecar (hypothesis records)
 
-```json
-{
-  "Live.Song.Song.tempo": {
-    "async_class": "immediate",
-    "undo_tracked": true,
-    "side_effects": [],
-    "verified_against": "12.3.6"
-  },
-  "Live.Song.Song.overdub": {
-    "async_class": "next_tick",
-    "undo_tracked": false,
-    "side_effects": [
-      {
-        "target": "Live.Song.Song.session_record",
-        "precondition": "track_armed"
-      }
-    ],
-    "verified_against": "12.3.6"
-  }
-}
+Each record is a hypothesis: prose description, structured action, named target assertions, optional
+preconditions, optional null control. The exact format is locked in Slice 1 — this is illustrative shape,
+not a fixed schema:
+
+```yaml
+Live.Song.Track.delete_clip:
+  description: |
+    Deletes the clip at the given slot index in the session view.
+    Removal is immediate and undo-tracked. When the "Auto Clip Switch on
+    Delete" preference is enabled and the deleted clip was the active one,
+    the next clip down begins playback.
+  action: { call: delete_clip, args: ["$slot_index"] }
+  hypotheses:
+    - id: removes_clip
+      expects:
+        - "$track.clip_slots[$slot_index].clip becomes null"
+      undo_tracked: true
+      async_class: immediate
+    - id: starts_next_clip_with_pref
+      precondition: "pref.auto_clip_switch_on_delete = true and clip_was_playing"
+      expects:
+        - "$song.is_playing becomes true within 2 ticks"
+      null_control: "$song.is_playing stays false when delete_clip is not called"
+  verified_against: 12.3.6
 ```
 
-Edited by humans, validated by the probe, consumed by the reference generator. (TBD: per-version sidecar
-vs one canonical file with per-version overrides. Defer until Slice 1 has data.)
+Prose and structured assertions live in the same record. The reference renderer reads the prose for the
+description and the assertions for the metadata; nothing is duplicated, nothing drifts. Edited by humans
+or LLMs, validated by the probe against the locked spec format, consumed by the reference generator. (TBD:
+per-version sidecar vs canonical-with-overrides. Defer until Slice 1 has data.)
 
 ## Pipeline shape
 
@@ -302,24 +486,42 @@ resolved tree, the verified sidecar, and the stub `Notes:` blocks to produce the
 
 ## Vertical slice plan
 
-Land one dimension end-to-end before adding the next. Each slice exercises the full pipeline (schema → probe
-→ sidecar → reference render) so the plumbing is real, not paper.
+Slices are scoped by **member**, not by dimension. The hypothesis is the unit of work; a hypothesis covers
+all the dimensions that apply to its member. Each slice picks a canonical target that exercises something
+the previous slices couldn't express, and ships that target end-to-end (schema → probe → merged tree →
+rendered reference). When a real cold-path investigation needs a capability the current slice plan doesn't
+cover yet, that becomes the next slice's target.
 
-1. **Slice 1 — `undo_tracked`.** Cheapest automatable dimension. Probe = mutate, undo, compare. Proves the
-   schema, the hypothesis-verify loop, the merge into reference markdown, **and the cold-path
-   `--only <member>` entry point** so the developer loop is usable from day one — not just at
-   per-version-pipeline scale.
-2. **Slice 2 — `async_class`.** Mutate, read immediately, await tick(s), read. Adds tick-driven probing to
-   the harness.
-3. **Slice 3 — `side_effects`.** Snapshot listenables, mutate, snapshot, diff. Adds the precondition system
-   (named good-state setups per class) — this is where state-gated mutations get handled honestly.
-4. **Slice 4 — `invariants`.** Predicates over collection/object state, evaluated opportunistically after
-   probe-driven mutations. Schema is similar shape to `side_effects`; the new piece is a tiny predicate DSL
-   (or restricted Python eval) that humans can read and the probe can run.
-5. **Slice 5 — `operation_rules`.** Per-method `(precondition → outcome)` tuples. Reuses the precondition
-   harness from Slice 3 plus the predicate plumbing from Slice 4. Most ambitious slice; warp markers become
-   fully reference-rendered here.
-6. **Stop.** `notes` stays human prose. Reference generator stitches everything together.
+The dimensions don't get built in order; they get built _as the slice's target needs them._
+
+1. **Slice 1 — `Song.tempo` (the contracts).** Canonical simple property: settable, undo-tracked, immediate,
+   no preconditions, no side-effects worth naming. The probe is trivial; the deliverable is the contracts
+   the previous attempt didn't lock down — see ["What this means for Slice 1"](#what-this-means-for-slice-1)
+   above. Renders one fully-verified property in the published reference. Adds the dimensions: `async_class`,
+   `undo_tracked`, `notes`.
+2. **Slice 2 — `Song.overdub` (state tagging + preconditions).** A property whose mutation is silently
+   ignored under one precondition (no track armed) and effective under another (track armed). Forces the
+   precondition table to grow from "trivial" to actually useful, and forces the renderer to display the
+   state-tagged outcome map. Same dimensions as Slice 1, with state tagging as a new wrinkle.
+3. **Slice 3 — `Track.delete_clip` (side-effects with named targets).** A method whose primary effect is the
+   removal of a clip, with a documented side-effect (under preference X, playback may start). Adds the
+   `side_effects` dimension with the named-target methodology — including the optional null-control variant
+   and the iterative-refinement workflow used to discover the side-effect in the first place. This is the
+   slice where the previous attempt's specific stall point is resolved by structural means: no listener
+   sweep.
+4. **Slice 4 — Warp markers (`invariants` + `operation_rules`).** The case study above, end-to-end. Adds
+   the `invariants` dimension (slope rule, monotonicity, phantom marker as last entry) and the
+   `operation_rules` dimension (`add_warp_marker`'s four conditional outcomes, `move`/`remove` raises). Adds
+   the optional invariant↔operation-rule linkage from the case study so a single predicate isn't duplicated
+   across multiple operation rules.
+5. **Slice 5+ — Driven by the cold path.** From here, slices are demand-driven. As P4L surfaces questions,
+   investigations pick a member, the hypothesis goes into the sidecar, the probe verifies, the reference
+   updates. Most members will fit the spec format that exists by Slice 4; ones that don't surface as
+   pressure on the spec format itself, and trigger a small extension slice rather than ad-hoc per-class
+   code.
+
+`notes` (the prose dimension) is present in every slice from day one — it's part of the hypothesis spec,
+not its own slice. The reference generator reads it alongside the structured fields throughout.
 
 After Slice 1 lands and proves the plumbing, the open questions below become concrete decisions instead of
 speculation.
@@ -341,30 +543,39 @@ Salvage path:
 2. **`Notes:` editability across versions.** When 12.4 ships, do we copy the 12.3.6 stubs forward and
    re-apply `Notes:` blocks? Or extract `Notes:` to a sidecar and inject at codegen time? Defer; depends on
    how often prose actually changes between versions.
-3. **State-machine harness for preconditions.** Slice 3 needs a way to declare "before probing
-   `Song.overdub`, arm a track." Open question whether that's a Python DSL, a JSON state spec, or hand-coded
-   per class.
+3. **Precondition table format.** Slice 1 introduces the precondition table (declarative, per the
+   `integrate-targeted-probes` post-mortem). Slice 2 (`Song.overdub`) is where it first matters — needs to
+   express "track armed" as a named precondition. Slice 3 (`Track.delete_clip`) extends it with preferences.
+   Open question is the format: pure JSON state spec? JSON with named recipes (`"track_armed"` → setup
+   steps)? Tiny Python module per class with named functions? The table starts trivial in Slice 1 and
+   pressure-tests the format from Slice 2 on.
 4. **Reference generator vs `reference/` legacy.** The existing slim `reference/*.md` files (Properties /
    Methods / Enums tables) — do they get fully regenerated and overwritten, or merged with hand-curated
    content? Defer; depends on whether the generator can match current format quality.
-5. **Methods vs properties.** The dimensions were sketched against properties. Methods have analogous but not
-   identical behavioral surface (no `async_class` for the call itself, but for return-value visibility and
-   listener fan-out). Slice 1 should clarify whether methods get the same schema or a parallel one.
-6. **Predicate DSL for invariants and operation rules.** Slice 4 introduces predicates the probe must
-   evaluate. JSON paths + a constrained expression language? Restricted `eval()` with a safe namespace? A
-   small Python module per class? Defer; pick when Slice 4 starts.
-7. **Phantom marker as global vs local invariant.** `warp_markers_phantom_last` is specific to one property,
+5. **Methods vs properties.** The dimensions were sketched against properties. Methods have analogous but
+   not identical behavioral surface (no `async_class` for the call itself, but for return-value visibility
+   and listener fan-out). Slice 3 (`Track.delete_clip`) is where this gets resolved.
+6. **Predicate DSL for invariants and operation rules.** Slice 4 (warp markers) introduces predicates the
+   probe must evaluate. JSON paths + a constrained expression language? Restricted `eval()` with a safe
+   namespace? A small Python module per class? Defer; pick when Slice 4 starts.
+7. **Investigation-mode tooling.** The methodology calls for an optional wide-snapshot tool that helps the
+   human notice unexpected effects during cold-path investigation. Open question: is that a separate CLI
+   (`probe --investigate Live.Song.Track.delete_clip`), an APICapture trigger that dumps a wide diff, or
+   something the probe driver emits in `--only` mode automatically? Defer until Slice 3 — that's the slice
+   where investigation matters most.
+8. **Phantom marker as global vs local invariant.** `warp_markers_phantom_last` is specific to one property,
    but the same shape (last entry is internal sentinel) likely recurs elsewhere. Watch for repeats during
    salvage; if there are several, generalize the invariant kind.
-8. **Where do incoming questions land?** The developer loop's "trigger" step needs a destination — when
+9. **Where do incoming questions land?** The developer loop's "trigger" step needs a destination — when
    working in P4L and a question surfaces, where is it captured in LiveAPI before the probe runs? Options:
    `doc/open-questions/<topic>.md` files, `unverified` entries pre-seeded into the sidecar, GitHub issues,
    or just the conversation context with no persistent home. Defer until a few real cold-path investigations
    show what feels natural.
-9. **Drift report shape.** When Slice 5 lands and the per-version pipeline starts emitting verification
-   diffs, what does the human-readable report look like? Per-member status table on the reference site? A
-   CI-emitted markdown summary on each Live release PR? Defer until we have real drift to look at.
-10. **Citability of the published reference.** Step 4 of the loop relies on stable URLs. The current MkDocs
+10. **Drift report shape.** When the per-version pipeline starts emitting verification diffs (Slice 1 onward,
+    once enough hypotheses exist), what does the human-readable report look like? Per-member status table on
+    the reference site? A CI-emitted markdown summary on each Live release PR? Defer until we have real drift
+    to look at.
+11. **Citability of the published reference.** Step 4 of the loop relies on stable URLs. The current MkDocs
     site uses class-name-based slugs; member anchors depend on heading text. Audit whether existing slugs
     are stable enough to cite from P4L source files, or whether members should get explicit anchor IDs
     derived from their dotted path.
