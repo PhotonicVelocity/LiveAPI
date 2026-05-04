@@ -1,12 +1,12 @@
-"""Generate .pyi stub files from LiveTree.resolved.json.
+"""Generate .pyi stub files from LiveTree.parsed.json.
 
-Walks the resolved tree and emits typed Python stubs for the Ableton Live Object Model.
+Walks the parsed tree and emits typed Python stubs for the Ableton Live Object Model.
 Each namespace module becomes a flat .pyi file under the Live/ package, mirroring how the
 real C extension module is structured (Live.Song is a module, not a package).
 
 Usage:
-    python tools/parse/generate_stubs.py 12.3.6
-    python tools/parse/generate_stubs.py 12.3.6 --input path/to/resolved.json --output path/to/Live
+    python tools/generate/generate_stubs.py 12.3.6
+    python tools/generate/generate_stubs.py 12.3.6 --input path/to/parsed.json --output path/to/Live
 """
 
 from __future__ import annotations
@@ -682,15 +682,15 @@ class StubGenerator:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.resolved.json")
+    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.parsed.json")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument(
-        "--input", help="Path to LiveTree.resolved.json (default: stubs/{version}/pipeline/LiveTree.resolved.json)"
+        "--input", help="Path to parsed tree (default: stubs/{version}/pipeline/LiveTree.parsed.json)"
     )
     parser.add_argument("--output", help="Output directory (default: stubs/{version}/Live)")
     args = parser.parse_args()
 
-    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.resolved.json")
+    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.parsed.json")
     output_dir = args.output or join("stubs", args.version, "Live")
 
     with open(input_path) as f:

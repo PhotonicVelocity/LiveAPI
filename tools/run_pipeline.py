@@ -4,20 +4,18 @@ Stage 1 (Capture + Probe) runs inside a live Ableton Live instance with APICaptu
 loaded as a Control Surface. Phases are triggered via files in /tmp/ and completion
 is detected via marker files written by APICapture.
 
-Stages 2 + 3 run outside Live: parse, refine, and generate .pyi stubs.
+Stages 2 + 3 run outside Live: parse the raw capture into a structured tree, then
+generate .pyi stubs from it. Pipeline is intentionally minimal — see
+doc/decisions.md "Stub Accuracy and Pipeline Posture".
 
-Requires:
-  - A running Ableton Live instance with APICapture loaded (or use --swap to launch one)
-  - ANTHROPIC_API_KEY in the environment or in .env for the LLM step
+Requires a running Ableton Live instance with APICapture loaded (or use --swap to launch one).
 
 Usage:
     python tools/run_pipeline.py 12.3.6
     python tools/run_pipeline.py 12.3.6 --swap                # quit Live, swap version, relaunch
     python tools/run_pipeline.py 12.3.6 --swap --source /path  # swap from local archives
     python tools/run_pipeline.py 12.3.6 --skip-capture        # skip Stage 1, reuse existing raw data
-    python tools/run_pipeline.py 12.3.6 --skip-llm            # stop before LLM step
     python tools/run_pipeline.py 12.3.6 --skip-generate       # stop before stub generation
-    python tools/run_pipeline.py 12.3.6 --model claude-opus-4-20250514
 """
 
 from __future__ import annotations
@@ -255,9 +253,7 @@ def main() -> None:
     parser.add_argument("--swap", action="store_true", help="Quit Live, swap to target version, and relaunch")
     parser.add_argument("--source", help="Version source for --swap (local path or user@host:/path)")
     parser.add_argument("--skip-capture", action="store_true", help="Skip Stage 1 (reuse existing raw data)")
-    parser.add_argument("--skip-llm", action="store_true", help="Stop before the LLM resolution step")
     parser.add_argument("--skip-generate", action="store_true", help="Stop before stub generation")
-    parser.add_argument("--model", help="Claude model to use for LLM step", default=None)
     parser.add_argument("--timeout", type=float, default=CAPTURE_TIMEOUT,
                         help=f"Stage 1 per-phase timeout in seconds (default {CAPTURE_TIMEOUT})")
     args = parser.parse_args()
@@ -311,14 +307,9 @@ def main() -> None:
     else:
         print("\n--- Stage 1: Capture + Probe — skipped ---")
 
-    # --- Stage 2: Parse & Refine ---
+    # --- Stage 2: Parse ---
 
-    parse_args = ["tools/parse/run_parse_pipeline.py", v]
-    if args.skip_llm:
-        parse_args.append("--skip-llm")
-    if args.model:
-        parse_args.extend(["--model", args.model])
-    _run(parse_args, "Stage 2: Parse & refine")
+    _run(["tools/parse/run_parse_pipeline.py", v], "Stage 2: Parse")
 
     if args.skip_generate:
         print("\n--skip-generate: stopping before stub generation.")

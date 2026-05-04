@@ -1,10 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
     from Live.Clip import Clip
     from Live.LomObject import LomObject
 
@@ -22,19 +21,19 @@ class Envelope(LomObject):
         """Get the canonical parent of the envelope."""
         ...
 
-    def delete_events_in_range(self, start_time: float | None, end_time: float | None, /) -> None:
+    def delete_events_in_range(self, arg2: float | None, arg3: float | None, /) -> None:
         """Deletes the events in the specified time range."""
         ...
 
-    def events_in_range(self, start_time: float | None, end_time: float | None, /) -> EnvelopeEventVector:
+    def events_in_range(self, arg2: float | None, arg3: float | None, /) -> EnvelopeEventVector:
         """Returns the events in the specified time range."""
         ...
 
-    def insert_step(self, start_time: float | None, length: float | None, value: float | None, /) -> None:
+    def insert_step(self, arg2: float | None, arg3: float | None, arg4: float | None, /) -> None:
         """Given a start time, a step length and a value, creates a step in the envelope."""
         ...
 
-    def value_at_time(self, time: float | None, /) -> float:
+    def value_at_time(self, arg2: float | None, /) -> float:
         """Returns the parameter value at the specified time."""
         ...
 
@@ -97,8 +96,24 @@ class EnvelopeEventControlCoefficients:
     @y2.setter
     def y2(self, value: float) -> None: ...
 
-class EnvelopeEventVector(Vector[EnvelopeEvent]):
+class EnvelopeEventVector(Iterable[EnvelopeEvent]):
     """A container for holding envelope events."""
+
+    def __iter__(self) -> Iterator[EnvelopeEvent]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> EnvelopeEvent: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> EnvelopeEventVector: ...
+
+    def __getitem__(self, index: int | slice) -> EnvelopeEvent | EnvelopeEventVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: EnvelopeEvent | None, /) -> None:
         ...

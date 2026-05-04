@@ -3,11 +3,9 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import IntVector, Vector
-    from Live.Chain import Chain
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
-    from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
     from Live.LomObject import LomObject
@@ -82,12 +80,12 @@ class Song(LomObject):
             ...
 
         @property
-        def detail_clip(self) -> Clip | None:
+        def detail_clip(self) -> None:
             """Get/Set the Clip that is currently visible in Lives Detailview."""
             ...
 
         @detail_clip.setter
-        def detail_clip(self, value: Clip | None) -> None: ...
+        def detail_clip(self, value: None) -> None: ...
 
         def detail_clip_has_listener(self, callback: Callable | None, /) -> bool:
             """
@@ -183,17 +181,17 @@ class Song(LomObject):
             """
             ...
 
-        def select_device(self, device: Device | None, should_appoint_device: bool = True, /) -> None:
+        def select_device(self, arg2: Device | None, should_appoint_device: bool = True, /) -> None:
             """Select the given device."""
             ...
 
         @property
-        def selected_chain(self) -> Chain | None:
+        def selected_chain(self) -> None:
             """Get the highlighted chain if available."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: Chain | None) -> None: ...
+        def selected_chain(self, value: None) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable | None, /) -> bool:
             """
@@ -203,7 +201,7 @@ class Song(LomObject):
             ...
 
         @property
-        def selected_parameter(self) -> DeviceParameter | None:
+        def selected_parameter(self) -> None:
             """Get the currently selected device parameter."""
             ...
 
@@ -592,12 +590,12 @@ class Song(LomObject):
         ...
 
     @property
-    def appointed_device(self) -> Device | None:
+    def appointed_device(self) -> None:
         """Read, write, and listen access to the appointed Device"""
         ...
 
     @appointed_device.setter
-    def appointed_device(self, value: Device | None) -> None: ...
+    def appointed_device(self, value: None) -> None: ...
 
     def appointed_device_has_listener(self, callback: Callable | None, /) -> bool:
         """
@@ -752,7 +750,7 @@ class Song(LomObject):
         """
         ...
 
-    def create_audio_track(self, index: int | None = None, /) -> Track:
+    def create_audio_track(self, index: object | None = None, /) -> Track:
         """
         Create a new audio track at the optional given index and return it.If the index is -1,
         the new track is added at the end. It will create a default audio track if possible.
@@ -760,7 +758,7 @@ class Song(LomObject):
         """
         ...
 
-    def create_midi_track(self, index: int | None = None, /) -> Track:
+    def create_midi_track(self, index: object | None = None, /) -> Track:
         """
         Create a new midi track at the optional given index and return it.If the index is -1,
         the new track is added at the end.It will create a default midi track if possible.
@@ -776,7 +774,7 @@ class Song(LomObject):
         """
         ...
 
-    def create_scene(self, index: int | None, /) -> Scene:
+    def create_scene(self, arg2: int | None, /) -> Scene:
         """
         Create a new scene at the given index. If the index is -1,
         the new scene is added at the end. If the index is invalid or
@@ -818,35 +816,35 @@ class Song(LomObject):
         """
         ...
 
-    def delete_return_track(self, index: int | None, /) -> None:
+    def delete_return_track(self, arg2: int | None, /) -> None:
         """
         Delete the return track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_scene(self, index: int | None, /) -> None:
+    def delete_scene(self, arg2: int | None, /) -> None:
         """
         Delete the scene with the given index. If no scene with this index
         exists, an exception will be raised.
         """
         ...
 
-    def delete_track(self, index: int | None, /) -> None:
+    def delete_track(self, arg2: int | None, /) -> None:
         """
         Delete the track with the given index. If no track with this index
         exists, an exception will be raised.
         """
         ...
 
-    def duplicate_scene(self, index: int | None, /) -> None:
+    def duplicate_scene(self, arg2: int | None, /) -> None:
         """
         Duplicates a scene and selects the new one.
         Raises a limitation error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def duplicate_track(self, index: int | None, /) -> None:
+    def duplicate_track(self, arg2: int | None, /) -> None:
         """
         Duplicates a track and selects the new one.
         If the track is inside a folded group track, the group track is unfolded.
@@ -879,7 +877,7 @@ class Song(LomObject):
         """Get the current Live Set's path on disk."""
         ...
 
-    def find_device_position(self, device: Device | None, target: Track | Chain | None, target_position: int | None, /) -> int:
+    def find_device_position(self, device: Device | None, target: LomObject | None, target_position: int | None, /) -> int:
         """
         Returns the closest possible position to the given target, where the
         device can be inserted. If inserting is not possible at all (i.e. if
@@ -915,14 +913,14 @@ class Song(LomObject):
         """
         ...
 
-    def get_current_smpte_song_time(self, smpte_format: int | None, /) -> SmptTime:
+    def get_current_smpte_song_time(self, arg2: int | None, /) -> SmptTime:
         """
         Get const access to the songs current playing position, by specifying
         the SMPTE format in which you would like to receive the time.
         """
         ...
 
-    def get_data(self, key: str | None, default_value: Any | None, /) -> Any:
+    def get_data(self, key: str | None, default_value: object | None, /) -> object:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -1010,7 +1008,7 @@ class Song(LomObject):
         """
         ...
 
-    def jump_by(self, beats: float | None, /) -> None:
+    def jump_by(self, arg2: float | None, /) -> None:
         """Set a new playing pos, relative to the current one."""
         ...
 
@@ -1117,7 +1115,7 @@ class Song(LomObject):
         """
         ...
 
-    def move_device(self, device: Device | None, target: Track | Chain | None, target_position: int | None, /) -> int:
+    def move_device(self, device: Device | None, target: LomObject | None, target_position: int | None, /) -> int:
         """Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to."""
         ...
 
@@ -1693,7 +1691,7 @@ class Song(LomObject):
         """
         ...
 
-    def scrub_by(self, beats: float | None, /) -> None:
+    def scrub_by(self, arg2: float | None, /) -> None:
         """Same as jump_by, but does not stop playback."""
         ...
 
@@ -1744,7 +1742,7 @@ class Song(LomObject):
         """
         ...
 
-    def set_data(self, key: str | None, value: Any | None, /) -> None:
+    def set_data(self, key: str | None, value: object | None, /) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 
@@ -2135,7 +2133,7 @@ class TimeFormat(int):
     smpte_30_drop: int = 4
     smpte_29: int = 5
 
-def get_all_scales_ordered() -> tuple[tuple[str, tuple[int, ...]], ...]:
+def get_all_scales_ordered() -> tuple:
     """Get an ordered tuple of tuples of all available scale names to intervals."""
     ...
 

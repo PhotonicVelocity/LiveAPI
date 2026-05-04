@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Vector
@@ -608,21 +608,21 @@ class Track(DeviceContainer):
         """
         ...
 
-    def create_audio_clip(self, file_path: str | None, position: float | None, /) -> Clip:
+    def create_audio_clip(self, arg2: str | None, arg3: float | None, /) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
         """
         ...
 
-    def create_midi_clip(self, start_time: float | None, length: float | None, /) -> Clip:
+    def create_midi_clip(self, arg2: float | None, arg3: float | None, /) -> Clip:
         """
         Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
         Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
         """
         ...
 
-    def create_take_lane(self) -> TakeLane:
+    def create_take_lane(self) -> LomObject:
         """Create a new TakeLane for this track."""
         ...
 
@@ -720,11 +720,11 @@ class Track(DeviceContainer):
         """
         ...
 
-    def delete_clip(self, slot: Clip | None, /) -> None:
+    def delete_clip(self, arg2: Clip | None, /) -> None:
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, device: int | None, /) -> None:
+    def delete_device(self, arg2: int | None, /) -> None:
         """Delete a device identified by the index in the 'devices' list."""
         ...
 
@@ -744,7 +744,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def duplicate_clip_slot(self, index: int | None, /) -> int:
+    def duplicate_clip_slot(self, arg2: int | None, /) -> int:
         """
         Duplicate a clip and put it into the next free slot and return the index
         of the destination slot. A new scene is created if no free slot is
@@ -761,7 +761,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def duplicate_device(self, index: int | None, /) -> None:
+    def duplicate_device(self, arg2: int | None, /) -> None:
         """Duplicate a device at a given index in the 'devices' list."""
         ...
 
@@ -788,7 +788,7 @@ class Track(DeviceContainer):
     @fold_state.setter
     def fold_state(self, value: bool) -> None: ...
 
-    def get_data(self, key: str | None, default_value: Any | None, /) -> Any:
+    def get_data(self, key: str | None, default_value: object | None, /) -> object:
         """Get data for the given key, that was previously stored using set_data."""
         ...
 
@@ -974,7 +974,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def insert_device(self, device_name: str | None, device_index: int = -1, /) -> Device:
+    def insert_device(self, device_name: str | None, device_index: int = -1, /) -> LomObject:
         """Add a device at a given index in the 'devices' list. At end if -1."""
         ...
 
@@ -1025,7 +1025,7 @@ class Track(DeviceContainer):
         """return False if the track is hidden within a folded group track."""
         ...
 
-    def jump_in_running_session_clip(self, beats: float | None, /) -> None:
+    def jump_in_running_session_clip(self, arg2: float | None, /) -> None:
         """
         Jump forward or backward in the currently running Sessionclip (if any)
         by the specified relative amount in beats. Does nothing if no Session Clip
@@ -1545,7 +1545,7 @@ class Track(DeviceContainer):
         """
         ...
 
-    def set_data(self, key: str | None, value: Any | None, /) -> None:
+    def set_data(self, key: str | None, value: object | None, /) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
         ...
 
@@ -1620,8 +1620,24 @@ class RoutingChannelLayout(int):
     mono: int = 1
     stereo: int = 2
 
-class RoutingChannelVector(Vector[RoutingChannel]):
+class RoutingChannelVector(Iterable[RoutingChannel]):
     """A container for returning routing channels from Live."""
+
+    def __iter__(self) -> Iterator[RoutingChannel]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> RoutingChannel: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> RoutingChannelVector: ...
+
+    def __getitem__(self, index: int | slice) -> RoutingChannel | RoutingChannelVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: RoutingChannel | None, /) -> None:
         ...
@@ -1657,8 +1673,24 @@ class RoutingTypeCategory(int):
     none: int = 6
     invalid: int = 7
 
-class RoutingTypeVector(Vector[RoutingType]):
+class RoutingTypeVector(Iterable[RoutingType]):
     """A container for returning routing types from Live."""
+
+    def __iter__(self) -> Iterator[RoutingType]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> RoutingType: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> RoutingTypeVector: ...
+
+    def __getitem__(self, index: int | slice) -> RoutingType | RoutingTypeVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: RoutingType | None, /) -> None:
         ...

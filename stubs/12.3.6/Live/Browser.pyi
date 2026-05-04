@@ -1,11 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
-    from Live.Device import Device
     from Live.LomObject import LomObject
 
 
@@ -86,12 +84,12 @@ class Browser(LomObject):
         ...
 
     @property
-    def hotswap_target(self) -> Device | None:
+    def hotswap_target(self) -> None:
         """Bang triggered when the hotswap target has changed."""
         ...
 
     @hotswap_target.setter
-    def hotswap_target(self, value: Device | None) -> None: ...
+    def hotswap_target(self, value: None) -> None: ...
 
     def hotswap_target_has_listener(self, callback: Callable | None, /) -> bool:
         """
@@ -110,7 +108,7 @@ class Browser(LomObject):
         """Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed."""
         ...
 
-    def load_item(self, item: BrowserItem | None, /) -> None:
+    def load_item(self, arg2: BrowserItem | None, /) -> None:
         """Loads the provided browser item."""
         ...
 
@@ -134,11 +132,11 @@ class Browser(LomObject):
         """Returns a browser item with access to all the Plugins content."""
         ...
 
-    def preview_item(self, item: BrowserItem | None, /) -> None:
+    def preview_item(self, arg2: BrowserItem | None, /) -> None:
         """Previews the provided browser item."""
         ...
 
-    def relation_to_hotswap_target(self, item: BrowserItem | None, /) -> Relation:
+    def relation_to_hotswap_target(self, arg2: BrowserItem | None, /) -> Relation:
         """Returns the relation between the given browser item and the current hotswap target"""
         ...
 
@@ -235,11 +233,27 @@ class BrowserItem:
         """The uri describes a unique identifier for a browser item."""
         ...
 
-class BrowserItemIterator(Iterable[BrowserItem]):
+class BrowserItemIterator(Iterable):
     """This class iterates over children of another BrowserItem."""
 
-class BrowserItemVector(Vector[BrowserItem]):
+class BrowserItemVector(Iterable[BrowserItem]):
     """A container for returning browser items from Live."""
+
+    def __iter__(self) -> Iterator[BrowserItem]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> BrowserItem: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> BrowserItemVector: ...
+
+    def __getitem__(self, index: int | slice) -> BrowserItem | BrowserItemVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: BrowserItem | None, /) -> None:
         ...

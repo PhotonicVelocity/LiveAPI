@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Text, Vector
@@ -41,7 +41,7 @@ class Application(LomObject):
             """
             ...
 
-        def add_is_view_visible_listener(self, view_name: str | None, callback: Callable | None, /) -> None:
+        def add_is_view_visible_listener(self, arg2: str | None, callback: Callable | None, /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_view_visible" has changed.
@@ -81,7 +81,7 @@ class Application(LomObject):
             """Get the canonical parent of the application view."""
             ...
 
-        def focus_view(self, view: str | None, /) -> None:
+        def focus_view(self, arg2: str | None, /) -> None:
             """Show and focus one through the identifier string specified view."""
             ...
 
@@ -100,7 +100,7 @@ class Application(LomObject):
             """
             ...
 
-        def hide_view(self, view_name: str | None, /) -> None:
+        def hide_view(self, arg2: str | None, /) -> None:
             """Hide one through the identifier string specified view."""
             ...
 
@@ -112,7 +112,7 @@ class Application(LomObject):
             """
             ...
 
-        def is_view_visible_has_listener(self, view_name: str | None, callback: Callable | None, /) -> bool:
+        def is_view_visible_has_listener(self, arg2: str | None, callback: Callable | None, /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_view_visible".
@@ -133,7 +133,7 @@ class Application(LomObject):
             """
             ...
 
-        def remove_is_view_visible_listener(self, view_name: str | None, callback: Callable | None, /) -> None:
+        def remove_is_view_visible_listener(self, arg2: str | None, callback: Callable | None, /) -> None:
             """
             Remove a previously set listener function or method from
             property "is_view_visible".
@@ -147,7 +147,7 @@ class Application(LomObject):
             """
             ...
 
-        def scroll_view(self, direction: int | None, view_name: str | None, modifier_pressed: bool | None, /) -> None:
+        def scroll_view(self, arg2: int | None, arg3: str | None, arg4: bool | None, /) -> None:
             """
             Scroll through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -155,7 +155,7 @@ class Application(LomObject):
             """
             ...
 
-        def show_view(self, view: str | None, /) -> None:
+        def show_view(self, arg2: str | None, /) -> None:
             """
             Show one through the identifier string specified view. Will throw a
             runtime error if this is called in Live's initialization scope.
@@ -176,7 +176,7 @@ class Application(LomObject):
             """
             ...
 
-        def zoom_view(self, direction: int | None, view_name: str | None, modifier_pressed: bool | None, /) -> None:
+        def zoom_view(self, arg2: int | None, arg3: str | None, arg4: bool | None, /) -> None:
             """
             Zoom through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -294,7 +294,7 @@ class Application(LomObject):
         """Returns the full version string of Live."""
         ...
 
-    def has_option(self, option_name: str | None, /) -> bool:
+    def has_option(self, arg2: str | None, /) -> bool:
         """Returns True if the given entry exists in Options.txt, False otherwise."""
         ...
 
@@ -327,7 +327,7 @@ class Application(LomObject):
         """
         ...
 
-    def press_current_dialog_button(self, index: int | None, /) -> None:
+    def press_current_dialog_button(self, arg2: int | None, /) -> None:
         """Press a button, by index, on the current message box."""
         ...
 
@@ -404,8 +404,24 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector(Vector[ControlDescription]):
+class ControlDescriptionVector(Iterable):
     """A container for returning control descriptions."""
+
+    def __iter__(self) -> Iterator[Any]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> Any: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> ControlDescriptionVector: ...
+
+    def __getitem__(self, index: int | slice) -> Any | ControlDescriptionVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: ControlDescription | None, /) -> None:
         ...
@@ -438,7 +454,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def control_descriptions(self) -> ControlDescriptionVector:
+    def control_descriptions(self):
         ...
 
     def control_values_arrived_has_listener(self, callback: Callable | None, /) -> bool:
@@ -448,16 +464,16 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def enable_receive_midi(self, enabled: bool | None, /) -> None:
+    def enable_receive_midi(self, arg2: bool | None, /) -> None:
         ...
 
-    def fetch_received_midi_messages(self) -> tuple[tuple[int, ...], ...]:
+    def fetch_received_midi_messages(self) -> tuple:
         ...
 
-    def fetch_received_values(self) -> tuple[tuple[int, Any], ...]:
+    def fetch_received_values(self) -> tuple:
         ...
 
-    def grab_control(self, control: int | None, /) -> None:
+    def grab_control(self, arg2: int | None, /) -> None:
         ...
 
     def midi_received_has_listener(self, callback: Callable | None, /) -> bool:
@@ -468,7 +484,7 @@ class ControlSurfaceProxy:
         ...
 
     @property
-    def pad_layout(self) -> str:
+    def pad_layout(self):
         """The layout of pads on Push."""
         ...
 
@@ -479,7 +495,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def release_control(self, control: int | None, /) -> None:
+    def release_control(self, arg2: int | None, /) -> None:
         ...
 
     def remove_control_values_arrived_listener(self, callback: Callable | None, /) -> None:
@@ -503,20 +519,20 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def send_midi(self, midi_event_bytes: tuple[int, ...] | None, /) -> None:
+    def send_midi(self, arg2: tuple | None, /) -> None:
         ...
 
-    def send_value(self, value: tuple[Any, ...] | None, /) -> None:
+    def send_value(self, arg2: tuple | None, /) -> None:
         ...
 
-    def subscribe_to_control(self, control: int | None, /) -> None:
+    def subscribe_to_control(self, arg2: int | None, /) -> None:
         ...
 
     @property
-    def type_name(self) -> str:
+    def type_name(self):
         ...
 
-    def unsubscribe_from_control(self, control: int | None, /) -> None:
+    def unsubscribe_from_control(self, arg2: int | None, /) -> None:
         ...
 
 class MessageButtons(int):
@@ -537,8 +553,24 @@ class PushDialogType(int):
 class UnavailableFeature(int):
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector(Vector[UnavailableFeature]):
+class UnavailableFeatureVector(Iterable):
     """A container for returning unavailable features."""
+
+    def __iter__(self) -> Iterator[Any]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> Any: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> UnavailableFeatureVector: ...
+
+    def __getitem__(self, index: int | slice) -> Any | UnavailableFeatureVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: UnavailableFeature | None, /) -> None:
         ...
@@ -559,11 +591,11 @@ def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
     ...
 
-def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0, /) -> tuple[int, ...]:
+def encrypt_challenge(dongle1: int | None, dongle2: int | None, key_index: int = 0, /) -> tuple:
     """Returns an encrypted challenge based on the TEA algortithm"""
     ...
 
-def encrypt_challenge2(challenge: int | None, /) -> int:
+def encrypt_challenge2(arg1: int | None, /) -> int:
     """Returns the UMAC hash for the given challenge."""
     ...
 
@@ -571,7 +603,7 @@ def get_application() -> Application:
     """Returns the application instance."""
     ...
 
-def get_random_int(min_value: int | None, max_value: int | None, /) -> int:
+def get_random_int(arg1: int | None, arg2: int | None, /) -> int:
     """Returns a random integer from the given range."""
     ...
 

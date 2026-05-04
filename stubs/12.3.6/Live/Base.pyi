@@ -1,15 +1,31 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.LomObject import LomObject
 
 
 
-class FloatVector(Vector[float]):
+class FloatVector(Iterable):
     """A simple container for returning floats from Live."""
+
+    def __iter__(self) -> Iterator[Any]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> Any: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> FloatVector: ...
+
+    def __getitem__(self, index: int | slice) -> Any | FloatVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: float | None, /) -> None:
         ...
@@ -17,8 +33,24 @@ class FloatVector(Vector[float]):
     def extend(self, values: Iterable[float] | None, /) -> None:
         ...
 
-class IntU64Vector(Vector[int]):
+class IntU64Vector(Iterable):
     """A simple container for returning unsigned long integers from Live."""
+
+    def __iter__(self) -> Iterator[Any]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> Any: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> IntU64Vector: ...
+
+    def __getitem__(self, index: int | slice) -> Any | IntU64Vector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: int | None, /) -> None:
         ...
@@ -26,8 +58,24 @@ class IntU64Vector(Vector[int]):
     def extend(self, values: Iterable[int] | None, /) -> None:
         ...
 
-class IntVector(Vector[int]):
+class IntVector(Iterable[int]):
     """A simple container for returning integers from Live."""
+
+    def __iter__(self) -> Iterator[int]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> int: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> IntVector: ...
+
+    def __getitem__(self, index: int | slice) -> int | IntVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: int | None, /) -> None:
         ...
@@ -37,17 +85,49 @@ class IntVector(Vector[int]):
 
 class LimitationError(Exception): ...
 
-class ObjectVector(Vector[object]):
+class ObjectVector(Iterable[object]):
     """A simple read only container for returning python objects."""
 
-    def append(self, value: Any | None, /) -> None:
+    def __iter__(self) -> Iterator[object]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> object: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> ObjectVector: ...
+
+    def __getitem__(self, index: int | slice) -> object | ObjectVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
+
+    def append(self, value: object | None, /) -> None:
         ...
 
     def extend(self, values: Iterable[object] | None, /) -> None:
         ...
 
-class StringVector(Vector[str]):
+class StringVector(Iterable[str]):
     """A simple container for returning strings from Live."""
+
+    def __iter__(self) -> Iterator[str]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> str: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> StringVector: ...
+
+    def __getitem__(self, index: int | slice) -> str | StringVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: str | None, /) -> None:
         ...
@@ -59,7 +139,7 @@ class Text:
     """A translatable, immutable string."""
 
     @property
-    def text(self) -> str:
+    def text(self):
         ...
 
 class Timer:
@@ -109,7 +189,7 @@ def get_text(classname: str | None, textname: str | None, /) -> Text:
     """Retrieves the (translated) Text identified by `classname` and `textname`."""
     ...
 
-def log(string: str | None, /) -> None:
+def log(arg1: str | None, /) -> None:
     ...
 
 def subst_args(text: Text | None, arg1: str = '', arg2: str = '', arg3: str = '', arg4: str = '', arg5: str = '', /) -> str:

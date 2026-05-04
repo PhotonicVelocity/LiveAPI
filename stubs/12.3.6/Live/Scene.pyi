@@ -119,12 +119,12 @@ class Scene(LomObject):
         ...
 
     @property
-    def color_index(self) -> int | None:
+    def color_index(self) -> None:
         """Get/set access to the color index of the scene. Can be None for no color."""
         ...
 
     @color_index.setter
-    def color_index(self, value: int | None) -> None: ...
+    def color_index(self, value: None) -> None: ...
 
     def color_index_has_listener(self, callback: Callable | None, /) -> bool:
         """
@@ -249,7 +249,7 @@ class Scene(LomObject):
         """
         ...
 
-    def set_fire_button_state(self, state: bool | None, /) -> None:
+    def set_fire_button_state(self, arg2: bool | None, /) -> None:
         """Set the scene's fire button state directly. Supports all launch modes."""
         ...
 

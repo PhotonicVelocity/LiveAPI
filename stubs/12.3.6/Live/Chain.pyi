@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.ChainMixerDevice import ChainMixerDevice
-    from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
     from Live.Track import DeviceContainer, Track
@@ -109,7 +108,7 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def delete_device(self, device: int | None, /) -> None:
+    def delete_device(self, arg2: int | None, /) -> None:
         """Remove a device identified by its index from the chain. Throws runtime error if bad index."""
         ...
 
@@ -125,7 +124,7 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def duplicate_device(self, index: int | None, /) -> None:
+    def duplicate_device(self, arg2: int | None, /) -> None:
         """Duplicate the device at the given index in the chain."""
         ...
 
@@ -161,7 +160,7 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def insert_device(self, device_name: str | None, device_index: int = -1, /) -> Device:
+    def insert_device(self, device_name: str | None, device_index: int = -1, /) -> LomObject:
         """Add a device at a given index in the chain. At end if -1."""
         ...
 

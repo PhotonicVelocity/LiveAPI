@@ -3,10 +3,10 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
-    from Live.Chain import Chain
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
+    from Live.LomObject import LomObject
     from Live.Track import Track
 
 
@@ -121,12 +121,12 @@ class RackDevice(Device):
             ...
 
         @property
-        def selected_chain(self) -> Chain | None:
+        def selected_chain(self) -> None:
             """Return access to the currently selected chain."""
             ...
 
         @selected_chain.setter
-        def selected_chain(self, value: Chain | None) -> None: ...
+        def selected_chain(self, value: None) -> None: ...
 
         def selected_chain_has_listener(self, callback: Callable | None, /) -> bool:
             """
@@ -280,7 +280,7 @@ class RackDevice(Device):
         """Return const access to the name of the device's class."""
         ...
 
-    def copy_pad(self, source_index: int | None, destination_index: int | None, /) -> None:
+    def copy_pad(self, arg2: int | None, arg3: int | None, /) -> None:
         """Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127."""
         ...
 
@@ -324,7 +324,7 @@ class RackDevice(Device):
         """
         ...
 
-    def insert_chain(self, index: int = -1, /) -> Chain:
+    def insert_chain(self, index: int = -1, /) -> LomObject:
         """Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence."""
         ...
 
@@ -349,12 +349,9 @@ class RackDevice(Device):
         ...
 
     @property
-    def is_using_compare_preset_b(self) -> bool:
+    def is_using_compare_preset_b(self):
         """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
         ...
-
-    @is_using_compare_preset_b.setter
-    def is_using_compare_preset_b(self, value: bool) -> None: ...
 
     @property
     def latency_in_ms(self) -> float:

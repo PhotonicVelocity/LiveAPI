@@ -1,10 +1,9 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
-    from Live.Base import Vector
     from Live.DeviceParameter import DeviceParameter
     from Live.LomObject import LomObject
     from Live.Track import Track
@@ -255,7 +254,7 @@ class Device(LomObject):
         """Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws."""
         ...
 
-    def store_chosen_bank(self, script_index: int | None, bank_index: int | None, /) -> None:
+    def store_chosen_bank(self, arg2: int | None, arg3: int | None, /) -> None:
         """Set the selected bank in the device for persistency."""
         ...
 
@@ -269,7 +268,23 @@ class Device(LomObject):
         """Representing the view aspects of a device."""
         ...
 
-class ATimeableValueVector(Vector[DeviceParameter]):
+class ATimeableValueVector(Iterable[DeviceParameter]):
+
+    def __iter__(self) -> Iterator[DeviceParameter]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> DeviceParameter: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> ATimeableValueVector: ...
+
+    def __getitem__(self, index: int | slice) -> DeviceParameter | ATimeableValueVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: DeviceParameter | None, /) -> None:
         ...

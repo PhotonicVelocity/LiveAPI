@@ -1,14 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
 
-T = TypeVar('T')
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import IntU64Vector, IntVector, Vector
     from Live.ClipSlot import ClipSlot
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
-    from Live.Groove import Groove
     from Live.LomObject import LomObject
     from Live.Track import Track
 
@@ -53,7 +52,7 @@ class Clip(LomObject):
             """Hide the envelope view."""
             ...
 
-        def select_envelope_parameter(self, device_parameter: DeviceParameter | None, /) -> None:
+        def select_envelope_parameter(self, arg2: DeviceParameter | None, /) -> None:
             """Select the given device parameter in the envelope view."""
             ...
 
@@ -202,7 +201,7 @@ class Clip(LomObject):
         """
         ...
 
-    def add_new_notes(self, notes: Iterable[MidiNoteSpecification] | None, /) -> IntU64Vector:
+    def add_new_notes(self, arg2: object | None, /) -> IntU64Vector:
         """
         Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification
         objects. The objects will be used to construct new notes in the clip.
@@ -293,7 +292,7 @@ class Clip(LomObject):
         """
         ...
 
-    def add_warp_marker(self, warp_marker: WarpMarker | None, /) -> None:
+    def add_warp_marker(self, warp_marker: object | None, /) -> None:
         """
         Available for AudioClips only.
         Adds the specified warp marker, if possible.
@@ -321,7 +320,7 @@ class Clip(LomObject):
         """
         ...
 
-    def apply_note_modifications(self, notes: MidiNoteVector | None, /) -> None:
+    def apply_note_modifications(self, arg2: MidiNoteVector | None, /) -> None:
         """
         Expects a list of notes as returned from get_notes_extended. The content
         of the list will be used to modify existing notes in the clip, based on
@@ -335,7 +334,7 @@ class Clip(LomObject):
         """
         ...
 
-    def automation_envelope(self, device_parameter: DeviceParameter | None, /) -> Envelope:
+    def automation_envelope(self, arg2: DeviceParameter | None, /) -> Envelope:
         """Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track."""
         ...
 
@@ -368,7 +367,7 @@ class Clip(LomObject):
         """Clears all envelopes for this clip."""
         ...
 
-    def clear_envelope(self, device_parameter: DeviceParameter | None, /) -> None:
+    def clear_envelope(self, arg2: DeviceParameter | None, /) -> None:
         """Clears the envelope of this clips given parameter."""
         ...
 
@@ -402,7 +401,7 @@ class Clip(LomObject):
         """
         ...
 
-    def create_automation_envelope(self, device_parameter: DeviceParameter | None, /) -> Envelope:
+    def create_automation_envelope(self, arg2: DeviceParameter | None, /) -> Envelope:
         """Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created."""
         ...
 
@@ -425,7 +424,7 @@ class Clip(LomObject):
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: Iterable[int] | None, destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: object | None, destination_time: object | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -523,7 +522,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_notes(self, from_time: float | None, from_pitch: int | None, time_span: float | None, pitch_span: int | None, /) -> tuple[tuple[int, float, float, float, bool], ...]:
+    def get_notes(self, from_time: float | None, from_pitch: int | None, time_span: float | None, pitch_span: int | None, /) -> tuple:
         """
         Returns a tuple of tuples where each inner tuple represents
         a note starting in the given pitch- and time range.
@@ -531,7 +530,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_notes_by_id(self, note_ids: Iterable[int] | None, /) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: object | None, /) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
@@ -544,7 +543,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_selected_notes(self) -> tuple[tuple[int, float, float, float, bool], ...]:
+    def get_selected_notes(self) -> tuple:
         """
         Returns a tuple of tuples where each inner tuple
         represents a selected note. The inner tuple contains
@@ -562,12 +561,12 @@ class Clip(LomObject):
         ...
 
     @property
-    def groove(self) -> Groove | None:
+    def groove(self) -> None:
         """Get the groove associated with this clip."""
         ...
 
     @groove.setter
-    def groove(self, value: Groove | None) -> None: ...
+    def groove(self, value: None) -> None: ...
 
     def groove_has_listener(self, callback: Callable | None, /) -> bool:
         """
@@ -779,7 +778,7 @@ class Clip(LomObject):
         """
         ...
 
-    def move_playing_pos(self, beats: float | None, /) -> None:
+    def move_playing_pos(self, arg2: float | None, /) -> None:
         """
         Jump forward or backward by the specified relative amount in beats.
         Will do nothing, if the Clip is not playing.
@@ -914,11 +913,11 @@ class Clip(LomObject):
         """
         ...
 
-    def quantize(self, quantization_grid: int | None, amount: float | None, /) -> None:
+    def quantize(self, arg2: int | None, arg3: float | None, /) -> None:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
-    def quantize_pitch(self, note: int | None, source: int | None, amount: float | None, /) -> None:
+    def quantize_pitch(self, arg2: int | None, arg3: int | None, arg4: float | None, /) -> None:
         """Quantize all the notes of a given pitch. Raises an error on audio clips."""
         ...
 
@@ -1073,11 +1072,11 @@ class Clip(LomObject):
         """
         ...
 
-    def remove_notes(self, from_time: float | None, from_pitch: int | None, time_span: float | None, pitch_span: int | None, /) -> None:
+    def remove_notes(self, arg2: float | None, arg3: int | None, arg4: float | None, arg5: int | None, /) -> None:
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: Iterable[int] | None, /) -> None:
+    def remove_notes_by_id(self, arg2: object | None, /) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1209,7 +1208,7 @@ class Clip(LomObject):
         """
         ...
 
-    def replace_selected_notes(self, notes: tuple[tuple[int, float, float, float, bool], ...] | None, /) -> None:
+    def replace_selected_notes(self, arg2: tuple | None, /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_selected_notes. The
@@ -1260,15 +1259,15 @@ class Clip(LomObject):
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: Iterable[int] | None, /) -> None:
+    def select_notes_by_id(self, arg2: object | None, /) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 
-    def set_fire_button_state(self, state: bool | None, /) -> None:
+    def set_fire_button_state(self, arg2: bool | None, /) -> None:
         """Set the clip's fire button state directly. Supports all launch modes."""
         ...
 
-    def set_notes(self, notes: tuple[tuple[int, float, float, float, bool], ...] | None, /) -> None:
+    def set_notes(self, arg2: tuple | None, /) -> None:
         """
         Called with a tuple of tuples where each inner tuple represents
         a note in the same format as returned by get_notes. The
@@ -1528,8 +1527,24 @@ class MidiNoteSpecification:
 
     def __init__(self, pitch: int, start_time: float, duration: float, velocity: float = 100.0, mute: bool = False, probability: float = 1.0, velocity_deviation: float = 0.0, release_velocity: float = 64.0) -> None: ...
 
-class MidiNoteVector(Vector[MidiNote]):
+class MidiNoteVector(Iterable[MidiNote]):
     """A container for holding MIDI notes from Live."""
+
+    def __iter__(self) -> Iterator[MidiNote]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> MidiNote: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> MidiNoteVector: ...
+
+    def __getitem__(self, index: int | slice) -> MidiNote | MidiNoteVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: MidiNote | None, /) -> None:
         ...
@@ -1552,8 +1567,24 @@ class WarpMarker:
         """A WarpMarker's sample time."""
         ...
 
-class WarpMarkerVector(Vector[WarpMarker]):
+class WarpMarkerVector(Iterable[WarpMarker]):
     """A container for returning warp markers from Live."""
+
+    def __iter__(self) -> Iterator[WarpMarker]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> WarpMarker: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> WarpMarkerVector: ...
+
+    def __getitem__(self, index: int | slice) -> WarpMarker | WarpMarkerVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: WarpMarker | None, /) -> None:
         ...
