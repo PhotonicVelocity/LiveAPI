@@ -159,9 +159,22 @@ on a follow-up branch if pursued.
 
 ### Step 13 — Investigate Groups D & E
 
-`BrowserItem.children` override conflict (3 hits) and `DrumPad.parameters` missing (2 hits).
-Each needs investigation to know whether it's a stub fix, a parser/probe gap, or noise. Defer
-until Step 12 lands; could be either a refinement entry or a follow-up issue.
+Both **confirmed as noise / non-actionable** after investigation. Our stubs are correct in
+both cases; the audit findings are corpus-side issues we shouldn't fix.
+
+- **Group D — `BrowserItem.children` override (3 hits)**: Our stub types `children` as
+  `BrowserItemVector`, accurately reflecting the C++ binding return type. Push2's subclasses
+  override `children` with a plain `list`, which is genuinely Liskov-incompatible. That's
+  Ableton's own pattern (and it works at runtime via duck-typed iteration). Widening our base
+  type to `Iterable[BrowserItem]` to accommodate Push2 would lose subscriptability and other
+  vector ops for legitimate base-class consumers. **Declined.**
+
+- **Group E — `DrumPad.parameters` missing (2 hits)**: Confirmed via the curated
+  `doc/live-api/DrumPad.md` baseline that `DrumPad` exposes only `chains`, `mute`, `name`,
+  `note`, `solo`, `canonical_parent`, and `delete_all_chains()` — `parameters` genuinely does
+  not exist on `DrumPad`. Push's `navigation_node.py:402` access is either guarded in a way
+  pyright can't see (decompiled try/except guards often lost) or a latent bug in Push.
+  Either way, our stub is correct. **Declined.**
 
 ### Step 14 — Expand Tier 4 with audit-informed tests
 
@@ -196,8 +209,8 @@ When verification passes and the cleaned 12.3.6 (or 12.3.7+) stubs are believed 
 | 10. Generator fix: enum-arg widening      | done — 11 audit candidates cleared                    |
 | 11. Generator fix: NoneType → Any         | done — emits Any instead of literal None              |
 | 12. Targeted refinements (11 entries)     | done — audit 29 → 19 candidates remaining             |
-| 13. Investigate `BrowserItem` / `DrumPad` | not started                                           |
-| 14. Expand Tier 4 with audit findings     | not started                                           |
+| 13. Investigate `BrowserItem` / `DrumPad` | done — both confirmed as noise; declined              |
+| 14. Expand Tier 4 with audit findings     | done — +2 test files (nullable refs, enum/None args)  |
 | 15. Re-publish                            | not started                                           |
 
 `argN` cosmetic pass: deferred. Not part of this branch unless explicitly re-scoped.
