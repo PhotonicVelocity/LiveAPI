@@ -101,15 +101,7 @@ without letting users type them as kwargs"; it stays.
 
 ### What this changes operationally
 
-- The Parse Pipeline section below describes the pipeline as it existed on `main` before the cleanup
-  branch. The active pipeline on `stub-pipeline-cleanup` is the minimal capture → parse → generate; that
-  section will be rewritten when the cleanup lands.
-- Slated for deletion in the cleanup branch's Step 7: `tools/parse/llm_resolve.py`,
-  `tools/parse/llm_resolve_prompt.md`, `tools/parse/llm_hints.md`, `tools/parse/callsite_resolve.py`,
-  `tools/parse/extract_unresolved.py`, `tools/parse/apply_refinements.py`,
-  `tools/parse/build_type_skeleton.py` (if only used by the LLM prompt), and any LLM batch / cache
-  directories. None are wired into the active pipeline; they remain in the tree until verification
-  confirms the minimal pipeline meets the bar.
+- The Parse Pipeline section below describes the active minimal pipeline on `main` after the cleanup.
 - `MaxForLive/` stays in the repo as input — the new pipeline reads it for prose content that flows into
   stub docstrings only. Its names, types, and shape claims do not reach signatures.
 - `doc/decompiled/AbletonLive12_MIDIRemoteScripts/` (gitignored) keeps its role as the corpus for
@@ -117,10 +109,7 @@ without letting users type them as kwargs"; it stays.
 
 ## Parse Pipeline
 
-> _Note: this section describes the pipeline on `main` today. It will be rewritten when the
-> `stub-pipeline-cleanup` branch lands per the Stub Accuracy decisions above._
-
-The pipeline transforms raw API captures into typed Python stubs through four stages:
+The pipeline transforms raw API captures into typed Python stubs through three stages:
 
 ```
                           APICapture (inside Live)
@@ -128,22 +117,9 @@ The pipeline transforms raw API captures into typed Python stubs through four st
                           LiveTree.raw.json + LiveClasses.json
                                    │
                     ┌──────────────┴──────────────┐
-                    │  parse_apicapture_results.py │  Stage 1: Parse & enrich
+                    │  parse_apicapture_results.py │  Stage 2: Parse
                     └──────────────┬──────────────┘
                           LiveTree.parsed.json
-                                   │
-              ┌────────────────────┼────────────────────┐
-              │                    │                     │
-     extract_unresolved.py    llm_resolve.py            │
-              │                    │                     │
-        unresolved.json    refinements.llm.json         │
-              │                    │                     │
-              └────────────────────┘                     │
-                                   │                     │
-                    ┌──────────────┴──────────────┐      │
-                    │    apply_refinements.py      │  Stage 2: Refine
-                    └──────────────┬──────────────┘
-                          LiveTree.resolved.json
                                    │
                     ┌──────────────┴──────────────┐
                     │      generate_stubs.py       │  Stage 3: Generate
@@ -151,24 +127,23 @@ The pipeline transforms raw API captures into typed Python stubs through four st
                              Live/*.pyi
 ```
 
-**Stage 1 — Parse** (`parse_apicapture_results.py`): Reads `LiveTree.raw.json` + `LiveClasses.json`, applies
-inheritance resolution, doc parsing, signature parsing, probe data merging. Outputs `LiveTree.parsed.json`.
+**Stage 1 — Capture + Probe** (inside Live, via APICapture Control Surface). Produces `LiveTree.raw.json`
+(structural tree from `dir()` walking) and `LiveClasses.json` (runtime property probe results).
 
-**Stage 2 — Refine**: Three scripts work together:
+**Stage 2 — Parse** (`parse_apicapture_results.py`): Reads the raw capture and probe outputs and produces
+`LiveTree.parsed.json`. Applies class-name fixes, inheritance resolution, member relocation, enum parsing,
+function-doc parsing, signature parsing, type resolution, and probe data merging. This is the only refinement
+step the pipeline performs — there is no LLM resolution, no callsite analysis, no hand-stamped overrides.
+Only what we scrape from Live itself reaches the stubs (see [Stub Accuracy and Pipeline
+Posture](#stub-accuracy-and-pipeline-posture) above).
 
-- `extract_unresolved.py` — scans parsed tree for `object`-typed args, `argN`-named params, `object` returns, and null
-  property types. Outputs `unresolved.json`.
-- `llm_resolve.py` — produces `refinements.llm.json` using Claude to resolve unresolved items. Sends items along with a
-  type skeleton, MaxForLive docs, and curated reference docs as context. Supports batch processing via `--prepare` /
-  `--merge` or direct API calls. System prompt is in `llm_resolve_prompt.md`.
-- `apply_refinements.py` — applies `refinements.llm.json` to `LiveTree.parsed.json`, producing `LiveTree.resolved.json`
-  with all arg names, arg types, return types, and property types baked in.
+**Stage 3 — Generate** (`generate_stubs.py`): Reads `LiveTree.parsed.json` and emits `.pyi` stub files.
+Renders the tree as-is; each namespace module becomes a flat `.pyi` file under the `Live/` package,
+mirroring the real C extension module layout (`Live.Song` is a flat module, not a package).
 
-**Stage 3 — Generate** (`generate_stubs.py`): Reads `LiveTree.resolved.json` and emits `.pyi` stub files. The generator
-has no refinement logic — it renders the tree as-is. Each namespace module becomes a package directory; classes, enums,
-functions, and properties are rendered according to their node type with proper `TYPE_CHECKING` imports.
-
-All scripts live in `tools/parse/` and accept a version argument (e.g. `python tools/parse/generate_stubs.py 12.3.6`).
+All scripts live in `tools/` and accept a version argument
+(e.g. `python tools/parse/parse_apicapture_results.py 12.3.6`). The orchestrators are
+`tools/run_pipeline.py` (full Stage 1 + 2 + 3) and `tools/parse/run_parse_pipeline.py` (Stage 2 only).
 
 ## Reference Format
 
