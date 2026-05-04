@@ -1,5 +1,16 @@
 # LiveAPI
 
+> ⚠️ **Work in progress — releases withdrawn.**
+>
+> This project is undergoing a major rewrite of its stub-generation pipeline and reference docs. The published PyPI
+> releases of `ableton-live-stubs` have been **yanked** (pinned installs continue to work; fresh installs are blocked)
+> and the documentation site has been **disabled** until the rewrite lands. The published stubs contain known accuracy
+> issues — pervasive `T | None` widening, types looser than the underlying Boost.Python binding actually accepts,
+> and others — that we're correcting structurally rather than patching.
+>
+> See [doc/decisions.md](doc/decisions.md) for the cleanup plan and rationale. Do not depend on prior releases for
+> new work; pin to a specific version only if you've already evaluated its accuracy for your use case.
+
 Comprehensive reference for the Ableton Live Python API — classes, properties, methods, enums, and behavioral notes
 that Ableton doesn't publicly document.
 
