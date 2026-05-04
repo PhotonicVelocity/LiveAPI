@@ -44,7 +44,9 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 #     "probed_type":  "Type"                        # override the property's probed type
 #     "source":       "<rationale citation>"        # required
 #   }
-ALLOWED_FIELDS = {"args", "arg_types", "return_type", "probed_type", "element_repr", "source", "_note"}
+ALLOWED_FIELDS = {"args", "arg_types", "return_type", "probed_type", "element_repr",
+                  "source", "_note", "confidence"}
+ALLOWED_CONFIDENCE = {"high", "medium", "low"}
 
 
 def _walk(node: dict, path: str = "") -> Iterator[tuple[str, dict]]:
@@ -152,6 +154,9 @@ def _validate_entry(path: str, entry: dict) -> str | None:
     extra = set(entry) - ALLOWED_FIELDS
     if extra:
         return f"{path}: unknown field(s) {sorted(extra)}"
+    conf = entry.get("confidence")
+    if conf is not None and conf not in ALLOWED_CONFIDENCE:
+        return f"{path}: confidence must be one of {sorted(ALLOWED_CONFIDENCE)}, got {conf!r}"
     return None
 
 

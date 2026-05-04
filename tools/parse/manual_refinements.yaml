@@ -11,7 +11,9 @@
 #     arg_types:   { name: <type-spec>, ... }       # override an arg's type by name
 #     return_type: <type-spec>                      # override the return type
 #     probed_type: <type-spec>                      # override property's probed type
+#     element_repr: <type-spec>                     # override Vector/iterable element type
 #     source:      "<rationale citation>"           # required
+#     confidence:  high | medium | low              # optional; defaults to medium
 #     _note:       "<optional free-text>"
 #
 # <type-spec> can be either:
@@ -22,6 +24,15 @@
 #
 # When `from` is provided, the applier validates it against the parsed-tree value
 # and warns on mismatch — early-warning system for drift across Live versions.
+#
+# Confidence levels:
+#   high   — runtime-probed against Live, OR corpus-verified (Ableton's shipped
+#            Remote Scripts pass this type AND pyright accepts the call).
+#   medium — M4L docs explicit, docstring explicit, sister-method semantics, or
+#            other strong-but-not-runtime evidence. **Default if omitted.**
+#   low    — structural inference, naming-pattern guess, or "best inference from
+#            method context." Most likely-wrong category — flag for re-verification
+#            when a probe is available or when the audit catches a contradiction.
 #
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -45,6 +56,7 @@ _meta:
   probed_type:
     from: NoneType
     to: "Device | None"
+  confidence: high
   source: |
     Probed against Live 12.3.5 (MS33 in the curated baseline at doc/live-api/Browser.md):
     "During active hotswap, hotswap_target returns the Device object being swapped, not a
@@ -128,6 +140,7 @@ _meta:
     feedback_rule:
       from: CCFeedbackRule
       to: "CCFeedbackRule | None"
+  confidence: high
   source: |
     Audit found None passed at _Framework/ControlSurface.py:488 and
     ableton/v2/control_surface/control_surface.py:438 — Ableton's official base
@@ -150,6 +163,7 @@ _meta:
     feedback_rule:
       from: NoteFeedbackRule
       to: "NoteFeedbackRule | None"
+  confidence: high
   source: |
     Arg renames imported from refinements.llm.json (callsite-cited):
       - arg1 -> midi_map_handle, arg2 -> device_parameter, arg3 -> midi_channel,
@@ -169,6 +183,7 @@ _meta:
     feedback_rule:
       from: PitchBendFeedbackRule
       to: "PitchBendFeedbackRule | None"
+  confidence: high
   source: |
     Arg renames imported from refinements.llm.json (structural / consistency):
       - arg1 -> midi_map_handle, arg2 -> device_parameter, arg3 -> midi_channel,
@@ -188,6 +203,16 @@ _meta:
 #
 # Where the same path appeared in both callsite and LLM files, callsite wins —
 # deterministic AST analysis supersedes prose-inferred LLM resolution.
+#
+# Confidence (default: medium for this section):
+#   - Entries citing [callsite analysis] are effectively HIGH (deterministic AST).
+#   - Entries citing [M4L docs] are MEDIUM (documentation).
+#   - Entries citing [structural / other] are effectively LOW (inferred from method
+#     name / sister method symmetry / parameter type). Watch for drift; widen or
+#     correct if the audit surfaces a contradiction.
+#   These are conventions, not per-entry annotations — adding 81 individual
+#   confidence: tags would obscure rather than clarify. Specific high/low tags
+#   are added to entries where the level deserves explicit emphasis.
 # ──────────────────────────────────────────────────────────────────────────────
 
 # Each entry below corresponds to a single dotted-path member; bring them across
@@ -898,6 +923,15 @@ _meta:
 # accepting a plain list at the type-checker level would re-introduce the
 # misleading-stubs failure mode (cf. P4L confirmed crash on Clip.add_new_notes
 # when passed a list rather than MidiNoteVector).
+#
+# Confidence (default: medium for this section). 38 of the 51 are positively
+# corpus-verified by tools/verify/verify_refinements_against_corpus.py — Ableton's
+# own shipped Remote Scripts use these symbols in patterns pyright accepts against
+# the refined types. The remaining ~13 are "unused" — corpus doesn't exercise them
+# (mostly M4L-only classes like PythonLicensingBridge, Vector classes used as type
+# hints rather than instantiated, or rarely-used programmatic methods like
+# Chain.insert_device). Their refinements remain medium-confidence, derived from
+# explicit M4L docs / raw_doc citations.
 # ──────────────────────────────────────────────────────────────────────────────
 
 # ─── Property probed_type (12 new entries; 8 nullable-ref ones already above) ─
@@ -1190,14 +1224,19 @@ _meta:
     target:
       from: object
       to: "Track | Chain"
-  source: M4L docs describe `target` as a chain container — Track or Chain in current Live.
+  confidence: low
+  source: |
+    M4L docs describe `target` as a chain container — Track or Chain in current Live.
+    Confidence low: may miss DrumChain (Track | Chain | DrumChain?). No corpus call
+    sites; widen if the audit ever surfaces a contradiction.
 
 "Live.Song.Song.move_device":
   arg_types:
     target:
       from: object
       to: "Track | Chain"
-  source: Same pattern as find_device_position.
+  confidence: low
+  source: Same pattern as find_device_position; same widening caveat.
 
 # ─── Argument types: REJECTED Iterable[T] for vector-parameter functions ──────
 #
