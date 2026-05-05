@@ -473,7 +473,7 @@ class ControlSurfaceProxy:
     def fetch_received_values(self) -> tuple[tuple[int, Any], ...]:
         ...
 
-    def grab_control(self, control: int, /) -> None:
+    def grab_control(self, control_id: int, /) -> None:
         ...
 
     def midi_received_has_listener(self, callback: Callable, /) -> bool:
@@ -495,7 +495,7 @@ class ControlSurfaceProxy:
         """
         ...
 
-    def release_control(self, control: int, /) -> None:
+    def release_control(self, control_id: int, /) -> None:
         ...
 
     def remove_control_values_arrived_listener(self, callback: Callable, /) -> None:
@@ -525,14 +525,14 @@ class ControlSurfaceProxy:
     def send_value(self, value: tuple[Any, ...], /) -> None:
         ...
 
-    def subscribe_to_control(self, control: int, /) -> None:
+    def subscribe_to_control(self, control_id: int, /) -> None:
         ...
 
     @property
     def type_name(self) -> str:
         ...
 
-    def unsubscribe_from_control(self, control: int, /) -> None:
+    def unsubscribe_from_control(self, control_id: int, /) -> None:
         ...
 
 class MessageButtons(int):

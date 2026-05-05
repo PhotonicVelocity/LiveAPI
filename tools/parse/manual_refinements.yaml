@@ -244,17 +244,17 @@ _meta:
 
 "Live.Application.ControlSurfaceProxy.release_control":
   args:
-    arg2: control
+    arg2: control_id
   source: |
-    arg2 rename — the previous "[callsite, 3/3 defs]" citation pointed at
-    module-level helpers (channel_strip.py:14, ChannelStripComponent.py:15,
-    simple_device.py:15) that all do `control.release_parameter()` — calling
-    a different binding (`DeviceParameter.release_parameter()`), not this one.
-    The name is still right, but the supporting evidence is the M4L wrapper:
-      - M4L docs (controlsurface.md): `Parameter: control`.
-      - Direct binding call: _MxDCore/ControlSurfaceWrapper.py:266
-        (`self._proxy.release_control(control.id)` — passes the int ID; the
-        binding takes int, the wrapper exposes a `control` object).
+    arg2 rename — the binding takes the control's int ID. M4L docs
+    (controlsurface.md) name the parameter `control` (matching the M4L
+    abstraction where scripts pass a control object), but Live's binding is
+    one layer below: it takes the int. Direct binding call at
+    _MxDCore/ControlSurfaceWrapper.py:266 confirms:
+    `self._proxy.release_control(control.id)` — passes `.id`, an int.
+    Renamed to `control_id` for clarity (matches the type, avoids implying
+    callers should pass a control object). Names are positional-only and
+    decorative — clarity over doc-conformance.
 
 "Live.Application.ControlSurfaceProxy.send_midi":
   args:
@@ -495,33 +495,30 @@ _meta:
 
 "Live.Application.ControlSurfaceProxy.grab_control":
   args:
-    arg2: control
+    arg2: control_id
   source: |
-    arg2 rename — M4L docs (controlsurface.md): `Parameter: control` —
-    "Take ownership of the *control*."
-    Direct binding call: _MxDCore/ControlSurfaceWrapper.py:262
-    (`self._proxy.grab_control(control.id)` — passes the int ID; the binding
-    takes int, the wrapper exposes a `control` object).
+    arg2 rename — same shape as release_control. M4L docs name it `control`,
+    but the binding takes the int ID. Direct binding call:
+    _MxDCore/ControlSurfaceWrapper.py:262 (`self._proxy.grab_control(control.id)`).
+    Renamed to `control_id` for clarity over doc-conformance.
 
 "Live.Application.ControlSurfaceProxy.subscribe_to_control":
   args:
-    arg2: control
+    arg2: control_id
   source: |
     arg2 rename — same shape as grab_control / release_control.
     C++ signature: `void subscribe_to_control(..., int)` — int control ID.
     Direct binding call: _MxDCore/ControlSurfaceWrapper.py:201
     (`self._proxy.subscribe_to_control(self._id)` — passes int).
-    Name `control` follows M4L convention used for grab_control / release_control.
 
 "Live.Application.ControlSurfaceProxy.unsubscribe_from_control":
   args:
-    arg2: control
+    arg2: control_id
   source: |
     arg2 rename — same shape as subscribe_to_control.
     C++ signature: `void unsubscribe_from_control(..., int)` — int control ID.
     Direct binding call: _MxDCore/ControlSurfaceWrapper.py:209
     (`self._proxy.unsubscribe_from_control(self._id)` — passes int).
-    Name `control` follows M4L convention used for the grab/release/subscribe family.
 
 "Live.Application.encrypt_challenge2":
   args:
