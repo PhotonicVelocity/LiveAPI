@@ -110,11 +110,10 @@ The stubs ship with a small set of items typed on weaker evidence. The full ledg
 | Area | Current type | Why it's weak |
 |---|---|---|
 | `Live.Licensing.PythonLicensingBridge.*` (5 properties + 3 method signatures) | Inferred from `raw_doc` and naming patterns. | The class is M4L-only and can't be instantiated from a Control Surface — unreachable to the probe. Needs an M4L probe device. |
-| `Live.Listener.ListenerHandle.{listener_func, listener_self, name}` | Inferred from `raw_doc`. | Probe didn't reach the class (no listeners registered during the probe phase). |
+| `Live.Listener.ListenerHandle.{listener_func, listener_self, name}` | Inferred from `raw_doc`. | The class is internal — every `add_*_listener` returns `None` (367 of them), the class can't be instantiated from Python, and no Live property exposes a `ListenerVector`. Not actionable without an internal hook. |
 | `Live.Application.ControlSurfaceProxy.{pad_layout, type_name}` | M4L docs say `pad_layout` is a string; `type_name` inferred from name. | M4L-only class, same situation as Licensing. |
-| `Clip.{add_new_notes, *_notes_by_id}` `notes` / `note_ids` args | `object` (no narrowing). | These accept Live's native vector classes (`MidiNoteVector`, `IntU64Vector`); typing them as `Iterable[T]` would let pyright accept calls that raise `InternalError` at runtime. Conservatively left untyped until a probe confirms which exact vector class each accepts. |
+| `Live.Clip.Clip.apply_note_modifications` `notes` arg | `MidiNoteVector` (strict). | Sister methods accept iterables; this one's C++ signature literally takes `vector<NClipApi::TNoteInfo>`. Probe could enumerate exactly which iterable shapes the binding accepts vs. raises on. |
 | `map_midi_*_with_feedback_map` `feedback_rule` arg | Strictly typed (no `\| None`). | The corpus never passes literal `None`, but the binding *might* accept it. Currently strict; would be widened if a probe confirms it. |
-| `insert_device` / `create_take_lane` returns; `duplicate_notes_by_id.destination_time` | Medium-confidence from baseline + M4L. | Probe could pin them down. |
 
 ## First-time setup (contributors)
 
