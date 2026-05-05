@@ -27,11 +27,8 @@
 #
 # Confidence levels:
 #   high   — runtime-probed against Live, OR corpus-verified (Ableton's shipped
-#            Remote Scripts pass this type AND pyright accepts the call), OR
-#            covered by P4L's integration-test suite (which executes against a
-#            running Live and observes real values). PythonForLive *source*
-#            alone does NOT count — its types are derived from the same docs
-#            we're refining and may share our errors.
+#            Remote Scripts in external/corpus/ pass this type AND pyright
+#            accepts the call against the refined stub).
 #   medium — M4L docs explicit, docstring explicit, sister-method semantics, or
 #            other strong-but-not-runtime evidence. **Default if omitted.**
 #   low    — structural inference, naming-pattern guess, or "best inference from
@@ -68,8 +65,6 @@ _meta:
     signature for relation_to_hotswap_target takes NPythonBrowser::TPythonBrowserItem and
     originally suggested otherwise. None when no hotswap is active. Settable: assigning a
     Device handle activates hotswap; assigning None deactivates.
-    P4L integration test verifies: tests/integration/typed/test_browser_presets.py:43-53
-    assigns Device, asserts `is not None`, then assigns None and asserts `is None`.
   _note: |
     Push2/browser_component.py:538 still trips pyright because Push2 does
     `self._browser.hotswap_target.selected_preset_index = ...` — selected_preset_index is
@@ -113,8 +108,6 @@ _meta:
   source: |
     Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
     Corpus-verified — Push and Push2 both read and assign Clip values here.
-    P4L integration test verifies: tests/integration/typed/test_clip_save_default.py:77-90
-    selects a clip, then `assert shown.oid == clip.oid` on the detail_clip read-back.
 
 "Live.Song.Song.View.selected_chain":
   probed_type:
@@ -1323,10 +1316,6 @@ _meta:
     warp marker, if possible." The C++ binding signature is `add_warp_marker(
     ..., boost::python::api::object)` — generic at the C++ level — but
     accepts a `WarpMarker` instance per the baseline contract.
-    (Note: P4L's typing/clip.py passes `{"beat_time": ..., "sample_time": ...}`
-    via `clip.call("add_warp_marker", dict)`, but that is the LiveRelay bridge
-    serialization format — the bridge converts the dict to a WarpMarker on
-    the Live side before the binding call. Doesn't apply to direct stub use.)
 
 "Live.Clip.Clip.duplicate_notes_by_id":
   arg_types:
@@ -1411,9 +1400,6 @@ _meta:
   source: |
     Corpus passes int (interval), bool (is_horizontal), arbitrary persistent
     data — pushbase/instrument_component.py:88-110 shows the pattern. Any matches.
-    P4L integration test verifies: tests/integration/typed/test_song.py:16-35 calls
-    `song.call("set_data", key, None)` and `song.call("set_data", key, "legacy")` —
-    None and str both accepted at runtime.
 
 "Live.Track.Track.get_data":
   arg_types:
@@ -1424,8 +1410,7 @@ _meta:
     from: null
     to: Any
   confidence: high
-  source: Same pattern as Song.get_data, corpus-confirmed via P4L's _data.py wrapper
-    that calls both Song and Track set/get_data with arbitrary types.
+  source: Same pattern as Song.get_data — corpus-confirmed.
 
 "Live.Track.Track.set_data":
   arg_types:
@@ -1433,8 +1418,7 @@ _meta:
       from: object
       to: Any
   confidence: high
-  source: Same pattern as Song.set_data — corpus-confirmed and exercised by P4L's
-    `_data.py` typed wrapper which tests/integration/typed/test_song.py covers.
+  source: Same pattern as Song.set_data — corpus-confirmed.
 
 # Conservative widenings on find_device_position / move_device — M4L docs say
 # "chain container", which is Track or Chain. May be too narrow if Live ever
@@ -1547,8 +1531,6 @@ _meta:
     "Returns `None` on no-op (no devices)"; the M4L docs / curated table
     (line 63) list the return as `DrumPad / None`. The function moves devices
     INTO a drum rack pad and returns that pad.
-    P4L integration test verifies: tests/integration/typed/test_conversions.py:136-153
-    calls the function and `assert isinstance(result, DrumPad)`.
 
 "Live.Licensing.get_unlock_dir":
   return_type:
@@ -1570,8 +1552,6 @@ _meta:
   source: |
     Baseline doc/live-api/RackDevice.md:298 explicitly: "Insert a new empty chain
     at the given index ... returns Chain". M4L docs confirm.
-    P4L integration test verifies: tests/integration/typed/test_browser_load.py:41-43
-    invokes `rack.call("insert_chain", -1)` then asserts `len(chains) > 0`.
 
 # Song.Song.get_data return-type consolidated above with its arg_types entry (~line 1160).
 

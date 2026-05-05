@@ -78,11 +78,6 @@ The pipeline draws from four sources, in roughly increasing order of authority:
 
 Each reference file records its probe status (`unprobed`, `partial`, or `verified`) so coverage gaps are visible.
 
-## Related Projects
-
-- [LiveRelay](https://github.com/PhotonicVelocity/LiveRelay) — Remote Script that exposes the Live API over RPC
-- [PythonForLive](https://github.com/PhotonicVelocity/PythonForLive) — Typed Python client for LiveRelay
-
 ## Credits
 
 APICapture tooling forked from [isfopo/LiveAPI_MakeDoc](https://github.com/isfopo/LiveAPI_MakeDoc) (itself a fork of

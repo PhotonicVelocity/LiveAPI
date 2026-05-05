@@ -5,8 +5,8 @@ Architectural and formatting decisions for the LiveAPI project. Updated as decis
 ## Terminology
 
 - **Live Object Model (LOM)** — the object hierarchy exposed by Live's Python runtime. Not Max-specific; the same model
-  is accessed by Remote Scripts, Max for Live, and external clients like LiveRelay. Prefer "LOM" or "Live Object Model"
-  over "Live Python API" when referring to the object structure.
+  is accessed by Remote Scripts, Max for Live, and any RPC bridges that wrap the runtime. Prefer "LOM" or "Live Object
+  Model" over "Live Python API" when referring to the object structure.
 
 ## Project Structure
 
@@ -44,7 +44,7 @@ without letting users type them as kwargs"; it stays.
 - **Types looser than the binding accepts.** Pyright accepts a Python `list`; the underlying Boost.Python
   binding requires the specific `TVector` type and crashes with `InternalError`. Concrete example today:
   `Clip.add_new_notes(notes: Iterable[MidiNoteSpecification] | None, /)` — sister method
-  `apply_note_modifications` is documented as failing exactly this way (P4L work confirms). This is the
+  `apply_note_modifications` is documented as failing exactly this way at runtime. This is the
   highest-impact misleading class because `, /` doesn't help — pyright still accepts a wrong-type call.
 - **Pervasive `T | None` parser defaults.** Today's parser widens every positional arg to `T | None`.
   Pyright accepts `None`; the runtime usually crashes. Visible across most stub files; not introduced by
@@ -227,7 +227,7 @@ This mirrors how people think about Live's structure and matches the parent-chil
 - Probing and parsing should eventually generate reference content automatically.
 - Raw probe notes in the reference are temporary — the goal is a clean pipeline:
   `stubs + M4L docs + probe results → parser → reference markdown`.
-- Whether probes use the APICapture Control Surface or LiveRelay is TBD.
+- Probes run via the APICapture Control Surface (see `tools/apicapture/`).
 - **M4L probe device** — some LOM types (e.g. `ControlSurfaceProxy`) are only reachable from the Max for Live process,
   not from a control surface script. APICapture runs in the control surface process, so it sees actual
   `ControlSurface` objects rather than proxies. A small M4L device could probe these M4L-only types by reading
