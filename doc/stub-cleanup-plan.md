@@ -93,9 +93,9 @@ The biggest accuracy improvement, and the most potentially-disruptive — affect
 ### Step 6 — Trim version coverage
 
 - Update `release.yml` to only build/publish 12.x.
-- Frozen versions (`stubs/11.*`, `stubs/12.0–12.2`) stay as historical artifacts; remove from `mkdocs.yml`
-  if/when Pages is re-enabled.
-- `release/` directory and `dist/` artifacts for old versions left as-is for forensic record.
+- Old versions (`stubs/11.*`, `stubs/12.0–12.2`) removed from the repo entirely (pre-merge cleanup) —
+  rebuild from a tagged commit if needed.
+- `release/` directory removed; `dist/` is the current build-output convention (gitignored).
 
 ### Step 7 — Delete refinement machinery
 

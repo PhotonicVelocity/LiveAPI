@@ -58,9 +58,10 @@ without letting users type them as kwargs"; it stays.
 
 ### Decisions
 
-1. **Version coverage: latest 12.x only.** Drop active maintenance of earlier versions. Existing
-   `stubs/11.*` and `stubs/12.0–12.2` directories remain as frozen historical artifacts but no longer
-   participate in regeneration. Anyone needing older-version stubs can rebuild from a tagged commit.
+1. **Version coverage: latest 12.x only.** Drop active maintenance of earlier versions. The repo tracks
+   only the current `stubs/12.x.y/` directory; older versions (`stubs/11.*`, `stubs/12.0–12.2`) have been
+   removed. Anyone needing older-version stubs can rebuild from a tagged commit (the apicapture pipeline
+   still supports 11.x via `tools/sets/Set 11 Project/`).
 
 2. **Refinement strictness — only what we can scrape from Live itself.** All signature content comes from
    sources that observe the binding directly. With `, /` (PEP 570) on every callable, kwarg-callability is
