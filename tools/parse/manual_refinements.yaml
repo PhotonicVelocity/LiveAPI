@@ -613,9 +613,21 @@ _meta:
 "Live.Clip.Clip.add_new_notes":
   args:
     arg2: notes
+  arg_types:
+    notes:
+      from: object
+      to: "Iterable[MidiNoteSpecification]"
+  confidence: high
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> notes  [M4L docs]: external/max-for-live-docs/9.0/clip.md
+    arg2 rename — [M4L docs]: external/max-for-live-docs/9.0/clip.md.
+    type — C++ signature is `boost::python::api::object` (generic), so the
+    binding doesn't enforce a specific vector class at the C++ level (unlike
+    sister `apply_note_modifications` which strictly takes
+    `vector<NClipApi::TNoteInfo>`). raw_doc explicit: "Expects a Python
+    iterable holding a number of Live.Clip.MidiNoteSpecification objects."
+    Corpus confirms: tuples (`(note,)` at pushbase/note_editor_component.py:611,
+    ableton/v3/control_surface/components/note_editor.py:367), and lists
+    (`note_specifications` at _MxDCore/MxDCore.py:820+) both work.
 
 "Live.Clip.Clip.apply_note_modifications":
   args:
@@ -677,10 +689,19 @@ _meta:
 "Live.Clip.Clip.remove_notes_by_id":
   args:
     arg2: note_ids
+  arg_types:
+    note_ids:
+      from: object
+      to: "Iterable[int]"
+  confidence: high
   source: |
     arg2 rename — baseline (doc/live-api/Clip.md): `remove_notes_by_id(note_ids)`.
     M4L (clip.md) describes it as "list of note IDs" — the literal name comes
     from the baseline.
+    type — C++ signature is `boost::python::api::object` (generic, runtime-
+    checked). Corpus confirms iterables work via _MxDCore/MxDCore.py
+    `_object_perform_operation_on_notes_by_id_handler`, which passes the
+    `function_parameters` tuple straight through to the binding.
 
 "Live.Clip.Clip.replace_selected_notes":
   args:
@@ -699,10 +720,18 @@ _meta:
 "Live.Clip.Clip.select_notes_by_id":
   args:
     arg2: note_ids
+  arg_types:
+    note_ids:
+      from: object
+      to: "Iterable[int]"
+  confidence: high
   source: |
     arg2 rename — baseline (doc/live-api/Clip.md): `select_notes_by_id(note_ids)`.
     M4L (clip.md) describes it as "list of note IDs" — the literal name comes
     from the baseline.
+    type — same shape as remove_notes_by_id; C++ takes
+    `boost::python::api::object` (generic), corpus confirms iterables work
+    via the shared _MxDCore handler.
 
 "Live.Clip.Clip.set_fire_button_state":
   args:
@@ -1340,15 +1369,22 @@ _meta:
 
 "Live.Clip.Clip.duplicate_notes_by_id":
   arg_types:
+    note_ids:
+      from: object
+      to: "Iterable[int]"
     destination_time:
       from: object
       to: "float | None"
-  confidence: medium
+  confidence: high
   source: |
-    M4L docs (clip.md) say `destination_time (optional) [float/int]`; None is
-    the default ("if not provided, new notes will be inserted after the last
-    selected note"). `float | None` covers the common case (Python's int → float
-    conversion handles the int form). Tracked in refinements_followup.md.
+    note_ids — C++ takes `boost::python::api::object` (generic). Same shape as
+    sister `*_notes_by_id` methods; corpus confirms iterables work
+    (_MxDCore/MxDCore.py:874+ duplicates note IDs from a JSON dict via
+    keyword call). raw_doc says "list of note IDs".
+    destination_time — M4L docs (clip.md) say `destination_time (optional)
+    [float/int]`; None is the default ("if not provided, new notes will be
+    inserted after the last selected note"). `float | None` covers the common
+    case (Python's int → float conversion handles the int form).
 
 "Live.Licensing.PythonLicensingBridge.get_startup_dialog":
   arg_types:
@@ -1514,6 +1550,19 @@ _meta:
   source: |
     Baseline doc/live-api/Clip.md:1106, 1527 + corpus _MxDCore handler
     confirm same tuple-of-tuples format as get_notes.
+
+"Live.Clip.Clip.get_notes_by_id":
+  arg_types:
+    note_ids:
+      from: object
+      to: "Iterable[int]"
+  confidence: high
+  source: |
+    type — C++ signature is `boost::python::api::object` (generic, runtime-
+    checked). Direct corpus call: _MxDCore/MxDCore.py:864 invokes
+    `lom_object.get_notes_by_id(id_to_note_mapping.keys())` — passes a
+    `dict_keys` view (Iterable[int]). raw_doc: "Return a list of MIDI notes
+    matching the given note IDs."
 
 "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad":
   return_type:

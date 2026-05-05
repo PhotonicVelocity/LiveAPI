@@ -202,7 +202,7 @@ class Clip(LomObject):
         """
         ...
 
-    def add_new_notes(self, notes: object, /) -> IntU64Vector:
+    def add_new_notes(self, notes: Iterable[MidiNoteSpecification], /) -> IntU64Vector:
         """
         Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification
         objects. The objects will be used to construct new notes in the clip.
@@ -425,7 +425,7 @@ class Clip(LomObject):
         """
         ...
 
-    def duplicate_notes_by_id(self, note_ids: object, destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
+    def duplicate_notes_by_id(self, note_ids: Iterable[int], destination_time: float | None = None, transposition_amount: int = 0, /) -> IntU64Vector:
         """
         Duplicate all notes matching the given note IDs.
         If the optional destination_time is not provided, new notes will be inserted
@@ -531,7 +531,7 @@ class Clip(LomObject):
         """
         ...
 
-    def get_notes_by_id(self, note_ids: object, /) -> MidiNoteVector:
+    def get_notes_by_id(self, note_ids: Iterable[int], /) -> MidiNoteVector:
         """Return a list of MIDI notes matching the given note IDs."""
         ...
 
@@ -1077,7 +1077,7 @@ class Clip(LomObject):
         """Delete all notes starting in the given pitch- and time range."""
         ...
 
-    def remove_notes_by_id(self, note_ids: object, /) -> None:
+    def remove_notes_by_id(self, note_ids: Iterable[int], /) -> None:
         """
         Delete all notes matching the given note IDs.
         This function should NOT be used to implement modification of existing notes
@@ -1260,7 +1260,7 @@ class Clip(LomObject):
         """Selects all notes present in the clip."""
         ...
 
-    def select_notes_by_id(self, note_ids: object, /) -> None:
+    def select_notes_by_id(self, note_ids: Iterable[int], /) -> None:
         """Selects all notes matching the given note IDs."""
         ...
 

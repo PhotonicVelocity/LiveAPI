@@ -101,26 +101,22 @@ integration test that calls one of these with `feedback_rule=None` and observes
 no exception. (The cc entry has no other refinements and was removed entirely
 from `manual_refinements.yaml`; note + pitchbend keep their arg-name renames.)
 
-### Vector-parameter args left as `object` (Iterable[T] would be misleading)
+### `Clip.apply_note_modifications` — strict `MidiNoteVector` arg
 
-Five `Clip.*` methods accept native vector types from Live's Boost.Python binding —
-the binding raises `InternalError` when passed a plain Python `list` or arbitrary
-iterable. Typing the args as `Iterable[T]` would make pyright accept call sites
-that crash at runtime (P4L confirmed this exact failure on
-`Clip.apply_note_modifications`). Refinements deliberately leave these args as
-`object` (the parser default) until a runtime probe pins down which native
-vector class each binding accepts:
+This method's C++ signature literally takes `vector<NClipApi::TNoteInfo>`, so
+the binding rejects anything that isn't a `MidiNoteVector` instance. The stub
+already reflects this (parser resolves the C++ type directly).
 
-- `Live.Clip.Clip.add_new_notes.arg2` — likely `MidiNoteVector`
-- `Live.Clip.Clip.duplicate_notes_by_id.note_ids` — likely `IntU64Vector`
-- `Live.Clip.Clip.get_notes_by_id.note_ids` — likely `IntU64Vector`
-- `Live.Clip.Clip.remove_notes_by_id.arg2` — likely `IntU64Vector`
-- `Live.Clip.Clip.select_notes_by_id.arg2` — likely `IntU64Vector`
+The cluster of five `*_notes_by_id` / `add_new_notes` methods that previously
+sat in this section was *not* the same shape — those C++ signatures are
+`boost::python::api::object` (generic, runtime-checked), and corpus evidence
+shows they accept tuples / lists / dict_keys. They've been refined to
+`Iterable[T]` and removed from this list.
 
-Probe shape: instantiate the suspected vector class via its constructor (where
-exposed) or by reading a returning method (e.g. `clip.get_notes_extended()`),
-and verify each call site accepts that exact type. Update the refinements with
-the probed `from: object → to: <Vector>` once confirmed.
+A future probe could exercise `apply_note_modifications` directly — call it
+with a list, a tuple, a generator, and a `MidiNoteVector` to enumerate exactly
+which of those raise `InternalError` vs. work. Today the stub is conservative
+(strict `MidiNoteVector`) which matches reported behavior.
 
 ## Resolution shape
 
