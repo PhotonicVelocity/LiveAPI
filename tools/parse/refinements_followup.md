@@ -25,14 +25,22 @@ running Live could promote them to `high` (or surface contradictions).
 appears to be M4L-only — may require a small M4L probe device per the architecture
 doc on the behavioral-pipeline branch.
 
-### `ListenerHandle` (internal API, no corpus usage)
+### `ListenerHandle` (internal-only, not reachable from a Control Surface)
 
 - `Live.Listener.ListenerHandle.listener_func` → `Callable`
 - `Live.Listener.ListenerHandle.listener_self` → `Any`
 - `Live.Listener.ListenerHandle.name` → `str`
 
-**To probe**: register a listener via `add_X_listener(callback)` and inspect the
-returned ListenerHandle's properties. Should be reachable from a Control Surface.
+There is no public path to obtain a `ListenerHandle` instance from a Control
+Surface context: all 367 `add_*_listener` methods return `None`, the class's
+`init_doc` says *"This class cannot be instantiated from Python"*, no Live
+property exposes a `ListenerVector`, and zero corpus usage exists. The class
+appears in the capture's `dir()` walk but instances are private to Live's
+internal machinery.
+
+Not actionable until either (a) Live exposes a public accessor, or (b) the
+behavioral-probe pipeline can hook into Live's internal listener registry to
+intercept handle creation.
 
 ### `ControlSurfaceProxy.pad_layout` and `type_name`
 
