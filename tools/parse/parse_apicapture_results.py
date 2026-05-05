@@ -209,9 +209,14 @@ def _visit_fix_class_names(node: dict[str, Any], ctx: dict[str, Any], _parent: C
 
     repr_value = node.get("repr")
     if isinstance(repr_value, str):
-        marker = f".{old_name}'>"
-        if marker in repr_value:
-            node["repr"] = repr_value.replace(marker, f".{new_name}'>")
+        # Try qualified form first (`<class 'Module.OldName'>`), then fall back
+        # to the unqualified form (`<class 'OldName'>`) if Boost ever emits one.
+        qualified_marker = f".{old_name}'>"
+        unqualified_marker = f"'{old_name}'>"
+        if qualified_marker in repr_value:
+            node["repr"] = repr_value.replace(qualified_marker, f".{new_name}'>")
+        elif unqualified_marker in repr_value:
+            node["repr"] = repr_value.replace(unqualified_marker, f"'{new_name}'>")
 
     ctx.setdefault("replacements", {})[old_name] = new_name
     ctx["stats"]["malformed_class_names"] = ctx["stats"].get("malformed_class_names", 0) + 1
@@ -450,8 +455,8 @@ def _visit_parse_enums(node: dict[str, Any], ctx: dict[str, Any], _parent: Class
 
     node["type"] = "enum"
     node["members"] = members
-    del node["names"]
-    del node["values"]
+    node.pop("names", None)
+    node.pop("values", None)
     ctx["stats"]["parsed_enums"] = ctx["stats"].get("parsed_enums", 0) + 1
 
 
@@ -543,7 +548,10 @@ def parse_function_docs(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 def _split_sig_args(arg_str: str) -> list[tuple[str, int]]:
     """Split a signature's argument string into (arg_text, bracket_depth) tuples.
 
-    Tracks bracket nesting so optional args carry their depth.
+    Tracks `[]` nesting (optional-arg markers) so each arg carries its depth, and
+    `()` nesting so commas inside type annotations or default values like
+    `arg=Foo(1, 2)` aren't treated as arg separators.
+
     Example: "(Application)arg1, (Text)text [, (int)buttons=OK [, (bool)markup=False]]"
     → [("(Application)arg1", 0), ("(Text)text", 0), ("(int)buttons=OK", 1), ("(bool)markup=False", 2)]
     """
@@ -553,23 +561,32 @@ def _split_sig_args(arg_str: str) -> list[tuple[str, int]]:
 
     args: list[tuple[str, int]] = []
     current: list[str] = []
-    depth = 0
-    arg_depth = 0  # depth when this arg started
+    bracket_depth = 0  # `[]` nesting — used for optional-arg depth
+    paren_depth = 0    # `()` nesting — only used to suppress arg-splitting
+    arg_depth = 0      # bracket_depth when this arg started
 
     for ch in arg_str:
-        if ch == "[":
-            depth += 1
-        elif ch == "]":
-            depth -= 1
-        elif ch == ",":
+        if ch == "[" and paren_depth == 0:
+            bracket_depth += 1
+        elif ch == "]" and paren_depth == 0:
+            bracket_depth -= 1
+        elif ch == "(":
+            paren_depth += 1
+            if not current:
+                arg_depth = bracket_depth
+            current.append(ch)
+        elif ch == ")":
+            paren_depth -= 1
+            current.append(ch)
+        elif ch == "," and paren_depth == 0:
             arg = "".join(current).strip()
             if arg:
                 args.append((arg, arg_depth))
             current = []
-            arg_depth = depth  # next arg starts at current depth
+            arg_depth = bracket_depth  # next arg starts at current bracket depth
         else:
             if not current:
-                arg_depth = depth  # record depth at start of arg text
+                arg_depth = bracket_depth
             current.append(ch)
 
     last = "".join(current).strip()
