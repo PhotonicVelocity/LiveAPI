@@ -856,8 +856,8 @@ _meta:
       - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency with other MidiMap functions
       - arg4 -> note  [inferred]: MIDI note number parameter
 
-# Live.MidiMap.map_midi_note_with_feedback_map — entry consolidated above with the
-# feedback_rule type widening; see line ~142.
+# Live.MidiMap.map_midi_note_with_feedback_map — entry consolidated above with
+# its arg-rename block.
 
 "Live.MidiMap.map_midi_pitchbend":
   args:
@@ -872,8 +872,8 @@ _meta:
       - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency
       - arg4 -> needs_takeover  [inferred]: manual hints say bools in pitchbend methods indicate whether takeover is needed
 
-# Live.MidiMap.map_midi_pitchbend_with_feedback_map — entry consolidated above with the
-# feedback_rule type widening; see line ~161.
+# Live.MidiMap.map_midi_pitchbend_with_feedback_map — entry consolidated above
+# with its arg-rename block.
 
 "Live.MidiMap.send_feedback_for_parameter":
   args:
@@ -1281,7 +1281,7 @@ _meta:
 
 # ─── Argument types: low-risk fixes from M4L docs / docstrings (11 entries) ───
 
-# send_midi and send_value type fixes consolidated above (~line 226).
+# send_midi and send_value type fixes consolidated above with their entries.
 
 "Live.Base.ObjectVector.append":
   arg_types:
@@ -1452,7 +1452,7 @@ _meta:
 # raises InternalError when passed a plain list. See refinements_followup.md
 # for the deferred probe to identify which vector class each accepts.
 
-# replace_selected_notes and set_notes type fixes consolidated above (~line 524).
+# replace_selected_notes and set_notes type fixes consolidated above.
 
 # ─── Return types (16 entries, all from explicit M4L docs / docstrings) ──────
 
@@ -1541,8 +1541,8 @@ _meta:
     raw_doc explicit: "Returns a tuple containing the unlock file directory
     and a flag" — directory is str, flag is bool.
 
-# get_bank_parameters and get_value_item_icons return-type fixes consolidated above
-# with their arg-rename entries (~line 649).
+# get_bank_parameters and get_value_item_icons return-type fixes consolidated
+# above with their arg-rename entries.
 
 "Live.RackDevice.RackDevice.insert_chain":
   return_type:
@@ -1553,7 +1553,7 @@ _meta:
     Baseline doc/live-api/RackDevice.md:298 explicitly: "Insert a new empty chain
     at the given index ... returns Chain". M4L docs confirm.
 
-# Song.Song.get_data return-type consolidated above with its arg_types entry (~line 1160).
+# Song.Song.get_data return-type consolidated above with its arg_types entry.
 
 "Live.Song.get_all_scales_ordered":
   return_type:
@@ -1573,7 +1573,7 @@ _meta:
     Baseline lists `LomObject` return; narrowed to TakeLane for ergonomics.
     Tracked in refinements_followup.md.
 
-# Track.Track.get_data return-type consolidated above with its arg_types entry (~line 1183).
+# Track.Track.get_data return-type consolidated above with its arg_types entry.
 
 "Live.Track.Track.insert_device":
   return_type:
