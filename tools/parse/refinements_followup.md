@@ -101,23 +101,6 @@ integration test that calls one of these with `feedback_rule=None` and observes
 no exception. (The cc entry has no other refinements and was removed entirely
 from `manual_refinements.yaml`; note + pitchbend keep their arg-name renames.)
 
-### `Clip.apply_note_modifications` — strict `MidiNoteVector` arg
-
-This method's C++ signature literally takes `vector<NClipApi::TNoteInfo>`, so
-the binding rejects anything that isn't a `MidiNoteVector` instance. The stub
-already reflects this (parser resolves the C++ type directly).
-
-The cluster of five `*_notes_by_id` / `add_new_notes` methods that previously
-sat in this section was *not* the same shape — those C++ signatures are
-`boost::python::api::object` (generic, runtime-checked), and corpus evidence
-shows they accept tuples / lists / dict_keys. They've been refined to
-`Iterable[T]` and removed from this list.
-
-A future probe could exercise `apply_note_modifications` directly — call it
-with a list, a tuple, a generator, and a `MidiNoteVector` to enumerate exactly
-which of those raise `InternalError` vs. work. Today the stub is conservative
-(strict `MidiNoteVector`) which matches reported behavior.
-
 ## Resolution shape
 
 When a probe lands on any of these, update the entry's:
