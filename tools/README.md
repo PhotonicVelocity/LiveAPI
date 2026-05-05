@@ -89,6 +89,10 @@ For each reachable class, the probe records:
   `get_document` for Song, `get_all_notes_extended` for MidiNote)
 - **Constructable** — whether the class can be instantiated directly (e.g. `CCFeedbackRule()`, `Base.Timer()`)
 
+Submodules (`Live.Application`, `Live.Licensing`, `Live.Song`, etc.) are also indexed and probed — the module instance
+is the seed and any top-level `get_*()` functions are called as no-arg getters. Output entries for modules carry
+`is_module: true` and live alongside class entries in the same dict, keyed by `<module 'Foo'>`.
+
 Output format:
 
 ```json
@@ -102,6 +106,15 @@ Output format:
       "tracks": { "probed": true, "type": "list", "element_type": "Track" }
     },
     "getters": ["current_song_time", "appointed_device"]
+  },
+  "<module 'Licensing'>": {
+    "path": "/Live/Licensing",
+    "is_module": true,
+    "complete": true,
+    "properties": {},
+    "getters": {
+      "get_unlock_dir": { "probed": true, "type": "tuple", "element_reprs": ["<class 'str'>", "<class 'bool'>"] }
+    }
   }
 }
 ```
@@ -171,6 +184,7 @@ Transforms applied:
 - **Signature parsing** — splits Python/C++ signatures into matched args/returns
 - **Type resolution** — resolves raw signature parts into clean structured args/returns using a C++ → Python type map
 - **Probe merge** — folds `LiveClasses.json` runtime types, settability, and listeners into the tree nodes
+  (both class properties/getters and module-level `get_*()` return types)
 
 ### apply_manual_refinements.py
 
