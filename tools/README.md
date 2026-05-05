@@ -229,9 +229,15 @@ tools/
 │   ├── generate_stubs.py             Generate .pyi stub files
 │   └── generate_reference.py         Generate API reference docs
 ├── verify/                  Verification — pyright audit + corpus consistency checks
+├── fetch/                   External-source bootstrap (corpus + M4L docs + release notes)
+│   ├── corpus.py                     Clone gluon corpus at CORPUS_PIN
+│   ├── m4l_docs.py                   Scrape Max for Live LOM docs from cycling74
+│   ├── release_notes.py              Scrape Live release notes
+│   ├── check_pin.py                  Validate pin references match corpus.py
+│   └── bootstrap.sh                  First-time setup orchestrator
 ├── install.py               Install APICapture to Live's Remote Scripts
 ├── sets/                    Ableton Live sets used for probing
-└── other/                   Legacy/utility scripts
+└── other/                   Misc utilities (quit_live, swap_live, watch, serve.sh)
 ```
 
 ## Credits

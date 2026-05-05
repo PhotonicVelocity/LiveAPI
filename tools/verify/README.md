@@ -42,11 +42,12 @@ just not yet wired into CI.
 
 Hand-picked usage patterns drawn from real Ableton-shipped Remote Scripts at
 [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts), pinned to
-commit `810ef77`. The repo is auto-cloned to `doc/decompiled/` (gitignored) for offline use, but the test
-files cite the upstream URL with line anchors so the references stay stable across local clones. Each
-pattern is something Ableton's own engineers wrote and shipped, so it is by definition working production
-usage. If our stubs reject any of these patterns, the stubs are wrong about something Ableton's code already
-does.
+commit `810ef77` (single source of truth: `CORPUS_PIN` in
+[`tools/fetch/corpus.py`](../fetch/corpus.py); validated by `tools/fetch/check_pin.py`). Run
+`tools/fetch/bootstrap.sh` to clone the corpus to `doc/decompiled/` (gitignored). Test files cite the
+upstream URL with line anchors so references stay stable across local clones. Each pattern is something
+Ableton's own engineers wrote and shipped, so it is by definition working production usage. If our stubs
+reject any of these patterns, the stubs are wrong about something Ableton's code already does.
 
 Patterns are deliberately curated, not auto-extracted (auto-extraction at scale recreates the
 cargo-culted-content problem of the dropped LLM-resolve flow). Expand the set when refinement work or
@@ -69,21 +70,26 @@ All three active tiers green on the post-cleanup baseline (Tier 3 deferred). CI 
 
 1. Find a working pattern in the
    [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts) corpus
-   (auto-cloned at `doc/decompiled/AbletonLive12_MIDIRemoteScripts/`).
+   (cloned at `doc/decompiled/AbletonLive12_MIDIRemoteScripts/` via `tools/fetch/bootstrap.sh`).
 2. Copy it into a new file in `tests/usage/`, with a top-of-file comment and inline references citing the
-   **upstream URL** with line anchors, pinned to commit `810ef77`. Format:
+   **upstream URL** with line anchors, pinned to the active `CORPUS_PIN`. Format:
    ```
-   https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/810ef77/<path>#L<start>-L<end>
+   https://github.com/gluon/AbletonLive12_MIDIRemoteScripts/blob/<CORPUS_PIN>/<path>#L<start>-L<end>
    ```
 3. Trim to the smallest snippet that demonstrates the pattern; remove unrelated logic.
 4. Add explicit type annotations on parameters so the test pins down the expected stub shape.
-5. Run `tools/verify/run.sh` locally — the new test should pyright-clean.
+5. Run `tools/verify/run.sh` locally — the new test should pyright-clean (and `check_pin.py` should pass,
+   confirming the new file's URLs match `CORPUS_PIN`).
 
 If the new test fails against current stubs, that's a real finding — either the stubs are missing something,
 have the wrong type, or the pattern was misread. Investigate before adjusting either side.
 
-When the corpus pin is bumped (because a new Live version's decompiled scripts land), update the commit hash
-in this README and in the test files; verify all citations still resolve to expected line ranges.
+When the corpus pin is bumped (a new Live version's decompiled scripts land):
+1. Update `CORPUS_PIN` in `tools/fetch/corpus.py`.
+2. `tools/fetch/bootstrap.sh --force` to re-fetch.
+3. `sed -i '' "s/810ef77/<new>/g" tests/usage/*.py tools/verify/README.md` (or the equivalent rename pass).
+4. Run `tools/verify/run.sh` — `check_pin.py` validates the sweep was complete; Tier 4 catches any patterns
+   that no longer apply.
 
 ## Offline corpus audit (not in CI)
 

@@ -48,6 +48,21 @@ reference/    Per-class API docs generated from the stubs (mkdocs-published)
 tools/         APICapture + parse + generate pipeline (see tools/README.md)
 ```
 
+## First-time Setup
+
+Two external sources need to be on disk before the pipeline + verify suite work:
+the decompiled Remote Scripts corpus (used by Tier 4 usage tests + the offline
+audit) and the Max for Live LOM docs (cited by `manual_refinements.yaml`).
+
+```bash
+tools/fetch/bootstrap.sh           # corpus + M4L 9.0
+tools/fetch/bootstrap.sh --all     # also M4L 8.0 (legacy) + release notes
+```
+
+Both targets are gitignored. The corpus is pinned to a specific commit in
+[`tools/fetch/corpus.py`](tools/fetch/corpus.py) (`CORPUS_PIN`); `tools/fetch/check_pin.py`
+validates that every reference (test docstrings, README) matches.
+
 ## Sources
 
 The pipeline draws from four sources, in roughly increasing order of authority:

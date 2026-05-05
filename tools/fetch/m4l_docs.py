@@ -1,16 +1,17 @@
 """Fetch Max for Live LOM documentation from docs.cycling74.com.
 
 Scrapes the Live Object Model reference pages and saves them as markdown files
-matching the format expected by llm_resolve.py.
+under `doc/max-for-live-docs/<version>/`. Used as one of the source-of-truth
+inputs cited by `tools/parse/manual_refinements.yaml`.
 
 Supports two modes:
   - Current (Max 9+): per-class pages at /apiref/lom/<class>/
   - Legacy (Max 8):   single page with all classes inline
 
 Usage:
-    python tools/other/fetch_m4l_docs.py                          # current docs → doc/max-for-live-docs/<version>/
-    python tools/other/fetch_m4l_docs.py -o doc/max-for-live-docs/9.1
-    python tools/other/fetch_m4l_docs.py --legacy                 # Max 8 legacy docs → doc/max-for-live-docs/8.0/
+    python tools/fetch/m4l_docs.py                  # current docs → doc/max-for-live-docs/<version>/
+    python tools/fetch/m4l_docs.py -o doc/max-for-live-docs/9.1
+    python tools/fetch/m4l_docs.py --legacy         # Max 8 legacy docs → doc/max-for-live-docs/8.0/
 
 Requires: pip install beautifulsoup4
 """

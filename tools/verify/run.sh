@@ -26,6 +26,10 @@ cd "$REPO_ROOT"
 
 OVERALL=0
 
+echo "=== Corpus pin consistency ==="
+python3 tools/fetch/check_pin.py || OVERALL=1
+echo
+
 echo "=== Tier 1: ast.parse on stubs/$VERSION/Live ==="
 python3 tools/verify/parse_check.py "$VERSION" || OVERALL=1
 echo

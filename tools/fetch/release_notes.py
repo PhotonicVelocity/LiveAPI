@@ -4,8 +4,8 @@ Scrapes the release notes page with BeautifulSoup, preserving the full
 hierarchy: version → section → category → items.
 
 Usage:
-    python tools/fetch_release_notes.py              # fetch Live 11 + 12
-    python tools/fetch_release_notes.py --version 12 # fetch Live 12 only
+    python tools/fetch/release_notes.py              # fetch Live 11 + 12
+    python tools/fetch/release_notes.py --version 12 # fetch Live 12 only
 
 Requires: pip install beautifulsoup4
 """
