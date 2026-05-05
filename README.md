@@ -82,6 +82,12 @@ Scripts). Some of that has slack in it — read the stubs as "Ableton's most lik
   [`tools/parse/manual_refinements.yaml`](tools/parse/manual_refinements.yaml) are only used to correct known wrongness
   (every entry carries a `source:` field with concrete evidence). They never invent narrowings the binding doesn't
   actually accept.
+- **Docstrings are runtime-relayed, not authored.** All docstring text comes from Live's runtime Boost.Python
+  `__doc__` strings — captured during the `dir()` walk and emitted into the stub mostly verbatim (the parser strips
+  the auto-generated signature header and `C++ signature :` footer for functions, but doesn't rewrite the prose).
+  They have Boost-style quirks (lowercase prose, run-on sentences, occasional stray formatting) and don't reflect
+  refinements (a re-typed arg's docstring still describes whatever Live's runtime says). A cleanup pass to polish
+  them is on the roadmap.
 
 #### Validation
 
