@@ -1325,18 +1325,6 @@ _meta:
     ObjectVector holds arbitrary Python objects — Any matches the binding
     contract directly.
 
-"Live.Base.Vector.append":
-  arg_types:
-    value:
-      from: LomObject
-      to: LomObject
-  confidence: high
-  source: |
-    Vector holds LomObject instances (TWeakPtr<TPyHandleBase> at the C++ layer) —
-    well-documented contract for the Vector parent class. The parser already
-    resolves this to LomObject from the C++ signature; refinement is a no-op
-    pin to flag if a future Live version drops the LomObject contract.
-
 "Live.Clip.Clip.add_warp_marker":
   arg_types:
     warp_marker:
@@ -1452,35 +1440,6 @@ _meta:
       to: Any
   confidence: high
   source: Same pattern as Song.set_data — corpus-confirmed.
-
-# Conservative widenings on find_device_position / move_device — M4L docs say
-# "chain container", which is Track or Chain. May be too narrow if Live ever
-# accepts other containers (DrumChain, RackDevice). Refinement targets the
-# documented contract; widen later if drift surfaces it.
-
-"Live.Song.Song.find_device_position":
-  arg_types:
-    target:
-      from: LomObject
-      to: LomObject
-  confidence: high
-  source: |
-    Curated baseline (doc/live-api/Song.md:855, 1102) records the signature as
-    `target: LomObject` — accepts any device-container LomObject (Track, Chain,
-    DrumChain, rack instances, etc.). Parser already resolves to LomObject from
-    the C++ signature; this entry is a no-op pin to flag drift if Live ever
-    narrows the contract. Tracked in refinements_followup.md pending a probe
-    to confirm whether the binding has internal narrowing.
-
-"Live.Song.Song.move_device":
-  arg_types:
-    target:
-      from: LomObject
-      to: LomObject
-  confidence: high
-  source: |
-    Same shape as find_device_position. Baseline says LomObject (any
-    device-container). Tracked in refinements_followup.md.
 
 # Note: five Clip.* methods accepting native vector args are deliberately left
 # as `object` (the parser default) rather than typed `Iterable[T]` — the binding

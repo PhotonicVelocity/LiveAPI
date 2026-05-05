@@ -50,10 +50,11 @@ were themselves probed in MS33).
 - `Live.Conversions.move_devices_on_track_to_new_drum_rack_pad` — corrected `Track` →
   `DrumPad | None` based on baseline probe (MS33). A fresh probe against current Live
   would seal it.
-- `Live.Song.Song.find_device_position` / `Live.Song.Song.move_device` — corrected
-  `Track | Chain` → `LomObject` based on baseline. Probe could pin down whether the
-  binding accepts arbitrary `LomObject` or has internal narrowing (only Track / Chain /
-  DrumChain / RackDevice etc.).
+- `Live.Song.Song.find_device_position` / `Live.Song.Song.move_device` — parser
+  resolves the `target` arg to `LomObject` from the C++ signature (no refinement
+  needed). Baseline confirms LomObject is correct (accepts any device-container).
+  A probe could pin down whether the binding has internal narrowing (only Track /
+  Chain / DrumChain / RackDevice, etc.) — would let us tighten the type if so.
 
 ## Type-fixes left at `medium` — strong-but-not-runtime evidence
 
