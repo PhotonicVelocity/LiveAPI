@@ -134,8 +134,10 @@ earlier device are skipped. Each device is deleted after probing. Results are me
 
 ### Python Compatibility
 
-All capture modules use `from __future__ import annotations` so that modern type hint syntax works on Live 11's Python
-3.7.3 runtime without raising `TypeError` at import time.
+All capture modules use `from __future__ import annotations` so that modern type hint syntax works on
+older Live runtimes (e.g. Live 11's Python 3.7.3) without raising `TypeError` at import time. Active
+publishing tracks Live 12.x only, but the apicapture pipeline still runs against 11.x via
+`tools/sets/Set 11 Project/`.
 
 ## Stage 2: Parse + Refine (runs outside Live)
 
@@ -189,11 +191,10 @@ python tools/generate/generate_stubs.py 12.3.6
 Reads `LiveTree.parsed.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement
 logic — it renders the tree as-is.
 
-Output layout:
+Output layout (flat, mirroring the real `Live` C extension module):
 
-- `Live/__init__.py` — imports all namespace modules
-- `Live/<Module>/<Module>.pyi` — main class (when the module has a namesake class)
-- `Live/<Module>/__init__.py` — helper classes, enums, functions
+- `Live/__init__.pyi` — imports all submodules
+- `Live/<Module>.pyi` — one file per submodule, containing main class + helper classes/enums/functions
 - `Live/py.typed` — PEP 561 marker for type checking
 
 Features:

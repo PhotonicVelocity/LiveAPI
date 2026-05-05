@@ -1,22 +1,25 @@
 # Stubs
 
-Typed Python stubs for the Ableton Live API, organized by Live version.
+Typed Python stubs for the Ableton Live API.
 
-Each version directory contains:
+```
+12.3.6/
+├── Live/        # tracked .pyi modules — the published output
+└── pipeline/    # gitignored intermediates from the generation pipeline
+```
 
-- `Live/` — typed `.pyi` stub modules (the tracked output)
-- `pipeline/` — gitignored intermediates from the generation pipeline
+Currently shipping a single Live version (12.3.6); older versions can be rebuilt
+from a tagged commit if needed.
 
 ## How These Are Generated
 
-See `tools/README.md` for the full four-stage pipeline. In short:
+See [`tools/README.md`](../tools/README.md) for the full pipeline. In short:
 
-1. APICapture (inside Live) captures the raw API tree and probes runtime types
-2. `parse_apicapture_results.py` normalizes and enriches the tree
-3. `llm_resolve.py` resolves unresolved types and parameter names
-4. `generate_stubs.py` emits `.pyi` files from the resolved tree
+1. **APICapture** (inside Live) — captures the raw API tree and probes runtime types
+2. **`run_parse_pipeline.py`** (external) — parses + applies hand-curated refinements from `manual_refinements.yaml`
+3. **`generate_stubs.py`** (external) — emits `.pyi` files from the parsed tree
 
 ## Usage
 
-Add the relevant `stubs/<version>/Live/` directory to your type checker's search path for autocomplete and static
-analysis. The stubs include a `py.typed` marker for PEP 561 compatibility.
+Add `stubs/12.3.6/Live/` to your type checker's search path for autocomplete and
+static analysis. The stubs include a `py.typed` marker for PEP 561 compatibility.

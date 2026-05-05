@@ -12,17 +12,18 @@ Ableton does not publish documentation for the Python API embedded in Live. Live
 
 ## Reference Docs
 
-The [`reference/`](reference/) directory contains per-class documentation for the Live Object Model. Each file covers
-one class with summary tables, detailed member descriptions, quirks, and open questions.
+The [`reference/`](reference/) directory contains per-class documentation for the Live Object Model, generated from
+the stubs by [`tools/generate/generate_reference.py`](tools/generate/generate_reference.py). Each file covers one
+class with summary tables, detailed member descriptions, quirks, and open questions.
 
 Published as a searchable site via GitHub Pages (MkDocs + Material theme).
 
 ## Using the Stubs
 
-Pre-built stubs for each Live version are available in [`stubs/`](stubs/). Each version directory contains a `Live/`
-package with typed modules you can use for autocomplete and static analysis.
+Pre-built stubs for the latest tracked Live version live at [`stubs/12.3.6/Live/`](stubs/12.3.6/Live/) — typed
+modules you can use for autocomplete and static analysis.
 
-To use in a Control Surface project, add the relevant `stubs/<version>/` directory to your type checker's stub path
+To use in a Control Surface project, add the stubs directory to your type checker's stub path
 (e.g., `"stubPath": "stubs/12.3.6"` in pyrightconfig.json). The stubs include a `py.typed` marker for PEP 561
 compatibility.
 
@@ -42,18 +43,23 @@ def on_tempo_changed(song: Song) -> None:
 ## Project Structure
 
 ```
-reference/     Curated per-class API docs (the primary product)
-stubs/         Generated stubs per Live version (pipeline intermediates in pipeline/ subdir)
-tools/         APICapture and stub generation pipeline (see tools/README.md)
+stubs/         Typed .pyi modules for the latest tracked Live version
+reference/    Per-class API docs generated from the stubs (mkdocs-published)
+tools/         APICapture + parse + generate pipeline (see tools/README.md)
 ```
 
 ## Sources
 
-The reference docs are built from three sources:
+The pipeline draws from four sources, in roughly increasing order of authority:
 
-1. **Generated stubs** — complete class/method/property inventory from runtime introspection
-2. **Max for Live docs** — richer descriptions and gotcha coverage, partial API coverage
-3. **Direct probing** — runtime verification of behavior that neither source clarifies
+1. **Runtime introspection** (APICapture) — class/method/property inventory captured by `dir()` walking and
+   property probing inside Live. The base structure of every stub.
+2. **Max for Live docs** ([`doc/max-for-live-docs/`](doc/max-for-live-docs/)) — richer descriptions and parameter
+   names; partial API coverage.
+3. **Decompiled Remote Scripts** (corpus) — Ableton's own shipped Python code provides ground truth for
+   parameter names and call shapes. Auto-cloned to `doc/decompiled/`.
+4. **`tools/parse/manual_refinements.yaml`** — hand-curated overrides with a per-entry `source:` field documenting
+   the rationale (corpus def-site, M4L doc citation, raw_doc, etc.). Enforced by the apply step.
 
 Each reference file records its probe status (`unprobed`, `partial`, or `verified`) so coverage gaps are visible.
 

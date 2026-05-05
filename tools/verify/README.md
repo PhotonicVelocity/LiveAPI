@@ -23,12 +23,20 @@ Treats the stubs as source code and runs pyright on them. Catches:
 - Module-level expressions that don't type-check.
 
 Does **not** catch types that are syntactically valid but semantically wrong (e.g.,
-`Iterable[MidiNoteSpecification]` claimed when the binding requires `MidiNoteVector`). That's a separate
-class of accuracy issue, addressed by Steps 4–5 of [stub-cleanup-plan.md](../../doc/stub-cleanup-plan.md).
+`Iterable[MidiNoteSpecification]` claimed when the binding requires `MidiNoteVector`). That class of
+accuracy issue is addressed by hand-curated `manual_refinements.yaml` overrides with per-entry sourced
+rationale.
 
-**Tracking only during cleanup.** The current `main` baseline has **29 errors across 9 files** (most are
-incompatible-method-override on Vector subclasses for routing types). The cleanup steps are expected to drive
-this down. Running with `--strict` (or in CI's eventual gated mode) requires zero errors.
+**Tracking only.** Currently zero errors (post-cleanup baseline). `--strict` mode promotes Tier 2 to a
+hard gate; without it Tier 2 stays informational so CI can surface regressions without blocking unrelated
+work.
+
+### Tier 3 — Pyright `--verifytypes` (deferred)
+
+PEP 561 completeness scoring. Reports the percentage of public symbols with known types (`Any` counts as
+known). Requires the stubs to be installable as a `Live-stubs` package, which adds setup cost. Currently
+deferred — the cleaned pipeline is in place, so this is now actionable when we want a coverage number;
+just not yet wired into CI.
 
 ### Tier 4 — Usage tests (`pyright tests/usage/`)
 
@@ -41,37 +49,21 @@ usage. If our stubs reject any of these patterns, the stubs are wrong about some
 does.
 
 Patterns are deliberately curated, not auto-extracted (auto-extraction at scale recreates the
-cargo-culted-content problem the LLM removal is solving). Expand the set when later cleanup steps surface
-new gaps.
+cargo-culted-content problem of the dropped LLM-resolve flow). Expand the set when refinement work or
+new captures surface gaps.
 
 **Gate.** Hard fail on any pyright error.
 
-### Tier 3 — Pyright `--verifytypes` (deferred)
-
-PEP 561 completeness scoring. Reports the percentage of public symbols with known types (`Any` counts as
-known). Requires the stubs to be installable as a `Live-stubs` package, which adds setup cost. Deferred
-until after the LLM removal and parser audit so the score reflects the cleaned pipeline.
-
-## Baseline (recorded against `main`, captured during Step 1 of stub-cleanup-plan)
+## Current baseline
 
 ```
-Tier 1 (ast.parse):        44 stub files, all parse                          PASS
-Tier 4 (usage tests):       6 usage files, 0 errors                          PASS
-Tier 2 (stubs internal):   29 errors across 9 files                          tracking
-  Base.pyi:        8 errors
-  Track.pyi:       4 errors
-  Clip.pyi:        4 errors
-  Application.pyi: 4 errors
-  Listener.pyi:    2 errors
-  Envelope.pyi:    2 errors
-  Device.pyi:      2 errors
-  Browser.pyi:     2 errors
-  DrumChain.pyi:   1 error
+Tier 1 (ast.parse):       44 stub files, all parse           PASS
+Tier 2 (stubs internal):  0 errors                           tracking (now clean)
+Tier 4 (usage tests):      8 usage files, 0 errors           PASS
 ```
 
-The 29 Tier-2 errors are the bar to drive down through the cleanup. Most look to be Liskov violations on
-auto-generated Vector subclass overrides — addressed by either fixing the generator's override emission or
-by the parser-defaults audit (Step 5).
+All three active tiers green on the post-cleanup baseline (Tier 3 deferred). CI surfaces regressions;
+`--strict` promotes Tier 2 to a hard gate.
 
 ## Adding a usage test
 
@@ -138,7 +130,7 @@ tools/verify/run.sh
 # Specific Live version:
 tools/verify/run.sh --version 12.3.6
 
-# Treat Tier 2 as a gate too (will fail until cleanup lands):
+# Treat Tier 2 as a gate too:
 tools/verify/run.sh --strict
 
 # Just the syntax check:
