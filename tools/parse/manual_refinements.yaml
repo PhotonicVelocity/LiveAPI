@@ -1506,17 +1506,27 @@ _meta:
     from: null
     to: "tuple[tuple[int, ...], ...]"
   confidence: medium
-  source: Usage shows iteration over message tuples containing MIDI byte data.
-    Function name implies MIDI bytes (ints); inferred shape from sister
-    fetch_received_values.
+  source: |
+    raw_doc: `-> tuple` confirms the outer return is a tuple. Direct binding
+    call: _MxDCore/ControlSurfaceWrapper.py:251 iterates
+    `for message in self._proxy.fetch_received_midi_messages():` and passes
+    each message to `handle_message(message)`. The corpus doesn't unpack the
+    inner tuple, so the inner shape `tuple[int, ...]` is inferred from MIDI
+    semantics (MIDI messages are tuples of status + data bytes, all ints).
 
 "Live.Application.ControlSurfaceProxy.fetch_received_values":
   return_type:
     from: null
     to: "tuple[tuple[int, Any], ...]"
-  confidence: medium
-  source: Usage shows unpacking tuples with control_id (int) and value pairs.
-    Inferred from typical control-surface fetch patterns; not corpus-verified.
+  confidence: high
+  source: |
+    raw_doc: `-> tuple` confirms the outer return is a tuple. Direct binding
+    call at _MxDCore/ControlSurfaceWrapper.py:244 explicitly unpacks the
+    inner 2-tuple: `for control_id, value in self._proxy.fetch_received_values():`.
+    The first element is then used as a dict key
+    (`self._control_proxies_by_id[control_id]`) confirming int; the second
+    element is passed to `receive_value(value)` — value type depends on
+    control, so Any.
 
 "Live.Application.encrypt_challenge":
   return_type:
