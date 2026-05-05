@@ -139,6 +139,40 @@ _meta:
     verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
     values here.
 
+# ─── is_using_compare_preset_b on device classes the probe couldn't reach ────
+#
+# raw_doc explicit on every Device subclass: "Returns whether the Device has
+# loaded the preset in compare slot B. Only relevant if can_compare_ab,
+# otherwise errors." 14 of the 17 device classes probed as `bool` directly;
+# three (Max, Plugin, Rack) raised at probe time because can_compare_ab is
+# False on those instances. Refinement applies the documented type.
+
+"Live.MaxDevice.MaxDevice.is_using_compare_preset_b":
+  probed_type:
+    from: null
+    to: bool
+  confidence: high
+  source: |
+    raw_doc: "Returns whether the Device has loaded the preset in compare
+    slot B." 14 sister Device subclasses probed as `bool`; this one raised
+    at probe time (can_compare_ab False on the test instance).
+
+"Live.PluginDevice.PluginDevice.is_using_compare_preset_b":
+  probed_type:
+    from: null
+    to: bool
+  confidence: high
+  source: Same shape as MaxDevice.is_using_compare_preset_b — raw_doc explicit;
+    sister Device subclasses probed bool.
+
+"Live.RackDevice.RackDevice.is_using_compare_preset_b":
+  probed_type:
+    from: null
+    to: bool
+  confidence: high
+  source: Same shape as MaxDevice.is_using_compare_preset_b — raw_doc explicit;
+    sister Device subclasses probed bool.
+
 # ─── Feedback-rule arg-name renames ──────────────────────────────────────────
 #
 # The two with_feedback_map functions below carry arg-name renames only.
