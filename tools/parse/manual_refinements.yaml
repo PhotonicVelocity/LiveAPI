@@ -146,17 +146,13 @@ _meta:
     verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
     values here.
 
-# ─── Feedback-rule parameter renames (type-widening REJECTED) ────────────────
+# ─── Feedback-rule arg-name renames ──────────────────────────────────────────
 #
-# The three with_feedback_map functions had a `T -> T | None` widening on
-# feedback_rule based on an audit that read `feedback_rule = None` at the top of
-# `_install_mapping` in `_Framework/ControlSurface.py` and the v2 equivalent as
-# "None passed at runtime." On re-read, the variable is reassigned to a concrete
-# *FeedbackRule in all reachable paths before any dispatch call, and no corpus
-# call site (across all 11 files using these functions) passes a literal None.
-# Widening removed; map_midi_cc_with_feedback_map has no other refinement and
-# was dropped entirely. The note + pitchbend entries below keep arg-name renames
-# only. Probe later if nullability is wanted — see refinements_followup.md.
+# The two with_feedback_map functions below carry arg-name renames only.
+# `feedback_rule` nullability is intentionally NOT widened to `T | None` —
+# the corpus shows no call site passing a literal None (across all 11 files
+# using these functions); see refinements_followup.md for the runtime probe
+# that would justify re-adding the widening.
 
 "Live.MidiMap.map_midi_note_with_feedback_map":
   args:
@@ -671,7 +667,7 @@ _meta:
       to: "tuple[tuple[int, float, float, float, bool], ...]"
   confidence: high
   source: |
-    arg2 rename — LLM (docstring): "tuple of tuples where each inner tuple represents a note".
+    arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
     type — baseline doc/live-api/Clip.md (1117, 1747) and M4L docs (clip.md:345)
     confirm tuple-of-tuples format matching get_selected_notes:
     (pitch, time, duration, velocity, mute) per note.
@@ -700,7 +696,7 @@ _meta:
       to: "tuple[tuple[int, float, float, float, bool], ...]"
   confidence: high
   source: |
-    arg2 rename — LLM (docstring): "tuple of tuples where each inner tuple represents a note".
+    arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
     type — baseline doc/live-api/Clip.md (1124, 1874) and M4L docs (clip.md:327)
     confirm tuple-of-tuples format matching get_notes:
     (pitch, time, duration, velocity, mute) per note.
@@ -802,7 +798,7 @@ _meta:
     to: "list[int]"
   confidence: high
   source: |
-    arg2 rename — LLM (M4L docs): docs explicitly name the parameter 'bank_index'.
+    arg2 rename — M4L docs explicitly name the parameter 'bank_index'.
     return — M4L docs + baseline (doc/live-api/MaxDevice.md:32-44) confirm list[int].
     Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
 
@@ -814,7 +810,7 @@ _meta:
     to: "list[str]"
   confidence: high
   source: |
-    arg2 rename — LLM (structural): type is DeviceParameter; method operates on parameter values.
+    arg2 rename — inferred from C++ signature type DeviceParameter; method operates on parameter values.
     return — description says "list of icon identifier strings".
 
 "Live.MidiMap.forward_midi_cc":
@@ -1040,26 +1036,21 @@ _meta:
     Arg names verified against corpus / M4L docs:
       - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/track.md
 
-# Emitted 83 entries containing 126 arg renames.
-
 # ──────────────────────────────────────────────────────────────────────────────
-# Imported type-fix refinements from refinements.llm.json
+# Type-fix refinements (probed_type / element_repr / arg_types / return_type)
 #
-# Per-entry reviewed before merge. Iterable[T] entries on vector-parameter
-# functions are explicitly REJECTED (see comments below) because the runtime
-# Boost.Python binding requires the native vector type, not any Iterable —
-# accepting a plain list at the type-checker level would re-introduce the
-# misleading-stubs failure mode (cf. P4L confirmed crash on Clip.add_new_notes
-# when passed a list rather than MidiNoteVector).
+# Each entry corrects a parser-emitted type that capture/probe couldn't pin
+# down accurately (typically arrives as `object`, `null`, or a NoneType-probed
+# property). Sources cite raw_doc, M4L docs, baseline notes (doc/live-api/),
+# and corpus call sites in shipped Remote Scripts.
 #
-# Confidence (default: medium for this section). 38 of the 51 are positively
-# corpus-verified by tools/verify/verify_refinements_against_corpus.py — Ableton's
-# own shipped Remote Scripts use these symbols in patterns pyright accepts against
-# the refined types. The remaining ~13 are "unused" — corpus doesn't exercise them
-# (mostly M4L-only classes like PythonLicensingBridge, Vector classes used as type
-# hints rather than instantiated, or rarely-used programmatic methods like
-# Chain.insert_device). Their refinements remain medium-confidence, derived from
-# explicit M4L docs / raw_doc citations.
+# Confidence: per-entry. 38 of these are corpus-verified
+# (tools/verify/verify_refinements_against_corpus.py confirms Ableton's own
+# shipped scripts use the symbol in patterns pyright accepts against the
+# refined type). The rest are "unused by corpus" — mostly M4L-only classes
+# (PythonLicensingBridge, ControlSurfaceProxy), Vector types used as hints
+# rather than instantiated, or rarely-called programmatic methods. Those rest
+# on explicit M4L docs / raw_doc citations and stay at medium-confidence.
 # ──────────────────────────────────────────────────────────────────────────────
 
 # ─── Property probed_type (12 new entries; 8 nullable-ref ones already above) ─
@@ -1457,11 +1448,10 @@ _meta:
       to: LomObject
   confidence: high
   source: |
-    LLM had this narrowed to `Track | Chain`, which is WRONG. The curated baseline
-    (doc/live-api/Song.md:855, 1102) records the signature as `target: LomObject`
-    — broader, accepting any device-container LomObject (Track, Chain, DrumChain,
-    rack instances, etc.). LLM's narrowing would falsely reject valid containers.
-    Caught during the cross-codebase research pass.
+    Curated baseline (doc/live-api/Song.md:855, 1102) records the signature as
+    `target: LomObject` — accepts any device-container LomObject (Track, Chain,
+    DrumChain, rack instances, etc.). Tracked in refinements_followup.md
+    pending a probe to confirm whether the binding has internal narrowing.
 
 "Live.Song.Song.move_device":
   arg_types:
@@ -1469,33 +1459,14 @@ _meta:
       from: object
       to: LomObject
   confidence: high
-  source: Same correction as find_device_position — baseline says LomObject (any
-    device-container), not the LLM's narrower Track | Chain.
+  source: |
+    Same shape as find_device_position. Baseline says LomObject (any
+    device-container). Tracked in refinements_followup.md.
 
-# ─── Argument types: REJECTED Iterable[T] for vector-parameter functions ──────
-#
-# The following arg_type fixes from refinements.llm.json widen vector-parameter
-# functions to `Iterable[T]`. They are NOT applied here — see doc/decisions.md
-# "Stub Accuracy and Pipeline Posture": the runtime Boost.Python binding
-# requires the native vector class (e.g. MidiNoteVector, IntU64Vector), and a
-# plain Python list raises InternalError. P4L confirmed this exact failure on
-# Clip.apply_note_modifications. Iterable[T] in the stub would re-introduce
-# the misleading-stubs bug we're cleaning up.
-#
-# Cases reviewed and skipped:
-#   Clip.add_new_notes.arg2 → Iterable[MidiNoteSpecification]  REJECTED
-#   Clip.duplicate_notes_by_id.note_ids → Iterable[int]        REJECTED
-#   Clip.get_notes_by_id.note_ids → Iterable[int]              REJECTED
-#   Clip.remove_notes_by_id.arg2 → Iterable[int]               REJECTED
-#   Clip.select_notes_by_id.arg2 → Iterable[int]               REJECTED
-#
-# These remain as `object` (the parser's default for unresolved types).
-# Resolving them properly requires runtime probing to confirm which native
-# vector class each accepts (likely MidiNoteVector / IntU64Vector). Deferred
-# to the behavioral pipeline; explicitly NOT a refinement target in this pass.
-
-# ─── Tuple-of-tuples format for note set/replace ──────────────────────────────
-# Documented format from get_notes / get_selected_notes; safe to mirror.
+# Note: five Clip.* methods accepting native vector args are deliberately left
+# as `object` (the parser default) rather than typed `Iterable[T]` — the binding
+# raises InternalError when passed a plain list. See refinements_followup.md
+# for the deferred probe to identify which vector class each accepts.
 
 # replace_selected_notes and set_notes type fixes consolidated above (~line 524).
 
@@ -1572,11 +1543,10 @@ _meta:
     to: "DrumPad | None"
   confidence: high
   source: |
-    LLM had this as `Track`, which is WRONG. doc/live-api/Conversions.md (line 26)
-    explicitly probed and recorded: "Returns `None` on no-op (no devices)" and the
-    M4L docs / curated table (line 63) list the return as `DrumPad / None`. The
-    function moves devices INTO a drum rack pad and returns that pad — not a Track.
-    Caught during the cross-codebase research pass.
+    doc/live-api/Conversions.md (line 26) explicitly probed and recorded:
+    "Returns `None` on no-op (no devices)"; the M4L docs / curated table
+    (line 63) list the return as `DrumPad / None`. The function moves devices
+    INTO a drum rack pad and returns that pad.
     P4L integration test verifies: tests/integration/typed/test_conversions.py:136-153
     calls the function and `assert isinstance(result, DrumPad)`.
 

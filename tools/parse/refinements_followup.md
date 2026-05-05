@@ -62,8 +62,9 @@ These have plausible types from baseline docs / M4L docs but no probe data to lo
 them down. Lower priority; revisit if drift surfaces.
 
 - `Live.Track.Track.create_take_lane` → `TakeLane` — baseline lists `LomObject`
-  return; LLM said `TakeLane`; P4L wrapper uses `TakeLane`. Likely correct but the
-  C++ binding apparently exposes as LomObject. Probe to confirm.
+  return; M4L docs say "Creates a take lane for this track"; P4L wrapper uses
+  `TakeLane`. Likely correct but the C++ binding apparently exposes as
+  `LomObject`. Probe to confirm.
 - `Live.Track.Track.insert_device` → `Device` — baseline lists `LomObject` return;
   same situation as create_take_lane.
 - `Live.Chain.Chain.insert_device` → `Device` — same.
@@ -91,6 +92,27 @@ a runtime probe confirms the binding accepts None — e.g., a small P4L
 integration test that calls one of these with `feedback_rule=None` and observes
 no exception. (The cc entry has no other refinements and was removed entirely
 from `manual_refinements.yaml`; note + pitchbend keep their arg-name renames.)
+
+### Vector-parameter args left as `object` (Iterable[T] would be misleading)
+
+Five `Clip.*` methods accept native vector types from Live's Boost.Python binding —
+the binding raises `InternalError` when passed a plain Python `list` or arbitrary
+iterable. Typing the args as `Iterable[T]` would make pyright accept call sites
+that crash at runtime (P4L confirmed this exact failure on
+`Clip.apply_note_modifications`). Refinements deliberately leave these args as
+`object` (the parser default) until a runtime probe pins down which native
+vector class each binding accepts:
+
+- `Live.Clip.Clip.add_new_notes.arg2` — likely `MidiNoteVector`
+- `Live.Clip.Clip.duplicate_notes_by_id.note_ids` — likely `IntU64Vector`
+- `Live.Clip.Clip.get_notes_by_id.note_ids` — likely `IntU64Vector`
+- `Live.Clip.Clip.remove_notes_by_id.arg2` — likely `IntU64Vector`
+- `Live.Clip.Clip.select_notes_by_id.arg2` — likely `IntU64Vector`
+
+Probe shape: instantiate the suspected vector class via its constructor (where
+exposed) or by reading a returning method (e.g. `clip.get_notes_extended()`),
+and verify each call site accepts that exact type. Update the refinements with
+the probed `from: object → to: <Vector>` once confirmed.
 
 ## Resolution shape
 
