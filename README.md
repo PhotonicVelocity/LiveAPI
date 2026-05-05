@@ -44,7 +44,7 @@ Each release pins a specific Live version. (Re-publish to PyPI is pending; until
 ```jsonc
 // pyrightconfig.json
 {
-  "stubPath": "path/to/LiveAPI/stubs/12.3.6"
+  "stubPath": "path/to/LiveAPI/stubs/12.3.6",
 }
 ```
 
@@ -107,13 +107,13 @@ production code. Not a CI gate; used during refinement work.
 The stubs ship with a small set of items typed on weaker evidence. The full ledger lives in
 [`tools/parse/refinements_followup.md`](tools/parse/refinements_followup.md); user-facing summary:
 
-| Area | Current type | Why it's weak |
-|---|---|---|
-| `Live.Licensing.PythonLicensingBridge.*` (5 properties + 3 method signatures) | Inferred from `raw_doc` and naming patterns. | The class is M4L-only and can't be instantiated from a Control Surface — unreachable to the probe. Needs an M4L probe device. |
-| `Live.Listener.ListenerHandle.{listener_func, listener_self, name}` | Inferred from `raw_doc`. | The class is internal — every `add_*_listener` returns `None` (367 of them), the class can't be instantiated from Python, and no Live property exposes a `ListenerVector`. Not actionable without an internal hook. |
-| `Live.Application.ControlSurfaceProxy.{pad_layout, type_name}` | M4L docs say `pad_layout` is a string; `type_name` inferred from name. | M4L-only class, same situation as Licensing. |
-| `Live.Clip.Clip.apply_note_modifications` `notes` arg | `MidiNoteVector` (strict). | Sister methods accept iterables; this one's C++ signature literally takes `vector<NClipApi::TNoteInfo>`. Probe could enumerate exactly which iterable shapes the binding accepts vs. raises on. |
-| `map_midi_*_with_feedback_map` `feedback_rule` arg | Strictly typed (no `\| None`). | The corpus never passes literal `None`, but the binding *might* accept it. Currently strict; would be widened if a probe confirms it. |
+| Area                                                                          | Current type                                                           | Why it's weak                                                                                                                                                                                                       |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Live.Licensing.PythonLicensingBridge.*` (5 properties + 3 method signatures) | Inferred from `raw_doc` and naming patterns.                           | The class is M4L-only and can't be instantiated from a Control Surface — unreachable to the probe. Needs an M4L probe device.                                                                                       |
+| `Live.Listener.ListenerHandle.{listener_func, listener_self, name}`           | Inferred from `raw_doc`.                                               | The class is internal — every `add_*_listener` returns `None` (367 of them), the class can't be instantiated from Python, and no Live property exposes a `ListenerVector`. Not actionable without an internal hook. |
+| `Live.Application.ControlSurfaceProxy.{pad_layout, type_name}`                | M4L docs say `pad_layout` is a string; `type_name` inferred from name. | M4L-only class, same situation as Licensing.                                                                                                                                                                        |
+| `Live.Clip.Clip.apply_note_modifications` `notes` arg                         | `MidiNoteVector` (strict).                                             | Sister methods accept iterables; this one's C++ signature literally takes `vector<NClipApi::TNoteInfo>`. Probe could enumerate exactly which iterable shapes the binding accepts vs. raises on.                     |
+| `map_midi_*_with_feedback_map` `feedback_rule` arg                            | Strictly typed (no `\| None`).                                         | The corpus never passes literal `None`, but the binding _might_ accept it. Currently strict; would be widened if a probe confirms it.                                                                               |
 
 ## First-time setup (contributors)
 
