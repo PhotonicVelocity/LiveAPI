@@ -182,6 +182,20 @@ def-sites in the decompiled Remote Scripts, M4L docs, docstring inference, etc. 
 There is no LLM resolution, no callsite-resolve stage, no automated arg-name voting — only what we scrape from Live
 itself, plus the curated refinements with sourced rationale.
 
+### find_unrefined.py
+
+Walks the parsed tree (post-refinement) and reports anything the parser couldn't pin down — function args/returns
+still typed `object`/`tuple`/`list`, args still named `argN`, properties with null or `NoneType` `probed_type`, and
+iterable classes/properties missing `element_repr`. Each line is a candidate for a `manual_refinements.yaml` entry.
+
+```bash
+python tools/parse/find_unrefined.py 12.3.6                    # full markdown report to stdout
+python tools/parse/find_unrefined.py 12.3.6 --kind arg_type    # filter to one category
+python tools/parse/find_unrefined.py 12.3.6 --output /tmp/u.md # write to file
+```
+
+Useful after a fresh capture, a corpus pin bump, or when triaging what's left to refine. Not a CI gate — research tool.
+
 ## Stage 3: Generate Stubs (runs outside Live)
 
 ```
@@ -224,6 +238,7 @@ tools/
 │   ├── apply_manual_refinements.py   Apply manual_refinements.yaml in-place
 │   ├── manual_refinements.yaml       Hand-curated overrides (each with sourced rationale)
 │   ├── refinements_followup.md       Backlog of items needing runtime probes
+│   ├── find_unrefined.py             List items still needing refinement entries
 │   └── run_parse_pipeline.py         Orchestrator (parse + apply)
 ├── generate/                Stage 3: stub + reference doc generation
 │   ├── generate_stubs.py             Generate .pyi stub files
