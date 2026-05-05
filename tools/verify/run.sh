@@ -47,6 +47,24 @@ if [[ "$STRICT" == "1" ]] && [[ "$TIER2_TAIL" != *"0 errors"* ]]; then
 fi
 echo
 
+echo "=== Tier 3 (tracking): pyright --verifytypes (PEP 561 completeness) ==="
+# Pyright's verifytypes resolves the package via Python's sys.path; pointing
+# PYTHONPATH at stubs/$VERSION/ makes it find Live/ as a regular package
+# (with __init__.pyi + py.typed) without needing to build/install a wheel.
+TIER3_OUT=$(PYTHONPATH="stubs/$VERSION" pyright --verifytypes Live --ignoreexternal 2>&1) || true
+TIER3_SCORE=$(echo "$TIER3_OUT" | grep -E "^Type completeness score:" | head -1)
+echo "$TIER3_SCORE"
+echo
+TIER3_KNOWN=$(echo "$TIER3_OUT" | grep -E "^\s*With known type:" | head -1 | awk '{print $4}')
+TIER3_AMBIG=$(echo "$TIER3_OUT" | grep -E "^\s*With ambiguous type:" | head -1 | awk '{print $4}')
+TIER3_UNKNOWN=$(echo "$TIER3_OUT" | grep -E "^\s*With unknown type:" | head -1 | awk '{print $4}')
+TIER3_TOTAL=$(echo "$TIER3_OUT" | grep -E "^Symbols exported by" | head -1 | awk '{print $NF}')
+echo "Symbols: ${TIER3_TOTAL:-?} total — known ${TIER3_KNOWN:-?}, ambiguous ${TIER3_AMBIG:-?}, unknown ${TIER3_UNKNOWN:-?}"
+if [[ "$STRICT" == "1" ]] && [[ "$TIER3_SCORE" != *"100%"* ]]; then
+  OVERALL=1
+fi
+echo
+
 if [[ "$OVERALL" -eq 0 ]]; then
   echo "verify: PASS"
 else

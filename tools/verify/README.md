@@ -31,12 +31,20 @@ rationale.
 hard gate; without it Tier 2 stays informational so CI can surface regressions without blocking unrelated
 work.
 
-### Tier 3 — Pyright `--verifytypes` (deferred)
+### Tier 3 — Pyright `--verifytypes` (tracking)
 
-PEP 561 completeness scoring. Reports the percentage of public symbols with known types (`Any` counts as
-known). Requires the stubs to be installable as a `Live-stubs` package, which adds setup cost. Currently
-deferred — the cleaned pipeline is in place, so this is now actionable when we want a coverage number;
-just not yet wired into CI.
+PEP 561 type completeness scoring. Walks every public class, method, property, and function under `Live`
+and classifies each as known (explicit annotation, including explicit `Any`) / ambiguous (partially
+annotated) / unknown (implicit Any). Reports a single percentage plus per-symbol breakdown.
+
+**Invocation.** `PYTHONPATH=stubs/12.3.6 pyright --verifytypes Live --ignoreexternal`. Pointing PYTHONPATH
+at the stubs directory lets pyright find `Live/` as a regular Python package via `sys.path` (the directory
+has `__init__.pyi` + `py.typed`), so no wheel build / venv install dance is needed for the verify run —
+that infrastructure exists separately for PyPI publishing.
+
+**Tracking only.** Currently 97.2% (2728 symbols, 2651 known, 77 unknown). Surfaced in the CI job summary;
+promotable to a hard gate via `--strict` (which requires 100%). The unknowns are mostly `canonical_parent`
+returns and a handful of partially-typed bases — useful refinement targets, not CI blockers.
 
 ### Tier 4 — Usage tests (`pyright tests/usage/`)
 
@@ -58,13 +66,14 @@ new captures surface gaps.
 ## Current baseline
 
 ```
-Tier 1 (ast.parse):       44 stub files, all parse           PASS
-Tier 2 (stubs internal):  0 errors                           tracking (now clean)
-Tier 4 (usage tests):      8 usage files, 0 errors           PASS
+Tier 1 (ast.parse):        44 stub files, all parse                     PASS
+Tier 2 (stubs internal):   0 errors                                     tracking (clean)
+Tier 3 (--verifytypes):    97.2%  (2728 symbols, 77 unknown)            tracking
+Tier 4 (usage tests):       8 usage files, 0 errors                     PASS
 ```
 
-All three active tiers green on the post-cleanup baseline (Tier 3 deferred). CI surfaces regressions;
-`--strict` promotes Tier 2 to a hard gate.
+All four tiers active. CI surfaces regressions; `--strict` promotes Tier 2 (zero errors) and Tier 3
+(100% completeness) to hard gates.
 
 ## Adding a usage test
 

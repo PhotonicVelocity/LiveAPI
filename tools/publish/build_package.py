@@ -48,6 +48,9 @@ Homepage = "https://github.com/PhotonicVelocity/LiveAPI"
 
 [tool.hatch.build.targets.wheel]
 packages = ["Live-stubs"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"Live-stubs/py.typed" = "Live-stubs/py.typed"
 """
 
 README_TEMPLATE = """\

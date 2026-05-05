@@ -91,18 +91,18 @@ Scripts). Some of that has slack in it — read the stubs as "Ableton's most lik
 
 #### Validation
 
-Every change to the stubs runs through three CI gates ([`.github/workflows/verify-stubs.yml`](.github/workflows/verify-stubs.yml)):
+Every change to the stubs runs through four CI gates ([`.github/workflows/verify-stubs.yml`](.github/workflows/verify-stubs.yml)):
 
 - **Tier 1 — `ast.parse`.** All 44 `.pyi` files parse as valid Python. Hard gate.
 - **Tier 2 — pyright self-check.** Stubs internally consistent (no broken references, no Liskov violations on
   overrides, no cyclic imports). Currently 0 errors. Tracking-only by default; promotable to a hard gate via
   `--strict`.
+- **Tier 3 — pyright `--verifytypes`.** PEP 561 type completeness score. Currently 97.2% (2728 public symbols,
+  2651 known, 77 unknown). Tracking-only — surfaced in the CI job summary, promotable to hard gate via `--strict`
+  (100% required).
 - **Tier 4 — usage tests.** Hand-picked patterns from Ableton's own shipped Remote Scripts (pinned to a specific
   commit of [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts)) — the
   stubs must accept what Ableton's engineers wrote and shipped. Hard gate.
-
-(There's a deferred Tier 3 — pyright `--verifytypes` for PEP 561 completeness scoring — to be wired in when a
-public coverage number is wanted.)
 
 In addition, an offline corpus audit ([`tools/verify/audit_corpus.py`](tools/verify/audit_corpus.py)) runs pyright
 over the entire decompiled corpus against the stubs to surface places where the stubs disagree with working

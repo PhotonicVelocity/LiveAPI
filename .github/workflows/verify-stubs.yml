@@ -53,3 +53,21 @@ jobs:
           echo '```' >> $GITHUB_STEP_SUMMARY
           tail -1 /tmp/tier2.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+
+      - name: Tier 3 — pyright --verifytypes (tracking)
+        # PEP 561 type completeness score. Tracking-only — non-zero exit does
+        # not fail the build. See tools/verify/README.md.
+        continue-on-error: true
+        run: |
+          set +e
+          PYTHONPATH=stubs/12.3.6 pyright --verifytypes Live --ignoreexternal | tee /tmp/tier3.txt
+
+      - name: Surface Tier 3 score in job summary
+        if: always()
+        run: |
+          echo "## Tier 3 (tracking)" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          grep -E "^Type completeness score:" /tmp/tier3.txt >> $GITHUB_STEP_SUMMARY || true
+          grep -E "^Symbols exported by" /tmp/tier3.txt >> $GITHUB_STEP_SUMMARY || true
+          grep -E "^\s*With (known|ambiguous|unknown) type:" /tmp/tier3.txt >> $GITHUB_STEP_SUMMARY || true
+          echo '```' >> $GITHUB_STEP_SUMMARY
