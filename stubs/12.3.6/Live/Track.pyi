@@ -720,11 +720,11 @@ class Track(DeviceContainer):
         """
         ...
 
-    def delete_clip(self, slot: Clip, /) -> None:
+    def delete_clip(self, clip: Clip, /) -> None:
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, device: int, /) -> None:
+    def delete_device(self, index: int, /) -> None:
         """Delete a device identified by the index in the 'devices' list."""
         ...
 

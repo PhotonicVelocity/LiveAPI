@@ -109,7 +109,7 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def delete_device(self, device: int, /) -> None:
+    def delete_device(self, index: int, /) -> None:
         """Remove a device identified by its index from the chain. Throws runtime error if bad index."""
         ...
 

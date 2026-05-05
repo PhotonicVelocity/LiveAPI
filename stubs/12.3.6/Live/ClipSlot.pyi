@@ -120,7 +120,7 @@ class ClipSlot(LomObject):
         """
         ...
 
-    def create_clip(self, pages: float, /) -> Clip:
+    def create_clip(self, length: float, /) -> Clip:
         """
         Creates an empty clip with the given length in the slot.
         Throws an error when called on non-empty slots or slots in non-MIDI tracks.
