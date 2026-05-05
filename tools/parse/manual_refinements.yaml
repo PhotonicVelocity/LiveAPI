@@ -445,7 +445,7 @@ _meta:
     arg2: view_name
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
+      - arg2 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
 
 "Live.Application.Application.View.is_view_visible_has_listener":
   args:
@@ -468,9 +468,9 @@ _meta:
     arg4: modifier_pressed
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> direction  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
-      - arg3 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
-      - arg4 -> modifier_pressed  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
+      - arg2 -> direction  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg3 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg4 -> modifier_pressed  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
 
 "Live.Application.Application.View.zoom_view":
   args:
@@ -479,9 +479,9 @@ _meta:
     arg4: modifier_pressed
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> direction  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
-      - arg3 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
-      - arg4 -> modifier_pressed  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
+      - arg2 -> direction  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg3 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg4 -> modifier_pressed  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
 
 "Live.Application.Application.has_option":
   args:
@@ -495,7 +495,7 @@ _meta:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Application.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/application.md
 
 "Live.Application.ControlSurfaceProxy.enable_receive_midi":
   args:
@@ -513,10 +513,6 @@ _meta:
     Direct binding call: _MxDCore/ControlSurfaceWrapper.py:262
     (`self._proxy.grab_control(control.id)` — passes the int ID; the binding
     takes int, the wrapper exposes a `control` object).
-
-# SKIP Live.Application.ControlSurfaceProxy.send_midi: already emitted from callsite (deterministic supersedes LLM)
-
-# SKIP Live.Application.ControlSurfaceProxy.send_value: already emitted from callsite (deterministic supersedes LLM)
 
 "Live.Application.ControlSurfaceProxy.subscribe_to_control":
   args:
@@ -558,15 +554,18 @@ _meta:
   args:
     arg2: item
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> item  [M4L docs]: parameter name documented in M4L reference
+    Arg names verified against corpus / docstring:
+      - arg2 -> item  [docstring]: "Loads the provided browser item." Browser
+        is not in the M4L docs surface, so this is the strongest evidence.
+        C++ signature confirms the parameter type is BrowserItem.
 
 "Live.Browser.Browser.preview_item":
   args:
     arg2: item
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> item  [M4L docs]: parameter name documented in M4L reference
+    Arg names verified against corpus / docstring:
+      - arg2 -> item  [docstring]: "Previews the provided browser item." Same
+        situation as load_item — Browser is not in the M4L docs surface.
 
 "Live.Browser.Browser.relation_to_hotswap_target":
   args:
@@ -586,15 +585,17 @@ _meta:
   args:
     arg2: device_parameter
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> device_parameter  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+    arg2 rename — M4L (clip_view.md) documents type only (`Parameter:
+    [DeviceParameter]`); baseline (doc/live-api/Clip.md) uses `parameter`.
+    Renamed to `device_parameter` for clarity (the type is DeviceParameter).
+    Names are positional-only and decorative — clarity over doc-conformance.
 
 "Live.Clip.Clip.add_new_notes":
   args:
     arg2: notes
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> notes  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+      - arg2 -> notes  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.apply_note_modifications":
   args:
@@ -615,7 +616,7 @@ _meta:
     arg2: device_parameter
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> device_parameter  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+      - arg2 -> device_parameter  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.create_automation_envelope":
   args:
@@ -629,7 +630,7 @@ _meta:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.quantize":
   args:
@@ -637,10 +638,8 @@ _meta:
     arg3: amount
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> quantization_grid  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
-      - arg3 -> amount  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
-
-# SKIP Live.Clip.Clip.quantize_pitch: already emitted from callsite (deterministic supersedes LLM)
+      - arg2 -> quantization_grid  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
+      - arg3 -> amount  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.remove_notes":
   args:
@@ -659,8 +658,9 @@ _meta:
   args:
     arg2: note_ids
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> note_ids  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+    arg2 rename — baseline (doc/live-api/Clip.md): `remove_notes_by_id(note_ids)`.
+    M4L (clip.md) describes it as "list of note IDs" — the literal name comes
+    from the baseline.
 
 "Live.Clip.Clip.replace_selected_notes":
   args:
@@ -680,15 +680,16 @@ _meta:
   args:
     arg2: note_ids
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> note_ids  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+    arg2 rename — baseline (doc/live-api/Clip.md): `select_notes_by_id(note_ids)`.
+    M4L (clip.md) describes it as "list of note IDs" — the literal name comes
+    from the baseline.
 
 "Live.Clip.Clip.set_fire_button_state":
   args:
     arg2: state
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/Clip.md
+      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.set_notes":
   args:
@@ -708,22 +709,24 @@ _meta:
   args:
     arg2: file_path
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/ClipSlot.md
+    arg2 rename — M4L (clipslot.md) and baseline (doc/live-api/ClipSlot.md)
+    both use `path`. Renamed to `file_path` for clarity (avoids conflation with
+    the dotted-path concept; explicitly indicates a file system path). Names
+    are positional-only and decorative — clarity over doc-conformance.
 
 "Live.ClipSlot.ClipSlot.duplicate_clip_to":
   args:
     arg2: target_clip_slot
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> target_clip_slot  [M4L docs]: doc/max-for-live-docs/9.0/ClipSlot.md
+      - arg2 -> target_clip_slot  [M4L docs]: doc/max-for-live-docs/9.0/clipslot.md
 
 "Live.ClipSlot.ClipSlot.set_fire_button_state":
   args:
     arg2: state
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/ClipSlot.md
+      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/clipslot.md
 
 "Live.Device.Device.store_chosen_bank":
   args:
@@ -731,15 +734,15 @@ _meta:
     arg3: bank_index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> script_index  [M4L docs]: doc/max-for-live-docs/9.0/Device.md
-      - arg3 -> bank_index  [M4L docs]: doc/max-for-live-docs/9.0/Device.md
+      - arg2 -> script_index  [M4L docs]: doc/max-for-live-docs/9.0/device.md
+      - arg3 -> bank_index  [M4L docs]: doc/max-for-live-docs/9.0/device.md
 
 "Live.DeviceParameter.DeviceParameter.str_for_value":
   args:
     arg2: value
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> value  [M4L docs]: doc/max-for-live-docs/9.0/DeviceParameter.md
+      - arg2 -> value  [M4L docs]: doc/max-for-live-docs/9.0/deviceparameter.md
 
 "Live.Envelope.Envelope.delete_events_in_range":
   args:
@@ -782,14 +785,14 @@ _meta:
     arg2: clip_slot
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> clip_slot  [M4L docs]: doc/max-for-live-docs/9.0/LooperDevice.md
+      - arg2 -> clip_slot  [M4L docs]: doc/max-for-live-docs/9.0/looperdevice.md
 
 "Live.MaxDevice.MaxDevice.get_bank_name":
   args:
     arg2: bank_index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> bank_index  [M4L docs]: doc/max-for-live-docs/9.0/MaxDevice.md
+      - arg2 -> bank_index  [M4L docs]: doc/max-for-live-docs/9.0/maxdevice.md
 
 "Live.MaxDevice.MaxDevice.get_bank_parameters":
   args:
@@ -897,85 +900,87 @@ _meta:
     arg3: destination_index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> source_index  [M4L docs]: doc/max-for-live-docs/9.0/RackDevice.md
-      - arg3 -> destination_index  [M4L docs]: doc/max-for-live-docs/9.0/RackDevice.md
+      - arg2 -> source_index  [M4L docs]: doc/max-for-live-docs/9.0/rackdevice.md
+      - arg3 -> destination_index  [M4L docs]: doc/max-for-live-docs/9.0/rackdevice.md
 
 "Live.Scene.Scene.set_fire_button_state":
   args:
     arg2: state
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/Scene.md
+      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/scene.md
 
 "Live.Song.Song.View.select_device":
   args:
     arg2: device
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> device  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> device  [M4L docs]: doc/max-for-live-docs/9.0/song_view.md
 
 "Live.Song.Song.create_scene":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.delete_return_track":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.delete_scene":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.delete_track":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.duplicate_scene":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.duplicate_track":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.get_current_smpte_song_time":
   args:
     arg2: smpte_format
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> smpte_format  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+    arg2 rename — M4L (song.md) and baseline (doc/live-api/Song.md) both use
+    `format`. Renamed to `smpte_format` for clarity (avoids shadowing the
+    builtin `format()` and explicitly indicates SMPTE time-code format).
+    Names are positional-only and decorative — clarity over doc-conformance.
 
 "Live.Song.Song.jump_by":
   args:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.scrub_by":
   args:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/Song.md
+      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/song.md
 
 "Live.TakeLane.TakeLane.create_audio_clip":
   args:
@@ -983,8 +988,8 @@ _meta:
     arg3: start_time
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/TakeLane.md
-      - arg3 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/TakeLane.md
+      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
+      - arg3 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
 
 "Live.TakeLane.TakeLane.create_midi_clip":
   args:
@@ -992,8 +997,8 @@ _meta:
     arg3: length
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/TakeLane.md
-      - arg3 -> length  [M4L docs]: doc/max-for-live-docs/9.0/TakeLane.md
+      - arg2 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
+      - arg3 -> length  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
 
 "Live.Track.Track.create_audio_clip":
   args:
@@ -1001,8 +1006,8 @@ _meta:
     arg3: position
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/Track.md
-      - arg3 -> position  [M4L docs]: doc/max-for-live-docs/9.0/Track.md
+      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/track.md
+      - arg3 -> position  [M4L docs]: doc/max-for-live-docs/9.0/track.md
 
 "Live.Track.Track.create_midi_clip":
   args:
@@ -1010,15 +1015,15 @@ _meta:
     arg3: length
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/Track.md
-      - arg3 -> length  [M4L docs]: doc/max-for-live-docs/9.0/Track.md
+      - arg2 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/track.md
+      - arg3 -> length  [M4L docs]: doc/max-for-live-docs/9.0/track.md
 
 "Live.Track.Track.duplicate_clip_slot":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/Track.md
+      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/track.md
 
 "Live.Track.Track.duplicate_device":
   args:
@@ -1032,7 +1037,7 @@ _meta:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/Track.md
+      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/track.md
 
 # Emitted 83 entries containing 126 arg renames.
 
