@@ -49,21 +49,6 @@ intercept handle creation.
 
 ControlSurfaceProxy is M4L-only (see baseline notes). Same probe context as Licensing.
 
-## Type-correction candidates that need verification
-
-These were mistakes corrected in the research pass — verify them by probe when
-possible to upgrade from `high` (currently set to high based on baseline notes that
-were themselves probed in MS33).
-
-- `Live.Conversions.move_devices_on_track_to_new_drum_rack_pad` — corrected `Track` →
-  `DrumPad | None` based on baseline probe (MS33). A fresh probe against current Live
-  would seal it.
-- `Live.Song.Song.find_device_position` / `Live.Song.Song.move_device` — parser
-  resolves the `target` arg to `LomObject` from the C++ signature (no refinement
-  needed). Baseline confirms LomObject is correct (accepts any device-container).
-  A probe could pin down whether the binding has internal narrowing (only Track /
-  Chain / DrumChain / RackDevice, etc.) — would let us tighten the type if so.
-
 ### `map_midi_*_with_feedback_map` — feedback_rule nullability (REMOVED, may re-add)
 
 Three sister functions previously had a `feedback_rule: T -> T | None` widening:
