@@ -10,11 +10,11 @@ release/
 stubs/*/pipeline/
 stubs/*/Log.txt
 
-# Decompiled Remote Scripts (cloned for call-site analysis)
-doc/decompiled/
-
-# M4L LOM docs (fetched from docs.cycling74.com by fetch_m4l_docs.py)
-doc/max-for-live-docs/
+# External sources fetched by tools/fetch_external/
+# - corpus/             cloned from gluon/AbletonLive12_MIDIRemoteScripts at CORPUS_PIN
+# - max-for-live-docs/  scraped from docs.cycling74.com
+# - release-notes/      scraped from ableton.com/release-notes
+external/
 
 # Ableton project artifacts
 Icon?

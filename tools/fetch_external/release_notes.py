@@ -1,11 +1,11 @@
-"""Fetch Ableton Live release notes and write them to doc/release-notes/.
+"""Fetch Ableton Live release notes and write them to external/release-notes/.
 
 Scrapes the release notes page with BeautifulSoup, preserving the full
 hierarchy: version → section → category → items.
 
 Usage:
-    python tools/fetch/release_notes.py              # fetch Live 11 + 12
-    python tools/fetch/release_notes.py --version 12 # fetch Live 12 only
+    python tools/fetch_external/release_notes.py              # fetch Live 11 + 12
+    python tools/fetch_external/release_notes.py --version 12 # fetch Live 12 only
 
 Requires: pip install beautifulsoup4
 """
@@ -23,8 +23,8 @@ except ImportError:
     sys.exit(1)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.dirname(SCRIPT_DIR)
-OUT_DIR = os.path.join(REPO_ROOT, "doc", "release-notes")
+REPO_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))
+OUT_DIR = os.path.join(REPO_ROOT, "external", "release-notes")
 
 URLS = {
     "11": "https://www.ableton.com/en/release-notes/live-11/",

@@ -1,7 +1,7 @@
 """Fetch Max for Live LOM documentation from docs.cycling74.com.
 
 Scrapes the Live Object Model reference pages and saves them as markdown files
-under `doc/max-for-live-docs/<version>/`. Used as one of the source-of-truth
+under `external/max-for-live-docs/<version>/`. Used as one of the source-of-truth
 inputs cited by `tools/parse/manual_refinements.yaml`.
 
 Supports two modes:
@@ -9,9 +9,9 @@ Supports two modes:
   - Legacy (Max 8):   single page with all classes inline
 
 Usage:
-    python tools/fetch/m4l_docs.py                  # current docs → doc/max-for-live-docs/<version>/
-    python tools/fetch/m4l_docs.py -o doc/max-for-live-docs/9.1
-    python tools/fetch/m4l_docs.py --legacy         # Max 8 legacy docs → doc/max-for-live-docs/8.0/
+    python tools/fetch_external/m4l_docs.py                # current docs → external/max-for-live-docs/<version>/
+    python tools/fetch_external/m4l_docs.py -o external/max-for-live-docs/9.1
+    python tools/fetch_external/m4l_docs.py --legacy       # Max 8 legacy docs → external/max-for-live-docs/8.0/
 
 Requires: pip install beautifulsoup4
 """
@@ -397,7 +397,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.legacy:
-        output_dir = args.output or Path("doc/max-for-live-docs/8.0")
+        output_dir = args.output or Path("external/max-for-live-docs/8.0")
         fetch_legacy(output_dir)
     else:
         if args.output:
@@ -407,7 +407,7 @@ def main() -> None:
             index_html = fetch_page(f"{BASE_URL}/")
             version_match = re.search(r"Max (\d+)", index_html)
             folder_name = version_match.group(1) + ".0" if version_match else "latest"
-            output_dir = Path("doc/max-for-live-docs") / folder_name
+            output_dir = Path("external/max-for-live-docs") / folder_name
         fetch_current(output_dir)
 
 

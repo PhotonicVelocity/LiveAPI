@@ -26,7 +26,7 @@ check for everything that follows.
   internal inconsistencies — broken references, undefined symbols, Liskov violations, cyclic imports.
 - Pyright `--verifytypes` mode for PEP 561 completeness reporting (tracked as a number, not gated).
 - A small `tests/usage/` set of **hand-picked** files exercising typical Remote Script patterns; type-checked
-  by pyright. Patterns drawn from `doc/decompiled/AbletonLive12_MIDIRemoteScripts/` — Ableton's own code —
+  by pyright. Patterns drawn from `external/corpus/` — Ableton's own code —
   so each test is a snippet of definitely-working production usage. ~5–10 tests in Step 1 covering the most-
   trafficked surface (Song basics, Track navigation, Clip operations, Device traversal, listener
   registration). Hand-picked deliberately, not auto-extracted (auto-extraction at scale recreates the
@@ -42,7 +42,7 @@ gaps (something Ableton's code uses that our stubs don't expose, a parser change
 hadn't covered), add a new hand-picked test exercising that pattern. The set grows deliberately, not by
 extraction. By the time Step 8 publishes, the suite reflects the surface we know we want to defend.
 
-**Offline audit (any time, not in CI).** Pyright over the entire decompiled corpus (`doc/decompiled/`) using
+**Offline audit (any time, not in CI).** Pyright over the entire decompiled corpus (`external/corpus/`) using
 our stubs as the type source — invocation via `tools/verify/audit_corpus.sh` (TBD). Surfaces missing API
 surface, wrong inheritance, type incompatibilities at scale. Noisy because of decompilation artifacts and
 internal-module imports; needs a tuned `pyrightconfig.json` filtering to errors that involve `Live.*` types.

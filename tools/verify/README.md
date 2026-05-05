@@ -43,8 +43,8 @@ just not yet wired into CI.
 Hand-picked usage patterns drawn from real Ableton-shipped Remote Scripts at
 [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts), pinned to
 commit `810ef77` (single source of truth: `CORPUS_PIN` in
-[`tools/fetch/corpus.py`](../fetch/corpus.py); validated by `tools/fetch/check_pin.py`). Run
-`tools/fetch/bootstrap.sh` to clone the corpus to `doc/decompiled/` (gitignored). Test files cite the
+[`tools/fetch_external/corpus.py`](../fetch/corpus.py); validated by `tools/fetch_external/check_pin.py`). Run
+`tools/fetch_external/bootstrap.sh` to clone the corpus to `external/corpus/` (gitignored). Test files cite the
 upstream URL with line anchors so references stay stable across local clones. Each pattern is something
 Ableton's own engineers wrote and shipped, so it is by definition working production usage. If our stubs
 reject any of these patterns, the stubs are wrong about something Ableton's code already does.
@@ -70,7 +70,7 @@ All three active tiers green on the post-cleanup baseline (Tier 3 deferred). CI 
 
 1. Find a working pattern in the
    [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts) corpus
-   (cloned at `doc/decompiled/AbletonLive12_MIDIRemoteScripts/` via `tools/fetch/bootstrap.sh`).
+   (cloned at `external/corpus/` via `tools/fetch_external/bootstrap.sh`).
 2. Copy it into a new file in `tests/usage/`, with a top-of-file comment and inline references citing the
    **upstream URL** with line anchors, pinned to the active `CORPUS_PIN`. Format:
    ```
@@ -85,8 +85,8 @@ If the new test fails against current stubs, that's a real finding — either th
 have the wrong type, or the pattern was misread. Investigate before adjusting either side.
 
 When the corpus pin is bumped (a new Live version's decompiled scripts land):
-1. Update `CORPUS_PIN` in `tools/fetch/corpus.py`.
-2. `tools/fetch/bootstrap.sh --force` to re-fetch.
+1. Update `CORPUS_PIN` in `tools/fetch_external/corpus.py`.
+2. `tools/fetch_external/bootstrap.sh --force` to re-fetch.
 3. `sed -i '' "s/810ef77/<new>/g" tests/usage/*.py tools/verify/README.md` (or the equivalent rename pass).
 4. Run `tools/verify/run.sh` — `check_pin.py` validates the sweep was complete; Tier 4 catches any patterns
    that no longer apply.
@@ -94,7 +94,7 @@ When the corpus pin is bumped (a new Live version's decompiled scripts land):
 ## Offline corpus audit (not in CI)
 
 `tools/verify/audit_corpus.py` runs pyright over the full decompiled Ableton Remote Script corpus
-(`doc/decompiled/AbletonLive12_MIDIRemoteScripts/`) using our stubs as the type source. Surfaces places
+(`external/corpus/`) using our stubs as the type source. Surfaces places
 where the stubs disagree with working production code. Filters out internal-module imports, decompilation
 artifacts, and errors that don't mention a class declared in our stubs. Not a CI gate — research tool.
 

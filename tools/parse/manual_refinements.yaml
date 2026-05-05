@@ -244,14 +244,14 @@ _meta:
     arg2: view
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> view  [callsite, 2/2 defs]: corpus def: doc/decompiled/AbletonLive12_MIDIRemoteScripts/ableton/v2/control_surface/components/view_control.py:168 (+1 more)
+      - arg2 -> view  [callsite, 2/2 defs]: corpus def: external/corpus/ableton/v2/control_surface/components/view_control.py:168 (+1 more)
 
 "Live.Application.Application.View.show_view":
   args:
     arg2: view
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> view  [callsite, 3/3 defs]: corpus def: doc/decompiled/AbletonLive12_MIDIRemoteScripts/ableton/v2/control_surface/components/view_control.py:158 (+2 more)
+      - arg2 -> view  [callsite, 3/3 defs]: corpus def: external/corpus/ableton/v2/control_surface/components/view_control.py:158 (+2 more)
 
 "Live.Application.ControlSurfaceProxy.release_control":
   args:
@@ -321,7 +321,7 @@ _meta:
     arg1: string
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg1 -> string  [callsite, 3/3 defs]: corpus def: doc/decompiled/AbletonLive12_MIDIRemoteScripts/LV2_LX2_LC2_LD2/FaderfoxComponent.py:24 (+2 more)
+      - arg1 -> string  [callsite, 3/3 defs]: corpus def: external/corpus/LV2_LX2_LC2_LD2/FaderfoxComponent.py:24 (+2 more)
 
 "Live.Chain.Chain.delete_device":
   args:
@@ -381,7 +381,7 @@ _meta:
     int, float)` — int. Baseline pins it to `GridQuantization` enum values 1–8
     (0 and 9 raise `Invalid quantization`); narrowed to `GridQuantization |
     int` matching the sister `Clip.View.grid_quantization` and `Clip.quantize`.
-    arg4 -> amount [M4L docs]: doc/max-for-live-docs/9.0/clip.md names it
+    arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
     'amount'; sister method `quantize(quantization_grid, amount)` confirms.
 
 "Live.ClipSlot.ClipSlot.create_clip":
@@ -445,7 +445,7 @@ _meta:
     arg2: view_name
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg2 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
 
 "Live.Application.Application.View.is_view_visible_has_listener":
   args:
@@ -468,9 +468,9 @@ _meta:
     arg4: modifier_pressed
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> direction  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
-      - arg3 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
-      - arg4 -> modifier_pressed  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+      - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+      - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
 
 "Live.Application.Application.View.zoom_view":
   args:
@@ -479,9 +479,9 @@ _meta:
     arg4: modifier_pressed
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> direction  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
-      - arg3 -> view_name  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
-      - arg4 -> modifier_pressed  [M4L docs]: doc/max-for-live-docs/9.0/application_view.md
+      - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+      - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+      - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
 
 "Live.Application.Application.has_option":
   args:
@@ -495,7 +495,7 @@ _meta:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/application.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/application.md
 
 "Live.Application.ControlSurfaceProxy.enable_receive_midi":
   args:
@@ -595,7 +595,7 @@ _meta:
     arg2: notes
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> notes  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
+      - arg2 -> notes  [M4L docs]: external/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.apply_note_modifications":
   args:
@@ -616,7 +616,7 @@ _meta:
     arg2: device_parameter
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> device_parameter  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
+      - arg2 -> device_parameter  [M4L docs]: external/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.create_automation_envelope":
   args:
@@ -630,7 +630,7 @@ _meta:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
+      - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.quantize":
   args:
@@ -638,8 +638,8 @@ _meta:
     arg3: amount
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> quantization_grid  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
-      - arg3 -> amount  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
+      - arg2 -> quantization_grid  [M4L docs]: external/max-for-live-docs/9.0/clip.md
+      - arg3 -> amount  [M4L docs]: external/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.remove_notes":
   args:
@@ -689,7 +689,7 @@ _meta:
     arg2: state
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/clip.md
+      - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/clip.md
 
 "Live.Clip.Clip.set_notes":
   args:
@@ -719,14 +719,14 @@ _meta:
     arg2: target_clip_slot
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> target_clip_slot  [M4L docs]: doc/max-for-live-docs/9.0/clipslot.md
+      - arg2 -> target_clip_slot  [M4L docs]: external/max-for-live-docs/9.0/clipslot.md
 
 "Live.ClipSlot.ClipSlot.set_fire_button_state":
   args:
     arg2: state
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/clipslot.md
+      - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/clipslot.md
 
 "Live.Device.Device.store_chosen_bank":
   args:
@@ -734,15 +734,15 @@ _meta:
     arg3: bank_index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> script_index  [M4L docs]: doc/max-for-live-docs/9.0/device.md
-      - arg3 -> bank_index  [M4L docs]: doc/max-for-live-docs/9.0/device.md
+      - arg2 -> script_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
+      - arg3 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
 
 "Live.DeviceParameter.DeviceParameter.str_for_value":
   args:
     arg2: value
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> value  [M4L docs]: doc/max-for-live-docs/9.0/deviceparameter.md
+      - arg2 -> value  [M4L docs]: external/max-for-live-docs/9.0/deviceparameter.md
 
 "Live.Envelope.Envelope.delete_events_in_range":
   args:
@@ -785,14 +785,14 @@ _meta:
     arg2: clip_slot
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> clip_slot  [M4L docs]: doc/max-for-live-docs/9.0/looperdevice.md
+      - arg2 -> clip_slot  [M4L docs]: external/max-for-live-docs/9.0/looperdevice.md
 
 "Live.MaxDevice.MaxDevice.get_bank_name":
   args:
     arg2: bank_index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> bank_index  [M4L docs]: doc/max-for-live-docs/9.0/maxdevice.md
+      - arg2 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/maxdevice.md
 
 "Live.MaxDevice.MaxDevice.get_bank_parameters":
   args:
@@ -901,64 +901,64 @@ _meta:
     arg3: destination_index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> source_index  [M4L docs]: doc/max-for-live-docs/9.0/rackdevice.md
-      - arg3 -> destination_index  [M4L docs]: doc/max-for-live-docs/9.0/rackdevice.md
+      - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+      - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
 
 "Live.Scene.Scene.set_fire_button_state":
   args:
     arg2: state
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> state  [M4L docs]: doc/max-for-live-docs/9.0/scene.md
+      - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/scene.md
 
 "Live.Song.Song.View.select_device":
   args:
     arg2: device
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> device  [M4L docs]: doc/max-for-live-docs/9.0/song_view.md
+      - arg2 -> device  [M4L docs]: external/max-for-live-docs/9.0/song_view.md
 
 "Live.Song.Song.create_scene":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.delete_return_track":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.delete_scene":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.delete_track":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.duplicate_scene":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.duplicate_track":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.get_current_smpte_song_time":
   args:
@@ -974,14 +974,14 @@ _meta:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.Song.Song.scrub_by":
   args:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/song.md
+      - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/song.md
 
 "Live.TakeLane.TakeLane.create_audio_clip":
   args:
@@ -989,8 +989,8 @@ _meta:
     arg3: start_time
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
-      - arg3 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
+      - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+      - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
 
 "Live.TakeLane.TakeLane.create_midi_clip":
   args:
@@ -998,8 +998,8 @@ _meta:
     arg3: length
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
-      - arg3 -> length  [M4L docs]: doc/max-for-live-docs/9.0/takelane.md
+      - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+      - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
 
 "Live.Track.Track.create_audio_clip":
   args:
@@ -1007,8 +1007,8 @@ _meta:
     arg3: position
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> file_path  [M4L docs]: doc/max-for-live-docs/9.0/track.md
-      - arg3 -> position  [M4L docs]: doc/max-for-live-docs/9.0/track.md
+      - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/track.md
+      - arg3 -> position  [M4L docs]: external/max-for-live-docs/9.0/track.md
 
 "Live.Track.Track.create_midi_clip":
   args:
@@ -1016,15 +1016,15 @@ _meta:
     arg3: length
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> start_time  [M4L docs]: doc/max-for-live-docs/9.0/track.md
-      - arg3 -> length  [M4L docs]: doc/max-for-live-docs/9.0/track.md
+      - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/track.md
+      - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/track.md
 
 "Live.Track.Track.duplicate_clip_slot":
   args:
     arg2: index
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> index  [M4L docs]: doc/max-for-live-docs/9.0/track.md
+      - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/track.md
 
 "Live.Track.Track.duplicate_device":
   args:
@@ -1038,7 +1038,7 @@ _meta:
     arg2: beats
   source: |
     Arg names verified against corpus / M4L docs:
-      - arg2 -> beats  [M4L docs]: doc/max-for-live-docs/9.0/track.md
+      - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/track.md
 
 # Emitted 83 entries containing 126 arg renames.
 

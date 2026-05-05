@@ -55,12 +55,12 @@ the decompiled Remote Scripts corpus (used by Tier 4 usage tests + the offline
 audit) and the Max for Live LOM docs (cited by `manual_refinements.yaml`).
 
 ```bash
-tools/fetch/bootstrap.sh           # corpus + M4L 9.0
-tools/fetch/bootstrap.sh --all     # also M4L 8.0 (legacy) + release notes
+tools/fetch_external/bootstrap.sh           # corpus + M4L 9.0
+tools/fetch_external/bootstrap.sh --all     # also M4L 8.0 (legacy) + release notes
 ```
 
 Both targets are gitignored. The corpus is pinned to a specific commit in
-[`tools/fetch/corpus.py`](tools/fetch/corpus.py) (`CORPUS_PIN`); `tools/fetch/check_pin.py`
+[`tools/fetch_external/corpus.py`](tools/fetch_external/corpus.py) (`CORPUS_PIN`); `tools/fetch_external/check_pin.py`
 validates that every reference (test docstrings, README) matches.
 
 ## Sources
@@ -69,10 +69,10 @@ The pipeline draws from four sources, in roughly increasing order of authority:
 
 1. **Runtime introspection** (APICapture) — class/method/property inventory captured by `dir()` walking and
    property probing inside Live. The base structure of every stub.
-2. **Max for Live docs** ([`doc/max-for-live-docs/`](doc/max-for-live-docs/)) — richer descriptions and parameter
+2. **Max for Live docs** ([`external/max-for-live-docs/`](external/max-for-live-docs/)) — richer descriptions and parameter
    names; partial API coverage.
 3. **Decompiled Remote Scripts** (corpus) — Ableton's own shipped Python code provides ground truth for
-   parameter names and call shapes. Auto-cloned to `doc/decompiled/`.
+   parameter names and call shapes. Auto-cloned to `external/corpus/`.
 4. **`tools/parse/manual_refinements.yaml`** — hand-curated overrides with a per-entry `source:` field documenting
    the rationale (corpus def-site, M4L doc citation, raw_doc, etc.). Enforced by the apply step.
 

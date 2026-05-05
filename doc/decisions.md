@@ -105,7 +105,7 @@ without letting users type them as kwargs"; it stays.
 - The Parse Pipeline section below describes the active minimal pipeline on `main` after the cleanup.
 - `MaxForLive/` stays in the repo as input — the new pipeline reads it for prose content that flows into
   stub docstrings only. Its names, types, and shape claims do not reach signatures.
-- `doc/decompiled/AbletonLive12_MIDIRemoteScripts/` (gitignored) keeps its role as the corpus for
+- `external/corpus/` (gitignored) keeps its role as the corpus for
   Tier 4 usage tests but no longer participates in stub generation.
 
 ## Parse Pipeline

@@ -2,7 +2,7 @@
 """Validate that every reference to the corpus pin matches CORPUS_PIN.
 
 The pin (a short git SHA from gluon/AbletonLive12_MIDIRemoteScripts) appears in:
-  - tools/fetch/corpus.py (the source of truth)
+  - tools/fetch_external/corpus.py (the source of truth)
   - tests/usage/*.py (URL anchors back to upstream)
   - tools/verify/README.md (documentation)
 
@@ -23,7 +23,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Files that legitimately reference the pin.
 PIN_REF_PATHS = [
-    REPO_ROOT / "tools" / "fetch" / "corpus.py",
+    REPO_ROOT / "tools" / "fetch_external" / "corpus.py",
     REPO_ROOT / "tools" / "verify" / "README.md",
     *(REPO_ROOT / "tests" / "usage").glob("*.py"),
 ]
@@ -38,10 +38,10 @@ COMMIT_PHRASE_RE = re.compile(r"commit `([0-9a-f]{7,40})`")
 
 def _expected_pin() -> str:
     """Read CORPUS_PIN from corpus.py — the source of truth."""
-    text = (REPO_ROOT / "tools" / "fetch" / "corpus.py").read_text()
+    text = (REPO_ROOT / "tools" / "fetch_external" / "corpus.py").read_text()
     m = LITERAL_PIN_RE.search(text)
     if not m:
-        print("error: CORPUS_PIN not found in tools/fetch/corpus.py", file=sys.stderr)
+        print("error: CORPUS_PIN not found in tools/fetch_external/corpus.py", file=sys.stderr)
         sys.exit(2)
     return m.group(1)
 

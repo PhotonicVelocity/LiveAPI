@@ -3,7 +3,7 @@
   "//.": "the decompiled Ableton Remote Script corpus. Relative paths are resolved from",
   "//..": "this file's directory (tools/verify/).",
   "stubPath": "../../stubs/12.3.6",
-  "include": ["../../doc/decompiled/AbletonLive12_MIDIRemoteScripts"],
+  "include": ["../../external/corpus"],
   "exclude": [
     "**/__pycache__",
     "**/*.pyc"

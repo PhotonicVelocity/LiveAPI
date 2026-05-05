@@ -10,13 +10,13 @@ It feeds:
 The pin is updated rarely. When bumping:
   1. Update CORPUS_PIN below.
   2. Update tests/usage/* docstrings + tools/verify/README.md to use the new SHA.
-  3. Run tools/fetch/check_pin.py to confirm everywhere matches.
-  4. Re-clone (rm -rf doc/decompiled/AbletonLive12_MIDIRemoteScripts && this script).
+  3. Run tools/fetch_external/check_pin.py to confirm everywhere matches.
+  4. Re-clone (rm -rf external/corpus && this script).
   5. Run tools/verify/run.sh — fix any new findings before committing the bump.
 
 Usage:
-    python tools/fetch/corpus.py           # clone if absent, fetch + checkout pin if present
-    python tools/fetch/corpus.py --force   # delete existing dir and re-clone fresh
+    python tools/fetch_external/corpus.py           # clone if absent, fetch + checkout pin if present
+    python tools/fetch_external/corpus.py --force   # delete existing dir and re-clone fresh
 """
 
 from __future__ import annotations
@@ -29,11 +29,10 @@ from pathlib import Path
 
 CORPUS_PIN = "810ef77"
 CORPUS_REPO = "https://github.com/gluon/AbletonLive12_MIDIRemoteScripts.git"
-CORPUS_DIR_NAME = "AbletonLive12_MIDIRemoteScripts"
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-DECOMPILED_DIR = REPO_ROOT / "doc" / "decompiled"
-CORPUS_PATH = DECOMPILED_DIR / CORPUS_DIR_NAME
+EXTERNAL_DIR = REPO_ROOT / "external"
+CORPUS_PATH = EXTERNAL_DIR / "corpus"
 
 
 def _run(cmd: list[str], cwd: Path | None = None) -> None:
@@ -51,7 +50,7 @@ def main() -> int:
                         help="Delete existing corpus dir and re-clone")
     args = parser.parse_args()
 
-    DECOMPILED_DIR.mkdir(parents=True, exist_ok=True)
+    EXTERNAL_DIR.mkdir(parents=True, exist_ok=True)
 
     if args.force and CORPUS_PATH.exists():
         print(f"Removing {CORPUS_PATH}")
