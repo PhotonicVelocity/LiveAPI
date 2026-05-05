@@ -1057,11 +1057,17 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     def _merge(node: TreeNode) -> None:
         nonlocal merged_props, merged_element, getter_upgrades
         if isinstance(node, dict):
-            if node.get("type") == "class" and not node.get("ref"):
+            node_type = node.get("type")
+            if node_type == "class" and not node.get("ref"):
                 r = node.get("repr")
                 entry = probe.get(r) if r else None
                 if entry:
                     _merge_class(node, entry)
+            elif node_type == "module" and not node.get("ref"):
+                r = node.get("repr")
+                entry = probe.get(r) if r else None
+                if entry and entry.get("is_module"):
+                    _merge_module(node, entry)
             for value in node.values():
                 _merge(value)
         elif isinstance(node, list):
@@ -1095,6 +1101,36 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             return "<class 'LomObject.LomObject'>"
         # Mixed or unknown
         return repr(object)
+
+    def _merge_module(node: dict, entry: dict) -> None:
+        """Merge probe data onto a module node — stamp return types of get_*() functions."""
+        nonlocal getter_upgrades
+        children = node.get("children") or []
+        children_by_name: dict[str, dict] = {}
+        for child in children:
+            if isinstance(child, dict) and "name" in child:
+                children_by_name[child["name"]] = child
+
+        getters = entry.get("getters", {})
+        for getter_name, getter_info in getters.items():
+            if not getter_info.get("probed"):
+                continue
+            child = children_by_name.get(getter_name)
+            if not child or child.get("type") not in _FUNCTION_TYPES:
+                continue
+            returns = child.setdefault("returns", {})
+            if not isinstance(returns, dict):
+                continue
+            probed_type = getter_info.get("type")
+            if not probed_type:
+                continue
+            tree_type = returns.get("type")
+            # Only stamp when the parser couldn't pin down the return type.
+            # If the parser had stronger evidence (e.g., from C++ signature),
+            # leave it alone — manual refinements may further narrow it later.
+            if tree_type in (None, "object"):
+                returns["type"] = probed_type
+                getter_upgrades += 1
 
     def _merge_class(node: dict, entry: dict) -> None:
         nonlocal merged_props, merged_element, getter_upgrades

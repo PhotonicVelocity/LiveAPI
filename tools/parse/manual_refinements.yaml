@@ -295,7 +295,7 @@ _meta:
     arg2: midi_event_bytes
   arg_types:
     midi_event_bytes:
-      from: object
+      from: tuple
       to: "tuple[int, ...]"
   confidence: high
   source: |
@@ -321,7 +321,7 @@ _meta:
     arg2: value
   arg_types:
     value:
-      from: object
+      from: tuple
       to: "tuple[Any, ...]"
   confidence: high
   source: |
@@ -687,7 +687,7 @@ _meta:
     arg2: notes
   arg_types:
     notes:
-      from: object
+      from: tuple
       to: "tuple[tuple[int, float, float, float, bool], ...]"
   confidence: high
   source: |
@@ -716,7 +716,7 @@ _meta:
     arg2: notes
   arg_types:
     notes:
-      from: object
+      from: tuple
       to: "tuple[tuple[int, float, float, float, bool], ...]"
   confidence: high
   source: |
@@ -1328,12 +1328,14 @@ _meta:
 "Live.Base.Vector.append":
   arg_types:
     value:
-      from: object
+      from: LomObject
       to: LomObject
   confidence: high
   source: |
     Vector holds LomObject instances (TWeakPtr<TPyHandleBase> at the C++ layer) —
-    well-documented contract for the Vector parent class.
+    well-documented contract for the Vector parent class. The parser already
+    resolves this to LomObject from the C++ signature; refinement is a no-op
+    pin to flag if a future Live version drops the LomObject contract.
 
 "Live.Clip.Clip.add_warp_marker":
   arg_types:
@@ -1375,7 +1377,7 @@ _meta:
 "Live.Licensing.PythonLicensingBridge.process_license_response":
   arg_types:
     license_response_lines:
-      from: object
+      from: list
       to: "list[str]"
   confidence: high
   source: raw_doc explicitly says "list of strings, each representing a server response".
@@ -1459,19 +1461,21 @@ _meta:
 "Live.Song.Song.find_device_position":
   arg_types:
     target:
-      from: object
+      from: LomObject
       to: LomObject
   confidence: high
   source: |
     Curated baseline (doc/live-api/Song.md:855, 1102) records the signature as
     `target: LomObject` — accepts any device-container LomObject (Track, Chain,
-    DrumChain, rack instances, etc.). Tracked in refinements_followup.md
-    pending a probe to confirm whether the binding has internal narrowing.
+    DrumChain, rack instances, etc.). Parser already resolves to LomObject from
+    the C++ signature; this entry is a no-op pin to flag drift if Live ever
+    narrows the contract. Tracked in refinements_followup.md pending a probe
+    to confirm whether the binding has internal narrowing.
 
 "Live.Song.Song.move_device":
   arg_types:
     target:
-      from: object
+      from: LomObject
       to: LomObject
   confidence: high
   source: |
@@ -1565,12 +1569,14 @@ _meta:
 
 "Live.Licensing.get_unlock_dir":
   return_type:
-    from: null
+    from: tuple
     to: "tuple[str, bool]"
   confidence: high
   source: |
     raw_doc explicit: "Returns a tuple containing the unlock file directory
-    and a flag" — directory is str, flag is bool.
+    and a flag" — directory is str, flag is bool. Probe-verified at runtime:
+    the probe stamps `tuple` with element_reprs `[str, bool]`; this refinement
+    narrows to the fixed-position tuple shape.
 
 # get_bank_parameters and get_value_item_icons return-type fixes consolidated
 # above with their arg-rename entries.

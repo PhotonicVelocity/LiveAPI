@@ -19,7 +19,6 @@ running Live could promote them to `high` (or surface contradictions).
 - `Live.Licensing.PythonLicensingBridge.get_startup_dialog` arg_types
 - `Live.Licensing.PythonLicensingBridge.process_license_response` arg_types
 - `Live.Licensing.PythonLicensingBridge.set_network_timer` arg_types
-- `Live.Licensing.get_unlock_dir` → `tuple[str, bool]`
 
 **To probe**: write a small probe that constructs a `PythonLicensingBridge` instance
 (if possible from a Control Surface context) and reads each property. The class

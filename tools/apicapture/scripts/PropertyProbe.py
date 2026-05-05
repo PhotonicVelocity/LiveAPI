@@ -55,12 +55,15 @@ class PropertyProbe:
 
         self.repr_index = {}
         self._build_repr_index(data["tree"], self.repr_index, "")
-        self.log(f"PropertyProbe: {len(self.repr_index)} classes indexed by repr")
+        n_modules = sum(1 for e in self.repr_index.values() if e.get("is_module"))
+        n_classes = len(self.repr_index) - n_modules
+        self.log(f"PropertyProbe: {n_classes} classes + {n_modules} modules indexed by repr")
 
         app = Live.Application.get_application()
         self._add_instance(app)
 
         self._construct_types()
+        self._seed_modules()
 
         self._initialized = True
         return True
@@ -112,9 +115,13 @@ class PropertyProbe:
 
         Each entry records the class's module path, its properties (from child nodes
         of type "property"), and its no-arg getters (children named get_*).
+
+        Modules are also indexed (keyed by `<module 'Foo'>` repr) so their top-level
+        get_*() functions can be probed alongside class-level getters.
         """
         current = path + "/" + node.get("name", "?")
-        if node.get("type") == "class" and not node.get("ref"):
+        node_type = node.get("type")
+        if node_type == "class" and not node.get("ref"):
             r = node.get("repr")
             if r and r not in index:
                 props = {
@@ -137,6 +144,25 @@ class PropertyProbe:
                 if node.get("constructable"):
                     entry["constructable"] = True
                 index[r] = entry
+        elif node_type == "module" and not node.get("ref"):
+            r = node.get("repr")
+            if r and r not in index:
+                # Module functions: only `get_*` ones to stay safe (skip side-effecty
+                # methods like `launch_web_browser` and ones requiring args).
+                getters = {
+                    c["name"]: {"probed": False}
+                    for c in node.get("children", [])
+                    if c.get("type") in ("function", "builtin_function_or_method")
+                    and c.get("name", "").startswith("get_")
+                }
+                if getters:
+                    index[r] = {
+                        "path": current,
+                        "complete": False,
+                        "is_module": True,
+                        "properties": {},
+                        "getters": getters,
+                    }
         for child in node.get("children", []):
             self._build_repr_index(child, index, current)
 
@@ -170,6 +196,31 @@ class PropertyProbe:
                     entry["constructable"] = True
             except Exception as e:
                 self.log(f"  Failed hardcoded construction: {e}")
+
+    def _seed_modules(self):
+        """Register Live submodules as instances so their get_*() functions can be probed.
+
+        Modules are indexed by `repr(module)` (e.g. `<module 'Licensing'>`), unlike
+        class entries which are keyed by `repr(type(obj))`. Bypass the standard
+        `_add_instance` (which only handles class instances) and append directly.
+        """
+        for r, entry in self.repr_index.items():
+            if not entry.get("is_module"):
+                continue
+            # path is like "/Live/Licensing" — resolve via getattr chain on Live.
+            parts = entry["path"].strip("/").split("/")
+            try:
+                obj = Live
+                for part in parts[1:]:  # skip "Live"
+                    obj = getattr(obj, part)
+                instances = entry.setdefault("instances", [])
+                key = id(obj)
+                if any(i["_key"] == key for i in instances):
+                    continue
+                instances.append({"_live_ptr": None, "_key": key, "probed": False, "_obj": obj})
+                self.log(f"  Seeded module {r}")
+            except Exception as e:
+                self.log(f"  Failed to seed module {r}: {e}")
 
     def _hardcoded_constructors(self) -> list:
         """Registry of constructor calls that need specific arguments."""
@@ -389,6 +440,14 @@ class PropertyProbe:
                         break
                 if not all_children_complete:
                     continue
+
+                # Modules have empty `properties` so they'd be trivially complete on the
+                # first pass — block the completion until the module instance has been
+                # probed (so its getters get called).
+                if entry.get("is_module"):
+                    instances = entry.get("instances", [])
+                    if not any(inst.get("probed") for inst in instances):
+                        continue
 
                 entry["complete"] = True
                 changed = True
