@@ -3,15 +3,14 @@
 Three-stage pipeline for capturing Live API metadata and generating typed Python stubs.
 
 ```
-Stage 1: Capture + Probe  (inside Live)                 → LiveTree.raw.json + LiveClasses.json
+Stage 1: Capture + Probe  (inside Live)        → LiveTree.raw.json + LiveClasses.json
 - Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
 - Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
-Stage 2: Parse & Refine   (external + decompiled + LLM) → LiveTree.resolved.json
-- Parses raw capture into structured tree, merges probe results, extracts unresolved items (LiveTree.parsed.json)
-- Deterministic name resolution from decompiled Remote Scripts + usage hints (refinements.callsite.json)
-- LLM-guided refinement of unresolved items using tree structure, docstrings, usage hints, and M4L docs (refinements.llm.json)
-Stage 3: Generate         (external)                    → stubs/<version>/Live/*.pyi
-- Renders resolved tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
+Stage 2: Parse + Refine   (external)           → LiveTree.parsed.json
+- Parses raw capture into structured tree, merges probe results
+- Applies hand-curated refinements from manual_refinements.yaml (each entry sourced)
+Stage 3: Generate         (external)           → stubs/<version>/Live/*.pyi
+- Renders parsed tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
 ```
 
 ## Stage 1: Capture + Probe (runs inside Live)
@@ -138,16 +137,17 @@ earlier device are skipped. Each device is deleted after probing. Results are me
 All capture modules use `from __future__ import annotations` so that modern type hint syntax works on Live 11's Python
 3.7.3 runtime without raising `TypeError` at import time.
 
-## Stage 2: Parse (runs outside Live)
+## Stage 2: Parse + Refine (runs outside Live)
 
 The pipeline is intentionally minimal — see [doc/decisions.md "Stub Accuracy and Pipeline
-Posture"](../doc/decisions.md#stub-accuracy-and-pipeline-posture) for the rationale. One script turns the raw capture
-into a structured tree:
+Posture"](../doc/decisions.md#stub-accuracy-and-pipeline-posture) for the rationale. Two scripts: parse the raw capture
+into a structured tree, then apply hand-curated refinements.
 
 ```bash
-python tools/parse/parse_apicapture_results.py 12.3.6
-# or, equivalently:
 python tools/parse/run_parse_pipeline.py 12.3.6
+# Equivalent to:
+#   python tools/parse/parse_apicapture_results.py 12.3.6
+#   python tools/parse/apply_manual_refinements.py 12.3.6
 ```
 
 Output: `stubs/12.3.6/pipeline/LiveTree.parsed.json`.
@@ -155,7 +155,7 @@ Output: `stubs/12.3.6/pipeline/LiveTree.parsed.json`.
 ### parse_apicapture_results.py
 
 Reads `LiveTree.raw.json` + `LiveClasses.json` from the pipeline directory and produces `LiveTree.parsed.json` — a
-normalized, enriched tree ready for stub generation.
+normalized, enriched tree.
 
 Transforms applied:
 
@@ -170,8 +170,15 @@ Transforms applied:
 - **Type resolution** — resolves raw signature parts into clean structured args/returns using a C++ → Python type map
 - **Probe merge** — folds `LiveClasses.json` runtime types, settability, and listeners into the tree nodes
 
-This is the only refinement step the pipeline performs. There is no LLM resolution, no callsite analysis, no
-hand-stamped overrides — only what we scrape from Live itself reaches the stubs.
+### apply_manual_refinements.py
+
+Applies hand-curated overrides from [`tools/parse/manual_refinements.yaml`](parse/manual_refinements.yaml) in-place onto
+`LiveTree.parsed.json`. Each entry must include a `source:` field documenting why the override is justified — corpus
+def-sites in the decompiled Remote Scripts, M4L docs, docstring inference, etc. Bracket labels per arg
+(`[callsite, N/M defs]`, `[M4L docs]`, `[docstring]`, `[inferred]`, …) make the evidence kind explicit.
+
+There is no LLM resolution, no callsite-resolve stage, no automated arg-name voting — only what we scrape from Live
+itself, plus the curated refinements with sourced rationale.
 
 ## Stage 3: Generate Stubs (runs outside Live)
 
@@ -179,7 +186,7 @@ hand-stamped overrides — only what we scrape from Live itself reaches the stub
 python tools/generate/generate_stubs.py 12.3.6
 ```
 
-Reads `LiveTree.resolved.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement
+Reads `LiveTree.parsed.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement
 logic — it renders the tree as-is.
 
 Output layout:
@@ -211,15 +218,17 @@ tools/
 │   │   └── DeviceProbe.py     Tick-driven device probing
 │   └── helpers/
 │       └── app.py           Version number extraction
-├── parse/                   Stages 2–3: parsing, refinement, generation
-│   ├── parse_apicapture_results.py   Stage 2: parse raw capture → parsed tree
-│   ├── extract_unresolved.py         Stage 2: find unresolved types/names
-│   ├── callsite_resolve.py           Stage 2: deterministic name resolution from decompiled scripts
-│   ├── build_type_skeleton.py        Stage 2: compact API skeleton for LLM context
-│   ├── llm_resolve.py               Stage 2: LLM-assisted resolution
-│   ├── llm_resolve_prompt.md         System prompt for LLM resolution
-│   ├── apply_refinements.py          Stage 2: apply refinements → resolved tree
-│   └── generate_stubs.py            Stage 3: generate .pyi stubs
+├── parse/                   Stage 2: parsing + manual refinements
+│   ├── parse_apicapture_results.py   Parse raw capture → LiveTree.parsed.json
+│   ├── apply_manual_refinements.py   Apply manual_refinements.yaml in-place
+│   ├── manual_refinements.yaml       Hand-curated overrides (each with sourced rationale)
+│   ├── refinements_followup.md       Backlog of items needing runtime probes
+│   ├── research_refinements.py       Cross-codebase evidence gathering for refinement entries
+│   └── run_parse_pipeline.py         Orchestrator (parse + apply)
+├── generate/                Stage 3: stub + reference doc generation
+│   ├── generate_stubs.py             Generate .pyi stub files
+│   └── generate_reference.py         Generate API reference docs
+├── verify/                  Verification — pyright audit + corpus consistency checks
 ├── install.py               Install APICapture to Live's Remote Scripts
 ├── sets/                    Ableton Live sets used for probing
 └── other/                   Legacy/utility scripts
