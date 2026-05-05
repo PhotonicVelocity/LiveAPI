@@ -85,6 +85,7 @@ If the new test fails against current stubs, that's a real finding — either th
 have the wrong type, or the pattern was misread. Investigate before adjusting either side.
 
 When the corpus pin is bumped (a new Live version's decompiled scripts land):
+
 1. Update `CORPUS_PIN` in `tools/fetch_external/corpus.py`.
 2. `tools/fetch_external/bootstrap.sh --force` to re-fetch.
 3. `sed -i '' "s/810ef77/<new>/g" tests/usage/*.py tools/verify/README.md` (or the equivalent rename pass).

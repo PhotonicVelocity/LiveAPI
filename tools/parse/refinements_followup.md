@@ -33,7 +33,7 @@ doc on the behavioral-pipeline branch.
 
 There is no public path to obtain a `ListenerHandle` instance from a Control
 Surface context: all 367 `add_*_listener` methods return `None`, the class's
-`init_doc` says *"This class cannot be instantiated from Python"*, no Live
+`init_doc` says _"This class cannot be instantiated from Python"_, no Live
 property exposes a `ListenerVector`, and zero corpus usage exists. The class
 appears in the capture's `dir()` walk but instances are private to Live's
 internal machinery.

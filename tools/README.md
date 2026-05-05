@@ -113,7 +113,11 @@ Output format:
     "complete": true,
     "properties": {},
     "getters": {
-      "get_unlock_dir": { "probed": true, "type": "tuple", "element_reprs": ["<class 'str'>", "<class 'bool'>"] }
+      "get_unlock_dir": {
+        "probed": true,
+        "type": "tuple",
+        "element_reprs": ["<class 'str'>", "<class 'bool'>"]
+      }
     }
   }
 }
