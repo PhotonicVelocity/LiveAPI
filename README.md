@@ -39,7 +39,7 @@ pip install ableton-live-stubs
 
 Each release pins a specific Live version. (Re-publish to PyPI is pending; until then, use the path below.)
 
-**From this repo — bleeding-edge or contributing.** Point your type checker's stub path at the version directory:
+**From this repo — bleeding-edge or contributing.** Point the type checker's stub path at the version directory:
 
 ```jsonc
 // pyrightconfig.json
@@ -67,17 +67,17 @@ def on_tempo_changed(song: Song) -> None:
 
 ### Limitations & caveats
 
-The stubs are best-effort. Live's Python API is a Boost.Python binding with no published reference, so we work from
-runtime introspection plus a handful of cross-referenced sources (Max for Live docs, decompiled Remote Scripts).
-Some of that has slack in it — read the stubs as "Ableton's most likely intent" rather than a contract.
+The stubs are best-effort. Live's Python API is a Boost.Python binding with no published reference, so the pipeline
+draws from runtime introspection plus a handful of cross-referenced sources (Max for Live docs, decompiled Remote
+Scripts). Some of that has slack in it — read the stubs as "Ableton's most likely intent" rather than a contract.
 
 #### Posture decisions
 
 - **Names are decorative.** All callables emit PEP 570 positional-only markers (`, /`), so type-checkers won't
   accept kwarg calls (`song.create_scene(index=0)` fails). Names show in autocomplete + hover but never as kwargs.
-- **Types are conservative.** Where we couldn't pin down a specific type, we leave it as `object` rather than
-  guessing. A wrong-but-pretty type that lets pyright accept a runtime-crashing call is worse than a vague-but-honest
-  one — especially for Boost.Python's native-Vector args.
+- **Types are conservative.** Args without a pinned-down type stay as `object` rather than getting a guess. A
+  wrong-but-pretty type that lets pyright accept a runtime-crashing call is worse than a vague-but-honest one —
+  especially for Boost.Python's native-Vector args.
 - **Refinements over reality, not prettiness.** Hand-curated overrides in
   [`tools/parse/manual_refinements.yaml`](tools/parse/manual_refinements.yaml) are only used to correct known wrongness
   (every entry carries a `source:` field with concrete evidence). They never invent narrowings the binding doesn't
@@ -95,26 +95,26 @@ Every change to the stubs runs through three CI gates ([`.github/workflows/verif
   commit of [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts)) — the
   stubs must accept what Ableton's engineers wrote and shipped. Hard gate.
 
-(There's a deferred Tier 3 — pyright `--verifytypes` for PEP 561 completeness scoring — that we'll wire in when we
-want a public coverage number.)
+(There's a deferred Tier 3 — pyright `--verifytypes` for PEP 561 completeness scoring — to be wired in when a
+public coverage number is wanted.)
 
 In addition, an offline corpus audit ([`tools/verify/audit_corpus.py`](tools/verify/audit_corpus.py)) runs pyright
-over the entire decompiled corpus against our stubs to surface places where the stubs disagree with working
+over the entire decompiled corpus against the stubs to surface places where the stubs disagree with working
 production code. Not a CI gate; used during refinement work.
 
 #### Known weak spots
 
-The stubs ship with a small set of items where we know the type is best-guess. The full ledger lives in
-[`tools/parse/refinements_followup.md`](tools/parse/refinements_followup.md); the user-facing summary:
+The stubs ship with a small set of items typed on weaker evidence. The full ledger lives in
+[`tools/parse/refinements_followup.md`](tools/parse/refinements_followup.md); user-facing summary:
 
-| Area | What we have | What's missing |
+| Area | Current type | Why it's weak |
 |---|---|---|
-| `Live.Licensing.PythonLicensingBridge.*` (5 properties + 3 method signatures) | Types inferred from `raw_doc` and naming patterns. | The class is M4L-only and can't be instantiated from a Control Surface, so we can't probe it. Needs an M4L probe device. |
-| `Live.Listener.ListenerHandle.{listener_func, listener_self, name}` | Types inferred from `raw_doc`. | Probe didn't reach the class (no listeners registered during the probe phase). |
+| `Live.Licensing.PythonLicensingBridge.*` (5 properties + 3 method signatures) | Inferred from `raw_doc` and naming patterns. | The class is M4L-only and can't be instantiated from a Control Surface — unreachable to the probe. Needs an M4L probe device. |
+| `Live.Listener.ListenerHandle.{listener_func, listener_self, name}` | Inferred from `raw_doc`. | Probe didn't reach the class (no listeners registered during the probe phase). |
 | `Live.Application.ControlSurfaceProxy.{pad_layout, type_name}` | M4L docs say `pad_layout` is a string; `type_name` inferred from name. | M4L-only class, same situation as Licensing. |
-| `Clip.{add_new_notes, *_notes_by_id}` `notes` / `note_ids` args | Typed as `object` (no narrowing) | These accept Live's native vector classes (`MidiNoteVector`, `IntU64Vector`); typing them as `Iterable[T]` would let pyright accept calls that raise `InternalError` at runtime. Conservatively left untyped until we probe which exact vector class each accepts. |
-| `map_midi_*_with_feedback_map` `feedback_rule` arg | Strictly typed (no `\| None`) | The corpus never passes literal `None`, but the binding *might* accept it. Currently strict; would be widened if a probe confirms it. |
-| Various `insert_device` / `create_take_lane` / `duplicate_notes_by_id.destination_time` | Medium-confidence types from baseline + M4L | Probe could pin them down. |
+| `Clip.{add_new_notes, *_notes_by_id}` `notes` / `note_ids` args | `object` (no narrowing). | These accept Live's native vector classes (`MidiNoteVector`, `IntU64Vector`); typing them as `Iterable[T]` would let pyright accept calls that raise `InternalError` at runtime. Conservatively left untyped until a probe confirms which exact vector class each accepts. |
+| `map_midi_*_with_feedback_map` `feedback_rule` arg | Strictly typed (no `\| None`). | The corpus never passes literal `None`, but the binding *might* accept it. Currently strict; would be widened if a probe confirms it. |
+| `insert_device` / `create_take_lane` returns; `duplicate_notes_by_id.destination_time` | Medium-confidence from baseline + M4L. | Probe could pin them down. |
 
 ## First-time setup (contributors)
 
