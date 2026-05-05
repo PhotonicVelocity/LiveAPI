@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from Live.DrumPad import DrumPad
     from Live.SimplerDevice import SimplerDevice
     from Live.Song import Song
-    from Live.Track import Track
 
 
 
@@ -46,7 +45,7 @@ def is_convertible_to_midi(song: Song, audio_clip: Clip, /) -> bool:
     """
     ...
 
-def move_devices_on_track_to_new_drum_rack_pad(song: Song, track_index: int, /) -> Track:
+def move_devices_on_track_to_new_drum_rack_pad(song: Song, track_index: int, /) -> DrumPad | None:
     """
     Moves the entire device chain of the track according to the track index
     onto the C1 (note 36) drum pad of a new drum rack in a new track.If the track associated with the track index does not contain any devices

@@ -75,9 +75,11 @@ _meta:
   probed_type:
     from: NoneType
     to: "Groove | None"
+  confidence: high
   source: |
-    Docstring: "Get the groove associated with this clip." None when the clip has
-    no groove assigned.
+    Docstring: "Get the groove associated with this clip." Baseline note explicit:
+    "Clip.groove returns a Groove handle when assigned, None when no groove is set"
+    (doc/live-api/Groove.md:24). M4L confirms.
 
 "Live.RackDevice.RackDevice.View.selected_chain":
   probed_type:
@@ -120,9 +122,11 @@ _meta:
   probed_type:
     from: NoneType
     to: "DeviceParameter | None"
+  confidence: high
   source: |
-    Docstring: "Get the currently selected device parameter." Read-only nullable
-    reference; None when no parameter is selected.
+    Docstring + baseline (doc/live-api/Song.md:1478, 1521) confirm DeviceParameter
+    return type. M4L docs explicit: "selected_parameter [DeviceParameter] read-only
+    observe". Read-only nullable.
 
 "Live.Song.Song.appointed_device":
   probed_type:
@@ -262,9 +266,11 @@ _meta:
     midi_event_bytes:
       from: object
       to: "tuple[int, ...]"
+  confidence: high
   source: |
     arg2 rename — callsite (deterministic AST analysis): definition votes 10/20 for 'midi_event_bytes'.
-    type — usage snippets show tuples of MIDI byte values being passed.
+    type — corpus passes tuples of int constants like (NOTEON_STATUS+ch, note, 127);
+    LV2_LX2_LC2_LD2/LV2TransportController.py:69-71 and FaderfoxComponent.py:42 confirm.
 
 "Live.Application.ControlSurfaceProxy.send_value":
   args:
@@ -273,9 +279,12 @@ _meta:
     value:
       from: object
       to: "tuple[Any, ...]"
+  confidence: medium
   source: |
     arg2 rename — callsite (deterministic AST analysis): definition votes 16/19 for 'value'.
-    type — usage shows various values wrapped in tuples being sent.
+    type — corpus passes various values; tuple[Any, ...] is plausible but the corpus
+    samples don't always wrap in tuples (e.g. SL_MkIII passes int directly). Type may
+    actually be `Any` rather than tuple-of-Any. Watch for drift.
 
 "Live.Base.log":
   args:
@@ -560,9 +569,11 @@ _meta:
     notes:
       from: object
       to: "tuple[tuple[int, float, float, float, bool], ...]"
+  confidence: high
   source: |
     arg2 rename — LLM (docstring): "tuple of tuples where each inner tuple represents a note".
-    type — same docstring: format matches get_selected_notes return shape:
+    type — baseline doc/live-api/Clip.md (1117, 1747) and M4L docs (clip.md:345)
+    confirm tuple-of-tuples format matching get_selected_notes:
     (pitch, time, duration, velocity, mute) per note.
 
 "Live.Clip.Clip.select_notes_by_id":
@@ -586,9 +597,11 @@ _meta:
     notes:
       from: object
       to: "tuple[tuple[int, float, float, float, bool], ...]"
+  confidence: high
   source: |
     arg2 rename — LLM (docstring): "tuple of tuples where each inner tuple represents a note".
-    type — same docstring: format matches get_notes return shape:
+    type — baseline doc/live-api/Clip.md (1124, 1874) and M4L docs (clip.md:327)
+    confirm tuple-of-tuples format matching get_notes:
     (pitch, time, duration, velocity, mute) per note.
 
 "Live.ClipSlot.ClipSlot.create_audio_clip":
@@ -684,9 +697,11 @@ _meta:
   return_type:
     from: null
     to: "list[int]"
+  confidence: high
   source: |
     arg2 rename — LLM (M4L docs): docs explicitly name the parameter 'bank_index'.
-    return — M4L docs say "list of ints" (parameter indices).
+    return — M4L docs + baseline (doc/live-api/MaxDevice.md:32-44) confirm list[int].
+    Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
 
 "Live.MaxDevice.MaxDevice.get_value_item_icons":
   args:
@@ -969,7 +984,11 @@ _meta:
   probed_type:
     from: null
     to: str
-  source: Usage snippets show string assignment and retrieval; class is Text wrapping a string.
+  confidence: high
+  source: |
+    Corpus assigns/reads as string: pushbase/message_box_component.py:159
+    `self._message_box.text = message`; Push2/model/repr.py:726 reads.
+    Baseline + M4L docs confirm string content.
 
 "Live.Licensing.PythonLicensingBridge.base_product_id":
   probed_type:
@@ -1034,9 +1053,12 @@ _meta:
   element_repr:
     from: null
     to: "<class 'UnavailableFeature'>"
+  confidence: high
   source: |
     Property's probed_type is UnavailableFeatureVector; element type is the
-    UnavailableFeature enum. Usage snippets confirm iteration yields enum values.
+    UnavailableFeature enum. Baseline doc/live-api/Application.md:114, 210
+    confirms; corpus checks `Live.Application.UnavailableFeature.X not in
+    Live.Application.get_application().unavailable_features`.
 
 "Live.Application.ControlDescriptionVector":
   element_repr:
@@ -1066,13 +1088,19 @@ _meta:
   element_repr:
     from: null
     to: "<class 'BrowserItem'>"
-  source: Iterator over children browser items yields BrowserItem objects.
+  confidence: high
+  source: |
+    Baseline doc/live-api/Browser.md:775 documents iter_children; corpus
+    Push2/browser_component.py:676 iterates browser items via this property.
 
 "Live.Browser.BrowserItemIterator":
   element_repr:
     from: null
     to: "<class 'BrowserItem'>"
-  source: raw_doc says "iterates over children of another BrowserItem".
+  confidence: high
+  source: |
+    raw_doc + baseline doc/live-api/Browser.md:617, 707, 715 confirm.
+    Corpus: Push2/browser_list.py:63 isinstance check against this class.
 
 "Live.Listener.ListenerVector":
   element_repr:
@@ -1086,13 +1114,19 @@ _meta:
   element_repr:
     from: null
     to: "<class 'int'>"
-  source: MIDI CC values are integers in range 0-127.
+  confidence: high
+  source: |
+    Corpus assigns int tuples directly: LV2_LX2_LC2_LD2/ParamMap.py:69,
+    SL_MkIII/sl_mkiii.py:117, _Axiom/Encoders.py:38.
 
 "Live.MidiMap.NoteFeedbackRule.vel_map":
   element_repr:
     from: null
     to: "<class 'int'>"
-  source: MIDI velocity values are integers in range 0-127.
+  confidence: high
+  source: |
+    Corpus assigns int tuples directly: Axiom_AIR_25_49_61.py:594,
+    ableton/v2/control_surface/control_surface.py:420, _Framework/ControlSurface.py:471.
 
 "Live.MidiMap.PitchBendFeedbackRule.value_pair_map":
   element_repr:
@@ -1108,9 +1142,11 @@ _meta:
   element_repr:
     from: null
     to: "<class 'int'>"
+  confidence: high
   source: |
-    M4L docs say "positions of all playable slices in sample frames" — frame
-    positions are integers.
+    M4L docs (sample.md:68) say "list of int read-only" + "positions of all playable
+    slices in sample frames". Baseline doc/live-api/Sample.md:52 confirms list[int].
+    Corpus: Push2/timeline_navigation.py iterates and accesses positions.
 
 # ─── Argument types: low-risk fixes from M4L docs / docstrings (11 entries) ───
 
@@ -1143,8 +1179,10 @@ _meta:
   confidence: high
   source: |
     Method literally adds a WarpMarker; companion class name + API context.
-    Native Boost.Python binding takes the WarpMarker class instance — the
-    "literal" type for this argument.
+    Native Boost.Python binding takes the WarpMarker class instance.
+    Confirmed: P4L wrapper at typing/clip.py:1398,1484 calls add_warp_marker
+    with {beat_time, sample_time}; baseline doc/live-api/Clip.md:1166 documents
+    the WarpMarker arg shape.
 
 "Live.Clip.Clip.duplicate_notes_by_id":
   arg_types:
@@ -1204,16 +1242,22 @@ _meta:
   return_type:
     from: null
     to: Any
+  confidence: high
   source: |
-    arg type — usage shows various default-value types (bool, int, list, str, None).
-    get_data accepts any default and returns whatever was stored (or the default).
+    Corpus passes int (3, 5), bool (True), str defaults — baseline at
+    doc/live-api/probe-summary.md:156 records the probed quirk that
+    `set_data(key, None)` + `get_data(key, default)` returns None rather than
+    default. Any matches reality.
 
 "Live.Song.Song.set_data":
   arg_types:
     value:
       from: object
       to: Any
-  source: Usage shows various stored types — set_data accepts arbitrary persistent data.
+  confidence: high
+  source: |
+    Corpus passes int (interval), bool (is_horizontal), arbitrary persistent
+    data — pushbase/instrument_component.py:88-110 shows the pattern. Any matches.
 
 "Live.Track.Track.get_data":
   arg_types:
@@ -1223,14 +1267,17 @@ _meta:
   return_type:
     from: null
     to: Any
-  source: Same pattern as Song.get_data — Track-level persistent data store.
+  confidence: high
+  source: Same pattern as Song.get_data, corpus-confirmed via P4L's _data.py wrapper
+    that calls both Song and Track set/get_data with arbitrary types.
 
 "Live.Track.Track.set_data":
   arg_types:
     value:
       from: object
       to: Any
-  source: Same pattern as Song.set_data.
+  confidence: high
+  source: Same pattern as Song.set_data — corpus-confirmed.
 
 # Conservative widenings on find_device_position / move_device — M4L docs say
 # "chain container", which is Track or Chain. May be too narrow if Live ever
@@ -1241,20 +1288,23 @@ _meta:
   arg_types:
     target:
       from: object
-      to: "Track | Chain"
-  confidence: low
+      to: LomObject
+  confidence: high
   source: |
-    M4L docs describe `target` as a chain container — Track or Chain in current Live.
-    Confidence low: may miss DrumChain (Track | Chain | DrumChain?). No corpus call
-    sites; widen if the audit ever surfaces a contradiction.
+    LLM had this narrowed to `Track | Chain`, which is WRONG. The curated baseline
+    (doc/live-api/Song.md:855, 1102) records the signature as `target: LomObject`
+    — broader, accepting any device-container LomObject (Track, Chain, DrumChain,
+    rack instances, etc.). LLM's narrowing would falsely reject valid containers.
+    Caught during the cross-codebase research pass.
 
 "Live.Song.Song.move_device":
   arg_types:
     target:
       from: object
-      to: "Track | Chain"
-  confidence: low
-  source: Same pattern as find_device_position; same widening caveat.
+      to: LomObject
+  confidence: high
+  source: Same correction as find_device_position — baseline says LomObject (any
+    device-container), not the LLM's narrower Track | Chain.
 
 # ─── Argument types: REJECTED Iterable[T] for vector-parameter functions ──────
 #
@@ -1301,7 +1351,11 @@ _meta:
   return_type:
     from: null
     to: "tuple[int, ...]"
-  source: Usage shows encryption function returning tuple of integer values.
+  confidence: high
+  source: |
+    Corpus uses: Push/handshake_component.py:53 wraps it for encryption,
+    _APC/APC.py:79 compares the return to a dongle challenge tuple. Baseline
+    Application.md:38 lists it as a module-level static.
 
 "Live.Chain.Chain.insert_device":
   return_type:
@@ -1315,20 +1369,31 @@ _meta:
   return_type:
     from: null
     to: "tuple[tuple[int, float, float, float, bool], ...]"
+  confidence: high
   source: |
-    Description: tuple of (pitch, time, duration, velocity, mute) per note.
+    Baseline doc/live-api/Clip.md:1103, 1461 confirm tuple-of-tuples format.
+    Format mirror of get_selected_notes (same shape) per docstring.
 
 "Live.Clip.Clip.get_selected_notes":
   return_type:
     from: null
     to: "tuple[tuple[int, float, float, float, bool], ...]"
-  source: Description says same format as get_notes.
+  confidence: high
+  source: |
+    Baseline doc/live-api/Clip.md:1106, 1527 + corpus _MxDCore handler
+    confirm same tuple-of-tuples format as get_notes.
 
 "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad":
   return_type:
     from: null
-    to: Track
-  source: Function creates a new track with drum rack and returns it.
+    to: "DrumPad | None"
+  confidence: high
+  source: |
+    LLM had this as `Track`, which is WRONG. doc/live-api/Conversions.md (line 26)
+    explicitly probed and recorded: "Returns `None` on no-op (no devices)" and the
+    M4L docs / curated table (line 63) list the return as `DrumPad / None`. The
+    function moves devices INTO a drum rack pad and returns that pad — not a Track.
+    Caught during the cross-codebase research pass.
 
 "Live.Licensing.get_unlock_dir":
   return_type:
@@ -1345,7 +1410,10 @@ _meta:
   return_type:
     from: null
     to: Chain
-  source: 'M4L docs: function inserts and returns a Chain.'
+  confidence: high
+  source: |
+    Baseline doc/live-api/RackDevice.md:298 explicitly: "Insert a new empty chain
+    at the given index ... returns Chain". M4L docs confirm.
 
 # Song.Song.get_data return-type consolidated above with its arg_types entry (~line 1160).
 
@@ -1353,9 +1421,10 @@ _meta:
   return_type:
     from: null
     to: "tuple[tuple[str, tuple[int, ...]], ...]"
+  confidence: high
   source: |
-    Usage shows tuple of scale tuples with name and note intervals — (name,
-    intervals) pairs.
+    Baseline doc/live-api/Song.md:879, 1450 confirm. Corpus pushbase/melodic_pattern.py:52
+    unpacks: `Scale(name=x[0], notes=x[1]) for x in Live.Song.get_all_scales_ordered()`.
 
 "Live.Track.Track.create_take_lane":
   return_type:
