@@ -1527,11 +1527,14 @@ _meta:
   return_type:
     from: null
     to: Device
-  confidence: medium
+  confidence: high
   source: |
-    M4L docs and function semantics: returns the inserted Device. Sister
-    Track.insert_device behaves identically. Baseline lists `LomObject` return;
-    narrowed to Device for ergonomics. Tracked in refinements_followup.md.
+    C++ signature returns `TWeakPtr<TPyHandleBase>` (the generic LomObject
+    handle), but probe data shows `chain.devices` element_reprs are
+    `<class 'Device.Device'>` (plus the `WavetableDevice` subclass) — the
+    runtime returns properly-typed Device instances when iterated, so
+    `insert_device` returning `Device` matches the observed instance type.
+    raw_doc + M4L docs confirm semantics ("Add a device at a given index").
 
 "Live.Clip.Clip.get_notes":
   return_type:
@@ -1613,10 +1616,13 @@ _meta:
   return_type:
     from: null
     to: TakeLane
-  confidence: medium
-  source: M4L docs say "Creates a take lane for this track" — returns TakeLane.
-    Baseline lists `LomObject` return; narrowed to TakeLane for ergonomics.
-    Tracked in refinements_followup.md.
+  confidence: high
+  source: |
+    C++ signature returns `TWeakPtr<TPyHandleBase>` (generic LomObject), but
+    raw_doc names the type ("Create a new TakeLane for this track") and probe
+    data shows `track.take_lanes` element_repr is `<class 'TakeLane.TakeLane'>`
+    — the runtime returns TakeLane instances when iterated, matching the
+    create return.
 
 # Track.Track.get_data return-type consolidated above with its arg_types entry.
 
@@ -1624,8 +1630,9 @@ _meta:
   return_type:
     from: null
     to: Device
-  confidence: medium
+  confidence: high
   source: |
-    M4L docs: inserts and returns the Device. Sister Chain.insert_device behaves
-    identically. Baseline lists `LomObject` return; narrowed to Device for
-    ergonomics. Tracked in refinements_followup.md.
+    Same shape as Chain.insert_device. C++ returns `TWeakPtr<TPyHandleBase>`
+    (generic LomObject), but probe data shows `track.devices` element_repr
+    is `<class 'Device.Device'>` — the runtime returns Device instances when
+    iterated, matching the insert return. raw_doc + M4L confirm semantics.

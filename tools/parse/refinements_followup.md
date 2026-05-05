@@ -64,20 +64,6 @@ were themselves probed in MS33).
   A probe could pin down whether the binding has internal narrowing (only Track /
   Chain / DrumChain / RackDevice, etc.) — would let us tighten the type if so.
 
-## Type-fixes left at `medium` — strong-but-not-runtime evidence
-
-These have plausible types from baseline docs / M4L docs but no probe data to lock
-them down. Lower priority; revisit if drift surfaces.
-
-- `Live.Track.Track.create_take_lane` → `TakeLane` — baseline lists `LomObject`
-  return; M4L docs say "Creates a take lane for this track"; P4L wrapper uses
-  `TakeLane`. Likely correct but the C++ binding apparently exposes as
-  `LomObject`. Probe to confirm.
-- `Live.Track.Track.insert_device` → `Device` — baseline lists `LomObject` return;
-  same situation as create_take_lane.
-- `Live.Chain.Chain.insert_device` → `Device` — same.
-- `Live.Clip.Clip.duplicate_notes_by_id.destination_time` → `float | None`.
-
 ### `map_midi_*_with_feedback_map` — feedback_rule nullability (REMOVED, may re-add)
 
 Three sister functions previously had a `feedback_rule: T -> T | None` widening:
