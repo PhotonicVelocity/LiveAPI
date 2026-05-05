@@ -28,9 +28,19 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Search roots — only the dirs that exist on this machine are used.
+#
+# P4L source (typed wrappers) is intentionally NOT a "verification" source — its
+# types are derived from the same docs/assumptions we're refining and may share
+# our errors. Only P4L's integration tests count as runtime evidence: they actually
+# execute against a running Live instance and observe real values.
+#
+# LR has no integration tests (only unit tests with fake bridges), so LR source
+# isn't a verification source either — kept here only to surface that a symbol
+# might appear in the bridge's protocol layer.
 SEARCH_ROOTS = {
-    "P4L": Path.home() / "dev" / "PythonForLive" / "src" / "pythonforlive" / "typing",
-    "LR": Path.home() / "dev" / "LiveRelay" / "clients" / "python" / "src" / "liverelay",
+    "P4L-tests": Path.home() / "dev" / "PythonForLive" / "tests" / "integration",
+    "P4L-src": Path.home() / "dev" / "PythonForLive" / "src" / "pythonforlive" / "typing",
+    "LR-src": Path.home() / "dev" / "LiveRelay" / "clients" / "python" / "src" / "liverelay",
     "baseline": REPO_ROOT / "doc" / "live-api",
     "corpus": REPO_ROOT / "doc" / "decompiled" / "AbletonLive12_MIDIRemoteScripts",
     "m4l": REPO_ROOT / "doc" / "max-for-live-docs" / "9.0",

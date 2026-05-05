@@ -69,6 +69,29 @@ them down. Lower priority; revisit if drift surfaces.
 - `Live.Chain.Chain.insert_device` → `Device` — same.
 - `Live.Clip.Clip.duplicate_notes_by_id.destination_time` → `float | None`.
 
+### `map_midi_*_with_feedback_map` — feedback_rule nullability (REMOVED, may re-add)
+
+Three sister functions previously had a `feedback_rule: T -> T | None` widening:
+
+- `Live.MidiMap.map_midi_cc_with_feedback_map` — `CCFeedbackRule | None`
+- `Live.MidiMap.map_midi_note_with_feedback_map` — `NoteFeedbackRule | None`
+- `Live.MidiMap.map_midi_pitchbend_with_feedback_map` — `PitchBendFeedbackRule | None`
+
+Originally tagged `high` based on an audit that read `feedback_rule = None` at
+the top of `_install_mapping` in `_Framework/ControlSurface.py` and
+`ableton/v2/control_surface/control_surface.py` as "None passed at runtime."
+On re-read, the variable is reassigned to a concrete `*FeedbackRule` in all
+reachable paths before any dispatch call — and the immediately-preceding
+`feedback_rule.channel = ...` would AttributeError on None. No corpus call site
+across all 11 files passes a literal None.
+
+Widenings **removed** rather than downgraded — the stub is now strictly typed
+on these args, matching the corpus's actual usage. Re-add `T | None` only after
+a runtime probe confirms the binding accepts None — e.g., a small P4L
+integration test that calls one of these with `feedback_rule=None` and observes
+no exception. (The cc entry has no other refinements and was removed entirely
+from `manual_refinements.yaml`; note + pitchbend keep their arg-name renames.)
+
 ## Resolution shape
 
 When a probe lands on any of these, update the entry's:

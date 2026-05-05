@@ -27,7 +27,11 @@
 #
 # Confidence levels:
 #   high   — runtime-probed against Live, OR corpus-verified (Ableton's shipped
-#            Remote Scripts pass this type AND pyright accepts the call).
+#            Remote Scripts pass this type AND pyright accepts the call), OR
+#            covered by P4L's integration-test suite (which executes against a
+#            running Live and observes real values). PythonForLive *source*
+#            alone does NOT count — its types are derived from the same docs
+#            we're refining and may share our errors.
 #   medium — M4L docs explicit, docstring explicit, sister-method semantics, or
 #            other strong-but-not-runtime evidence. **Default if omitted.**
 #   low    — structural inference, naming-pattern guess, or "best inference from
@@ -64,6 +68,8 @@ _meta:
     signature for relation_to_hotswap_target takes NPythonBrowser::TPythonBrowserItem and
     originally suggested otherwise. None when no hotswap is active. Settable: assigning a
     Device handle activates hotswap; assigning None deactivates.
+    P4L integration test verifies: tests/integration/typed/test_browser_presets.py:43-53
+    assigns Device, asserts `is not None`, then assigns None and asserts `is None`.
   _note: |
     Push2/browser_component.py:538 still trips pyright because Push2 does
     `self._browser.hotswap_target.selected_preset_index = ...` — selected_preset_index is
@@ -107,6 +113,8 @@ _meta:
   source: |
     Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
     Corpus-verified — Push and Push2 both read and assign Clip values here.
+    P4L integration test verifies: tests/integration/typed/test_clip_save_default.py:77-90
+    selects a clip, then `assert shown.oid == clip.oid` on the detail_clip read-back.
 
 "Live.Song.Song.View.selected_chain":
   probed_type:
@@ -138,30 +146,17 @@ _meta:
     verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
     values here.
 
-# ─── Feedback-rule parameters: missing nullability ────────────────────────────
+# ─── Feedback-rule parameter renames (type-widening REJECTED) ────────────────
 #
-# The feedback-rule parameter on the three with_feedback_map MIDI mapping
-# functions is documented as required, but Ableton's own _Framework/ControlSurface.py
-# (and ableton/v2/control_surface/control_surface.py) passes None at runtime for
-# all three. The Boost.Python binding accepts None; our stub claiming a non-None
-# parameter type is strictly narrower than the runtime.
-
-"Live.MidiMap.map_midi_cc_with_feedback_map":
-  arg_types:
-    feedback_rule:
-      from: CCFeedbackRule
-      to: "CCFeedbackRule | None"
-  confidence: high
-  source: |
-    Audit found None passed at _Framework/ControlSurface.py:488 and
-    ableton/v2/control_surface/control_surface.py:438 — Ableton's official base
-    classes pass None when no feedback rule applies.
-
-# Note: map_midi_note_with_feedback_map and map_midi_pitchbend_with_feedback_map
-# combine arg-name renames (imported below) with the feedback-rule type widening
-# documented above. They live as single consolidated entries here rather than
-# duplicate entries in the import block — duplicate top-level keys would otherwise
-# cause silent override (PyYAML's "last wins" behavior).
+# The three with_feedback_map functions had a `T -> T | None` widening on
+# feedback_rule based on an audit that read `feedback_rule = None` at the top of
+# `_install_mapping` in `_Framework/ControlSurface.py` and the v2 equivalent as
+# "None passed at runtime." On re-read, the variable is reassigned to a concrete
+# *FeedbackRule in all reachable paths before any dispatch call, and no corpus
+# call site (across all 11 files using these functions) passes a literal None.
+# Widening removed; map_midi_cc_with_feedback_map has no other refinement and
+# was dropped entirely. The note + pitchbend entries below keep arg-name renames
+# only. Probe later if nullability is wanted — see refinements_followup.md.
 
 "Live.MidiMap.map_midi_note_with_feedback_map":
   args:
@@ -170,18 +165,23 @@ _meta:
     arg3: midi_channel
     arg4: note
     arg5: feedback_rule
-  arg_types:
-    feedback_rule:
-      from: NoteFeedbackRule
-      to: "NoteFeedbackRule | None"
-  confidence: high
   source: |
-    Arg renames imported from refinements.llm.json (callsite-cited):
-      - arg1 -> midi_map_handle, arg2 -> device_parameter, arg3 -> midi_channel,
-        arg4 -> note, arg5 -> feedback_rule  (consistent with the rest of the
-        MidiMap family; original sources cite call-site naming).
-    feedback_rule type widened to None: audit found None passed at
-    _Framework/ControlSurface.py:485 and ableton/v2/control_surface/control_surface.py:435.
+    Arg renames verified against corpus call sites — all three sites pass the
+    same positional shape `(midi_map_handle, parameter, channel, identifier,
+    feedback_rule)`:
+      - _Framework/ControlSurface.py:485
+      - ableton/v2/control_surface/control_surface.py:435
+      - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:608
+    Per-arg mapping:
+      - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+      - arg2 -> device_parameter [callsite, type-qualified]: callsite uses bare
+        `parameter`; qualified to `device_parameter` for stub readability since
+        the type is DeviceParameter
+      - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+        `control.message_channel()` — semantic name
+      - arg4 -> note             [callsite, semantic]: callsite passes
+        `control.message_identifier()` which in note context is a MIDI note number
+      - arg5 -> feedback_rule    [callsite]: variable named `feedback_rule`
 
 "Live.MidiMap.map_midi_pitchbend_with_feedback_map":
   args:
@@ -190,17 +190,26 @@ _meta:
     arg3: midi_channel
     arg4: feedback_rule
     arg5: needs_takeover
-  arg_types:
-    feedback_rule:
-      from: PitchBendFeedbackRule
-      to: "PitchBendFeedbackRule | None"
-  confidence: high
   source: |
-    Arg renames imported from refinements.llm.json (structural / consistency):
-      - arg1 -> midi_map_handle, arg2 -> device_parameter, arg3 -> midi_channel,
-        arg4 -> feedback_rule, arg5 -> needs_takeover.
-    feedback_rule type widened to None: audit found None passed at
-    _Framework/ControlSurface.py:491 and ableton/v2/control_surface/control_surface.py:441.
+    Arg renames verified against corpus call sites — all sites pass the same
+    positional shape `(midi_map_handle, parameter, channel, feedback_rule,
+    not needs_takeover)`:
+      - _Framework/ControlSurface.py:491
+      - ableton/v2/control_surface/control_surface.py:441
+      - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:614
+      - MackieControl/ChannelStrip.py:199, 379
+      - MackieControl_Classic/ChannelStrip.py:197, 377
+    Per-arg mapping:
+      - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+      - arg2 -> device_parameter [callsite, type-qualified]: callsite uses
+        `parameter` / `__fader_parameter`; qualified to `device_parameter`
+      - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+        `control.message_channel()` (or `__strip_index`)
+      - arg4 -> feedback_rule    [callsite]: variable named `feedback_rule`
+        / `feeback_rule` [sic]
+      - arg5 -> needs_takeover   [callsite, semantic]: callsite passes
+        `not control.needs_takeover()` — the parameter controls takeover
+        behavior; bool inverted by caller
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Imported arg-name renames from refinements.{llm,callsite}.json
@@ -1258,6 +1267,9 @@ _meta:
   source: |
     Corpus passes int (interval), bool (is_horizontal), arbitrary persistent
     data — pushbase/instrument_component.py:88-110 shows the pattern. Any matches.
+    P4L integration test verifies: tests/integration/typed/test_song.py:16-35 calls
+    `song.call("set_data", key, None)` and `song.call("set_data", key, "legacy")` —
+    None and str both accepted at runtime.
 
 "Live.Track.Track.get_data":
   arg_types:
@@ -1277,7 +1289,8 @@ _meta:
       from: object
       to: Any
   confidence: high
-  source: Same pattern as Song.set_data — corpus-confirmed.
+  source: Same pattern as Song.set_data — corpus-confirmed and exercised by P4L's
+    `_data.py` typed wrapper which tests/integration/typed/test_song.py covers.
 
 # Conservative widenings on find_device_position / move_device — M4L docs say
 # "chain container", which is Track or Chain. May be too narrow if Live ever
@@ -1394,6 +1407,8 @@ _meta:
     M4L docs / curated table (line 63) list the return as `DrumPad / None`. The
     function moves devices INTO a drum rack pad and returns that pad — not a Track.
     Caught during the cross-codebase research pass.
+    P4L integration test verifies: tests/integration/typed/test_conversions.py:136-153
+    calls the function and `assert isinstance(result, DrumPad)`.
 
 "Live.Licensing.get_unlock_dir":
   return_type:
@@ -1414,6 +1429,8 @@ _meta:
   source: |
     Baseline doc/live-api/RackDevice.md:298 explicitly: "Insert a new empty chain
     at the given index ... returns Chain". M4L docs confirm.
+    P4L integration test verifies: tests/integration/typed/test_browser_load.py:41-43
+    invokes `rack.call("insert_chain", -1)` then asserts `len(chains) > 0`.
 
 # Song.Song.get_data return-type consolidated above with its arg_types entry (~line 1160).
 
