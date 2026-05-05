@@ -223,7 +223,6 @@ tools/
 │   ├── apply_manual_refinements.py   Apply manual_refinements.yaml in-place
 │   ├── manual_refinements.yaml       Hand-curated overrides (each with sourced rationale)
 │   ├── refinements_followup.md       Backlog of items needing runtime probes
-│   ├── research_refinements.py       Cross-codebase evidence gathering for refinement entries
 │   └── run_parse_pipeline.py         Orchestrator (parse + apply)
 ├── generate/                Stage 3: stub + reference doc generation
 │   ├── generate_stubs.py             Generate .pyi stub files
