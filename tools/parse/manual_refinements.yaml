@@ -812,6 +812,7 @@ _meta:
   return_type:
     from: null
     to: "list[str]"
+  confidence: high
   source: |
     arg2 rename — LLM (structural): type is DeviceParameter; method operates on parameter values.
     return — description says "list of icon identifier strings".
@@ -1067,23 +1068,35 @@ _meta:
   probed_type:
     from: null
     to: ControlDescriptionVector
+  confidence: high
   source: |
-    Probe couldn't reach this class (ControlSurfaceProxy is M4L-only). LLM
-    inferred from usage snippets showing iteration with .name attribute access.
-    The class ControlDescriptionVector exists in our stubs as the iterable type.
+    Probe couldn't reach this class (ControlSurfaceProxy is M4L-only). Direct
+    binding access in corpus: _MxDCore/ControlSurfaceWrapper.py:238 iterates
+    `c.name for c in self._proxy.control_descriptions` — confirms it's a
+    container of ControlDescription objects (each with a .name property).
+    Type ControlDescriptionVector exists in the parsed tree with element_repr
+    fixed below to ControlDescription.
 
 "Live.Application.ControlSurfaceProxy.pad_layout":
   probed_type:
     from: null
     to: str
+  confidence: high
   source: |
-    M4L docs show string layout values like 'session' and 'note.drums.64_pads'.
+    M4L docs (controlsurface.md:18): `pad_layout symbol read-only observe` —
+    `symbol` is M4L parlance for a string (string-valued layout names like
+    'session', 'note.drums.64_pads'). raw_doc: "The layout of pads on Push."
 
 "Live.Application.ControlSurfaceProxy.type_name":
   probed_type:
     from: null
     to: str
-  source: Property name + usage context indicate string return for control surface type.
+  confidence: medium
+  source: |
+    No raw_doc, no M4L doc entry. Direct binding access in corpus:
+    _MxDCore/ControlSurfaceWrapper.py:234 returns `self._proxy.type_name`
+    from a wrapper property; the value is used in tuple/string contexts.
+    `str` is the strongest reading — promote via probe.
 
 "Live.Base.Text.text":
   probed_type:
@@ -1099,6 +1112,7 @@ _meta:
   probed_type:
     from: null
     to: str
+  confidence: high
   source: |
     raw_doc: "Returns Live's current base product ID" — product IDs are string identifiers.
 
@@ -1116,6 +1130,7 @@ _meta:
   probed_type:
     from: null
     to: bool
+  confidence: high
   source: |
     raw_doc: "Returns a bool indicating if we require..." — explicitly typed bool.
 
@@ -1123,6 +1138,7 @@ _meta:
   probed_type:
     from: null
     to: int
+  confidence: high
   source: |
     raw_doc: "Returns the integer to send along with the Trial authorization request".
 
@@ -1130,6 +1146,7 @@ _meta:
   probed_type:
     from: null
     to: bool
+  confidence: high
   source: |
     raw_doc: "Returns true if the set has unsaved changes" — explicitly bool.
 
@@ -1137,20 +1154,30 @@ _meta:
   probed_type:
     from: null
     to: Callable
+  confidence: high
   source: raw_doc says "Returns the original function" — functions are Callable.
 
 "Live.Listener.ListenerHandle.listener_self":
   probed_type:
     from: null
     to: Any
+  confidence: medium
   source: |
-    raw_doc says "weak reference to original self" — can be any object instance, so Any.
+    raw_doc says "weak reference to original self, if it was a bound method" —
+    can be any object instance (or None for non-bound functions). `Any` is
+    appropriately broad but could be `Any | None` if probed.
 
 "Live.Listener.ListenerHandle.name":
   probed_type:
     from: null
     to: str
-  source: Property name + usage patterns indicate string identifier.
+  confidence: medium
+  source: |
+    raw_doc: "Prints the name of the property that this listener is connected
+    to" — boost.python doc-style "Prints" implies a printable string return on
+    a property access (returns the property name as a string). ListenerHandle
+    is internal-only (zero corpus references); raw_doc is the strongest
+    evidence available.
 
 # ─── Element type for Vector/iterable parameterization (12 entries) ───────────
 
@@ -1169,24 +1196,38 @@ _meta:
   element_repr:
     from: null
     to: "<class 'ControlDescription'>"
-  source: Class name pattern; container of ControlDescription objects.
+  confidence: high
+  source: |
+    raw_doc: "A container for returning control descriptions." —
+    ControlDescription class exists with raw_doc "Describes a control present
+    in a control surface proxy." Direct corpus iteration:
+    _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c in
+    self._proxy.control_descriptions`.
 
 "Live.Application.UnavailableFeatureVector":
   element_repr:
     from: null
     to: "<class 'UnavailableFeature'>"
-  source: Class name pattern; container of UnavailableFeature enum values.
+  confidence: high
+  source: |
+    raw_doc: "A container for returning unavailable features." Corpus check:
+    pushbase/note_settings_component.py:236 reads
+    `Live.Application.UnavailableFeature.X not in
+    Live.Application.get_application().unavailable_features` — confirms
+    elements are UnavailableFeature enum values.
 
 "Live.Base.FloatVector":
   element_repr:
     from: null
     to: "<class 'float'>"
+  confidence: high
   source: raw_doc says "container for returning floats from Live".
 
 "Live.Base.IntU64Vector":
   element_repr:
     from: null
     to: "<class 'int'>"
+  confidence: high
   source: raw_doc says "container for returning unsigned long integers".
 
 "Live.Browser.BrowserItem.iter_children":
@@ -1211,6 +1252,7 @@ _meta:
   element_repr:
     from: null
     to: "<class 'ListenerHandle'>"
+  confidence: high
   source: |
     raw_doc says "container for accessing a list of listeners" — contains
     ListenerHandle instances.
@@ -1262,9 +1304,11 @@ _meta:
     value:
       from: object
       to: Any
+  confidence: high
   source: |
-    ObjectVector holds arbitrary Python objects as boost::python::api::object —
-    Any matches the underlying binding contract.
+    C++ signature: `void append(vector<boost::python::api::object>, object)`.
+    ObjectVector holds arbitrary Python objects — Any matches the binding
+    contract directly.
 
 "Live.Base.Vector.append":
   arg_types:
@@ -1283,20 +1327,27 @@ _meta:
       to: WarpMarker
   confidence: high
   source: |
-    Method literally adds a WarpMarker; companion class name + API context.
-    Native Boost.Python binding takes the WarpMarker class instance.
-    Confirmed: P4L wrapper at typing/clip.py:1398,1484 calls add_warp_marker
-    with {beat_time, sample_time}; baseline doc/live-api/Clip.md:1166 documents
-    the WarpMarker arg shape.
+    Baseline (doc/live-api/Clip.md): `warp_marker: Live.Clip.WarpMarker —
+    native C++ TWarpMarker type`. M4L docs (clip.md): "Adds the specified
+    warp marker, if possible." The C++ binding signature is `add_warp_marker(
+    ..., boost::python::api::object)` — generic at the C++ level — but
+    accepts a `WarpMarker` instance per the baseline contract.
+    (Note: P4L's typing/clip.py passes `{"beat_time": ..., "sample_time": ...}`
+    via `clip.call("add_warp_marker", dict)`, but that is the LiveRelay bridge
+    serialization format — the bridge converts the dict to a WarpMarker on
+    the Live side before the binding call. Doesn't apply to direct stub use.)
 
 "Live.Clip.Clip.duplicate_notes_by_id":
   arg_types:
     destination_time:
       from: object
       to: "float | None"
+  confidence: medium
   source: |
-    M4L docs explicitly note destination_time as optional float; None means
-    default behavior (notes stay at original time).
+    M4L docs (clip.md) say `destination_time (optional) [float/int]`; None is
+    the default ("if not provided, new notes will be inserted after the last
+    selected note"). `float | None` covers the common case (Python's int → float
+    conversion handles the int form). Tracked in refinements_followup.md.
 
 "Live.Licensing.PythonLicensingBridge.get_startup_dialog":
   arg_types:
@@ -1306,6 +1357,7 @@ _meta:
     authorize_later_callable:
       from: object
       to: Callable
+  confidence: high
   source: |
     raw_doc: "callables connected to its buttons" — both args are callback functions.
 
@@ -1314,6 +1366,7 @@ _meta:
     license_response_lines:
       from: object
       to: "list[str]"
+  confidence: high
   source: raw_doc explicitly says "list of strings, each representing a server response".
 
 "Live.Licensing.PythonLicensingBridge.set_network_timer":
@@ -1321,6 +1374,7 @@ _meta:
     callback:
       from: object
       to: "Callable | None"
+  confidence: high
   source: raw_doc says "Pass None as callback to stop the timer".
 
 "Live.Song.Song.create_audio_track":
@@ -1328,15 +1382,18 @@ _meta:
     index:
       from: object
       to: "int | None"
+  confidence: medium
   source: |
     M4L docs say optional index parameter; usage shows the function called with
-    no args (default = None means "append at end").
+    no args (default = None means "append at end"). Type pinned by sister-method
+    convention; not corpus-verified.
 
 "Live.Song.Song.create_midi_track":
   arg_types:
     index:
       from: object
       to: "int | None"
+  confidence: medium
   source: Same pattern as create_audio_track — M4L docs explicit.
 
 "Live.Song.Song.get_data":
@@ -1448,13 +1505,18 @@ _meta:
   return_type:
     from: null
     to: "tuple[tuple[int, ...], ...]"
+  confidence: medium
   source: Usage shows iteration over message tuples containing MIDI byte data.
+    Function name implies MIDI bytes (ints); inferred shape from sister
+    fetch_received_values.
 
 "Live.Application.ControlSurfaceProxy.fetch_received_values":
   return_type:
     from: null
     to: "tuple[tuple[int, Any], ...]"
+  confidence: medium
   source: Usage shows unpacking tuples with control_id (int) and value pairs.
+    Inferred from typical control-surface fetch patterns; not corpus-verified.
 
 "Live.Application.encrypt_challenge":
   return_type:
@@ -1470,9 +1532,11 @@ _meta:
   return_type:
     from: null
     to: Device
+  confidence: medium
   source: |
     M4L docs and function semantics: returns the inserted Device. Sister
-    Track.insert_device behaves identically.
+    Track.insert_device behaves identically. Baseline lists `LomObject` return;
+    narrowed to Device for ergonomics. Tracked in refinements_followup.md.
 
 "Live.Clip.Clip.get_notes":
   return_type:
@@ -1510,9 +1574,10 @@ _meta:
   return_type:
     from: null
     to: "tuple[str, bool]"
+  confidence: high
   source: |
-    Description: "tuple containing the unlock file directory and a flag" —
-    directory is str, flag is bool.
+    raw_doc explicit: "Returns a tuple containing the unlock file directory
+    and a flag" — directory is str, flag is bool.
 
 # get_bank_parameters and get_value_item_icons return-type fixes consolidated above
 # with their arg-rename entries (~line 649).
@@ -1543,7 +1608,10 @@ _meta:
   return_type:
     from: null
     to: TakeLane
+  confidence: medium
   source: M4L docs say "Creates a take lane for this track" — returns TakeLane.
+    Baseline lists `LomObject` return; narrowed to TakeLane for ergonomics.
+    Tracked in refinements_followup.md.
 
 # Track.Track.get_data return-type consolidated above with its arg_types entry (~line 1183).
 
@@ -1551,4 +1619,8 @@ _meta:
   return_type:
     from: null
     to: Device
-  source: 'M4L docs: inserts and returns the Device.'
+  confidence: medium
+  source: |
+    M4L docs: inserts and returns the Device. Sister Chain.insert_device behaves
+    identically. Baseline lists `LomObject` return; narrowed to Device for
+    ergonomics. Tracked in refinements_followup.md.

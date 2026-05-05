@@ -145,6 +145,9 @@ def _apply_one(node: dict, refinement: dict, dotted_path: str) -> list[str]:
     return log
 
 
+TYPE_TOUCHING_FIELDS = {"arg_types", "return_type", "probed_type", "element_repr"}
+
+
 def _validate_entry(path: str, entry: dict) -> str | None:
     """Return an error message if the entry is malformed, else None."""
     if not isinstance(entry, dict):
@@ -157,6 +160,13 @@ def _validate_entry(path: str, entry: dict) -> str | None:
     conf = entry.get("confidence")
     if conf is not None and conf not in ALLOWED_CONFIDENCE:
         return f"{path}: confidence must be one of {sorted(ALLOWED_CONFIDENCE)}, got {conf!r}"
+    # Any entry that modifies a type (not just renames args) must declare a
+    # confidence — types are the bugbear; names are decorative.
+    if TYPE_TOUCHING_FIELDS & set(entry.keys()) and conf is None:
+        return (
+            f"{path}: type-touching refinements (arg_types/return_type/"
+            f"probed_type/element_repr) must include a `confidence` field"
+        )
     return None
 
 
