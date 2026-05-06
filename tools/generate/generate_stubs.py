@@ -54,7 +54,6 @@ class StubGenerator:
         self._module_classes: dict[str, set[str]] = {}
         self._nested_class_parent: dict[str, str] = {}  # "View" -> "Device" (nested class -> parent)
         self._enum_lookup: dict[str, int] = {}
-        self._enum_classes: set[str] = set()  # bare class names of enum nodes (for arg widening)
         self._vector_types: set[str] = set()  # class names that are vector types
         self._vector_element_fallback: dict[str, str] = {}  # vector class -> default element type
         self._typed_properties: dict[str, set[str]] = {}  # class name -> property names with probed_type
@@ -87,14 +86,13 @@ class StubGenerator:
                 self._class_to_module[name] = module_name
                 self._module_classes[module_name].add(name)
 
-            # Index enum members for default resolution and the bare class name for
-            # arg-type widening (Boost.Python enum bindings accept both the enum value
-            # and the underlying int — see _format_arg).
-            if node_type == "enum":
-                self._enum_classes.add(name)
-                if node.get("members"):
-                    for mname, mval in node["members"].items():
-                        self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
+            # Index enum members for default-value resolution. The structural
+            # widening of bare-enum arg types to `EnumType | int` lives in the
+            # parser (resolve_signatures) — the generator only resolves enum-
+            # typed default values back to their int representation.
+            if node_type == "enum" and node.get("members"):
+                for mname, mval in node["members"].items():
+                    self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
 
             # Detect vector types from iterable flag on class nodes
             # Only treat as vector if it has mutable vector methods (append/extend);
@@ -558,7 +556,11 @@ class StubGenerator:
         arg_type = arg.get("type", "object")
         default = arg.get("default")
 
-        # When default references an enum, widen type to accept both enum and int
+        # When default references an enum, widen type to accept both enum and int.
+        # The bare-enum widening lives in the parser (resolve_signatures), but the
+        # default-references-enum case still needs this rule because the parser
+        # only sees the arg's annotated type — `int` here — without the semantic
+        # signal that comes from the default value.
         if default and arg_type == "int" and "." in str(default):
             parts = str(default).split(".")
             if len(parts) == 3:
@@ -566,14 +568,6 @@ class StubGenerator:
                 # Check if the enum class is known
                 if enum_class in self._class_to_module:
                     arg_type = f"{enum_class} | int"
-
-        # When the arg type IS an enum class, widen to accept the underlying int too —
-        # Boost.Python enum bindings accept either the enum value or its int representation
-        # at runtime, so the bare-enum claim is too narrow. Audit on the corpus surfaced
-        # this on Live.MidiMap.map_midi_cc(map_mode: MapMode, ...) being called with int
-        # in Ableton's own shipped Remote Scripts.
-        if arg_type in self._enum_classes:
-            arg_type = f"{arg_type} | int"
 
         # When the explicit default value is the literal None (string "None" in the parsed
         # tree), widen type to accept None. NB: an arg with no default has default == None

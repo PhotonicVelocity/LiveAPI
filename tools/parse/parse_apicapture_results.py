@@ -910,6 +910,25 @@ def build_type_map(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 
     ctx["cpp_to_py"] = cpp_to_py
     ctx["stats"]["type_map_entries"] = len(cpp_to_py)
+
+    # Collect every enum class name in the tree so resolve_signatures can apply
+    # the structural enum-arg convention (Boost.Python emits enum classes as
+    # `int` subclasses, so any arg typed as a bare enum class is implicitly
+    # `EnumType | int` at runtime — the union form is the honest annotation).
+    enum_classes: set[str] = set()
+
+    def _collect(node: TreeNode) -> None:
+        if isinstance(node, dict):
+            if node.get("type") == "enum" and node.get("name"):
+                enum_classes.add(node["name"])
+            for value in node.values():
+                _collect(value)
+        elif isinstance(node, list):
+            for item in node:
+                _collect(item)
+
+    _collect(tree)
+    ctx["enum_classes"] = enum_classes
     return tree
 
 
@@ -1009,6 +1028,20 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
     if is_listener and len(args) >= 2:
         args[-1]["type"] = "Callable[[], None]"
         args[-1]["name"] = "callback"
+
+    # Enum-arg convention: Boost.Python emits enum classes as `int` subclasses,
+    # so any arg typed as a bare enum class also accepts the underlying int at
+    # runtime (audit confirmed against Ableton's shipped Remote Scripts —
+    # corpus passes raw ints to e.g. `MidiMap.map_midi_cc.map_mode`). Widen
+    # bare-enum arg types to `EnumType | int` so the annotation matches the
+    # binding's actual acceptance. Refinements that explicitly want the
+    # strict-enum form can override by setting `to: "EnumType"`.
+    enum_classes: set[str] = ctx.get("enum_classes", set())
+    if enum_classes:
+        for arg in args:
+            arg_type = arg.get("type")
+            if isinstance(arg_type, str) and arg_type in enum_classes:
+                arg["type"] = f"{arg_type} | int"
 
     # Vector methods: append(value), extend(values)
     if parent.name and parent.name.endswith("Vector"):

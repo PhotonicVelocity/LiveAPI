@@ -575,7 +575,7 @@ class UnavailableFeatureVector(Iterable[UnavailableFeature]):
     def append(self, value: UnavailableFeature | int, /) -> None:
         ...
 
-    def extend(self, values: Iterable[UnavailableFeature], /) -> None:
+    def extend(self, values: Iterable[UnavailableFeature | int], /) -> None:
         ...
 
 class Variants:
