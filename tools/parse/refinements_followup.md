@@ -87,17 +87,6 @@ generator-side hook that consults a refinement entry when emitting init args.
 Neither is worth the infrastructure for a single symbol; revisit if more
 constructor-arg refinements surface.
 
-### `add_*_listener` / `*_has_listener` / `remove_*_listener` callback args
-
-~1098 listener methods across the LOM type their callback as bare `Callable`.
-Live's listener invocation is zero-arg (`cb()`), so the honest type is
-`Callable[[], None]` (or `Callable[[], Any]` if the runtime tolerates non-None
-returns). One YAML entry per listener × per class would be ~1000 entries; the
-right fix is a generator-side regex on the method-name pattern that emits the
-parametrized callable. Decide on the strict-vs-loose form (`Callable[[], None]`
-vs `Callable[..., Any]`) before implementing — corpus check should confirm
-no shipped Remote Script registers a listener that takes args.
-
 ### `map_midi_*_with_feedback_map` — feedback_rule nullability (REMOVED, may re-add)
 
 Three sister functions previously had a `feedback_rule: T -> T | None` widening:

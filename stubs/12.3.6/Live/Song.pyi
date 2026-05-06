@@ -27,49 +27,49 @@ class Song(LomObject):
         def _live_ptr(self) -> int:
             ...
 
-        def add_detail_clip_listener(self, callback: Callable, /) -> None:
+        def add_detail_clip_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "detail_clip" has changed.
             """
             ...
 
-        def add_draw_mode_listener(self, callback: Callable, /) -> None:
+        def add_draw_mode_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "draw_mode" has changed.
             """
             ...
 
-        def add_follow_song_listener(self, callback: Callable, /) -> None:
+        def add_follow_song_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "follow_song" has changed.
             """
             ...
 
-        def add_selected_chain_listener(self, callback: Callable, /) -> None:
+        def add_selected_chain_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_chain" has changed.
             """
             ...
 
-        def add_selected_parameter_listener(self, callback: Callable, /) -> None:
+        def add_selected_parameter_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_parameter" has changed.
             """
             ...
 
-        def add_selected_scene_listener(self, callback: Callable, /) -> None:
+        def add_selected_scene_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_scene" has changed.
             """
             ...
 
-        def add_selected_track_listener(self, callback: Callable, /) -> None:
+        def add_selected_track_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "selected_track" has changed.
@@ -89,7 +89,7 @@ class Song(LomObject):
         @detail_clip.setter
         def detail_clip(self, value: Clip | None) -> None: ...
 
-        def detail_clip_has_listener(self, callback: Callable, /) -> bool:
+        def detail_clip_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "detail_clip".
@@ -104,7 +104,7 @@ class Song(LomObject):
         @draw_mode.setter
         def draw_mode(self, value: bool) -> None: ...
 
-        def draw_mode_has_listener(self, callback: Callable, /) -> bool:
+        def draw_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "draw_mode".
@@ -119,7 +119,7 @@ class Song(LomObject):
         @follow_song.setter
         def follow_song(self, value: bool) -> None: ...
 
-        def follow_song_has_listener(self, callback: Callable, /) -> bool:
+        def follow_song_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "follow_song".
@@ -134,49 +134,49 @@ class Song(LomObject):
         @highlighted_clip_slot.setter
         def highlighted_clip_slot(self, value: ClipSlot) -> None: ...
 
-        def remove_detail_clip_listener(self, callback: Callable, /) -> None:
+        def remove_detail_clip_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "detail_clip".
             """
             ...
 
-        def remove_draw_mode_listener(self, callback: Callable, /) -> None:
+        def remove_draw_mode_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "draw_mode".
             """
             ...
 
-        def remove_follow_song_listener(self, callback: Callable, /) -> None:
+        def remove_follow_song_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "follow_song".
             """
             ...
 
-        def remove_selected_chain_listener(self, callback: Callable, /) -> None:
+        def remove_selected_chain_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_chain".
             """
             ...
 
-        def remove_selected_parameter_listener(self, callback: Callable, /) -> None:
+        def remove_selected_parameter_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_parameter".
             """
             ...
 
-        def remove_selected_scene_listener(self, callback: Callable, /) -> None:
+        def remove_selected_scene_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_scene".
             """
             ...
 
-        def remove_selected_track_listener(self, callback: Callable, /) -> None:
+        def remove_selected_track_listener(self, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "selected_track".
@@ -195,7 +195,7 @@ class Song(LomObject):
         @selected_chain.setter
         def selected_chain(self, value: Chain | None) -> None: ...
 
-        def selected_chain_has_listener(self, callback: Callable, /) -> bool:
+        def selected_chain_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_chain".
@@ -207,7 +207,7 @@ class Song(LomObject):
             """Get the currently selected device parameter."""
             ...
 
-        def selected_parameter_has_listener(self, callback: Callable, /) -> bool:
+        def selected_parameter_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_parameter".
@@ -222,7 +222,7 @@ class Song(LomObject):
         @selected_scene.setter
         def selected_scene(self, value: Scene) -> None: ...
 
-        def selected_scene_has_listener(self, callback: Callable, /) -> bool:
+        def selected_scene_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_scene".
@@ -237,7 +237,7 @@ class Song(LomObject):
         @selected_track.setter
         def selected_track(self, value: Track) -> None: ...
 
-        def selected_track_has_listener(self, callback: Callable, /) -> bool:
+        def selected_track_has_listener(self, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "selected_track".
@@ -248,343 +248,343 @@ class Song(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_appointed_device_listener(self, callback: Callable, /) -> None:
+    def add_appointed_device_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "appointed_device" has changed.
         """
         ...
 
-    def add_arrangement_overdub_listener(self, callback: Callable, /) -> None:
+    def add_arrangement_overdub_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "arrangement_overdub" has changed.
         """
         ...
 
-    def add_back_to_arranger_listener(self, callback: Callable, /) -> None:
+    def add_back_to_arranger_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "back_to_arranger" has changed.
         """
         ...
 
-    def add_can_capture_midi_listener(self, callback: Callable, /) -> None:
+    def add_can_capture_midi_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "can_capture_midi" has changed.
         """
         ...
 
-    def add_can_jump_to_next_cue_listener(self, callback: Callable, /) -> None:
+    def add_can_jump_to_next_cue_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "can_jump_to_next_cue" has changed.
         """
         ...
 
-    def add_can_jump_to_prev_cue_listener(self, callback: Callable, /) -> None:
+    def add_can_jump_to_prev_cue_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "can_jump_to_prev_cue" has changed.
         """
         ...
 
-    def add_clip_trigger_quantization_listener(self, callback: Callable, /) -> None:
+    def add_clip_trigger_quantization_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "clip_trigger_quantization" has changed.
         """
         ...
 
-    def add_count_in_duration_listener(self, callback: Callable, /) -> None:
+    def add_count_in_duration_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "count_in_duration" has changed.
         """
         ...
 
-    def add_cue_points_listener(self, callback: Callable, /) -> None:
+    def add_cue_points_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "cue_points" has changed.
         """
         ...
 
-    def add_current_song_time_listener(self, callback: Callable, /) -> None:
+    def add_current_song_time_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "current_song_time" has changed.
         """
         ...
 
-    def add_data_listener(self, callback: Callable, /) -> None:
+    def add_data_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "data" has changed.
         """
         ...
 
-    def add_exclusive_arm_listener(self, callback: Callable, /) -> None:
+    def add_exclusive_arm_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "exclusive_arm" has changed.
         """
         ...
 
-    def add_groove_amount_listener(self, callback: Callable, /) -> None:
+    def add_groove_amount_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "groove_amount" has changed.
         """
         ...
 
-    def add_is_ableton_link_enabled_listener(self, callback: Callable, /) -> None:
+    def add_is_ableton_link_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_ableton_link_enabled" has changed.
         """
         ...
 
-    def add_is_ableton_link_start_stop_sync_enabled_listener(self, callback: Callable, /) -> None:
+    def add_is_ableton_link_start_stop_sync_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_ableton_link_start_stop_sync_enabled" has changed.
         """
         ...
 
-    def add_is_counting_in_listener(self, callback: Callable, /) -> None:
+    def add_is_counting_in_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_counting_in" has changed.
         """
         ...
 
-    def add_is_playing_listener(self, callback: Callable, /) -> None:
+    def add_is_playing_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_playing" has changed.
         """
         ...
 
-    def add_loop_length_listener(self, callback: Callable, /) -> None:
+    def add_loop_length_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop_length" has changed.
         """
         ...
 
-    def add_loop_listener(self, callback: Callable, /) -> None:
+    def add_loop_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop" has changed.
         """
         ...
 
-    def add_loop_start_listener(self, callback: Callable, /) -> None:
+    def add_loop_start_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "loop_start" has changed.
         """
         ...
 
-    def add_metronome_listener(self, callback: Callable, /) -> None:
+    def add_metronome_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "metronome" has changed.
         """
         ...
 
-    def add_midi_recording_quantization_listener(self, callback: Callable, /) -> None:
+    def add_midi_recording_quantization_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "midi_recording_quantization" has changed.
         """
         ...
 
-    def add_nudge_down_listener(self, callback: Callable, /) -> None:
+    def add_nudge_down_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "nudge_down" has changed.
         """
         ...
 
-    def add_nudge_up_listener(self, callback: Callable, /) -> None:
+    def add_nudge_up_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "nudge_up" has changed.
         """
         ...
 
-    def add_overdub_listener(self, callback: Callable, /) -> None:
+    def add_overdub_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "overdub" has changed.
         """
         ...
 
-    def add_punch_in_listener(self, callback: Callable, /) -> None:
+    def add_punch_in_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "punch_in" has changed.
         """
         ...
 
-    def add_punch_out_listener(self, callback: Callable, /) -> None:
+    def add_punch_out_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "punch_out" has changed.
         """
         ...
 
-    def add_re_enable_automation_enabled_listener(self, callback: Callable, /) -> None:
+    def add_re_enable_automation_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "re_enable_automation_enabled" has changed.
         """
         ...
 
-    def add_record_mode_listener(self, callback: Callable, /) -> None:
+    def add_record_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "record_mode" has changed.
         """
         ...
 
-    def add_return_tracks_listener(self, callback: Callable, /) -> None:
+    def add_return_tracks_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "return_tracks" has changed.
         """
         ...
 
-    def add_root_note_listener(self, callback: Callable, /) -> None:
+    def add_root_note_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "root_note" has changed.
         """
         ...
 
-    def add_scale_information_listener(self, callback: Callable, /) -> None:
+    def add_scale_information_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "scale_information" has changed.
         """
         ...
 
-    def add_scale_intervals_listener(self, callback: Callable, /) -> None:
+    def add_scale_intervals_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "scale_intervals" has changed.
         """
         ...
 
-    def add_scale_mode_listener(self, callback: Callable, /) -> None:
+    def add_scale_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "scale_mode" has changed.
         """
         ...
 
-    def add_scale_name_listener(self, callback: Callable, /) -> None:
+    def add_scale_name_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "scale_name" has changed.
         """
         ...
 
-    def add_scenes_listener(self, callback: Callable, /) -> None:
+    def add_scenes_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "scenes" has changed.
         """
         ...
 
-    def add_session_automation_record_listener(self, callback: Callable, /) -> None:
+    def add_session_automation_record_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "session_automation_record" has changed.
         """
         ...
 
-    def add_session_record_listener(self, callback: Callable, /) -> None:
+    def add_session_record_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "session_record" has changed.
         """
         ...
 
-    def add_session_record_status_listener(self, callback: Callable, /) -> None:
+    def add_session_record_status_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "session_record_status" has changed.
         """
         ...
 
-    def add_signature_denominator_listener(self, callback: Callable, /) -> None:
+    def add_signature_denominator_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "signature_denominator" has changed.
         """
         ...
 
-    def add_signature_numerator_listener(self, callback: Callable, /) -> None:
+    def add_signature_numerator_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "signature_numerator" has changed.
         """
         ...
 
-    def add_song_length_listener(self, callback: Callable, /) -> None:
+    def add_song_length_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "song_length" has changed.
         """
         ...
 
-    def add_start_time_listener(self, callback: Callable, /) -> None:
+    def add_start_time_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "start_time" has changed.
         """
         ...
 
-    def add_swing_amount_listener(self, callback: Callable, /) -> None:
+    def add_swing_amount_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "swing_amount" has changed.
         """
         ...
 
-    def add_tempo_follower_enabled_listener(self, callback: Callable, /) -> None:
+    def add_tempo_follower_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tempo_follower_enabled" has changed.
         """
         ...
 
-    def add_tempo_listener(self, callback: Callable, /) -> None:
+    def add_tempo_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tempo" has changed.
         """
         ...
 
-    def add_tracks_listener(self, callback: Callable, /) -> None:
+    def add_tracks_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tracks" has changed.
         """
         ...
 
-    def add_tuning_system_listener(self, callback: Callable, /) -> None:
+    def add_tuning_system_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "tuning_system" has changed.
         """
         ...
 
-    def add_visible_tracks_listener(self, callback: Callable, /) -> None:
+    def add_visible_tracks_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "visible_tracks" has changed.
@@ -599,7 +599,7 @@ class Song(LomObject):
     @appointed_device.setter
     def appointed_device(self, value: Device | None) -> None: ...
 
-    def appointed_device_has_listener(self, callback: Callable, /) -> bool:
+    def appointed_device_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "appointed_device".
@@ -614,7 +614,7 @@ class Song(LomObject):
     @arrangement_overdub.setter
     def arrangement_overdub(self, value: bool) -> None: ...
 
-    def arrangement_overdub_has_listener(self, callback: Callable, /) -> bool:
+    def arrangement_overdub_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "arrangement_overdub".
@@ -632,7 +632,7 @@ class Song(LomObject):
     @back_to_arranger.setter
     def back_to_arranger(self, value: bool) -> None: ...
 
-    def back_to_arranger_has_listener(self, callback: Callable, /) -> bool:
+    def back_to_arranger_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "back_to_arranger".
@@ -647,7 +647,7 @@ class Song(LomObject):
         """Get whether there currently is material to be captured on any tracks."""
         ...
 
-    def can_capture_midi_has_listener(self, callback: Callable, /) -> bool:
+    def can_capture_midi_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "can_capture_midi".
@@ -662,7 +662,7 @@ class Song(LomObject):
         """
         ...
 
-    def can_jump_to_next_cue_has_listener(self, callback: Callable, /) -> bool:
+    def can_jump_to_next_cue_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "can_jump_to_next_cue".
@@ -677,7 +677,7 @@ class Song(LomObject):
         """
         ...
 
-    def can_jump_to_prev_cue_has_listener(self, callback: Callable, /) -> bool:
+    def can_jump_to_prev_cue_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "can_jump_to_prev_cue".
@@ -726,7 +726,7 @@ class Song(LomObject):
     @clip_trigger_quantization.setter
     def clip_trigger_quantization(self, value: Quantization) -> None: ...
 
-    def clip_trigger_quantization_has_listener(self, callback: Callable, /) -> bool:
+    def clip_trigger_quantization_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "clip_trigger_quantization".
@@ -745,7 +745,7 @@ class Song(LomObject):
         """
         ...
 
-    def count_in_duration_has_listener(self, callback: Callable, /) -> bool:
+    def count_in_duration_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "count_in_duration".
@@ -789,7 +789,7 @@ class Song(LomObject):
         """Const access to a list of all cue points of the Live Song."""
         ...
 
-    def cue_points_has_listener(self, callback: Callable, /) -> bool:
+    def cue_points_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "cue_points".
@@ -804,14 +804,14 @@ class Song(LomObject):
     @current_song_time.setter
     def current_song_time(self, value: float) -> None: ...
 
-    def current_song_time_has_listener(self, callback: Callable, /) -> bool:
+    def current_song_time_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "current_song_time".
         """
         ...
 
-    def data_has_listener(self, callback: Callable, /) -> bool:
+    def data_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "data".
@@ -862,7 +862,7 @@ class Song(LomObject):
         """Get if Tracks should be armed exclusively by default."""
         ...
 
-    def exclusive_arm_has_listener(self, callback: Callable, /) -> bool:
+    def exclusive_arm_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "exclusive_arm".
@@ -937,7 +937,7 @@ class Song(LomObject):
     @groove_amount.setter
     def groove_amount(self, value: float) -> None: ...
 
-    def groove_amount_has_listener(self, callback: Callable, /) -> bool:
+    def groove_amount_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "groove_amount".
@@ -957,7 +957,7 @@ class Song(LomObject):
     @is_ableton_link_enabled.setter
     def is_ableton_link_enabled(self, value: bool) -> None: ...
 
-    def is_ableton_link_enabled_has_listener(self, callback: Callable, /) -> bool:
+    def is_ableton_link_enabled_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_ableton_link_enabled".
@@ -972,7 +972,7 @@ class Song(LomObject):
     @is_ableton_link_start_stop_sync_enabled.setter
     def is_ableton_link_start_stop_sync_enabled(self, value: bool) -> None: ...
 
-    def is_ableton_link_start_stop_sync_enabled_has_listener(self, callback: Callable, /) -> bool:
+    def is_ableton_link_start_stop_sync_enabled_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_ableton_link_start_stop_sync_enabled".
@@ -984,7 +984,7 @@ class Song(LomObject):
         """Get whether currently counting in."""
         ...
 
-    def is_counting_in_has_listener(self, callback: Callable, /) -> bool:
+    def is_counting_in_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_counting_in".
@@ -1003,7 +1003,7 @@ class Song(LomObject):
     @is_playing.setter
     def is_playing(self, value: bool) -> None: ...
 
-    def is_playing_has_listener(self, callback: Callable, /) -> bool:
+    def is_playing_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_playing".
@@ -1042,7 +1042,7 @@ class Song(LomObject):
     @loop.setter
     def loop(self, value: bool) -> None: ...
 
-    def loop_has_listener(self, callback: Callable, /) -> bool:
+    def loop_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop".
@@ -1057,7 +1057,7 @@ class Song(LomObject):
     @loop_length.setter
     def loop_length(self, value: float) -> None: ...
 
-    def loop_length_has_listener(self, callback: Callable, /) -> bool:
+    def loop_length_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop_length".
@@ -1072,7 +1072,7 @@ class Song(LomObject):
     @loop_start.setter
     def loop_start(self, value: float) -> None: ...
 
-    def loop_start_has_listener(self, callback: Callable, /) -> bool:
+    def loop_start_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "loop_start".
@@ -1092,7 +1092,7 @@ class Song(LomObject):
     @metronome.setter
     def metronome(self, value: bool) -> None: ...
 
-    def metronome_has_listener(self, callback: Callable, /) -> bool:
+    def metronome_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "metronome".
@@ -1110,7 +1110,7 @@ class Song(LomObject):
     @midi_recording_quantization.setter
     def midi_recording_quantization(self, value: RecordingQuantization) -> None: ...
 
-    def midi_recording_quantization_has_listener(self, callback: Callable, /) -> bool:
+    def midi_recording_quantization_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "midi_recording_quantization".
@@ -1134,7 +1134,7 @@ class Song(LomObject):
     @nudge_down.setter
     def nudge_down(self, value: bool) -> None: ...
 
-    def nudge_down_has_listener(self, callback: Callable, /) -> bool:
+    def nudge_down_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "nudge_down".
@@ -1149,7 +1149,7 @@ class Song(LomObject):
     @nudge_up.setter
     def nudge_up(self, value: bool) -> None: ...
 
-    def nudge_up_has_listener(self, callback: Callable, /) -> bool:
+    def nudge_up_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "nudge_up".
@@ -1167,7 +1167,7 @@ class Song(LomObject):
     @overdub.setter
     def overdub(self, value: bool) -> None: ...
 
-    def overdub_has_listener(self, callback: Callable, /) -> bool:
+    def overdub_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "overdub".
@@ -1192,7 +1192,7 @@ class Song(LomObject):
     @punch_in.setter
     def punch_in(self, value: bool) -> None: ...
 
-    def punch_in_has_listener(self, callback: Callable, /) -> bool:
+    def punch_in_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "punch_in".
@@ -1210,7 +1210,7 @@ class Song(LomObject):
     @punch_out.setter
     def punch_out(self, value: bool) -> None: ...
 
-    def punch_out_has_listener(self, callback: Callable, /) -> bool:
+    def punch_out_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "punch_out".
@@ -1226,7 +1226,7 @@ class Song(LomObject):
         """Returns true if some automated parameter has been overriden"""
         ...
 
-    def re_enable_automation_enabled_has_listener(self, callback: Callable, /) -> bool:
+    def re_enable_automation_enabled_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "re_enable_automation_enabled".
@@ -1241,7 +1241,7 @@ class Song(LomObject):
     @record_mode.setter
     def record_mode(self, value: bool) -> None: ...
 
-    def record_mode_has_listener(self, callback: Callable, /) -> bool:
+    def record_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "record_mode".
@@ -1252,343 +1252,343 @@ class Song(LomObject):
         """Redo the last action that was undone."""
         ...
 
-    def remove_appointed_device_listener(self, callback: Callable, /) -> None:
+    def remove_appointed_device_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "appointed_device".
         """
         ...
 
-    def remove_arrangement_overdub_listener(self, callback: Callable, /) -> None:
+    def remove_arrangement_overdub_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "arrangement_overdub".
         """
         ...
 
-    def remove_back_to_arranger_listener(self, callback: Callable, /) -> None:
+    def remove_back_to_arranger_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "back_to_arranger".
         """
         ...
 
-    def remove_can_capture_midi_listener(self, callback: Callable, /) -> None:
+    def remove_can_capture_midi_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "can_capture_midi".
         """
         ...
 
-    def remove_can_jump_to_next_cue_listener(self, callback: Callable, /) -> None:
+    def remove_can_jump_to_next_cue_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "can_jump_to_next_cue".
         """
         ...
 
-    def remove_can_jump_to_prev_cue_listener(self, callback: Callable, /) -> None:
+    def remove_can_jump_to_prev_cue_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "can_jump_to_prev_cue".
         """
         ...
 
-    def remove_clip_trigger_quantization_listener(self, callback: Callable, /) -> None:
+    def remove_clip_trigger_quantization_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "clip_trigger_quantization".
         """
         ...
 
-    def remove_count_in_duration_listener(self, callback: Callable, /) -> None:
+    def remove_count_in_duration_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "count_in_duration".
         """
         ...
 
-    def remove_cue_points_listener(self, callback: Callable, /) -> None:
+    def remove_cue_points_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "cue_points".
         """
         ...
 
-    def remove_current_song_time_listener(self, callback: Callable, /) -> None:
+    def remove_current_song_time_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "current_song_time".
         """
         ...
 
-    def remove_data_listener(self, callback: Callable, /) -> None:
+    def remove_data_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "data".
         """
         ...
 
-    def remove_exclusive_arm_listener(self, callback: Callable, /) -> None:
+    def remove_exclusive_arm_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "exclusive_arm".
         """
         ...
 
-    def remove_groove_amount_listener(self, callback: Callable, /) -> None:
+    def remove_groove_amount_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "groove_amount".
         """
         ...
 
-    def remove_is_ableton_link_enabled_listener(self, callback: Callable, /) -> None:
+    def remove_is_ableton_link_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_ableton_link_enabled".
         """
         ...
 
-    def remove_is_ableton_link_start_stop_sync_enabled_listener(self, callback: Callable, /) -> None:
+    def remove_is_ableton_link_start_stop_sync_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_ableton_link_start_stop_sync_enabled".
         """
         ...
 
-    def remove_is_counting_in_listener(self, callback: Callable, /) -> None:
+    def remove_is_counting_in_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_counting_in".
         """
         ...
 
-    def remove_is_playing_listener(self, callback: Callable, /) -> None:
+    def remove_is_playing_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_playing".
         """
         ...
 
-    def remove_loop_length_listener(self, callback: Callable, /) -> None:
+    def remove_loop_length_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop_length".
         """
         ...
 
-    def remove_loop_listener(self, callback: Callable, /) -> None:
+    def remove_loop_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop".
         """
         ...
 
-    def remove_loop_start_listener(self, callback: Callable, /) -> None:
+    def remove_loop_start_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "loop_start".
         """
         ...
 
-    def remove_metronome_listener(self, callback: Callable, /) -> None:
+    def remove_metronome_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "metronome".
         """
         ...
 
-    def remove_midi_recording_quantization_listener(self, callback: Callable, /) -> None:
+    def remove_midi_recording_quantization_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "midi_recording_quantization".
         """
         ...
 
-    def remove_nudge_down_listener(self, callback: Callable, /) -> None:
+    def remove_nudge_down_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "nudge_down".
         """
         ...
 
-    def remove_nudge_up_listener(self, callback: Callable, /) -> None:
+    def remove_nudge_up_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "nudge_up".
         """
         ...
 
-    def remove_overdub_listener(self, callback: Callable, /) -> None:
+    def remove_overdub_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "overdub".
         """
         ...
 
-    def remove_punch_in_listener(self, callback: Callable, /) -> None:
+    def remove_punch_in_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "punch_in".
         """
         ...
 
-    def remove_punch_out_listener(self, callback: Callable, /) -> None:
+    def remove_punch_out_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "punch_out".
         """
         ...
 
-    def remove_re_enable_automation_enabled_listener(self, callback: Callable, /) -> None:
+    def remove_re_enable_automation_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "re_enable_automation_enabled".
         """
         ...
 
-    def remove_record_mode_listener(self, callback: Callable, /) -> None:
+    def remove_record_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "record_mode".
         """
         ...
 
-    def remove_return_tracks_listener(self, callback: Callable, /) -> None:
+    def remove_return_tracks_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "return_tracks".
         """
         ...
 
-    def remove_root_note_listener(self, callback: Callable, /) -> None:
+    def remove_root_note_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "root_note".
         """
         ...
 
-    def remove_scale_information_listener(self, callback: Callable, /) -> None:
+    def remove_scale_information_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "scale_information".
         """
         ...
 
-    def remove_scale_intervals_listener(self, callback: Callable, /) -> None:
+    def remove_scale_intervals_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "scale_intervals".
         """
         ...
 
-    def remove_scale_mode_listener(self, callback: Callable, /) -> None:
+    def remove_scale_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "scale_mode".
         """
         ...
 
-    def remove_scale_name_listener(self, callback: Callable, /) -> None:
+    def remove_scale_name_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "scale_name".
         """
         ...
 
-    def remove_scenes_listener(self, callback: Callable, /) -> None:
+    def remove_scenes_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "scenes".
         """
         ...
 
-    def remove_session_automation_record_listener(self, callback: Callable, /) -> None:
+    def remove_session_automation_record_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "session_automation_record".
         """
         ...
 
-    def remove_session_record_listener(self, callback: Callable, /) -> None:
+    def remove_session_record_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "session_record".
         """
         ...
 
-    def remove_session_record_status_listener(self, callback: Callable, /) -> None:
+    def remove_session_record_status_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "session_record_status".
         """
         ...
 
-    def remove_signature_denominator_listener(self, callback: Callable, /) -> None:
+    def remove_signature_denominator_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "signature_denominator".
         """
         ...
 
-    def remove_signature_numerator_listener(self, callback: Callable, /) -> None:
+    def remove_signature_numerator_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "signature_numerator".
         """
         ...
 
-    def remove_song_length_listener(self, callback: Callable, /) -> None:
+    def remove_song_length_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "song_length".
         """
         ...
 
-    def remove_start_time_listener(self, callback: Callable, /) -> None:
+    def remove_start_time_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "start_time".
         """
         ...
 
-    def remove_swing_amount_listener(self, callback: Callable, /) -> None:
+    def remove_swing_amount_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "swing_amount".
         """
         ...
 
-    def remove_tempo_follower_enabled_listener(self, callback: Callable, /) -> None:
+    def remove_tempo_follower_enabled_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "tempo_follower_enabled".
         """
         ...
 
-    def remove_tempo_listener(self, callback: Callable, /) -> None:
+    def remove_tempo_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "tempo".
         """
         ...
 
-    def remove_tracks_listener(self, callback: Callable, /) -> None:
+    def remove_tracks_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "tracks".
         """
         ...
 
-    def remove_tuning_system_listener(self, callback: Callable, /) -> None:
+    def remove_tuning_system_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "tuning_system".
         """
         ...
 
-    def remove_visible_tracks_listener(self, callback: Callable, /) -> None:
+    def remove_visible_tracks_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "visible_tracks".
@@ -1600,7 +1600,7 @@ class Song(LomObject):
         """Const access to the list of available Return Tracks."""
         ...
 
-    def return_tracks_has_listener(self, callback: Callable, /) -> bool:
+    def return_tracks_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "return_tracks".
@@ -1615,14 +1615,14 @@ class Song(LomObject):
     @root_note.setter
     def root_note(self, value: int) -> None: ...
 
-    def root_note_has_listener(self, callback: Callable, /) -> bool:
+    def root_note_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "root_note".
         """
         ...
 
-    def scale_information_has_listener(self, callback: Callable, /) -> bool:
+    def scale_information_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "scale_information".
@@ -1634,7 +1634,7 @@ class Song(LomObject):
         """Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)"""
         ...
 
-    def scale_intervals_has_listener(self, callback: Callable, /) -> bool:
+    def scale_intervals_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "scale_intervals".
@@ -1649,7 +1649,7 @@ class Song(LomObject):
     @scale_mode.setter
     def scale_mode(self, value: bool) -> None: ...
 
-    def scale_mode_has_listener(self, callback: Callable, /) -> bool:
+    def scale_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "scale_mode".
@@ -1674,7 +1674,7 @@ class Song(LomObject):
     @scale_name.setter
     def scale_name(self, value: str) -> None: ...
 
-    def scale_name_has_listener(self, callback: Callable, /) -> bool:
+    def scale_name_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "scale_name".
@@ -1686,7 +1686,7 @@ class Song(LomObject):
         """Const access to a list of all Scenes in the Live Song."""
         ...
 
-    def scenes_has_listener(self, callback: Callable, /) -> bool:
+    def scenes_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "scenes".
@@ -1710,7 +1710,7 @@ class Song(LomObject):
     @session_automation_record.setter
     def session_automation_record(self, value: bool) -> None: ...
 
-    def session_automation_record_has_listener(self, callback: Callable, /) -> bool:
+    def session_automation_record_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "session_automation_record".
@@ -1725,7 +1725,7 @@ class Song(LomObject):
     @session_record.setter
     def session_record(self, value: bool) -> None: ...
 
-    def session_record_has_listener(self, callback: Callable, /) -> bool:
+    def session_record_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "session_record".
@@ -1737,7 +1737,7 @@ class Song(LomObject):
         """Get the session slot-recording state."""
         ...
 
-    def session_record_status_has_listener(self, callback: Callable, /) -> bool:
+    def session_record_status_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "session_record_status".
@@ -1763,7 +1763,7 @@ class Song(LomObject):
     @signature_denominator.setter
     def signature_denominator(self, value: int) -> None: ...
 
-    def signature_denominator_has_listener(self, callback: Callable, /) -> bool:
+    def signature_denominator_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "signature_denominator".
@@ -1778,7 +1778,7 @@ class Song(LomObject):
     @signature_numerator.setter
     def signature_numerator(self, value: int) -> None: ...
 
-    def signature_numerator_has_listener(self, callback: Callable, /) -> bool:
+    def signature_numerator_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "signature_numerator".
@@ -1793,7 +1793,7 @@ class Song(LomObject):
         """
         ...
 
-    def song_length_has_listener(self, callback: Callable, /) -> bool:
+    def song_length_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "song_length".
@@ -1815,7 +1815,7 @@ class Song(LomObject):
     @start_time.setter
     def start_time(self, value: float) -> None: ...
 
-    def start_time_has_listener(self, callback: Callable, /) -> bool:
+    def start_time_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "start_time".
@@ -1838,7 +1838,7 @@ class Song(LomObject):
     @swing_amount.setter
     def swing_amount(self, value: float) -> None: ...
 
-    def swing_amount_has_listener(self, callback: Callable, /) -> bool:
+    def swing_amount_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "swing_amount".
@@ -1865,14 +1865,14 @@ class Song(LomObject):
     @tempo_follower_enabled.setter
     def tempo_follower_enabled(self, value: bool) -> None: ...
 
-    def tempo_follower_enabled_has_listener(self, callback: Callable, /) -> bool:
+    def tempo_follower_enabled_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tempo_follower_enabled".
         """
         ...
 
-    def tempo_has_listener(self, callback: Callable, /) -> bool:
+    def tempo_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tempo".
@@ -1888,7 +1888,7 @@ class Song(LomObject):
         """
         ...
 
-    def tracks_has_listener(self, callback: Callable, /) -> bool:
+    def tracks_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tracks".
@@ -1904,7 +1904,7 @@ class Song(LomObject):
         """Access the currently active tuning system."""
         ...
 
-    def tuning_system_has_listener(self, callback: Callable, /) -> bool:
+    def tuning_system_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "tuning_system".
@@ -1932,7 +1932,7 @@ class Song(LomObject):
         """
         ...
 
-    def visible_tracks_has_listener(self, callback: Callable, /) -> bool:
+    def visible_tracks_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "visible_tracks".
@@ -1990,14 +1990,14 @@ class CuePoint(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_name_listener(self, callback: Callable, /) -> None:
+    def add_name_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
         """
         ...
 
-    def add_time_listener(self, callback: Callable, /) -> None:
+    def add_time_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "time" has changed.
@@ -2025,21 +2025,21 @@ class CuePoint(LomObject):
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable, /) -> bool:
+    def name_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable, /) -> None:
+    def remove_name_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".
         """
         ...
 
-    def remove_time_listener(self, callback: Callable, /) -> None:
+    def remove_time_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "time".
@@ -2051,7 +2051,7 @@ class CuePoint(LomObject):
         """Get/Listen to the CuePoint's time in beats."""
         ...
 
-    def time_has_listener(self, callback: Callable, /) -> bool:
+    def time_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "time".

@@ -15,49 +15,49 @@ class ClipSlot(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_color_index_listener(self, callback: Callable, /) -> None:
+    def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color_index" has changed.
         """
         ...
 
-    def add_color_listener(self, callback: Callable, /) -> None:
+    def add_color_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "color" has changed.
         """
         ...
 
-    def add_controls_other_clips_listener(self, callback: Callable, /) -> None:
+    def add_controls_other_clips_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "controls_other_clips" has changed.
         """
         ...
 
-    def add_has_clip_listener(self, callback: Callable, /) -> None:
+    def add_has_clip_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_clip" has changed.
         """
         ...
 
-    def add_has_stop_button_listener(self, callback: Callable, /) -> None:
+    def add_has_stop_button_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "has_stop_button" has changed.
         """
         ...
 
-    def add_is_triggered_listener(self, callback: Callable, /) -> None:
+    def add_is_triggered_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "is_triggered" has changed.
         """
         ...
 
-    def add_playing_status_listener(self, callback: Callable, /) -> None:
+    def add_playing_status_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_status" has changed.
@@ -79,7 +79,7 @@ class ClipSlot(LomObject):
         """Returns the canonical color for the clip slot or None if it does not exist."""
         ...
 
-    def color_has_listener(self, callback: Callable, /) -> bool:
+    def color_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color".
@@ -91,7 +91,7 @@ class ClipSlot(LomObject):
         """Returns the canonical color index for the clip slot or None if it does not exist."""
         ...
 
-    def color_index_has_listener(self, callback: Callable, /) -> bool:
+    def color_index_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "color_index".
@@ -106,7 +106,7 @@ class ClipSlot(LomObject):
         """
         ...
 
-    def controls_other_clips_has_listener(self, callback: Callable, /) -> bool:
+    def controls_other_clips_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "controls_other_clips".
@@ -156,7 +156,7 @@ class ClipSlot(LomObject):
         """Returns true if this Clipslot owns a Clip."""
         ...
 
-    def has_clip_has_listener(self, callback: Callable, /) -> bool:
+    def has_clip_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_clip".
@@ -174,7 +174,7 @@ class ClipSlot(LomObject):
     @has_stop_button.setter
     def has_stop_button(self, value: bool) -> None: ...
 
-    def has_stop_button_has_listener(self, callback: Callable, /) -> bool:
+    def has_stop_button_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "has_stop_button".
@@ -201,7 +201,7 @@ class ClipSlot(LomObject):
         """Const access to the triggering state of the clip slot."""
         ...
 
-    def is_triggered_has_listener(self, callback: Callable, /) -> bool:
+    def is_triggered_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "is_triggered".
@@ -216,56 +216,56 @@ class ClipSlot(LomObject):
         """
         ...
 
-    def playing_status_has_listener(self, callback: Callable, /) -> bool:
+    def playing_status_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "playing_status".
         """
         ...
 
-    def remove_color_index_listener(self, callback: Callable, /) -> None:
+    def remove_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "color_index".
         """
         ...
 
-    def remove_color_listener(self, callback: Callable, /) -> None:
+    def remove_color_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "color".
         """
         ...
 
-    def remove_controls_other_clips_listener(self, callback: Callable, /) -> None:
+    def remove_controls_other_clips_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "controls_other_clips".
         """
         ...
 
-    def remove_has_clip_listener(self, callback: Callable, /) -> None:
+    def remove_has_clip_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "has_clip".
         """
         ...
 
-    def remove_has_stop_button_listener(self, callback: Callable, /) -> None:
+    def remove_has_stop_button_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "has_stop_button".
         """
         ...
 
-    def remove_is_triggered_listener(self, callback: Callable, /) -> None:
+    def remove_is_triggered_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "is_triggered".
         """
         ...
 
-    def remove_playing_status_listener(self, callback: Callable, /) -> None:
+    def remove_playing_status_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "playing_status".

@@ -1000,10 +1000,14 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
         if arg1_type == parent.name or arg1_type in parent.ancestors:
             args[0]["name"] = "self"
 
-    # Listener methods: last arg is Callable
+    # Listener methods: last arg is the callback. Live's binding invokes
+    # listeners with zero args, so `Callable[[], None]` is the honest shape.
+    # Corpus check (external/corpus, filtered to Live binding listener names
+    # with strict same-file resolution) showed all 8 resolvable callbacks are
+    # zero-arg; no shipped Remote Script registers a listener that takes args.
     is_listener = name.endswith("_listener") and ("add_" in name or "remove_" in name or "has_" in name)
     if is_listener and len(args) >= 2:
-        args[-1]["type"] = "Callable"
+        args[-1]["type"] = "Callable[[], None]"
         args[-1]["name"] = "callback"
 
     # Vector methods: append(value), extend(values)

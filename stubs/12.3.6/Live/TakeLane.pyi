@@ -16,14 +16,14 @@ class TakeLane(LomObject):
     def _live_ptr(self) -> int:
         ...
 
-    def add_arrangement_clips_listener(self, callback: Callable, /) -> None:
+    def add_arrangement_clips_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "arrangement_clips" has changed.
         """
         ...
 
-    def add_name_listener(self, callback: Callable, /) -> None:
+    def add_name_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "name" has changed.
@@ -35,7 +35,7 @@ class TakeLane(LomObject):
         """Read-only access to the arrangement clips in the take lane."""
         ...
 
-    def arrangement_clips_has_listener(self, callback: Callable, /) -> bool:
+    def arrangement_clips_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "arrangement_clips".
@@ -69,21 +69,21 @@ class TakeLane(LomObject):
     @name.setter
     def name(self, value: str) -> None: ...
 
-    def name_has_listener(self, callback: Callable, /) -> bool:
+    def name_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "name".
         """
         ...
 
-    def remove_arrangement_clips_listener(self, callback: Callable, /) -> None:
+    def remove_arrangement_clips_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "arrangement_clips".
         """
         ...
 
-    def remove_name_listener(self, callback: Callable, /) -> None:
+    def remove_name_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "name".

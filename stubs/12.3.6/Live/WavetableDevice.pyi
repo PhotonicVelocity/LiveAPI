@@ -16,77 +16,77 @@ class WavetableDevice(Device):
     def _live_ptr(self) -> int:
         ...
 
-    def add_filter_routing_listener(self, callback: Callable, /) -> None:
+    def add_filter_routing_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "filter_routing" has changed.
         """
         ...
 
-    def add_modulation_matrix_changed_listener(self, callback: Callable, /) -> None:
+    def add_modulation_matrix_changed_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "modulation_matrix_changed" has changed.
         """
         ...
 
-    def add_mono_poly_listener(self, callback: Callable, /) -> None:
+    def add_mono_poly_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "mono_poly" has changed.
         """
         ...
 
-    def add_oscillator_1_effect_mode_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_1_effect_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_1_effect_mode" has changed.
         """
         ...
 
-    def add_oscillator_1_wavetable_category_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_1_wavetable_category_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_1_wavetable_category" has changed.
         """
         ...
 
-    def add_oscillator_1_wavetable_index_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_1_wavetable_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_1_wavetable_index" has changed.
         """
         ...
 
-    def add_oscillator_1_wavetables_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_1_wavetables_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_1_wavetables" has changed.
         """
         ...
 
-    def add_oscillator_2_effect_mode_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_2_effect_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_2_effect_mode" has changed.
         """
         ...
 
-    def add_oscillator_2_wavetable_category_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_2_wavetable_category_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_2_wavetable_category" has changed.
         """
         ...
 
-    def add_oscillator_2_wavetable_index_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_2_wavetable_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_2_wavetable_index" has changed.
         """
         ...
 
-    def add_oscillator_2_wavetables_listener(self, callback: Callable, /) -> None:
+    def add_oscillator_2_wavetables_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "oscillator_2_wavetables" has changed.
@@ -97,28 +97,28 @@ class WavetableDevice(Device):
         """Add a non-pitch parameter to the modulation matrix."""
         ...
 
-    def add_poly_voices_listener(self, callback: Callable, /) -> None:
+    def add_poly_voices_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "poly_voices" has changed.
         """
         ...
 
-    def add_unison_mode_listener(self, callback: Callable, /) -> None:
+    def add_unison_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "unison_mode" has changed.
         """
         ...
 
-    def add_unison_voice_count_listener(self, callback: Callable, /) -> None:
+    def add_unison_voice_count_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "unison_voice_count" has changed.
         """
         ...
 
-    def add_visible_modulation_target_names_listener(self, callback: Callable, /) -> None:
+    def add_visible_modulation_target_names_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
         property "visible_modulation_target_names" has changed.
@@ -163,7 +163,7 @@ class WavetableDevice(Device):
     @filter_routing.setter
     def filter_routing(self, value: FilterRouting) -> None: ...
 
-    def filter_routing_has_listener(self, callback: Callable, /) -> bool:
+    def filter_routing_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "filter_routing".
@@ -205,7 +205,7 @@ class WavetableDevice(Device):
         """Returns the latency of the device in samples."""
         ...
 
-    def modulation_matrix_changed_has_listener(self, callback: Callable, /) -> bool:
+    def modulation_matrix_changed_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "modulation_matrix_changed".
@@ -220,7 +220,7 @@ class WavetableDevice(Device):
     @mono_poly.setter
     def mono_poly(self, value: int) -> None: ...
 
-    def mono_poly_has_listener(self, callback: Callable, /) -> bool:
+    def mono_poly_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "mono_poly".
@@ -243,7 +243,7 @@ class WavetableDevice(Device):
     @oscillator_1_effect_mode.setter
     def oscillator_1_effect_mode(self, value: EffectMode) -> None: ...
 
-    def oscillator_1_effect_mode_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_1_effect_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_1_effect_mode".
@@ -258,7 +258,7 @@ class WavetableDevice(Device):
     @oscillator_1_wavetable_category.setter
     def oscillator_1_wavetable_category(self, value: int) -> None: ...
 
-    def oscillator_1_wavetable_category_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_1_wavetable_category_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_1_wavetable_category".
@@ -273,7 +273,7 @@ class WavetableDevice(Device):
     @oscillator_1_wavetable_index.setter
     def oscillator_1_wavetable_index(self, value: int) -> None: ...
 
-    def oscillator_1_wavetable_index_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_1_wavetable_index_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_1_wavetable_index".
@@ -285,7 +285,7 @@ class WavetableDevice(Device):
         """Get a vector of oscillator 1's wavetable names."""
         ...
 
-    def oscillator_1_wavetables_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_1_wavetables_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_1_wavetables".
@@ -300,7 +300,7 @@ class WavetableDevice(Device):
     @oscillator_2_effect_mode.setter
     def oscillator_2_effect_mode(self, value: EffectMode) -> None: ...
 
-    def oscillator_2_effect_mode_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_2_effect_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_2_effect_mode".
@@ -315,7 +315,7 @@ class WavetableDevice(Device):
     @oscillator_2_wavetable_category.setter
     def oscillator_2_wavetable_category(self, value: int) -> None: ...
 
-    def oscillator_2_wavetable_category_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_2_wavetable_category_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_2_wavetable_category".
@@ -330,7 +330,7 @@ class WavetableDevice(Device):
     @oscillator_2_wavetable_index.setter
     def oscillator_2_wavetable_index(self, value: int) -> None: ...
 
-    def oscillator_2_wavetable_index_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_2_wavetable_index_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_2_wavetable_index".
@@ -342,7 +342,7 @@ class WavetableDevice(Device):
         """Get a vector of oscillator 2's wavetable names."""
         ...
 
-    def oscillator_2_wavetables_has_listener(self, callback: Callable, /) -> bool:
+    def oscillator_2_wavetables_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "oscillator_2_wavetables".
@@ -367,112 +367,112 @@ class WavetableDevice(Device):
     @poly_voices.setter
     def poly_voices(self, value: int) -> None: ...
 
-    def poly_voices_has_listener(self, callback: Callable, /) -> bool:
+    def poly_voices_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "poly_voices".
         """
         ...
 
-    def remove_filter_routing_listener(self, callback: Callable, /) -> None:
+    def remove_filter_routing_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "filter_routing".
         """
         ...
 
-    def remove_modulation_matrix_changed_listener(self, callback: Callable, /) -> None:
+    def remove_modulation_matrix_changed_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "modulation_matrix_changed".
         """
         ...
 
-    def remove_mono_poly_listener(self, callback: Callable, /) -> None:
+    def remove_mono_poly_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "mono_poly".
         """
         ...
 
-    def remove_oscillator_1_effect_mode_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_1_effect_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_1_effect_mode".
         """
         ...
 
-    def remove_oscillator_1_wavetable_category_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_1_wavetable_category_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_1_wavetable_category".
         """
         ...
 
-    def remove_oscillator_1_wavetable_index_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_1_wavetable_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_1_wavetable_index".
         """
         ...
 
-    def remove_oscillator_1_wavetables_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_1_wavetables_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_1_wavetables".
         """
         ...
 
-    def remove_oscillator_2_effect_mode_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_2_effect_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_2_effect_mode".
         """
         ...
 
-    def remove_oscillator_2_wavetable_category_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_2_wavetable_category_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_2_wavetable_category".
         """
         ...
 
-    def remove_oscillator_2_wavetable_index_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_2_wavetable_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_2_wavetable_index".
         """
         ...
 
-    def remove_oscillator_2_wavetables_listener(self, callback: Callable, /) -> None:
+    def remove_oscillator_2_wavetables_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "oscillator_2_wavetables".
         """
         ...
 
-    def remove_poly_voices_listener(self, callback: Callable, /) -> None:
+    def remove_poly_voices_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "poly_voices".
         """
         ...
 
-    def remove_unison_mode_listener(self, callback: Callable, /) -> None:
+    def remove_unison_mode_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "unison_mode".
         """
         ...
 
-    def remove_unison_voice_count_listener(self, callback: Callable, /) -> None:
+    def remove_unison_voice_count_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "unison_voice_count".
         """
         ...
 
-    def remove_visible_modulation_target_names_listener(self, callback: Callable, /) -> None:
+    def remove_visible_modulation_target_names_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
         property "visible_modulation_target_names".
@@ -496,7 +496,7 @@ class WavetableDevice(Device):
     @unison_mode.setter
     def unison_mode(self, value: UnisonMode) -> None: ...
 
-    def unison_mode_has_listener(self, callback: Callable, /) -> bool:
+    def unison_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "unison_mode".
@@ -511,7 +511,7 @@ class WavetableDevice(Device):
     @unison_voice_count.setter
     def unison_voice_count(self, value: VoiceCount) -> None: ...
 
-    def unison_voice_count_has_listener(self, callback: Callable, /) -> bool:
+    def unison_voice_count_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "unison_voice_count".
@@ -528,7 +528,7 @@ class WavetableDevice(Device):
         """Get the names of all the visible modulation targets."""
         ...
 
-    def visible_modulation_target_names_has_listener(self, callback: Callable, /) -> bool:
+    def visible_modulation_target_names_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
         to the property "visible_modulation_target_names".
