@@ -13,11 +13,12 @@ Pipeline steps:
     2a. resolve_inheritance — expand bases into full ancestor chains on class nodes
     2b. relocate_inherited_members — move inherited members to their true defining class
 3. parse_enums — parse string-encoded enum names/values into structured members, retype as "enum"
-5a. parse_function_docs — extract signature, description, and C++ signature from function docstrings
-5b. parse_signatures — split Python and C++ signatures into matched args and return types
-5c. build_type_map — build C++ → Python type mapping from signature pairs (stored in ctx, no tree changes)
-5d. resolve_signatures — resolve raw signature parts into clean structured args and returns
-6. merge_probe_data — merge runtime probe results (LiveClasses.json) onto matching tree nodes
+4. Function signature & arg/return resolution
+    4a. parse_function_docs — extract signature, description, and C++ signature from raw function docstrings
+    4b. parse_signatures — split Python and C++ signature lines into matched arg-text fragments
+    4c. build_type_map — aggregate fragment pairs into a C++ → Python type map (in ctx, no tree changes)
+    4d. resolve_signatures — produce final structured `args:` and `returns:` fields on each function node
+5. merge_probe_data — merge runtime probe results (LiveClasses.json) onto matching tree nodes
 
 Usage:
     python tools/parse/parse_apicapture_results.py 12.3.6
@@ -538,9 +539,27 @@ def parse_enums(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 # endregion
 
 
+# region------------------------------------------------------------------------- #
+# Step 4: function signature & arg/return resolution
+#
+# Boost.Python emits each function's metadata as a single multiline raw_doc
+# string that mixes the Python-style signature, prose description, and a
+# trailing C++ signature line. The four sub-passes peel that apart and
+# reduce it to a clean structured form (typed args + return type):
+#
+#   4a. parse_function_docs — split raw_doc into (signature, description,
+#                             cpp_signature) string fields
+#   4b. parse_signatures    — split each signature line into raw arg-text
+#                             fragments paired between Python and C++
+#   4c. build_type_map      — aggregate paired fragments across all functions
+#                             to learn C++ → Python type mappings (in ctx,
+#                             no tree changes)
+#   4d. resolve_signatures  — apply the type map to produce final structured
+#                             `args:` and `returns:` fields on each function
 # ------------------------------------------------------------------------------- #
-# Step 5a: parse_function_docs
-# ------------------------------------------------------------------------------- #
+
+
+# --- Step 4a: parse_function_docs ---
 
 _FUNCTION_TYPES = {"function", "builtin_function_or_method", "method", "method_descriptor"}
 
@@ -613,9 +632,7 @@ def parse_function_docs(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return _walk_tree(tree, _visit_parse_function_docs, ctx)
 
 
-# ------------------------------------------------------------------------------- #
-# Step 5b: parse_signatures
-# ------------------------------------------------------------------------------- #
+# --- Step 4b: parse_signatures ---
 
 
 def _split_sig_args(arg_str: str) -> list[tuple[str, int]]:
@@ -893,9 +910,7 @@ def parse_signatures(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return _walk_tree(tree, _visit_parse_signatures, ctx)
 
 
-# ------------------------------------------------------------------------------- #
-# Step 5c: build_type_map
-# ------------------------------------------------------------------------------- #
+# --- Step 4c: build_type_map ---
 
 # Known C++ → Python primitive mappings that don't need signature evidence.
 _CPP_PRIMITIVES: dict[str, str] = {
@@ -983,31 +998,10 @@ def build_type_map(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 
     ctx["cpp_to_py"] = cpp_to_py
     ctx["stats"]["type_map_entries"] = len(cpp_to_py)
-
-    # Collect every enum class name in the tree so resolve_signatures can apply
-    # the structural enum-arg convention (Boost.Python emits enum classes as
-    # `int` subclasses, so any arg typed as a bare enum class is implicitly
-    # `EnumType | int` at runtime — the union form is the honest annotation).
-    enum_classes: set[str] = set()
-
-    def _collect(node: TreeNode) -> None:
-        if isinstance(node, dict):
-            if node.get("type") == "enum" and node.get("name"):
-                enum_classes.add(node["name"])
-            for value in node.values():
-                _collect(value)
-        elif isinstance(node, list):
-            for item in node:
-                _collect(item)
-
-    _collect(tree)
-    ctx["enum_classes"] = enum_classes
     return tree
 
 
-# ------------------------------------------------------------------------------- #
-# Step 5d: resolve_signatures
-# ------------------------------------------------------------------------------- #
+# --- Step 4d: resolve_signatures ---
 
 # Regex to parse Python arg text: "(Type)name" or "(Type)name=default"
 _PY_ARG_RE = re.compile(r"^\((\w+)\)(\w+)(?:=(.+))?$")
@@ -1070,10 +1064,22 @@ def _resolve_returns(raw: dict[str, Any], cpp_to_py: dict[str, str]) -> dict[str
 
 
 def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent: ClassContext) -> None:
-    """Visitor: resolve raw signature parts into clean structured args and returns.
+    """Resolve raw arg/return text into clean structured `args:` and `returns:`.
 
-    Also applies well-known arg name patterns: arg1→self for instance methods,
-    listener callback naming, and Vector append/extend naming.
+    Two phases:
+
+      1. Per-arg/return resolution — `_resolve_arg` and `_resolve_returns`
+         parse the `(Type)name=default` annotation, fall back to the C++ type
+         map for generic Python types, and produce
+         `{name, type, optional, default}` (or `{type}` for returns).
+
+      2. Three special-case fixups, applied after generic resolution because
+         they need either parent-class context or function-name pattern
+         matching that the per-arg resolver doesn't have:
+
+           a. arg1 → self          (instance-method first arg)
+           b. listener callbacks   (last arg of *_listener triplet)
+           c. Vector append/extend (parent name ends in "Vector")
     """
     if node.get("type") not in _FUNCTION_TYPES:
         return
@@ -1084,46 +1090,49 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
 
     cpp_to_py = ctx.get("cpp_to_py", {})
     name = node.get("name", "")
+
+    # Phase 1: generic per-arg resolution.
     args = [_resolve_arg(a, cpp_to_py) for a in raw_args]
 
-    # Rename arg1 to self when its type matches the parent class or an ancestor
+    # Phase 2a: arg1 → self, when the first arg's type confirms it's the
+    # instance. Boost.Python emits unnamed positional args as `arg1`; for
+    # instance methods, that's conceptually `self`. Only renames when the
+    # type matches the parent class or one of its ancestors — guards against
+    # mis-renaming on functions that aren't actually methods.
     if args and parent.name and args[0].get("name") == "arg1":
         arg1_type = args[0].get("type")
         if arg1_type == parent.name or arg1_type in parent.ancestors:
             args[0]["name"] = "self"
 
-    # Listener methods: last arg is the callback. Live's binding invokes
-    # listeners with zero args, so `Callable[[], None]` is the honest shape.
-    # Corpus check (external/corpus, filtered to Live binding listener names
-    # with strict same-file resolution) showed all 8 resolvable callbacks are
-    # zero-arg; no shipped Remote Script registers a listener that takes args.
+    # Phase 2b: listener callbacks. For listener methods (add_*/remove_*/
+    # *_has_listener), the last arg is the callback. Boost.Python types it
+    # generically (usually `object`), which doesn't communicate the
+    # zero-arg contract. Override to `Callable[[], None]` named "callback".
+    #
+    # Justification: corpus audit (external/corpus, filtered to Live binding
+    # listener names with same-file resolution) shows all 8 resolvable
+    # callbacks are zero-arg; no shipped Remote Script registers a listener
+    # that takes args. The *_has_listener case is technically a callback to
+    # check membership of, not invoke — but the type is still correct.
     is_listener = name.endswith("_listener") and ("add_" in name or "remove_" in name or "has_" in name)
     if is_listener and len(args) >= 2:
         args[-1]["type"] = "Callable[[], None]"
         args[-1]["name"] = "callback"
 
-    # Enum-arg convention: Boost.Python emits enum classes as `int` subclasses,
-    # so any arg typed as a bare enum class also accepts the underlying int at
-    # runtime (audit confirmed against Ableton's shipped Remote Scripts —
-    # corpus passes raw ints to e.g. `MidiMap.map_midi_cc.map_mode`). Widen
-    # bare-enum arg types to `EnumType | int` so the annotation matches the
-    # binding's actual acceptance. Refinements that explicitly want the
-    # strict-enum form can override by setting `to: "EnumType"`.
-    enum_classes: set[str] = ctx.get("enum_classes", set())
-    if enum_classes:
-        for arg in args:
-            arg_type = arg.get("type")
-            if isinstance(arg_type, str) and arg_type in enum_classes:
-                arg["type"] = f"{arg_type} | int"
-
-    # Vector methods: append(value), extend(values)
+    # Phase 2c: Vector append/extend. Live's container types (IntVector,
+    # StringVector, BrowserItemVector, ...) expose `append` and `extend`.
+    # The raw signature shows the parameter as a single element of the
+    # element type; we want:
+    #   - append(arg1) → append(value)               (rename only)
+    #   - extend(arg1) → extend(values: Iterable[E]) (rename + wrap type)
+    # The `extend` type wrap is skipped when the resolver fell back to
+    # `object` — `Iterable[object]` would be misleading scaffolding.
     if parent.name and parent.name.endswith("Vector"):
         if name == "append" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
             args[1]["name"] = "value"
         elif name == "extend" and len(args) == 2:
             if args[1].get("name", "").startswith("arg"):
                 args[1]["name"] = "values"
-            # extend takes an iterable of elements, not a single element
             elem_type = args[1].get("type")
             if elem_type and elem_type != "object":
                 args[1]["type"] = f"Iterable[{elem_type}]"
@@ -1131,7 +1140,7 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
 
-    # Track object resolutions
+    # Stats: count args whose final type isn't the `object` fallback.
     resolved = sum(1 for a in args if a["type"] and a["type"] != "object")
     unresolved = sum(1 for a in args if a["type"] == "object")
     ctx["stats"]["resolved_args"] = ctx["stats"].get("resolved_args", 0) + resolved
@@ -1142,9 +1151,11 @@ def resolve_signatures(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     """Resolve raw signature parts into clean structured args and returns."""
     return _walk_tree(tree, _visit_resolve_signatures, ctx)
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
-# Step 6: merge_probe_data
+
+# region------------------------------------------------------------------------- #
+# Step 5: merge_probe_data
 # ------------------------------------------------------------------------------- #
 
 
