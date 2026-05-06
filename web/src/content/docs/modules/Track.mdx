@@ -11,119 +11,119 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 #### Properties
 
-##### arm
+##### arm<span class="prop-type">: bool</span>
 
-##### arrangement_clips
+##### arrangement_clips<span class="prop-type">: Vector</span>
 
-##### available_input_routing_channels
+##### available_input_routing_channels<span class="prop-type">: RoutingChannelVector</span>
 
-##### available_input_routing_types
+##### available_input_routing_types<span class="prop-type">: RoutingTypeVector</span>
 
-##### available_output_routing_channels
+##### available_output_routing_channels<span class="prop-type">: RoutingChannelVector</span>
 
-##### available_output_routing_types
+##### available_output_routing_types<span class="prop-type">: RoutingTypeVector</span>
 
-##### back_to_arranger
+##### back_to_arranger<span class="prop-type">: bool</span>
 
-##### can_be_armed
+##### can_be_armed<span class="prop-type">: bool</span>
 
-##### can_be_frozen
+##### can_be_frozen<span class="prop-type">: bool</span>
 
-##### can_show_chains
+##### can_show_chains<span class="prop-type">: bool</span>
 
-##### canonical_parent
+##### canonical_parent<span class="prop-type">: Song</span>
 
-##### clip_slots
+##### clip_slots<span class="prop-type">: Vector</span>
 
-##### color
+##### color<span class="prop-type">: int</span>
 
-##### color_index
+##### color_index<span class="prop-type">: int</span>
 
-##### current_input_routing
+##### current_input_routing<span class="prop-type">: str</span>
 
-##### current_input_sub_routing
+##### current_input_sub_routing<span class="prop-type">: str</span>
 
-##### current_monitoring_state
+##### current_monitoring_state<span class="prop-type">: int</span>
 
-##### current_output_routing
+##### current_output_routing<span class="prop-type">: str</span>
 
-##### current_output_sub_routing
+##### current_output_sub_routing<span class="prop-type">: str</span>
 
-##### devices
+##### devices<span class="prop-type">: Vector</span>
 
-##### fired_slot_index
+##### fired_slot_index<span class="prop-type">: int</span>
 
-##### fold_state
+##### fold_state<span class="prop-type">: bool</span>
 
-##### group_track
+##### group_track<span class="prop-type">: Track</span>
 
-##### has_audio_input
+##### has_audio_input<span class="prop-type">: bool</span>
 
-##### has_audio_output
+##### has_audio_output<span class="prop-type">: bool</span>
 
-##### has_midi_input
+##### has_midi_input<span class="prop-type">: bool</span>
 
-##### has_midi_output
+##### has_midi_output<span class="prop-type">: bool</span>
 
-##### implicit_arm
+##### implicit_arm<span class="prop-type">: bool</span>
 
-##### input_meter_left
+##### input_meter_left<span class="prop-type">: float</span>
 
-##### input_meter_level
+##### input_meter_level<span class="prop-type">: float</span>
 
-##### input_meter_right
+##### input_meter_right<span class="prop-type">: float</span>
 
-##### input_routing_channel
+##### input_routing_channel<span class="prop-type">: RoutingChannel</span>
 
-##### input_routing_type
+##### input_routing_type<span class="prop-type">: RoutingType</span>
 
-##### input_routings
+##### input_routings<span class="prop-type">: StringVector</span>
 
-##### input_sub_routings
+##### input_sub_routings<span class="prop-type">: StringVector</span>
 
-##### is_foldable
+##### is_foldable<span class="prop-type">: bool</span>
 
-##### is_frozen
+##### is_frozen<span class="prop-type">: bool</span>
 
-##### is_grouped
+##### is_grouped<span class="prop-type">: bool</span>
 
-##### is_part_of_selection
+##### is_part_of_selection<span class="prop-type">: bool</span>
 
-##### is_showing_chains
+##### is_showing_chains<span class="prop-type">: bool</span>
 
-##### is_visible
+##### is_visible<span class="prop-type">: bool</span>
 
-##### mixer_device
+##### mixer_device<span class="prop-type">: MixerDevice</span>
 
-##### mute
+##### mute<span class="prop-type">: bool</span>
 
-##### muted_via_solo
+##### muted_via_solo<span class="prop-type">: bool</span>
 
-##### name
+##### name<span class="prop-type">: str</span>
 
-##### output_meter_left
+##### output_meter_left<span class="prop-type">: float</span>
 
-##### output_meter_level
+##### output_meter_level<span class="prop-type">: float</span>
 
-##### output_meter_right
+##### output_meter_right<span class="prop-type">: float</span>
 
-##### output_routing_channel
+##### output_routing_channel<span class="prop-type">: RoutingChannel</span>
 
-##### output_routing_type
+##### output_routing_type<span class="prop-type">: RoutingType</span>
 
-##### output_routings
+##### output_routings<span class="prop-type">: StringVector</span>
 
-##### output_sub_routings
+##### output_sub_routings<span class="prop-type">: StringVector</span>
 
-##### performance_impact
+##### performance_impact<span class="prop-type">: float</span>
 
-##### playing_slot_index
+##### playing_slot_index<span class="prop-type">: int</span>
 
-##### solo
+##### solo<span class="prop-type">: bool</span>
 
-##### take_lanes
+##### take_lanes<span class="prop-type">: Vector</span>
 
-##### view
+##### view<span class="prop-type">: View</span>
 
 ## Other classes
 
@@ -137,9 +137,9 @@ This class represents a routing channel.
 
 #### Properties
 
-##### display_name
+##### display_name<span class="prop-type">: str</span>
 
-##### layout
+##### layout<span class="prop-type">: RoutingChannelLayout</span>
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingChannelVector</span></span>
 
@@ -151,11 +151,11 @@ This class represents a routing type.
 
 #### Properties
 
-##### attached_object
+##### attached_object<span class="prop-type">: Track</span>
 
-##### category
+##### category<span class="prop-type">: RoutingTypeCategory</span>
 
-##### display_name
+##### display_name<span class="prop-type">: str</span>
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingTypeVector</span></span>
 

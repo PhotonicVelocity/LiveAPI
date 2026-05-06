@@ -180,6 +180,20 @@ def function_signature_html(fn_node: dict, module_name: str) -> str:
     )
 
 
+def property_heading_html(prop_node: dict) -> str:
+    """Render a property name + Python-annotation-style type.
+
+    H5 isn't in the right-side TOC (capped at H3) so the type can sit in
+    the DOM text without polluting any nav surface. The `prop-type` span is
+    styled muted via CSS so the name still reads as the primary identifier.
+    """
+    name = prop_node["name"]
+    type_name = prop_node.get("probed_type")
+    if not type_name:
+        return name
+    return f'{name}<span class="prop-type">: {type_name}</span>'
+
+
 def render_module_page(module_node: dict) -> str:
     """Render one module's MDX page (Step 1: skeleton only)."""
     module_name = module_node["name"]
@@ -240,7 +254,7 @@ def render_module_page(module_node: dict) -> str:
             lines.append("#### Properties")
             lines.append("")
             for prop in properties:
-                lines.append(f"##### {prop['name']}")
+                lines.append(f"##### {property_heading_html(prop)}")
                 lines.append("")
 
     def emit_member(heading_html: str, doc: str | None) -> None:

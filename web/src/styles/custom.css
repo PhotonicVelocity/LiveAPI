@@ -59,6 +59,15 @@
   padding-left: 1.5rem;
 }
 
+/* Property type annotation — `: Type` after the property name.
+   Muted weight + orange-tinted to echo the path coloring on class signatures,
+   so the name stays the primary identifier and the type reads as metadata. */
+.sl-markdown-content h5 .prop-type {
+  font-weight: 400;
+  color: var(--sl-color-orange);
+  opacity: 0.85;
+}
+
 /* Signature span — styled heading for class / enum / function identifiers.
    Nested-span structure keeps the DOM text to just the bare name (so the
    right-side TOC shows "BeatTime", not "class Live.Song.BeatTime"). The

@@ -11,121 +11,121 @@ This class represents a Live set.
 
 #### Properties
 
-##### appointed_device
+##### appointed_device<span class="prop-type">: Device | None</span>
 
-##### arrangement_overdub
+##### arrangement_overdub<span class="prop-type">: bool</span>
 
-##### back_to_arranger
+##### back_to_arranger<span class="prop-type">: bool</span>
 
-##### can_capture_midi
+##### can_capture_midi<span class="prop-type">: bool</span>
 
-##### can_jump_to_next_cue
+##### can_jump_to_next_cue<span class="prop-type">: bool</span>
 
-##### can_jump_to_prev_cue
+##### can_jump_to_prev_cue<span class="prop-type">: bool</span>
 
-##### can_redo
+##### can_redo<span class="prop-type">: bool</span>
 
-##### can_undo
+##### can_undo<span class="prop-type">: bool</span>
 
-##### canonical_parent
+##### canonical_parent<span class="prop-type">: None</span>
 
-##### clip_trigger_quantization
+##### clip_trigger_quantization<span class="prop-type">: Quantization</span>
 
-##### count_in_duration
+##### count_in_duration<span class="prop-type">: int</span>
 
-##### cue_points
+##### cue_points<span class="prop-type">: Vector</span>
 
-##### current_song_time
+##### current_song_time<span class="prop-type">: float</span>
 
-##### exclusive_arm
+##### exclusive_arm<span class="prop-type">: bool</span>
 
-##### exclusive_solo
+##### exclusive_solo<span class="prop-type">: bool</span>
 
-##### file_path
+##### file_path<span class="prop-type">: str</span>
 
-##### groove_amount
+##### groove_amount<span class="prop-type">: float</span>
 
-##### groove_pool
+##### groove_pool<span class="prop-type">: GroovePool</span>
 
-##### is_ableton_link_enabled
+##### is_ableton_link_enabled<span class="prop-type">: bool</span>
 
-##### is_ableton_link_start_stop_sync_enabled
+##### is_ableton_link_start_stop_sync_enabled<span class="prop-type">: bool</span>
 
-##### is_counting_in
+##### is_counting_in<span class="prop-type">: bool</span>
 
-##### is_playing
+##### is_playing<span class="prop-type">: bool</span>
 
-##### last_event_time
+##### last_event_time<span class="prop-type">: float</span>
 
-##### loop
+##### loop<span class="prop-type">: bool</span>
 
-##### loop_length
+##### loop_length<span class="prop-type">: float</span>
 
-##### loop_start
+##### loop_start<span class="prop-type">: float</span>
 
-##### master_track
+##### master_track<span class="prop-type">: Track</span>
 
-##### metronome
+##### metronome<span class="prop-type">: bool</span>
 
-##### midi_recording_quantization
+##### midi_recording_quantization<span class="prop-type">: RecordingQuantization</span>
 
-##### name
+##### name<span class="prop-type">: str</span>
 
-##### nudge_down
+##### nudge_down<span class="prop-type">: bool</span>
 
-##### nudge_up
+##### nudge_up<span class="prop-type">: bool</span>
 
-##### overdub
+##### overdub<span class="prop-type">: bool</span>
 
-##### punch_in
+##### punch_in<span class="prop-type">: bool</span>
 
-##### punch_out
+##### punch_out<span class="prop-type">: bool</span>
 
-##### re_enable_automation_enabled
+##### re_enable_automation_enabled<span class="prop-type">: bool</span>
 
-##### record_mode
+##### record_mode<span class="prop-type">: bool</span>
 
-##### return_tracks
+##### return_tracks<span class="prop-type">: Vector</span>
 
-##### root_note
+##### root_note<span class="prop-type">: int</span>
 
-##### scale_intervals
+##### scale_intervals<span class="prop-type">: IntVector</span>
 
-##### scale_mode
+##### scale_mode<span class="prop-type">: bool</span>
 
-##### scale_name
+##### scale_name<span class="prop-type">: str</span>
 
-##### scenes
+##### scenes<span class="prop-type">: Vector</span>
 
-##### select_on_launch
+##### select_on_launch<span class="prop-type">: bool</span>
 
-##### session_automation_record
+##### session_automation_record<span class="prop-type">: bool</span>
 
-##### session_record
+##### session_record<span class="prop-type">: bool</span>
 
-##### session_record_status
+##### session_record_status<span class="prop-type">: SessionRecordStatus</span>
 
-##### signature_denominator
+##### signature_denominator<span class="prop-type">: int</span>
 
-##### signature_numerator
+##### signature_numerator<span class="prop-type">: int</span>
 
-##### song_length
+##### song_length<span class="prop-type">: float</span>
 
-##### start_time
+##### start_time<span class="prop-type">: float</span>
 
-##### swing_amount
+##### swing_amount<span class="prop-type">: float</span>
 
-##### tempo
+##### tempo<span class="prop-type">: float</span>
 
-##### tempo_follower_enabled
+##### tempo_follower_enabled<span class="prop-type">: bool</span>
 
-##### tracks
+##### tracks<span class="prop-type">: Vector</span>
 
-##### tuning_system
+##### tuning_system<span class="prop-type">: TuningSystem</span>
 
-##### view
+##### view<span class="prop-type">: View</span>
 
-##### visible_tracks
+##### visible_tracks<span class="prop-type">: Vector</span>
 
 ## Other classes
 
@@ -135,13 +135,13 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
 #### Properties
 
-##### bars
+##### bars<span class="prop-type">: int</span>
 
-##### beats
+##### beats<span class="prop-type">: int</span>
 
-##### sub_division
+##### sub_division<span class="prop-type">: int</span>
 
-##### ticks
+##### ticks<span class="prop-type">: int</span>
 
 ### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span>
 
@@ -149,11 +149,11 @@ Represents a 'Marker' in the arrangement.
 
 #### Properties
 
-##### canonical_parent
+##### canonical_parent<span class="prop-type">: Song</span>
 
-##### name
+##### name<span class="prop-type">: str</span>
 
-##### time
+##### time<span class="prop-type">: float</span>
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
 
@@ -161,13 +161,13 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 #### Properties
 
-##### frames
+##### frames<span class="prop-type">: int</span>
 
-##### hours
+##### hours<span class="prop-type">: int</span>
 
-##### minutes
+##### minutes<span class="prop-type">: int</span>
 
-##### seconds
+##### seconds<span class="prop-type">: int</span>
 
 ## Module Enums
 
