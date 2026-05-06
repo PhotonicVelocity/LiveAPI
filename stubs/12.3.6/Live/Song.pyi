@@ -695,7 +695,7 @@ class Song(LomObject):
         ...
 
     @property
-    def canonical_parent(self) -> Any:
+    def canonical_parent(self) -> None:
         """Get the canonical parent of the song."""
         ...
 

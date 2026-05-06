@@ -167,6 +167,37 @@ _meta:
     verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
     values here.
 
+# ─── LOM-root canonical_parent (genuinely always None) ────────────────────────
+#
+# The two LOM-root nodes — Application and Song — have no parent in the LOM
+# tree, so their `canonical_parent` is literally `None`. The probe observes
+# `NoneType` and the generator widens to `Any`; these refinements narrow it
+# back to `None` since the runtime instance is unique (one Application, one
+# Song per Live process) and the absence-of-parent is structural, not
+# probe-instance-specific.
+
+"Live.Application.Application.canonical_parent":
+  probed_type:
+    from: NoneType
+    to: "None"
+  confidence: high
+  source: |
+    Application is the LOM root. It has no parent — the probe's `NoneType`
+    observation reflects the structural shape, not an instance-specific
+    nullability. Every other class's `canonical_parent` probes as a concrete
+    parent type; only this and `Song.canonical_parent` probe as None.
+
+"Live.Song.Song.canonical_parent":
+  probed_type:
+    from: NoneType
+    to: "None"
+  confidence: high
+  source: |
+    Song is the LOM root for the document tree. The probe observes None
+    because Song has no parent (`Application.song` returns the Song; there's
+    no inverse). Same structural reasoning as
+    `Application.canonical_parent`.
+
 # ─── is_using_compare_preset_b on device classes the probe couldn't reach ────
 #
 # raw_doc explicit on every Device subclass: "Returns whether the Device has

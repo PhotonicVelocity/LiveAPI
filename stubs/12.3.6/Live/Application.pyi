@@ -237,7 +237,7 @@ class Application(LomObject):
         ...
 
     @property
-    def canonical_parent(self) -> Any:
+    def canonical_parent(self) -> None:
         """Returns the canonical parent of the application."""
         ...
 
