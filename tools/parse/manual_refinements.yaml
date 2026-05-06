@@ -35,6 +35,13 @@
 #            method context." Most likely-wrong category — flag for re-verification
 #            when a probe is available or when the audit catches a contradiction.
 #
+# `confidence:` is required for entries that change types (`arg_types`,
+# `return_type`, `probed_type`, `element_repr`) — those are load-bearing and
+# wrong types let pyright accept runtime-crashing calls.
+# `confidence:` is optional for arg-name-only entries (`args:` alone). Names are
+# positional-only / decorative under PEP 570 (`, /`); a wrong name affects hover
+# hints but not runtime correctness, so the asymmetry is intentional.
+#
 # ─────────────────────────────────────────────────────────────────────────────
 
 _meta:
@@ -59,9 +66,9 @@ _meta:
     to: "Device | None"
   confidence: high
   source: |
-    Probed against Live 12.3.5 (MS33 in the curated baseline at doc/live-api/Browser.md):
-    "During active hotswap, hotswap_target returns the Device object being swapped, not a
-    BrowserItem." The stub's earlier BrowserItem annotation was incorrect — though the C++
+    Probed against Live 12.3.5: during active hotswap, `hotswap_target` returns the
+    Device object being swapped, not a BrowserItem. The stub's earlier BrowserItem
+    annotation was incorrect — though the C++
     signature for relation_to_hotswap_target takes NPythonBrowser::TPythonBrowserItem and
     originally suggested otherwise. None when no hotswap is active. Settable: assigning a
     Device handle activates hotswap; assigning None deactivates.
@@ -78,9 +85,8 @@ _meta:
     to: "Groove | None"
   confidence: high
   source: |
-    Docstring: "Get the groove associated with this clip." Baseline note explicit:
-    "Clip.groove returns a Groove handle when assigned, None when no groove is set"
-    (doc/live-api/Groove.md:24). M4L confirms.
+    Docstring: "Get the groove associated with this clip." M4L confirms `Groove`
+    return type and nullability when no groove is assigned.
 
 "Live.RackDevice.RackDevice.View.selected_chain":
   probed_type:
@@ -125,9 +131,8 @@ _meta:
     to: "DeviceParameter | None"
   confidence: high
   source: |
-    Docstring + baseline (doc/live-api/Song.md:1478, 1521) confirm DeviceParameter
-    return type. M4L docs explicit: "selected_parameter [DeviceParameter] read-only
-    observe". Read-only nullable.
+    Docstring confirms `DeviceParameter` return type. M4L docs explicit:
+    "selected_parameter [DeviceParameter] read-only observe". Read-only nullable.
 
 "Live.Song.Song.appointed_device":
   probed_type:
@@ -360,7 +365,6 @@ _meta:
       - C++ signature: `void delete_device(TChainPyHandle, int)` — int
       - Docstring: "Remove a device identified by its index from the chain"
       - M4L docs (chain.md): `Parameter: index [int]`
-      - Baseline (doc/live-api/Chain.md): `delete_device(index: int)`
 
 "Live.Track.Track.delete_device":
   args:
@@ -374,8 +378,6 @@ _meta:
       - C++ signature: `void delete_device(TTrackPyHandle, int)` — int
       - Docstring: "Delete a device identified by the index in the 'devices' list"
       - M4L docs (track.md): `Parameter: index`
-      - Baseline (doc/live-api/Track.md): `delete_device(arg2: int)` —
-        "Parameter: `index` Delete the device at the given index"
 
 "Live.Clip.Clip.quantize_pitch":
   args:
@@ -398,12 +400,12 @@ _meta:
     string (e.g. "slice", "pad") used only in show_notification at line 129;
     the wrapper does NOT pass `source` to the binding. The actual direct
     binding call at line 128 passes `self.settings.quantize_to` as arg3 — a
-    GridQuantization enum int. M4L docs (clip.md) and the curated baseline
-    (doc/live-api/Clip.md) both name arg3 `quantization_grid`.
+    GridQuantization enum int. M4L docs (clip.md) names arg3 `quantization_grid`.
     arg3 type — C++ signature is `void quantize_pitch(TPyHandle<AClip>, int,
-    int, float)` — int. Baseline pins it to `GridQuantization` enum values 1–8
-    (0 and 9 raise `Invalid quantization`); narrowed to `GridQuantization |
-    int` matching the sister `Clip.View.grid_quantization` and `Clip.quantize`.
+    int, float)` — int. The probed runtime accepts `GridQuantization` enum
+    values 1–8 (0 and 9 raise `Invalid quantization`); narrowed to
+    `GridQuantization | int` matching the sister `Clip.View.grid_quantization`
+    and `Clip.quantize`.
     arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
     'amount'; sister method `quantize(quantization_grid, amount)` confirms.
 
@@ -423,7 +425,6 @@ _meta:
       - Docstring: "Creates an empty clip with the given length in the slot."
       - M4L docs (clipslot.md): "Parameter: `length` — Length is given in
         beats and must be a greater value than 0.0."
-      - Baseline (doc/live-api/ClipSlot.md): `create_clip(length: float)`.
     Direct binding call sites all pass a variable named `length` (or
     `_clip_length`):
       - _Framework/ClipCreator.py:20 (`slot.create_clip(length)`)
@@ -447,8 +448,6 @@ _meta:
       - Docstring: "Delete the given clip. Raises a runtime error when the
         clip belongs to another track."
       - M4L docs (track.md): `Parameter: clip` — "Delete the given clip"
-      - Baseline (doc/live-api/Track.md): `delete_clip(arg2: Clip)` —
-        "Parameter: `clip` Delete the given clip"
     Direct binding call sites pass a Clip variable:
       - pushbase/actions.py:131 (`selected_track.delete_clip(clip)`)
       - ableton/v3/live/action.py:75
@@ -606,9 +605,9 @@ _meta:
     arg2: device_parameter
   source: |
     arg2 rename — M4L (clip_view.md) documents type only (`Parameter:
-    [DeviceParameter]`); baseline (doc/live-api/Clip.md) uses `parameter`.
-    Renamed to `device_parameter` for clarity (the type is DeviceParameter).
-    Names are positional-only and decorative — clarity over doc-conformance.
+    [DeviceParameter]`) without naming the arg. Renamed to `device_parameter`
+    for clarity (the type is `DeviceParameter`). Names are positional-only and
+    decorative — clarity over doc-conformance.
 
 "Live.Clip.Clip.add_new_notes":
   args:
@@ -695,9 +694,8 @@ _meta:
       to: "Iterable[int]"
   confidence: high
   source: |
-    arg2 rename — baseline (doc/live-api/Clip.md): `remove_notes_by_id(note_ids)`.
-    M4L (clip.md) describes it as "list of note IDs" — the literal name comes
-    from the baseline.
+    arg2 rename — M4L (clip.md) describes it as "list of note IDs"; rendered
+    as `note_ids` to match the description and the sister `select_notes_by_id`.
     type — C++ signature is `boost::python::api::object` (generic, runtime-
     checked). Corpus confirms iterables work via _MxDCore/MxDCore.py
     `_object_perform_operation_on_notes_by_id_handler`, which passes the
@@ -713,9 +711,8 @@ _meta:
   confidence: high
   source: |
     arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
-    type — baseline doc/live-api/Clip.md (1117, 1747) and M4L docs (clip.md:345)
-    confirm tuple-of-tuples format matching get_selected_notes:
-    (pitch, time, duration, velocity, mute) per note.
+    type — M4L docs (clip.md:345) confirm tuple-of-tuples format matching
+    `get_selected_notes`: (pitch, time, duration, velocity, mute) per note.
 
 "Live.Clip.Clip.select_notes_by_id":
   args:
@@ -726,10 +723,9 @@ _meta:
       to: "Iterable[int]"
   confidence: high
   source: |
-    arg2 rename — baseline (doc/live-api/Clip.md): `select_notes_by_id(note_ids)`.
-    M4L (clip.md) describes it as "list of note IDs" — the literal name comes
-    from the baseline.
-    type — same shape as remove_notes_by_id; C++ takes
+    arg2 rename — M4L (clip.md) describes it as "list of note IDs"; rendered
+    as `note_ids` to match the description and the sister `remove_notes_by_id`.
+    type — same shape as `remove_notes_by_id`; C++ takes
     `boost::python::api::object` (generic), corpus confirms iterables work
     via the shared _MxDCore handler.
 
@@ -750,18 +746,17 @@ _meta:
   confidence: high
   source: |
     arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
-    type — baseline doc/live-api/Clip.md (1124, 1874) and M4L docs (clip.md:327)
-    confirm tuple-of-tuples format matching get_notes:
-    (pitch, time, duration, velocity, mute) per note.
+    type — M4L docs (clip.md:327) confirm tuple-of-tuples format matching
+    `get_notes`: (pitch, time, duration, velocity, mute) per note.
 
 "Live.ClipSlot.ClipSlot.create_audio_clip":
   args:
     arg2: file_path
   source: |
-    arg2 rename — M4L (clipslot.md) and baseline (doc/live-api/ClipSlot.md)
-    both use `path`. Renamed to `file_path` for clarity (avoids conflation with
-    the dotted-path concept; explicitly indicates a file system path). Names
-    are positional-only and decorative — clarity over doc-conformance.
+    arg2 rename — M4L (clipslot.md) uses `path`. Renamed to `file_path` for
+    clarity (avoids conflation with the dotted-path concept; explicitly
+    indicates a file system path). Names are positional-only and decorative —
+    clarity over doc-conformance.
 
 "Live.ClipSlot.ClipSlot.duplicate_clip_to":
   args:
@@ -852,7 +847,7 @@ _meta:
   confidence: high
   source: |
     arg2 rename — M4L docs explicitly name the parameter 'bank_index'.
-    return — M4L docs + baseline (doc/live-api/MaxDevice.md:32-44) confirm list[int].
+    return — M4L docs confirm `list[int]`.
     Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
 
 "Live.MaxDevice.MaxDevice.get_value_item_icons":
@@ -1013,10 +1008,10 @@ _meta:
   args:
     arg2: smpte_format
   source: |
-    arg2 rename — M4L (song.md) and baseline (doc/live-api/Song.md) both use
-    `format`. Renamed to `smpte_format` for clarity (avoids shadowing the
-    builtin `format()` and explicitly indicates SMPTE time-code format).
-    Names are positional-only and decorative — clarity over doc-conformance.
+    arg2 rename — M4L (song.md) names it `format`. Renamed to `smpte_format`
+    for clarity (avoids shadowing the builtin `format()` and explicitly
+    indicates SMPTE time-code format). Names are positional-only and decorative
+    — clarity over doc-conformance.
 
 "Live.Song.Song.jump_by":
   args:
@@ -1094,8 +1089,8 @@ _meta:
 #
 # Each entry corrects a parser-emitted type that capture/probe couldn't pin
 # down accurately (typically arrives as `object`, `null`, or a NoneType-probed
-# property). Sources cite raw_doc, M4L docs, baseline notes (doc/live-api/),
-# and corpus call sites in shipped Remote Scripts.
+# property). Sources cite raw_doc, M4L docs, and corpus call sites in shipped
+# Remote Scripts.
 #
 # Confidence: per-entry. 38 of these are corpus-verified
 # (tools/verify/verify_refinements_against_corpus.py confirms Ableton's own
@@ -1232,8 +1227,8 @@ _meta:
   confidence: high
   source: |
     Property's probed_type is UnavailableFeatureVector; element type is the
-    UnavailableFeature enum. Baseline doc/live-api/Application.md:114, 210
-    confirms; corpus checks `Live.Application.UnavailableFeature.X not in
+    UnavailableFeature enum. Corpus checks
+    `Live.Application.UnavailableFeature.X not in
     Live.Application.get_application().unavailable_features`.
 
 "Live.Application.ControlDescriptionVector":
@@ -1280,8 +1275,8 @@ _meta:
     to: "<class 'BrowserItem'>"
   confidence: high
   source: |
-    Baseline doc/live-api/Browser.md:775 documents iter_children; corpus
-    Push2/browser_component.py:676 iterates browser items via this property.
+    Corpus Push2/browser_component.py:676 iterates browser items via this
+    property — confirms `BrowserItem` element type.
 
 "Live.Browser.BrowserItemIterator":
   element_repr:
@@ -1289,8 +1284,8 @@ _meta:
     to: "<class 'BrowserItem'>"
   confidence: high
   source: |
-    raw_doc + baseline doc/live-api/Browser.md:617, 707, 715 confirm.
-    Corpus: Push2/browser_list.py:63 isinstance check against this class.
+    raw_doc confirms; corpus Push2/browser_list.py:63 isinstance check against
+    this class.
 
 "Live.Listener.ListenerVector":
   element_repr:
@@ -1335,9 +1330,9 @@ _meta:
     to: "<class 'int'>"
   confidence: high
   source: |
-    M4L docs (sample.md:68) say "list of int read-only" + "positions of all playable
-    slices in sample frames". Baseline doc/live-api/Sample.md:52 confirms list[int].
-    Corpus: Push2/timeline_navigation.py iterates and accesses positions.
+    M4L docs (sample.md:68) say "list of int read-only" + "positions of all
+    playable slices in sample frames". Corpus: Push2/timeline_navigation.py
+    iterates and accesses positions.
 
 # ─── Bare Vector properties — element types missed at probe time ─────────────
 #
@@ -1428,11 +1423,12 @@ _meta:
       to: WarpMarker
   confidence: high
   source: |
-    Baseline (doc/live-api/Clip.md): `warp_marker: Live.Clip.WarpMarker —
-    native C++ TWarpMarker type`. M4L docs (clip.md): "Adds the specified
-    warp marker, if possible." The C++ binding signature is `add_warp_marker(
-    ..., boost::python::api::object)` — generic at the C++ level — but
-    accepts a `WarpMarker` instance per the baseline contract.
+    M4L docs (clip.md): "Adds the specified warp marker, if possible." The
+    C++ binding signature is `add_warp_marker(..., boost::python::api::object)`
+    — generic at the C++ level — but the runtime expects a `WarpMarker`
+    instance (the only constructible class in `Live.Clip` matching the
+    "warp marker" semantics; `Clip.warp_markers` returns a `WarpMarkerVector`
+    of these).
 
 "Live.Clip.Clip.duplicate_notes_by_id":
   arg_types:
@@ -1522,10 +1518,9 @@ _meta:
     to: Any
   confidence: high
   source: |
-    Corpus passes int (3, 5), bool (True), str defaults — baseline at
-    doc/live-api/probe-summary.md:156 records the probed quirk that
-    `set_data(key, None)` + `get_data(key, default)` returns None rather than
-    default. Any matches reality.
+    Corpus passes int (3, 5), bool (True), str defaults. A probed quirk worth
+    recording: `set_data(key, None)` + `get_data(key, default)` returns None
+    rather than `default`. `Any` matches that reality.
 
 "Live.Song.Song.set_data":
   arg_types:
@@ -1621,8 +1616,8 @@ _meta:
     to: "tuple[tuple[int, float, float, float, bool], ...]"
   confidence: high
   source: |
-    Baseline doc/live-api/Clip.md:1103, 1461 confirm tuple-of-tuples format.
-    Format mirror of get_selected_notes (same shape) per docstring.
+    Format mirror of `get_selected_notes` (same shape) per docstring; M4L
+    docs (clip.md) describe the tuple-of-tuples shape.
 
 "Live.Clip.Clip.get_selected_notes":
   return_type:
@@ -1630,8 +1625,8 @@ _meta:
     to: "tuple[tuple[int, float, float, float, bool], ...]"
   confidence: high
   source: |
-    Baseline doc/live-api/Clip.md:1106, 1527 + corpus _MxDCore handler
-    confirm same tuple-of-tuples format as get_notes.
+    Corpus _MxDCore handler unpacks the same tuple-of-tuples format as
+    `get_notes`; docstring confirms the mirror.
 
 "Live.Clip.Clip.get_notes_by_id":
   arg_types:
@@ -1652,10 +1647,9 @@ _meta:
     to: "DrumPad | None"
   confidence: high
   source: |
-    doc/live-api/Conversions.md (line 26) explicitly probed and recorded:
-    "Returns `None` on no-op (no devices)"; the M4L docs / curated table
-    (line 63) list the return as `DrumPad / None`. The function moves devices
-    INTO a drum rack pad and returns that pad.
+    M4L docs list the return as `DrumPad / None`. Probe observation: returns
+    `None` on no-op (no devices to move). The function moves devices INTO a
+    drum rack pad and returns that pad.
 
 "Live.Licensing.get_unlock_dir":
   return_type:
@@ -1677,8 +1671,8 @@ _meta:
     to: Chain
   confidence: high
   source: |
-    Baseline doc/live-api/RackDevice.md:298 explicitly: "Insert a new empty chain
-    at the given index ... returns Chain". M4L docs confirm.
+    M4L docs (rackdevice.md) name the return as `Chain`; raw_doc: "Insert a
+    new empty chain at the given index".
 
 # Song.Song.get_data return-type consolidated above with its arg_types entry.
 
@@ -1688,8 +1682,9 @@ _meta:
     to: "tuple[tuple[str, tuple[int, ...]], ...]"
   confidence: high
   source: |
-    Baseline doc/live-api/Song.md:879, 1450 confirm. Corpus pushbase/melodic_pattern.py:52
-    unpacks: `Scale(name=x[0], notes=x[1]) for x in Live.Song.get_all_scales_ordered()`.
+    Corpus pushbase/melodic_pattern.py:52 unpacks
+    `Scale(name=x[0], notes=x[1]) for x in Live.Song.get_all_scales_ordered()`
+    — confirms `tuple[tuple[str, tuple[int, ...]], ...]`.
 
 "Live.Track.Track.create_take_lane":
   return_type:
