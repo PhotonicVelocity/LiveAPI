@@ -11,6 +11,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: audio_inputs
     raw_doc: Const access to a list of all audio inputs of the device.
     type: Live.Base.Vector

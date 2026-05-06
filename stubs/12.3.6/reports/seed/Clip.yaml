@@ -13,6 +13,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: automation_envelopes
     raw_doc: Const access to a list of all automation envelopes for this clip.
     type: Live.Base.Vector
@@ -940,6 +943,9 @@ primary_class:
       This class cannot be instantiated from Python
     constructable: false
     properties:
+    - name: _live_ptr
+      type: int
+      settable: false
     - name: canonical_parent
       raw_doc: Get the canonical parent of the clip view.
       type: Live.Clip.Clip

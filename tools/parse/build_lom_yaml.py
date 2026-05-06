@@ -110,11 +110,12 @@ _KIND_BY_TYPE = {
     "str": "constant",
 }
 
-# Members suppressed from output. `_live_ptr` is a Boost.Python
-# implementation detail; the dunders are runtime-walk noise that doesn't
-# represent the public API.
+# Members suppressed from output. The dunders are runtime-walk noise
+# that doesn't represent the public API. `_live_ptr` (Boost.Python's
+# C++ pointer handle) is kept — it's a real attribute on every LOM
+# object and stub generators emit it. The reference renderer can hide
+# it as an implementation detail at render time.
 SKIP_MEMBERS = {
-    "_live_ptr",
     "__module__",
     "__qualname__",
     "__init__",

@@ -11,6 +11,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
     type: bool

@@ -12,6 +12,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the chain.
     type: Live.RackDevice.RackDevice

@@ -12,6 +12,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: automation_state
     raw_doc: Returns state of type AutomationState.
     type: int

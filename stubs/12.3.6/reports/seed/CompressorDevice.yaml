@@ -11,6 +11,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: available_input_routing_channels
     raw_doc: Return a list of source channels for input routing in the sidechain.
     type: Live.Track.RoutingChannelVector

@@ -10,6 +10,9 @@ primary_class:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: appointed_device
     raw_doc: Read, write, and listen access to the appointed Device
     type: None
@@ -951,6 +954,9 @@ primary_class:
       This class cannot be instantiated from Python
     constructable: false
     properties:
+    - name: _live_ptr
+      type: int
+      settable: false
     - name: canonical_parent
       raw_doc: Get the canonical parent of the song view.
       type: Live.Song.Song
@@ -1065,6 +1071,9 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   properties:
+  - name: _live_ptr
+    type: int
+    settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the cue point.
     type: Live.Song.Song

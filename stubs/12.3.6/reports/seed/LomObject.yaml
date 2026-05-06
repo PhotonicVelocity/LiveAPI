@@ -8,3 +8,6 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  properties:
+  - name: _live_ptr
+    settable: false
