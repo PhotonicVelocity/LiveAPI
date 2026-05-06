@@ -259,7 +259,7 @@ class RackDevice(Device):
         ...
 
     @property
-    def chains(self) -> Vector:
+    def chains(self) -> Vector[Chain]:
         """Return const access to the list of chains in this device. Throws an exception if can_have_chains is false."""
         ...
 
@@ -478,7 +478,7 @@ class RackDevice(Device):
         ...
 
     @property
-    def return_chains(self) -> Vector:
+    def return_chains(self) -> Vector[Chain]:
         """Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false."""
         ...
 

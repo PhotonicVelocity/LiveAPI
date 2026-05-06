@@ -153,7 +153,7 @@ class MaxDevice(Device):
         ...
 
     @property
-    def midi_inputs(self) -> Vector:
+    def midi_inputs(self) -> Vector[DeviceIO]:
         """Const access to a list of all midi outputs of the device."""
         ...
 
@@ -165,7 +165,7 @@ class MaxDevice(Device):
         ...
 
     @property
-    def midi_outputs(self) -> Vector:
+    def midi_outputs(self) -> Vector[DeviceIO]:
         """Const access to a list of all midi outputs of the device."""
         ...
 

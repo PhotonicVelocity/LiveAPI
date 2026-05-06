@@ -97,8 +97,8 @@ Every change to the stubs runs through four CI gates ([`.github/workflows/verify
 - **Tier 2 — pyright self-check.** Stubs internally consistent (no broken references, no Liskov violations on
   overrides, no cyclic imports). Currently 0 errors. Tracking-only by default; promotable to a hard gate via
   `--strict`.
-- **Tier 3 — pyright `--verifytypes`.** PEP 561 type completeness score. Currently 97.2% (2728 public symbols,
-  2651 known, 77 unknown). Tracking-only — surfaced in the CI job summary, promotable to hard gate via `--strict`
+- **Tier 3 — pyright `--verifytypes`.** PEP 561 type completeness score. Currently 99.9% (2728 public symbols,
+  2725 known, 3 unknown). Tracking-only — surfaced in the CI job summary, promotable to hard gate via `--strict`
   (100% required).
 - **Tier 4 — usage tests.** Hand-picked patterns from Ableton's own shipped Remote Scripts (pinned to a specific
   commit of [gluon/AbletonLive12_MIDIRemoteScripts](https://github.com/gluon/AbletonLive12_MIDIRemoteScripts)) — the
@@ -119,6 +119,7 @@ The stubs ship with a small set of items typed on weaker evidence. The full ledg
 | `Live.Listener.ListenerHandle.{listener_func, listener_self, name}`           | Inferred from `raw_doc`.                                               | The class is internal — every `add_*_listener` returns `None` (367 of them), the class can't be instantiated from Python, and no Live property exposes a `ListenerVector`. Not actionable without an internal hook. |
 | `Live.Application.ControlSurfaceProxy.{pad_layout, type_name}`                | M4L docs say `pad_layout` is a string; `type_name` inferred from name. | M4L-only class, same situation as Licensing.                                                                                                                                                                        |
 | `map_midi_*_with_feedback_map` `feedback_rule` arg                            | Strictly typed (no `\| None`).                                         | The corpus never passes literal `None`, but the binding _might_ accept it. Currently strict; would be widened if a probe confirms it.                                                                               |
+| `Live.MidiMap.PitchBendFeedbackRule.value_pair_map`                           | `tuple[tuple, ...]` — outer concrete, inner unparameterized.           | Sister `cc_value_map` / `vel_map` are `tuple[int, ...]`; pitch-bend value pairs likely `tuple[int, int]`, but no corpus literal and no M4L doc confirms the inner shape. Refining without evidence is forbidden.    |
 
 ## First-time setup (contributors)
 

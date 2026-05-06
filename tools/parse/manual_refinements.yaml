@@ -1339,6 +1339,73 @@ _meta:
     slices in sample frames". Baseline doc/live-api/Sample.md:52 confirms list[int].
     Corpus: Push2/timeline_navigation.py iterates and accesses positions.
 
+# ─── Bare Vector properties — element types missed at probe time ─────────────
+#
+# Six properties whose probed_type is `Vector` but whose element_repr the probe
+# couldn't capture (containers were empty in the saved set, so `value[0]` raised).
+# All six have authoritative M4L doc entries naming the element type, plus
+# corpus call sites confirming usage. Refining them here breaks a large cascade
+# of "partially unknown" diagnostics in pyright --verifytypes.
+
+"Live.RackDevice.RackDevice.chains":
+  element_repr:
+    from: null
+    to: "<class 'Chain'>"
+  confidence: high
+  source: |
+    M4L docs (rackdevice.md): `chains list of Chain read-only observe`.
+    Corpus: Push2/convert.py:28 reads `drum_pad.chains[0]` (DrumPad shares the
+    Chain element type via the rack chain hierarchy); pushbase widely
+    iterates rack chains.
+
+"Live.RackDevice.RackDevice.return_chains":
+  element_repr:
+    from: null
+    to: "<class 'Chain'>"
+  confidence: high
+  source: |
+    M4L docs (rackdevice.md): `return_chains list of Chain read-only observe`.
+    Same shape as chains; the rack's return_chains hold Chain instances.
+
+"Live.DrumPad.DrumPad.chains":
+  element_repr:
+    from: null
+    to: "<class 'Chain'>"
+  confidence: high
+  source: |
+    raw_doc: "Return const access to the list of chains in this drum pad."
+    M4L docs (drumpad.md): `chains [Chain] read-only observe`. Corpus
+    pushbase/device_chain_utils.py:14 reads `drum_pad.chains[0].devices`.
+
+"Live.ChainMixerDevice.ChainMixerDevice.sends":
+  element_repr:
+    from: null
+    to: "<class 'DeviceParameter'>"
+  confidence: high
+  source: |
+    raw_doc: "Const access to the Chain's list of Send Amount Device Parameters."
+    M4L docs (chainmixerdevice.md): `sends list of DeviceParameter read-only observe`.
+    Corpus pushbase/selected_track_parameter_provider.py:44 does
+    `params += list(mixer.sends)` — params is a list of DeviceParameter.
+
+"Live.MaxDevice.MaxDevice.midi_inputs":
+  element_repr:
+    from: null
+    to: "<class 'DeviceIO'>"
+  confidence: high
+  source: |
+    raw_doc: "Const access to a list of all midi outputs of the device."
+    M4L docs (maxdevice.md): `midi_inputs list of DeviceIO read-only observe`.
+
+"Live.MaxDevice.MaxDevice.midi_outputs":
+  element_repr:
+    from: null
+    to: "<class 'DeviceIO'>"
+  confidence: high
+  source: |
+    Same shape as midi_inputs. M4L docs (maxdevice.md): `midi_outputs list of
+    DeviceIO read-only observe`.
+
 # ─── Argument types: low-risk fixes from M4L docs / docstrings (11 entries) ───
 
 # send_midi and send_value type fixes consolidated above with their entries.
@@ -1413,6 +1480,18 @@ _meta:
       to: "Callable | None"
   confidence: high
   source: raw_doc says "Pass None as callback to stop the timer".
+
+"Live.Licensing.PythonLicensingBridge.load_and_convert_legacy_unlock_cfg":
+  return_type:
+    from: dict
+    to: "dict[str, Any]"
+  confidence: high
+  source: |
+    raw_doc: "Loads the Unlock.cfg file and returns either an empty dict or
+    one that can be converted to an UnlockData object." C++ signature
+    explicitly returns `boost::python::dict`. The dict's keys/values aren't
+    enumerated in the docs (varies with the legacy cfg format), so
+    `dict[str, Any]` is the honest parameterization.
 
 "Live.Song.Song.create_audio_track":
   arg_types:

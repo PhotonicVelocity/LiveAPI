@@ -62,7 +62,7 @@ class PythonLicensingBridge:
         """Returns a bool indicating if we require the license information returned by the server to match the variant of Live."""
         ...
 
-    def load_and_convert_legacy_unlock_cfg(self) -> dict:
+    def load_and_convert_legacy_unlock_cfg(self) -> dict[str, Any]:
         """Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object."""
         ...
 

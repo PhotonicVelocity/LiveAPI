@@ -42,9 +42,10 @@ at the stubs directory lets pyright find `Live/` as a regular Python package via
 has `__init__.pyi` + `py.typed`), so no wheel build / venv install dance is needed for the verify run —
 that infrastructure exists separately for PyPI publishing.
 
-**Tracking only.** Currently 97.2% (2728 symbols, 2651 known, 77 unknown). Surfaced in the CI job summary;
-promotable to a hard gate via `--strict` (which requires 100%). The unknowns are mostly `canonical_parent`
-returns and a handful of partially-typed bases — useful refinement targets, not CI blockers.
+**Tracking only.** Currently 99.9% (2728 symbols, 2725 known, 3 unknown). Surfaced in the CI job summary;
+promotable to a hard gate via `--strict` (which requires 100%). The 3 remaining unknowns all cascade from
+one root — `PitchBendFeedbackRule.value_pair_map`'s inner-tuple element type — documented in
+`tools/parse/refinements_followup.md`.
 
 ### Tier 4 — Usage tests (`pyright tests/usage/`)
 
@@ -68,7 +69,7 @@ new captures surface gaps.
 ```
 Tier 1 (ast.parse):        44 stub files, all parse                     PASS
 Tier 2 (stubs internal):   0 errors                                     tracking (clean)
-Tier 3 (--verifytypes):    97.2%  (2728 symbols, 77 unknown)            tracking
+Tier 3 (--verifytypes):    99.9%  (2728 symbols, 3 unknown)             tracking
 Tier 4 (usage tests):       8 usage files, 0 errors                     PASS
 ```
 

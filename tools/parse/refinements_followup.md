@@ -49,6 +49,29 @@ intercept handle creation.
 
 ControlSurfaceProxy is M4L-only (see baseline notes). Same probe context as Licensing.
 
+### `PitchBendFeedbackRule.value_pair_map` — inner tuple element type
+
+- `Live.MidiMap.PitchBendFeedbackRule.value_pair_map` → currently `tuple[tuple, ...]`
+
+The outer container is concrete (`tuple[tuple, ...]`), but the inner tuple has
+no element parameterization, leaving it partially-unknown to pyright
+`--verifytypes`. Sister `cc_value_map` and `vel_map` are `tuple[int, ...]` —
+flat int sequences — and the name "value pair" plus pitch bend's 14-bit nature
+suggest the inner element is `tuple[int, int]`, but no corpus call site
+constructs a non-empty `value_pair_map` literal (the four corpus call sites all
+assign from a `feedback_map` parameter built far upstream, or assign
+`tuple()`), and M4L docs don't enumerate the shape. Promoting to
+`tuple[tuple[int, int], ...]` without authoritative evidence would invent a
+narrowing, which the posture explicitly forbids.
+
+Cascade: this single unknown propagates through `PitchBendFeedbackRule` and
+`map_midi_pitchbend_with_feedback_map`, accounting for all 3 of the
+3-of-2728 unknowns surfaced by Tier 3.
+
+To resolve: a probe that constructs a `PitchBendFeedbackRule`, assigns a
+non-empty `value_pair_map`, and inspects the round-tripped value would confirm
+the inner shape.
+
 ### `map_midi_*_with_feedback_map` — feedback_rule nullability (REMOVED, may re-add)
 
 Three sister functions previously had a `feedback_rule: T -> T | None` widening:
