@@ -2,33 +2,93 @@ module: DrumChain
 primary_class:
 - name: DrumChain
   raw_doc: This class represents a drum group device chain in Live.
+  ancestors:
+  - Chain
+  - DeviceContainer
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
   properties:
   - name: canonical_parent
+    raw_doc: Get the canonical parent of the chain.
+    settable: false
   - name: choke_group
+    raw_doc: Access to the chain's choke group setting.
+    settable: true
     listenable:
     - add_choke_group_listener
     - remove_choke_group_listener
     - choke_group_has_listener
   - name: color
+    raw_doc: Access the color index of the Chain.
+    settable: true
   - name: color_index
+    raw_doc: Access the color index of the Chain.
+    settable: true
   - name: devices
+    raw_doc: Return const access to all available Devices that are present in the chains
+    settable: false
   - name: has_audio_input
+    raw_doc: |-
+      return True, if this Chain can be feed with an Audio signal. This is
+      true for all Audio Chains.
+    settable: false
   - name: has_audio_output
+    raw_doc: |-
+      return True, if this Chain sends out an Audio signal. This is
+      true for all Audio Chains, and MIDI chains with an Instrument.
+    settable: false
   - name: has_midi_input
+    raw_doc: |-
+      return True, if this Chain can be feed with an Audio signal. This is
+      true for all MIDI Chains.
+    settable: false
   - name: has_midi_output
+    raw_doc: |-
+      return True, if this Chain sends out MIDI events. This is
+      true for all MIDI Chains with no Instruments.
+    settable: false
   - name: in_note
+    raw_doc: Access to the incoming MIDI note that will trigger this chain.
+    settable: true
     listenable:
     - add_in_note_listener
     - remove_in_note_listener
     - in_note_has_listener
   - name: is_auto_colored
+    raw_doc: |-
+      Get/set access to the auto color flag of the Chain.
+      If True, the Chain will always have the same color as the containing
+      Track or Chain.
+    settable: true
   - name: mixer_device
+    raw_doc: |-
+      Return access to the mixer device that holds the chain's mixer parameters:
+      the Volume, Pan, and Sendamounts.
+    settable: false
   - name: mute
+    raw_doc: Mute/unmute the chain.
+    settable: true
   - name: muted_via_solo
+    raw_doc: |-
+      Return const access to whether this chain is muted due to some other chain
+      being soloed.
+    settable: false
   - name: name
+    raw_doc: Read/write access to the name of the Chain, as visible in the track header.
+    settable: true
   - name: out_note
+    raw_doc: Access to the MIDI note sent to the devices in the chain.
+    settable: true
     listenable:
     - add_out_note_listener
     - remove_out_note_listener
     - out_note_has_listener
   - name: solo
+    raw_doc: |-
+      Get/Set the solo status of the chain. Note that this will not disable the
+      solo state of any other Chain in the same rack. If you want exclusive solo,
+      you have to disable the solo state of the other Chains manually.
+    settable: true

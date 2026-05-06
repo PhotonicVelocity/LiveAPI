@@ -2,25 +2,49 @@ module: DeviceIO
 primary_class:
 - name: DeviceIO
   raw_doc: This class represents a specific input or output bus of a device.
+  ancestors:
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
   properties:
   - name: available_routing_channels
+    raw_doc: Return a list of channels for this IO endpoint.
+    settable: false
     listenable:
     - add_available_routing_channels_listener
     - remove_available_routing_channels_listener
     - available_routing_channels_has_listener
   - name: available_routing_types
+    raw_doc: Return a list of available routing types for this IO endpoint.
+    settable: false
     listenable:
     - add_available_routing_types_listener
     - remove_available_routing_types_listener
     - available_routing_types_has_listener
   - name: canonical_parent
+    raw_doc: Get the canonical parent of the device IO.
+    settable: false
   - name: default_external_routing_channel_is_none
+    raw_doc: Get and set whether the default routing channel for External routing types is none.
+    settable: true
   - name: routing_channel
+    raw_doc: |-
+      Get and set the current routing channel.
+      Raises ValueError if the channel isn't one of the current values in
+      available_routing_channels.
+    settable: true
     listenable:
     - add_routing_channel_listener
     - remove_routing_channel_listener
     - routing_channel_has_listener
   - name: routing_type
+    raw_doc: |-
+      Get and set the current routing type.
+      Raises ValueError if the type isn't one of the current values in
+      available_routing_types.
+    settable: true
     listenable:
     - add_routing_type_listener
     - remove_routing_type_listener

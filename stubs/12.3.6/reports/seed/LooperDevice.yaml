@@ -2,51 +2,186 @@ module: LooperDevice
 primary_class:
 - name: LooperDevice
   raw_doc: This class represents a Looper device.
+  ancestors:
+  - Device
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
   properties:
   - name: can_compare_ab
+    raw_doc: Returns true if the Device has the capability to AB compare.
+    settable: false
   - name: can_have_chains
+    raw_doc: Returns true if the device is a rack.
+    settable: false
   - name: can_have_drum_pads
+    raw_doc: Returns true if the device is a drum rack.
+    settable: false
   - name: canonical_parent
+    raw_doc: Get the canonical parent of the Device.
+    settable: false
   - name: class_display_name
+    raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
+    settable: false
   - name: class_name
+    raw_doc: Return const access to the name of the device's class.
+    settable: false
   - name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    settable: false
   - name: is_using_compare_preset_b
+    raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    settable: true
   - name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    settable: false
   - name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    settable: false
   - name: loop_length
+    raw_doc: The length of Looper's buffer.
+    settable: false
     listenable:
     - add_loop_length_listener
     - remove_loop_length_listener
     - loop_length_has_listener
   - name: name
+    raw_doc: Return access to the name of the device.
+    settable: true
   - name: overdub_after_record
+    raw_doc: If true, Looper will switch to overdub after recording, when recording a fixed number of bars. Otherwise, the switch will be to playback without overdubbing.
+    settable: true
     listenable:
     - add_overdub_after_record_listener
     - remove_overdub_after_record_listener
     - overdub_after_record_has_listener
   - name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    settable: false
   - name: record_length_index
+    raw_doc: Access to the Record Length chooser entry index.
+    settable: true
     listenable:
     - add_record_length_index_listener
     - remove_record_length_index_listener
     - record_length_index_has_listener
   - name: record_length_list
+    raw_doc: Read-only access to the list of Record Length chooser entry strings.
+    settable: false
   - name: tempo
+    raw_doc: The tempo of Looper's buffer.
+    settable: false
     listenable:
     - add_tempo_listener
     - remove_tempo_listener
     - tempo_has_listener
   - name: type
+    raw_doc: Return the type of the device.
+    settable: false
   - name: view
+    raw_doc: Representing the view aspects of a device.
+    settable: false
   methods:
   - name: clear
+    raw_doc: Erase Looper's recorded content.
+    signature: 'clear( (LooperDevice)arg1) -> None :'
+    cpp_signature: void clear(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: double_length
+    raw_doc: Double the length of Looper's buffer.
+    signature: 'double_length( (LooperDevice)arg1) -> None :'
+    cpp_signature: void double_length(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: double_speed
+    raw_doc: Double the speed of Looper's playback.
+    signature: 'double_speed( (LooperDevice)arg1) -> None :'
+    cpp_signature: void double_speed(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: export_to_clip_slot
+    raw_doc: Export Looper's content to a Session Clip Slot.
+    signature: 'export_to_clip_slot( (LooperDevice)arg1, (ClipSlot)arg2) -> None :'
+    cpp_signature: void export_to_clip_slot(TLooperDevicePyHandle,TPyHandle<AGroupAndClipSlotBase>)
+    args:
+    - name: self
+      type: LooperDevice
+    - name: arg2
+      type: ClipSlot
+    returns:
+      type: None
   - name: half_length
+    raw_doc: Halve the length of Looper's buffer.
+    signature: 'half_length( (LooperDevice)arg1) -> None :'
+    cpp_signature: void half_length(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: half_speed
+    raw_doc: Halve the speed of Looper's playback.
+    signature: 'half_speed( (LooperDevice)arg1) -> None :'
+    cpp_signature: void half_speed(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: overdub
+    raw_doc: Play back while adding additional layers of incoming audio.
+    signature: 'overdub( (LooperDevice)arg1) -> None :'
+    cpp_signature: void overdub(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: play
+    raw_doc: Play back without overdubbing.
+    signature: 'play( (LooperDevice)arg1) -> None :'
+    cpp_signature: void play(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: record
+    raw_doc: Record incoming audio.
+    signature: 'record( (LooperDevice)arg1) -> None :'
+    cpp_signature: void record(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: stop
+    raw_doc: Stop Looper's playback.
+    signature: 'stop( (LooperDevice)arg1) -> None :'
+    cpp_signature: void stop(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None
   - name: undo
+    raw_doc: Erase everything that was recorded since the last time Overdub was enabled. Calling a second time will restore the material erased by the previous undooperation.
+    signature: 'undo( (LooperDevice)arg1) -> None :'
+    cpp_signature: void undo(TLooperDevicePyHandle)
+    args:
+    - name: self
+      type: LooperDevice
+    returns:
+      type: None

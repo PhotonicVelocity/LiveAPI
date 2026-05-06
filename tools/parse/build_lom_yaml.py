@@ -27,16 +27,32 @@ Helpers (string normalization, kind-discriminator map, skip-list,
 YAML emission with literal-block strings) live alongside the stage they
 support and are clearly marked.
 
-Iteration plan — extend build_member by one field/transformation at a
-time, comparing output diffs at each step:
+Iteration plan — each step extended build_member by one field or
+transformation, comparing output diffs along the way. The v2 parsed
+tree has now been fully extracted; remaining fields require probe data
+(LiveClasses.json), folded in by a later stage.
 
-    Step 1. one file per module, just `module:` and empty `members:`
-    Step 2. list class/enum/function/constant names (with kind grouping
-            and primary-class promotion)
-    Step 3. raw_doc on classes + module
-    Step 4. expand class bodies (properties, methods, nested types)
-    Step 5 (current). fold listener triplets into `listenable:`
-    Step 6+: types, settable, args/returns, ...
+  Done — raw_doc-derived (v2 parsed tree only):
+    1.  one file per module, just `module:` and empty `members:`
+    2.  list class/enum/function/constant names (with kind grouping
+        and primary-class promotion)
+    3.  raw_doc on classes + module
+    4.  expand class bodies (properties, methods, nested types)
+    5.  fold listener triplets into `listenable:`; synthesize
+        listener-only properties for orphan signals (loop_jump,
+        Clip.notes, Song.data, ...)
+    6.  property `settable` + `raw_doc`
+    7.  module-level constant `value` + `type`
+    8.  enum `members` (the `name: int` map) + `raw_doc`
+    9.  function/method `raw_doc` + `signature` + `cpp_signature` +
+        `args` (typed positional, `self` kept) + `returns`
+    10. class `ancestors` (Boost.Python boilerplate stripped),
+        `init_doc`, `constructable`
+
+  Pending — probe-derived (LiveClasses.json):
+    11. property `type` (probed_type) + `repr` + `element_repr`
+    12. class `iterable` + `element_repr`
+    13. getter return-type upgrades / mismatch reports
 
 Usage:
     python tools/parse/build_lom_yaml.py 12.3.6
@@ -46,6 +62,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import ast
 import json
 import re
 import sys
@@ -103,6 +120,36 @@ SKIP_MEMBERS = {
     "__init__",
     "__class__",
 }
+
+# Pattern + filter for the parser's repr-encoded ancestors list. We strip
+# the Boost.Python machinery from the chain — `Boost.Python.instance`,
+# `instance`, and `object` appear on essentially every class and don't
+# carry useful info for the docs surface.
+_ANCESTOR_RE = re.compile(r"<class '([^']+)'>")
+_BORING_BASES = {
+    "Boost.Python.instance",
+    "instance",
+    "object",
+}
+
+
+def _simplify_ancestors(class_node: dict[str, Any]) -> list[str]:
+    """Strip Boost.Python boilerplate; reduce ancestor reprs to simple names.
+
+    `["<class 'LomObject.LomObject'>", "<class 'Boost.Python.instance'>"]`
+    becomes `["LomObject"]`. Order is preserved (closest base first, which
+    is how the parser emits them).
+    """
+    out: list[str] = []
+    for ancestor_repr in class_node.get("ancestors", []) or []:
+        m = _ANCESTOR_RE.match(ancestor_repr)
+        if not m:
+            continue
+        full = m.group(1)
+        if full in _BORING_BASES:
+            continue
+        out.append(full.rsplit(".", 1)[-1])
+    return out
 
 # endregion
 
@@ -196,8 +243,94 @@ def build_member(node: dict[str, Any]) -> dict[str, Any] | None:
         raw_doc = _norm_doc(node.get("raw_doc"))
         if raw_doc:
             out["raw_doc"] = raw_doc
+        out["ancestors"] = _simplify_ancestors(node)
+        init_doc = _norm_doc(node.get("init_doc"))
+        if init_doc:
+            out["init_doc"] = init_doc
+        out["constructable"] = bool(node.get("constructable"))
         out.update(_group_class_members(node))
+    elif kind == "property":
+        raw_doc = _norm_doc(node.get("raw_doc"))
+        if raw_doc:
+            out["raw_doc"] = raw_doc
+        # Always emit settable — read-only vs read-write is a critical
+        # API attribute, not a "default" that should be implicit.
+        out["settable"] = bool(node.get("settable"))
+    elif kind == "enum":
+        raw_doc = _norm_doc(node.get("raw_doc"))
+        if raw_doc:
+            out["raw_doc"] = raw_doc
+        members = node.get("members")
+        if isinstance(members, dict) and members:
+            out["members"] = dict(members)  # preserve insertion order
+    elif kind == "constant":
+        # The parser stores `value` as the Python repr of the string
+        # (e.g. "'Beta'"); ast.literal_eval unwraps it back to "Beta".
+        # Type is always `str` in the current tree, but we emit it
+        # explicitly so the field has standalone meaning.
+        out["type"] = "str"
+        raw_value = node.get("value")
+        if isinstance(raw_value, str):
+            try:
+                out["value"] = ast.literal_eval(raw_value)
+            except (ValueError, SyntaxError):
+                out["value"] = raw_value
+        elif raw_value is not None:
+            out["value"] = raw_value
+    elif kind == "function":
+        # The parser splits Boost.Python's verbatim raw_doc into three
+        # derived fields: `description` (cleaned text — what we want as
+        # `raw_doc:` in YAML, per the spec), `signature` (Python form),
+        # and `cpp_signature` (C++ form). The verbatim dump doesn't
+        # survive into YAML.
+        description = _norm_doc(node.get("description"))
+        if description:
+            out["raw_doc"] = description
+        sig = _norm_doc(node.get("signature"))
+        if sig:
+            out["signature"] = sig
+        cpp_sig = _norm_doc(node.get("cpp_signature"))
+        if cpp_sig:
+            out["cpp_signature"] = cpp_sig
+        args = _convert_args(node.get("args"))
+        if args:
+            out["args"] = args
+        returns = _convert_returns(node.get("returns"))
+        if returns:
+            out["returns"] = returns
     return out
+
+
+def _convert_args(args: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
+    """Convert parser arg dicts into YAML shape.
+
+    `self` is kept (the SOT is unopinionated about rendering convention —
+    consumers that want to elide it can do so at render time). The
+    parser's resolve_signatures step has already renamed `arg1` → `self`
+    on instance methods where the type matches the parent class.
+    """
+    if not args:
+        return []
+    out: list[dict[str, Any]] = []
+    for arg in args:
+        item: dict[str, Any] = {"name": arg["name"]}
+        if arg.get("type"):
+            item["type"] = arg["type"]
+        if arg.get("optional"):
+            item["optional"] = True
+            if arg.get("default") is not None:
+                item["default"] = arg["default"]
+        out.append(item)
+    return out
+
+
+def _convert_returns(returns: dict[str, Any] | None) -> dict[str, Any] | None:
+    """Convert parser returns dict into YAML shape (just `type` for now)."""
+    if not returns:
+        return None
+    if returns.get("type"):
+        return {"type": returns["type"]}
+    return None
 
 
 def _group_class_members(class_node: dict[str, Any]) -> dict[str, Any]:
@@ -386,7 +519,7 @@ def main() -> int:
     in_path = (
         Path(args.input)
         if args.input
-        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.json"
+        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.v2.json"
     )
     out_dir = (
         Path(args.output)

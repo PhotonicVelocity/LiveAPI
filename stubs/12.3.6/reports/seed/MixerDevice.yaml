@@ -4,31 +4,68 @@ primary_class:
   raw_doc: |-
     This class represents a Mixer Device in Live, which gives you
     access to the Volume and Panning properties of a Track.
+  ancestors:
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
   properties:
   - name: canonical_parent
+    raw_doc: Get the canonical parent of the mixer device.
+    settable: false
   - name: crossfade_assign
+    raw_doc: 'Player- and ReturnTracks only: Access to the Track''s Crossfade Assign State.'
+    settable: true
     listenable:
     - add_crossfade_assign_listener
     - remove_crossfade_assign_listener
     - crossfade_assign_has_listener
   - name: crossfader
+    raw_doc: 'MainTrack only: Const access to the Crossfader.'
+    settable: false
   - name: cue_volume
+    raw_doc: 'MainTrack only: Const access to the Cue Volume Parameter.'
+    settable: false
   - name: left_split_stereo
+    raw_doc: Const access to the Track's Left Split Stereo Panning Device Parameter.
+    settable: false
   - name: panning
+    raw_doc: Const access to the Tracks Panning Device Parameter.
+    settable: false
   - name: panning_mode
+    raw_doc: Access to the Track's Panning Mode.
+    settable: true
     listenable:
     - add_panning_mode_listener
     - remove_panning_mode_listener
     - panning_mode_has_listener
   - name: right_split_stereo
+    raw_doc: Const access to the Track's Right Split Stereo Panning Device Parameter.
+    settable: false
   - name: sends
+    raw_doc: Const access to the Tracks list of Send Amount Device Parameters.
+    settable: false
     listenable:
     - add_sends_listener
     - remove_sends_listener
     - sends_has_listener
   - name: song_tempo
+    raw_doc: 'MainTrack only: Const access to the Song''s Tempo.'
+    settable: false
   - name: track_activator
+    raw_doc: Const access to the Tracks Activator Device Parameter.
+    settable: false
   - name: volume
+    raw_doc: Const access to the Tracks Volume Device Parameter.
+    settable: false
   enums:
   - name: crossfade_assignments
+    members:
+      A: 0
+      NONE: 1
+      B: 2
   - name: panning_modes
+    members:
+      stereo: 0
+      stereo_split: 1
