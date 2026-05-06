@@ -271,19 +271,28 @@ tools/
 │   ├── refinements_followup.md       Backlog of items needing runtime probes
 │   ├── find_unrefined.py             List items still needing refinement entries
 │   └── run_parse_pipeline.py         Orchestrator (parse + apply)
-├── generate/                Stage 3: stub + reference doc generation
-│   ├── generate_stubs.py             Generate .pyi stub files
-│   └── generate_reference.py         Generate API reference docs
+├── generate/                Stage 3: stub generation
+│   └── generate_stubs.py             Generate .pyi stub files
 ├── verify/                  Verification — pyright audit + corpus consistency checks
+│   ├── run.sh                        Orchestrator (Tiers 1-4)
+│   ├── parse_check.py                Tier 1: ast.parse over every .pyi
+│   ├── audit_corpus.py               Offline pyright audit over external/corpus
+│   ├── audit_ignores.yaml            Investigated-and-declined audit findings
+│   ├── audit_pyrightconfig.json      Pyright config used by audit_corpus.py
+│   ├── verify_refinements_against_corpus.py  Cross-check refinements vs. corpus usage
+│   └── README.md                     Tier definitions and how to run locally
 ├── fetch_external/          External-source bootstrap (outputs to external/, gitignored)
 │   ├── corpus.py                     Clone gluon corpus at CORPUS_PIN → external/corpus/
 │   ├── m4l_docs.py                   Scrape Max for Live LOM docs → external/max-for-live-docs/
 │   ├── release_notes.py              Scrape Live release notes → external/release-notes/
 │   ├── check_pin.py                  Validate pin references match corpus.py
 │   └── bootstrap.sh                  First-time setup orchestrator
+├── publish/                 PyPI release tooling
+│   └── build_package.py              Build the ableton-live-stubs wheel + sdist
+├── run_pipeline.py          Full Stage 1 + 2 + 3 orchestrator (capture → parse → generate)
 ├── install.py               Install APICapture to Live's Remote Scripts
 ├── sets/                    Ableton Live sets used for probing
-└── other/                   Misc utilities (quit_live, swap_live, watch, serve.sh)
+└── other/                   Misc utilities (quit_live, swap_live, watch)
 ```
 
 ## Credits

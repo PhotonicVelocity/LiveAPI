@@ -4,21 +4,19 @@ This file captures standing repo-level instructions for work in `LiveAPI`.
 
 ## What This Project Is
 
-LiveAPI documents the Ableton Live Object Model (LOM) — the object hierarchy exposed by Live's Python runtime. It ships
-two products from one introspection pipeline:
+LiveAPI documents the Ableton Live Object Model (LOM) — the object hierarchy exposed by Live's Python runtime. This
+branch ships **typed Python stubs** (`stubs/<version>/Live/`): `.pyi` modules for autocomplete + static type checking,
+published as a PEP 561 stub-only package. A browsable HTML reference site is the second planned product but is parked
+for separate development on the `reference-doc-generator-wip` branch — generator architecture is being reworked to
+consume the parsed/refined tree directly rather than re-parsing the stubs, and is not currently published.
 
-1. **Typed Python stubs** (`stubs/<version>/Live/`) — `.pyi` modules for autocomplete + static type checking, published
-   as a PEP 561 stub-only package.
-2. **Reference docs** (`reference/`) — per-class HTML documentation, generated from the stubs and published via
-   MkDocs at [photonicvelocity.github.io/LiveAPI](https://photonicvelocity.github.io/LiveAPI/).
-
-Tooling, captured externals, and posture decisions all exist to keep both products accurate and verifiable.
+Tooling, captured externals, and posture decisions all exist to keep the stubs accurate and verifiable.
 
 ## Priorities
 
 1. Follow explicit user instructions for the current task.
 2. Preserve existing work; never discard unrelated changes.
-3. Stubs and reference are the products — keep them accurate, sourced, and verifiable.
+3. The stubs are the product — keep them accurate, sourced, and verifiable.
 
 ## Context Compaction
 
@@ -54,18 +52,6 @@ echo verbose > /tmp/apicapture_probe     # include instance data in probe output
 Scripts in `scripts/` are reloaded via `importlib.reload()` on every trigger, so code changes take effect immediately
 after reinstalling. Changes to `APICapture.py` or `__init__.py` require a full Live restart.
 
-## Dev Server
-
-```bash
-# Start (background, no terminal hold):
-nohup ./tools/other/serve.sh > /tmp/mkdocs.log 2>&1 &
-
-# Stop:
-kill $(lsof -ti:8123)
-```
-
-Serves at http://localhost:8123/LiveAPI/
-
 ## Governing Docs
 
 - **Decisions** — `doc/decisions.md`: terminology and the "Stub Accuracy and Pipeline Posture" rationale
@@ -77,13 +63,11 @@ Serves at http://localhost:8123/LiveAPI/
 
 - `stubs/` — per-version generated stubs. `<version>/Live/` is tracked output; `<version>/pipeline/` holds gitignored
   intermediates (raw capture, parsed tree, refinements).
-- `reference/` — per-class reference markdown, generated from stubs by `tools/generate/generate_reference.py`. Topology:
-  flat top-level pages (Song, Application, Browser, …) plus subdirs `tracks/`, `devices/`, `other/`.
 - `tools/` — capture + parse + generate + verify + publish pipeline.
   - `apicapture/` — APICapture Control Surface (runs inside Live; produces raw tree + probe data).
   - `parse/` — parser produces `LiveTree.parsed.json` (fresh, immutable); apply step writes
     `LiveTree.refined.json` (post-refinement; what the generator consumes).
-  - `generate/` — stub generator and reference-markdown generator.
+  - `generate/` — stub generator (reference-markdown generator parked on `reference-doc-generator-wip`).
   - `verify/` — four-tier verification suite (`run.sh`, `parse_check.py`, `audit_corpus.py`, `audit_ignores.yaml`).
   - `publish/` — wheel builder + PyPI release glue.
   - `fetch_external/` — bootstrap for `external/` (corpus pin, M4L docs, release notes).
