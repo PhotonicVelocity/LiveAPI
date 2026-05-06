@@ -47,8 +47,7 @@ primary_class:
     - name_has_listener
   - name: note_tunings
     raw_doc: Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament.
-    type: list
-    element_type: float
+    type: list[float]
     settable: true
     listenable:
     - add_note_tunings_listener

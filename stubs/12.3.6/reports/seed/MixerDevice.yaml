@@ -57,8 +57,7 @@ primary_class:
     settable: false
   - name: sends
     raw_doc: Const access to the Tracks list of Send Amount Device Parameters.
-    type: Live.Base.Vector
-    element_type: Live.DeviceParameter.DeviceParameter
+    type: Live.Base.Vector[Live.DeviceParameter.DeviceParameter]
     settable: false
     listenable:
     - add_sends_listener

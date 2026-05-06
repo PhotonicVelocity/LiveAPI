@@ -113,7 +113,7 @@ class Chain(DeviceContainer):
         ...
 
     @property
-    def devices(self) -> Vector:
+    def devices(self) -> Vector[LomObject]:
         """Return const access to all available Devices that are present in the chains"""
         ...
 

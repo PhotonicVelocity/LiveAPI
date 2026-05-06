@@ -19,8 +19,7 @@ primary_class:
     settable: false
   - name: grooves
     raw_doc: Access to the list of grooves
-    type: Live.Base.Vector
-    element_type: Live.Groove.Groove
+    type: Live.Base.Vector[Live.Groove.Groove]
     settable: false
     listenable:
     - add_grooves_listener

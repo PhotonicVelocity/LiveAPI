@@ -56,8 +56,7 @@ primary_class:
     settable: false
   - name: drum_pads
     raw_doc: Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false.
-    type: Live.Base.Vector
-    element_type: Live.DrumPad.DrumPad
+    type: Live.Base.Vector[Live.DrumPad.DrumPad]
     settable: false
     listenable:
     - add_drum_pads_listener
@@ -104,8 +103,7 @@ primary_class:
     settable: false
   - name: macros_mapped
     raw_doc: A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something
-    type: tuple
-    element_type: bool
+    type: tuple[bool, ...]
     settable: false
     listenable:
     - add_macros_mapped_listener
@@ -149,8 +147,7 @@ primary_class:
     settable: false
   - name: visible_drum_pads
     raw_doc: Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false.
-    type: Live.Base.Vector
-    element_type: Live.DrumPad.DrumPad
+    type: Live.Base.Vector[Live.DrumPad.DrumPad]
     settable: false
     listenable:
     - add_visible_drum_pads_listener

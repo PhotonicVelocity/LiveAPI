@@ -15,8 +15,7 @@ primary_class:
     settable: false
   - name: arrangement_clips
     raw_doc: Read-only access to the arrangement clips in the take lane.
-    type: Live.Base.Vector
-    element_type: Live.Clip.Clip
+    type: Live.Base.Vector[Live.Clip.Clip]
     settable: false
     listenable:
     - add_arrangement_clips_listener

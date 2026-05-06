@@ -80,35 +80,28 @@ def _wrap_docstring(text: str) -> list[str]:
     return ['"""', *text.split("\n"), '"""']
 
 
-def _ret_type_for_type(type_str: str | None, element_type: str | None,
-                      current_module: str, imports: set[tuple[str, str]],
-                      registry: dict[str, Any]) -> str:
-    """Resolve a property/return type string for stub emission.
+def _ret_type_for_type(type_str: str | None,
+                       current_module: str,
+                       imports: set[tuple[str, str]]) -> str:
+    """Resolve a property/return type for stub emission.
 
-    For generic-Vector references that carry a per-use `element_type`,
-    render as `Vector[E]`. For everything else, just render the type
-    string straight through.
+    The YAML now carries fully-resolved canonical type strings
+    (`list[float]`, `Live.Base.Vector[Live.Track.Track]`, `int | None`,
+    etc.) — the stub generator just unqualifies the Live class names
+    and accumulates imports.
     """
     if type_str is None:
         return "Any"
-    base = render_type_string(type_str, current_module, imports)
-    if element_type and type_str in registry.get("generic_containers", set()):
-        elem = render_type_string(element_type, current_module, imports)
-        return f"{base}[{elem}]"
-    return base
+    return render_type_string(type_str, current_module, imports)
 
 
 def _format_arg(arg: dict[str, Any], current_module: str, imports: set[tuple[str, str]]) -> str:
     name = arg["name"]
+    # The YAML's `type:` already carries optional widening (`T | None`
+    # when default is None) — we just unqualify Live class names here.
     type_str = render_type_string(arg.get("type") or "Any", current_module, imports)
     if arg.get("optional"):
         default = arg.get("default") or "None"
-        # Optional widening: when the default is the bare `None` literal
-        # and the type doesn't already admit None, widen to `T | None` so
-        # the annotation reflects what the binding actually accepts.
-        # Matches v1 generator behavior.
-        if default == "None" and type_str != "None" and "None" not in type_str.split():
-            type_str = f"{type_str} | None"
         return f"{name}: {type_str} = {default}"
     return f"{name}: {type_str}"
 
@@ -193,8 +186,7 @@ def _build_property_block(prop: dict[str, Any], current_module: str,
                 out.append(line)
         out.append(INDENT + "...")
         return out
-    rendered = _ret_type_for_type(type_str, prop.get("element_type"),
-                                  current_module, imports, registry)
+    rendered = _ret_type_for_type(type_str, current_module, imports)
     out = ["@property", f"def {name}(self) -> {rendered}:"]
     raw_doc = prop.get("raw_doc")
     if raw_doc:
@@ -206,26 +198,6 @@ def _build_property_block(prop: dict[str, Any], current_module: str,
         out.append(f"@{name}.setter")
         out.append(f"def {name}(self, value: {rendered}) -> None: ...")
     return out
-
-
-def _build_init_block(cls: dict[str, Any], current_module: str,
-                       imports: set[tuple[str, str]]) -> list[str] | None:
-    """For constructable classes, synthesize the `def __init__` line.
-
-    Uses the structured `init_args:` from the YAML when present (parsed
-    from init_doc by the YAML builder); falls back to the bare
-    `def __init__(self) -> None: ...` for classes whose init_doc was
-    just the boilerplate `(object)arg1` placeholder.
-    """
-    if not cls.get("constructable"):
-        return None
-    init_args = cls.get("init_args") or []
-    if not init_args:
-        return ["def __init__(self) -> None: ..."]
-    formatted = ["self"]
-    for arg in init_args:
-        formatted.append(_format_arg(arg, current_module, imports))
-    return [f"def __init__({', '.join(formatted)}) -> None: ..."]
 
 
 # Dunder sort prefixes so dunders precede all alphabetical members and
@@ -243,26 +215,6 @@ _DUNDER_SORT_PREFIX = {
 
 def _sort_key(name: str) -> str:
     return _DUNDER_SORT_PREFIX.get(name, name)
-
-
-def _override_container_arg_type(method: dict[str, Any], element_type: str) -> dict[str, Any]:
-    """For an iterable container's `append` / `extend`, replace the second
-    arg's `type:` with the class's known element_type. `extend` wraps
-    further in `Iterable[E]` since it takes the iterable form. The
-    parser leaves these as `object` (raw_doc's annotation); the rewrite
-    here matches what v1's merge_probe_data step did at parse time."""
-    out = dict(method)
-    args = list(method.get("args") or [])
-    if len(args) < 2:
-        return method
-    arg = dict(args[1])
-    if method["name"] == "extend":
-        arg["type"] = f"Iterable[{element_type}]"
-    else:
-        arg["type"] = element_type
-    args[1] = arg
-    out["args"] = args
-    return out
 
 
 def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
@@ -323,11 +275,15 @@ def _build_method_block(method: dict[str, Any], current_module: str,
     name = method["name"]
     args = method.get("args") or []
     returns = method.get("returns") or {}
-    ret_type = _ret_type_for_type(returns.get("type"), returns.get("element_type"),
-                                  current_module, imports, registry)
+    ret_type = _ret_type_for_type(returns.get("type"), current_module, imports)
     arg_str = _format_method_args(args, current_module, imports, is_method)
-    out = [f"def {name}({arg_str}) -> {ret_type}:"]
     raw_doc = method.get("raw_doc")
+    # __init__ uses inline form (`def __init__(...) -> None: ...`)
+    # regardless of arg count — matches v1's emission. Other methods
+    # use the multi-line body even when there's no docstring.
+    if name == "__init__":
+        return [f"def {name}({arg_str}) -> {ret_type}: ..."]
+    out = [f"def {name}({arg_str}) -> {ret_type}:"]
     if raw_doc:
         for line in _indent(_wrap_docstring(raw_doc), 1):
             out.append(line)
@@ -371,17 +327,16 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
     """Collect all member blocks at this class as (sort_key, lines) tuples.
 
     Listener triplets are emitted as separate methods so they alphabetize
-    inline with regular methods (matching v1's ordering). For
-    constructable classes, a `def __init__` is synthesized at the
-    standard `__init__` sort key (the YAML doesn't carry __init__ as a
-    real method node — we infer it from the `constructable` flag).
+    inline with regular methods (matching v1's ordering). __init__ is
+    a real method in the YAML (synthesized by build_lom_yaml from
+    init_doc); no special handling here. append/extend arg types are
+    likewise pre-resolved against the class element_type at YAML build
+    time, so the generator just emits whatever the YAML says.
     """
     entries: list[tuple[str, list[str]]] = []
-    init_block = _build_init_block(cls, current_module, imports)
-    if init_block is not None:
-        entries.append(("__init__", init_block))
     # Iterator-protocol synthesis for iterable container classes —
-    # __iter__/__getitem__/__len__/__contains__/__bool__.
+    # __iter__/__getitem__/__len__/__contains__/__bool__. Stub-specific
+    # presentation; not in the YAML.
     entries.extend(_build_iterable_dunders(cls, current_module, imports))
     for nested in cls.get("classes") or []:
         entries.append((nested["name"], _build_class_block(nested, current_module, imports, registry)))
@@ -393,16 +348,8 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
             entries.append((prop["name"], block))
         for listener in prop.get("listenable") or []:
             entries.append((listener, _build_listener_method(listener, prop["name"])))
-    # Override append/extend arg types for iterable containers when the
-    # class carries a known element_type. The parser keeps the raw_doc
-    # `object` annotation; v1's merge_probe_data step did this rewrite,
-    # so we replicate it at stub-emit time using the class element_type.
-    iter_elem = cls.get("element_type") if cls.get("iterable") else None
     for m in cls.get("methods") or []:
-        method = m
-        if iter_elem and m["name"] in ("append", "extend"):
-            method = _override_container_arg_type(m, iter_elem)
-        entries.append((m["name"], _build_method_block(method, current_module, imports, registry, True)))
+        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True)))
     for c in cls.get("constants") or []:
         entries.append((c["name"], _build_constant_block(c)))
     return entries
@@ -576,31 +523,6 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     return buf.getvalue()
 
 
-# --- Pre-computation: which qualified types are generic containers? ----- #
-
-
-def build_generic_containers_set(seed_dir: Path) -> set[str]:
-    """Identify qualified class paths that are iterable but lack a class-
-    level singular `element_type` — i.e., the "generic" containers (Vector,
-    ObjectVector). For these, per-use sites carry the element_type and the
-    stub generator should render uses as `<Class>[<element>]`."""
-    out: set[str] = set()
-    for path in sorted(seed_dir.glob("*.yaml")):
-        d = yaml.safe_load(path.read_text())
-
-        def walk(cls: dict[str, Any]) -> None:
-            if cls.get("iterable") and not cls.get("element_type"):
-                p = cls.get("path")
-                if p:
-                    out.add(p)
-            for n in cls.get("classes") or []:
-                walk(n)
-
-        for cls in (d.get("primary_class") or []) + (d.get("classes") or []):
-            walk(cls)
-    return out
-
-
 # --- CLI --------------------------------------------------------------- #
 
 
@@ -628,7 +550,9 @@ def main() -> int:
 
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    registry = {"generic_containers": build_generic_containers_set(seed_dir)}
+    # Per-module renderer state lives in this dict; each emit_module call
+    # resets the per-module accumulators.
+    registry: dict[str, Any] = {}
 
     written = 0
     all_module_names: list[str] = []

@@ -26,6 +26,13 @@ classes:
   - name: enabled
     type: bool
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.CCFeedbackRule
+    returns:
+      type: None
 - name: NoteFeedbackRule
   path: Live.MidiMap.NoteFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
@@ -52,6 +59,13 @@ classes:
   - name: vel_map
     type: tuple
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.NoteFeedbackRule
+    returns:
+      type: None
 - name: PitchBendFeedbackRule
   path: Live.MidiMap.PitchBendFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
@@ -75,6 +89,13 @@ classes:
   - name: value_pair_map
     type: tuple
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.PitchBendFeedbackRule
+    returns:
+      type: None
 enums:
 - name: MapMode
   members:

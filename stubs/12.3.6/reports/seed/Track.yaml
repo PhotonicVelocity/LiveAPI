@@ -28,8 +28,7 @@ primary_class:
     - arm_has_listener
   - name: arrangement_clips
     raw_doc: const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks.
-    type: Live.Base.Vector
-    element_type: Live.Clip.Clip
+    type: Live.Base.Vector[Live.Clip.Clip]
     settable: false
     listenable:
     - add_arrangement_clips_listener
@@ -97,8 +96,7 @@ primary_class:
     raw_doc: |-
       const access to the list of clipslots (see class AClipSlot) for this track.
       The list will be empty for the main and sendtracks.
-    type: Live.Base.Vector
-    element_type: Live.ClipSlot.ClipSlot
+    type: Live.Base.Vector[Live.ClipSlot.ClipSlot]
     settable: false
     listenable:
     - add_clip_slots_listener
@@ -173,8 +171,7 @@ primary_class:
       Return const access to all available Devices that are present in the Tracks
       Devicechain. This tuple will also include the 'mixer_device' that every Track
       always has.
-    type: Live.Base.Vector
-    element_type: Live.Device.Device
+    type: Live.Base.Vector[Live.Device.Device]
     settable: false
     listenable:
     - add_devices_listener
@@ -473,8 +470,7 @@ primary_class:
     - solo_has_listener
   - name: take_lanes
     raw_doc: returns the take lanes.
-    type: Live.Base.Vector
-    element_type: Live.TakeLane.TakeLane
+    type: Live.Base.Vector[Live.TakeLane.TakeLane]
     settable: false
     listenable:
     - add_take_lanes_listener

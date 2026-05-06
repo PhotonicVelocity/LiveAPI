@@ -101,8 +101,7 @@ primary_class:
     - count_in_duration_has_listener
   - name: cue_points
     raw_doc: Const access to a list of all cue points of the Live Song.
-    type: Live.Base.Vector
-    element_type: Live.Song.CuePoint
+    type: Live.Base.Vector[Live.Song.CuePoint]
     settable: false
     listenable:
     - add_cue_points_listener
@@ -301,8 +300,7 @@ primary_class:
     - record_mode_has_listener
   - name: return_tracks
     raw_doc: Const access to the list of available Return Tracks.
-    type: Live.Base.Vector
-    element_type: Live.Track.Track
+    type: Live.Base.Vector[Live.Track.Track]
     settable: false
     listenable:
     - add_return_tracks_listener
@@ -351,8 +349,7 @@ primary_class:
     - scale_name_has_listener
   - name: scenes
     raw_doc: Const access to a list of all Scenes in the Live Song.
-    type: Live.Base.Vector
-    element_type: Live.Scene.Scene
+    type: Live.Base.Vector[Live.Scene.Scene]
     settable: false
     listenable:
     - add_scenes_listener
@@ -451,8 +448,7 @@ primary_class:
       Const access to a list of all Player Tracks in the Live Song, excluding
       the return and Main Track (see also Song.send_tracks and Song.master_track).
       At least one MIDI or Audio Track is always available.
-    type: Live.Base.Vector
-    element_type: Live.Track.Track
+    type: Live.Base.Vector[Live.Track.Track]
     settable: false
     listenable:
     - add_tracks_listener
@@ -477,8 +473,7 @@ primary_class:
       Const access to a list of all visible Player Tracks in the Live Song, excluding
       the return and Main Track (see also Song.send_tracks and Song.master_track).
       At least one MIDI or Audio Track is always available.
-    type: Live.Base.Vector
-    element_type: Live.Track.Track
+    type: Live.Base.Vector[Live.Track.Track]
     settable: false
     listenable:
     - add_visible_tracks_listener
@@ -555,7 +550,7 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: index
-      type: object
+      type: object | None
       optional: true
       default: None
     returns:
@@ -571,7 +566,7 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: index
-      type: object
+      type: object | None
       optional: true
       default: None
     returns:
@@ -1061,6 +1056,13 @@ classes:
   - name: ticks
     type: int
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Song.BeatTime
+    returns:
+      type: None
 - name: CuePoint
   path: Live.Song.CuePoint
   raw_doc: Represents a 'Marker' in the arrangement.
@@ -1133,6 +1135,13 @@ classes:
   - name: seconds
     type: int
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Song.SmptTime
+    returns:
+      type: None
 enums:
 - name: CaptureDestination
   raw_doc: The destination for MIDI capture.
@@ -1191,5 +1200,4 @@ functions:
   signature: 'get_all_scales_ordered() -> tuple :'
   cpp_signature: boost::python::tuple get_all_scales_ordered()
   returns:
-    type: tuple
-    element_type: tuple
+    type: tuple[tuple, ...]

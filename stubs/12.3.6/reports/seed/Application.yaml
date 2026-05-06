@@ -30,10 +30,7 @@ primary_class:
     raw_doc: |-
       Const access to a list of the control surfaces selected in preferences, in the same order.
       The list contains None if no control surface is active at that index.
-    type: Live.Base.ObjectVector
-    element_types:
-    - LiveRelay
-    - APICapture
+    type: Live.Base.Vector[object]
     settable: false
     listenable:
     - add_control_surfaces_listener
@@ -440,6 +437,13 @@ classes:
   - name: name
     type: str
     settable: false
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Application.ControlDescription
+    returns:
+      type: None
 - name: ControlDescriptionVector
   path: Live.Application.ControlDescriptionVector
   raw_doc: A container for returning control descriptions.

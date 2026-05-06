@@ -18,8 +18,7 @@ primary_class:
     settable: false
   - name: automation_envelopes
     raw_doc: Const access to a list of all automation envelopes for this clip.
-    type: Live.Base.Vector
-    element_type: Live.Envelope.Envelope
+    type: Live.Base.Vector[Live.Envelope.Envelope]
     settable: false
   - name: available_warp_modes
     raw_doc: |-
@@ -540,7 +539,7 @@ primary_class:
     - name: note_ids
       type: object
     - name: destination_time
-      type: object
+      type: object | None
       optional: true
       default: None
     - name: transposition_amount
@@ -1069,7 +1068,7 @@ classes:
     - name: self
       type: Live.Clip.MidiNoteVector
     - name: value
-      type: object
+      type: Live.Clip.MidiNote
     returns:
       type: None
   - name: extend
@@ -1079,7 +1078,7 @@ classes:
     - name: self
       type: Live.Clip.MidiNoteVector
     - name: values
-      type: object
+      type: Iterable[Live.Clip.MidiNote]
     returns:
       type: None
 - name: WarpMarker

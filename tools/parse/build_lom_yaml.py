@@ -264,6 +264,80 @@ def _qualify_element_types(
     return out or None
 
 
+def _collapse_use_element(elements: list[str] | None) -> str | None:
+    """Collapse a multi-observation element list to a single canonical
+    element type at a use site. Mirrors v1's `_resolve_element_reprs`:
+
+      - 1 distinct → use it
+      - all observed are Live classes → `Live.LomObject.LomObject`
+      - mixed / external / unknown → `object`
+    """
+    if not elements:
+        return None
+    if len(elements) == 1:
+        return elements[0]
+    if all(e.startswith("Live.") for e in elements):
+        return "Live.LomObject.LomObject"
+    return "object"
+
+
+# Use-site type substitutions: both Vector and ObjectVector at use sites
+# render as the canonical generic container form (`Vector[E]`). The class
+# definitions themselves keep their original names.
+_VECTOR_USE_SUBSTITUTE = {
+    "Live.Base.ObjectVector": "Live.Base.Vector",
+    "Live.Base.Vector": "Live.Base.Vector",
+}
+
+
+def _final_type_string(type_str: str | None,
+                        element: str | None,
+                        is_concrete_container: bool) -> str | None:
+    """Combine a type and an optional element type into the canonical
+    Pythonic type string the YAML records for properties / returns / args.
+
+    Decisions baked in here (so renderers don't have to re-derive them):
+
+    - `list` + element → `list[E]`
+    - `tuple` + element → `tuple[E, ...]`
+    - `Live.Base.Vector` or `Live.Base.ObjectVector` + element →
+      `Live.Base.Vector[E]` (Vector is the canonical generic container)
+    - Concrete containers (IntVector, MidiNoteVector, ...) keep their
+      bare type — the element is recorded on the class definition.
+    - Everything else passes through unchanged.
+    """
+    if type_str is None:
+        return None
+    if is_concrete_container:
+        return type_str
+    if element is None:
+        return type_str
+    if type_str == "list":
+        return f"list[{element}]"
+    if type_str == "tuple":
+        return f"tuple[{element}, ...]"
+    if type_str in _VECTOR_USE_SUBSTITUTE:
+        return f"{_VECTOR_USE_SUBSTITUTE[type_str]}[{element}]"
+    # Generic Live class with single element observation — parameterize.
+    if type_str.startswith("Live."):
+        return f"{type_str}[{element}]"
+    return type_str
+
+
+def _widen_optional(type_str: str | None, default: str | None) -> str | None:
+    """Optional widening: `T` with default `None` → `T | None`. The
+    binding actually accepts None for these args, so the annotation
+    should say so."""
+    if not type_str or default != "None":
+        return type_str
+    if type_str == "None":
+        return type_str
+    # Already admits None?
+    if " | None" in type_str or type_str.endswith("None") or type_str.startswith("None |"):
+        return type_str
+    return f"{type_str} | None"
+
+
 # Identifier names that are Python builtins / typing-module fixtures, not
 # Live classes. Left alone by the type qualifier.
 _BUILTIN_TYPE_NAMES = {
@@ -546,14 +620,6 @@ def build_member(
         if init_doc:
             out["init_doc"] = init_doc
         out["constructable"] = bool(node.get("constructable"))
-        # Constructable classes whose init_doc has a real signature get
-        # structured init args alongside the raw init_doc text. The stub
-        # generator uses these to emit `def __init__(self, ...)` with
-        # the actual parameter list rather than the bare default.
-        if out["constructable"]:
-            init_args = _parse_init_doc(init_doc)
-            if init_args:
-                out["init_args"] = init_args
         # Probe-derived: iterability + element type for container classes.
         # Multi-element observations are NOT recorded at the class level
         # (they're a union across distinct instances, not a class fact);
@@ -569,15 +635,38 @@ def build_member(
             kids = {c.get("name") for c in node.get("children") or [] if c.get("name")}
             if "append" in kids and "extend" in kids:
                 is_iterable = True
-        if is_iterable:
-            out["iterable"] = True
+        class_element_type: str | None = None
         if probe_entry:
             class_element_types = _qualify_element_types(probe_entry, by_repr)
             if class_element_types and len(class_element_types) == 1:
-                out["element_type"] = class_element_types[0]
+                class_element_type = class_element_types[0]
+        if is_iterable:
+            out["iterable"] = True
+        if class_element_type:
+            out["element_type"] = class_element_type
         # Methods inside this class qualify their type strings using the
-        # class's own path as the enclosing context.
-        out.update(_group_class_members(node, registry, class_path))
+        # class's own path as the enclosing context. Pass the class's
+        # iterable/element status so `append` and `extend` get their
+        # arg types specialized to the element type.
+        out.update(_group_class_members(node, registry, class_path,
+                                        is_iterable=is_iterable,
+                                        class_element=class_element_type))
+        # Synthesize __init__ as a real method node for constructable
+        # classes. Args are parsed from `init_doc:` when it carries a
+        # real signature; otherwise it's just `(self) -> None`. Inject
+        # at the front of the methods list so it sorts naturally with
+        # other dunders during stub emission.
+        if out["constructable"]:
+            init_args: list[dict[str, Any]] = [{"name": "self", "type": class_path or ""}]
+            parsed_init = _parse_init_doc(init_doc)
+            if parsed_init:
+                init_args.extend(parsed_init)
+            init_method = {
+                "name": "__init__",
+                "args": init_args,
+                "returns": {"type": "None"},
+            }
+            out.setdefault("methods", []).insert(0, init_method)
     elif kind == "property":
         raw_doc = _norm_doc(node.get("raw_doc"))
         if raw_doc:
@@ -595,19 +684,14 @@ def build_member(
                 prop_info = (parent_entry.get("properties") or {}).get(name)
         if prop_info:
             type_str = _qualify_probed_type(prop_info, by_repr)
-            if type_str:
-                out["type"] = type_str
-            # Skip per-use element_type when the type's class already
-            # carries a singular canonical element_type (concrete
-            # container — the per-use would be pure redundancy).
             concrete: set[str] = registry.get("concrete_containers") or set()
-            if type_str not in concrete:
-                element_types = _qualify_element_types(prop_info, by_repr)
-                if element_types:
-                    if len(element_types) == 1:
-                        out["element_type"] = element_types[0]
-                    else:
-                        out["element_types"] = element_types
+            is_concrete = type_str in concrete
+            element = None
+            if not is_concrete:
+                element = _collapse_use_element(_qualify_element_types(prop_info, by_repr))
+            final = _final_type_string(type_str, element, is_concrete)
+            if final:
+                out["type"] = final
         # Always emit settable — read-only vs read-write is a critical
         # API attribute, not a "default" that should be implicit.
         out["settable"] = bool(node.get("settable"))
@@ -652,29 +736,28 @@ def build_member(
             out["args"] = args
         returns = _convert_returns(node.get("returns"), by_name, enclosing_path)
         # Probe-derived enrichment for no-arg getters. The probe captures
-        # the runtime return type when it could auto-invoke a getter; we
-        # surface it alongside the parser-derived type so divergence is
-        # visible (option 3 — emit both, scope before deciding what
-        # to do with the disagreements).
+        # the runtime return type when it could auto-invoke a getter.
+        # Two outcomes: (1) probed type disagrees with parser type →
+        # surface as `probed_type:` so divergence is visible; (2) probe
+        # has element evidence the parser lacks → fold into the
+        # parser-derived `type:` string (e.g. `tuple` → `tuple[E, ...]`).
         probe_info = (parent_getters or {}).get(name) if parent_getters else None
         if probe_info and probe_info.get("probed"):
             if returns is None:
                 returns = {}
             probed_type = _qualify_probed_type(probe_info, by_repr)
-            if probed_type and probed_type != returns.get("type"):
+            parser_ret_type = returns.get("type")
+            if probed_type and probed_type != parser_ret_type:
                 returns["probed_type"] = probed_type
-            # Element types: skip when the return type's class already
-            # carries a singular canonical (concrete container — element
-            # info lives on the class, not the use site).
             concrete: set[str] = registry.get("concrete_containers") or set()
-            ret_type = returns.get("type")
-            if ret_type not in concrete:
-                probed_elements = _qualify_element_types(probe_info, by_repr)
-                if probed_elements:
-                    if len(probed_elements) == 1:
-                        returns["element_type"] = probed_elements[0]
-                    else:
-                        returns["element_types"] = probed_elements
+            is_concrete = parser_ret_type in concrete
+            element = None
+            if not is_concrete:
+                element = _collapse_use_element(_qualify_element_types(probe_info, by_repr))
+            if element is not None:
+                final = _final_type_string(parser_ret_type, element, is_concrete)
+                if final:
+                    returns["type"] = final
         if returns:
             out["returns"] = returns
     return out
@@ -686,7 +769,9 @@ def _convert_args(
     enclosing_path: str | None,
 ) -> list[dict[str, Any]]:
     """Convert parser arg dicts into YAML shape; qualify Live class names
-    in each `type:` string against the class registry.
+    in each `type:` string against the class registry. Optional widening
+    fires here (`T = None` → `T | None`) so the SOT type already
+    reflects what the binding actually accepts.
 
     `self` is kept (the SOT is unopinionated about rendering convention —
     consumers that want to elide it can do so at render time). The
@@ -700,7 +785,10 @@ def _convert_args(
         item: dict[str, Any] = {"name": arg["name"]}
         type_str = arg.get("type")
         if type_str:
-            item["type"] = _qualify_type_string(type_str, by_name, enclosing_path)
+            type_str = _qualify_type_string(type_str, by_name, enclosing_path)
+            if arg.get("optional"):
+                type_str = _widen_optional(type_str, arg.get("default"))
+            item["type"] = type_str
         if arg.get("optional"):
             item["optional"] = True
             if arg.get("default") is not None:
@@ -714,8 +802,8 @@ def _convert_returns(
     by_name: dict[str, list[str]],
     enclosing_path: str | None,
 ) -> dict[str, Any] | None:
-    """Convert parser returns dict into YAML shape (just `type` for now);
-    qualify Live class names in the `type:` string."""
+    """Convert parser returns dict into YAML shape; qualify Live class
+    names in the `type:` string."""
     if not returns:
         return None
     type_str = returns.get("type")
@@ -728,6 +816,8 @@ def _group_class_members(
     class_node: dict[str, Any],
     registry: dict[str, Any],
     enclosing_path: str | None,
+    is_iterable: bool = False,
+    class_element: str | None = None,
 ) -> dict[str, Any]:
     """Walk a class's children and group them by kind into named lists.
 
@@ -770,6 +860,21 @@ def _group_class_members(
             if triplet:
                 member["listenable"] = triplet
             seen_property_names.add(member["name"])
+        elif kind == "function" and is_iterable and class_element:
+            # Container-class append/extend: override the second arg's
+            # type with the class's element type. The parser keeps the
+            # raw_doc `object` annotation; v1's merge_probe_data step
+            # did this rewrite — we replicate it here so the YAML's
+            # arg type is the canonical one.
+            mname = member["name"]
+            if mname in ("append", "extend"):
+                margs = member.get("args") or []
+                if len(margs) == 2:
+                    margs[1] = dict(margs[1])
+                    margs[1]["type"] = (
+                        f"Iterable[{class_element}]" if mname == "extend" else class_element
+                    )
+                    member["args"] = margs
         groups[kind].append(member)
 
     # Synthesize orphan listener triplets: their target name doesn't exist

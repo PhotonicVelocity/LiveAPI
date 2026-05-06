@@ -281,6 +281,13 @@ classes:
   - name: unlocked
     type: bool
     settable: false
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Licensing.UnlockStatus
+    returns:
+      type: None
 enums:
 - name: TrialContext
   members:
@@ -322,10 +329,7 @@ functions:
   signature: 'get_unlock_dir() -> tuple :'
   cpp_signature: boost::python::tuple get_unlock_dir()
   returns:
-    type: tuple
-    element_types:
-    - str
-    - bool
+    type: tuple[object, ...]
 - name: launch_web_browser
   raw_doc: Opens a web browser at the specified URL on the user's computer.
   signature: 'launch_web_browser( (str)url) -> None :'

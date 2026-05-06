@@ -16,8 +16,7 @@ primary_class:
     settable: false
   - name: audio_inputs
     raw_doc: Const access to a list of all audio inputs of the device.
-    type: Live.Base.Vector
-    element_type: Live.DeviceIO.DeviceIO
+    type: Live.Base.Vector[Live.DeviceIO.DeviceIO]
     settable: false
     listenable:
     - add_audio_inputs_listener
@@ -25,8 +24,7 @@ primary_class:
     - audio_inputs_has_listener
   - name: audio_outputs
     raw_doc: Const access to a list of all audio outputs of the device.
-    type: Live.Base.Vector
-    element_type: Live.DeviceIO.DeviceIO
+    type: Live.Base.Vector[Live.DeviceIO.DeviceIO]
     settable: false
     listenable:
     - add_audio_outputs_listener

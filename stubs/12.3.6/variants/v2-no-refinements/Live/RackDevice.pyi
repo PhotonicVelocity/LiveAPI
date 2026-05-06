@@ -364,7 +364,7 @@ class RackDevice(Device):
         ...
 
     @property
-    def macros_mapped(self) -> tuple:
+    def macros_mapped(self) -> tuple[bool, ...]:
         """A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something"""
         ...
 

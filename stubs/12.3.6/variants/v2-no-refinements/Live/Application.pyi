@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
-    from Live.Base import ObjectVector, StringVector, Text
+    from Live.Base import StringVector, Text, Vector
     from Live.Browser import Browser
     from Live.LomObject import LomObject
     from Live.Song import Song
@@ -240,7 +240,7 @@ class Application(LomObject):
         ...
 
     @property
-    def control_surfaces(self) -> ObjectVector:
+    def control_surfaces(self) -> Vector[object]:
         """
         Const access to a list of the control surfaces selected in preferences, in the same order.
         The list contains None if no control surface is active at that index.

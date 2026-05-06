@@ -166,7 +166,7 @@ def get_services_url() -> str:
     """Returns the URL against which service calls (e.g. for authorization) can be performed."""
     ...
 
-def get_unlock_dir() -> tuple:
+def get_unlock_dir() -> tuple[object, ...]:
     """Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain."""
     ...
 

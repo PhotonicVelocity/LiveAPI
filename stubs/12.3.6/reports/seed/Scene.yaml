@@ -19,8 +19,7 @@ primary_class:
     settable: false
   - name: clip_slots
     raw_doc: return a list of clipslots (see class AClipSlot) that this scene covers.
-    type: Live.Base.Vector
-    element_type: Live.ClipSlot.ClipSlot
+    type: Live.Base.Vector[Live.ClipSlot.ClipSlot]
     settable: false
     listenable:
     - add_clip_slots_listener

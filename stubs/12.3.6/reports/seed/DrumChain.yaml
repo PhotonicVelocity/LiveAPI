@@ -37,8 +37,7 @@ primary_class:
     settable: true
   - name: devices
     raw_doc: Return const access to all available Devices that are present in the chains
-    type: Live.Base.Vector
-    element_type: Live.RackDevice.RackDevice
+    type: Live.Base.Vector[Live.RackDevice.RackDevice]
     settable: false
   - name: has_audio_input
     raw_doc: |-
