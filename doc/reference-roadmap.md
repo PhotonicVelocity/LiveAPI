@@ -121,6 +121,15 @@ already written. No discovery, no schema thrash, no per-class probe scripts.
 The driver consumes records and produces verification results — one input
 shape, one output shape.
 
+**Connection to manual refinements.** The probe driver doesn't just verify
+behavioral assertions (side effects, raises, listener fires) — it can also
+verify type claims (this property is settable, accepts T, returns T on read).
+That means today's `confidence: high` in `manual_refinements.yaml`
+(corpus-verified) becomes `confidence: verified` (runtime-probed) once the
+probe touches the same member. The refinement system and the hypothesis
+system converge on a single confidence ladder; type accuracy and behavioral
+accuracy share the same verification mechanism.
+
 **Size.** Large. The driver itself is the genuinely new code. Precondition
 resolution, state setup/teardown, repetition gate, timing window for listener
 fires — all the things the previous attempt got wrong are concentrated here.
