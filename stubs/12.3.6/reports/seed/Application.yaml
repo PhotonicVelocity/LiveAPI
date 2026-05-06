@@ -1,0 +1,660 @@
+module: Application
+members:
+- kind: class
+  name: Application
+  raw_doc: This class represents the Live application.
+  ancestors:
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: class
+    name: View
+    raw_doc: This class represents the view aspects of the Live application.
+    ancestors:
+    - LomObject
+    init_doc: |-
+      Raises an exception
+      This class cannot be instantiated from Python
+    members:
+    - kind: enum
+      name: NavDirection
+      members:
+        up: 0
+        down: 1
+        left: 2
+        right: 3
+    - kind: method
+      name: available_main_views
+      raw_doc: |-
+        Return a list of strings with the available subcomponent views, which
+        is to be specified, when using the rest of this classes functions.
+        A 'subcomponent view' is a main view component of a document view, like
+        the Session view, the Arranger or Detailview and so on...
+      signature: 'available_main_views( (View)arg1) -> StringVector :'
+      cpp_signature: std::__1::vector<TString, std::__1::allocator<TString>> available_main_views(TPyViewData<ASongApp>)
+      returns:
+        type: StringVector
+    - kind: property
+      name: browse_mode
+      raw_doc: Return true if HotSwap mode is active for any target.
+      type: bool
+      settable: false
+      listenable:
+      - add_browse_mode_listener
+      - remove_browse_mode_listener
+      - browse_mode_has_listener
+    - kind: property
+      name: canonical_parent
+      raw_doc: Get the canonical parent of the application view.
+      type: Application
+      repr: <class 'Application.Application'>
+      settable: false
+    - kind: method
+      name: focus_view
+      raw_doc: Show and focus one through the identifier string specified view.
+      signature: 'focus_view( (View)arg1, (object)arg2) -> None :'
+      cpp_signature: void focus_view(TPyViewData<ASongApp>,TString)
+      args:
+      - name: view
+        type: str
+      returns:
+        type: None
+    - kind: property
+      name: focused_document_view
+      raw_doc: |-
+        Return the name of the document view ('Session' or 'Arranger')
+        shown in the currently selected window.
+      type: str
+      settable: false
+      listenable:
+      - add_focused_document_view_listener
+      - remove_focused_document_view_listener
+      - focused_document_view_has_listener
+    - kind: method
+      name: hide_view
+      raw_doc: Hide one through the identifier string specified view.
+      signature: 'hide_view( (View)arg1, (object)arg2) -> None :'
+      cpp_signature: void hide_view(TPyViewData<ASongApp>,TString)
+      args:
+      - name: view_name
+        type: str
+      returns:
+        type: None
+    - kind: method
+      name: is_view_visible
+      raw_doc: |-
+        Return true if the through the identifier string specified view is currently
+        visible. If main_window_only is set to False, this will also check in second
+        window. Notifications from the second window are not yet supported.
+      signature: 'is_view_visible( (View)arg1, (object)identifier [, (bool)main_window_only=True]) -> bool :'
+      cpp_signature: bool is_view_visible(TPyViewData<ASongApp>,TString [,bool=True])
+      args:
+      - name: identifier
+        type: str
+      - name: main_window_only
+        type: bool
+        optional: true
+        default: 'True'
+      returns:
+        type: bool
+    - kind: method
+      name: scroll_view
+      raw_doc: |-
+        Scroll through the identifier string specified view into the given
+        direction, if possible. Will silently return if the specified view
+        can not perform the requested action.
+      signature: 'scroll_view( (View)arg1, (int)arg2, (object)arg3, (bool)arg4) -> None :'
+      cpp_signature: void scroll_view(TPyViewData<ASongApp>,int,TString,bool)
+      args:
+      - name: direction
+        type: int
+      - name: view_name
+        type: str
+      - name: modifier_pressed
+        type: bool
+      returns:
+        type: None
+    - kind: method
+      name: show_view
+      raw_doc: |-
+        Show one through the identifier string specified view. Will throw a
+        runtime error if this is called in Live's initialization scope.
+      signature: 'show_view( (View)arg1, (object)arg2) -> None :'
+      cpp_signature: void show_view(TPyViewData<ASongApp>,TString)
+      args:
+      - name: view
+        type: str
+      returns:
+        type: None
+    - kind: method
+      name: toggle_browse
+      raw_doc: |-
+        Reveals the device chain, the browser and starts hot swap for
+        the selected device. Calling this function again stops hot swap.
+      signature: 'toggle_browse( (View)arg1) -> None :'
+      cpp_signature: void toggle_browse(TPyViewData<ASongApp>)
+      returns:
+        type: None
+    - kind: method
+      name: zoom_view
+      raw_doc: |-
+        Zoom through the identifier string specified view into the given
+        direction, if possible. Will silently return if the specified view
+        can not perform the requested action.
+      signature: 'zoom_view( (View)arg1, (int)arg2, (object)arg3, (bool)arg4) -> None :'
+      cpp_signature: void zoom_view(TPyViewData<ASongApp>,int,TString,bool)
+      args:
+      - name: direction
+        type: int
+      - name: view_name
+        type: str
+      - name: modifier_pressed
+        type: bool
+      returns:
+        type: None
+    - kind: property
+      name: is_view_visible
+      listenable:
+      - add_is_view_visible_listener
+      - remove_is_view_visible_listener
+      - is_view_visible_has_listener
+    - kind: property
+      name: view_focus_changed
+      listenable:
+      - add_view_focus_changed_listener
+      - remove_view_focus_changed_listener
+      - view_focus_changed_has_listener
+  - kind: property
+    name: average_process_usage
+    raw_doc: Reports Live's average CPU load.
+    type: float
+    settable: false
+    listenable:
+    - add_average_process_usage_listener
+    - remove_average_process_usage_listener
+    - average_process_usage_has_listener
+  - kind: property
+    name: browser
+    raw_doc: Returns an interface to the browser.
+    type: Browser
+    repr: <class 'Browser.Browser'>
+    settable: false
+  - kind: property
+    name: canonical_parent
+    raw_doc: Returns the canonical parent of the application.
+    type: None
+    settable: false
+  - kind: property
+    name: control_surfaces
+    raw_doc: |-
+      Const access to a list of the control surfaces selected in preferences, in the same order.
+      The list contains None if no control surface is active at that index.
+    type: ObjectVector
+    repr: <class 'Base.ObjectVector'>
+    element_repr: <class 'object'>
+    settable: false
+    listenable:
+    - add_control_surfaces_listener
+    - remove_control_surfaces_listener
+    - control_surfaces_has_listener
+  - kind: property
+    name: current_dialog_button_count
+    raw_doc: Number of buttons on the current dialog.
+    type: int
+    settable: false
+  - kind: property
+    name: current_dialog_message
+    raw_doc: Text of the last dialog that appeared; Empty if all dialogs just disappeared.
+    type: str
+    settable: false
+  - kind: method
+    name: get_bugfix_version
+    raw_doc: Returns an integer representing the bugfix version of Live.
+    signature: 'get_bugfix_version( (Application)arg1) -> int :'
+    cpp_signature: int get_bugfix_version(TPyHandle<ASongApp>)
+    returns:
+      type: int
+  - kind: method
+    name: get_build_id
+    raw_doc: Returns a string identifying the build.
+    signature: 'get_build_id( (Application)arg1) -> str :'
+    cpp_signature: TString get_build_id(TPyHandle<ASongApp>)
+    returns:
+      type: str
+  - kind: method
+    name: get_document
+    raw_doc: Returns the current Live Set.
+    signature: 'get_document( (Application)arg1) -> Song :'
+    cpp_signature: TWeakPtr<TPyHandle<ASong>> get_document(TPyHandle<ASongApp>)
+    returns:
+      type: Song
+  - kind: method
+    name: get_major_version
+    raw_doc: Returns an integer representing the major version of Live.
+    signature: 'get_major_version( (Application)arg1) -> int :'
+    cpp_signature: int get_major_version(TPyHandle<ASongApp>)
+    returns:
+      type: int
+  - kind: method
+    name: get_minor_version
+    raw_doc: Returns an integer representing the minor version of Live.
+    signature: 'get_minor_version( (Application)arg1) -> int :'
+    cpp_signature: int get_minor_version(TPyHandle<ASongApp>)
+    returns:
+      type: int
+  - kind: method
+    name: get_variant
+    raw_doc: Returns one of the strings in Live.Application.Variants.
+    signature: 'get_variant( (Application)arg1) -> str :'
+    cpp_signature: TString get_variant(TPyHandle<ASongApp>)
+    returns:
+      type: str
+  - kind: method
+    name: get_version_string
+    raw_doc: Returns the full version string of Live.
+    signature: 'get_version_string( (Application)arg1) -> str :'
+    cpp_signature: TString get_version_string(TPyHandle<ASongApp>)
+    returns:
+      type: str
+  - kind: method
+    name: has_option
+    raw_doc: Returns True if the given entry exists in Options.txt, False otherwise.
+    signature: 'has_option( (Application)arg1, (object)arg2) -> bool :'
+    cpp_signature: bool has_option(TPyHandle<ASongApp>,TString)
+    args:
+    - name: option_name
+      type: str
+    returns:
+      type: bool
+  - kind: property
+    name: number_of_push_apps_running
+    raw_doc: Returns the number of connected Push apps.
+    type: int
+    settable: false
+  - kind: property
+    name: open_dialog_count
+    raw_doc: The number of open dialogs in Live. 0 if not dialog is open.
+    type: int
+    settable: false
+    listenable:
+    - add_open_dialog_count_listener
+    - remove_open_dialog_count_listener
+    - open_dialog_count_has_listener
+  - kind: property
+    name: peak_process_usage
+    raw_doc: Reports Live's peak CPU load.
+    type: float
+    settable: false
+    listenable:
+    - add_peak_process_usage_listener
+    - remove_peak_process_usage_listener
+    - peak_process_usage_has_listener
+  - kind: method
+    name: press_current_dialog_button
+    raw_doc: Press a button, by index, on the current message box.
+    signature: 'press_current_dialog_button( (Application)arg1, (int)arg2) -> None :'
+    cpp_signature: void press_current_dialog_button(TPyHandle<ASongApp>,int)
+    args:
+    - name: index
+      type: int
+    returns:
+      type: None
+  - kind: method
+    name: show_message
+    raw_doc: Shows a message box, returning the position of the pressed button.
+    signature: 'show_message( (Application)arg1, (Text)text [, (int)buttons=Application.MessageButtons.OK_BUTTON [, (bool)enable_markup=False [, (bool)show_success_icon=False]]]) -> int :'
+    cpp_signature: int show_message(TPyHandle<ASongApp>,TText [,int=Application.MessageButtons.OK_BUTTON [,bool=False [,bool=False]]])
+    args:
+    - name: text
+      type: Text
+    - name: buttons
+      type: int
+      optional: true
+      default: Application.MessageButtons.OK_BUTTON
+    - name: enable_markup
+      type: bool
+      optional: true
+      default: 'False'
+    - name: show_success_icon
+      type: bool
+      optional: true
+      default: 'False'
+    returns:
+      type: int
+  - kind: method
+    name: show_on_the_fly_message
+    raw_doc: Same as show_message, but for when there is no predefined Text object.
+    signature: 'show_on_the_fly_message( (Application)arg1, (str)message [, (int)buttons=Application.MessageButtons.OK_BUTTON [, (bool)enable_markup=False [, (bool)show_success_icon=False [, (int)push_dialog_type=Application.PushDialogType.MESSAGE_BOX]]]]) -> int :'
+    cpp_signature: int show_on_the_fly_message(TPyHandle<ASongApp>,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=Application.MessageButtons.OK_BUTTON [,bool=False [,bool=False [,int=Application.PushDialogType.MESSAGE_BOX]]]])
+    args:
+    - name: message
+      type: str
+    - name: buttons
+      type: int
+      optional: true
+      default: Application.MessageButtons.OK_BUTTON
+    - name: enable_markup
+      type: bool
+      optional: true
+      default: 'False'
+    - name: show_success_icon
+      type: bool
+      optional: true
+      default: 'False'
+    - name: push_dialog_type
+      type: int
+      optional: true
+      default: Application.PushDialogType.MESSAGE_BOX
+    returns:
+      type: int
+  - kind: property
+    name: unavailable_features
+    raw_doc: List of features that are unavailable due to limitations of the current Live edition.
+    type: UnavailableFeatureVector
+    repr: <class 'Application.UnavailableFeatureVector'>
+    element_repr: <class 'UnavailableFeature'>
+    settable: false
+    listenable:
+    - add_unavailable_features_listener
+    - remove_unavailable_features_listener
+    - unavailable_features_has_listener
+  - kind: property
+    name: view
+    raw_doc: Returns the applications view component.
+    type: View
+    repr: <class 'Application.View'>
+    settable: false
+- kind: class
+  name: ControlDescription
+  raw_doc: Describes a control present in a control surface proxy
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+  members:
+  - kind: property
+    name: id
+    type: int
+    settable: false
+  - kind: property
+    name: name
+    type: str
+    settable: false
+- kind: class
+  name: ControlDescriptionVector
+  raw_doc: A container for returning control descriptions.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  iterable: true
+  element_repr: <class 'ControlDescription'>
+  members:
+  - kind: method
+    name: append
+    signature: 'append( (ControlDescriptionVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void append(std::__1::vector<TControlDescription, std::__1::allocator<TControlDescription>> {lvalue},boost::python::api::object)
+    args:
+    - name: value
+      type: ControlDescription
+    returns:
+      type: None
+  - kind: method
+    name: extend
+    signature: 'extend( (ControlDescriptionVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void extend(std::__1::vector<TControlDescription, std::__1::allocator<TControlDescription>> {lvalue},boost::python::api::object)
+    args:
+    - name: values
+      type: Iterable[ControlDescription]
+    returns:
+      type: None
+- kind: class
+  name: ControlSurfaceProxy
+  raw_doc: Represents a control surface running in a different process. For use by M4L
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: control_descriptions
+    type: ControlDescriptionVector
+    settable: false
+  - kind: method
+    name: enable_receive_midi
+    signature: 'enable_receive_midi( (ControlSurfaceProxy)arg1, (bool)arg2) -> None :'
+    cpp_signature: void enable_receive_midi(APythonControlSurfaceProxy {lvalue},bool)
+    args:
+    - name: enabled
+      type: bool
+    returns:
+      type: None
+  - kind: method
+    name: fetch_received_midi_messages
+    signature: 'fetch_received_midi_messages( (ControlSurfaceProxy)arg1) -> tuple :'
+    cpp_signature: boost::python::tuple fetch_received_midi_messages(APythonControlSurfaceProxy {lvalue})
+    returns:
+      type: tuple[tuple[int, ...], ...]
+  - kind: method
+    name: fetch_received_values
+    signature: 'fetch_received_values( (ControlSurfaceProxy)arg1) -> tuple :'
+    cpp_signature: boost::python::tuple fetch_received_values(APythonControlSurfaceProxy {lvalue})
+    returns:
+      type: tuple[tuple[int, Any], ...]
+  - kind: method
+    name: grab_control
+    signature: 'grab_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :'
+    cpp_signature: void grab_control(APythonControlSurfaceProxy {lvalue},int)
+    args:
+    - name: control_id
+      type: int
+    returns:
+      type: None
+  - kind: property
+    name: pad_layout
+    raw_doc: The layout of pads on Push.
+    type: str
+    settable: false
+    listenable:
+    - add_pad_layout_listener
+    - remove_pad_layout_listener
+    - pad_layout_has_listener
+  - kind: method
+    name: release_control
+    signature: 'release_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :'
+    cpp_signature: void release_control(APythonControlSurfaceProxy {lvalue},int)
+    args:
+    - name: control_id
+      type: int
+    returns:
+      type: None
+  - kind: method
+    name: send_midi
+    signature: 'send_midi( (ControlSurfaceProxy)arg1, (tuple)arg2) -> None :'
+    cpp_signature: void send_midi(APythonControlSurfaceProxy {lvalue},boost::python::tuple)
+    args:
+    - name: midi_event_bytes
+      type: tuple[int, ...]
+    returns:
+      type: None
+  - kind: method
+    name: send_value
+    signature: 'send_value( (ControlSurfaceProxy)arg1, (tuple)arg2) -> None :'
+    cpp_signature: void send_value(APythonControlSurfaceProxy {lvalue},boost::python::tuple)
+    args:
+    - name: value
+      type: tuple[Any, ...]
+    returns:
+      type: None
+  - kind: method
+    name: subscribe_to_control
+    signature: 'subscribe_to_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :'
+    cpp_signature: void subscribe_to_control(APythonControlSurfaceProxy {lvalue},int)
+    args:
+    - name: control_id
+      type: int
+    returns:
+      type: None
+  - kind: property
+    name: type_name
+    type: str
+    settable: false
+  - kind: method
+    name: unsubscribe_from_control
+    signature: 'unsubscribe_from_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :'
+    cpp_signature: void unsubscribe_from_control(APythonControlSurfaceProxy {lvalue},int)
+    args:
+    - name: control_id
+      type: int
+    returns:
+      type: None
+  - kind: property
+    name: control_values_arrived
+    listenable:
+    - add_control_values_arrived_listener
+    - remove_control_values_arrived_listener
+    - control_values_arrived_has_listener
+  - kind: property
+    name: midi_received
+    listenable:
+    - add_midi_received_listener
+    - remove_midi_received_listener
+    - midi_received_has_listener
+- kind: enum
+  name: MessageButtons
+  raw_doc: Specifies the characteristics of the message box, e.g. which buttons to show.
+  members:
+    OK_BUTTON: 0
+    OK_NEW_SET_BUTTON: 1
+    OK_RETRY_BUTTON: 2
+    SAVE_DONT_SAVE_BUTTON: 3
+    OK_ACCOUNT_BUTTON: 4
+    OK_PURCHASE_BUTTON: 5
+- kind: enum
+  name: PushDialogType
+  raw_doc: Specifies the dialog type for Push.
+  members:
+    MESSAGE_BOX: 0
+    OUT_OF_UNLOCKS_DIALOG: 5
+    RENT_TO_OWN_LICENSE_EXPIRED_DIALOG: 7
+- kind: enum
+  name: UnavailableFeature
+  members:
+    note_velocity_ranges_and_probabilities: 0
+- kind: class
+  name: UnavailableFeatureVector
+  raw_doc: A container for returning unavailable features.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  iterable: true
+  element_repr: <class 'UnavailableFeature'>
+  members:
+  - kind: method
+    name: append
+    signature: 'append( (UnavailableFeatureVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void append(std::__1::vector<NPythonApplication::TUnavailableFeature, std::__1::allocator<NPythonApplication::TUnavailableFeature>> {lvalue},boost::python::api::object)
+    args:
+    - name: value
+      type: UnavailableFeature | int
+    returns:
+      type: None
+  - kind: method
+    name: extend
+    signature: 'extend( (UnavailableFeatureVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void extend(std::__1::vector<NPythonApplication::TUnavailableFeature, std::__1::allocator<NPythonApplication::TUnavailableFeature>> {lvalue},boost::python::api::object)
+    args:
+    - name: values
+      type: Iterable[UnavailableFeature | int]
+    returns:
+      type: None
+- kind: class
+  name: Variants
+  raw_doc: Holds strings representing what type of Live is running.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: constant
+    name: BETA
+    type: str
+    value: Beta
+  - kind: constant
+    name: INTRO
+    type: str
+    value: Intro
+  - kind: constant
+    name: LITE
+    type: str
+    value: Lite
+  - kind: constant
+    name: STANDARD
+    type: str
+    value: Standard
+  - kind: constant
+    name: SUITE
+    type: str
+    value: Suite
+  - kind: constant
+    name: TRIAL
+    type: str
+    value: Trial
+- kind: function
+  name: combine_apcs
+  raw_doc: Returns true if multiple APCs should be combined.
+  signature: 'combine_apcs() -> bool :'
+  cpp_signature: bool combine_apcs()
+  returns:
+    type: bool
+- kind: function
+  name: encrypt_challenge
+  raw_doc: Returns an encrypted challenge based on the TEA algortithm
+  signature: 'encrypt_challenge( (int)dongle1, (int)dongle2 [, (int)key_index=0]) -> tuple :'
+  cpp_signature: boost::python::tuple encrypt_challenge(int,int [,int=0])
+  args:
+  - name: dongle1
+    type: int
+  - name: dongle2
+    type: int
+  - name: key_index
+    type: int
+    optional: true
+    default: '0'
+  returns:
+    type: tuple[int, ...]
+- kind: function
+  name: encrypt_challenge2
+  raw_doc: Returns the UMAC hash for the given challenge.
+  signature: 'encrypt_challenge2( (int)arg1) -> int :'
+  cpp_signature: int encrypt_challenge2(int)
+  args:
+  - name: challenge
+    type: int
+  returns:
+    type: int
+- kind: function
+  name: get_application
+  raw_doc: Returns the application instance.
+  signature: 'get_application() -> Application :'
+  cpp_signature: TWeakPtr<TPyHandle<ASongApp>> get_application()
+  returns:
+    type: Application
+- kind: function
+  name: get_random_int
+  raw_doc: Returns a random integer from the given range.
+  signature: 'get_random_int( (int)arg1, (int)arg2) -> int :'
+  cpp_signature: int get_random_int(int,int)
+  args:
+  - name: min_value
+    type: int
+  - name: max_value
+    type: int
+  returns:
+    type: int

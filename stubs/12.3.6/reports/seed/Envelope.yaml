@@ -1,0 +1,146 @@
+module: Envelope
+members:
+- kind: class
+  name: Envelope
+  raw_doc: This class represents an automation or modulation envelope in Live.
+  ancestors:
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: canonical_parent
+    raw_doc: Get the canonical parent of the envelope.
+    type: Clip
+    repr: <class 'Clip.Clip'>
+    settable: false
+  - kind: method
+    name: delete_events_in_range
+    raw_doc: Deletes the events in the specified time range.
+    signature: 'delete_events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> None :'
+    cpp_signature: void delete_events_in_range(TPyHandle<AAutomation> {lvalue},double,double)
+    args:
+    - name: start_time
+      type: float
+    - name: end_time
+      type: float
+    returns:
+      type: None
+  - kind: method
+    name: events_in_range
+    raw_doc: Returns the events in the specified time range.
+    signature: 'events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> EnvelopeEventVector :'
+    cpp_signature: std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> events_in_range(TPyHandle<AAutomation> {lvalue},double,double)
+    args:
+    - name: start_time
+      type: float
+    - name: end_time
+      type: float
+    returns:
+      type: EnvelopeEventVector
+  - kind: method
+    name: insert_step
+    raw_doc: Given a start time, a step length and a value, creates a step in the envelope.
+    signature: 'insert_step( (Envelope)arg1, (float)arg2, (float)arg3, (float)arg4) -> None :'
+    cpp_signature: void insert_step(TPyHandle<AAutomation> {lvalue},double,double,double)
+    args:
+    - name: start_time
+      type: float
+    - name: length
+      type: float
+    - name: value
+      type: float
+    returns:
+      type: None
+  - kind: method
+    name: value_at_time
+    raw_doc: Returns the parameter value at the specified time.
+    signature: 'value_at_time( (Envelope)arg1, (float)arg2) -> float :'
+    cpp_signature: double value_at_time(TPyHandle<AAutomation> {lvalue},double)
+    args:
+    - name: time
+      type: float
+    returns:
+      type: float
+- kind: class
+  name: EnvelopeEvent
+  raw_doc: This is a class that represents an envelope event.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1, (float)time, (float)value, (EnvelopeEventControlCoefficients)control_coefficients) -> None :
+        Create a new envelope event.
+
+        C++ signature :
+            void __init__(_object*,double,float,NApiHelpers::TEnvelopeEventControlCoefficients)
+  constructable: true
+  members:
+  - kind: property
+    name: control_coefficients
+    type: EnvelopeEventControlCoefficients
+    repr: <class 'Envelope.EnvelopeEventControlCoefficients'>
+    settable: true
+  - kind: property
+    name: time
+    type: float
+    settable: true
+  - kind: property
+    name: value
+    type: float
+    settable: true
+- kind: class
+  name: EnvelopeEventControlCoefficients
+  raw_doc: This class represents the control coefficients of an envelope event.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1, (float)x1, (float)y1, (float)x2, (float)y2) -> None :
+        Create new envelope event control coefficients.
+
+        C++ signature :
+            void __init__(_object*,double,double,double,double)
+  constructable: true
+  members:
+  - kind: property
+    name: x1
+    type: float
+    settable: true
+  - kind: property
+    name: x2
+    type: float
+    settable: true
+  - kind: property
+    name: y1
+    type: float
+    settable: true
+  - kind: property
+    name: y2
+    type: float
+    settable: true
+- kind: class
+  name: EnvelopeEventVector
+  raw_doc: A container for holding envelope events.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  iterable: true
+  element_repr: <class 'Envelope.EnvelopeEvent'>
+  members:
+  - kind: method
+    name: append
+    signature: 'append( (EnvelopeEventVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void append(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)
+    args:
+    - name: value
+      type: EnvelopeEvent
+    returns:
+      type: None
+  - kind: method
+    name: extend
+    signature: 'extend( (EnvelopeEventVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void extend(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)
+    args:
+    - name: values
+      type: Iterable[EnvelopeEvent]
+    returns:
+      type: None

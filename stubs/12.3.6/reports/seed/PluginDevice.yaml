@@ -1,0 +1,125 @@
+module: PluginDevice
+members:
+- kind: class
+  name: PluginDevice
+  raw_doc: This class represents a plugin device.
+  ancestors:
+  - Device
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: can_compare_ab
+    raw_doc: Returns true if the Device has the capability to AB compare.
+    type: bool
+    settable: false
+  - kind: property
+    name: can_have_chains
+    raw_doc: Returns true if the device is a rack.
+    type: bool
+    settable: false
+  - kind: property
+    name: can_have_drum_pads
+    raw_doc: Returns true if the device is a drum rack.
+    type: bool
+    settable: false
+  - kind: property
+    name: canonical_parent
+    raw_doc: Get the canonical parent of the Device.
+    type: Track
+    repr: <class 'Track.Track'>
+    settable: false
+  - kind: property
+    name: class_display_name
+    raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
+    type: str
+    settable: false
+  - kind: property
+    name: class_name
+    raw_doc: Return const access to the name of the device's class.
+    type: str
+    settable: false
+  - kind: method
+    name: get_parameter_names
+    raw_doc: |-
+      Get the range of plugin parameter names, bound by begin and end.
+      If end is smaller than 0 it is interpreted as the parameter count.
+    signature: 'get_parameter_names( (PluginDevice)arg1 [, (int)begin=0 [, (int)end=-1]]) -> StringVector :'
+    cpp_signature: std::__1::vector<TString, std::__1::allocator<TString>> get_parameter_names(TPluginDevicePyHandle [,int=0 [,int=-1]])
+    args:
+    - name: begin
+      type: int
+      optional: true
+      default: '0'
+    - name: end
+      type: int
+      optional: true
+      default: '-1'
+    returns:
+      type: StringVector
+  - kind: property
+    name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+  - kind: property
+    name: is_using_compare_preset_b
+    raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    type: bool
+    settable: true
+  - kind: property
+    name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+  - kind: property
+    name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+  - kind: property
+    name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+  - kind: property
+    name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: ATimeableValueVector
+    repr: <class 'Device.ATimeableValueVector'>
+    element_repr: <class 'DeviceParameter.DeviceParameter'>
+    settable: false
+  - kind: property
+    name: presets
+    raw_doc: Get the list of presets the plugin offers.
+    type: StringVector
+    repr: <class 'Base.StringVector'>
+    element_repr: <class 'str'>
+    settable: false
+    listenable:
+    - add_presets_listener
+    - remove_presets_listener
+    - presets_has_listener
+  - kind: property
+    name: selected_preset_index
+    raw_doc: Access to the index of the currently selected preset.
+    type: int
+    settable: true
+    listenable:
+    - add_selected_preset_index_listener
+    - remove_selected_preset_index_listener
+    - selected_preset_index_has_listener
+  - kind: property
+    name: type
+    raw_doc: Return the type of the device.
+    type: DeviceType
+    repr: <class 'Device.DeviceType'>
+    settable: false
+  - kind: property
+    name: view
+    raw_doc: Representing the view aspects of a device.
+    type: View
+    repr: <class 'Device.View'>
+    settable: false

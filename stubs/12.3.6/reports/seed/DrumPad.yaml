@@ -1,0 +1,67 @@
+module: DrumPad
+members:
+- kind: class
+  name: DrumPad
+  raw_doc: This class represents a drum group device pad in Live.
+  ancestors:
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: canonical_parent
+    raw_doc: Get the canonical parent of the drum pad.
+    type: RackDevice
+    repr: <class 'RackDevice.RackDevice'>
+    settable: false
+  - kind: property
+    name: chains
+    raw_doc: Return const access to the list of chains in this drum pad.
+    type: Vector
+    repr: <class 'Base.Vector'>
+    element_repr: <class 'Chain'>
+    settable: false
+    listenable:
+    - add_chains_listener
+    - remove_chains_listener
+    - chains_has_listener
+  - kind: method
+    name: delete_all_chains
+    raw_doc: Deletes all chains associated with a drum pad. This is equivalent to deleting a drum rack pad in Live.
+    signature: 'delete_all_chains( (DrumPad)arg1) -> None :'
+    cpp_signature: void delete_all_chains(TPyHandle<ADrumGroupDevicePad>)
+    returns:
+      type: None
+  - kind: property
+    name: mute
+    raw_doc: Mute/unmute the pad.
+    type: bool
+    settable: true
+    listenable:
+    - add_mute_listener
+    - remove_mute_listener
+    - mute_has_listener
+  - kind: property
+    name: name
+    raw_doc: Return const access to the drum pad's name. It depends on the contained chains.
+    type: str
+    settable: false
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - kind: property
+    name: note
+    raw_doc: Get the MIDI note of the drum pad.
+    type: int
+    settable: false
+  - kind: property
+    name: solo
+    raw_doc: Solo/unsolo the pad.
+    type: bool
+    settable: true
+    listenable:
+    - add_solo_listener
+    - remove_solo_listener
+    - solo_has_listener

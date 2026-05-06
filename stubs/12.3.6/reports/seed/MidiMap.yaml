@@ -1,0 +1,284 @@
+module: MidiMap
+members:
+- kind: class
+  name: CCFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+  members:
+  - kind: property
+    name: cc_no
+    type: int
+    settable: true
+  - kind: property
+    name: cc_value_map
+    type: tuple
+    repr: <class 'tuple'>
+    element_repr: <class 'int'>
+    settable: true
+  - kind: property
+    name: channel
+    type: int
+    settable: true
+  - kind: property
+    name: delay_in_ms
+    type: float
+    settable: true
+  - kind: property
+    name: enabled
+    type: bool
+    settable: true
+- kind: enum
+  name: MapMode
+  members:
+    absolute: 0
+    relative_signed_bit: 1
+    relative_binary_offset: 2
+    relative_two_compliment: 3
+    relative_signed_bit2: 4
+    absolute_14_bit: 5
+    relative_smooth_signed_bit: 6
+    relative_smooth_binary_offset: 7
+    relative_smooth_two_compliment: 8
+    relative_smooth_signed_bit2: 9
+- kind: class
+  name: NoteFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+  members:
+  - kind: property
+    name: channel
+    type: int
+    settable: true
+  - kind: property
+    name: delay_in_ms
+    type: float
+    settable: true
+  - kind: property
+    name: enabled
+    type: bool
+    settable: true
+  - kind: property
+    name: note_no
+    type: int
+    settable: true
+  - kind: property
+    name: vel_map
+    type: tuple
+    repr: <class 'tuple'>
+    element_repr: <class 'int'>
+    settable: true
+- kind: class
+  name: PitchBendFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+  members:
+  - kind: property
+    name: channel
+    type: int
+    settable: true
+  - kind: property
+    name: delay_in_ms
+    type: float
+    settable: true
+  - kind: property
+    name: enabled
+    type: bool
+    settable: true
+  - kind: property
+    name: value_pair_map
+    type: tuple
+    repr: <class 'tuple'>
+    element_repr: <class 'tuple'>
+    settable: true
+- kind: function
+  name: forward_midi_cc
+  signature: 'forward_midi_cc( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :'
+  cpp_signature: bool forward_midi_cc(unsigned int,unsigned int,int,int [,bool=True])
+  args:
+  - name: script_handle
+    type: int
+  - name: midi_map_handle
+    type: int
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: should_consume_event
+    type: bool
+    optional: true
+    default: 'True'
+  returns:
+    type: bool
+- kind: function
+  name: forward_midi_note
+  signature: 'forward_midi_note( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :'
+  cpp_signature: bool forward_midi_note(unsigned int,unsigned int,int,int [,bool=True])
+  args:
+  - name: script_handle
+    type: int
+  - name: midi_map_handle
+    type: int
+  - name: midi_channel
+    type: int
+  - name: note
+    type: int
+  - name: should_consume_event
+    type: bool
+    optional: true
+    default: 'True'
+  returns:
+    type: bool
+- kind: function
+  name: forward_midi_pitchbend
+  signature: 'forward_midi_pitchbend( (int)arg1, (int)arg2, (int)arg3) -> bool :'
+  cpp_signature: bool forward_midi_pitchbend(unsigned int,unsigned int,int)
+  args:
+  - name: script_handle
+    type: int
+  - name: midi_map_handle
+    type: int
+  - name: midi_channel
+    type: int
+  returns:
+    type: bool
+- kind: function
+  name: map_midi_cc
+  signature: 'map_midi_cc( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool :'
+  cpp_signature: bool map_midi_cc(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,bool [,float=1.0])
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: parameter
+    type: DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: map_mode
+    type: MapMode | int
+  - name: avoid_takeover
+    type: bool
+  - name: sensitivity
+    type: float
+    optional: true
+    default: '1.0'
+  returns:
+    type: bool
+- kind: function
+  name: map_midi_cc_with_feedback_map
+  signature: 'map_midi_cc_with_feedback_map( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (CCFeedbackRule)feedback_rule, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool :'
+  cpp_signature: bool map_midi_cc_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,NPythonMidiMap::TCCFeedbackRule,bool [,float=1.0])
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: parameter
+    type: DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: map_mode
+    type: MapMode | int
+  - name: feedback_rule
+    type: CCFeedbackRule
+  - name: avoid_takeover
+    type: bool
+  - name: sensitivity
+    type: float
+    optional: true
+    default: '1.0'
+  returns:
+    type: bool
+- kind: function
+  name: map_midi_note
+  signature: 'map_midi_note( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4) -> bool :'
+  cpp_signature: bool map_midi_note(unsigned int,TPyHandle<ATimeableValue>,int,int)
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: device_parameter
+    type: DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: note
+    type: int
+  returns:
+    type: bool
+- kind: function
+  name: map_midi_note_with_feedback_map
+  signature: 'map_midi_note_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4, (NoteFeedbackRule)arg5) -> bool :'
+  cpp_signature: bool map_midi_note_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NPythonMidiMap::TNoteFeedbackRule)
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: device_parameter
+    type: DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: note
+    type: int
+  - name: feedback_rule
+    type: NoteFeedbackRule
+  returns:
+    type: bool
+- kind: function
+  name: map_midi_pitchbend
+  signature: 'map_midi_pitchbend( (int)arg1, (DeviceParameter)arg2, (int)arg3, (bool)arg4) -> bool :'
+  cpp_signature: bool map_midi_pitchbend(unsigned int,TPyHandle<ATimeableValue>,int,bool)
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: device_parameter
+    type: DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: needs_takeover
+    type: bool
+  returns:
+    type: bool
+- kind: function
+  name: map_midi_pitchbend_with_feedback_map
+  signature: 'map_midi_pitchbend_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (PitchBendFeedbackRule)arg4, (bool)arg5) -> bool :'
+  cpp_signature: bool map_midi_pitchbend_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,NPythonMidiMap::TPitchBendFeedbackRule,bool)
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: device_parameter
+    type: DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: feedback_rule
+    type: PitchBendFeedbackRule
+  - name: needs_takeover
+    type: bool
+  returns:
+    type: bool
+- kind: function
+  name: send_feedback_for_parameter
+  signature: 'send_feedback_for_parameter( (int)arg1, (DeviceParameter)arg2) -> None :'
+  cpp_signature: void send_feedback_for_parameter(unsigned int,TPyHandle<ATimeableValue>)
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: device_parameter
+    type: DeviceParameter
+  returns:
+    type: None

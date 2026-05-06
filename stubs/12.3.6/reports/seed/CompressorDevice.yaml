@@ -1,0 +1,135 @@
+module: CompressorDevice
+members:
+- kind: class
+  name: CompressorDevice
+  raw_doc: This class represents a Compressor device.
+  ancestors:
+  - Device
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: available_input_routing_channels
+    raw_doc: Return a list of source channels for input routing in the sidechain.
+    type: RoutingChannelVector
+    repr: <class 'Track.RoutingChannelVector'>
+    element_repr: <class 'Track.RoutingChannel'>
+    settable: false
+    listenable:
+    - add_available_input_routing_channels_listener
+    - remove_available_input_routing_channels_listener
+    - available_input_routing_channels_has_listener
+  - kind: property
+    name: available_input_routing_types
+    raw_doc: Return a list of source types for input routing in the sidechain.
+    type: RoutingTypeVector
+    repr: <class 'Track.RoutingTypeVector'>
+    element_repr: <class 'Track.RoutingType'>
+    settable: false
+    listenable:
+    - add_available_input_routing_types_listener
+    - remove_available_input_routing_types_listener
+    - available_input_routing_types_has_listener
+  - kind: property
+    name: can_compare_ab
+    raw_doc: Returns true if the Device has the capability to AB compare.
+    type: bool
+    settable: false
+  - kind: property
+    name: can_have_chains
+    raw_doc: Returns true if the device is a rack.
+    type: bool
+    settable: false
+  - kind: property
+    name: can_have_drum_pads
+    raw_doc: Returns true if the device is a drum rack.
+    type: bool
+    settable: false
+  - kind: property
+    name: canonical_parent
+    raw_doc: Get the canonical parent of the Device.
+    type: Track
+    repr: <class 'Track.Track'>
+    settable: false
+  - kind: property
+    name: class_display_name
+    raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
+    type: str
+    settable: false
+  - kind: property
+    name: class_name
+    raw_doc: Return const access to the name of the device's class.
+    type: str
+    settable: false
+  - kind: property
+    name: input_routing_channel
+    raw_doc: |-
+      Get and set the current source channel for input routing in the sidechain.
+      Raises ValueError if the channel isn't one of the current values in
+      available_input_routing_channels.
+    type: RoutingChannel
+    repr: <class 'Track.RoutingChannel'>
+    settable: true
+    listenable:
+    - add_input_routing_channel_listener
+    - remove_input_routing_channel_listener
+    - input_routing_channel_has_listener
+  - kind: property
+    name: input_routing_type
+    raw_doc: |-
+      Get and set the current source type for input routing in the sidechain.
+      Raises ValueError if the type isn't one of the current values in
+      available_input_routing_types.
+    type: RoutingType
+    repr: <class 'Track.RoutingType'>
+    settable: true
+    listenable:
+    - add_input_routing_type_listener
+    - remove_input_routing_type_listener
+    - input_routing_type_has_listener
+  - kind: property
+    name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+  - kind: property
+    name: is_using_compare_preset_b
+    raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    type: bool
+    settable: true
+  - kind: property
+    name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+  - kind: property
+    name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+  - kind: property
+    name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+  - kind: property
+    name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: ATimeableValueVector
+    repr: <class 'Device.ATimeableValueVector'>
+    element_repr: <class 'DeviceParameter.DeviceParameter'>
+    settable: false
+  - kind: property
+    name: type
+    raw_doc: Return the type of the device.
+    type: DeviceType
+    repr: <class 'Device.DeviceType'>
+    settable: false
+  - kind: property
+    name: view
+    raw_doc: Representing the view aspects of a device.
+    type: View
+    repr: <class 'Device.View'>
+    settable: false

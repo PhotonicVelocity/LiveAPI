@@ -150,6 +150,26 @@ from `type:` + `element_repr:`).
 > through as `Base.Vector` / `Song.CuePoint` instead of the
 > `<class '...'>` literals. Override remains the escape hatch.
 
+## Property — listener-only signal
+
+Some classes carry listener triplets for names that aren't exposed as
+properties — events like `loop_jump`, `notes`, `view_focus_changed`,
+`midi_received`, or hidden state like `Clip.notes` and `Song.data`.
+These are emitted as `kind: property` with only `name:` and
+`listenable:` set. The absence of `type:` is the renderer's cue to treat
+them as signals (separate "Signals" section, no value rendering).
+
+```yaml
+- kind: property
+  name: loop_jump
+  listenable:
+    - add_loop_jump_listener
+    - remove_loop_jump_listener
+    - loop_jump_has_listener
+```
+
+Hand-curated descriptions and overrides apply normally.
+
 ## Method
 
 Real source: `Live.Song.Song.create_audio_track`. Parser splits the

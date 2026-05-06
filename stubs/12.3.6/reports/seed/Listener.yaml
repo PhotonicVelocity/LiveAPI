@@ -1,0 +1,60 @@
+module: Listener
+members:
+- kind: class
+  name: ListenerHandle
+  raw_doc: This class represents a Python listener when connected to a Live property.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: method
+    name: disconnect
+    raw_doc: Disconnects the listener from its property
+    signature: 'disconnect( (ListenerHandle)arg1) -> None :'
+    cpp_signature: void disconnect(LPythonRemote {lvalue})
+    returns:
+      type: None
+  - kind: property
+    name: listener_func
+    raw_doc: Returns the original function
+    type: Callable
+    settable: false
+  - kind: property
+    name: listener_self
+    raw_doc: Returns the weak reference to original self, if it was a bound method
+    type: Any
+    settable: false
+  - kind: property
+    name: name
+    raw_doc: Prints the name of the property that this listener is connected to
+    type: str
+    settable: false
+- kind: class
+  name: ListenerVector
+  raw_doc: A read only container for accessing a list of listeners.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  iterable: true
+  element_repr: <class 'ListenerHandle'>
+  members:
+  - kind: method
+    name: append
+    signature: 'append( (ListenerVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void append(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)
+    args:
+    - name: value
+      type: ListenerHandle
+    returns:
+      type: None
+  - kind: method
+    name: extend
+    signature: 'extend( (ListenerVector)arg1, (object)arg2) -> None :'
+    cpp_signature: void extend(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)
+    args:
+    - name: values
+      type: Iterable[ListenerHandle]
+    returns:
+      type: None

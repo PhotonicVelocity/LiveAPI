@@ -1,0 +1,48 @@
+module: ChainMixerDevice
+members:
+- kind: class
+  name: ChainMixerDevice
+  raw_doc: |-
+    This class represents a Chain's Mixer Device in Live, which gives you
+    access to the Volume, Panning, and Send properties of a Chain.
+  ancestors:
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: canonical_parent
+    raw_doc: Get the canonical parent of the mixer device.
+    type: Chain
+    repr: <class 'Chain.Chain'>
+    settable: false
+  - kind: property
+    name: chain_activator
+    raw_doc: Const access to the Chain's Activator Device Parameter.
+    type: DeviceParameter
+    repr: <class 'DeviceParameter.DeviceParameter'>
+    settable: false
+  - kind: property
+    name: panning
+    raw_doc: Const access to the Chain's Panning Device Parameter.
+    type: DeviceParameter
+    repr: <class 'DeviceParameter.DeviceParameter'>
+    settable: false
+  - kind: property
+    name: sends
+    raw_doc: Const access to the Chain's list of Send Amount Device Parameters.
+    type: Vector
+    repr: <class 'Base.Vector'>
+    element_repr: <class 'DeviceParameter'>
+    settable: false
+    listenable:
+    - add_sends_listener
+    - remove_sends_listener
+    - sends_has_listener
+  - kind: property
+    name: volume
+    raw_doc: Const access to the Chain's Volume Device Parameter.
+    type: DeviceParameter
+    repr: <class 'DeviceParameter.DeviceParameter'>
+    settable: false

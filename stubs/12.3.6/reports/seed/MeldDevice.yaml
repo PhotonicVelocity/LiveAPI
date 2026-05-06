@@ -1,0 +1,123 @@
+module: MeldDevice
+members:
+- kind: class
+  name: MeldDevice
+  raw_doc: This class represents a Meld device.
+  ancestors:
+  - Device
+  - LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  members:
+  - kind: property
+    name: can_compare_ab
+    raw_doc: Returns true if the Device has the capability to AB compare.
+    type: bool
+    settable: false
+  - kind: property
+    name: can_have_chains
+    raw_doc: Returns true if the device is a rack.
+    type: bool
+    settable: false
+  - kind: property
+    name: can_have_drum_pads
+    raw_doc: Returns true if the device is a drum rack.
+    type: bool
+    settable: false
+  - kind: property
+    name: canonical_parent
+    raw_doc: Get the canonical parent of the Device.
+    type: Track
+    repr: <class 'Track.Track'>
+    settable: false
+  - kind: property
+    name: class_display_name
+    raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
+    type: str
+    settable: false
+  - kind: property
+    name: class_name
+    raw_doc: Return const access to the name of the device's class.
+    type: str
+    settable: false
+  - kind: property
+    name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+  - kind: property
+    name: is_using_compare_preset_b
+    raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    type: bool
+    settable: true
+  - kind: property
+    name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+  - kind: property
+    name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+  - kind: property
+    name: mono_poly
+    raw_doc: Returns the mode of Polyphony
+    type: int
+    settable: true
+    listenable:
+    - add_mono_poly_listener
+    - remove_mono_poly_listener
+    - mono_poly_has_listener
+  - kind: property
+    name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+  - kind: property
+    name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: ATimeableValueVector
+    repr: <class 'Device.ATimeableValueVector'>
+    element_repr: <class 'DeviceParameter.DeviceParameter'>
+    settable: false
+  - kind: property
+    name: poly_voices
+    raw_doc: Return the Poly Voice count
+    type: int
+    settable: true
+    listenable:
+    - add_poly_voices_listener
+    - remove_poly_voices_listener
+    - poly_voices_has_listener
+  - kind: property
+    name: selected_engine
+    raw_doc: Return what Voice Engine is selected
+    type: bool
+    settable: true
+    listenable:
+    - add_selected_engine_listener
+    - remove_selected_engine_listener
+    - selected_engine_has_listener
+  - kind: property
+    name: type
+    raw_doc: Return the type of the device.
+    type: DeviceType
+    repr: <class 'Device.DeviceType'>
+    settable: false
+  - kind: property
+    name: unison_voices
+    raw_doc: Return the Unison Voice count
+    type: int
+    settable: true
+    listenable:
+    - add_unison_voices_listener
+    - remove_unison_voices_listener
+    - unison_voices_has_listener
+  - kind: property
+    name: view
+    raw_doc: Representing the view aspects of a device.
+    type: View
+    repr: <class 'Device.View'>
+    settable: false
