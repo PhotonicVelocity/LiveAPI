@@ -113,6 +113,12 @@ For detailed API documentation — including property restrictions (e.g. which t
 a given property), valid input ranges, and observable properties — see the
 [LiveAPI reference](https://photonicvelocity.github.io/LiveAPI/).
 
+The stubs are best-effort and have known limitations: types are conservative (args without a
+pinned-down type stay as `object`), names are decorative (PEP 570 positional-only markers prevent
+kwarg calls), and docstrings come verbatim from Live's runtime Boost.Python `__doc__` strings. See
+[Limitations & caveats](https://github.com/PhotonicVelocity/LiveAPI#limitations--caveats) in the
+repo README for the full posture and the current list of known weak spots.
+
 ## Source
 
 Generated from runtime introspection of Ableton Live {live_version}.
