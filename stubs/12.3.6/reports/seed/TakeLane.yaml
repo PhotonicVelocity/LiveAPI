@@ -1,0 +1,19 @@
+module: TakeLane
+primary_class:
+- name: TakeLane
+  raw_doc: This class represents a take lane in Live.
+  properties:
+  - name: arrangement_clips
+    listenable:
+    - add_arrangement_clips_listener
+    - remove_arrangement_clips_listener
+    - arrangement_clips_has_listener
+  - name: canonical_parent
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  methods:
+  - name: create_audio_clip
+  - name: create_midi_clip

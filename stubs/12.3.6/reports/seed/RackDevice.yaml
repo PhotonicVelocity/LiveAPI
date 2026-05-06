@@ -1,0 +1,108 @@
+module: RackDevice
+primary_class:
+- name: RackDevice
+  raw_doc: This class represents a Rack device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: can_show_chains
+  - name: canonical_parent
+  - name: chain_selector
+  - name: chains
+    listenable:
+    - add_chains_listener
+    - remove_chains_listener
+    - chains_has_listener
+  - name: class_display_name
+  - name: class_name
+  - name: drum_pads
+    listenable:
+    - add_drum_pads_listener
+    - remove_drum_pads_listener
+    - drum_pads_has_listener
+  - name: has_drum_pads
+    listenable:
+    - add_has_drum_pads_listener
+    - remove_has_drum_pads_listener
+    - has_drum_pads_has_listener
+  - name: has_macro_mappings
+    listenable:
+    - add_has_macro_mappings_listener
+    - remove_has_macro_mappings_listener
+    - has_macro_mappings_has_listener
+  - name: is_active
+  - name: is_showing_chains
+    listenable:
+    - add_is_showing_chains_listener
+    - remove_is_showing_chains_listener
+    - is_showing_chains_has_listener
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: macros_mapped
+    listenable:
+    - add_macros_mapped_listener
+    - remove_macros_mapped_listener
+    - macros_mapped_has_listener
+  - name: name
+  - name: parameters
+  - name: return_chains
+    listenable:
+    - add_return_chains_listener
+    - remove_return_chains_listener
+    - return_chains_has_listener
+  - name: selected_variation_index
+  - name: type
+  - name: variation_count
+    listenable:
+    - add_variation_count_listener
+    - remove_variation_count_listener
+    - variation_count_has_listener
+  - name: view
+  - name: visible_drum_pads
+    listenable:
+    - add_visible_drum_pads_listener
+    - remove_visible_drum_pads_listener
+    - visible_drum_pads_has_listener
+  - name: visible_macro_count
+    listenable:
+    - add_visible_macro_count_listener
+    - remove_visible_macro_count_listener
+    - visible_macro_count_has_listener
+  methods:
+  - name: add_macro
+  - name: copy_pad
+  - name: delete_selected_variation
+  - name: insert_chain
+  - name: randomize_macros
+  - name: recall_last_used_variation
+  - name: recall_selected_variation
+  - name: remove_macro
+  - name: store_variation
+  classes:
+  - name: View
+    raw_doc: Representing the view aspects of a rack device.
+    properties:
+    - name: canonical_parent
+    - name: drum_pads_scroll_position
+      listenable:
+      - add_drum_pads_scroll_position_listener
+      - remove_drum_pads_scroll_position_listener
+      - drum_pads_scroll_position_has_listener
+    - name: is_collapsed
+    - name: is_showing_chain_devices
+      listenable:
+      - add_is_showing_chain_devices_listener
+      - remove_is_showing_chain_devices_listener
+      - is_showing_chain_devices_has_listener
+    - name: selected_chain
+      listenable:
+      - add_selected_chain_listener
+      - remove_selected_chain_listener
+      - selected_chain_has_listener
+    - name: selected_drum_pad
+      listenable:
+      - add_selected_drum_pad_listener
+      - remove_selected_drum_pad_listener
+      - selected_drum_pad_has_listener

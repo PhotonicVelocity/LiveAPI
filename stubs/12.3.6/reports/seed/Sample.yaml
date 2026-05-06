@@ -1,0 +1,121 @@
+module: Sample
+primary_class:
+- name: Sample
+  raw_doc: This class represents a sample file loaded into a Simpler instance.
+  properties:
+  - name: beats_granulation_resolution
+    listenable:
+    - add_beats_granulation_resolution_listener
+    - remove_beats_granulation_resolution_listener
+    - beats_granulation_resolution_has_listener
+  - name: beats_transient_envelope
+    listenable:
+    - add_beats_transient_envelope_listener
+    - remove_beats_transient_envelope_listener
+    - beats_transient_envelope_has_listener
+  - name: beats_transient_loop_mode
+    listenable:
+    - add_beats_transient_loop_mode_listener
+    - remove_beats_transient_loop_mode_listener
+    - beats_transient_loop_mode_has_listener
+  - name: canonical_parent
+  - name: complex_pro_envelope
+    listenable:
+    - add_complex_pro_envelope_listener
+    - remove_complex_pro_envelope_listener
+    - complex_pro_envelope_has_listener
+  - name: complex_pro_formants
+    listenable:
+    - add_complex_pro_formants_listener
+    - remove_complex_pro_formants_listener
+    - complex_pro_formants_has_listener
+  - name: end_marker
+    listenable:
+    - add_end_marker_listener
+    - remove_end_marker_listener
+    - end_marker_has_listener
+  - name: file_path
+    listenable:
+    - add_file_path_listener
+    - remove_file_path_listener
+    - file_path_has_listener
+  - name: gain
+    listenable:
+    - add_gain_listener
+    - remove_gain_listener
+    - gain_has_listener
+  - name: length
+  - name: sample_rate
+  - name: slices
+    listenable:
+    - add_slices_listener
+    - remove_slices_listener
+    - slices_has_listener
+  - name: slicing_beat_division
+    listenable:
+    - add_slicing_beat_division_listener
+    - remove_slicing_beat_division_listener
+    - slicing_beat_division_has_listener
+  - name: slicing_region_count
+    listenable:
+    - add_slicing_region_count_listener
+    - remove_slicing_region_count_listener
+    - slicing_region_count_has_listener
+  - name: slicing_sensitivity
+    listenable:
+    - add_slicing_sensitivity_listener
+    - remove_slicing_sensitivity_listener
+    - slicing_sensitivity_has_listener
+  - name: slicing_style
+    listenable:
+    - add_slicing_style_listener
+    - remove_slicing_style_listener
+    - slicing_style_has_listener
+  - name: start_marker
+    listenable:
+    - add_start_marker_listener
+    - remove_start_marker_listener
+    - start_marker_has_listener
+  - name: texture_flux
+    listenable:
+    - add_texture_flux_listener
+    - remove_texture_flux_listener
+    - texture_flux_has_listener
+  - name: texture_grain_size
+    listenable:
+    - add_texture_grain_size_listener
+    - remove_texture_grain_size_listener
+    - texture_grain_size_has_listener
+  - name: tones_grain_size
+    listenable:
+    - add_tones_grain_size_listener
+    - remove_tones_grain_size_listener
+    - tones_grain_size_has_listener
+  - name: warp_markers
+    listenable:
+    - add_warp_markers_listener
+    - remove_warp_markers_listener
+    - warp_markers_has_listener
+  - name: warp_mode
+    listenable:
+    - add_warp_mode_listener
+    - remove_warp_mode_listener
+    - warp_mode_has_listener
+  - name: warping
+    listenable:
+    - add_warping_listener
+    - remove_warping_listener
+    - warping_has_listener
+  methods:
+  - name: beat_to_sample_time
+  - name: clear_slices
+  - name: gain_display_string
+  - name: insert_slice
+  - name: move_slice
+  - name: remove_slice
+  - name: reset_slices
+  - name: sample_to_beat_time
+enums:
+- name: SlicingBeatDivision
+- name: SlicingStyle
+- name: TransientLoopMode

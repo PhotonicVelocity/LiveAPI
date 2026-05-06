@@ -1,0 +1,55 @@
+module: Chain
+primary_class:
+- name: Chain
+  raw_doc: This class represents a group device chain in Live.
+  properties:
+  - name: canonical_parent
+  - name: color
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+  - name: color_index
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+  - name: devices
+    listenable:
+    - add_devices_listener
+    - remove_devices_listener
+    - devices_has_listener
+  - name: has_audio_input
+  - name: has_audio_output
+  - name: has_midi_input
+  - name: has_midi_output
+  - name: is_auto_colored
+    listenable:
+    - add_is_auto_colored_listener
+    - remove_is_auto_colored_listener
+    - is_auto_colored_has_listener
+  - name: mixer_device
+  - name: mute
+    listenable:
+    - add_mute_listener
+    - remove_mute_listener
+    - mute_has_listener
+  - name: muted_via_solo
+    listenable:
+    - add_muted_via_solo_listener
+    - remove_muted_via_solo_listener
+    - muted_via_solo_has_listener
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: solo
+    listenable:
+    - add_solo_listener
+    - remove_solo_listener
+    - solo_has_listener
+  methods:
+  - name: delete_device
+  - name: duplicate_device
+  - name: insert_device

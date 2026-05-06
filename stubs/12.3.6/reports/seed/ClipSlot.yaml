@@ -1,0 +1,56 @@
+module: ClipSlot
+primary_class:
+- name: ClipSlot
+  raw_doc: This class represents an entry in Lives Session view matrix.
+  properties:
+  - name: canonical_parent
+  - name: clip
+  - name: color
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+  - name: color_index
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+  - name: controls_other_clips
+    listenable:
+    - add_controls_other_clips_listener
+    - remove_controls_other_clips_listener
+    - controls_other_clips_has_listener
+  - name: has_clip
+    listenable:
+    - add_has_clip_listener
+    - remove_has_clip_listener
+    - has_clip_has_listener
+  - name: has_stop_button
+    listenable:
+    - add_has_stop_button_listener
+    - remove_has_stop_button_listener
+    - has_stop_button_has_listener
+  - name: is_group_slot
+  - name: is_playing
+  - name: is_recording
+  - name: is_triggered
+    listenable:
+    - add_is_triggered_listener
+    - remove_is_triggered_listener
+    - is_triggered_has_listener
+  - name: playing_status
+    listenable:
+    - add_playing_status_listener
+    - remove_playing_status_listener
+    - playing_status_has_listener
+  - name: will_record_on_start
+  methods:
+  - name: create_audio_clip
+  - name: create_clip
+  - name: delete_clip
+  - name: duplicate_clip_to
+  - name: fire
+  - name: set_fire_button_state
+  - name: stop
+enums:
+- name: ClipSlotPlayingState

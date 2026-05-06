@@ -1,0 +1,317 @@
+module: Track
+primary_class:
+- name: Track
+  raw_doc: |-
+    This class represents a track in Live. It can be either an Audio
+    track, a MIDI Track, a Return Track or the Main track. The Main
+    Track and at least one Audio or MIDI track will be always present.
+    Return Tracks are optional.
+  properties:
+  - name: arm
+    listenable:
+    - add_arm_listener
+    - remove_arm_listener
+    - arm_has_listener
+  - name: arrangement_clips
+    listenable:
+    - add_arrangement_clips_listener
+    - remove_arrangement_clips_listener
+    - arrangement_clips_has_listener
+  - name: available_input_routing_channels
+    listenable:
+    - add_available_input_routing_channels_listener
+    - remove_available_input_routing_channels_listener
+    - available_input_routing_channels_has_listener
+  - name: available_input_routing_types
+    listenable:
+    - add_available_input_routing_types_listener
+    - remove_available_input_routing_types_listener
+    - available_input_routing_types_has_listener
+  - name: available_output_routing_channels
+    listenable:
+    - add_available_output_routing_channels_listener
+    - remove_available_output_routing_channels_listener
+    - available_output_routing_channels_has_listener
+  - name: available_output_routing_types
+    listenable:
+    - add_available_output_routing_types_listener
+    - remove_available_output_routing_types_listener
+    - available_output_routing_types_has_listener
+  - name: back_to_arranger
+    listenable:
+    - add_back_to_arranger_listener
+    - remove_back_to_arranger_listener
+    - back_to_arranger_has_listener
+  - name: can_be_armed
+  - name: can_be_frozen
+  - name: can_show_chains
+  - name: canonical_parent
+  - name: clip_slots
+    listenable:
+    - add_clip_slots_listener
+    - remove_clip_slots_listener
+    - clip_slots_has_listener
+  - name: color
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+  - name: color_index
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+  - name: current_input_routing
+    listenable:
+    - add_current_input_routing_listener
+    - remove_current_input_routing_listener
+    - current_input_routing_has_listener
+  - name: current_input_sub_routing
+    listenable:
+    - add_current_input_sub_routing_listener
+    - remove_current_input_sub_routing_listener
+    - current_input_sub_routing_has_listener
+  - name: current_monitoring_state
+    listenable:
+    - add_current_monitoring_state_listener
+    - remove_current_monitoring_state_listener
+    - current_monitoring_state_has_listener
+  - name: current_output_routing
+    listenable:
+    - add_current_output_routing_listener
+    - remove_current_output_routing_listener
+    - current_output_routing_has_listener
+  - name: current_output_sub_routing
+    listenable:
+    - add_current_output_sub_routing_listener
+    - remove_current_output_sub_routing_listener
+    - current_output_sub_routing_has_listener
+  - name: devices
+    listenable:
+    - add_devices_listener
+    - remove_devices_listener
+    - devices_has_listener
+  - name: fired_slot_index
+    listenable:
+    - add_fired_slot_index_listener
+    - remove_fired_slot_index_listener
+    - fired_slot_index_has_listener
+  - name: fold_state
+  - name: group_track
+  - name: has_audio_input
+    listenable:
+    - add_has_audio_input_listener
+    - remove_has_audio_input_listener
+    - has_audio_input_has_listener
+  - name: has_audio_output
+    listenable:
+    - add_has_audio_output_listener
+    - remove_has_audio_output_listener
+    - has_audio_output_has_listener
+  - name: has_midi_input
+    listenable:
+    - add_has_midi_input_listener
+    - remove_has_midi_input_listener
+    - has_midi_input_has_listener
+  - name: has_midi_output
+    listenable:
+    - add_has_midi_output_listener
+    - remove_has_midi_output_listener
+    - has_midi_output_has_listener
+  - name: implicit_arm
+    listenable:
+    - add_implicit_arm_listener
+    - remove_implicit_arm_listener
+    - implicit_arm_has_listener
+  - name: input_meter_left
+    listenable:
+    - add_input_meter_left_listener
+    - remove_input_meter_left_listener
+    - input_meter_left_has_listener
+  - name: input_meter_level
+    listenable:
+    - add_input_meter_level_listener
+    - remove_input_meter_level_listener
+    - input_meter_level_has_listener
+  - name: input_meter_right
+    listenable:
+    - add_input_meter_right_listener
+    - remove_input_meter_right_listener
+    - input_meter_right_has_listener
+  - name: input_routing_channel
+    listenable:
+    - add_input_routing_channel_listener
+    - remove_input_routing_channel_listener
+    - input_routing_channel_has_listener
+  - name: input_routing_type
+    listenable:
+    - add_input_routing_type_listener
+    - remove_input_routing_type_listener
+    - input_routing_type_has_listener
+  - name: input_routings
+    listenable:
+    - add_input_routings_listener
+    - remove_input_routings_listener
+    - input_routings_has_listener
+  - name: input_sub_routings
+    listenable:
+    - add_input_sub_routings_listener
+    - remove_input_sub_routings_listener
+    - input_sub_routings_has_listener
+  - name: is_foldable
+  - name: is_frozen
+    listenable:
+    - add_is_frozen_listener
+    - remove_is_frozen_listener
+    - is_frozen_has_listener
+  - name: is_grouped
+  - name: is_part_of_selection
+  - name: is_showing_chains
+    listenable:
+    - add_is_showing_chains_listener
+    - remove_is_showing_chains_listener
+    - is_showing_chains_has_listener
+  - name: is_visible
+  - name: mixer_device
+  - name: mute
+    listenable:
+    - add_mute_listener
+    - remove_mute_listener
+    - mute_has_listener
+  - name: muted_via_solo
+    listenable:
+    - add_muted_via_solo_listener
+    - remove_muted_via_solo_listener
+    - muted_via_solo_has_listener
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: output_meter_left
+    listenable:
+    - add_output_meter_left_listener
+    - remove_output_meter_left_listener
+    - output_meter_left_has_listener
+  - name: output_meter_level
+    listenable:
+    - add_output_meter_level_listener
+    - remove_output_meter_level_listener
+    - output_meter_level_has_listener
+  - name: output_meter_right
+    listenable:
+    - add_output_meter_right_listener
+    - remove_output_meter_right_listener
+    - output_meter_right_has_listener
+  - name: output_routing_channel
+    listenable:
+    - add_output_routing_channel_listener
+    - remove_output_routing_channel_listener
+    - output_routing_channel_has_listener
+  - name: output_routing_type
+    listenable:
+    - add_output_routing_type_listener
+    - remove_output_routing_type_listener
+    - output_routing_type_has_listener
+  - name: output_routings
+    listenable:
+    - add_output_routings_listener
+    - remove_output_routings_listener
+    - output_routings_has_listener
+  - name: output_sub_routings
+    listenable:
+    - add_output_sub_routings_listener
+    - remove_output_sub_routings_listener
+    - output_sub_routings_has_listener
+  - name: performance_impact
+    listenable:
+    - add_performance_impact_listener
+    - remove_performance_impact_listener
+    - performance_impact_has_listener
+  - name: playing_slot_index
+    listenable:
+    - add_playing_slot_index_listener
+    - remove_playing_slot_index_listener
+    - playing_slot_index_has_listener
+  - name: solo
+    listenable:
+    - add_solo_listener
+    - remove_solo_listener
+    - solo_has_listener
+  - name: take_lanes
+    listenable:
+    - add_take_lanes_listener
+    - remove_take_lanes_listener
+    - take_lanes_has_listener
+  - name: view
+  - name: data
+    listenable:
+    - add_data_listener
+    - remove_data_listener
+    - data_has_listener
+  methods:
+  - name: create_audio_clip
+  - name: create_midi_clip
+  - name: create_take_lane
+  - name: delete_clip
+  - name: delete_device
+  - name: duplicate_clip_slot
+  - name: duplicate_clip_to_arrangement
+  - name: duplicate_device
+  - name: get_data
+  - name: insert_device
+  - name: jump_in_running_session_clip
+  - name: set_data
+  - name: stop_all_clips
+  classes:
+  - name: View
+    raw_doc: Representing the view aspects of a Track.
+    properties:
+    - name: canonical_parent
+    - name: device_insert_mode
+      listenable:
+      - add_device_insert_mode_listener
+      - remove_device_insert_mode_listener
+      - device_insert_mode_has_listener
+    - name: is_collapsed
+      listenable:
+      - add_is_collapsed_listener
+      - remove_is_collapsed_listener
+      - is_collapsed_has_listener
+    - name: selected_device
+      listenable:
+      - add_selected_device_listener
+      - remove_selected_device_listener
+      - selected_device_has_listener
+    methods:
+    - name: select_instrument
+  enums:
+  - name: monitoring_states
+classes:
+- name: DeviceContainer
+  raw_doc: This class is a common super class of Track and Chain
+- name: RoutingChannel
+  raw_doc: This class represents a routing channel.
+  properties:
+  - name: display_name
+  - name: layout
+- name: RoutingChannelVector
+  raw_doc: A container for returning routing channels from Live.
+  methods:
+  - name: append
+  - name: extend
+- name: RoutingType
+  raw_doc: This class represents a routing type.
+  properties:
+  - name: attached_object
+  - name: category
+  - name: display_name
+- name: RoutingTypeVector
+  raw_doc: A container for returning routing types from Live.
+  methods:
+  - name: append
+  - name: extend
+enums:
+- name: DeviceInsertMode
+- name: RoutingChannelLayout
+- name: RoutingTypeCategory

@@ -1,0 +1,108 @@
+module: WavetableDevice
+primary_class:
+- name: WavetableDevice
+  raw_doc: This class represents a Wavetable device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: filter_routing
+    listenable:
+    - add_filter_routing_listener
+    - remove_filter_routing_listener
+    - filter_routing_has_listener
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: mono_poly
+    listenable:
+    - add_mono_poly_listener
+    - remove_mono_poly_listener
+    - mono_poly_has_listener
+  - name: name
+  - name: oscillator_1_effect_mode
+    listenable:
+    - add_oscillator_1_effect_mode_listener
+    - remove_oscillator_1_effect_mode_listener
+    - oscillator_1_effect_mode_has_listener
+  - name: oscillator_1_wavetable_category
+    listenable:
+    - add_oscillator_1_wavetable_category_listener
+    - remove_oscillator_1_wavetable_category_listener
+    - oscillator_1_wavetable_category_has_listener
+  - name: oscillator_1_wavetable_index
+    listenable:
+    - add_oscillator_1_wavetable_index_listener
+    - remove_oscillator_1_wavetable_index_listener
+    - oscillator_1_wavetable_index_has_listener
+  - name: oscillator_1_wavetables
+    listenable:
+    - add_oscillator_1_wavetables_listener
+    - remove_oscillator_1_wavetables_listener
+    - oscillator_1_wavetables_has_listener
+  - name: oscillator_2_effect_mode
+    listenable:
+    - add_oscillator_2_effect_mode_listener
+    - remove_oscillator_2_effect_mode_listener
+    - oscillator_2_effect_mode_has_listener
+  - name: oscillator_2_wavetable_category
+    listenable:
+    - add_oscillator_2_wavetable_category_listener
+    - remove_oscillator_2_wavetable_category_listener
+    - oscillator_2_wavetable_category_has_listener
+  - name: oscillator_2_wavetable_index
+    listenable:
+    - add_oscillator_2_wavetable_index_listener
+    - remove_oscillator_2_wavetable_index_listener
+    - oscillator_2_wavetable_index_has_listener
+  - name: oscillator_2_wavetables
+    listenable:
+    - add_oscillator_2_wavetables_listener
+    - remove_oscillator_2_wavetables_listener
+    - oscillator_2_wavetables_has_listener
+  - name: oscillator_wavetable_categories
+  - name: parameters
+  - name: poly_voices
+    listenable:
+    - add_poly_voices_listener
+    - remove_poly_voices_listener
+    - poly_voices_has_listener
+  - name: type
+  - name: unison_mode
+    listenable:
+    - add_unison_mode_listener
+    - remove_unison_mode_listener
+    - unison_mode_has_listener
+  - name: unison_voice_count
+    listenable:
+    - add_unison_voice_count_listener
+    - remove_unison_voice_count_listener
+    - unison_voice_count_has_listener
+  - name: view
+  - name: visible_modulation_target_names
+    listenable:
+    - add_visible_modulation_target_names_listener
+    - remove_visible_modulation_target_names_listener
+    - visible_modulation_target_names_has_listener
+  - name: modulation_matrix_changed
+    listenable:
+    - add_modulation_matrix_changed_listener
+    - remove_modulation_matrix_changed_listener
+    - modulation_matrix_changed_has_listener
+  methods:
+  - name: add_parameter_to_modulation_matrix
+  - name: get_modulation_target_parameter_name
+  - name: get_modulation_value
+  - name: is_parameter_modulatable
+  - name: set_modulation_value
+enums:
+- name: EffectMode
+- name: FilterRouting
+- name: ModulationSource
+- name: UnisonMode
+- name: VoiceCount
+- name: Voicing

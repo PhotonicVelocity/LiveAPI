@@ -1,0 +1,30 @@
+module: ShifterDevice
+primary_class:
+- name: ShifterDevice
+  raw_doc: This class represents a Shifter device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: name
+  - name: parameters
+  - name: pitch_bend_range
+    listenable:
+    - add_pitch_bend_range_listener
+    - remove_pitch_bend_range_listener
+    - pitch_bend_range_has_listener
+  - name: pitch_mode_index
+    listenable:
+    - add_pitch_mode_index_listener
+    - remove_pitch_mode_index_listener
+    - pitch_mode_index_has_listener
+  - name: pitch_mode_list
+  - name: type
+  - name: view

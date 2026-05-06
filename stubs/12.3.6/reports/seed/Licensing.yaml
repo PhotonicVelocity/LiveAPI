@@ -1,0 +1,57 @@
+module: Licensing
+classes:
+- name: ProgressDialog
+  raw_doc: A modal dialog showing a message and a progress animation.
+  methods:
+  - name: end_modal_loop
+  - name: run_in_modal_loop
+  - name: set_status_message
+- name: PythonLicensingBridge
+  raw_doc: Interface to the internal licensing services.
+  properties:
+  - name: base_product_id
+  - name: in_sassafras_mode
+  - name: license_must_match_variant
+  - name: random_number_for_trial_authorization
+  - name: set_has_unsaved_changes
+  methods:
+  - name: authorize_with_sassafras
+  - name: create_new_live_set
+  - name: deauthenticate_user
+  - name: get_progress_dialog
+  - name: get_session_id
+  - name: get_startup_dialog
+  - name: get_trial_time_left
+  - name: invoke_pack_installation_callback
+  - name: load_and_convert_legacy_unlock_cfg
+  - name: process_license_response
+  - name: process_trial_response
+  - name: request_exit
+  - name: save_current_set
+  - name: set_network_timer
+  - name: store_session_id
+- name: StartupDialog
+  raw_doc: Serves as an entry point for the user to authorize Live on first launch.
+  methods:
+  - name: end_modal_loop
+  - name: run_in_modal_loop
+  - name: set_notification_message
+- name: UnlockStatus
+  raw_doc: Returns relevant information after unlock
+  properties:
+  - name: authorization_deactivated
+  - name: authorization_expired
+  - name: has_max_unlock_products
+  - name: temp_demo_mode
+  - name: time_limited
+  - name: unlock_error
+  - name: unlocked
+enums:
+- name: TrialContext
+functions:
+- name: authorization_clock_days_ahead
+- name: get_authorization_page_url
+- name: get_purchase_live_url
+- name: get_services_url
+- name: get_unlock_dir
+- name: launch_web_browser

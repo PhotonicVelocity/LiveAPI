@@ -1,0 +1,55 @@
+module: HybridReverbDevice
+primary_class:
+- name: HybridReverbDevice
+  raw_doc: This class represents a Hybrid Reverb device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: ir_attack_time
+    listenable:
+    - add_ir_attack_time_listener
+    - remove_ir_attack_time_listener
+    - ir_attack_time_has_listener
+  - name: ir_category_index
+    listenable:
+    - add_ir_category_index_listener
+    - remove_ir_category_index_listener
+    - ir_category_index_has_listener
+  - name: ir_category_list
+  - name: ir_decay_time
+    listenable:
+    - add_ir_decay_time_listener
+    - remove_ir_decay_time_listener
+    - ir_decay_time_has_listener
+  - name: ir_file_index
+    listenable:
+    - add_ir_file_index_listener
+    - remove_ir_file_index_listener
+    - ir_file_index_has_listener
+  - name: ir_file_list
+    listenable:
+    - add_ir_file_list_listener
+    - remove_ir_file_list_listener
+    - ir_file_list_has_listener
+  - name: ir_size_factor
+    listenable:
+    - add_ir_size_factor_listener
+    - remove_ir_size_factor_listener
+    - ir_size_factor_has_listener
+  - name: ir_time_shaping_on
+    listenable:
+    - add_ir_time_shaping_on_listener
+    - remove_ir_time_shaping_on_listener
+    - ir_time_shaping_on_has_listener
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: name
+  - name: parameters
+  - name: type
+  - name: view

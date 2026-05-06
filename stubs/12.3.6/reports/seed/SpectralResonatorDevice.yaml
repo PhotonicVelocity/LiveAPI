@@ -1,0 +1,79 @@
+module: SpectralResonatorDevice
+primary_class:
+- name: SpectralResonatorDevice
+  raw_doc: This class represents a Spectral Resonator device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: frequency_dial_mode
+    listenable:
+    - add_frequency_dial_mode_listener
+    - remove_frequency_dial_mode_listener
+    - frequency_dial_mode_has_listener
+  - name: frequency_dial_mode_list
+    listenable:
+    - add_frequency_dial_mode_list_listener
+    - remove_frequency_dial_mode_list_listener
+    - frequency_dial_mode_list_has_listener
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: midi_gate
+    listenable:
+    - add_midi_gate_listener
+    - remove_midi_gate_listener
+    - midi_gate_has_listener
+  - name: midi_gate_list
+    listenable:
+    - add_midi_gate_list_listener
+    - remove_midi_gate_list_listener
+    - midi_gate_list_has_listener
+  - name: mod_mode
+    listenable:
+    - add_mod_mode_listener
+    - remove_mod_mode_listener
+    - mod_mode_has_listener
+  - name: mod_mode_list
+    listenable:
+    - add_mod_mode_list_listener
+    - remove_mod_mode_list_listener
+    - mod_mode_list_has_listener
+  - name: mono_poly
+    listenable:
+    - add_mono_poly_listener
+    - remove_mono_poly_listener
+    - mono_poly_has_listener
+  - name: mono_poly_list
+    listenable:
+    - add_mono_poly_list_listener
+    - remove_mono_poly_list_listener
+    - mono_poly_list_has_listener
+  - name: name
+  - name: parameters
+  - name: pitch_bend_range
+    listenable:
+    - add_pitch_bend_range_listener
+    - remove_pitch_bend_range_listener
+    - pitch_bend_range_has_listener
+  - name: pitch_mode
+    listenable:
+    - add_pitch_mode_listener
+    - remove_pitch_mode_listener
+    - pitch_mode_has_listener
+  - name: pitch_mode_list
+    listenable:
+    - add_pitch_mode_list_listener
+    - remove_pitch_mode_list_listener
+    - pitch_mode_list_has_listener
+  - name: polyphony
+    listenable:
+    - add_polyphony_listener
+    - remove_polyphony_listener
+    - polyphony_has_listener
+  - name: type
+  - name: view

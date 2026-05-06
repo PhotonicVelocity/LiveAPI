@@ -1,0 +1,108 @@
+module: DriftDevice
+primary_class:
+- name: DriftDevice
+  raw_doc: This class represents a Drift device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: mod_matrix_filter_source_1_index
+    listenable:
+    - add_mod_matrix_filter_source_1_index_listener
+    - remove_mod_matrix_filter_source_1_index_listener
+    - mod_matrix_filter_source_1_index_has_listener
+  - name: mod_matrix_filter_source_1_list
+  - name: mod_matrix_filter_source_2_index
+    listenable:
+    - add_mod_matrix_filter_source_2_index_listener
+    - remove_mod_matrix_filter_source_2_index_listener
+    - mod_matrix_filter_source_2_index_has_listener
+  - name: mod_matrix_filter_source_2_list
+  - name: mod_matrix_lfo_source_index
+    listenable:
+    - add_mod_matrix_lfo_source_index_listener
+    - remove_mod_matrix_lfo_source_index_listener
+    - mod_matrix_lfo_source_index_has_listener
+  - name: mod_matrix_lfo_source_list
+  - name: mod_matrix_pitch_source_1_index
+    listenable:
+    - add_mod_matrix_pitch_source_1_index_listener
+    - remove_mod_matrix_pitch_source_1_index_listener
+    - mod_matrix_pitch_source_1_index_has_listener
+  - name: mod_matrix_pitch_source_1_list
+  - name: mod_matrix_pitch_source_2_index
+    listenable:
+    - add_mod_matrix_pitch_source_2_index_listener
+    - remove_mod_matrix_pitch_source_2_index_listener
+    - mod_matrix_pitch_source_2_index_has_listener
+  - name: mod_matrix_pitch_source_2_list
+  - name: mod_matrix_shape_source_index
+    listenable:
+    - add_mod_matrix_shape_source_index_listener
+    - remove_mod_matrix_shape_source_index_listener
+    - mod_matrix_shape_source_index_has_listener
+  - name: mod_matrix_shape_source_list
+  - name: mod_matrix_source_1_index
+    listenable:
+    - add_mod_matrix_source_1_index_listener
+    - remove_mod_matrix_source_1_index_listener
+    - mod_matrix_source_1_index_has_listener
+  - name: mod_matrix_source_1_list
+  - name: mod_matrix_source_2_index
+    listenable:
+    - add_mod_matrix_source_2_index_listener
+    - remove_mod_matrix_source_2_index_listener
+    - mod_matrix_source_2_index_has_listener
+  - name: mod_matrix_source_2_list
+  - name: mod_matrix_source_3_index
+    listenable:
+    - add_mod_matrix_source_3_index_listener
+    - remove_mod_matrix_source_3_index_listener
+    - mod_matrix_source_3_index_has_listener
+  - name: mod_matrix_source_3_list
+  - name: mod_matrix_target_1_index
+    listenable:
+    - add_mod_matrix_target_1_index_listener
+    - remove_mod_matrix_target_1_index_listener
+    - mod_matrix_target_1_index_has_listener
+  - name: mod_matrix_target_1_list
+  - name: mod_matrix_target_2_index
+    listenable:
+    - add_mod_matrix_target_2_index_listener
+    - remove_mod_matrix_target_2_index_listener
+    - mod_matrix_target_2_index_has_listener
+  - name: mod_matrix_target_2_list
+  - name: mod_matrix_target_3_index
+    listenable:
+    - add_mod_matrix_target_3_index_listener
+    - remove_mod_matrix_target_3_index_listener
+    - mod_matrix_target_3_index_has_listener
+  - name: mod_matrix_target_3_list
+  - name: name
+  - name: parameters
+  - name: pitch_bend_range
+    listenable:
+    - add_pitch_bend_range_listener
+    - remove_pitch_bend_range_listener
+    - pitch_bend_range_has_listener
+  - name: type
+  - name: view
+  - name: voice_count_index
+    listenable:
+    - add_voice_count_index_listener
+    - remove_voice_count_index_listener
+    - voice_count_index_has_listener
+  - name: voice_count_list
+  - name: voice_mode_index
+    listenable:
+    - add_voice_mode_index_listener
+    - remove_voice_mode_index_listener
+    - voice_mode_index_has_listener
+  - name: voice_mode_list

@@ -1,0 +1,30 @@
+module: Envelope
+primary_class:
+- name: Envelope
+  raw_doc: This class represents an automation or modulation envelope in Live.
+  properties:
+  - name: canonical_parent
+  methods:
+  - name: delete_events_in_range
+  - name: events_in_range
+  - name: insert_step
+  - name: value_at_time
+classes:
+- name: EnvelopeEvent
+  raw_doc: This is a class that represents an envelope event.
+  properties:
+  - name: control_coefficients
+  - name: time
+  - name: value
+- name: EnvelopeEventControlCoefficients
+  raw_doc: This class represents the control coefficients of an envelope event.
+  properties:
+  - name: x1
+  - name: x2
+  - name: y1
+  - name: y2
+- name: EnvelopeEventVector
+  raw_doc: A container for holding envelope events.
+  methods:
+  - name: append
+  - name: extend

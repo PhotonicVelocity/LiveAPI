@@ -1,0 +1,85 @@
+module: CcControlDevice
+primary_class:
+- name: CcControlDevice
+  raw_doc: This class represents a CcControl device.
+  properties:
+  - name: custom_bool_target
+    listenable:
+    - add_custom_bool_target_listener
+    - remove_custom_bool_target_listener
+    - custom_bool_target_has_listener
+  - name: custom_bool_target_list
+  - name: custom_float_target_0
+    listenable:
+    - add_custom_float_target_0_listener
+    - remove_custom_float_target_0_listener
+    - custom_float_target_0_has_listener
+  - name: custom_float_target_0_list
+  - name: custom_float_target_1
+    listenable:
+    - add_custom_float_target_1_listener
+    - remove_custom_float_target_1_listener
+    - custom_float_target_1_has_listener
+  - name: custom_float_target_10
+    listenable:
+    - add_custom_float_target_10_listener
+    - remove_custom_float_target_10_listener
+    - custom_float_target_10_has_listener
+  - name: custom_float_target_10_list
+  - name: custom_float_target_11
+    listenable:
+    - add_custom_float_target_11_listener
+    - remove_custom_float_target_11_listener
+    - custom_float_target_11_has_listener
+  - name: custom_float_target_11_list
+  - name: custom_float_target_1_list
+  - name: custom_float_target_2
+    listenable:
+    - add_custom_float_target_2_listener
+    - remove_custom_float_target_2_listener
+    - custom_float_target_2_has_listener
+  - name: custom_float_target_2_list
+  - name: custom_float_target_3
+    listenable:
+    - add_custom_float_target_3_listener
+    - remove_custom_float_target_3_listener
+    - custom_float_target_3_has_listener
+  - name: custom_float_target_3_list
+  - name: custom_float_target_4
+    listenable:
+    - add_custom_float_target_4_listener
+    - remove_custom_float_target_4_listener
+    - custom_float_target_4_has_listener
+  - name: custom_float_target_4_list
+  - name: custom_float_target_5
+    listenable:
+    - add_custom_float_target_5_listener
+    - remove_custom_float_target_5_listener
+    - custom_float_target_5_has_listener
+  - name: custom_float_target_5_list
+  - name: custom_float_target_6
+    listenable:
+    - add_custom_float_target_6_listener
+    - remove_custom_float_target_6_listener
+    - custom_float_target_6_has_listener
+  - name: custom_float_target_6_list
+  - name: custom_float_target_7
+    listenable:
+    - add_custom_float_target_7_listener
+    - remove_custom_float_target_7_listener
+    - custom_float_target_7_has_listener
+  - name: custom_float_target_7_list
+  - name: custom_float_target_8
+    listenable:
+    - add_custom_float_target_8_listener
+    - remove_custom_float_target_8_listener
+    - custom_float_target_8_has_listener
+  - name: custom_float_target_8_list
+  - name: custom_float_target_9
+    listenable:
+    - add_custom_float_target_9_listener
+    - remove_custom_float_target_9_listener
+    - custom_float_target_9_has_listener
+  - name: custom_float_target_9_list
+  methods:
+  - name: resend

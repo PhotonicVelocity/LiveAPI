@@ -1,0 +1,15 @@
+module: Listener
+classes:
+- name: ListenerHandle
+  raw_doc: This class represents a Python listener when connected to a Live property.
+  properties:
+  - name: listener_func
+  - name: listener_self
+  - name: name
+  methods:
+  - name: disconnect
+- name: ListenerVector
+  raw_doc: A read only container for accessing a list of listeners.
+  methods:
+  - name: append
+  - name: extend

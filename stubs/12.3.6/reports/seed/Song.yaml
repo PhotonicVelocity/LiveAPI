@@ -1,0 +1,386 @@
+module: Song
+primary_class:
+- name: Song
+  raw_doc: This class represents a Live set.
+  properties:
+  - name: appointed_device
+    listenable:
+    - add_appointed_device_listener
+    - remove_appointed_device_listener
+    - appointed_device_has_listener
+  - name: arrangement_overdub
+    listenable:
+    - add_arrangement_overdub_listener
+    - remove_arrangement_overdub_listener
+    - arrangement_overdub_has_listener
+  - name: back_to_arranger
+    listenable:
+    - add_back_to_arranger_listener
+    - remove_back_to_arranger_listener
+    - back_to_arranger_has_listener
+  - name: can_capture_midi
+    listenable:
+    - add_can_capture_midi_listener
+    - remove_can_capture_midi_listener
+    - can_capture_midi_has_listener
+  - name: can_jump_to_next_cue
+    listenable:
+    - add_can_jump_to_next_cue_listener
+    - remove_can_jump_to_next_cue_listener
+    - can_jump_to_next_cue_has_listener
+  - name: can_jump_to_prev_cue
+    listenable:
+    - add_can_jump_to_prev_cue_listener
+    - remove_can_jump_to_prev_cue_listener
+    - can_jump_to_prev_cue_has_listener
+  - name: can_redo
+  - name: can_undo
+  - name: canonical_parent
+  - name: clip_trigger_quantization
+    listenable:
+    - add_clip_trigger_quantization_listener
+    - remove_clip_trigger_quantization_listener
+    - clip_trigger_quantization_has_listener
+  - name: count_in_duration
+    listenable:
+    - add_count_in_duration_listener
+    - remove_count_in_duration_listener
+    - count_in_duration_has_listener
+  - name: cue_points
+    listenable:
+    - add_cue_points_listener
+    - remove_cue_points_listener
+    - cue_points_has_listener
+  - name: current_song_time
+    listenable:
+    - add_current_song_time_listener
+    - remove_current_song_time_listener
+    - current_song_time_has_listener
+  - name: exclusive_arm
+    listenable:
+    - add_exclusive_arm_listener
+    - remove_exclusive_arm_listener
+    - exclusive_arm_has_listener
+  - name: exclusive_solo
+  - name: file_path
+  - name: groove_amount
+    listenable:
+    - add_groove_amount_listener
+    - remove_groove_amount_listener
+    - groove_amount_has_listener
+  - name: groove_pool
+  - name: is_ableton_link_enabled
+    listenable:
+    - add_is_ableton_link_enabled_listener
+    - remove_is_ableton_link_enabled_listener
+    - is_ableton_link_enabled_has_listener
+  - name: is_ableton_link_start_stop_sync_enabled
+    listenable:
+    - add_is_ableton_link_start_stop_sync_enabled_listener
+    - remove_is_ableton_link_start_stop_sync_enabled_listener
+    - is_ableton_link_start_stop_sync_enabled_has_listener
+  - name: is_counting_in
+    listenable:
+    - add_is_counting_in_listener
+    - remove_is_counting_in_listener
+    - is_counting_in_has_listener
+  - name: is_playing
+    listenable:
+    - add_is_playing_listener
+    - remove_is_playing_listener
+    - is_playing_has_listener
+  - name: last_event_time
+  - name: loop
+    listenable:
+    - add_loop_listener
+    - remove_loop_listener
+    - loop_has_listener
+  - name: loop_length
+    listenable:
+    - add_loop_length_listener
+    - remove_loop_length_listener
+    - loop_length_has_listener
+  - name: loop_start
+    listenable:
+    - add_loop_start_listener
+    - remove_loop_start_listener
+    - loop_start_has_listener
+  - name: master_track
+  - name: metronome
+    listenable:
+    - add_metronome_listener
+    - remove_metronome_listener
+    - metronome_has_listener
+  - name: midi_recording_quantization
+    listenable:
+    - add_midi_recording_quantization_listener
+    - remove_midi_recording_quantization_listener
+    - midi_recording_quantization_has_listener
+  - name: name
+  - name: nudge_down
+    listenable:
+    - add_nudge_down_listener
+    - remove_nudge_down_listener
+    - nudge_down_has_listener
+  - name: nudge_up
+    listenable:
+    - add_nudge_up_listener
+    - remove_nudge_up_listener
+    - nudge_up_has_listener
+  - name: overdub
+    listenable:
+    - add_overdub_listener
+    - remove_overdub_listener
+    - overdub_has_listener
+  - name: punch_in
+    listenable:
+    - add_punch_in_listener
+    - remove_punch_in_listener
+    - punch_in_has_listener
+  - name: punch_out
+    listenable:
+    - add_punch_out_listener
+    - remove_punch_out_listener
+    - punch_out_has_listener
+  - name: re_enable_automation_enabled
+    listenable:
+    - add_re_enable_automation_enabled_listener
+    - remove_re_enable_automation_enabled_listener
+    - re_enable_automation_enabled_has_listener
+  - name: record_mode
+    listenable:
+    - add_record_mode_listener
+    - remove_record_mode_listener
+    - record_mode_has_listener
+  - name: return_tracks
+    listenable:
+    - add_return_tracks_listener
+    - remove_return_tracks_listener
+    - return_tracks_has_listener
+  - name: root_note
+    listenable:
+    - add_root_note_listener
+    - remove_root_note_listener
+    - root_note_has_listener
+  - name: scale_intervals
+    listenable:
+    - add_scale_intervals_listener
+    - remove_scale_intervals_listener
+    - scale_intervals_has_listener
+  - name: scale_mode
+    listenable:
+    - add_scale_mode_listener
+    - remove_scale_mode_listener
+    - scale_mode_has_listener
+  - name: scale_name
+    listenable:
+    - add_scale_name_listener
+    - remove_scale_name_listener
+    - scale_name_has_listener
+  - name: scenes
+    listenable:
+    - add_scenes_listener
+    - remove_scenes_listener
+    - scenes_has_listener
+  - name: select_on_launch
+  - name: session_automation_record
+    listenable:
+    - add_session_automation_record_listener
+    - remove_session_automation_record_listener
+    - session_automation_record_has_listener
+  - name: session_record
+    listenable:
+    - add_session_record_listener
+    - remove_session_record_listener
+    - session_record_has_listener
+  - name: session_record_status
+    listenable:
+    - add_session_record_status_listener
+    - remove_session_record_status_listener
+    - session_record_status_has_listener
+  - name: signature_denominator
+    listenable:
+    - add_signature_denominator_listener
+    - remove_signature_denominator_listener
+    - signature_denominator_has_listener
+  - name: signature_numerator
+    listenable:
+    - add_signature_numerator_listener
+    - remove_signature_numerator_listener
+    - signature_numerator_has_listener
+  - name: song_length
+    listenable:
+    - add_song_length_listener
+    - remove_song_length_listener
+    - song_length_has_listener
+  - name: start_time
+    listenable:
+    - add_start_time_listener
+    - remove_start_time_listener
+    - start_time_has_listener
+  - name: swing_amount
+    listenable:
+    - add_swing_amount_listener
+    - remove_swing_amount_listener
+    - swing_amount_has_listener
+  - name: tempo
+    listenable:
+    - add_tempo_listener
+    - remove_tempo_listener
+    - tempo_has_listener
+  - name: tempo_follower_enabled
+    listenable:
+    - add_tempo_follower_enabled_listener
+    - remove_tempo_follower_enabled_listener
+    - tempo_follower_enabled_has_listener
+  - name: tracks
+    listenable:
+    - add_tracks_listener
+    - remove_tracks_listener
+    - tracks_has_listener
+  - name: tuning_system
+    listenable:
+    - add_tuning_system_listener
+    - remove_tuning_system_listener
+    - tuning_system_has_listener
+  - name: view
+  - name: visible_tracks
+    listenable:
+    - add_visible_tracks_listener
+    - remove_visible_tracks_listener
+    - visible_tracks_has_listener
+  - name: data
+    listenable:
+    - add_data_listener
+    - remove_data_listener
+    - data_has_listener
+  - name: scale_information
+    listenable:
+    - add_scale_information_listener
+    - remove_scale_information_listener
+    - scale_information_has_listener
+  methods:
+  - name: begin_undo_step
+  - name: capture_and_insert_scene
+  - name: capture_midi
+  - name: continue_playing
+  - name: create_audio_track
+  - name: create_midi_track
+  - name: create_return_track
+  - name: create_scene
+  - name: delete_return_track
+  - name: delete_scene
+  - name: delete_track
+  - name: duplicate_scene
+  - name: duplicate_track
+  - name: end_undo_step
+  - name: find_device_position
+  - name: force_link_beat_time
+  - name: get_beats_loop_length
+  - name: get_beats_loop_start
+  - name: get_current_beats_song_time
+  - name: get_current_smpte_song_time
+  - name: get_data
+  - name: is_cue_point_selected
+  - name: jump_by
+  - name: jump_to_next_cue
+  - name: jump_to_prev_cue
+  - name: move_device
+  - name: play_selection
+  - name: re_enable_automation
+  - name: redo
+  - name: scrub_by
+  - name: set_data
+  - name: set_or_delete_cue
+  - name: start_playing
+  - name: stop_all_clips
+  - name: stop_playing
+  - name: tap_tempo
+  - name: trigger_session_record
+  - name: undo
+  classes:
+  - name: View
+    raw_doc: 'Representing the view aspects of a Live document: The Session and Arrangerview.'
+    properties:
+    - name: canonical_parent
+    - name: detail_clip
+      listenable:
+      - add_detail_clip_listener
+      - remove_detail_clip_listener
+      - detail_clip_has_listener
+    - name: draw_mode
+      listenable:
+      - add_draw_mode_listener
+      - remove_draw_mode_listener
+      - draw_mode_has_listener
+    - name: follow_song
+      listenable:
+      - add_follow_song_listener
+      - remove_follow_song_listener
+      - follow_song_has_listener
+    - name: highlighted_clip_slot
+    - name: selected_chain
+      listenable:
+      - add_selected_chain_listener
+      - remove_selected_chain_listener
+      - selected_chain_has_listener
+    - name: selected_parameter
+      listenable:
+      - add_selected_parameter_listener
+      - remove_selected_parameter_listener
+      - selected_parameter_has_listener
+    - name: selected_scene
+      listenable:
+      - add_selected_scene_listener
+      - remove_selected_scene_listener
+      - selected_scene_has_listener
+    - name: selected_track
+      listenable:
+      - add_selected_track_listener
+      - remove_selected_track_listener
+      - selected_track_has_listener
+    methods:
+    - name: select_device
+classes:
+- name: BeatTime
+  raw_doc: Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
+  properties:
+  - name: bars
+  - name: beats
+  - name: sub_division
+  - name: ticks
+- name: CuePoint
+  raw_doc: Represents a 'Marker' in the arrangement.
+  properties:
+  - name: canonical_parent
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: time
+    listenable:
+    - add_time_listener
+    - remove_time_listener
+    - time_has_listener
+  methods:
+  - name: jump
+- name: SmptTime
+  raw_doc: |-
+    Represents a Time, split into Hours, Minutes, Seconds and Frames.
+    The frame type must be specified when calling a function that returns
+    a SmptTime.
+  properties:
+  - name: frames
+  - name: hours
+  - name: minutes
+  - name: seconds
+enums:
+- name: CaptureDestination
+- name: CaptureMode
+- name: Quantization
+- name: RecordingQuantization
+- name: SessionRecordStatus
+- name: TimeFormat
+functions:
+- name: get_all_scales_ordered

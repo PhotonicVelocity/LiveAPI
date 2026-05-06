@@ -1,0 +1,16 @@
+module: ChainMixerDevice
+primary_class:
+- name: ChainMixerDevice
+  raw_doc: |-
+    This class represents a Chain's Mixer Device in Live, which gives you
+    access to the Volume, Panning, and Send properties of a Chain.
+  properties:
+  - name: canonical_parent
+  - name: chain_activator
+  - name: panning
+  - name: sends
+    listenable:
+    - add_sends_listener
+    - remove_sends_listener
+    - sends_has_listener
+  - name: volume

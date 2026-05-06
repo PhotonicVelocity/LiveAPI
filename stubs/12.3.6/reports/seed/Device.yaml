@@ -1,0 +1,63 @@
+module: Device
+primary_class:
+- name: Device
+  raw_doc: This class represents a MIDI or Audio DSP-Device in Live.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: is_active
+    listenable:
+    - add_is_active_listener
+    - remove_is_active_listener
+    - is_active_has_listener
+  - name: is_using_compare_preset_b
+    listenable:
+    - add_is_using_compare_preset_b_listener
+    - remove_is_using_compare_preset_b_listener
+    - is_using_compare_preset_b_has_listener
+  - name: latency_in_ms
+    listenable:
+    - add_latency_in_ms_listener
+    - remove_latency_in_ms_listener
+    - latency_in_ms_has_listener
+  - name: latency_in_samples
+    listenable:
+    - add_latency_in_samples_listener
+    - remove_latency_in_samples_listener
+    - latency_in_samples_has_listener
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: parameters
+    listenable:
+    - add_parameters_listener
+    - remove_parameters_listener
+    - parameters_has_listener
+  - name: type
+  - name: view
+  methods:
+  - name: save_preset_to_compare_ab_slot
+  - name: store_chosen_bank
+  classes:
+  - name: View
+    raw_doc: Representing the view aspects of a device.
+    properties:
+    - name: canonical_parent
+    - name: is_collapsed
+      listenable:
+      - add_is_collapsed_listener
+      - remove_is_collapsed_listener
+      - is_collapsed_has_listener
+classes:
+- name: ATimeableValueVector
+  methods:
+  - name: append
+  - name: extend
+enums:
+- name: DeviceType

@@ -1,0 +1,34 @@
+module: MixerDevice
+primary_class:
+- name: MixerDevice
+  raw_doc: |-
+    This class represents a Mixer Device in Live, which gives you
+    access to the Volume and Panning properties of a Track.
+  properties:
+  - name: canonical_parent
+  - name: crossfade_assign
+    listenable:
+    - add_crossfade_assign_listener
+    - remove_crossfade_assign_listener
+    - crossfade_assign_has_listener
+  - name: crossfader
+  - name: cue_volume
+  - name: left_split_stereo
+  - name: panning
+  - name: panning_mode
+    listenable:
+    - add_panning_mode_listener
+    - remove_panning_mode_listener
+    - panning_mode_has_listener
+  - name: right_split_stereo
+  - name: sends
+    listenable:
+    - add_sends_listener
+    - remove_sends_listener
+    - sends_has_listener
+  - name: song_tempo
+  - name: track_activator
+  - name: volume
+  enums:
+  - name: crossfade_assignments
+  - name: panning_modes

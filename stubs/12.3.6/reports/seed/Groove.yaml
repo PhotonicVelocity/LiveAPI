@@ -1,0 +1,34 @@
+module: Groove
+primary_class:
+- name: Groove
+  raw_doc: This class represents a groove in Live.
+  properties:
+  - name: base
+  - name: canonical_parent
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: quantization_amount
+    listenable:
+    - add_quantization_amount_listener
+    - remove_quantization_amount_listener
+    - quantization_amount_has_listener
+  - name: random_amount
+    listenable:
+    - add_random_amount_listener
+    - remove_random_amount_listener
+    - random_amount_has_listener
+  - name: timing_amount
+    listenable:
+    - add_timing_amount_listener
+    - remove_timing_amount_listener
+    - timing_amount_has_listener
+  - name: velocity_amount
+    listenable:
+    - add_velocity_amount_listener
+    - remove_velocity_amount_listener
+    - velocity_amount_has_listener
+enums:
+- name: Base

@@ -1,0 +1,38 @@
+module: MidiMap
+classes:
+- name: CCFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  properties:
+  - name: cc_no
+  - name: cc_value_map
+  - name: channel
+  - name: delay_in_ms
+  - name: enabled
+- name: NoteFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  properties:
+  - name: channel
+  - name: delay_in_ms
+  - name: enabled
+  - name: note_no
+  - name: vel_map
+- name: PitchBendFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  properties:
+  - name: channel
+  - name: delay_in_ms
+  - name: enabled
+  - name: value_pair_map
+enums:
+- name: MapMode
+functions:
+- name: forward_midi_cc
+- name: forward_midi_note
+- name: forward_midi_pitchbend
+- name: map_midi_cc
+- name: map_midi_cc_with_feedback_map
+- name: map_midi_note
+- name: map_midi_note_with_feedback_map
+- name: map_midi_pitchbend
+- name: map_midi_pitchbend_with_feedback_map
+- name: send_feedback_for_parameter

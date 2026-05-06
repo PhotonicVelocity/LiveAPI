@@ -1,0 +1,39 @@
+module: CompressorDevice
+primary_class:
+- name: CompressorDevice
+  raw_doc: This class represents a Compressor device.
+  properties:
+  - name: available_input_routing_channels
+    listenable:
+    - add_available_input_routing_channels_listener
+    - remove_available_input_routing_channels_listener
+    - available_input_routing_channels_has_listener
+  - name: available_input_routing_types
+    listenable:
+    - add_available_input_routing_types_listener
+    - remove_available_input_routing_types_listener
+    - available_input_routing_types_has_listener
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: input_routing_channel
+    listenable:
+    - add_input_routing_channel_listener
+    - remove_input_routing_channel_listener
+    - input_routing_channel_has_listener
+  - name: input_routing_type
+    listenable:
+    - add_input_routing_type_listener
+    - remove_input_routing_type_listener
+    - input_routing_type_has_listener
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: name
+  - name: parameters
+  - name: type
+  - name: view

@@ -1,0 +1,63 @@
+module: Browser
+primary_class:
+- name: Browser
+  raw_doc: This class represents the live browser data base.
+  properties:
+  - name: audio_effects
+  - name: clips
+  - name: colors
+  - name: current_project
+  - name: drums
+  - name: filter_type
+    listenable:
+    - add_filter_type_listener
+    - remove_filter_type_listener
+    - filter_type_has_listener
+  - name: hotswap_target
+    listenable:
+    - add_hotswap_target_listener
+    - remove_hotswap_target_listener
+    - hotswap_target_has_listener
+  - name: instruments
+  - name: legacy_libraries
+  - name: max_for_live
+  - name: midi_effects
+  - name: packs
+  - name: plugins
+  - name: samples
+  - name: sounds
+  - name: user_folders
+  - name: user_library
+  - name: full_refresh
+    listenable:
+    - add_full_refresh_listener
+    - remove_full_refresh_listener
+    - full_refresh_has_listener
+  methods:
+  - name: load_item
+  - name: preview_item
+  - name: relation_to_hotswap_target
+  - name: stop_preview
+classes:
+- name: BrowserItem
+  raw_doc: This class represents an item of the browser hierarchy.
+  properties:
+  - name: children
+  - name: is_device
+  - name: is_folder
+  - name: is_loadable
+  - name: is_selected
+  - name: iter_children
+  - name: name
+  - name: source
+  - name: uri
+- name: BrowserItemIterator
+  raw_doc: This class iterates over children of another BrowserItem.
+- name: BrowserItemVector
+  raw_doc: A container for returning browser items from Live.
+  methods:
+  - name: append
+  - name: extend
+enums:
+- name: FilterType
+- name: Relation

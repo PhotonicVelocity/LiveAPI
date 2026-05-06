@@ -1,0 +1,11 @@
+module: GroovePool
+primary_class:
+- name: GroovePool
+  raw_doc: This class represents the groove pool in Live.
+  properties:
+  - name: canonical_parent
+  - name: grooves
+    listenable:
+    - add_grooves_listener
+    - remove_grooves_listener
+    - grooves_has_listener

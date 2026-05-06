@@ -1,0 +1,31 @@
+module: PluginDevice
+primary_class:
+- name: PluginDevice
+  raw_doc: This class represents a plugin device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: name
+  - name: parameters
+  - name: presets
+    listenable:
+    - add_presets_listener
+    - remove_presets_listener
+    - presets_has_listener
+  - name: selected_preset_index
+    listenable:
+    - add_selected_preset_index_listener
+    - remove_selected_preset_index_listener
+    - selected_preset_index_has_listener
+  - name: type
+  - name: view
+  methods:
+  - name: get_parameter_names

@@ -1,0 +1,34 @@
+module: DrumChain
+primary_class:
+- name: DrumChain
+  raw_doc: This class represents a drum group device chain in Live.
+  properties:
+  - name: canonical_parent
+  - name: choke_group
+    listenable:
+    - add_choke_group_listener
+    - remove_choke_group_listener
+    - choke_group_has_listener
+  - name: color
+  - name: color_index
+  - name: devices
+  - name: has_audio_input
+  - name: has_audio_output
+  - name: has_midi_input
+  - name: has_midi_output
+  - name: in_note
+    listenable:
+    - add_in_note_listener
+    - remove_in_note_listener
+    - in_note_has_listener
+  - name: is_auto_colored
+  - name: mixer_device
+  - name: mute
+  - name: muted_via_solo
+  - name: name
+  - name: out_note
+    listenable:
+    - add_out_note_listener
+    - remove_out_note_listener
+    - out_note_has_listener
+  - name: solo

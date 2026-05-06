@@ -1,0 +1,61 @@
+module: Scene
+primary_class:
+- name: Scene
+  raw_doc: This class represents an series of ClipSlots in Lives Sessionview matrix.
+  properties:
+  - name: canonical_parent
+  - name: clip_slots
+    listenable:
+    - add_clip_slots_listener
+    - remove_clip_slots_listener
+    - clip_slots_has_listener
+  - name: color
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+  - name: color_index
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+  - name: is_empty
+  - name: is_triggered
+    listenable:
+    - add_is_triggered_listener
+    - remove_is_triggered_listener
+    - is_triggered_has_listener
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: tempo
+    listenable:
+    - add_tempo_listener
+    - remove_tempo_listener
+    - tempo_has_listener
+  - name: tempo_enabled
+    listenable:
+    - add_tempo_enabled_listener
+    - remove_tempo_enabled_listener
+    - tempo_enabled_has_listener
+  - name: time_signature_denominator
+    listenable:
+    - add_time_signature_denominator_listener
+    - remove_time_signature_denominator_listener
+    - time_signature_denominator_has_listener
+  - name: time_signature_enabled
+    listenable:
+    - add_time_signature_enabled_listener
+    - remove_time_signature_enabled_listener
+    - time_signature_enabled_has_listener
+  - name: time_signature_numerator
+    listenable:
+    - add_time_signature_numerator_listener
+    - remove_time_signature_numerator_listener
+    - time_signature_numerator_has_listener
+  methods:
+  - name: fire
+  - name: fire_as_selected
+  - name: set_fire_button_state

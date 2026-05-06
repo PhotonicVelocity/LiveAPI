@@ -1,0 +1,49 @@
+module: Base
+classes:
+- name: FloatVector
+  raw_doc: A simple container for returning floats from Live.
+  methods:
+  - name: append
+  - name: extend
+- name: IntU64Vector
+  raw_doc: A simple container for returning unsigned long integers from Live.
+  methods:
+  - name: append
+  - name: extend
+- name: IntVector
+  raw_doc: A simple container for returning integers from Live.
+  methods:
+  - name: append
+  - name: extend
+- name: LimitationError
+- name: ObjectVector
+  raw_doc: A simple read only container for returning python objects.
+  methods:
+  - name: append
+  - name: extend
+- name: StringVector
+  raw_doc: A simple container for returning strings from Live.
+  methods:
+  - name: append
+  - name: extend
+- name: Text
+  raw_doc: A translatable, immutable string.
+  properties:
+  - name: text
+- name: Timer
+  raw_doc: A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer.
+  properties:
+  - name: running
+  methods:
+  - name: restart
+  - name: start
+  - name: stop
+- name: Vector
+  raw_doc: A simple read only container for returning objects from Live.
+  methods:
+  - name: append
+  - name: extend
+functions:
+- name: get_text
+- name: log
+- name: subst_args

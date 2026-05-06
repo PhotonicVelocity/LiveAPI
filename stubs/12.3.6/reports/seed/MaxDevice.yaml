@@ -1,0 +1,49 @@
+module: MaxDevice
+primary_class:
+- name: MaxDevice
+  raw_doc: This class represents a Max for Live device.
+  properties:
+  - name: audio_inputs
+    listenable:
+    - add_audio_inputs_listener
+    - remove_audio_inputs_listener
+    - audio_inputs_has_listener
+  - name: audio_outputs
+    listenable:
+    - add_audio_outputs_listener
+    - remove_audio_outputs_listener
+    - audio_outputs_has_listener
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: midi_inputs
+    listenable:
+    - add_midi_inputs_listener
+    - remove_midi_inputs_listener
+    - midi_inputs_has_listener
+  - name: midi_outputs
+    listenable:
+    - add_midi_outputs_listener
+    - remove_midi_outputs_listener
+    - midi_outputs_has_listener
+  - name: name
+  - name: parameters
+  - name: type
+  - name: view
+  - name: bank_parameters_changed
+    listenable:
+    - add_bank_parameters_changed_listener
+    - remove_bank_parameters_changed_listener
+    - bank_parameters_changed_has_listener
+  methods:
+  - name: get_bank_count
+  - name: get_bank_name
+  - name: get_bank_parameters
+  - name: get_value_item_icons

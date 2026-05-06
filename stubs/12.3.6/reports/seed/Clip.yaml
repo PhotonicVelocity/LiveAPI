@@ -1,0 +1,284 @@
+module: Clip
+primary_class:
+- name: Clip
+  raw_doc: |-
+    This class represents a Clip in Live. It can be either an Audio
+    Clip or a MIDI Clip, in an Arrangement or the Session, depending
+    on the Track (Slot) it lives in.
+  properties:
+  - name: automation_envelopes
+  - name: available_warp_modes
+  - name: canonical_parent
+  - name: color
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+  - name: color_index
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+  - name: end_marker
+    listenable:
+    - add_end_marker_listener
+    - remove_end_marker_listener
+    - end_marker_has_listener
+  - name: end_time
+    listenable:
+    - add_end_time_listener
+    - remove_end_time_listener
+    - end_time_has_listener
+  - name: file_path
+    listenable:
+    - add_file_path_listener
+    - remove_file_path_listener
+    - file_path_has_listener
+  - name: gain
+    listenable:
+    - add_gain_listener
+    - remove_gain_listener
+    - gain_has_listener
+  - name: gain_display_string
+  - name: groove
+    listenable:
+    - add_groove_listener
+    - remove_groove_listener
+    - groove_has_listener
+  - name: has_envelopes
+    listenable:
+    - add_has_envelopes_listener
+    - remove_has_envelopes_listener
+    - has_envelopes_has_listener
+  - name: has_groove
+  - name: is_arrangement_clip
+  - name: is_audio_clip
+  - name: is_midi_clip
+  - name: is_overdubbing
+    listenable:
+    - add_is_overdubbing_listener
+    - remove_is_overdubbing_listener
+    - is_overdubbing_has_listener
+  - name: is_playing
+  - name: is_recording
+    listenable:
+    - add_is_recording_listener
+    - remove_is_recording_listener
+    - is_recording_has_listener
+  - name: is_session_clip
+  - name: is_take_lane_clip
+  - name: is_triggered
+  - name: launch_mode
+    listenable:
+    - add_launch_mode_listener
+    - remove_launch_mode_listener
+    - launch_mode_has_listener
+  - name: launch_quantization
+    listenable:
+    - add_launch_quantization_listener
+    - remove_launch_quantization_listener
+    - launch_quantization_has_listener
+  - name: legato
+    listenable:
+    - add_legato_listener
+    - remove_legato_listener
+    - legato_has_listener
+  - name: length
+  - name: loop_end
+    listenable:
+    - add_loop_end_listener
+    - remove_loop_end_listener
+    - loop_end_has_listener
+  - name: loop_start
+    listenable:
+    - add_loop_start_listener
+    - remove_loop_start_listener
+    - loop_start_has_listener
+  - name: looping
+    listenable:
+    - add_looping_listener
+    - remove_looping_listener
+    - looping_has_listener
+  - name: muted
+    listenable:
+    - add_muted_listener
+    - remove_muted_listener
+    - muted_has_listener
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: pitch_coarse
+    listenable:
+    - add_pitch_coarse_listener
+    - remove_pitch_coarse_listener
+    - pitch_coarse_has_listener
+  - name: pitch_fine
+    listenable:
+    - add_pitch_fine_listener
+    - remove_pitch_fine_listener
+    - pitch_fine_has_listener
+  - name: playing_position
+    listenable:
+    - add_playing_position_listener
+    - remove_playing_position_listener
+    - playing_position_has_listener
+  - name: position
+    listenable:
+    - add_position_listener
+    - remove_position_listener
+    - position_has_listener
+  - name: ram_mode
+    listenable:
+    - add_ram_mode_listener
+    - remove_ram_mode_listener
+    - ram_mode_has_listener
+  - name: sample_length
+  - name: sample_rate
+  - name: signature_denominator
+    listenable:
+    - add_signature_denominator_listener
+    - remove_signature_denominator_listener
+    - signature_denominator_has_listener
+  - name: signature_numerator
+    listenable:
+    - add_signature_numerator_listener
+    - remove_signature_numerator_listener
+    - signature_numerator_has_listener
+  - name: start_marker
+    listenable:
+    - add_start_marker_listener
+    - remove_start_marker_listener
+    - start_marker_has_listener
+  - name: start_time
+    listenable:
+    - add_start_time_listener
+    - remove_start_time_listener
+    - start_time_has_listener
+  - name: velocity_amount
+    listenable:
+    - add_velocity_amount_listener
+    - remove_velocity_amount_listener
+    - velocity_amount_has_listener
+  - name: view
+  - name: warp_markers
+    listenable:
+    - add_warp_markers_listener
+    - remove_warp_markers_listener
+    - warp_markers_has_listener
+  - name: warp_mode
+    listenable:
+    - add_warp_mode_listener
+    - remove_warp_mode_listener
+    - warp_mode_has_listener
+  - name: warping
+    listenable:
+    - add_warping_listener
+    - remove_warping_listener
+    - warping_has_listener
+  - name: will_record_on_start
+  - name: loop_jump
+    listenable:
+    - add_loop_jump_listener
+    - remove_loop_jump_listener
+    - loop_jump_has_listener
+  - name: notes
+    listenable:
+    - add_notes_listener
+    - remove_notes_listener
+    - notes_has_listener
+  - name: playing_status
+    listenable:
+    - add_playing_status_listener
+    - remove_playing_status_listener
+    - playing_status_has_listener
+  methods:
+  - name: add_new_notes
+  - name: add_warp_marker
+  - name: apply_note_modifications
+  - name: automation_envelope
+  - name: beat_to_sample_time
+  - name: clear_all_envelopes
+  - name: clear_envelope
+  - name: create_automation_envelope
+  - name: crop
+  - name: deselect_all_notes
+  - name: duplicate_loop
+  - name: duplicate_notes_by_id
+  - name: duplicate_region
+  - name: fire
+  - name: get_all_notes_extended
+  - name: get_notes
+  - name: get_notes_by_id
+  - name: get_notes_extended
+  - name: get_selected_notes
+  - name: get_selected_notes_extended
+  - name: move_playing_pos
+  - name: move_warp_marker
+  - name: note_number_to_name
+  - name: quantize
+  - name: quantize_pitch
+  - name: remove_notes
+  - name: remove_notes_by_id
+  - name: remove_notes_extended
+  - name: remove_warp_marker
+  - name: replace_selected_notes
+  - name: sample_to_beat_time
+  - name: scrub
+  - name: seconds_to_sample_time
+  - name: select_all_notes
+  - name: select_notes_by_id
+  - name: set_fire_button_state
+  - name: set_notes
+  - name: stop
+  - name: stop_scrub
+  classes:
+  - name: View
+    raw_doc: Representing the view aspects of a Clip.
+    properties:
+    - name: canonical_parent
+    - name: grid_is_triplet
+    - name: grid_quantization
+    methods:
+    - name: hide_envelope
+    - name: select_envelope_parameter
+    - name: show_envelope
+    - name: show_loop
+classes:
+- name: MidiNote
+  raw_doc: An object representing a MIDI Note
+  properties:
+  - name: duration
+  - name: mute
+  - name: note_id
+  - name: pitch
+  - name: probability
+  - name: release_velocity
+  - name: start_time
+  - name: velocity
+  - name: velocity_deviation
+- name: MidiNoteSpecification
+  raw_doc: |-
+    An object specifying the data for creating a MIDI note. To be used with the
+    add_new_notes function.
+- name: MidiNoteVector
+  raw_doc: A container for holding MIDI notes from Live.
+  methods:
+  - name: append
+  - name: extend
+- name: WarpMarker
+  raw_doc: This class represents a WarpMarker type.
+  properties:
+  - name: beat_time
+  - name: sample_time
+- name: WarpMarkerVector
+  raw_doc: A container for returning warp markers from Live.
+  methods:
+  - name: append
+  - name: extend
+enums:
+- name: ClipLaunchQuantization
+- name: GridQuantization
+- name: LaunchMode
+- name: WarpMode

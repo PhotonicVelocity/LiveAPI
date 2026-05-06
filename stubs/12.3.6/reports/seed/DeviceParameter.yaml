@@ -1,0 +1,49 @@
+module: DeviceParameter
+primary_class:
+- name: DeviceParameter
+  raw_doc: |-
+    This class represents a (automatable) parameter within a MIDI or
+    Audio DSP-Device.
+  properties:
+  - name: automation_state
+    listenable:
+    - add_automation_state_listener
+    - remove_automation_state_listener
+    - automation_state_has_listener
+  - name: canonical_parent
+  - name: default_value
+  - name: display_value
+    listenable:
+    - add_display_value_listener
+    - remove_display_value_listener
+    - display_value_has_listener
+  - name: is_enabled
+  - name: is_quantized
+  - name: max
+  - name: min
+  - name: name
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+  - name: original_name
+  - name: short_value_items
+  - name: state
+    listenable:
+    - add_state_listener
+    - remove_state_listener
+    - state_has_listener
+  - name: value
+    listenable:
+    - add_value_listener
+    - remove_value_listener
+    - value_has_listener
+  - name: value_items
+  methods:
+  - name: begin_gesture
+  - name: end_gesture
+  - name: re_enable_automation
+  - name: str_for_value
+enums:
+- name: AutomationState
+- name: ParameterState

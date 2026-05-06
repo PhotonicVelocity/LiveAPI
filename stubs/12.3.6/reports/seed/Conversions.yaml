@@ -1,0 +1,11 @@
+module: Conversions
+enums:
+- name: AudioToMidiType
+functions:
+- name: audio_to_midi_clip
+- name: create_drum_rack_from_audio_clip
+- name: create_midi_track_from_drum_pad
+- name: create_midi_track_with_simpler
+- name: is_convertible_to_midi
+- name: move_devices_on_track_to_new_drum_rack_pad
+- name: sliced_simpler_to_drum_rack

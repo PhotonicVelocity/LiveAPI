@@ -1,0 +1,52 @@
+module: LooperDevice
+primary_class:
+- name: LooperDevice
+  raw_doc: This class represents a Looper device.
+  properties:
+  - name: can_compare_ab
+  - name: can_have_chains
+  - name: can_have_drum_pads
+  - name: canonical_parent
+  - name: class_display_name
+  - name: class_name
+  - name: is_active
+  - name: is_using_compare_preset_b
+  - name: latency_in_ms
+  - name: latency_in_samples
+  - name: loop_length
+    listenable:
+    - add_loop_length_listener
+    - remove_loop_length_listener
+    - loop_length_has_listener
+  - name: name
+  - name: overdub_after_record
+    listenable:
+    - add_overdub_after_record_listener
+    - remove_overdub_after_record_listener
+    - overdub_after_record_has_listener
+  - name: parameters
+  - name: record_length_index
+    listenable:
+    - add_record_length_index_listener
+    - remove_record_length_index_listener
+    - record_length_index_has_listener
+  - name: record_length_list
+  - name: tempo
+    listenable:
+    - add_tempo_listener
+    - remove_tempo_listener
+    - tempo_has_listener
+  - name: type
+  - name: view
+  methods:
+  - name: clear
+  - name: double_length
+  - name: double_speed
+  - name: export_to_clip_slot
+  - name: half_length
+  - name: half_speed
+  - name: overdub
+  - name: play
+  - name: record
+  - name: stop
+  - name: undo
