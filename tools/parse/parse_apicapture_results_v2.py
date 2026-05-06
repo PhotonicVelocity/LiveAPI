@@ -1,11 +1,13 @@
 """
 Parse and enrich APICapture results into a single normalized tree.
 
-Takes the raw capture outputs (LiveTree.raw.json and LiveClasses.json) and runs a pipeline of transform steps to
-produce LiveTree.parsed.json — a cleaned-up tree with probe data merged in.
+Takes the raw capture (LiveTree.raw.json) and runs a pipeline of transform steps to produce
+LiveTree.parsed.json — a cleaned-up tree with all info derived purely from the raw_doc strings
+emitted by Boost.Python's introspection. Probe data (LiveClasses.json) is consumed downstream,
+not here.
 
 Pipeline steps:
-1. Malfomed class name cleanup (Boost.Python concatenates class names with docstrings in some cases)
+1. Malformed class name cleanup (Boost.Python concatenates class names with docstrings in some cases)
     1a. find_malformed_class_names — identify Boost.Python's concatenated class name/doc strings (no mutations)
     1b. fix_malformed_class_nodes — apply the name/raw_doc/repr fix on each affected class node
     1c. rewrite_raw_docs_with_replacements — propagate the renames into raw_doc text throughout the tree
@@ -18,7 +20,6 @@ Pipeline steps:
     4b. parse_signatures — split Python and C++ signature lines into matched arg-text fragments
     4c. build_type_map — aggregate fragment pairs into a C++ → Python type map (in ctx, no tree changes)
     4d. resolve_signatures — produce final structured `args:` and `returns:` fields on each function node
-5. merge_probe_data — merge runtime probe results (LiveClasses.json) onto matching tree nodes
 
 Usage:
     python tools/parse/parse_apicapture_results.py 12.3.6
@@ -1155,235 +1156,6 @@ def resolve_signatures(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 
 
 # region------------------------------------------------------------------------- #
-# Step 5: merge_probe_data
-# ------------------------------------------------------------------------------- #
-
-
-def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
-    """Merge runtime probe results (LiveClasses.json) onto matching tree nodes.
-
-    Matches class nodes by repr. Stamps property types, element_repr, constructable,
-    and cross-checks getter return types against resolved signatures.
-    Skips gracefully if no probe data is available in ctx.
-    """
-    probe: dict[str, Any] = ctx.get("probe_data", {})
-    if not probe:
-        return tree
-
-    merged_props = 0
-    merged_element = 0
-    getter_upgrades = 0
-    getter_mismatches: list[str] = []
-
-    def _merge(node: TreeNode) -> None:
-        nonlocal merged_props, merged_element, getter_upgrades
-        if isinstance(node, dict):
-            node_type = node.get("type")
-            if node_type == "class" and not node.get("ref"):
-                r = node.get("repr")
-                entry = probe.get(r) if r else None
-                if entry:
-                    _merge_class(node, entry)
-            elif node_type == "module" and not node.get("ref"):
-                r = node.get("repr")
-                entry = probe.get(r) if r else None
-                if entry and entry.get("is_module"):
-                    _merge_module(node, entry)
-            for value in node.values():
-                _merge(value)
-        elif isinstance(node, list):
-            for item in node:
-                _merge(item)
-
-    _PRIMITIVE_REPRS = {f"<class '{t}'>" for t in ("int", "float", "str", "bool")}
-
-    def _resolve_element_reprs(reprs: list[str]) -> str | None:
-        """Resolve a list of element reprs to a single element_repr.
-
-        - Single repr → use it directly.
-        - All known Live API classes → LomObject.
-        - All same primitive → use it.
-        - Mixed or unknown → object.
-        """
-        if not reprs:
-            return None
-        # Filter out NoneType — empty slots aren't informative
-        meaningful = [r for r in reprs if r != "<class 'NoneType'>"]
-        if not meaningful:
-            return None
-        if len(meaningful) == 1:
-            # Single type — validate it's known
-            r = meaningful[0]
-            if r in probe or r in _PRIMITIVE_REPRS:
-                return r
-            return repr(object)
-        # Multiple types — check if all are known Live API classes
-        if all(r in probe for r in meaningful):
-            return "<class 'LomObject.LomObject'>"
-        # Mixed or unknown
-        return repr(object)
-
-    def _merge_module(node: dict, entry: dict) -> None:
-        """Merge probe data onto a module node — stamp return types of get_*() functions."""
-        nonlocal getter_upgrades
-        children = node.get("children") or []
-        children_by_name: dict[str, dict] = {}
-        for child in children:
-            if isinstance(child, dict) and "name" in child:
-                children_by_name[child["name"]] = child
-
-        getters = entry.get("getters", {})
-        for getter_name, getter_info in getters.items():
-            if not getter_info.get("probed"):
-                continue
-            child = children_by_name.get(getter_name)
-            if not child or child.get("type") not in _FUNCTION_TYPES:
-                continue
-            returns = child.setdefault("returns", {})
-            if not isinstance(returns, dict):
-                continue
-            probed_type = getter_info.get("type")
-            if not probed_type:
-                continue
-            tree_type = returns.get("type")
-            # Only stamp when the parser couldn't pin down the return type.
-            # If the parser had stronger evidence (e.g., from C++ signature),
-            # leave it alone — manual refinements may further narrow it later.
-            if tree_type in (None, "object"):
-                returns["type"] = probed_type
-                getter_upgrades += 1
-
-    def _merge_class(node: dict, entry: dict) -> None:
-        nonlocal merged_props, merged_element, getter_upgrades
-
-        children = node.get("children", [])
-        children_by_name: dict[str, dict] = {}
-        for child in children:
-            if isinstance(child, dict) and "name" in child:
-                children_by_name[child["name"]] = child
-
-        # Properties: stamp probed_type, probed_repr, and element_type/element_repr
-        props = entry.get("properties", {})
-        for prop_name, prop_info in props.items():
-            if not prop_info.get("probed"):
-                continue
-            child = children_by_name.get(prop_name)
-            if child and child.get("type") == "property":
-                probed_type = prop_info.get("type")
-                if probed_type:
-                    # Normalize the runtime type name into a Python type
-                    # annotation. The probe records `type(value).__name__` —
-                    # so an observed None comes through as the string
-                    # 'NoneType', which is the runtime class name, not a
-                    # Python type annotation. The annotation form is `None`.
-                    if probed_type == "NoneType":
-                        probed_type = "None"
-                    child["probed_type"] = probed_type
-                probed_repr = prop_info.get("repr")
-                if probed_repr:
-                    child["probed_repr"] = probed_repr
-                # Resolve element type for iterable properties.
-                # For vector classes, iterability is on the class entry in repr_index.
-                # For tuple properties, element_reprs may be on prop_info directly.
-                class_entry = probe.get(probed_repr) if probed_repr else None
-                is_iterable = (class_entry and class_entry.get("iterable")) or prop_info.get("element_reprs")
-                if is_iterable:
-                    elem_reprs = prop_info.get("element_reprs")
-                    if not elem_reprs and class_entry:
-                        # Fall back to the class entry (only if it has a single
-                        # element type — generic containers like Base.Vector have
-                        # many and shouldn't be used as fallback)
-                        class_reprs = class_entry.get("element_reprs")
-                        if class_reprs and len(class_reprs) == 1:
-                            elem_reprs = class_reprs
-                    if elem_reprs:
-                        resolved = _resolve_element_reprs(elem_reprs)
-                        if resolved:
-                            child["element_repr"] = resolved
-                merged_props += 1
-
-        # _live_ptr is always an int (internal C++ pointer handle on every LOM object)
-        live_ptr = children_by_name.get("_live_ptr")
-        if live_ptr and live_ptr.get("type") == "property" and not live_ptr.get("probed_type"):
-            live_ptr["probed_type"] = "int"
-            merged_props += 1
-
-        # Constructable: stamp onto class node
-        if entry.get("constructable"):
-            saved_children = node.pop("children", None)
-            node["constructable"] = True
-            if saved_children is not None:
-                node["children"] = saved_children
-
-        # Getters: cross-check return types, upgrade object → probed type
-        getters = entry.get("getters", {})
-        for getter_name, getter_info in getters.items():
-            if not getter_info.get("probed"):
-                continue
-            child = children_by_name.get(getter_name)
-            if not child or child.get("type") not in _FUNCTION_TYPES:
-                continue
-            returns = child.get("returns")
-            if not isinstance(returns, dict):
-                continue
-            tree_type = returns.get("type")
-            probed_type = getter_info.get("type")
-            if not probed_type:
-                continue
-            if tree_type == "object" and probed_type != "object":
-                returns["type"] = probed_type
-                getter_upgrades += 1
-            elif tree_type and tree_type != "object" and probed_type != tree_type:
-                getter_mismatches.append(f"{node.get('name')}.{getter_name}: tree={tree_type}, probe={probed_type}")
-
-        # iterable + element_reprs: stamp onto class node
-        # Probe-based: the probe stamped iterable on the class entry
-        # Heuristic: classes with append/extend are iterable even if never probed
-        is_iterable = entry.get("iterable") or any(
-            children_by_name.get(fn, {}).get("type") in _FUNCTION_TYPES for fn in ("append", "extend")
-        )
-        if is_iterable:
-            saved_children = node.pop("children", None)
-            node["iterable"] = True
-            if saved_children is not None:
-                node["children"] = saved_children
-        elem_reprs = entry.get("element_reprs")
-        if elem_reprs:
-            element_repr = _resolve_element_reprs(elem_reprs)
-            if element_repr:
-                saved_children = node.pop("children", None)
-                node["element_repr"] = element_repr
-                if saved_children is not None:
-                    node["children"] = saved_children
-                merged_element += 1
-
-                # Resolve remaining object args on append/extend using element_repr
-                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-                if m:
-                    element_type = m.group(1)
-                    for fn_name in ("append", "extend"):
-                        fn = children_by_name.get(fn_name)
-                        if not fn or fn.get("type") not in _FUNCTION_TYPES:
-                            continue
-                        for p in fn.get("args", []):
-                            if p.get("type") == "object":
-                                if fn_name == "extend":
-                                    p["type"] = f"Iterable[{element_type}]"
-                                else:
-                                    p["type"] = element_type
-
-    _merge(tree)
-
-    if getter_mismatches:
-        ctx["getter_mismatches"] = getter_mismatches
-    ctx["stats"]["merged_properties"] = merged_props
-    ctx["stats"]["merged_element_types"] = merged_element
-    ctx["stats"]["getter_return_upgrades"] = getter_upgrades
-    ctx["stats"]["getter_return_mismatches"] = len(getter_mismatches)
-    return tree
-
-
-# ------------------------------------------------------------------------------- #
 # Pipeline
 # ------------------------------------------------------------------------------- #
 
@@ -1398,7 +1170,6 @@ STEPS: list[PipelineStep] = [
     parse_signatures,
     build_type_map,
     resolve_signatures,
-    merge_probe_data,
 ]
 
 
@@ -1413,8 +1184,10 @@ def run_pipeline(tree: TreeNode, ctx: dict[str, Any] | None = None) -> tuple[Tre
 
     return tree, ctx
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
+
+# region------------------------------------------------------------------------- #
 # CLI
 # ------------------------------------------------------------------------------- #
 
@@ -1462,11 +1235,6 @@ def main() -> None:
         data = json.load(f)
 
     ctx: dict[str, Any] = {}
-    probe_path = pipeline_dir / "LiveClasses.json"
-    if probe_path.exists():
-        with open(probe_path, "r", encoding="utf-8") as f:
-            ctx["probe_data"] = json.load(f)
-
     parsed, ctx = run_pipeline(data, ctx)
     stats = ctx.get("stats", {})
 
@@ -1479,6 +1247,8 @@ def main() -> None:
     if stats:
         parts.append("(" + ", ".join(f"{v} {k.replace('_', ' ')}" for k, v in stats.items()) + ")")
     print(" ".join(parts))
+    
+# endregion
 
 
 if __name__ == "__main__":
