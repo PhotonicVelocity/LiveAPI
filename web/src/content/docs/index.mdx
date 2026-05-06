@@ -1,0 +1,39 @@
+---
+title: LiveAPI Reference
+description: Reference documentation for the Ableton Live Object Model.
+template: splash
+hero:
+  title: LiveAPI
+  tagline: Reference for the Ableton Live Object Model.
+  actions:
+    - text: Browse modules
+      link: /LiveAPI/modules/song/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/PhotonicVelocity/LiveAPI
+      icon: external
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+This site documents the Ableton Live Object Model. The structural surface
+(types, listenability, settability, signatures) comes from runtime
+introspection. The behavioral surface (when does a mutation become visible,
+what fires a listener, what raises) is being built up incrementally — see
+the [documentation roadmap](https://github.com/PhotonicVelocity/LiveAPI/blob/reference-doc-generator/doc/reference-roadmap.md)
+for the path.
+
+<CardGrid>
+  <Card title="Companion to the typed stubs" icon="seti:python">
+    Install via `pip install ableton-live-stubs` for autocomplete and type
+    checking. This site is the deeper reference behind those stubs.
+  </Card>
+  <Card title="Live 12.3.6" icon="puzzle">
+    Tracks the latest published Live version.
+  </Card>
+  <Card title="In progress" icon="open-book">
+    Coverage grows incrementally. Members without authored content render
+    with their structural skeleton only.
+  </Card>
+</CardGrid>

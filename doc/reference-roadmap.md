@@ -53,6 +53,111 @@ work starts.
 **Size.** Medium. Mostly a refactor of the parked old generator, plus a swap
 of input source. No new methodology.
 
+**Stack pivot during execution.** The original plan was MkDocs + Material
+(restored from the parked work). After auditing the old generator and looking
+at how Blender's Python API docs read, we switched to **Astro Starlight**:
+better default visual hierarchy, easier custom Astro components when
+behavioral content lands in Phase 2/3, Pagefind search built in. Old MkDocs
+work tossed; Starlight project lives at `web/`.
+
+### Step ladder (within Phase 1)
+
+The generator is built up incrementally — each step is its own commit-sized
+change, each step's output is independently shippable. Earlier steps consume
+just the structural surface from the refined tree; later steps add detail
+until everything in `LiveTree.refined.json` and `manual_refinements.yaml`
+flows through to the rendered page.
+
+Status as of context reset (mid-Step 2, Blender-styled signatures landed
+across class / enum / function headings, main class promoted):
+
+- **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
+  `web/src/content/docs/modules/`. Page has title, one-line module
+  description, and bullet list of class / enum / function names. Generator
+  at `tools/generate/generate_reference.py`. Sidebar autogenerates from the
+  `modules/` subdirectory.
+- **Step 1.5 — Promote names to H3 + syntax-highlight signatures.** ✅ Done.
+  Each class / enum / function rendered as Blender-style heading
+  (`class Live.Module.Name(Base)` / `enum Live.Module.Name` /
+  `def Live.Module.name()`) with span-level coloring (kw / path / name /
+  base) and white-bold class name dominating dim-orange path. Custom CSS
+  in `web/src/styles/custom.css` covers heading hierarchy + signature spans.
+- **Step 1.75 — Main class promotion.** ✅ Done. The class whose name
+  matches the module name (the conventional Live.X.X pairing) renders as
+  a prominent signature line at the top of the page. Remaining classes
+  move under `## Other classes`. When properties / methods land, they
+  attach directly under the main class as `## Properties`, `## Methods`,
+  etc., making the main-vs-auxiliary structure explicit.
+- **Step 2 — Class descriptions.** Pending. Each class heading gets its
+  `raw_doc` rendered below as a paragraph. Same for enums and module
+  functions when those have raw_doc set.
+- **Step 3 — Properties listed.** For each class (starting with the main
+  class), render a `## Properties` section with each property name as an
+  H3 (signature shape: just the property name in monospace bold). No types
+  or descriptions yet.
+- **Step 4 — Property types.** Add the `probed_type` to each property's
+  heading or as a labeled field below it (`**Type:** float` style).
+- **Step 5 — Property settable / listenable.** Annotate with `(get/set,
+listenable)` derived from the `settable` flag and the existence of
+  `add_X_listener` siblings. Goes inline with the type line.
+- **Step 6 — Property descriptions.** Each property's `raw_doc` (which is
+  already the cleaned description for properties — no signature header
+  to strip, unlike methods) renders as a paragraph below the type metadata.
+- **Step 7 — Methods listed.** Same ladder as properties: `## Methods`
+  section with method names as H3 headings (signature shape:
+  `name(args) -> return`). Use the parser's `description` field rather
+  than `raw_doc` so the Boost.Python signature header and `C++ signature:`
+  footer don't dump into the doc.
+- **Step 8 — Module-level enums.** Currently rendered as headings only.
+  Add member tables (`Member | Value` listing) under each enum heading,
+  using the enum's `members` field from the refined tree.
+- **Step 9 — Module-level functions.** Currently rendered as headings only.
+  Add full signature with args + return type, the `description` field as
+  prose, and `**Parameters:**` / `**Returns:**` labeled sections.
+- **Step 10 — Nested classes.** Classes defined inside other classes
+  (e.g., `Clip.View`, `Track.View`, `Song.View`). Render as their own
+  section on the parent class's page, with the nested class's properties
+  / methods rendered inline.
+- **Step 11 — References / Access via.** Cross-reference pass — for each
+  class T, list every member elsewhere in the LOM whose type / return
+  is T. Implemented as a single tree-walk at generator startup that
+  builds a `class_name → [(owner, member, kind)]` map. Renders as a
+  collapsible `<details>` at the bottom of each class section, or a
+  `## References` section near the page bottom (decide by looking at
+  layout density once the data lands).
+- **Step 12 — Refinement metadata surfacing.** When a member has an entry
+  in `manual_refinements.yaml`, render the `source:` and `confidence:`
+  inline with the member (small italic note under the type line, or a
+  callout block — design when the data lands). The `_note:` field — when
+  present — gets a more prominent callout since it's typically richer
+  prose worth surfacing.
+- **Step 13 — Inherited members.** For classes with parents in the LOM
+  (mostly just `LomObject` for Live document objects, but some richer
+  hierarchies exist), show inherited properties / methods in their own
+  section with bullet links to the base class's documentation.
+
+After Step 13, every field in `LiveTree.refined.json` +
+`manual_refinements.yaml` is rendered. Phase 1 is structurally complete.
+Phase 2's authored prose / hypothesis records is the next layer of
+content, not infrastructure.
+
+### Phase 1 layout decisions (locked during execution)
+
+- **Heading hierarchy.** H1 (page) ~2.25rem, H2 (section dividers) 1.5rem
+  with full-width bottom border, H3 (member identifiers) 1rem monospace
+  bold. Aggressive scale steps so the hierarchy reads at a glance.
+- **Class signatures.** Span-coloring via four CSS classes
+  (`cls-kw` / `cls-path` / `cls-name` / `cls-base`). Class name in bright
+  white bold dominates the dim-orange path and base.
+- **Sidebar.** Flat — single "Modules" group, autogenerated from
+  `web/src/content/docs/modules/`, alphabetical. URLs live at
+  `/LiveAPI/modules/<name>/`.
+- **Right TOC.** Down to H3 (`maxHeadingLevel: 3`) so members show up
+  alongside section headers as a navigable index of the page.
+- **Main class promotion.** Self-named class (Live.X.X) renders as a
+  prominent monospace signature at 1.3rem at the top of the page,
+  no left-border accent. Other classes go under `## Other classes`.
+
 ## Phase 2 — Hypothesis records: schema, authoring, dual rendering
 
 **Goal.** Lock the record format and start hand-authoring prose for the LOM.

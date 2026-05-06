@@ -1,0 +1,29 @@
+---
+// Compact inline metadata line for a property/method header.
+// Renders as a single dim line of pipe-separated items below the H3.
+//
+// Usage:
+//   <MemberMeta items={[
+//     "<code>float</code> (get/set)",
+//     "listenable",
+//     "Live 12.3.6",
+//   ]} />
+//
+// Items are HTML snippets — caller is responsible for any formatting.
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<p class="member-meta">
+  {
+    items.map((item, i) => (
+      <>
+        <span set:html={item} />
+        {i < items.length - 1 && <span class="meta-sep">·</span>}
+      </>
+    ))
+  }
+</p>
