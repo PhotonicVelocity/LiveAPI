@@ -475,9 +475,13 @@ def _parse_init_doc(init_doc: str | None) -> list[dict[str, Any]] | None:
     raw_args = m.group(1)
     parsed: list[dict[str, Any]] = []
     # Boost.Python's `[, ... ]` bracket marks where optional args start.
+    # The bracket nesting `[, ... [, ... [, ... ]]]` indicates each
+    # subsequent default-having arg; flatten by stripping all bracket
+    # characters from the optional region.
     optional_split = raw_args.find("[")
     required_part = raw_args[:optional_split] if optional_split >= 0 else raw_args
-    optional_part = raw_args[optional_split:].lstrip("[, ").rstrip("] ") if optional_split >= 0 else ""
+    optional_part = raw_args[optional_split:].replace("[", "").replace("]", "") if optional_split >= 0 else ""
+    optional_part = optional_part.lstrip(", ")
     for piece, is_opt in [(required_part, False), (optional_part, True)]:
         for am in _INIT_ARG_RE.finditer(piece):
             entry: dict[str, Any] = {"name": am.group("name"), "type": am.group("type")}
@@ -619,7 +623,14 @@ def build_member(
         init_doc = _norm_doc(node.get("init_doc"))
         if init_doc:
             out["init_doc"] = init_doc
-        out["constructable"] = bool(node.get("constructable"))
+        # `constructable` comes from the probe (it's an observation about
+        # whether `Class()` succeeds at runtime), not the dir-walk
+        # capture. The parser node only has it if v1's merge_probe_data
+        # step ran; v2 reads probe directly.
+        out["constructable"] = bool(
+            node.get("constructable")
+            or (probe_entry and probe_entry.get("constructable"))
+        )
         # Probe-derived: iterability + element type for container classes.
         # Multi-element observations are NOT recorded at the class level
         # (they're a union across distinct instances, not a class fact);

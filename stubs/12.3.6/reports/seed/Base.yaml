@@ -178,12 +178,30 @@ classes:
 
         C++ signature :
             void __init__(_object*,boost::python::api::object,int [,bool=False [,bool=False]])
-  constructable: false
+  constructable: true
   properties:
   - name: running
     type: bool
     settable: false
   methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Base.Timer
+    - name: callback
+      type: object
+    - name: interval
+      type: int
+    - name: repeat
+      type: bool
+      optional: true
+      default: 'False'
+    - name: start
+      type: bool
+      optional: true
+      default: 'False'
+    returns:
+      type: None
   - name: restart
     signature: 'restart( (Timer)arg1) -> None :'
     cpp_signature: void restart(PythonTimer {lvalue})

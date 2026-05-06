@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Clip import Clip
@@ -38,6 +40,8 @@ class Envelope(LomObject):
 class EnvelopeEvent:
     """This is a class that represents an envelope event."""
 
+    def __init__(self, time: float, value: float, control_coefficients: EnvelopeEventControlCoefficients) -> None: ...
+
     @property
     def control_coefficients(self) -> EnvelopeEventControlCoefficients:
         ...
@@ -61,6 +65,8 @@ class EnvelopeEvent:
 
 class EnvelopeEventControlCoefficients:
     """This class represents the control coefficients of an envelope event."""
+
+    def __init__(self, x1: float, y1: float, x2: float, y2: float) -> None: ...
 
     @property
     def x1(self) -> float:

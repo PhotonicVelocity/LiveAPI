@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Text, Vector
@@ -578,17 +580,11 @@ class UnavailableFeatureVector(Iterable):
 
 class Variants:
     """Holds strings representing what type of Live is running."""
-
     BETA: str = "Beta"
-
     INTRO: str = "Intro"
-
     LITE: str = "Lite"
-
     STANDARD: str = "Standard"
-
     SUITE: str = "Suite"
-
     TRIAL: str = "Trial"
 
 def combine_apcs() -> bool:

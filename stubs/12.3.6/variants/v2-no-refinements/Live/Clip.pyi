@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import IntU64Vector, IntVector, Vector
@@ -1522,7 +1524,7 @@ class MidiNoteSpecification:
     add_new_notes function.
     """
 
-    ...
+    def __init__(self, pitch: int, start_time: float, duration: float, velocity: float = 100.0, mute: bool = False, probability: float = 1.0, velocity_deviation: float = 0.0, release_velocity: float = 64.0) -> None: ...
 
 class MidiNoteVector(Iterable[MidiNote]):
     """A container for holding MIDI notes from Live."""
@@ -1551,6 +1553,8 @@ class MidiNoteVector(Iterable[MidiNote]):
 
 class WarpMarker:
     """This class represents a WarpMarker type."""
+
+    def __init__(self, sample_time: float, beat_time: float) -> None: ...
 
     @property
     def beat_time(self) -> float:

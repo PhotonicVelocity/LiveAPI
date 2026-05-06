@@ -145,6 +145,8 @@ class Text:
 class Timer:
     """A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer."""
 
+    def __init__(self, callback: object, interval: int, repeat: bool = False, start: bool = False) -> None: ...
+
     def restart(self) -> None:
         ...
 

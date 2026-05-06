@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Vector

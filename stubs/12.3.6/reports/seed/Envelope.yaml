@@ -81,7 +81,7 @@ classes:
 
         C++ signature :
             void __init__(_object*,double,float,NApiHelpers::TEnvelopeEventControlCoefficients)
-  constructable: false
+  constructable: true
   properties:
   - name: control_coefficients
     type: Live.Envelope.EnvelopeEventControlCoefficients
@@ -92,6 +92,19 @@ classes:
   - name: value
     type: float
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Envelope.EnvelopeEvent
+    - name: time
+      type: float
+    - name: value
+      type: float
+    - name: control_coefficients
+      type: EnvelopeEventControlCoefficients
+    returns:
+      type: None
 - name: EnvelopeEventControlCoefficients
   path: Live.Envelope.EnvelopeEventControlCoefficients
   raw_doc: This class represents the control coefficients of an envelope event.
@@ -102,7 +115,7 @@ classes:
 
         C++ signature :
             void __init__(_object*,double,double,double,double)
-  constructable: false
+  constructable: true
   properties:
   - name: x1
     type: float
@@ -116,6 +129,21 @@ classes:
   - name: y2
     type: float
     settable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Envelope.EnvelopeEventControlCoefficients
+    - name: x1
+      type: float
+    - name: y1
+      type: float
+    - name: x2
+      type: float
+    - name: y2
+      type: float
+    returns:
+      type: None
 - name: EnvelopeEventVector
   path: Live.Envelope.EnvelopeEventVector
   raw_doc: A container for holding envelope events.

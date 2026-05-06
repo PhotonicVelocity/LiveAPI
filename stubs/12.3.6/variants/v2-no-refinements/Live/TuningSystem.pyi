@@ -183,6 +183,8 @@ class TuningSystem(LomObject):
 class PitchClassAndOctave:
     """This class represents a PitchClassAndOctave type."""
 
+    def __init__(self, index_in_octave: int, octave: int) -> None: ...
+
     @property
     def index_in_octave(self) -> int:
         """A PitchClassAndOctave's index within the pseudo octave."""
@@ -195,6 +197,8 @@ class PitchClassAndOctave:
 
 class ReferencePitch:
     """This class represents a ReferencePitch type."""
+
+    def __init__(self, index_in_octave: int, octave: int, frequency: float) -> None: ...
 
     @property
     def frequency(self) -> float:

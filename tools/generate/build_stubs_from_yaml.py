@@ -107,13 +107,16 @@ def _format_arg(arg: dict[str, Any], current_module: str, imports: set[tuple[str
 
 
 def _format_method_args(args: list[dict[str, Any]], current_module: str,
-                        imports: set[tuple[str, str]], is_method: bool) -> str:
+                        imports: set[tuple[str, str]], is_method: bool,
+                        method_name: str = "") -> str:
     """Produce the parenthesized arg list including PEP 570 `, /`.
 
     Live's binding accepts only positional args, so every callable ends
     with `, /` after its last positional. For methods, `self` is the
     first arg and is rendered as `self` (no type annotation, matching
-    Python convention)."""
+    Python convention). `__init__` skips the `, /` marker — v1 emits
+    `def __init__(self, ...) -> None: ...` without the positional-only
+    fence."""
     formatted: list[str] = []
     rest = list(args)
     if is_method and rest and rest[0].get("name") == "self":
@@ -121,7 +124,11 @@ def _format_method_args(args: list[dict[str, Any]], current_module: str,
         rest = rest[1:]
     for arg in rest:
         formatted.append(_format_arg(arg, current_module, imports))
-    if formatted and (len(formatted) > 1 or not is_method or formatted[0] != "self"):
+    if (
+        method_name != "__init__"
+        and formatted
+        and (len(formatted) > 1 or not is_method or formatted[0] != "self")
+    ):
         formatted.append("/")
     return ", ".join(formatted)
 
@@ -278,7 +285,7 @@ def _build_method_block(method: dict[str, Any], current_module: str,
     args = method.get("args") or []
     returns = method.get("returns") or {}
     ret_type = _ret_type_for_type(returns.get("type"), current_module, imports)
-    arg_str = _format_method_args(args, current_module, imports, is_method)
+    arg_str = _format_method_args(args, current_module, imports, is_method, name)
     raw_doc = method.get("raw_doc")
     # __init__ uses inline form (`def __init__(...) -> None: ...`)
     # regardless of arg count — matches v1's emission. Other methods
@@ -325,35 +332,34 @@ def _build_constant_block(const: dict[str, Any]) -> list[str]:
 
 def _collect_class_members(cls: dict[str, Any], current_module: str,
                             imports: set[tuple[str, str]],
-                            registry: dict[str, Any]) -> list[tuple[str, list[str]]]:
-    """Collect all member blocks at this class as (sort_key, lines) tuples.
+                            registry: dict[str, Any]) -> list[tuple[str, list[str], str]]:
+    """Collect all member blocks at this class as (sort_key, lines, kind) tuples.
 
-    Listener triplets are emitted as separate methods so they alphabetize
-    inline with regular methods (matching v1's ordering). __init__ is
-    a real method in the YAML (synthesized by build_lom_yaml from
-    init_doc); no special handling here. append/extend arg types are
-    likewise pre-resolved against the class element_type at YAML build
-    time, so the generator just emits whatever the YAML says.
+    The third tuple element is a presentational kind tag used by the
+    emitter to decide spacing — consecutive `constant` entries pack
+    tight (no blank line between them), other adjacent kinds get a
+    blank-line separator.
     """
-    entries: list[tuple[str, list[str]]] = []
+    entries: list[tuple[str, list[str], str]] = []
     # Iterator-protocol synthesis for iterable container classes —
     # __iter__/__getitem__/__len__/__contains__/__bool__. Stub-specific
     # presentation; not in the YAML.
-    entries.extend(_build_iterable_dunders(cls, current_module, imports))
+    for key, lines in _build_iterable_dunders(cls, current_module, imports):
+        entries.append((key, lines, "method"))
     for nested in cls.get("classes") or []:
-        entries.append((nested["name"], _build_class_block(nested, current_module, imports, registry)))
+        entries.append((nested["name"], _build_class_block(nested, current_module, imports, registry), "class"))
     for nested in cls.get("enums") or []:
-        entries.append((nested["name"], _build_enum_block(nested)))
+        entries.append((nested["name"], _build_enum_block(nested), "enum"))
     for prop in cls.get("properties") or []:
         block = _build_property_block(prop, current_module, imports, registry)
         if block:
-            entries.append((prop["name"], block))
+            entries.append((prop["name"], block, "property"))
         for listener in prop.get("listenable") or []:
-            entries.append((listener, _build_listener_method(listener, prop["name"])))
+            entries.append((listener, _build_listener_method(listener, prop["name"]), "method"))
     for m in cls.get("methods") or []:
-        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True)))
+        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True), "method"))
     for c in cls.get("constants") or []:
-        entries.append((c["name"], _build_constant_block(c)))
+        entries.append((c["name"], _build_constant_block(c), "constant"))
     return entries
 
 
@@ -388,7 +394,13 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
             else:
                 base_str = "(Iterable)"
             typing_extras = registry["_module_typing_extras"]
-            typing_extras.update(("Iterator", "overload"))
+            # Iterator + overload for the dunder method signatures.
+            # Generic + TypeVar mirror v1's emission — v1 declares
+            # `T = TypeVar('T', covariant=True)` in any module that
+            # defines an iterable container class, even when T isn't
+            # referenced. We replicate to keep diffs clean.
+            typing_extras.update(("Generic", "Iterator", "TypeVar", "overload"))
+            registry["_module_emits_typevar"] = True
     else:
         ancestors = cls.get("ancestors") or []
         if ancestors:
@@ -404,19 +416,36 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
     if raw_doc:
         for line in _indent(_wrap_docstring(raw_doc), 1):
             out.append(line)
-        out.append("")
+        if members:
+            out.append("")
     if not members:
-        out.append(INDENT + "...")
+        # Class with only a docstring needs no `...` filler — the
+        # docstring itself counts as the body (matches v1).
+        if not raw_doc:
+            out.append(INDENT + "...")
         return out
 
     # Dunders sort first (canonical iter-protocol order). Regular
-    # members sort alphabetically after.
+    # members sort alphabetically after. Consecutive constants pack
+    # tight (no blank between them) — matches v1's class-attribute
+    # emission style for enum-like constant containers (Variants).
     members.sort(key=lambda kv: _sort_key(kv[0]))
-    for i, (_, block) in enumerate(members):
+    prev_kind: str | None = None
+    for i, (_, block, kind) in enumerate(members):
+        # Drop the inter-member blank line when both this and the
+        # previous entry are constants. Also when the previous entry
+        # was the class docstring's separator and this is a constant
+        # (constants attach directly under the docstring, no blank).
+        if i == 0 and raw_doc and kind == "constant":
+            # Remove the blank line we added after the docstring.
+            if out and out[-1] == "":
+                out.pop()
+        elif i > 0:
+            if not (prev_kind == "constant" and kind == "constant"):
+                out.append("")
         for line in _indent(block, 1):
             out.append(line)
-        if i < len(members) - 1:
-            out.append("")
+        prev_kind = kind
     return out
 
 
@@ -487,6 +516,7 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     # Header
     buf = StringIO()
     buf.write("from __future__ import annotations\n")
+
     # Typing imports — TYPE_CHECKING first, rest case-sensitive
     # alphabetical (matches v1's order: TYPE_CHECKING, Any, Callable,
     # Iterable, Iterator, overload, ...).

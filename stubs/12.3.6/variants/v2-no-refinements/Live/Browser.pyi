@@ -1,5 +1,7 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
+from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
+
+T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.LomObject import LomObject
@@ -233,8 +235,6 @@ class BrowserItem:
 
 class BrowserItemIterator(Iterable):
     """This class iterates over children of another BrowserItem."""
-
-    ...
 
 class BrowserItemVector(Iterable[BrowserItem]):
     """A container for returning browser items from Live."""

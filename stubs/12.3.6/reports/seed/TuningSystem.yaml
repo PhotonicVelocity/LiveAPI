@@ -80,7 +80,7 @@ classes:
 
         C++ signature :
             void __init__(_object*,int,int)
-  constructable: false
+  constructable: true
   properties:
   - name: index_in_octave
     raw_doc: A PitchClassAndOctave's index within the pseudo octave.
@@ -90,6 +90,17 @@ classes:
     raw_doc: A PitchClassAndOctave's octave.
     type: int
     settable: false
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.TuningSystem.PitchClassAndOctave
+    - name: index_in_octave
+      type: int
+    - name: octave
+      type: int
+    returns:
+      type: None
 - name: ReferencePitch
   path: Live.TuningSystem.ReferencePitch
   raw_doc: This class represents a ReferencePitch type.
@@ -100,7 +111,7 @@ classes:
 
         C++ signature :
             void __init__(_object*,int,int,double)
-  constructable: false
+  constructable: true
   properties:
   - name: frequency
     raw_doc: A ReferencePitch's frequency in Hz.
@@ -114,3 +125,16 @@ classes:
     raw_doc: A ReferencePitch's octave.
     type: int
     settable: false
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.TuningSystem.ReferencePitch
+    - name: index_in_octave
+      type: int
+    - name: octave
+      type: int
+    - name: frequency
+      type: float
+    returns:
+      type: None

@@ -1049,7 +1049,40 @@ classes:
 
         C++ signature :
             void __init__(_object*,int,double,double [,float=100.0 [,bool=False [,float=1.0 [,float=0.0 [,float=64.0]]]]])
-  constructable: false
+  constructable: true
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Clip.MidiNoteSpecification
+    - name: pitch
+      type: int
+    - name: start_time
+      type: float
+    - name: duration
+      type: float
+    - name: velocity
+      type: float
+      optional: true
+      default: '100.0'
+    - name: mute
+      type: bool
+      optional: true
+      default: 'False'
+    - name: probability
+      type: float
+      optional: true
+      default: '1.0'
+    - name: velocity_deviation
+      type: float
+      optional: true
+      default: '0.0'
+    - name: release_velocity
+      type: float
+      optional: true
+      default: '64.0'
+    returns:
+      type: None
 - name: MidiNoteVector
   path: Live.Clip.MidiNoteVector
   raw_doc: A container for holding MIDI notes from Live.
@@ -1091,7 +1124,7 @@ classes:
 
         C++ signature :
             void __init__(_object*,double,double)
-  constructable: false
+  constructable: true
   properties:
   - name: beat_time
     raw_doc: A WarpMarker's beat time.
@@ -1101,6 +1134,17 @@ classes:
     raw_doc: A WarpMarker's sample time.
     type: float
     settable: false
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Clip.WarpMarker
+    - name: sample_time
+      type: float
+    - name: beat_time
+      type: float
+    returns:
+      type: None
 - name: WarpMarkerVector
   path: Live.Clip.WarpMarkerVector
   raw_doc: A container for returning warp markers from Live.
