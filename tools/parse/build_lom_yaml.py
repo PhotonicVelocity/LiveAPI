@@ -133,13 +133,18 @@ _BORING_BASES = {
 }
 
 
-def build_class_registry(tree: dict[str, Any]) -> dict[str, Any]:
+def build_class_registry(
+    tree: dict[str, Any],
+    probe: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """Build the cross-reference index for every class in the tree.
 
     Returns:
         {
           "by_repr": {class_repr: qualified_tree_path},
+          "by_path": {qualified_tree_path: class_repr},   # inverse of by_repr
           "by_name": {simple_name: [qualified_paths]},
+          "probe":   {class_repr: probe_entry, ...},      # LiveClasses.json
         }
 
     The qualified path follows the tree's nesting (e.g.,
@@ -169,12 +174,70 @@ def build_class_registry(tree: dict[str, Any]) -> dict[str, Any]:
     root_name = tree.get("name") or "Live"
     walk(tree, root_name)
 
+    by_path: dict[str, str] = {path: repr_str for repr_str, path in by_repr.items()}
     by_name: dict[str, list[str]] = {}
     for path in by_repr.values():
         simple = path.rsplit(".", 1)[-1]
         by_name.setdefault(simple, []).append(path)
 
-    return {"by_repr": by_repr, "by_name": by_name}
+    return {
+        "by_repr": by_repr,
+        "by_path": by_path,
+        "by_name": by_name,
+        "probe": probe or {},
+    }
+
+
+def _qualify_probed_type(info: dict[str, Any], by_repr: dict[str, str]) -> str | None:
+    """Resolve a probe property/getter's type info to a qualified path
+    or builtin name. Prefer `repr` (full Boost.Python class repr) when
+    present — that's the most specific identity. Otherwise fall back to
+    the simple `type` name. NoneType is normalized to None (the Python
+    annotation form, not the runtime class name).
+    """
+    repr_str = info.get("repr")
+    if isinstance(repr_str, str):
+        path = by_repr.get(repr_str)
+        if path:
+            return path
+    type_str = info.get("type")
+    if not type_str:
+        return None
+    if type_str == "NoneType":
+        return "None"
+    return type_str
+
+
+def _qualify_element_types(
+    info: dict[str, Any],
+    by_repr: dict[str, str],
+) -> list[str] | None:
+    """Resolve a probe entry's `element_reprs` list to a deduped list of
+    qualified type names. NoneType placeholders are filtered (empty
+    slots aren't informative). Reprs the registry doesn't know fall
+    back to the bare class name (covers builtins like `int`, `str` and
+    external types).
+    """
+    reprs = info.get("element_reprs")
+    if not reprs:
+        return None
+    out: list[str] = []
+    seen: set[str] = set()
+    for r in reprs:
+        if not isinstance(r, str):
+            continue
+        if r == "<class 'NoneType'>":
+            continue
+        path = by_repr.get(r)
+        if path:
+            qualified = path
+        else:
+            m = _ANCESTOR_RE.match(r)
+            qualified = m.group(1).rsplit(".", 1)[-1] if m else r
+        if qualified not in seen:
+            seen.add(qualified)
+            out.append(qualified)
+    return out or None
 
 
 # Identifier names that are Python builtins / typing-module fixtures, not
@@ -357,6 +420,8 @@ def build_member(
     by_repr: dict[str, str] = registry["by_repr"]
     by_name: dict[str, list[str]] = registry["by_name"]
 
+    probe: dict[str, Any] = registry.get("probe") or {}
+
     out: dict[str, Any] = {"kind": kind, "name": name}
     if kind == "class":
         # Class identity: emit the qualified tree path so cross-references
@@ -365,9 +430,12 @@ def build_member(
         # classes each get a path like Live.Song.Song.View).
         repr_str = node.get("repr")
         class_path: str | None = None
-        if isinstance(repr_str, str) and repr_str in by_repr:
-            class_path = by_repr[repr_str]
-            out["path"] = class_path
+        probe_entry: dict[str, Any] | None = None
+        if isinstance(repr_str, str):
+            if repr_str in by_repr:
+                class_path = by_repr[repr_str]
+                out["path"] = class_path
+            probe_entry = probe.get(repr_str)
         raw_doc = _norm_doc(node.get("raw_doc"))
         if raw_doc:
             out["raw_doc"] = raw_doc
@@ -376,6 +444,16 @@ def build_member(
         if init_doc:
             out["init_doc"] = init_doc
         out["constructable"] = bool(node.get("constructable"))
+        # Probe-derived: iterability + element types for container classes.
+        if probe_entry:
+            if probe_entry.get("iterable"):
+                out["iterable"] = True
+            class_element_types = _qualify_element_types(probe_entry, by_repr)
+            if class_element_types:
+                if len(class_element_types) == 1:
+                    out["element_type"] = class_element_types[0]
+                else:
+                    out["element_types"] = class_element_types
         # Methods inside this class qualify their type strings using the
         # class's own path as the enclosing context.
         out.update(_group_class_members(node, registry, class_path))
@@ -383,6 +461,27 @@ def build_member(
         raw_doc = _norm_doc(node.get("raw_doc"))
         if raw_doc:
             out["raw_doc"] = raw_doc
+        # Probe-derived type/element_type. Look up the parent class via
+        # enclosing_path → class repr → probe entry → properties[name].
+        # When probe data isn't present (or didn't reach this property),
+        # the type fields are simply omitted — listener-only signals
+        # behave the same way (they have no real property to probe).
+        prop_info: dict[str, Any] | None = None
+        if enclosing_path:
+            parent_repr = registry.get("by_path", {}).get(enclosing_path)
+            if parent_repr:
+                parent_entry = probe.get(parent_repr) or {}
+                prop_info = (parent_entry.get("properties") or {}).get(name)
+        if prop_info:
+            type_str = _qualify_probed_type(prop_info, by_repr)
+            if type_str:
+                out["type"] = type_str
+            element_types = _qualify_element_types(prop_info, by_repr)
+            if element_types:
+                if len(element_types) == 1:
+                    out["element_type"] = element_types[0]
+                else:
+                    out["element_types"] = element_types
         # Always emit settable — read-only vs read-write is a critical
         # API attribute, not a "default" that should be implicit.
         out["settable"] = bool(node.get("settable"))
@@ -659,6 +758,7 @@ def main() -> int:
     p = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     p.add_argument("version", help="Live version (e.g. 12.3.6)")
     p.add_argument("--input", help="path to LiveTree.parsed.json")
+    p.add_argument("--probe", help="path to LiveClasses.json (probe data)")
     p.add_argument("--output", help="output dir")
     args = p.parse_args()
 
@@ -666,6 +766,11 @@ def main() -> int:
         Path(args.input)
         if args.input
         else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.v2.json"
+    )
+    probe_path = (
+        Path(args.probe)
+        if args.probe
+        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveClasses.json"
     )
     out_dir = (
         Path(args.output)
@@ -681,7 +786,13 @@ def main() -> int:
 
     data = json.loads(in_path.read_text())
     tree = data["tree"]
-    registry = build_class_registry(tree)
+    probe: dict[str, Any] = {}
+    if probe_path.exists():
+        probe = json.loads(probe_path.read_text())
+    else:
+        print(f"warn: probe data not found at {probe_path}; "
+              "type/element_type fields will be omitted", file=sys.stderr)
+    registry = build_class_registry(tree, probe)
 
     written = 0
     for module_node in tree.get("children", []):

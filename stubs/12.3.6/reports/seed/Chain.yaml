@@ -13,9 +13,11 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the chain.
+    type: Live.RackDevice.RackDevice
     settable: false
   - name: color
     raw_doc: Access the color index of the Chain.
+    type: int
     settable: true
     listenable:
     - add_color_listener
@@ -23,6 +25,7 @@ primary_class:
     - color_has_listener
   - name: color_index
     raw_doc: Access the color index of the Chain.
+    type: int
     settable: true
     listenable:
     - add_color_index_listener
@@ -30,6 +33,10 @@ primary_class:
     - color_index_has_listener
   - name: devices
     raw_doc: Return const access to all available Devices that are present in the chains
+    type: Live.Base.Vector
+    element_types:
+    - Live.WavetableDevice.WavetableDevice
+    - Live.Device.Device
     settable: false
     listenable:
     - add_devices_listener
@@ -39,27 +46,32 @@ primary_class:
     raw_doc: |-
       return True, if this Chain can be feed with an Audio signal. This is
       true for all Audio Chains.
+    type: bool
     settable: false
   - name: has_audio_output
     raw_doc: |-
       return True, if this Chain sends out an Audio signal. This is
       true for all Audio Chains, and MIDI chains with an Instrument.
+    type: bool
     settable: false
   - name: has_midi_input
     raw_doc: |-
       return True, if this Chain can be feed with an Audio signal. This is
       true for all MIDI Chains.
+    type: bool
     settable: false
   - name: has_midi_output
     raw_doc: |-
       return True, if this Chain sends out MIDI events. This is
       true for all MIDI Chains with no Instruments.
+    type: bool
     settable: false
   - name: is_auto_colored
     raw_doc: |-
       Get/set access to the auto color flag of the Chain.
       If True, the Chain will always have the same color as the containing
       Track or Chain.
+    type: bool
     settable: true
     listenable:
     - add_is_auto_colored_listener
@@ -69,9 +81,11 @@ primary_class:
     raw_doc: |-
       Return access to the mixer device that holds the chain's mixer parameters:
       the Volume, Pan, and Sendamounts.
+    type: Live.ChainMixerDevice.ChainMixerDevice
     settable: false
   - name: mute
     raw_doc: Mute/unmute the chain.
+    type: bool
     settable: true
     listenable:
     - add_mute_listener
@@ -81,6 +95,7 @@ primary_class:
     raw_doc: |-
       Return const access to whether this chain is muted due to some other chain
       being soloed.
+    type: bool
     settable: false
     listenable:
     - add_muted_via_solo_listener
@@ -88,6 +103,7 @@ primary_class:
     - muted_via_solo_has_listener
   - name: name
     raw_doc: Read/write access to the name of the Chain, as visible in the track header.
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -98,6 +114,7 @@ primary_class:
       Get/Set the solo status of the chain. Note that this will not disable the
       solo state of any other Chain in the same rack. If you want exclusive solo,
       you have to disable the solo state of the other Chains manually.
+    type: bool
     settable: true
     listenable:
     - add_solo_listener

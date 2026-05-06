@@ -12,11 +12,13 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the TuningSystem.
+    type: Live.Song.Song
     settable: false
   - name: highest_note
     raw_doc: |-
       Get/Set the highest note of the current tuning system, where the first entry is
       the index within the pseudo octave and the second entry is the octave.
+    type: Live.TuningSystem.PitchClassAndOctave
     settable: true
     listenable:
     - add_highest_note_listener
@@ -26,6 +28,7 @@ primary_class:
     raw_doc: |-
       Get/Set the lowest note of the current tuning system, where the first entry is
       the index within the pseudo octave and the second entry is the octave.
+    type: Live.TuningSystem.PitchClassAndOctave
     settable: true
     listenable:
     - add_lowest_note_listener
@@ -33,6 +36,7 @@ primary_class:
     - lowest_note_has_listener
   - name: name
     raw_doc: Get/Set the name of the currently active tuning system.
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -40,6 +44,8 @@ primary_class:
     - name_has_listener
   - name: note_tunings
     raw_doc: Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament.
+    type: list
+    element_type: float
     settable: true
     listenable:
     - add_note_tunings_listener
@@ -47,12 +53,15 @@ primary_class:
     - note_tunings_has_listener
   - name: number_of_notes_in_pseudo_octave
     raw_doc: Get the number of notes in the pseudo octave.
+    type: int
     settable: false
   - name: pseudo_octave_in_cents
     raw_doc: Get the pseudo octave in cents for the currently active tuning system.
+    type: float
     settable: false
   - name: reference_pitch
     raw_doc: Get/Set the reference pitch the currently active tuning system.
+    type: Live.TuningSystem.ReferencePitch
     settable: true
     listenable:
     - add_reference_pitch_listener
@@ -73,9 +82,11 @@ classes:
   properties:
   - name: index_in_octave
     raw_doc: A PitchClassAndOctave's index within the pseudo octave.
+    type: int
     settable: false
   - name: octave
     raw_doc: A PitchClassAndOctave's octave.
+    type: int
     settable: false
 - name: ReferencePitch
   path: Live.TuningSystem.ReferencePitch
@@ -91,10 +102,13 @@ classes:
   properties:
   - name: frequency
     raw_doc: A ReferencePitch's frequency in Hz.
+    type: float
     settable: false
   - name: index_in_octave
     raw_doc: A ReferencePitch's index within the pseudo octave.
+    type: int
     settable: false
   - name: octave
     raw_doc: A ReferencePitch's octave.
+    type: int
     settable: false

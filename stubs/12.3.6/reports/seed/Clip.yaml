@@ -15,17 +15,23 @@ primary_class:
   properties:
   - name: automation_envelopes
     raw_doc: Const access to a list of all automation envelopes for this clip.
+    type: Live.Base.Vector
+    element_type: Live.Envelope.Envelope
     settable: false
   - name: available_warp_modes
     raw_doc: |-
       Available for AudioClips only.
       Get/Set the available warp modes, that can be used.
+    type: Live.Base.IntVector
+    element_type: int
     settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Clip.
+    type: Live.ClipSlot.ClipSlot
     settable: false
   - name: color
     raw_doc: Get/set access to the color of the Clip (RGB).
+    type: int
     settable: true
     listenable:
     - add_color_listener
@@ -33,6 +39,7 @@ primary_class:
     - color_has_listener
   - name: color_index
     raw_doc: Get/set access to the color index of the Clip.
+    type: int
     settable: true
     listenable:
     - add_color_index_listener
@@ -40,6 +47,7 @@ primary_class:
     - color_index_has_listener
   - name: end_marker
     raw_doc: Get/Set the Clips end marker pos in beats/seconds (unit depends on warping).
+    type: float
     settable: true
     listenable:
     - add_end_marker_listener
@@ -47,6 +55,7 @@ primary_class:
     - end_marker_has_listener
   - name: end_time
     raw_doc: Get the clip's end time.
+    type: float
     settable: false
     listenable:
     - add_end_time_listener
@@ -54,6 +63,7 @@ primary_class:
     - end_time_has_listener
   - name: file_path
     raw_doc: Get the path of the file represented by the Audio Clip.
+    type: str
     settable: false
     listenable:
     - add_file_path_listener
@@ -64,6 +74,7 @@ primary_class:
       Available for AudioClips only.
       Read/write access to the gain setting of the
       Audio Clip
+    type: float
     settable: true
     listenable:
     - add_gain_listener
@@ -71,9 +82,11 @@ primary_class:
     - gain_has_listener
   - name: gain_display_string
     raw_doc: Return a string with the gain as dB value
+    type: str
     settable: false
   - name: groove
     raw_doc: Get the groove associated with this clip.
+    type: None
     settable: true
     listenable:
     - add_groove_listener
@@ -81,6 +94,7 @@ primary_class:
     - groove_has_listener
   - name: has_envelopes
     raw_doc: Will notify if the clip gets his first envelope or the last envelope is removed.
+    type: bool
     settable: false
     listenable:
     - add_has_envelopes_listener
@@ -88,24 +102,29 @@ primary_class:
     - has_envelopes_has_listener
   - name: has_groove
     raw_doc: Returns true if a groove is associated with this clip.
+    type: bool
     settable: false
   - name: is_arrangement_clip
     raw_doc: |-
       return true if this Clip is an Arrangement Clip.
       A Clip can be either a Session or Arrangement Clip.
+    type: bool
     settable: false
   - name: is_audio_clip
     raw_doc: |-
       Return true if this Clip is an Audio Clip.
       A Clip can be either an Audioclip or a MIDI Clip.
+    type: bool
     settable: false
   - name: is_midi_clip
     raw_doc: |-
       return true if this Clip is a MIDI Clip.
       A Clip can be either an Audioclip or a MIDI Clip.
+    type: bool
     settable: false
   - name: is_overdubbing
     raw_doc: returns true if the Clip is recording overdubs
+    type: bool
     settable: false
     listenable:
     - add_is_overdubbing_listener
@@ -116,9 +135,11 @@ primary_class:
       Get/Set if this Clip is currently playing. If the Clips trigger mode
       is set to a quantization value, the Clip will not start playing immediately.
       If you need to know wether the Clip was triggered, use the is_triggered property.
+    type: bool
     settable: true
   - name: is_recording
     raw_doc: returns true if the Clip was triggered to record or is recording.
+    type: bool
     settable: false
     listenable:
     - add_is_recording_listener
@@ -128,17 +149,21 @@ primary_class:
     raw_doc: |-
       return true if this Clip is a Session Clip.
       A Clip can be either a Session or Arrangement Clip.
+    type: bool
     settable: false
   - name: is_take_lane_clip
     raw_doc: |-
       return true if this Clip is a Take Lane Clip.
       A Take Lane Clip is also always an Arrangement Clip.
+    type: bool
     settable: false
   - name: is_triggered
     raw_doc: returns true if the Clip was triggered or is playing.
+    type: bool
     settable: false
   - name: launch_mode
     raw_doc: Get/Set access to the launch mode setting of the Clip.
+    type: int
     settable: true
     listenable:
     - add_launch_mode_listener
@@ -146,6 +171,7 @@ primary_class:
     - launch_mode_has_listener
   - name: launch_quantization
     raw_doc: Get/Set access to the launch quantization setting of the Clip.
+    type: int
     settable: true
     listenable:
     - add_launch_quantization_listener
@@ -153,6 +179,7 @@ primary_class:
     - launch_quantization_has_listener
   - name: legato
     raw_doc: Get/Set access to the legato setting of the Clip
+    type: bool
     settable: true
     listenable:
     - add_legato_listener
@@ -160,9 +187,11 @@ primary_class:
     - legato_has_listener
   - name: length
     raw_doc: Get to the Clips length in beats/seconds (unit depends on warping).
+    type: float
     settable: false
   - name: loop_end
     raw_doc: Get/Set the loop end pos of this Clip in beats/seconds (unit depends on warping).
+    type: float
     settable: true
     listenable:
     - add_loop_end_listener
@@ -170,6 +199,7 @@ primary_class:
     - loop_end_has_listener
   - name: loop_start
     raw_doc: Get/Set the Clips loopstart pos in beats/seconds (unit depends on warping).
+    type: float
     settable: true
     listenable:
     - add_loop_start_listener
@@ -179,6 +209,7 @@ primary_class:
     raw_doc: |-
       Get/Set the Clips 'loop is enabled' flag
       .Only Warped Audio Clips or MIDI Clip can be looped.
+    type: bool
     settable: true
     listenable:
     - add_looping_listener
@@ -186,6 +217,7 @@ primary_class:
     - looping_has_listener
   - name: muted
     raw_doc: Read/write access to the mute state of the Clip.
+    type: bool
     settable: true
     listenable:
     - add_muted_listener
@@ -193,6 +225,7 @@ primary_class:
     - muted_has_listener
   - name: name
     raw_doc: Read/write access to the name of the Clip.
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -203,6 +236,7 @@ primary_class:
       Available for AudioClips only.
       Read/write access to the pitch (in halftones) setting of the
       Audio Clip, ranging from -48 to 48
+    type: int
     settable: true
     listenable:
     - add_pitch_coarse_listener
@@ -213,6 +247,7 @@ primary_class:
       Available for AudioClips only.
       Read/write access to the pitch fine setting of the
       Audio Clip, ranging from -500 to 500
+    type: float
     settable: true
     listenable:
     - add_pitch_fine_listener
@@ -223,6 +258,7 @@ primary_class:
       Constant access to the current playing position of the clip.
       The returned value is the position in beats for midi and warped audio clips,
       or in seconds for unwarped audio clips. Stopped clips will return 0.
+    type: float
     settable: false
     listenable:
     - add_playing_position_listener
@@ -230,6 +266,7 @@ primary_class:
     - playing_position_has_listener
   - name: position
     raw_doc: Get/Set the loop position of this Clip in beats/seconds (unit depends on warping).
+    type: float
     settable: true
     listenable:
     - add_position_listener
@@ -239,6 +276,7 @@ primary_class:
     raw_doc: |-
       Available for AudioClips only.
       Read/write access to the Ram mode setting of the Audio Clip
+    type: bool
     settable: true
     listenable:
     - add_ram_mode_listener
@@ -248,14 +286,17 @@ primary_class:
     raw_doc: |-
       Available for AudioClips only.
       Get the sample length in sample time or -1 if there is no sample available.
+    type: int
     settable: false
   - name: sample_rate
     raw_doc: |-
       Available for AudioClips only.
       Read-only access to the Clip's sampling rate.
+    type: float
     settable: false
   - name: signature_denominator
     raw_doc: Get/Set access to the global signature denominator of the Clip.
+    type: int
     settable: true
     listenable:
     - add_signature_denominator_listener
@@ -263,6 +304,7 @@ primary_class:
     - signature_denominator_has_listener
   - name: signature_numerator
     raw_doc: Get/Set access to the global signature numerator of the Clip.
+    type: int
     settable: true
     listenable:
     - add_signature_numerator_listener
@@ -270,6 +312,7 @@ primary_class:
     - signature_numerator_has_listener
   - name: start_marker
     raw_doc: Get/Set the Clips start marker pos in beats/seconds (unit depends on warping).
+    type: float
     settable: true
     listenable:
     - add_start_marker_listener
@@ -277,6 +320,7 @@ primary_class:
     - start_marker_has_listener
   - name: start_time
     raw_doc: Get the clip's start time offset. For Session View clips, this is the time the clip was started. For Arrangement View clips, this is the offset within the arrangement.
+    type: float
     settable: false
     listenable:
     - add_start_time_listener
@@ -284,6 +328,7 @@ primary_class:
     - start_time_has_listener
   - name: velocity_amount
     raw_doc: Get/Set access to the velocity to volume amount of the Clip.
+    type: float
     settable: true
     listenable:
     - add_velocity_amount_listener
@@ -291,11 +336,14 @@ primary_class:
     - velocity_amount_has_listener
   - name: view
     raw_doc: Get the view of the Clip.
+    type: Live.Clip.Clip.View
     settable: false
   - name: warp_markers
     raw_doc: |-
       Available for AudioClips only.
       Get the warp markers for this audio clip.
+    type: Live.Clip.WarpMarkerVector
+    element_type: Live.Clip.WarpMarker
     settable: false
     listenable:
     - add_warp_markers_listener
@@ -305,6 +353,7 @@ primary_class:
     raw_doc: |-
       Available for AudioClips only.
       Get/Set the warp mode for this audio clip.
+    type: int
     settable: true
     listenable:
     - add_warp_mode_listener
@@ -314,6 +363,7 @@ primary_class:
     raw_doc: |-
       Available for AudioClips only.
       Get/Set if this Clip is timestreched.
+    type: bool
     settable: true
     listenable:
     - add_warping_listener
@@ -321,6 +371,7 @@ primary_class:
     - warping_has_listener
   - name: will_record_on_start
     raw_doc: returns true if the Clip will record on being started.
+    type: bool
     settable: false
   - name: loop_jump
     listenable:
@@ -893,12 +944,15 @@ primary_class:
     properties:
     - name: canonical_parent
       raw_doc: Get the canonical parent of the clip view.
+      type: Live.Clip.Clip
       settable: false
     - name: grid_is_triplet
       raw_doc: Get/set wether the grid is showing in triplet mode.
+      type: bool
       settable: true
     - name: grid_quantization
       raw_doc: Get/set clip grid quantization resolution.
+      type: GridQuantization
       settable: true
     methods:
     - name: hide_envelope
@@ -950,25 +1004,34 @@ classes:
   constructable: false
   properties:
   - name: duration
+    type: float
     settable: true
   - name: mute
+    type: bool
     settable: true
   - name: note_id
     raw_doc: |-
       A numerical ID that's unique within the originating clip of the note. Not to be
       used directly, but important for other API calls, namely apply_note_modifications.
+    type: int
     settable: false
   - name: pitch
+    type: int
     settable: true
   - name: probability
+    type: float
     settable: true
   - name: release_velocity
+    type: float
     settable: true
   - name: start_time
+    type: float
     settable: true
   - name: velocity
+    type: float
     settable: true
   - name: velocity_deviation
+    type: float
     settable: true
 - name: MidiNoteSpecification
   path: Live.Clip.MidiNoteSpecification
@@ -992,6 +1055,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: Live.Clip.MidiNote
   methods:
   - name: append
     signature: 'append( (MidiNoteVector)arg1, (object)arg2) -> None :'
@@ -1027,9 +1092,11 @@ classes:
   properties:
   - name: beat_time
     raw_doc: A WarpMarker's beat time.
+    type: float
     settable: false
   - name: sample_time
     raw_doc: A WarpMarker's sample time.
+    type: float
     settable: false
 - name: WarpMarkerVector
   path: Live.Clip.WarpMarkerVector
@@ -1039,6 +1106,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: Live.Clip.WarpMarker
   methods:
   - name: append
     signature: 'append( (WarpMarkerVector)arg1, (object)arg2) -> None :'

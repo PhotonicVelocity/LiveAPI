@@ -13,36 +13,47 @@ primary_class:
   properties:
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
+    type: bool
     settable: false
   - name: can_have_chains
     raw_doc: Returns true if the device is a rack.
+    type: bool
     settable: false
   - name: can_have_drum_pads
     raw_doc: Returns true if the device is a drum rack.
+    type: bool
     settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Device.
+    type: Live.Track.Track
     settable: false
   - name: class_display_name
     raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
+    type: str
     settable: false
   - name: class_name
     raw_doc: Return const access to the name of the device's class.
+    type: str
     settable: false
   - name: is_active
     raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
     settable: false
   - name: is_using_compare_preset_b
     raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    type: bool
     settable: true
   - name: latency_in_ms
     raw_doc: Returns the latency of the device in ms.
+    type: float
     settable: false
   - name: latency_in_samples
     raw_doc: Returns the latency of the device in samples.
+    type: int
     settable: false
   - name: mono_poly
     raw_doc: Returns the mode of Polyphony
+    type: int
     settable: true
     listenable:
     - add_mono_poly_listener
@@ -50,12 +61,16 @@ primary_class:
     - mono_poly_has_listener
   - name: name
     raw_doc: Return access to the name of the device.
+    type: str
     settable: true
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
+    type: Live.Device.ATimeableValueVector
+    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: poly_voices
     raw_doc: Return the Poly Voice count
+    type: int
     settable: true
     listenable:
     - add_poly_voices_listener
@@ -63,6 +78,7 @@ primary_class:
     - poly_voices_has_listener
   - name: selected_engine
     raw_doc: Return what Voice Engine is selected
+    type: bool
     settable: true
     listenable:
     - add_selected_engine_listener
@@ -70,9 +86,11 @@ primary_class:
     - selected_engine_has_listener
   - name: type
     raw_doc: Return the type of the device.
+    type: DeviceType
     settable: false
   - name: unison_voices
     raw_doc: Return the Unison Voice count
+    type: int
     settable: true
     listenable:
     - add_unison_voices_listener
@@ -80,4 +98,5 @@ primary_class:
     - unison_voices_has_listener
   - name: view
     raw_doc: Representing the view aspects of a device.
+    type: Live.Device.Device.View
     settable: false

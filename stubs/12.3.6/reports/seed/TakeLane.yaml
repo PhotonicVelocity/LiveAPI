@@ -12,6 +12,8 @@ primary_class:
   properties:
   - name: arrangement_clips
     raw_doc: Read-only access to the arrangement clips in the take lane.
+    type: Live.Base.Vector
+    element_type: Live.Clip.Clip
     settable: false
     listenable:
     - add_arrangement_clips_listener
@@ -19,9 +21,11 @@ primary_class:
     - arrangement_clips_has_listener
   - name: canonical_parent
     raw_doc: Get the canonical parent of the take lane.
+    type: Live.Track.Track
     settable: false
   - name: name
     raw_doc: Read/write access to the name of the TakeLane, as visible in the take lane header.
+    type: str
     settable: true
     listenable:
     - add_name_listener

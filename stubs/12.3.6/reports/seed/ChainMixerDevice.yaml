@@ -14,15 +14,19 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the mixer device.
+    type: Live.Chain.Chain
     settable: false
   - name: chain_activator
     raw_doc: Const access to the Chain's Activator Device Parameter.
+    type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: panning
     raw_doc: Const access to the Chain's Panning Device Parameter.
+    type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: sends
     raw_doc: Const access to the Chain's list of Send Amount Device Parameters.
+    type: Live.Base.Vector
     settable: false
     listenable:
     - add_sends_listener
@@ -30,4 +34,5 @@ primary_class:
     - sends_has_listener
   - name: volume
     raw_doc: Const access to the Chain's Volume Device Parameter.
+    type: Live.DeviceParameter.DeviceParameter
     settable: false

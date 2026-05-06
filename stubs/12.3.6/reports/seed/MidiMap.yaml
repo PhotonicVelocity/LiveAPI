@@ -12,14 +12,19 @@ classes:
   constructable: true
   properties:
   - name: cc_no
+    type: int
     settable: true
   - name: cc_value_map
+    type: tuple
     settable: true
   - name: channel
+    type: int
     settable: true
   - name: delay_in_ms
+    type: float
     settable: true
   - name: enabled
+    type: bool
     settable: true
 - name: NoteFeedbackRule
   path: Live.MidiMap.NoteFeedbackRule
@@ -33,14 +38,19 @@ classes:
   constructable: true
   properties:
   - name: channel
+    type: int
     settable: true
   - name: delay_in_ms
+    type: float
     settable: true
   - name: enabled
+    type: bool
     settable: true
   - name: note_no
+    type: int
     settable: true
   - name: vel_map
+    type: tuple
     settable: true
 - name: PitchBendFeedbackRule
   path: Live.MidiMap.PitchBendFeedbackRule
@@ -54,12 +64,16 @@ classes:
   constructable: true
   properties:
   - name: channel
+    type: int
     settable: true
   - name: delay_in_ms
+    type: float
     settable: true
   - name: enabled
+    type: bool
     settable: true
   - name: value_pair_map
+    type: tuple
     settable: true
 enums:
 - name: MapMode

@@ -12,9 +12,12 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the groove pool.
+    type: Live.Song.Song
     settable: false
   - name: grooves
     raw_doc: Access to the list of grooves
+    type: Live.Base.Vector
+    element_type: Live.Groove.Groove
     settable: false
     listenable:
     - add_grooves_listener

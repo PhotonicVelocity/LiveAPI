@@ -12,12 +12,15 @@ primary_class:
   properties:
   - name: base
     raw_doc: Get/set the groove's base grid.
+    type: Base
     settable: true
   - name: canonical_parent
     raw_doc: Get the canonical parent of the groove.
+    type: Live.GroovePool.GroovePool
     settable: false
   - name: name
     raw_doc: Read/write/listen access to the groove's name
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -25,6 +28,7 @@ primary_class:
     - name_has_listener
   - name: quantization_amount
     raw_doc: Read/write/listen access to the groove's quantization amount.
+    type: float
     settable: true
     listenable:
     - add_quantization_amount_listener
@@ -32,6 +36,7 @@ primary_class:
     - quantization_amount_has_listener
   - name: random_amount
     raw_doc: Read/write/listen access to the groove's random amount.
+    type: float
     settable: true
     listenable:
     - add_random_amount_listener
@@ -39,6 +44,7 @@ primary_class:
     - random_amount_has_listener
   - name: timing_amount
     raw_doc: Read/write/listen access to the groove's timing amount.
+    type: float
     settable: true
     listenable:
     - add_timing_amount_listener
@@ -46,6 +52,7 @@ primary_class:
     - timing_amount_has_listener
   - name: velocity_amount
     raw_doc: Read/write/listen access to the groove's velocity amount.
+    type: float
     settable: true
     listenable:
     - add_velocity_amount_listener

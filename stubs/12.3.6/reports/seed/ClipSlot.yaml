@@ -12,12 +12,15 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the ClipSlot.
+    type: Live.Track.Track
     settable: false
   - name: clip
     raw_doc: Returns the Clip which this clipslots currently owns. Might be None.
+    type: Live.Clip.Clip
     settable: false
   - name: color
     raw_doc: Returns the canonical color for the clip slot or None if it does not exist.
+    type: int
     settable: false
     listenable:
     - add_color_listener
@@ -25,6 +28,7 @@ primary_class:
     - color_has_listener
   - name: color_index
     raw_doc: Returns the canonical color index for the clip slot or None if it does not exist.
+    type: int
     settable: false
     listenable:
     - add_color_index_listener
@@ -34,6 +38,7 @@ primary_class:
     raw_doc: |-
       Returns true if firing this slot will fire clips in other slots.
       Can only be true for slots in group tracks.
+    type: bool
     settable: false
     listenable:
     - add_controls_other_clips_listener
@@ -41,6 +46,7 @@ primary_class:
     - controls_other_clips_has_listener
   - name: has_clip
     raw_doc: Returns true if this Clipslot owns a Clip.
+    type: bool
     settable: false
     listenable:
     - add_has_clip_listener
@@ -50,6 +56,7 @@ primary_class:
     raw_doc: |-
       Get/Set if this Clip has a stop button, which will, if fired, stop any
       other Clip that is currently playing the Track we do belong to.
+    type: bool
     settable: true
     listenable:
     - add_has_stop_button_listener
@@ -57,15 +64,19 @@ primary_class:
     - has_stop_button_has_listener
   - name: is_group_slot
     raw_doc: Returns whether this clip slot is a group track slot (group slot).
+    type: bool
     settable: false
   - name: is_playing
     raw_doc: Returns whether the clip associated with the slot is playing.
+    type: bool
     settable: false
   - name: is_recording
     raw_doc: Returns whether the clip associated with the slot is recording.
+    type: bool
     settable: false
   - name: is_triggered
     raw_doc: Const access to the triggering state of the clip slot.
+    type: bool
     settable: false
     listenable:
     - add_is_triggered_listener
@@ -75,6 +86,7 @@ primary_class:
     raw_doc: |-
       Const access to the playing state of the clip slot.
       Can be either stopped, playing, or recording.
+    type: ClipSlotPlayingState
     settable: false
     listenable:
     - add_playing_status_listener
@@ -82,6 +94,7 @@ primary_class:
     - playing_status_has_listener
   - name: will_record_on_start
     raw_doc: returns true if the clip slot will record on being fired.
+    type: bool
     settable: false
   methods:
   - name: create_audio_clip

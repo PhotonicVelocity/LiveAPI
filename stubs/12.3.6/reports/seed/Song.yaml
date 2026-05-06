@@ -12,6 +12,7 @@ primary_class:
   properties:
   - name: appointed_device
     raw_doc: Read, write, and listen access to the appointed Device
+    type: None
     settable: true
     listenable:
     - add_appointed_device_listener
@@ -19,6 +20,7 @@ primary_class:
     - appointed_device_has_listener
   - name: arrangement_overdub
     raw_doc: Get/Set the global arrangement overdub state.
+    type: bool
     settable: true
     listenable:
     - add_arrangement_overdub_listener
@@ -28,6 +30,7 @@ primary_class:
     raw_doc: |-
       Get/Set if triggering a Clip in the Session, disabled the playback of
       Clips in the Arranger.
+    type: bool
     settable: true
     listenable:
     - add_back_to_arranger_listener
@@ -35,6 +38,7 @@ primary_class:
     - back_to_arranger_has_listener
   - name: can_capture_midi
     raw_doc: Get whether there currently is material to be captured on any tracks.
+    type: bool
     settable: false
     listenable:
     - add_can_capture_midi_listener
@@ -44,6 +48,7 @@ primary_class:
     raw_doc: |-
       Returns true when there is a cue marker right to the playing pos that
       we could jump to.
+    type: bool
     settable: false
     listenable:
     - add_can_jump_to_next_cue_listener
@@ -53,6 +58,7 @@ primary_class:
     raw_doc: |-
       Returns true when there is a cue marker left to the playing pos that
       we could jump to.
+    type: bool
     settable: false
     listenable:
     - add_can_jump_to_prev_cue_listener
@@ -60,17 +66,21 @@ primary_class:
     - can_jump_to_prev_cue_has_listener
   - name: can_redo
     raw_doc: Returns true if there is an undone action that we can redo.
+    type: bool
     settable: false
   - name: can_undo
     raw_doc: Returns true if there is an action that we can restore.
+    type: bool
     settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the song.
+    type: None
     settable: false
   - name: clip_trigger_quantization
     raw_doc: |-
       Get/Set access to the quantization settings that are used to fire
       Clips in the Session.
+    type: Quantization
     settable: true
     listenable:
     - add_clip_trigger_quantization_listener
@@ -80,6 +90,7 @@ primary_class:
     raw_doc: |-
       Get the count in duration. Returns an index, mapped as follows:
       0 - None, 1 - 1 Bar, 2 - 2 Bars, 3 - 4 Bars.
+    type: int
     settable: false
     listenable:
     - add_count_in_duration_listener
@@ -87,6 +98,8 @@ primary_class:
     - count_in_duration_has_listener
   - name: cue_points
     raw_doc: Const access to a list of all cue points of the Live Song.
+    type: Live.Base.Vector
+    element_type: Live.Song.CuePoint
     settable: false
     listenable:
     - add_cue_points_listener
@@ -94,6 +107,7 @@ primary_class:
     - cue_points_has_listener
   - name: current_song_time
     raw_doc: Get/Set access to the songs current playing position in beats.
+    type: float
     settable: true
     listenable:
     - add_current_song_time_listener
@@ -101,6 +115,7 @@ primary_class:
     - current_song_time_has_listener
   - name: exclusive_arm
     raw_doc: Get if Tracks should be armed exclusively by default.
+    type: bool
     settable: false
     listenable:
     - add_exclusive_arm_listener
@@ -108,14 +123,17 @@ primary_class:
     - exclusive_arm_has_listener
   - name: exclusive_solo
     raw_doc: Get if Tracks should be soloed exclusively by default.
+    type: bool
     settable: false
   - name: file_path
     raw_doc: Get the current Live Set's path on disk.
+    type: str
     settable: false
   - name: groove_amount
     raw_doc: |-
       Get/Set the global groove amount, that adjust all setup grooves
       in all clips.
+    type: float
     settable: true
     listenable:
     - add_groove_amount_listener
@@ -123,9 +141,11 @@ primary_class:
     - groove_amount_has_listener
   - name: groove_pool
     raw_doc: Get the groove pool.
+    type: Live.GroovePool.GroovePool
     settable: false
   - name: is_ableton_link_enabled
     raw_doc: Enable/disable Ableton Link.
+    type: bool
     settable: true
     listenable:
     - add_is_ableton_link_enabled_listener
@@ -133,6 +153,7 @@ primary_class:
     - is_ableton_link_enabled_has_listener
   - name: is_ableton_link_start_stop_sync_enabled
     raw_doc: Enable/disable Ableton Link Start Stop Sync.
+    type: bool
     settable: true
     listenable:
     - add_is_ableton_link_start_stop_sync_enabled_listener
@@ -140,6 +161,7 @@ primary_class:
     - is_ableton_link_start_stop_sync_enabled_has_listener
   - name: is_counting_in
     raw_doc: Get whether currently counting in.
+    type: bool
     settable: false
     listenable:
     - add_is_counting_in_listener
@@ -147,6 +169,7 @@ primary_class:
     - is_counting_in_has_listener
   - name: is_playing
     raw_doc: Returns true if the Song is currently playing.
+    type: bool
     settable: true
     listenable:
     - add_is_playing_listener
@@ -157,11 +180,13 @@ primary_class:
       Return the time of the last set event in the song. In contrary to
       song_length, this will not add some extra beats that are mostly needed
       for Display purposes in the Arrangerview.
+    type: float
     settable: false
   - name: loop
     raw_doc: |-
       Get/Set the looping flag that en/disables the usage of the global
       loop markers in the song.
+    type: bool
     settable: true
     listenable:
     - add_loop_listener
@@ -169,6 +194,7 @@ primary_class:
     - loop_has_listener
   - name: loop_length
     raw_doc: Get/Set the length of the global loop marker position in beats.
+    type: float
     settable: true
     listenable:
     - add_loop_length_listener
@@ -176,6 +202,7 @@ primary_class:
     - loop_length_has_listener
   - name: loop_start
     raw_doc: Get/Set the start of the global loop marker position in beats.
+    type: float
     settable: true
     listenable:
     - add_loop_start_listener
@@ -183,9 +210,11 @@ primary_class:
     - loop_start_has_listener
   - name: master_track
     raw_doc: Access to the Main Track (always available)
+    type: Live.Track.Track
     settable: false
   - name: metronome
     raw_doc: Get/Set if the metronom is audible.
+    type: bool
     settable: true
     listenable:
     - add_metronome_listener
@@ -195,6 +224,7 @@ primary_class:
     raw_doc: |-
       Get/Set access to the settings that are used to quantize
       MIDI recordings.
+    type: RecordingQuantization
     settable: true
     listenable:
     - add_midi_recording_quantization_listener
@@ -202,9 +232,11 @@ primary_class:
     - midi_recording_quantization_has_listener
   - name: name
     raw_doc: Get the current Live Set's name.
+    type: str
     settable: false
   - name: nudge_down
     raw_doc: Get/Set the status of the nudge down button.
+    type: bool
     settable: true
     listenable:
     - add_nudge_down_listener
@@ -212,6 +244,7 @@ primary_class:
     - nudge_down_has_listener
   - name: nudge_up
     raw_doc: Get/Set the status of the nudge up button.
+    type: bool
     settable: true
     listenable:
     - add_nudge_up_listener
@@ -221,6 +254,7 @@ primary_class:
     raw_doc: |-
       Legacy hook for Live 8 overdub state. Now hooks to
       session record, but never starts playback.
+    type: bool
     settable: true
     listenable:
     - add_overdub_listener
@@ -230,6 +264,7 @@ primary_class:
     raw_doc: |-
       Get/Set the flag that will enable recording as soon as the Song plays
       and hits the global loop start region.
+    type: bool
     settable: true
     listenable:
     - add_punch_in_listener
@@ -239,6 +274,7 @@ primary_class:
     raw_doc: |-
       Get/Set the flag that will disable recording as soon as the Song plays
       and hits the global loop end region.
+    type: bool
     settable: true
     listenable:
     - add_punch_out_listener
@@ -246,6 +282,7 @@ primary_class:
     - punch_out_has_listener
   - name: re_enable_automation_enabled
     raw_doc: Returns true if some automated parameter has been overriden
+    type: bool
     settable: false
     listenable:
     - add_re_enable_automation_enabled_listener
@@ -253,6 +290,7 @@ primary_class:
     - re_enable_automation_enabled_has_listener
   - name: record_mode
     raw_doc: Get/Set the state of the global recording flag.
+    type: bool
     settable: true
     listenable:
     - add_record_mode_listener
@@ -260,6 +298,8 @@ primary_class:
     - record_mode_has_listener
   - name: return_tracks
     raw_doc: Const access to the list of available Return Tracks.
+    type: Live.Base.Vector
+    element_type: Live.Track.Track
     settable: false
     listenable:
     - add_return_tracks_listener
@@ -267,6 +307,7 @@ primary_class:
     - return_tracks_has_listener
   - name: root_note
     raw_doc: Set and access the root (i.e. key) of the song. The root can be a number between 0 and 11, with 0 corresponding to C and 11 corresponding to B.
+    type: int
     settable: true
     listenable:
     - add_root_note_listener
@@ -274,6 +315,8 @@ primary_class:
     - root_note_has_listener
   - name: scale_intervals
     raw_doc: Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)
+    type: Live.Base.IntVector
+    element_type: int
     settable: false
     listenable:
     - add_scale_intervals_listener
@@ -281,6 +324,7 @@ primary_class:
     - scale_intervals_has_listener
   - name: scale_mode
     raw_doc: Access to the Scale Mode setting in Live. When on, key tracks that belong to the currently selected scale are highlighted in Live's MIDI Note Editor, and pitch-based parameters in MIDI Tools and Devices can be edited in scale degrees rather than semitones.
+    type: bool
     settable: true
     listenable:
     - add_scale_mode_listener
@@ -297,6 +341,7 @@ primary_class:
       '8-Tone Spanish', 'Hirajoshi', 'In-Sen', 'Iwato', 'Kumoi', 'Pelog Selisir',
       'Pelog Tembung', 'Messiaen 3', 'Messiaen 4', 'Messiaen 5', 'Messiaen 6',
       'Messiaen 7'
+    type: str
     settable: true
     listenable:
     - add_scale_name_listener
@@ -304,6 +349,8 @@ primary_class:
     - scale_name_has_listener
   - name: scenes
     raw_doc: Const access to a list of all Scenes in the Live Song.
+    type: Live.Base.Vector
+    element_type: Live.Scene.Scene
     settable: false
     listenable:
     - add_scenes_listener
@@ -311,9 +358,11 @@ primary_class:
     - scenes_has_listener
   - name: select_on_launch
     raw_doc: Get if Scenes and Clips should be selected when fired.
+    type: bool
     settable: false
   - name: session_automation_record
     raw_doc: Returns true if automation recording is enabled.
+    type: bool
     settable: true
     listenable:
     - add_session_automation_record_listener
@@ -321,6 +370,7 @@ primary_class:
     - session_automation_record_has_listener
   - name: session_record
     raw_doc: Get/Set the session record state.
+    type: bool
     settable: true
     listenable:
     - add_session_record_listener
@@ -328,6 +378,7 @@ primary_class:
     - session_record_has_listener
   - name: session_record_status
     raw_doc: Get the session slot-recording state.
+    type: int
     settable: false
     listenable:
     - add_session_record_status_listener
@@ -335,6 +386,7 @@ primary_class:
     - session_record_status_has_listener
   - name: signature_denominator
     raw_doc: Get/Set access to the global signature denominator of the Song.
+    type: int
     settable: true
     listenable:
     - add_signature_denominator_listener
@@ -342,6 +394,7 @@ primary_class:
     - signature_denominator_has_listener
   - name: signature_numerator
     raw_doc: Get/Set access to the global signature numerator of the Song.
+    type: int
     settable: true
     listenable:
     - add_signature_numerator_listener
@@ -351,6 +404,7 @@ primary_class:
     raw_doc: |-
       Return the time of the last set event in the song, plus som extra beats
       that are usually added for better navigation in the arrangerview.
+    type: float
     settable: false
     listenable:
     - add_song_length_listener
@@ -360,6 +414,7 @@ primary_class:
     raw_doc: |-
       Get/Set access to the songs current start time in beats. The set time
       may be overridden by the current loop/locator start time.
+    type: float
     settable: true
     listenable:
     - add_start_time_listener
@@ -367,6 +422,7 @@ primary_class:
     - start_time_has_listener
   - name: swing_amount
     raw_doc: Get/Set access to the amount of swing that is applied when adding or quantizing notes to MIDI clips
+    type: float
     settable: true
     listenable:
     - add_swing_amount_listener
@@ -374,6 +430,7 @@ primary_class:
     - swing_amount_has_listener
   - name: tempo
     raw_doc: Get/Set the global project tempo.
+    type: float
     settable: true
     listenable:
     - add_tempo_listener
@@ -381,6 +438,7 @@ primary_class:
     - tempo_has_listener
   - name: tempo_follower_enabled
     raw_doc: Get/Set whether the Tempo Follower is controlling the tempo. The Tempo Follower Toggle must be made visible in the preferences for this property to be effective.
+    type: bool
     settable: true
     listenable:
     - add_tempo_follower_enabled_listener
@@ -391,6 +449,8 @@ primary_class:
       Const access to a list of all Player Tracks in the Live Song, excluding
       the return and Main Track (see also Song.send_tracks and Song.master_track).
       At least one MIDI or Audio Track is always available.
+    type: Live.Base.Vector
+    element_type: Live.Track.Track
     settable: false
     listenable:
     - add_tracks_listener
@@ -398,6 +458,7 @@ primary_class:
     - tracks_has_listener
   - name: tuning_system
     raw_doc: Access the currently active tuning system.
+    type: Live.TuningSystem.TuningSystem
     settable: false
     listenable:
     - add_tuning_system_listener
@@ -407,12 +468,15 @@ primary_class:
     raw_doc: |-
       Representing the view aspects of a Live document:
       The Session and Arrangerview.
+    type: Live.Song.Song.View
     settable: false
   - name: visible_tracks
     raw_doc: |-
       Const access to a list of all visible Player Tracks in the Live Song, excluding
       the return and Main Track (see also Song.send_tracks and Song.master_track).
       At least one MIDI or Audio Track is always available.
+    type: Live.Base.Vector
+    element_type: Live.Track.Track
     settable: false
     listenable:
     - add_visible_tracks_listener
@@ -890,9 +954,11 @@ primary_class:
     properties:
     - name: canonical_parent
       raw_doc: Get the canonical parent of the song view.
+      type: Live.Song.Song
       settable: false
     - name: detail_clip
       raw_doc: Get/Set the Clip that is currently visible in Lives Detailview.
+      type: None
       settable: true
       listenable:
       - add_detail_clip_listener
@@ -900,6 +966,7 @@ primary_class:
       - detail_clip_has_listener
     - name: draw_mode
       raw_doc: Get/Set if the Envelope/Note draw mode is enabled.
+      type: bool
       settable: true
       listenable:
       - add_draw_mode_listener
@@ -907,6 +974,7 @@ primary_class:
       - draw_mode_has_listener
     - name: follow_song
       raw_doc: Get/Set if the Arrangerview should scroll to show the playmarker.
+      type: bool
       settable: true
       listenable:
       - add_follow_song_listener
@@ -914,9 +982,11 @@ primary_class:
       - follow_song_has_listener
     - name: highlighted_clip_slot
       raw_doc: Get/Set the clip slot, defined via the selected track and scene in the Session.Will be None for Main- and Sendtracks.
+      type: Live.ClipSlot.ClipSlot
       settable: true
     - name: selected_chain
       raw_doc: Get the highlighted chain if available.
+      type: None
       settable: true
       listenable:
       - add_selected_chain_listener
@@ -924,6 +994,7 @@ primary_class:
       - selected_chain_has_listener
     - name: selected_parameter
       raw_doc: Get the currently selected device parameter.
+      type: None
       settable: false
       listenable:
       - add_selected_parameter_listener
@@ -931,6 +1002,7 @@ primary_class:
       - selected_parameter_has_listener
     - name: selected_scene
       raw_doc: Get/Set the current selected scene in Lives Sessionview.
+      type: Live.Scene.Scene
       settable: true
       listenable:
       - add_selected_scene_listener
@@ -938,6 +1010,7 @@ primary_class:
       - selected_scene_has_listener
     - name: selected_track
       raw_doc: Get/Set the current selected Track in Lives Session or Arrangerview.
+      type: Live.Track.Track
       settable: true
       listenable:
       - add_selected_track_listener
@@ -972,12 +1045,16 @@ classes:
   constructable: true
   properties:
   - name: bars
+    type: int
     settable: true
   - name: beats
+    type: int
     settable: true
   - name: sub_division
+    type: int
     settable: true
   - name: ticks
+    type: int
     settable: true
 - name: CuePoint
   path: Live.Song.CuePoint
@@ -991,9 +1068,11 @@ classes:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the cue point.
+    type: Live.Song.Song
     settable: false
   - name: name
     raw_doc: Get/Set/Listen to the name of this CuePoint, as visible in the arranger.
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -1001,6 +1080,7 @@ classes:
     - name_has_listener
   - name: time
     raw_doc: Get/Listen to the CuePoint's time in beats.
+    type: float
     settable: false
     listenable:
     - add_time_listener
@@ -1034,12 +1114,16 @@ classes:
   constructable: true
   properties:
   - name: frames
+    type: int
     settable: true
   - name: hours
+    type: int
     settable: true
   - name: minutes
+    type: int
     settable: true
   - name: seconds
+    type: int
     settable: true
 enums:
 - name: CaptureDestination

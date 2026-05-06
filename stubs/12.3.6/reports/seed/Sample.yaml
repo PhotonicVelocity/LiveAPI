@@ -12,6 +12,7 @@ primary_class:
   properties:
   - name: beats_granulation_resolution
     raw_doc: Access to the Granulation Resolution parameter in Beats Warp Mode.
+    type: int
     settable: true
     listenable:
     - add_beats_granulation_resolution_listener
@@ -19,6 +20,7 @@ primary_class:
     - beats_granulation_resolution_has_listener
   - name: beats_transient_envelope
     raw_doc: Access to the Transient Envelope parameter in Beats Warp Mode.
+    type: float
     settable: true
     listenable:
     - add_beats_transient_envelope_listener
@@ -26,6 +28,7 @@ primary_class:
     - beats_transient_envelope_has_listener
   - name: beats_transient_loop_mode
     raw_doc: Access to the Transient Loop Mode parameter in Beats Warp Mode.
+    type: int
     settable: true
     listenable:
     - add_beats_transient_loop_mode_listener
@@ -33,9 +36,11 @@ primary_class:
     - beats_transient_loop_mode_has_listener
   - name: canonical_parent
     raw_doc: Access to the sample's canonical parent.
+    type: Live.SimplerDevice.SimplerDevice
     settable: false
   - name: complex_pro_envelope
     raw_doc: Access to the Envelope parameter in Complex Pro Mode.
+    type: float
     settable: true
     listenable:
     - add_complex_pro_envelope_listener
@@ -43,6 +48,7 @@ primary_class:
     - complex_pro_envelope_has_listener
   - name: complex_pro_formants
     raw_doc: Access to the Formants parameter in Complex Pro Warp Mode.
+    type: float
     settable: true
     listenable:
     - add_complex_pro_formants_listener
@@ -50,6 +56,7 @@ primary_class:
     - complex_pro_formants_has_listener
   - name: end_marker
     raw_doc: Access to the position of the sample's end marker.
+    type: int
     settable: true
     listenable:
     - add_end_marker_listener
@@ -57,6 +64,7 @@ primary_class:
     - end_marker_has_listener
   - name: file_path
     raw_doc: Get the path of the sample file.
+    type: str
     settable: false
     listenable:
     - add_file_path_listener
@@ -64,6 +72,7 @@ primary_class:
     - file_path_has_listener
   - name: gain
     raw_doc: Access to the sample gain.
+    type: float
     settable: true
     listenable:
     - add_gain_listener
@@ -71,12 +80,15 @@ primary_class:
     - gain_has_listener
   - name: length
     raw_doc: Get the length of the sample file in sample frames.
+    type: int
     settable: false
   - name: sample_rate
     raw_doc: Access to the audio sample rate of the sample.
+    type: float
     settable: false
   - name: slices
     raw_doc: Access to the list of slice points in sample time in the sample.
+    type: tuple
     settable: false
     listenable:
     - add_slices_listener
@@ -84,6 +96,7 @@ primary_class:
     - slices_has_listener
   - name: slicing_beat_division
     raw_doc: Access to sample's slicing step size.
+    type: int
     settable: true
     listenable:
     - add_slicing_beat_division_listener
@@ -91,6 +104,7 @@ primary_class:
     - slicing_beat_division_has_listener
   - name: slicing_region_count
     raw_doc: Access to sample's slicing split count.
+    type: int
     settable: true
     listenable:
     - add_slicing_region_count_listener
@@ -100,6 +114,7 @@ primary_class:
     raw_doc: |-
       Access to sample's slicing sensitivity whose sensitivity is in between 0.0 and 1.0.
       The higher the sensitivity, the more slices will be available.
+    type: float
     settable: true
     listenable:
     - add_slicing_sensitivity_listener
@@ -107,6 +122,7 @@ primary_class:
     - slicing_sensitivity_has_listener
   - name: slicing_style
     raw_doc: Access to sample's slicing style.
+    type: int
     settable: true
     listenable:
     - add_slicing_style_listener
@@ -114,6 +130,7 @@ primary_class:
     - slicing_style_has_listener
   - name: start_marker
     raw_doc: Access to the position of the sample's start marker.
+    type: int
     settable: true
     listenable:
     - add_start_marker_listener
@@ -121,6 +138,7 @@ primary_class:
     - start_marker_has_listener
   - name: texture_flux
     raw_doc: Access to the Flux parameter in Texture Warp Mode.
+    type: float
     settable: true
     listenable:
     - add_texture_flux_listener
@@ -128,6 +146,7 @@ primary_class:
     - texture_flux_has_listener
   - name: texture_grain_size
     raw_doc: Access to the Grain Size parameter in Texture Warp Mode.
+    type: float
     settable: true
     listenable:
     - add_texture_grain_size_listener
@@ -135,6 +154,7 @@ primary_class:
     - texture_grain_size_has_listener
   - name: tones_grain_size
     raw_doc: Access to the Grain Size parameter in Tones Warp Mode.
+    type: float
     settable: true
     listenable:
     - add_tones_grain_size_listener
@@ -142,6 +162,8 @@ primary_class:
     - tones_grain_size_has_listener
   - name: warp_markers
     raw_doc: Get the warp markers for this sample.
+    type: Live.Clip.WarpMarkerVector
+    element_type: Live.Clip.WarpMarker
     settable: false
     listenable:
     - add_warp_markers_listener
@@ -149,6 +171,7 @@ primary_class:
     - warp_markers_has_listener
   - name: warp_mode
     raw_doc: Access to the sample's warp mode.
+    type: int
     settable: true
     listenable:
     - add_warp_mode_listener
@@ -156,6 +179,7 @@ primary_class:
     - warp_mode_has_listener
   - name: warping
     raw_doc: Access to the sample's warping property.
+    type: bool
     settable: true
     listenable:
     - add_warping_listener

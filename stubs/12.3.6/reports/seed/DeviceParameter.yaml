@@ -14,6 +14,7 @@ primary_class:
   properties:
   - name: automation_state
     raw_doc: Returns state of type AutomationState.
+    type: int
     settable: false
     listenable:
     - add_automation_state_listener
@@ -21,16 +22,19 @@ primary_class:
     - automation_state_has_listener
   - name: canonical_parent
     raw_doc: Get the canonical parent of the device parameter.
+    type: Live.Device.Device
     settable: false
   - name: default_value
     raw_doc: |-
       Return the default value for this parameter.  A Default value is only
       available for non-quantized parameter types (see 'is_quantized').
+    type: float
     settable: false
   - name: display_value
     raw_doc: |-
       Get/Set the current value (as visible in the GUI) this parameter.
       The value must be inside the min/max properties of this device.
+    type: float
     settable: true
     listenable:
     - add_display_value_listener
@@ -38,26 +42,31 @@ primary_class:
     - display_value_has_listener
   - name: is_enabled
     raw_doc: Returns false if the parameter has been macro mapped or disabled by Max.
+    type: bool
     settable: false
   - name: is_quantized
     raw_doc: |-
       Returns True, if this value is a boolean or integer like switch.
       Non quantized values are continues float values.
+    type: bool
     settable: false
   - name: max
     raw_doc: |-
       Returns const access to the upper value of the allowed range for
       this parameter
+    type: float
     settable: false
   - name: min
     raw_doc: |-
       Returns const access to the lower value of the allowed range for
       this parameter
+    type: float
     settable: false
   - name: name
     raw_doc: |-
       Returns const access the name of this parameter, as visible in Lives
       automation choosers.
+    type: str
     settable: false
     listenable:
     - add_name_listener
@@ -67,9 +76,12 @@ primary_class:
     raw_doc: |-
       Returns const access the original name of this parameter, unaffected of
       any renamings.
+    type: str
     settable: false
   - name: short_value_items
     raw_doc: Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
+    type: Live.Base.StringVector
+    element_type: str
     settable: false
   - name: state
     raw_doc: |-
@@ -77,6 +89,7 @@ primary_class:
       - enabled - the parameter's value can be changed,
       - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled,
       - disabled - the parameter's value cannot be changed.
+    type: int
     settable: false
     listenable:
     - add_state_listener
@@ -86,6 +99,7 @@ primary_class:
     raw_doc: |-
       Get/Set the current internal value of this parameter.
       The value must be inside the min/max properties of this device.
+    type: float
     settable: true
     listenable:
     - add_value_listener
@@ -93,6 +107,8 @@ primary_class:
     - value_has_listener
   - name: value_items
     raw_doc: Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
+    type: Live.Base.StringVector
+    element_type: str
     settable: false
   methods:
   - name: begin_gesture

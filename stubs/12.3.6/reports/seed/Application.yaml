@@ -12,6 +12,7 @@ primary_class:
   properties:
   - name: average_process_usage
     raw_doc: Reports Live's average CPU load.
+    type: float
     settable: false
     listenable:
     - add_average_process_usage_listener
@@ -19,14 +20,20 @@ primary_class:
     - average_process_usage_has_listener
   - name: browser
     raw_doc: Returns an interface to the browser.
+    type: Live.Browser.Browser
     settable: false
   - name: canonical_parent
     raw_doc: Returns the canonical parent of the application.
+    type: None
     settable: false
   - name: control_surfaces
     raw_doc: |-
       Const access to a list of the control surfaces selected in preferences, in the same order.
       The list contains None if no control surface is active at that index.
+    type: Live.Base.ObjectVector
+    element_types:
+    - LiveRelay
+    - APICapture
     settable: false
     listenable:
     - add_control_surfaces_listener
@@ -34,15 +41,19 @@ primary_class:
     - control_surfaces_has_listener
   - name: current_dialog_button_count
     raw_doc: Number of buttons on the current dialog.
+    type: int
     settable: false
   - name: current_dialog_message
     raw_doc: Text of the last dialog that appeared; Empty if all dialogs just disappeared.
+    type: str
     settable: false
   - name: number_of_push_apps_running
     raw_doc: Returns the number of connected Push apps.
+    type: int
     settable: false
   - name: open_dialog_count
     raw_doc: The number of open dialogs in Live. 0 if not dialog is open.
+    type: int
     settable: false
     listenable:
     - add_open_dialog_count_listener
@@ -50,6 +61,7 @@ primary_class:
     - open_dialog_count_has_listener
   - name: peak_process_usage
     raw_doc: Reports Live's peak CPU load.
+    type: float
     settable: false
     listenable:
     - add_peak_process_usage_listener
@@ -57,6 +69,7 @@ primary_class:
     - peak_process_usage_has_listener
   - name: unavailable_features
     raw_doc: List of features that are unavailable due to limitations of the current Live edition.
+    type: Live.Application.UnavailableFeatureVector
     settable: false
     listenable:
     - add_unavailable_features_listener
@@ -64,6 +77,7 @@ primary_class:
     - unavailable_features_has_listener
   - name: view
     raw_doc: Returns the applications view component.
+    type: Live.Application.Application.View
     settable: false
   methods:
   - name: get_bugfix_version
@@ -214,6 +228,7 @@ primary_class:
     properties:
     - name: browse_mode
       raw_doc: Return true if HotSwap mode is active for any target.
+      type: bool
       settable: false
       listenable:
       - add_browse_mode_listener
@@ -221,11 +236,13 @@ primary_class:
       - browse_mode_has_listener
     - name: canonical_parent
       raw_doc: Get the canonical parent of the application view.
+      type: Live.Application.Application
       settable: false
     - name: focused_document_view
       raw_doc: |-
         Return the name of the document view ('Session' or 'Arranger')
         shown in the currently selected window.
+      type: str
       settable: false
       listenable:
       - add_focused_document_view_listener
@@ -375,8 +392,10 @@ classes:
   constructable: true
   properties:
   - name: id
+    type: int
     settable: false
   - name: name
+    type: str
     settable: false
 - name: ControlDescriptionVector
   path: Live.Application.ControlDescriptionVector
@@ -532,6 +551,7 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
   methods:
   - name: append
     signature: 'append( (UnavailableFeatureVector)arg1, (object)arg2) -> None :'

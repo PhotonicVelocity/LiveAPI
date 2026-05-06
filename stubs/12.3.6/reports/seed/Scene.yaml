@@ -12,9 +12,12 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the scene.
+    type: Live.Song.Song
     settable: false
   - name: clip_slots
     raw_doc: return a list of clipslots (see class AClipSlot) that this scene covers.
+    type: Live.Base.Vector
+    element_type: Live.ClipSlot.ClipSlot
     settable: false
     listenable:
     - add_clip_slots_listener
@@ -22,6 +25,7 @@ primary_class:
     - clip_slots_has_listener
   - name: color
     raw_doc: Get/set access to the color of the scene (RGB).
+    type: int
     settable: true
     listenable:
     - add_color_listener
@@ -29,6 +33,7 @@ primary_class:
     - color_has_listener
   - name: color_index
     raw_doc: Get/set access to the color index of the scene. Can be None for no color.
+    type: None
     settable: true
     listenable:
     - add_color_index_listener
@@ -36,9 +41,11 @@ primary_class:
     - color_index_has_listener
   - name: is_empty
     raw_doc: Returns True if all clip slots of this scene are empty.
+    type: bool
     settable: false
   - name: is_triggered
     raw_doc: Const access to the scene's trigger state.
+    type: bool
     settable: false
     listenable:
     - add_is_triggered_listener
@@ -46,6 +53,7 @@ primary_class:
     - is_triggered_has_listener
   - name: name
     raw_doc: Get/Set the name of the scene.
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -56,6 +64,7 @@ primary_class:
       Get/Set the tempo value of the scene.
       The song will use the scene's tempo as soon as the scene is fired.
       Returns -1 if the scene has no tempo property.
+    type: float
     settable: true
     listenable:
     - add_tempo_listener
@@ -65,6 +74,7 @@ primary_class:
     raw_doc: |-
       Get/Set the active state of the scene tempo.
       When disabled, the scene will use the song's tempo,and the tempo value returned will be -1Returns a bool indicating the state of the scene's tempo
+    type: bool
     settable: true
     listenable:
     - add_tempo_enabled_listener
@@ -75,6 +85,7 @@ primary_class:
       Get/Set the scene's time signature denominator.
       The song will use the scene's time signature as soon as the scene is fired.
       Returns -1 if the scene has no time signature property.
+    type: int
     settable: true
     listenable:
     - add_time_signature_denominator_listener
@@ -84,6 +95,7 @@ primary_class:
     raw_doc: |-
       Get the active state of the scene time signature.
       When disabled, the scene will use the song's time signature,and the time signature values returned will be -1Returns a bool indicating the state of the scene's time signature
+    type: bool
     settable: true
     listenable:
     - add_time_signature_enabled_listener
@@ -94,6 +106,7 @@ primary_class:
       Get/Set the scene's time signature numerator.
       The song will use the scene's time signature as soon as the scene is fired.
       Returns -1 if the scene has no time signature property.
+    type: int
     settable: true
     listenable:
     - add_time_signature_numerator_listener

@@ -66,6 +66,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: int
   methods:
   - name: append
     signature: 'append( (IntVector)arg1, (object)arg2) -> None :'
@@ -100,6 +102,10 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_types:
+  - LiveRelay
+  - APICapture
   methods:
   - name: append
     signature: 'append( (ObjectVector)arg1, (object)arg2) -> None :'
@@ -129,6 +135,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: str
   methods:
   - name: append
     signature: 'append( (StringVector)arg1, (object)arg2) -> None :'
@@ -173,6 +181,7 @@ classes:
   constructable: false
   properties:
   - name: running
+    type: bool
     settable: false
   methods:
   - name: restart
@@ -207,6 +216,22 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_types:
+  - Live.Song.CuePoint
+  - Live.Track.Track
+  - Live.Scene.Scene
+  - Live.Groove.Groove
+  - Live.ClipSlot.ClipSlot
+  - Live.Envelope.Envelope
+  - Live.Clip.Clip
+  - Live.Device.Device
+  - Live.TakeLane.TakeLane
+  - Live.DeviceParameter.DeviceParameter
+  - Live.DrumPad.DrumPad
+  - Live.DeviceIO.DeviceIO
+  - Live.WavetableDevice.WavetableDevice
+  - Live.RackDevice.RackDevice
   methods:
   - name: append
     signature: 'append( (Vector)arg1, (object)arg2) -> None :'

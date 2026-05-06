@@ -12,6 +12,7 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the envelope.
+    type: Live.Clip.Clip
     settable: false
   methods:
   - name: delete_events_in_range
@@ -80,10 +81,13 @@ classes:
   constructable: false
   properties:
   - name: control_coefficients
+    type: Live.Envelope.EnvelopeEventControlCoefficients
     settable: true
   - name: time
+    type: float
     settable: true
   - name: value
+    type: float
     settable: true
 - name: EnvelopeEventControlCoefficients
   path: Live.Envelope.EnvelopeEventControlCoefficients
@@ -98,12 +102,16 @@ classes:
   constructable: false
   properties:
   - name: x1
+    type: float
     settable: true
   - name: x2
+    type: float
     settable: true
   - name: y1
+    type: float
     settable: true
   - name: y2
+    type: float
     settable: true
 - name: EnvelopeEventVector
   path: Live.Envelope.EnvelopeEventVector
@@ -113,6 +121,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: Live.Envelope.EnvelopeEvent
   methods:
   - name: append
     signature: 'append( (EnvelopeEventVector)arg1, (object)arg2) -> None :'

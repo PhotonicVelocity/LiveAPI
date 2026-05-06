@@ -17,6 +17,7 @@ primary_class:
   properties:
   - name: arm
     raw_doc: Arm the track for recording. Not available for Main- and Send Tracks.
+    type: bool
     settable: true
     listenable:
     - add_arm_listener
@@ -24,6 +25,8 @@ primary_class:
     - arm_has_listener
   - name: arrangement_clips
     raw_doc: const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks.
+    type: Live.Base.Vector
+    element_type: Live.Clip.Clip
     settable: false
     listenable:
     - add_arrangement_clips_listener
@@ -31,6 +34,8 @@ primary_class:
     - arrangement_clips_has_listener
   - name: available_input_routing_channels
     raw_doc: Return a list of source channels for input routing.
+    type: Live.Track.RoutingChannelVector
+    element_type: Live.Track.RoutingChannel
     settable: false
     listenable:
     - add_available_input_routing_channels_listener
@@ -38,6 +43,8 @@ primary_class:
     - available_input_routing_channels_has_listener
   - name: available_input_routing_types
     raw_doc: Return a list of source types for input routing.
+    type: Live.Track.RoutingTypeVector
+    element_type: Live.Track.RoutingType
     settable: false
     listenable:
     - add_available_input_routing_types_listener
@@ -45,6 +52,8 @@ primary_class:
     - available_input_routing_types_has_listener
   - name: available_output_routing_channels
     raw_doc: Return a list of destination channels for output routing.
+    type: Live.Track.RoutingChannelVector
+    element_type: Live.Track.RoutingChannel
     settable: false
     listenable:
     - add_available_output_routing_channels_listener
@@ -52,6 +61,8 @@ primary_class:
     - available_output_routing_channels_has_listener
   - name: available_output_routing_types
     raw_doc: Return a list of destination types for output routing.
+    type: Live.Track.RoutingTypeVector
+    element_type: Live.Track.RoutingType
     settable: false
     listenable:
     - add_available_output_routing_types_listener
@@ -59,6 +70,7 @@ primary_class:
     - available_output_routing_types_has_listener
   - name: back_to_arranger
     raw_doc: Indicates if it's possible to go back to playing back the clips in the Arranger.Setting a value 0 will go back to the Arranger playback. Setting on grouptracks will go back to the Arranger on all grouped tracks.
+    type: bool
     settable: true
     listenable:
     - add_back_to_arranger_listener
@@ -68,20 +80,26 @@ primary_class:
     raw_doc: |-
       return True, if this Track has a valid arm property. Not all tracks
       can be armed (for example return Tracks or the Main Tracks).
+    type: bool
     settable: false
   - name: can_be_frozen
     raw_doc: return True, if this Track can be frozen.
+    type: bool
     settable: false
   - name: can_show_chains
     raw_doc: return True, if this Track contains a rack instrument device that is capable of showing its chains in session view.
+    type: bool
     settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the track.
+    type: Live.Song.Song
     settable: false
   - name: clip_slots
     raw_doc: |-
       const access to the list of clipslots (see class AClipSlot) for this track.
       The list will be empty for the main and sendtracks.
+    type: Live.Base.Vector
+    element_type: Live.ClipSlot.ClipSlot
     settable: false
     listenable:
     - add_clip_slots_listener
@@ -89,6 +107,7 @@ primary_class:
     - clip_slots_has_listener
   - name: color
     raw_doc: Get/set access to the color of the Track (RGB).
+    type: int
     settable: true
     listenable:
     - add_color_listener
@@ -96,6 +115,7 @@ primary_class:
     - color_has_listener
   - name: color_index
     raw_doc: Get/Set access to the color index of the track. Can be None for no color.
+    type: int
     settable: true
     listenable:
     - add_color_index_listener
@@ -105,6 +125,7 @@ primary_class:
     raw_doc: |-
       Get/Set the name of the current active input routing.
       When setting a new routing, the new routing must be one of the available ones.
+    type: str
     settable: true
     listenable:
     - add_current_input_routing_listener
@@ -114,6 +135,7 @@ primary_class:
     raw_doc: |-
       Get/Set the current active input sub routing.
       When setting a new routing, the new routing must be one of the available ones.
+    type: str
     settable: true
     listenable:
     - add_current_input_sub_routing_listener
@@ -121,6 +143,7 @@ primary_class:
     - current_input_sub_routing_has_listener
   - name: current_monitoring_state
     raw_doc: Get/Set the track's current monitoring state.
+    type: int
     settable: true
     listenable:
     - add_current_monitoring_state_listener
@@ -130,6 +153,7 @@ primary_class:
     raw_doc: |-
       Get/Set the current active output routing.
       When setting a new routing, the new routing must be one of the available ones.
+    type: str
     settable: true
     listenable:
     - add_current_output_routing_listener
@@ -139,6 +163,7 @@ primary_class:
     raw_doc: |-
       Get/Set the current active output sub routing.
       When setting a new routing, the new routing must be one of the available ones.
+    type: str
     settable: true
     listenable:
     - add_current_output_sub_routing_listener
@@ -149,6 +174,8 @@ primary_class:
       Return const access to all available Devices that are present in the Tracks
       Devicechain. This tuple will also include the 'mixer_device' that every Track
       always has.
+    type: Live.Base.Vector
+    element_type: Live.Device.Device
     settable: false
     listenable:
     - add_devices_listener
@@ -158,6 +185,7 @@ primary_class:
     raw_doc: |-
       const access to the index of the fired (and thus blinking) clipslot in this track.
       This index is -1 if no slot is fired and -2 if the track's stop button has been fired.
+    type: int
     settable: false
     listenable:
     - add_fired_slot_index_listener
@@ -165,14 +193,17 @@ primary_class:
     - fired_slot_index_has_listener
   - name: fold_state
     raw_doc: Get/Set whether the track is folded or not. Only available if is_foldable is True.
+    type: bool
     settable: true
   - name: group_track
     raw_doc: return the group track if is_grouped.
+    type: Live.Track.Track
     settable: false
   - name: has_audio_input
     raw_doc: |-
       return True, if this Track can be feed with an Audio signal. This is
       true for all Audio Tracks.
+    type: bool
     settable: false
     listenable:
     - add_has_audio_input_listener
@@ -182,6 +213,7 @@ primary_class:
     raw_doc: |-
       return True, if this Track sends out an Audio signal. This is
       true for all Audio Tracks, and MIDI tracks with an Instrument.
+    type: bool
     settable: false
     listenable:
     - add_has_audio_output_listener
@@ -191,6 +223,7 @@ primary_class:
     raw_doc: |-
       return True, if this Track can be feed with an Audio signal. This is
       true for all MIDI Tracks.
+    type: bool
     settable: false
     listenable:
     - add_has_midi_input_listener
@@ -200,6 +233,7 @@ primary_class:
     raw_doc: |-
       return True, if this Track sends out MIDI events. This is
       true for all MIDI Tracks with no Instruments.
+    type: bool
     settable: false
     listenable:
     - add_has_midi_output_listener
@@ -207,6 +241,7 @@ primary_class:
     - has_midi_output_has_listener
   - name: implicit_arm
     raw_doc: Arm the track for recording. When The track is implicitly armed, it showsin a weaker color in the live GUI and is not saved in the set.
+    type: bool
     settable: true
     listenable:
     - add_implicit_arm_listener
@@ -214,6 +249,7 @@ primary_class:
     - implicit_arm_has_listener
   - name: input_meter_left
     raw_doc: Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only.
+    type: float
     settable: false
     listenable:
     - add_input_meter_left_listener
@@ -224,6 +260,7 @@ primary_class:
       Return the MIDI or Audio meter value of the Tracks input, depending on the
       type of the Track input. Meter values (MIDI or Audio) are always scaled
       from 0.0 to 1.0.
+    type: float
     settable: false
     listenable:
     - add_input_meter_level_listener
@@ -231,6 +268,7 @@ primary_class:
     - input_meter_level_has_listener
   - name: input_meter_right
     raw_doc: Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only.
+    type: float
     settable: false
     listenable:
     - add_input_meter_right_listener
@@ -241,6 +279,7 @@ primary_class:
       Get and set the current source channel for input routing.
       Raises ValueError if the type isn't one of the current values in
       available_input_routing_channels.
+    type: Live.Track.RoutingChannel
     settable: true
     listenable:
     - add_input_routing_channel_listener
@@ -251,6 +290,7 @@ primary_class:
       Get and set the current source type for input routing.
       Raises ValueError if the type isn't one of the current values in
       available_input_routing_types.
+    type: Live.Track.RoutingType
     settable: true
     listenable:
     - add_input_routing_type_listener
@@ -258,6 +298,8 @@ primary_class:
     - input_routing_type_has_listener
   - name: input_routings
     raw_doc: Const access to the list of available input routings.
+    type: Live.Base.StringVector
+    element_type: str
     settable: false
     listenable:
     - add_input_routings_listener
@@ -265,6 +307,8 @@ primary_class:
     - input_routings_has_listener
   - name: input_sub_routings
     raw_doc: Return a list of all available input sub routings.
+    type: Live.Base.StringVector
+    element_type: str
     settable: false
     listenable:
     - add_input_sub_routings_listener
@@ -272,9 +316,11 @@ primary_class:
     - input_sub_routings_has_listener
   - name: is_foldable
     raw_doc: return True if the track can be (un)folded to hide/reveal contained tracks.
+    type: bool
     settable: false
   - name: is_frozen
     raw_doc: return True if this Track is currently frozen. No changes should be applied to the track's devices or clips while it is frozen.
+    type: bool
     settable: false
     listenable:
     - add_is_frozen_listener
@@ -282,12 +328,15 @@ primary_class:
     - is_frozen_has_listener
   - name: is_grouped
     raw_doc: return True if this Track is current part of a group track.
+    type: bool
     settable: false
   - name: is_part_of_selection
     raw_doc: return False if the track is not selected.
+    type: bool
     settable: false
   - name: is_showing_chains
     raw_doc: Get/Set whether a track with a rack device is showing its chains in session view.
+    type: bool
     settable: true
     listenable:
     - add_is_showing_chains_listener
@@ -295,14 +344,17 @@ primary_class:
     - is_showing_chains_has_listener
   - name: is_visible
     raw_doc: return False if the track is hidden within a folded group track.
+    type: bool
     settable: false
   - name: mixer_device
     raw_doc: |-
       Return access to the special Device that every Track has: This Device contains
       the Volume, Pan, Sendamounts, and Crossfade assignment parameters.
+    type: Live.MixerDevice.MixerDevice
     settable: false
   - name: mute
     raw_doc: Mute/unmute the track.
+    type: bool
     settable: true
     listenable:
     - add_mute_listener
@@ -310,6 +362,7 @@ primary_class:
     - mute_has_listener
   - name: muted_via_solo
     raw_doc: Returns true if the track is muted because another track is soloed.
+    type: bool
     settable: false
     listenable:
     - add_muted_via_solo_listener
@@ -317,6 +370,7 @@ primary_class:
     - muted_via_solo_has_listener
   - name: name
     raw_doc: Read/write access to the name of the Track, as visible in the track header.
+    type: str
     settable: true
     listenable:
     - add_name_listener
@@ -326,6 +380,7 @@ primary_class:
     raw_doc: |-
       Momentary value of left output channel meter, 0.0 to 1.0.
       For tracks with audio output only.
+    type: float
     settable: false
     listenable:
     - add_output_meter_left_listener
@@ -336,6 +391,7 @@ primary_class:
       Return the MIDI or Audio meter value of the Track output (behind the
       mixer_device), depending on the type of the Track input, this can be a MIDI
       or Audio meter. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
+    type: float
     settable: false
     listenable:
     - add_output_meter_level_listener
@@ -345,6 +401,7 @@ primary_class:
     raw_doc: |-
       Momentary value of right output channel meter, 0.0 to 1.0.
       For tracks with audio output only.
+    type: float
     settable: false
     listenable:
     - add_output_meter_right_listener
@@ -355,6 +412,7 @@ primary_class:
       Get and set the current destination channel for output routing.
       Raises ValueError if the channel isn't one of the current values in
       available_output_routing_channels.
+    type: Live.Track.RoutingChannel
     settable: true
     listenable:
     - add_output_routing_channel_listener
@@ -365,6 +423,7 @@ primary_class:
       Get and set the current destination type for output routing.
       Raises ValueError if the type isn't one of the current values in
       available_output_routing_types.
+    type: Live.Track.RoutingType
     settable: true
     listenable:
     - add_output_routing_type_listener
@@ -372,6 +431,8 @@ primary_class:
     - output_routing_type_has_listener
   - name: output_routings
     raw_doc: Const access to the list of all available output routings.
+    type: Live.Base.StringVector
+    element_type: str
     settable: false
     listenable:
     - add_output_routings_listener
@@ -379,6 +440,8 @@ primary_class:
     - output_routings_has_listener
   - name: output_sub_routings
     raw_doc: Return a list of all available output sub routings.
+    type: Live.Base.StringVector
+    element_type: str
     settable: false
     listenable:
     - add_output_sub_routings_listener
@@ -386,6 +449,7 @@ primary_class:
     - output_sub_routings_has_listener
   - name: performance_impact
     raw_doc: Reports the performance impact of this track.
+    type: float
     settable: false
     listenable:
     - add_performance_impact_listener
@@ -395,6 +459,7 @@ primary_class:
     raw_doc: |-
       const access to the index of the currently playing clip in the track.
       Will be -1 when no clip is playing.
+    type: int
     settable: false
     listenable:
     - add_playing_slot_index_listener
@@ -405,6 +470,7 @@ primary_class:
       Get/Set the solo status of the track. Note that this will not disable the
       solo state of any other track. If you want exclusive solo, you have to
       disable the solo state of the other Tracks manually.
+    type: bool
     settable: true
     listenable:
     - add_solo_listener
@@ -412,6 +478,8 @@ primary_class:
     - solo_has_listener
   - name: take_lanes
     raw_doc: returns the take lanes.
+    type: Live.Base.Vector
+    element_type: Live.TakeLane.TakeLane
     settable: false
     listenable:
     - add_take_lanes_listener
@@ -419,6 +487,7 @@ primary_class:
     - take_lanes_has_listener
   - name: view
     raw_doc: Representing the view aspects of a Track.
+    type: Live.Track.Track.View
     settable: false
   - name: data
     listenable:
@@ -610,9 +679,11 @@ primary_class:
     properties:
     - name: canonical_parent
       raw_doc: Get the canonical parent of the track view.
+      type: Live.Track.Track
       settable: false
     - name: device_insert_mode
       raw_doc: Get/Listen the device insertion mode of the track.  By default, it will insert devices at the end, but it can be changed to make it relative to current selection.
+      type: bool
       settable: true
       listenable:
       - add_device_insert_mode_listener
@@ -620,6 +691,7 @@ primary_class:
       - device_insert_mode_has_listener
     - name: is_collapsed
       raw_doc: Get/Set/Listen if the track is shown collapsed in the arranger view.
+      type: bool
       settable: true
       listenable:
       - add_is_collapsed_listener
@@ -627,6 +699,7 @@ primary_class:
       - is_collapsed_has_listener
     - name: selected_device
       raw_doc: Get/Set/Listen the insertion mode of the device.  While in insertion mode, loading new devices from the browser will place devices at the selected position.
+      type: Live.Device.Device
       settable: false
       listenable:
       - add_selected_device_listener
@@ -669,9 +742,11 @@ classes:
   properties:
   - name: display_name
     raw_doc: Display name of routing channel.
+    type: str
     settable: false
   - name: layout
     raw_doc: The routing channel's Layout, e.g., mono or stereo.
+    type: RoutingChannelLayout
     settable: false
 - name: RoutingChannelVector
   path: Live.Track.RoutingChannelVector
@@ -681,6 +756,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: Live.Track.RoutingChannel
   methods:
   - name: append
     signature: 'append( (RoutingChannelVector)arg1, (object)arg2) -> None :'
@@ -713,12 +790,15 @@ classes:
   properties:
   - name: attached_object
     raw_doc: Live object associated with the routing type.
+    type: Live.Track.Track
     settable: false
   - name: category
     raw_doc: Category of the routing type.
+    type: int
     settable: false
   - name: display_name
     raw_doc: Display name of routing type.
+    type: str
     settable: false
 - name: RoutingTypeVector
   path: Live.Track.RoutingTypeVector
@@ -728,6 +808,8 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
+  element_type: Live.Track.RoutingType
   methods:
   - name: append
     signature: 'append( (RoutingTypeVector)arg1, (object)arg2) -> None :'

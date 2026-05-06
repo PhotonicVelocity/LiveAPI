@@ -261,18 +261,25 @@ classes:
   constructable: true
   properties:
   - name: authorization_deactivated
+    type: bool
     settable: false
   - name: authorization_expired
+    type: bool
     settable: false
   - name: has_max_unlock_products
+    type: bool
     settable: false
   - name: temp_demo_mode
+    type: bool
     settable: false
   - name: time_limited
+    type: bool
     settable: false
   - name: unlock_error
+    type: bool
     settable: false
   - name: unlocked
+    type: bool
     settable: false
 enums:
 - name: TrialContext

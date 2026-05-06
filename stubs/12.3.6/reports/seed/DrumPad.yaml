@@ -12,9 +12,11 @@ primary_class:
   properties:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the drum pad.
+    type: Live.RackDevice.RackDevice
     settable: false
   - name: chains
     raw_doc: Return const access to the list of chains in this drum pad.
+    type: Live.Base.Vector
     settable: false
     listenable:
     - add_chains_listener
@@ -22,6 +24,7 @@ primary_class:
     - chains_has_listener
   - name: mute
     raw_doc: Mute/unmute the pad.
+    type: bool
     settable: true
     listenable:
     - add_mute_listener
@@ -29,6 +32,7 @@ primary_class:
     - mute_has_listener
   - name: name
     raw_doc: Return const access to the drum pad's name. It depends on the contained chains.
+    type: str
     settable: false
     listenable:
     - add_name_listener
@@ -36,9 +40,11 @@ primary_class:
     - name_has_listener
   - name: note
     raw_doc: Get the MIDI note of the drum pad.
+    type: int
     settable: false
   - name: solo
     raw_doc: Solo/unsolo the pad.
+    type: bool
     settable: true
     listenable:
     - add_solo_listener
