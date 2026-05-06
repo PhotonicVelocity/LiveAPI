@@ -310,4 +310,5 @@ class Chain(DeviceContainer):
         to the property "solo".
         """
         ...
+
 __all__ = ['Chain']

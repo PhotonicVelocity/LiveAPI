@@ -105,6 +105,7 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
+  element_type: object
   methods:
   - name: append
     signature: 'append( (ObjectVector)arg1, (object)arg2) -> None :'
@@ -123,7 +124,7 @@ classes:
     - name: self
       type: Live.Base.ObjectVector
     - name: values
-      type: object
+      type: Iterable[object]
     returns:
       type: None
 - name: StringVector

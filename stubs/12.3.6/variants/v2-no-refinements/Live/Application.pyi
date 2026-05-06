@@ -610,4 +610,5 @@ def get_application() -> Application:
 def get_random_int(arg1: int, arg2: int, /) -> int:
     """Returns a random integer from the given range."""
     ...
+
 __all__ = ['Application', 'ControlDescription', 'ControlDescriptionVector', 'ControlSurfaceProxy', 'MessageButtons', 'PushDialogType', 'UnavailableFeature', 'UnavailableFeatureVector', 'Variants', 'combine_apcs', 'encrypt_challenge', 'encrypt_challenge2', 'get_application', 'get_random_int']

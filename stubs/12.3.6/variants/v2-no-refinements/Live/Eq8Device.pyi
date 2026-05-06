@@ -234,4 +234,5 @@ class GlobalMode(int):
     stereo: int = 0
     left_right: int = 1
     mid_side: int = 2
+
 __all__ = ['Eq8Device', 'EditMode', 'GlobalMode']

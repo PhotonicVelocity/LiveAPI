@@ -766,4 +766,5 @@ class SlicingPlaybackMode(int):
 def get_available_voice_numbers() -> IntVector:
     """Get a vector of valid Simpler voice numbers."""
     ...
+
 __all__ = ['SimplerDevice', 'PlaybackMode', 'SlicingPlaybackMode', 'get_available_voice_numbers']

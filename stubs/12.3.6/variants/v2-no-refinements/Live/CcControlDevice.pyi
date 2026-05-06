@@ -459,4 +459,5 @@ class CcControlDevice(Device):
     def resend(self) -> None:
         """Resend all CC values."""
         ...
+
 __all__ = ['CcControlDevice']

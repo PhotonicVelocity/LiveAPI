@@ -216,4 +216,5 @@ class DrumChain(Chain):
 
     @solo.setter
     def solo(self, value: bool) -> None: ...
+
 __all__ = ['DrumChain']

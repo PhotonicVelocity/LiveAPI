@@ -156,4 +156,5 @@ class MixerDevice(LomObject):
     def volume(self) -> DeviceParameter:
         """Const access to the Tracks Volume Device Parameter."""
         ...
+
 __all__ = ['MixerDevice']

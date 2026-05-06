@@ -635,23 +635,30 @@ def build_member(
             kids = {c.get("name") for c in node.get("children") or [] if c.get("name")}
             if "append" in kids and "extend" in kids:
                 is_iterable = True
+        # Class-level element_type: collapse the probe's element_reprs
+        # observations through the same heuristic we use at use sites
+        # (single → use; all-Live → LomObject; mixed/unknown → object).
+        # Parametric classes (Vector) get this stripped below; their
+        # element type lives at use sites, not as a class fact.
         class_element_type: str | None = None
         if probe_entry:
-            class_element_types = _qualify_element_types(probe_entry, by_repr)
-            if class_element_types and len(class_element_types) == 1:
-                class_element_type = class_element_types[0]
+            class_element_type = _collapse_use_element(
+                _qualify_element_types(probe_entry, by_repr)
+            )
         if is_iterable:
             out["iterable"] = True
-        if class_element_type:
-            out["element_type"] = class_element_type
         # Parametric containers — meant to be specialized at use sites
         # (`Vector[Track]`, `Vector[Clip]`) rather than carrying a fixed
         # element type. Today this is just `Live.Base.Vector`. The
         # renderer reads this flag to decide whether the class
         # declaration needs the stub-typing pattern (Generic[T] + TypeVar
-        # for Python stubs).
+        # for Python stubs). Parametric classes don't carry a
+        # class-level element_type — the type is supplied at the use
+        # site. Non-parametric iterables get the collapsed observation.
         if class_path == "Live.Base.Vector":
             out["parametric"] = True
+        elif class_element_type:
+            out["element_type"] = class_element_type
         # Methods inside this class qualify their type strings using the
         # class's own path as the enclosing context. Pass the class's
         # iterable/element status so `append` and `extend` get their
@@ -700,6 +707,11 @@ def build_member(
             final = _final_type_string(type_str, element, is_concrete)
             if final:
                 out["type"] = final
+        # `_live_ptr` is the C++ pointer handle on every LOM object —
+        # always an int. Hardcode when probe didn't reach the property
+        # (e.g. LomObject itself, never instantiated and so never probed).
+        if "type" not in out and name == "_live_ptr":
+            out["type"] = "int"
         # Always emit settable — read-only vs read-write is a critical
         # API attribute, not a "default" that should be implicit.
         out["settable"] = bool(node.get("settable"))

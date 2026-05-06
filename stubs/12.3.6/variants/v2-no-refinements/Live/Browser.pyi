@@ -277,4 +277,5 @@ class Relation(int):
     equal: int = 1
     descendant: int = 2
     none: int = 3
+
 __all__ = ['Browser', 'BrowserItem', 'BrowserItemIterator', 'BrowserItemVector', 'FilterType', 'Relation']

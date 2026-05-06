@@ -2134,4 +2134,5 @@ class TimeFormat(int):
 def get_all_scales_ordered() -> tuple[tuple, ...]:
     """Get an ordered tuple of tuples of all available scale names to intervals."""
     ...
+
 __all__ = ['Song', 'BeatTime', 'CaptureDestination', 'CaptureMode', 'CuePoint', 'Quantization', 'RecordingQuantization', 'SessionRecordStatus', 'SmptTime', 'TimeFormat', 'get_all_scales_ordered']

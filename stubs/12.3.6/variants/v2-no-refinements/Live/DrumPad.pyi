@@ -138,4 +138,5 @@ class DrumPad(LomObject):
         to the property "solo".
         """
         ...
+
 __all__ = ['DrumPad']

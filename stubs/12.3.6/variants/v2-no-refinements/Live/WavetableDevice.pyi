@@ -580,4 +580,5 @@ class VoiceCount(int):
 class Voicing(int):
     mono: int = 0
     poly: int = 1
+
 __all__ = ['WavetableDevice', 'EffectMode', 'FilterRouting', 'ModulationSource', 'UnisonMode', 'VoiceCount', 'Voicing']

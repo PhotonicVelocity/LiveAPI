@@ -60,4 +60,5 @@ def sliced_simpler_to_drum_rack(song: Song, simpler: SimplerDevice, /) -> None:
     Calling it on a non-sliced simpler raises an error.
     """
     ...
+
 __all__ = ['AudioToMidiType', 'audio_to_midi_clip', 'create_drum_rack_from_audio_clip', 'create_midi_track_from_drum_pad', 'create_midi_track_with_simpler', 'is_convertible_to_midi', 'move_devices_on_track_to_new_drum_rack_pad', 'sliced_simpler_to_drum_rack']

@@ -543,4 +543,5 @@ class RackDevice(Device):
         to the property "visible_macro_count".
         """
         ...
+
 __all__ = ['RackDevice']

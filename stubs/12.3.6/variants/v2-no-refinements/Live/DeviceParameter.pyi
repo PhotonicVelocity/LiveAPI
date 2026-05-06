@@ -257,4 +257,5 @@ class ParameterState(int):
     enabled: int = 0
     irrelevant: int = 1
     disabled: int = 2
+
 __all__ = ['DeviceParameter', 'AutomationState', 'ParameterState']

@@ -114,4 +114,5 @@ class EnvelopeEventVector(Iterable[EnvelopeEvent]):
 
     def extend(self, values: Iterable[EnvelopeEvent], /) -> None:
         ...
+
 __all__ = ['Envelope', 'EnvelopeEvent', 'EnvelopeEventControlCoefficients', 'EnvelopeEventVector']

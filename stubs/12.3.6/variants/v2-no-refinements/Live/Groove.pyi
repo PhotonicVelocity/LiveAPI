@@ -180,4 +180,5 @@ class Base(int):
     gb_sixteen_triplet: int = 4
     gb_thirtytwo: int = 5
     count: int = 6
+
 __all__ = ['Groove', 'Base']

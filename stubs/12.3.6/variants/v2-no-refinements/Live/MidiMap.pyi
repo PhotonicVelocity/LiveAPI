@@ -160,4 +160,5 @@ def map_midi_pitchbend_with_feedback_map(arg1: int, arg2: DeviceParameter, arg3:
 
 def send_feedback_for_parameter(arg1: int, arg2: DeviceParameter, /) -> None:
     ...
+
 __all__ = ['CCFeedbackRule', 'MapMode', 'NoteFeedbackRule', 'PitchBendFeedbackRule', 'forward_midi_cc', 'forward_midi_note', 'forward_midi_pitchbend', 'map_midi_cc', 'map_midi_cc_with_feedback_map', 'map_midi_note', 'map_midi_note_with_feedback_map', 'map_midi_pitchbend', 'map_midi_pitchbend_with_feedback_map', 'send_feedback_for_parameter']

@@ -207,4 +207,5 @@ class CompressorDevice(Device):
     def view(self) -> Device.View:
         """Representing the view aspects of a device."""
         ...
+
 __all__ = ['CompressorDevice']

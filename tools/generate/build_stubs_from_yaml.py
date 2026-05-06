@@ -512,15 +512,18 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
         # Three blank lines before first class (matches v1).
         buf.write("\n\n\n")
     else:
-        # No TYPE_CHECKING block; two blank lines before first class.
-        buf.write("\n\n")
+        # No TYPE_CHECKING block; two blank lines before first class
+        # (the typing import already wrote one).
+        buf.write("\n")
 
     buf.write("\n".join(body))
     if not body or body[-1] != "":
         buf.write("\n")
 
     if names:
-        buf.write(f"__all__ = {names!r}\n")
+        # Blank line between the last class/function and __all__
+        # (matches v1's spacing).
+        buf.write(f"\n__all__ = {names!r}\n")
 
     return buf.getvalue()
 

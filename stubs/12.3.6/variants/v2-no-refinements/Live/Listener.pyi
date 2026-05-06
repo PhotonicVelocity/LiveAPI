@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 
-
 class ListenerHandle:
     """This class represents a Python listener when connected to a Live property."""
 
@@ -49,4 +48,5 @@ class ListenerVector(Iterable):
 
     def extend(self, values: Iterable[ListenerHandle], /) -> None:
         ...
+
 __all__ = ['ListenerHandle', 'ListenerVector']

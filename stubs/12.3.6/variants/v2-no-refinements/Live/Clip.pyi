@@ -1596,4 +1596,5 @@ class WarpMode(int):
     rex: int = 5
     complex_pro: int = 6
     count: int = 7
+
 __all__ = ['Clip', 'ClipLaunchQuantization', 'GridQuantization', 'LaunchMode', 'MidiNote', 'MidiNoteSpecification', 'MidiNoteVector', 'WarpMarker', 'WarpMarkerVector', 'WarpMode']

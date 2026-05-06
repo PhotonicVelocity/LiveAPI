@@ -727,6 +727,7 @@ classes:
   constructable: false
   properties:
   - name: _live_ptr
+    type: int
     settable: false
 - name: RoutingChannel
   path: Live.Track.RoutingChannel

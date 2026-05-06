@@ -145,4 +145,5 @@ class DeviceIO(LomObject):
         to the property "routing_type".
         """
         ...
+
 __all__ = ['DeviceIO']

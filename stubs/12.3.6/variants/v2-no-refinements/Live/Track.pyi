@@ -1590,7 +1590,7 @@ class DeviceContainer(LomObject):
     """This class is a common super class of Track and Chain"""
 
     @property
-    def _live_ptr(self):
+    def _live_ptr(self) -> int:
         ...
 
 class DeviceInsertMode(int):
@@ -1694,4 +1694,5 @@ class RoutingTypeVector(Iterable[RoutingType]):
 
     def extend(self, values: Iterable[RoutingType], /) -> None:
         ...
+
 __all__ = ['Track', 'DeviceContainer', 'DeviceInsertMode', 'RoutingChannel', 'RoutingChannelLayout', 'RoutingChannelVector', 'RoutingType', 'RoutingTypeCategory', 'RoutingTypeVector']

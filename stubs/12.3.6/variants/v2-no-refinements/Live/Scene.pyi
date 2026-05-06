@@ -345,4 +345,5 @@ class Scene(LomObject):
         to the property "time_signature_numerator".
         """
         ...
+
 __all__ = ['Scene']

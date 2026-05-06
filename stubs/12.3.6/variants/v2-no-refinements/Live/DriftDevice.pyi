@@ -595,4 +595,5 @@ class DriftDevice(Device):
     def voice_mode_list(self) -> StringVector:
         """Return the voice mode list"""
         ...
+
 __all__ = ['DriftDevice']

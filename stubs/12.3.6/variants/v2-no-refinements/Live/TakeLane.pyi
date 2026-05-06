@@ -89,4 +89,5 @@ class TakeLane(LomObject):
         property "name".
         """
         ...
+
 __all__ = ['TakeLane']

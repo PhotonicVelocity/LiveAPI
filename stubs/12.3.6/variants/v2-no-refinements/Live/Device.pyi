@@ -295,4 +295,5 @@ class DeviceType(int):
     instrument: int = 1
     audio_effect: int = 2
     midi_effect: int = 4
+
 __all__ = ['Device', 'ATimeableValueVector', 'DeviceType']

@@ -659,4 +659,5 @@ class TransientLoopMode(int):
     off: int = 0
     forward: int = 1
     alternate: int = 2
+
 __all__ = ['Sample', 'SlicingBeatDivision', 'SlicingStyle', 'TransientLoopMode']

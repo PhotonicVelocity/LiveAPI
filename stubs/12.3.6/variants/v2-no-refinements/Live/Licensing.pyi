@@ -2,7 +2,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 
-
 class ProgressDialog:
     """A modal dialog showing a message and a progress animation."""
 
@@ -173,4 +172,5 @@ def get_unlock_dir() -> tuple[object, ...]:
 def launch_web_browser(url: str, /) -> None:
     """Opens a web browser at the specified URL on the user's computer."""
     ...
+
 __all__ = ['ProgressDialog', 'PythonLicensingBridge', 'StartupDialog', 'TrialContext', 'UnlockStatus', 'authorization_clock_days_ahead', 'get_authorization_page_url', 'get_purchase_live_url', 'get_services_url', 'get_unlock_dir', 'launch_web_browser']

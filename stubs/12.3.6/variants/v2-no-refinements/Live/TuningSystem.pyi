@@ -210,4 +210,5 @@ class ReferencePitch:
     def octave(self) -> int:
         """A ReferencePitch's octave."""
         ...
+
 __all__ = ['TuningSystem', 'PitchClassAndOctave', 'ReferencePitch']

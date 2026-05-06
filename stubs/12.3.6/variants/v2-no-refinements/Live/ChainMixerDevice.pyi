@@ -64,4 +64,5 @@ class ChainMixerDevice(LomObject):
     def volume(self) -> DeviceParameter:
         """Const access to the Chain's Volume Device Parameter."""
         ...
+
 __all__ = ['ChainMixerDevice']
