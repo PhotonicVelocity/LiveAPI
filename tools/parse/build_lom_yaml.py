@@ -365,6 +365,68 @@ _LISTENER_RE = re.compile(
     r"^(?:add_(?P<add>\w+)_listener|remove_(?P<rem>\w+)_listener|(?P<has>\w+)_has_listener)$"
 )
 
+# init_doc has the same Boost.Python shape as a regular function's
+# raw_doc — `__init__( (Type)name=default, ...) -> None :` — so we can
+# parse it with a similar tokenizer. We only emit `init_args:` when the
+# signature has at least one non-self arg; the trivial
+# `__init__( (object)arg1) -> None` case stays as the bare default.
+_INIT_SIGNATURE_RE = re.compile(r"^__init__\(\s*(.+?)\s*\)\s*->\s*\S+\s*:")
+_INIT_ARG_RE = re.compile(
+    r"\(\s*(?P<type>[\w.]+)\s*\)\s*(?P<name>\w+)(?:\s*=\s*(?P<default>[^,\]]+))?"
+)
+
+
+def _parse_init_doc(init_doc: str | None) -> list[dict[str, Any]] | None:
+    """Extract structured init args from a class's `init_doc:` string.
+
+    Returns a list of `{name, type, optional, default}` dicts (matching
+    the `args:` shape used on functions/methods), or None when the
+    init_doc is the boilerplate `__init__( (object)arg1) -> None` form
+    that doesn't add useful information beyond `def __init__(self) -> None: ...`.
+    """
+    if not init_doc:
+        return None
+    # Pull just the signature line; init_doc often has multiple paragraphs.
+    sig_line: str | None = None
+    for line in init_doc.splitlines():
+        line = line.strip()
+        if line.startswith("__init__"):
+            sig_line = line
+            break
+    if sig_line is None:
+        return None
+    m = _INIT_SIGNATURE_RE.match(sig_line)
+    if not m:
+        return None
+    raw_args = m.group(1)
+    parsed: list[dict[str, Any]] = []
+    # Boost.Python's `[, ... ]` bracket marks where optional args start.
+    optional_split = raw_args.find("[")
+    required_part = raw_args[:optional_split] if optional_split >= 0 else raw_args
+    optional_part = raw_args[optional_split:].lstrip("[, ").rstrip("] ") if optional_split >= 0 else ""
+    for piece, is_opt in [(required_part, False), (optional_part, True)]:
+        for am in _INIT_ARG_RE.finditer(piece):
+            entry: dict[str, Any] = {"name": am.group("name"), "type": am.group("type")}
+            if is_opt:
+                entry["optional"] = True
+                if am.group("default"):
+                    entry["default"] = am.group("default").strip()
+            parsed.append(entry)
+    if not parsed:
+        return None
+    # Drop the leading `(object)arg1` Boost placeholder when its type is
+    # `object` and name is `arg1` and there are no other args — that's
+    # the constructable-but-no-args case that adds no info.
+    if len(parsed) == 1 and parsed[0]["name"] == "arg1" and parsed[0]["type"] == "object":
+        return None
+    # Rename a leading `(object)arg1` placeholder to `self` to match the
+    # convention used on methods.
+    if parsed and parsed[0]["name"] == "arg1" and parsed[0]["type"] == "object":
+        parsed[0]["name"] = "self"
+        parsed[0]["type"] = ""  # cleared below
+        parsed.pop(0)
+    return parsed or None
+
 
 def _listener_property_name(method_name: str) -> str | None:
     """If method_name is a listener method, return the property name it watches."""
@@ -374,13 +436,26 @@ def _listener_property_name(method_name: str) -> str | None:
     return m.group("add") or m.group("rem") or m.group("has")
 
 
+def _is_standard_listener_sig(method_node: dict[str, Any]) -> bool:
+    """A listener has the canonical (self, callback) signature when its
+    args are exactly those two and the callback type is the standard
+    `Callable[[], None]`. Non-standard listeners (a few exist with extra
+    contextual args, e.g. Application.View.is_view_visible_listener
+    takes `arg2: str` before the callback) shouldn't be folded — their
+    signatures wouldn't survive the listener triplet's canonicalization.
+    """
+    args = method_node.get("args") or []
+    non_self = [a for a in args if a.get("name") != "self"]
+    return len(non_self) == 1 and non_self[0].get("name") == "callback"
+
+
 def _collect_listener_triplets(class_node: dict[str, Any]) -> dict[str, list[str]]:
     """Group listener methods on a class by property name, ordered add → remove → has.
 
-    Output: `{property_name: [method_names_in_canonical_order]}`. A triplet
-    can have any 1–3 of the three slots filled depending on what the
-    runtime exposes; the list preserves the canonical add/remove/has
-    order regardless of which slots are present.
+    Output: `{property_name: [method_names_in_canonical_order]}`. Only
+    methods with the canonical `(self, callback)` signature are folded;
+    listeners that carry additional args bypass the fold and emit as
+    regular methods so their signatures survive.
     """
     by_prop: dict[str, dict[str, str]] = {}
     for child in class_node.get("children", []):
@@ -389,6 +464,8 @@ def _collect_listener_triplets(class_node: dict[str, Any]) -> dict[str, list[str
         name = child.get("name", "")
         prop = _listener_property_name(name)
         if prop is None:
+            continue
+        if not _is_standard_listener_sig(child):
             continue
         if name.startswith("add_"):
             slot = "add"
@@ -469,6 +546,14 @@ def build_member(
         if init_doc:
             out["init_doc"] = init_doc
         out["constructable"] = bool(node.get("constructable"))
+        # Constructable classes whose init_doc has a real signature get
+        # structured init args alongside the raw init_doc text. The stub
+        # generator uses these to emit `def __init__(self, ...)` with
+        # the actual parameter list rather than the bare default.
+        if out["constructable"]:
+            init_args = _parse_init_doc(init_doc)
+            if init_args:
+                out["init_args"] = init_args
         # Probe-derived: iterability + element type for container classes.
         # Multi-element observations are NOT recorded at the class level
         # (they're a union across distinct instances, not a class fact);

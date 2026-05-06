@@ -251,17 +251,27 @@ primary_class:
       - add_focused_document_view_listener
       - remove_focused_document_view_listener
       - focused_document_view_has_listener
-    - name: is_view_visible
-      listenable:
-      - add_is_view_visible_listener
-      - remove_is_view_visible_listener
-      - is_view_visible_has_listener
     - name: view_focus_changed
       listenable:
       - add_view_focus_changed_listener
       - remove_view_focus_changed_listener
       - view_focus_changed_has_listener
     methods:
+    - name: add_is_view_visible_listener
+      raw_doc: |-
+        Add a listener function or method, which will be called as soon as the
+        property "is_view_visible" has changed.
+      signature: 'add_is_view_visible_listener( (View)arg1, (object)arg2, (object)arg3) -> None :'
+      cpp_signature: void add_is_view_visible_listener(TPyViewData<ASongApp>,TString,boost::python::api::object)
+      args:
+      - name: self
+        type: Live.Application.Application.View
+      - name: arg2
+        type: str
+      - name: callback
+        type: Callable[[], None]
+      returns:
+        type: None
     - name: available_main_views
       raw_doc: |-
         Return a list of strings with the available subcomponent views, which
@@ -315,6 +325,36 @@ primary_class:
         default: 'True'
       returns:
         type: bool
+    - name: is_view_visible_has_listener
+      raw_doc: |-
+        Returns true, if the given listener function or method is connected
+        to the property "is_view_visible".
+      signature: 'is_view_visible_has_listener( (View)arg1, (object)arg2, (object)arg3) -> bool :'
+      cpp_signature: bool is_view_visible_has_listener(TPyViewData<ASongApp>,TString,boost::python::api::object)
+      args:
+      - name: self
+        type: Live.Application.Application.View
+      - name: arg2
+        type: str
+      - name: callback
+        type: Callable[[], None]
+      returns:
+        type: bool
+    - name: remove_is_view_visible_listener
+      raw_doc: |-
+        Remove a previously set listener function or method from
+        property "is_view_visible".
+      signature: 'remove_is_view_visible_listener( (View)arg1, (object)arg2, (object)arg3) -> None :'
+      cpp_signature: void remove_is_view_visible_listener(TPyViewData<ASongApp>,TString,boost::python::api::object)
+      args:
+      - name: self
+        type: Live.Application.Application.View
+      - name: arg2
+        type: str
+      - name: callback
+        type: Callable[[], None]
+      returns:
+        type: None
     - name: scroll_view
       raw_doc: |-
         Scroll through the identifier string specified view into the given

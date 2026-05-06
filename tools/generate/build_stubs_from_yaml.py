@@ -208,14 +208,24 @@ def _build_property_block(prop: dict[str, Any], current_module: str,
     return out
 
 
-def _build_init_block(cls: dict[str, Any]) -> list[str] | None:
-    """For constructable classes, synthesize a `def __init__` line. The
-    parser doesn't emit __init__ as a regular method node; we infer it
-    from the `constructable: true` flag and (where present) the
-    `init_doc:` field. Most cases collapse to `def __init__(self) -> None: ...`."""
+def _build_init_block(cls: dict[str, Any], current_module: str,
+                       imports: set[tuple[str, str]]) -> list[str] | None:
+    """For constructable classes, synthesize the `def __init__` line.
+
+    Uses the structured `init_args:` from the YAML when present (parsed
+    from init_doc by the YAML builder); falls back to the bare
+    `def __init__(self) -> None: ...` for classes whose init_doc was
+    just the boilerplate `(object)arg1` placeholder.
+    """
     if not cls.get("constructable"):
         return None
-    return [f"def __init__(self) -> None: ..."]
+    init_args = cls.get("init_args") or []
+    if not init_args:
+        return ["def __init__(self) -> None: ..."]
+    formatted = ["self"]
+    for arg in init_args:
+        formatted.append(_format_arg(arg, current_module, imports))
+    return [f"def __init__({', '.join(formatted)}) -> None: ..."]
 
 
 # Dunder sort prefixes so dunders precede all alphabetical members and
@@ -275,8 +285,13 @@ def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
     if "append" not in method_names or "extend" not in method_names:
         return []
     cls_name = cls["name"]
-    elem_raw = cls.get("element_type") or "Any"
-    elem = render_type_string(elem_raw, current_module, imports)
+    # Generic Vector uses TypeVar T in dunders instead of an element type.
+    if cls.get("path") == "Live.Base.Vector":
+        elem = "T"
+        cls_name = f"{cls_name}[T]"
+    else:
+        elem_raw = cls.get("element_type") or "Any"
+        elem = render_type_string(elem_raw, current_module, imports)
     out: list[tuple[str, list[str]]] = []
 
     out.append(("__iter__", [f"def __iter__(self) -> Iterator[{elem}]: ..."]))
@@ -340,7 +355,14 @@ def _build_enum_block(enum: dict[str, Any]) -> list[str]:
 
 
 def _build_constant_block(const: dict[str, Any]) -> list[str]:
-    return [f"{const['name']}: {const.get('type', 'str')} = {const['value']!r}"]
+    val = const["value"]
+    # Prefer double-quoted string literals (matching v1's emission style)
+    # — `repr()` defaults to single quotes for plain strings.
+    if isinstance(val, str) and "\n" not in val and '"' not in val:
+        val_str = f'"{val}"'
+    else:
+        val_str = repr(val)
+    return [f"{const['name']}: {const.get('type', 'str')} = {val_str}"]
 
 
 def _collect_class_members(cls: dict[str, Any], current_module: str,
@@ -355,7 +377,7 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
     real method node — we infer it from the `constructable` flag).
     """
     entries: list[tuple[str, list[str]]] = []
-    init_block = _build_init_block(cls)
+    init_block = _build_init_block(cls, current_module, imports)
     if init_block is not None:
         entries.append(("__init__", init_block))
     # Iterator-protocol synthesis for iterable container classes —
@@ -399,16 +421,25 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
     name = cls["name"]
     base_str = ""
     if cls.get("iterable"):
-        elem = cls.get("element_type")
-        if elem:
-            elem_rendered = render_type_string(elem, current_module, imports)
-            base_str = f"(Iterable[{elem_rendered}])"
+        # Special case: `Live.Base.Vector` is the generic container —
+        # its element type varies per use. Emit as Generic[T] with a
+        # module-level TypeVar declaration. Other iterables are
+        # concrete (specific element type or genuinely heterogeneous).
+        is_generic_vector = cls.get("path") == "Live.Base.Vector"
+        if is_generic_vector:
+            base_str = "(Generic[T])"
+            typing_extras: set[str] = registry["_module_typing_extras"]
+            typing_extras.update(("Generic", "Iterator", "TypeVar", "overload"))
+            registry["_module_emits_typevar"] = True
         else:
-            base_str = "(Iterable)"
-        # Module-scope set; emit_module reads this to add Iterator and
-        # overload to the typing import line.
-        typing_extras: set[str] = registry["_module_typing_extras"]
-        typing_extras.update(("Iterator", "overload"))
+            elem = cls.get("element_type")
+            if elem:
+                elem_rendered = render_type_string(elem, current_module, imports)
+                base_str = f"(Iterable[{elem_rendered}])"
+            else:
+                base_str = "(Iterable)"
+            typing_extras = registry["_module_typing_extras"]
+            typing_extras.update(("Iterator", "overload"))
     else:
         ancestors = cls.get("ancestors") or []
         if ancestors:
@@ -453,8 +484,10 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     module_name = module["module"]
     imports: set[tuple[str, str]] = set()
     # Per-module accumulator for extra typing names beyond the standard
-    # set. Iterable container classes add `Iterator` and `overload`.
+    # set. Iterable container classes add `Iterator` and `overload`;
+    # the generic Vector adds `Generic` and `TypeVar`.
     registry["_module_typing_extras"] = set()
+    registry["_module_emits_typevar"] = False
 
     # Class-like entries (classes + enums) intermix alphabetically except
     # the primary class which leads regardless.
@@ -513,6 +546,11 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     rest = sorted((base_names | extras) - {"TYPE_CHECKING"})
     typing_names = ["TYPE_CHECKING", *rest]
     buf.write(f"from typing import {', '.join(typing_names)}\n\n")
+    # TypeVar declaration for the generic Vector class. v1 emits it
+    # *before* the TYPE_CHECKING block (between the typing imports and
+    # the conditional).
+    if registry.get("_module_emits_typevar"):
+        buf.write("T = TypeVar('T', covariant=True)\n\n")
     if imports:
         buf.write("if TYPE_CHECKING:\n")
         # Group imports by module, sort
@@ -522,11 +560,10 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
         for mod in sorted(by_module):
             classes = sorted(by_module[mod])
             buf.write(f"    from {mod} import {', '.join(classes)}\n")
-        # Three blank lines between the TYPE_CHECKING block and the
-        # first class — matches v1 (PEP 8-style "two blank lines around
-        # top-level defs," with one extra to follow the conditional).
+        # Three blank lines before first class (matches v1).
         buf.write("\n\n\n")
     else:
+        # No TYPE_CHECKING block; two blank lines before first class.
         buf.write("\n\n")
 
     buf.write("\n".join(body))

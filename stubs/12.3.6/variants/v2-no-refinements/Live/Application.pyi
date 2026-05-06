@@ -39,7 +39,7 @@ class Application(LomObject):
             """
             ...
 
-        def add_is_view_visible_listener(self, callback: Callable[[], None], /) -> None:
+        def add_is_view_visible_listener(self, arg2: str, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
             property "is_view_visible" has changed.
@@ -110,7 +110,7 @@ class Application(LomObject):
             """
             ...
 
-        def is_view_visible_has_listener(self, callback: Callable[[], None], /) -> bool:
+        def is_view_visible_has_listener(self, arg2: str, callback: Callable[[], None], /) -> bool:
             """
             Returns true, if the given listener function or method is connected
             to the property "is_view_visible".
@@ -131,7 +131,7 @@ class Application(LomObject):
             """
             ...
 
-        def remove_is_view_visible_listener(self, callback: Callable[[], None], /) -> None:
+        def remove_is_view_visible_listener(self, arg2: str, callback: Callable[[], None], /) -> None:
             """
             Remove a previously set listener function or method from
             property "is_view_visible".
@@ -579,17 +579,17 @@ class UnavailableFeatureVector(Iterable):
 class Variants:
     """Holds strings representing what type of Live is running."""
 
-    BETA: str = 'Beta'
+    BETA: str = "Beta"
 
-    INTRO: str = 'Intro'
+    INTRO: str = "Intro"
 
-    LITE: str = 'Lite'
+    LITE: str = "Lite"
 
-    STANDARD: str = 'Standard'
+    STANDARD: str = "Standard"
 
-    SUITE: str = 'Suite'
+    SUITE: str = "Suite"
 
-    TRIAL: str = 'Trial'
+    TRIAL: str = "Trial"
 
 def combine_apcs() -> bool:
     """Returns true if multiple APCs should be combined."""
