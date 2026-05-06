@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
     from Live.Clip import Clip
@@ -90,8 +90,24 @@ class EnvelopeEventControlCoefficients:
     @y2.setter
     def y2(self, value: float) -> None: ...
 
-class EnvelopeEventVector:
+class EnvelopeEventVector(Iterable[EnvelopeEvent]):
     """A container for holding envelope events."""
+
+    def __iter__(self) -> Iterator[EnvelopeEvent]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> EnvelopeEvent: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> EnvelopeEventVector: ...
+
+    def __getitem__(self, index: int | slice) -> EnvelopeEvent | EnvelopeEventVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: EnvelopeEvent, /) -> None:
         ...

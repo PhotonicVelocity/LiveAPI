@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
     from Live.LomObject import LomObject
@@ -231,13 +231,29 @@ class BrowserItem:
         """The uri describes a unique identifier for a browser item."""
         ...
 
-class BrowserItemIterator:
+class BrowserItemIterator(Iterable):
     """This class iterates over children of another BrowserItem."""
 
     ...
 
-class BrowserItemVector:
+class BrowserItemVector(Iterable[BrowserItem]):
     """A container for returning browser items from Live."""
+
+    def __iter__(self) -> Iterator[BrowserItem]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> BrowserItem: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> BrowserItemVector: ...
+
+    def __getitem__(self, index: int | slice) -> BrowserItem | BrowserItemVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: BrowserItem, /) -> None:
         ...

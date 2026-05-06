@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Vector
@@ -1589,7 +1589,9 @@ class Track(DeviceContainer):
 class DeviceContainer(LomObject):
     """This class is a common super class of Track and Chain"""
 
-    ...
+    @property
+    def _live_ptr(self):
+        ...
 
 class DeviceInsertMode(int):
     default: int = 0
@@ -1615,8 +1617,24 @@ class RoutingChannelLayout(int):
     mono: int = 1
     stereo: int = 2
 
-class RoutingChannelVector:
+class RoutingChannelVector(Iterable[RoutingChannel]):
     """A container for returning routing channels from Live."""
+
+    def __iter__(self) -> Iterator[RoutingChannel]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> RoutingChannel: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> RoutingChannelVector: ...
+
+    def __getitem__(self, index: int | slice) -> RoutingChannel | RoutingChannelVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: RoutingChannel, /) -> None:
         ...
@@ -1652,8 +1670,24 @@ class RoutingTypeCategory(int):
     none: int = 6
     invalid: int = 7
 
-class RoutingTypeVector:
+class RoutingTypeVector(Iterable[RoutingType]):
     """A container for returning routing types from Live."""
+
+    def __iter__(self) -> Iterator[RoutingType]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> RoutingType: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> RoutingTypeVector: ...
+
+    def __getitem__(self, index: int | slice) -> RoutingType | RoutingTypeVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: RoutingType, /) -> None:
         ...

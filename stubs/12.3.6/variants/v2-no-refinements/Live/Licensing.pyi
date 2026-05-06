@@ -21,6 +21,11 @@ class PythonLicensingBridge:
     def authorize_with_sassafras(self) -> None:
         ...
 
+    @property
+    def base_product_id(self):
+        """Returns Live's current base product ID."""
+        ...
+
     def create_new_live_set(self) -> None:
         """Creates a new live set and discards unsaved changes."""
         ...
@@ -45,8 +50,17 @@ class PythonLicensingBridge:
         """Returns remaining time on a trial as a formatted string."""
         ...
 
+    @property
+    def in_sassafras_mode(self):
+        ...
+
     def invoke_pack_installation_callback(self) -> None:
         """Call package installation callback."""
+        ...
+
+    @property
+    def license_must_match_variant(self):
+        """Returns a bool indicating if we require the license information returned by the server to match the variant of Live."""
         ...
 
     def load_and_convert_legacy_unlock_cfg(self) -> dict:
@@ -61,11 +75,21 @@ class PythonLicensingBridge:
         """Process the server's response to a Trial authorization."""
         ...
 
+    @property
+    def random_number_for_trial_authorization(self):
+        """Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed)."""
+        ...
+
     def request_exit(self, exit_code: int = 0, /) -> None:
         ...
 
     def save_current_set(self) -> None:
         """Saves the current Live session."""
+        ...
+
+    @property
+    def set_has_unsaved_changes(self):
+        """Returns true if the set has unsaved changes."""
         ...
 
     def set_network_timer(self, callback: object, interval_in_ms: int, /) -> None:

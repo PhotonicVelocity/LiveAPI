@@ -170,13 +170,29 @@ def _build_property_block(prop: dict[str, Any], current_module: str,
                            registry: dict[str, Any]) -> list[str]:
     """Just the @property + setter (NO listeners — those are emitted as
     separate sortable members so they alphabetize with regular methods).
-    A blank line separates the @property body from the @setter so each
-    `def` reads as its own block (matching v1's spacing)."""
+
+    Three cases for type rendering:
+    - Real property with `type:` → emit `def name(self) -> T: ...`
+    - Real property without `type:` (probe didn't observe it) → emit
+      `def name(self): ...` matching v1's no-annotation style
+    - Listener-only signal (no `type:`, no `settable:`) → emit nothing
+      here; only the listener methods land in the class body
+    """
     name = prop["name"]
     type_str = prop.get("type")
+    has_settable = "settable" in prop
+    if type_str is None and not has_settable:
+        return []  # listener-only signal — handled by the listener methods
     if type_str is None:
-        # Listener-only signal — no @property body, only listeners.
-        return []
+        # Real property with no observed type — emit without return
+        # annotation (matches v1).
+        out = ["@property", f"def {name}(self):"]
+        raw_doc = prop.get("raw_doc")
+        if raw_doc:
+            for line in _indent(_wrap_docstring(raw_doc), 1):
+                out.append(line)
+        out.append(INDENT + "...")
+        return out
     rendered = _ret_type_for_type(type_str, prop.get("element_type"),
                                   current_module, imports, registry)
     out = ["@property", f"def {name}(self) -> {rendered}:"]
@@ -200,6 +216,89 @@ def _build_init_block(cls: dict[str, Any]) -> list[str] | None:
     if not cls.get("constructable"):
         return None
     return [f"def __init__(self) -> None: ..."]
+
+
+# Dunder sort prefixes so dunders precede all alphabetical members and
+# come out in the iteration-protocol's canonical order (iter, getitem,
+# len, contains, bool). __init__ leads when present.
+_DUNDER_SORT_PREFIX = {
+    "__init__":     "00_init",
+    "__iter__":     "01_iter",
+    "__getitem__":  "02_getitem",
+    "__len__":      "03_len",
+    "__contains__": "04_contains",
+    "__bool__":     "05_bool",
+}
+
+
+def _sort_key(name: str) -> str:
+    return _DUNDER_SORT_PREFIX.get(name, name)
+
+
+def _override_container_arg_type(method: dict[str, Any], element_type: str) -> dict[str, Any]:
+    """For an iterable container's `append` / `extend`, replace the second
+    arg's `type:` with the class's known element_type. `extend` wraps
+    further in `Iterable[E]` since it takes the iterable form. The
+    parser leaves these as `object` (raw_doc's annotation); the rewrite
+    here matches what v1's merge_probe_data step did at parse time."""
+    out = dict(method)
+    args = list(method.get("args") or [])
+    if len(args) < 2:
+        return method
+    arg = dict(args[1])
+    if method["name"] == "extend":
+        arg["type"] = f"Iterable[{element_type}]"
+    else:
+        arg["type"] = element_type
+    args[1] = arg
+    out["args"] = args
+    return out
+
+
+def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
+                             imports: set[tuple[str, str]]) -> list[tuple[str, list[str]]]:
+    """Synthesize iterator-protocol methods for an iterable container
+    class. Element type uses the class's `element_type:` when known,
+    otherwise `Any`. The `__getitem__` triplet is overload + overload +
+    impl (matching v1's emission). Live-class element types are
+    rendered through the type qualifier so they unqualify + add imports
+    cleanly.
+
+    Only fires for *containers* — classes that have both `append` and
+    `extend`. Plain iterators (e.g. `Browser.BrowserItemIterator`) are
+    flagged iterable for the base class but don't get dunders, since
+    iterators don't support append/extend or __len__-style operations.
+    """
+    if not cls.get("iterable"):
+        return []
+    method_names = {m["name"] for m in cls.get("methods") or []}
+    if "append" not in method_names or "extend" not in method_names:
+        return []
+    cls_name = cls["name"]
+    elem_raw = cls.get("element_type") or "Any"
+    elem = render_type_string(elem_raw, current_module, imports)
+    out: list[tuple[str, list[str]]] = []
+
+    out.append(("__iter__", [f"def __iter__(self) -> Iterator[{elem}]: ..."]))
+
+    # __getitem__ is emitted as 3 separate `def` blocks (overload + overload
+    # + impl) but they share the sort key — listed alphabetically, all
+    # three blocks appear together at the __getitem__ position.
+    getitem_block = [
+        "@overload",
+        f"def __getitem__(self, index: int) -> {elem}: ...",
+        "",
+        "@overload",
+        f"def __getitem__(self, index: slice) -> {cls_name}: ...",
+        "",
+        f"def __getitem__(self, index: int | slice) -> {elem} | {cls_name}: ...",
+    ]
+    out.append(("__getitem__", getitem_block))
+
+    out.append(("__len__", ["def __len__(self) -> int: ..."]))
+    out.append(("__contains__", ["def __contains__(self, value: object) -> bool: ..."]))
+    out.append(("__bool__", ["def __bool__(self) -> bool: ..."]))
+    return out
 
 
 def _build_method_block(method: dict[str, Any], current_module: str,
@@ -259,6 +358,9 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
     init_block = _build_init_block(cls)
     if init_block is not None:
         entries.append(("__init__", init_block))
+    # Iterator-protocol synthesis for iterable container classes —
+    # __iter__/__getitem__/__len__/__contains__/__bool__.
+    entries.extend(_build_iterable_dunders(cls, current_module, imports))
     for nested in cls.get("classes") or []:
         entries.append((nested["name"], _build_class_block(nested, current_module, imports, registry)))
     for nested in cls.get("enums") or []:
@@ -269,8 +371,16 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
             entries.append((prop["name"], block))
         for listener in prop.get("listenable") or []:
             entries.append((listener, _build_listener_method(listener, prop["name"])))
+    # Override append/extend arg types for iterable containers when the
+    # class carries a known element_type. The parser keeps the raw_doc
+    # `object` annotation; v1's merge_probe_data step did this rewrite,
+    # so we replicate it at stub-emit time using the class element_type.
+    iter_elem = cls.get("element_type") if cls.get("iterable") else None
     for m in cls.get("methods") or []:
-        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True)))
+        method = m
+        if iter_elem and m["name"] in ("append", "extend"):
+            method = _override_container_arg_type(m, iter_elem)
+        entries.append((m["name"], _build_method_block(method, current_module, imports, registry, True)))
     for c in cls.get("constants") or []:
         entries.append((c["name"], _build_constant_block(c)))
     return entries
@@ -279,28 +389,49 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
 def _build_class_block(cls: dict[str, Any], current_module: str,
                        imports: set[tuple[str, str]],
                        registry: dict[str, Any]) -> list[str]:
-    """Class definition with members alphabetized at each level."""
+    """Class definition with members alphabetized at each level.
+
+    Iterable container classes use `Iterable[E]` (or bare `Iterable` if
+    no element type is known) as their base regardless of `ancestors:`,
+    matching v1 generator behavior — the iterability is the relevant
+    structural information for typing, not the LomObject ancestry.
+    """
     name = cls["name"]
-    ancestors = cls.get("ancestors") or []
     base_str = ""
-    if ancestors:
-        bases = [render_type(a, current_module, imports) for a in ancestors[:1]]
-        base_str = f"({', '.join(bases)})"
-    out = [f"class {name}{base_str}:"]
+    if cls.get("iterable"):
+        elem = cls.get("element_type")
+        if elem:
+            elem_rendered = render_type_string(elem, current_module, imports)
+            base_str = f"(Iterable[{elem_rendered}])"
+        else:
+            base_str = "(Iterable)"
+        # Module-scope set; emit_module reads this to add Iterator and
+        # overload to the typing import line.
+        typing_extras: set[str] = registry["_module_typing_extras"]
+        typing_extras.update(("Iterator", "overload"))
+    else:
+        ancestors = cls.get("ancestors") or []
+        if ancestors:
+            bases = [render_type(a, current_module, imports) for a in ancestors[:1]]
+            base_str = f"({', '.join(bases)})"
     raw_doc = cls.get("raw_doc")
+    members = _collect_class_members(cls, current_module, imports, registry)
+    if not members and not raw_doc:
+        # Empty class body — inline form: `class X(B): ...`
+        return [f"class {name}{base_str}: ..."]
+
+    out = [f"class {name}{base_str}:"]
     if raw_doc:
         for line in _indent(_wrap_docstring(raw_doc), 1):
             out.append(line)
         out.append("")
-
-    members = _collect_class_members(cls, current_module, imports, registry)
     if not members:
         out.append(INDENT + "...")
         return out
 
-    # Sort alphabetically by name. Each block emits as a unit, separated
-    # by blank lines.
-    members.sort(key=lambda kv: kv[0])
+    # Dunders sort first (canonical iter-protocol order). Regular
+    # members sort alphabetically after.
+    members.sort(key=lambda kv: _sort_key(kv[0]))
     for i, (_, block) in enumerate(members):
         for line in _indent(block, 1):
             out.append(line)
@@ -321,6 +452,9 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     """
     module_name = module["module"]
     imports: set[tuple[str, str]] = set()
+    # Per-module accumulator for extra typing names beyond the standard
+    # set. Iterable container classes add `Iterator` and `overload`.
+    registry["_module_typing_extras"] = set()
 
     # Class-like entries (classes + enums) intermix alphabetically except
     # the primary class which leads regardless.
@@ -371,7 +505,14 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     # Header
     buf = StringIO()
     buf.write("from __future__ import annotations\n")
-    buf.write("from typing import TYPE_CHECKING, Any, Callable, Iterable\n\n")
+    # Typing imports — TYPE_CHECKING first, rest case-sensitive
+    # alphabetical (matches v1's order: TYPE_CHECKING, Any, Callable,
+    # Iterable, Iterator, overload, ...).
+    base_names = {"TYPE_CHECKING", "Any", "Callable", "Iterable"}
+    extras = registry.get("_module_typing_extras") or set()
+    rest = sorted((base_names | extras) - {"TYPE_CHECKING"})
+    typing_names = ["TYPE_CHECKING", *rest]
+    buf.write(f"from typing import {', '.join(typing_names)}\n\n")
     if imports:
         buf.write("if TYPE_CHECKING:\n")
         # Group imports by module, sort

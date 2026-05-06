@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
     from Live.Base import ObjectVector, StringVector, Text
@@ -402,8 +402,24 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector:
+class ControlDescriptionVector(Iterable):
     """A container for returning control descriptions."""
+
+    def __iter__(self) -> Iterator[Any]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> Any: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> ControlDescriptionVector: ...
+
+    def __getitem__(self, index: int | slice) -> Any | ControlDescriptionVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: ControlDescription, /) -> None:
         ...
@@ -435,6 +451,10 @@ class ControlSurfaceProxy:
         """
         ...
 
+    @property
+    def control_descriptions(self):
+        ...
+
     def control_values_arrived_has_listener(self, callback: Callable[[], None], /) -> bool:
         """
         Returns true, if the given listener function or method is connected
@@ -459,6 +479,11 @@ class ControlSurfaceProxy:
         Returns true, if the given listener function or method is connected
         to the property "midi_received".
         """
+        ...
+
+    @property
+    def pad_layout(self):
+        """The layout of pads on Push."""
         ...
 
     def pad_layout_has_listener(self, callback: Callable[[], None], /) -> bool:
@@ -501,6 +526,10 @@ class ControlSurfaceProxy:
     def subscribe_to_control(self, arg2: int, /) -> None:
         ...
 
+    @property
+    def type_name(self):
+        ...
+
     def unsubscribe_from_control(self, arg2: int, /) -> None:
         ...
 
@@ -522,8 +551,24 @@ class PushDialogType(int):
 class UnavailableFeature(int):
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector:
+class UnavailableFeatureVector(Iterable):
     """A container for returning unavailable features."""
+
+    def __iter__(self) -> Iterator[Any]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> Any: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> UnavailableFeatureVector: ...
+
+    def __getitem__(self, index: int | slice) -> Any | UnavailableFeatureVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: UnavailableFeature, /) -> None:
         ...

@@ -474,9 +474,19 @@ def build_member(
         # (they're a union across distinct instances, not a class fact);
         # per-use sites carry the narrowing instead. Only the singular,
         # concrete-container case lands here.
+        #
+        # Iterability falls back to a structural check (has both `append`
+        # and `extend` methods) when probe didn't see the class — covers
+        # FloatVector / IntU64Vector etc. which the probe never reached
+        # because nothing in the API surface returns them.
+        is_iterable = bool(probe_entry and probe_entry.get("iterable"))
+        if not is_iterable:
+            kids = {c.get("name") for c in node.get("children") or [] if c.get("name")}
+            if "append" in kids and "extend" in kids:
+                is_iterable = True
+        if is_iterable:
+            out["iterable"] = True
         if probe_entry:
-            if probe_entry.get("iterable"):
-                out["iterable"] = True
             class_element_types = _qualify_element_types(probe_entry, by_repr)
             if class_element_types and len(class_element_types) == 1:
                 out["element_type"] = class_element_types[0]

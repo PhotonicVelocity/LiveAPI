@@ -408,6 +408,7 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+  iterable: true
   methods:
   - name: append
     signature: 'append( (ControlDescriptionVector)arg1, (object)arg2) -> None :'

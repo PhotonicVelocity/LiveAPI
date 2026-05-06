@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
     from Live.Base import IntU64Vector, IntVector, Vector
@@ -1524,13 +1524,29 @@ class MidiNoteSpecification:
 
     ...
 
-class MidiNoteVector:
+class MidiNoteVector(Iterable[MidiNote]):
     """A container for holding MIDI notes from Live."""
 
-    def append(self, value: object, /) -> None:
+    def __iter__(self) -> Iterator[MidiNote]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> MidiNote: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> MidiNoteVector: ...
+
+    def __getitem__(self, index: int | slice) -> MidiNote | MidiNoteVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
+
+    def append(self, value: MidiNote, /) -> None:
         ...
 
-    def extend(self, values: object, /) -> None:
+    def extend(self, values: Iterable[MidiNote], /) -> None:
         ...
 
 class WarpMarker:
@@ -1546,8 +1562,24 @@ class WarpMarker:
         """A WarpMarker's sample time."""
         ...
 
-class WarpMarkerVector:
+class WarpMarkerVector(Iterable[WarpMarker]):
     """A container for returning warp markers from Live."""
+
+    def __iter__(self) -> Iterator[WarpMarker]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> WarpMarker: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> WarpMarkerVector: ...
+
+    def __getitem__(self, index: int | slice) -> WarpMarker | WarpMarkerVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
 
     def append(self, value: WarpMarker, /) -> None:
         ...

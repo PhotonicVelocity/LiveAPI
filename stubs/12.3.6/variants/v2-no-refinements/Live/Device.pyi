@@ -1,5 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Iterator, overload
 
 if TYPE_CHECKING:
     from Live.DeviceParameter import DeviceParameter
@@ -266,7 +266,23 @@ class Device(LomObject):
         """Representing the view aspects of a device."""
         ...
 
-class ATimeableValueVector:
+class ATimeableValueVector(Iterable[DeviceParameter]):
+    def __iter__(self) -> Iterator[DeviceParameter]: ...
+
+    @overload
+    def __getitem__(self, index: int) -> DeviceParameter: ...
+
+    @overload
+    def __getitem__(self, index: slice) -> ATimeableValueVector: ...
+
+    def __getitem__(self, index: int | slice) -> DeviceParameter | ATimeableValueVector: ...
+
+    def __len__(self) -> int: ...
+
+    def __contains__(self, value: object) -> bool: ...
+
+    def __bool__(self) -> bool: ...
+
     def append(self, value: DeviceParameter, /) -> None:
         ...
 
