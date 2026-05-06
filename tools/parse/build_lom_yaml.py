@@ -399,6 +399,7 @@ def build_member(
     node: dict[str, Any],
     registry: dict[str, Any],
     enclosing_path: str | None = None,
+    parent_getters: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any] | None:
     """Convert a tree-node child into its YAML member dict, or None to skip.
 
@@ -525,6 +526,26 @@ def build_member(
         if args:
             out["args"] = args
         returns = _convert_returns(node.get("returns"), by_name, enclosing_path)
+        # Probe-derived enrichment for no-arg getters. The probe captures
+        # the runtime return type when it could auto-invoke a getter; we
+        # surface it alongside the parser-derived type so divergence is
+        # visible (option 3 — emit both, scope before deciding what
+        # to do with the disagreements).
+        probe_info = (parent_getters or {}).get(name) if parent_getters else None
+        if probe_info and probe_info.get("probed"):
+            if returns is None:
+                returns = {}
+            probed_type = _qualify_probed_type(probe_info, by_repr)
+            if probed_type and probed_type != returns.get("type"):
+                returns["probed_type"] = probed_type
+            # Element types from probe are net-new info — parser's
+            # raw_doc-derived returns has no element-type concept.
+            probed_elements = _qualify_element_types(probe_info, by_repr)
+            if probed_elements:
+                if len(probed_elements) == 1:
+                    returns["element_type"] = probed_elements[0]
+                else:
+                    returns["element_types"] = probed_elements
         if returns:
             out["returns"] = returns
     return out
@@ -594,6 +615,12 @@ def _group_class_members(
     for methods in triplets.values():
         listener_method_names.update(methods)
 
+    # Pre-resolve this class's probe getters so methods can cross-check
+    # their parser-derived return types against runtime observations.
+    class_repr = class_node.get("repr")
+    probe_entry = (registry.get("probe") or {}).get(class_repr) if isinstance(class_repr, str) else None
+    parent_getters: dict[str, dict[str, Any]] = (probe_entry or {}).get("getters") or {}
+
     groups: dict[str, list[dict[str, Any]]] = {
         "property": [], "function": [], "class": [], "enum": [], "constant": [],
     }
@@ -605,7 +632,7 @@ def _group_class_members(
         # owning property below.
         if child.get("type") == "function" and child.get("name") in listener_method_names:
             continue
-        member = build_member(child, registry, enclosing_path)
+        member = build_member(child, registry, enclosing_path, parent_getters)
         if member is None:
             continue
         kind = member.pop("kind")
@@ -676,7 +703,7 @@ def _to_named_groups(
 # ------------------------------------------------------------------------------- #
 
 
-def build_module_yaml(module_node: dict[str, Any], registry: dict[str, str]) -> dict[str, Any]:
+def build_module_yaml(module_node: dict[str, Any], registry: dict[str, Any]) -> dict[str, Any]:
     """Convert one module node into its YAML-shape dict."""
     module_name = module_node["name"]
     groups: dict[str, list[dict[str, Any]]] = {
@@ -684,10 +711,19 @@ def build_module_yaml(module_node: dict[str, Any], registry: dict[str, str]) -> 
     }
     primary: dict[str, Any] | None = None
 
+    # Module-level probe entries are keyed `<module 'X'>` (5 such entries
+    # today: Application, Base, Licensing, SimplerDevice, Song). Their
+    # `getters` list covers no-arg module-level functions like
+    # `Application.get_application` and
+    # `SimplerDevice.get_available_voice_numbers`.
+    probe = registry.get("probe") or {}
+    module_probe_entry = probe.get(f"<module '{module_name}'>") or {}
+    module_getters: dict[str, dict[str, Any]] = module_probe_entry.get("getters") or {}
+
     for child in module_node.get("children", []):
         if child.get("ref"):
             continue
-        member = build_member(child, registry)
+        member = build_member(child, registry, parent_getters=module_getters)
         if member is None:
             continue
         # `kind` is implicit in which group the entry lives in — drop the

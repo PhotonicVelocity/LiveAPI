@@ -104,3 +104,4 @@ primary_class:
       default: '-1'
     returns:
       type: Live.Base.StringVector
+      element_type: str

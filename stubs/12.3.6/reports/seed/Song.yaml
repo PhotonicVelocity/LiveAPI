@@ -1184,3 +1184,4 @@ functions:
   cpp_signature: boost::python::tuple get_all_scales_ordered()
   returns:
     type: tuple
+    element_type: tuple

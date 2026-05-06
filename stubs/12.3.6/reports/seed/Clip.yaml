@@ -598,6 +598,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: Live.Clip.MidiNoteVector
+      element_type: Live.Clip.MidiNote
   - name: get_notes
     raw_doc: |-
       Returns a tuple of tuples where each inner tuple represents

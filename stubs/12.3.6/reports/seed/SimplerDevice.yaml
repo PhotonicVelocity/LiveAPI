@@ -353,3 +353,4 @@ functions:
   cpp_signature: std::__1::vector<int, std::__1::allocator<int>> get_available_voice_numbers()
   returns:
     type: Live.Base.IntVector
+    element_type: int

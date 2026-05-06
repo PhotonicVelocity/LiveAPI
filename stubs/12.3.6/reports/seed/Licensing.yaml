@@ -323,6 +323,9 @@ functions:
   cpp_signature: boost::python::tuple get_unlock_dir()
   returns:
     type: tuple
+    element_types:
+    - str
+    - bool
 - name: launch_web_browser
   raw_doc: Opens a web browser at the specified URL on the user's computer.
   signature: 'launch_web_browser( (str)url) -> None :'
