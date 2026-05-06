@@ -156,12 +156,12 @@ class WavetableDevice(Device):
         ...
 
     @property
-    def filter_routing(self) -> int:
+    def filter_routing(self) -> FilterRouting:
         """Return the current filter routing."""
         ...
 
     @filter_routing.setter
-    def filter_routing(self, value: int) -> None: ...
+    def filter_routing(self, value: FilterRouting) -> None: ...
 
     def filter_routing_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -236,12 +236,12 @@ class WavetableDevice(Device):
     def name(self, value: str) -> None: ...
 
     @property
-    def oscillator_1_effect_mode(self) -> int:
+    def oscillator_1_effect_mode(self) -> EffectMode:
         """Return the current effect mode of the oscillator 1."""
         ...
 
     @oscillator_1_effect_mode.setter
-    def oscillator_1_effect_mode(self, value: int) -> None: ...
+    def oscillator_1_effect_mode(self, value: EffectMode) -> None: ...
 
     def oscillator_1_effect_mode_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -293,12 +293,12 @@ class WavetableDevice(Device):
         ...
 
     @property
-    def oscillator_2_effect_mode(self) -> int:
+    def oscillator_2_effect_mode(self) -> EffectMode:
         """Return the current effect mode of the oscillator 2."""
         ...
 
     @oscillator_2_effect_mode.setter
-    def oscillator_2_effect_mode(self, value: int) -> None: ...
+    def oscillator_2_effect_mode(self, value: EffectMode) -> None: ...
 
     def oscillator_2_effect_mode_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -489,12 +489,12 @@ class WavetableDevice(Device):
         ...
 
     @property
-    def unison_mode(self) -> int:
+    def unison_mode(self) -> UnisonMode:
         """Return the current unison mode."""
         ...
 
     @unison_mode.setter
-    def unison_mode(self, value: int) -> None: ...
+    def unison_mode(self, value: UnisonMode) -> None: ...
 
     def unison_mode_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -504,12 +504,12 @@ class WavetableDevice(Device):
         ...
 
     @property
-    def unison_voice_count(self) -> int:
+    def unison_voice_count(self) -> VoiceCount:
         """Return the current number of unison voices."""
         ...
 
     @unison_voice_count.setter
-    def unison_voice_count(self, value: int) -> None: ...
+    def unison_voice_count(self, value: VoiceCount) -> None: ...
 
     def unison_voice_count_has_listener(self, callback: Callable, /) -> bool:
         """

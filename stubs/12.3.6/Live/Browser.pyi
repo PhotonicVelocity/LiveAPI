@@ -63,12 +63,12 @@ class Browser(LomObject):
         ...
 
     @property
-    def filter_type(self) -> int:
+    def filter_type(self) -> FilterType:
         """Bang triggered when the hotswap target has changed."""
         ...
 
     @filter_type.setter
-    def filter_type(self, value: int) -> None: ...
+    def filter_type(self, value: FilterType) -> None: ...
 
     def filter_type_has_listener(self, callback: Callable, /) -> bool:
         """

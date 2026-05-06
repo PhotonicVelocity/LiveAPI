@@ -522,12 +522,12 @@ class SimplerDevice(Device):
         ...
 
     @property
-    def playback_mode(self) -> int:
+    def playback_mode(self) -> PlaybackMode:
         """Access to Simpler's playback mode."""
         ...
 
     @playback_mode.setter
-    def playback_mode(self, value: int) -> None: ...
+    def playback_mode(self, value: PlaybackMode) -> None: ...
 
     def playback_mode_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -699,12 +699,12 @@ class SimplerDevice(Device):
         ...
 
     @property
-    def slicing_playback_mode(self) -> int:
+    def slicing_playback_mode(self) -> SlicingPlaybackMode:
         """Access to Simpler's slicing playback mode."""
         ...
 
     @slicing_playback_mode.setter
-    def slicing_playback_mode(self, value: int) -> None: ...
+    def slicing_playback_mode(self, value: SlicingPlaybackMode) -> None: ...
 
     def slicing_playback_mode_has_listener(self, callback: Callable, /) -> bool:
         """

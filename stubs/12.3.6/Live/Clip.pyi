@@ -675,12 +675,12 @@ class Clip(LomObject):
         ...
 
     @property
-    def launch_mode(self) -> int:
+    def launch_mode(self) -> LaunchMode:
         """Get/Set access to the launch mode setting of the Clip."""
         ...
 
     @launch_mode.setter
-    def launch_mode(self, value: int) -> None: ...
+    def launch_mode(self, value: LaunchMode) -> None: ...
 
     def launch_mode_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -690,12 +690,12 @@ class Clip(LomObject):
         ...
 
     @property
-    def launch_quantization(self) -> int:
+    def launch_quantization(self) -> ClipLaunchQuantization:
         """Get/Set access to the launch quantization setting of the Clip."""
         ...
 
     @launch_quantization.setter
-    def launch_quantization(self, value: int) -> None: ...
+    def launch_quantization(self, value: ClipLaunchQuantization) -> None: ...
 
     def launch_quantization_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -914,7 +914,7 @@ class Clip(LomObject):
         """
         ...
 
-    def quantize(self, quantization_grid: int, amount: float, /) -> None:
+    def quantize(self, quantization_grid: GridQuantization | int, amount: float, /) -> None:
         """Quantize all notes in a clip or align warp markers."""
         ...
 
@@ -1377,7 +1377,7 @@ class Clip(LomObject):
         ...
 
     @property
-    def warp_mode(self) -> int:
+    def warp_mode(self) -> WarpMode:
         """
         Available for AudioClips only.
         Get/Set the warp mode for this audio clip.
@@ -1385,7 +1385,7 @@ class Clip(LomObject):
         ...
 
     @warp_mode.setter
-    def warp_mode(self, value: int) -> None: ...
+    def warp_mode(self, value: WarpMode) -> None: ...
 
     def warp_mode_has_listener(self, callback: Callable, /) -> bool:
         """

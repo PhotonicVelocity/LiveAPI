@@ -54,7 +54,7 @@ class DeviceParameter(LomObject):
         ...
 
     @property
-    def automation_state(self) -> int:
+    def automation_state(self) -> AutomationState:
         """Returns state of type AutomationState."""
         ...
 
@@ -201,7 +201,7 @@ class DeviceParameter(LomObject):
         ...
 
     @property
-    def state(self) -> int:
+    def state(self) -> ParameterState:
         """
         Returns the state of the parameter:
         - enabled - the parameter's value can be changed,

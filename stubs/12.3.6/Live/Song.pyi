@@ -1733,7 +1733,7 @@ class Song(LomObject):
         ...
 
     @property
-    def session_record_status(self) -> int:
+    def session_record_status(self) -> SessionRecordStatus:
         """Get the session slot-recording state."""
         ...
 

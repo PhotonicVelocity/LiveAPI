@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Clip import WarpMarkerVector
+    from Live.Clip import WarpMarkerVector, WarpMode
     from Live.Envelope import Envelope
     from Live.LomObject import LomObject
     from Live.SimplerDevice import SimplerDevice
@@ -191,12 +191,12 @@ class Sample(LomObject):
         ...
 
     @property
-    def beats_transient_loop_mode(self) -> int:
+    def beats_transient_loop_mode(self) -> TransientLoopMode:
         """Access to the Transient Loop Mode parameter in Beats Warp Mode."""
         ...
 
     @beats_transient_loop_mode.setter
-    def beats_transient_loop_mode(self, value: int) -> None: ...
+    def beats_transient_loop_mode(self, value: TransientLoopMode) -> None: ...
 
     def beats_transient_loop_mode_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -473,12 +473,12 @@ class Sample(LomObject):
         ...
 
     @property
-    def slicing_beat_division(self) -> int:
+    def slicing_beat_division(self) -> SlicingBeatDivision:
         """Access to sample's slicing step size."""
         ...
 
     @slicing_beat_division.setter
-    def slicing_beat_division(self, value: int) -> None: ...
+    def slicing_beat_division(self, value: SlicingBeatDivision) -> None: ...
 
     def slicing_beat_division_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -521,12 +521,12 @@ class Sample(LomObject):
         ...
 
     @property
-    def slicing_style(self) -> int:
+    def slicing_style(self) -> SlicingStyle:
         """Access to sample's slicing style."""
         ...
 
     @slicing_style.setter
-    def slicing_style(self, value: int) -> None: ...
+    def slicing_style(self, value: SlicingStyle) -> None: ...
 
     def slicing_style_has_listener(self, callback: Callable, /) -> bool:
         """
@@ -608,12 +608,12 @@ class Sample(LomObject):
         ...
 
     @property
-    def warp_mode(self) -> int:
+    def warp_mode(self) -> WarpMode:
         """Access to the sample's warp mode."""
         ...
 
     @warp_mode.setter
-    def warp_mode(self, value: int) -> None: ...
+    def warp_mode(self, value: WarpMode) -> None: ...
 
     def warp_mode_has_listener(self, callback: Callable, /) -> bool:
         """

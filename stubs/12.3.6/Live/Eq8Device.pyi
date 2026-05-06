@@ -130,12 +130,12 @@ class Eq8Device(Device):
         ...
 
     @property
-    def global_mode(self) -> int:
+    def global_mode(self) -> GlobalMode:
         """Access to Eq8's global mode."""
         ...
 
     @global_mode.setter
-    def global_mode(self, value: int) -> None: ...
+    def global_mode(self, value: GlobalMode) -> None: ...
 
     def global_mode_has_listener(self, callback: Callable, /) -> bool:
         """

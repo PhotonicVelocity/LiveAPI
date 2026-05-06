@@ -14,7 +14,7 @@ class AudioToMidiType(int):
     melody_to_midi: int = 1
     drums_to_midi: int = 2
 
-def audio_to_midi_clip(song: Song, audio_clip: Clip, audio_to_midi_type: int, /) -> None:
+def audio_to_midi_clip(song: Song, audio_clip: Clip, audio_to_midi_type: AudioToMidiType | int, /) -> None:
     """
     Creates a MIDI clip in a new MIDI track with the notes extracted from the given
     audio_clip. The `audio_to_midi_type` decides which algorithm is used in

@@ -1654,7 +1654,7 @@ class RoutingType:
         ...
 
     @property
-    def category(self) -> int:
+    def category(self) -> RoutingTypeCategory:
         """Category of the routing type."""
         ...
 

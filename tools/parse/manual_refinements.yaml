@@ -43,6 +43,23 @@
 # hints but not runtime correctness, so the asymmetry is intentional.
 #
 # ─────────────────────────────────────────────────────────────────────────────
+# Recurring patterns
+#
+# Some refinement shapes recur across many entries. Documenting them once here
+# means per-entry `source:` strings can cite the pattern by name instead of
+# re-explaining the rationale.
+#
+# **Enum-arg convention (`EnumType | int`).** Boost.Python emits enum classes
+# as `int` subclasses (e.g. `class GridQuantization(int):`, `class MapMode(int):`).
+# Any arg whose C++ signature is `int` and that semantically maps to a named
+# enum is expressible as `EnumType | int`. Runtime acceptance is identical to a
+# bare `int` annotation (the enum already satisfies `int` via subclass), but
+# the enum becomes discoverable in hover / autocomplete. Use this whenever an
+# `int` arg has a clear enum semantic; cite as "enum-arg convention" in
+# `source:`. Examples in this file: `Clip.quantize_pitch.quantization_grid`,
+# `Clip.quantize.quantization_grid`, `MidiMap.map_midi_cc.map_mode`.
+#
+# ─────────────────────────────────────────────────────────────────────────────
 
 _meta:
   format_version: 1
@@ -66,18 +83,17 @@ _meta:
     to: "Device | None"
   confidence: high
   source: |
-    Probed against Live 12.3.5: during active hotswap, `hotswap_target` returns the
-    Device object being swapped, not a BrowserItem. The stub's earlier BrowserItem
-    annotation was incorrect — though the C++
-    signature for relation_to_hotswap_target takes NPythonBrowser::TPythonBrowserItem and
-    originally suggested otherwise. None when no hotswap is active. Settable: assigning a
-    Device handle activates hotswap; assigning None deactivates.
+    Corpus reads `hotswap_target` as a `Device`: Push2/browser_component.py:538
+    does `self._browser.hotswap_target.selected_preset_index = ...`, where
+    `selected_preset_index` is a Device-side attribute. The C++ signature on
+    sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`,
+    which would suggest BrowserItem, but the corpus pattern contradicts that
+    for the property's runtime type. `None` when no hotswap is active.
   _note: |
-    Push2/browser_component.py:538 still trips pyright because Push2 does
-    `self._browser.hotswap_target.selected_preset_index = ...` — selected_preset_index is
-    on PluginDevice, not the base Device. Push2 narrows via runtime context that pyright
-    can't see; that's Push2's concern, not the stub's. After this fix the audit finding
-    becomes part of the deferred / declined bucket, not a stub bug.
+    Push2/browser_component.py:538 still trips pyright after this fix because
+    `selected_preset_index` is on `PluginDevice`, not the base `Device` —
+    Push2 narrows via runtime context pyright can't see. Push2's concern, not
+    the stub's; the audit finding belongs in the deferred / declined bucket.
 
 "Live.Clip.Clip.groove":
   probed_type:
@@ -392,8 +408,8 @@ _meta:
   source: |
     arg2 rename — callsite, 6/7 defs use 'note' across drum_group_component
     wrappers (drum_group_component.py:88, _Framework/DrumGroupComponent.py:331,
-    etc.). M4L/baseline use `pitch` instead — the corpus def-vote dominates
-    here, but if drift surfaces, `pitch` is the documented form.
+    etc.). M4L docs use `pitch` instead — the corpus def-vote dominates here,
+    but if drift surfaces, `pitch` is the documented form.
     arg3 rename — the previous `source` rename was WRONG. The single def-vote
     came from pushbase/quantization_component.py:125 `def quantize_pitch(self,
     note, source=None)`, but that is a wrapper whose `source` is a UI tag
@@ -402,10 +418,10 @@ _meta:
     binding call at line 128 passes `self.settings.quantize_to` as arg3 — a
     GridQuantization enum int. M4L docs (clip.md) names arg3 `quantization_grid`.
     arg3 type — C++ signature is `void quantize_pitch(TPyHandle<AClip>, int,
-    int, float)` — int. The probed runtime accepts `GridQuantization` enum
-    values 1–8 (0 and 9 raise `Invalid quantization`); narrowed to
-    `GridQuantization | int` matching the sister `Clip.View.grid_quantization`
-    and `Clip.quantize`.
+    int, float)` — int. Applied per the enum-arg convention (see schema
+    header): M4L (clip.md) names the arg `quantization_grid`, indicating the
+    GridQuantization context; sister `Clip.quantize` uses the same
+    `GridQuantization | int` annotation.
     arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
     'amount'; sister method `quantize(quantization_grid, amount)` confirms.
 
@@ -667,10 +683,17 @@ _meta:
   args:
     arg2: quantization_grid
     arg3: amount
+  arg_types:
+    quantization_grid:
+      from: int
+      to: "GridQuantization | int"
+  confidence: high
   source: |
-    Arg names verified against corpus / M4L docs:
-      - arg2 -> quantization_grid  [M4L docs]: external/max-for-live-docs/9.0/clip.md
-      - arg3 -> amount  [M4L docs]: external/max-for-live-docs/9.0/clip.md
+    Arg names from M4L docs (clip.md). arg2 type — applied per the enum-arg
+    convention (see schema header): the M4L name `quantization_grid` and the
+    sister `Clip.View.grid_quantization` property (typed `GridQuantization`)
+    establish the enum context. Sister `Clip.quantize_pitch` uses the same
+    annotation.
 
 "Live.Clip.Clip.remove_notes":
   args:
@@ -1218,6 +1241,212 @@ _meta:
     is internal-only (zero corpus references); raw_doc is the strongest
     evidence available.
 
+# ─── Bare-int properties that should narrow to a known enum (20 entries) ─────
+#
+# Properties whose getter is typed as bare `int` despite a clearly-named enum
+# class existing in the stubs (often in the same module). The probe stamps
+# `int` because Boost.Python enum instances satisfy `type(v) is int` from the
+# probe's perspective, but the binding's actual semantic type is the enum.
+# Narrowing the property to the enum class makes the values discoverable via
+# autocomplete (e.g. `Clip.GridQuantization.q_eight`) and matches the existing
+# `Clip.View.grid_quantization` precedent (typed `GridQuantization` strict).
+# Setters inherit the property type — no separate refinement needed.
+#
+# Disambiguation: where two enums plausibly match (DeviceParameter.state,
+# SimplerDevice.playback_mode, Clip.launch_quantization), the choice was made
+# by reading the property's raw_doc and matching against each enum's member
+# values.
+
+"Live.Sample.Sample.beats_transient_loop_mode":
+  probed_type:
+    from: int
+    to: TransientLoopMode
+  confidence: high
+  source: |
+    `TransientLoopMode` enum in same module (Sample). Property name is a
+    direct snake-case match.
+
+"Live.Sample.Sample.slicing_beat_division":
+  probed_type:
+    from: int
+    to: SlicingBeatDivision
+  confidence: high
+  source: |
+    `SlicingBeatDivision` enum in same module (Sample). Property name is a
+    direct snake-case match.
+
+"Live.Sample.Sample.slicing_style":
+  probed_type:
+    from: int
+    to: SlicingStyle
+  confidence: high
+  source: |
+    `SlicingStyle` enum in same module (Sample). Property name is a direct
+    snake-case match.
+
+"Live.Sample.Sample.warp_mode":
+  probed_type:
+    from: int
+    to: WarpMode
+  confidence: high
+  source: |
+    `WarpMode` enum lives in Clip but drives both `Clip.warp_mode` and
+    `Sample.warp_mode` (the sample inside an audio clip). Cross-module but
+    unambiguous — only one `WarpMode` enum exists across the LOM.
+
+"Live.DeviceParameter.DeviceParameter.automation_state":
+  probed_type:
+    from: int
+    to: AutomationState
+  confidence: high
+  source: |
+    `AutomationState` enum in same module. Property name matches the enum
+    snake-case; raw_doc describes automation states (none / playing /
+    overridden) which match `AutomationState` members.
+
+"Live.DeviceParameter.DeviceParameter.state":
+  probed_type:
+    from: int
+    to: ParameterState
+  confidence: high
+  source: |
+    Two enums in same module overlap on the name `state`: `AutomationState`
+    and `ParameterState`. Disambiguated by raw_doc: "Returns the state of the
+    parameter: enabled, irrelevant, ..." — those are exactly
+    `ParameterState` member names (enabled / irrelevant / disabled).
+    `AutomationState`'s members (none / playing / overridden) describe a
+    different concept.
+
+"Live.SimplerDevice.SimplerDevice.playback_mode":
+  probed_type:
+    from: int
+    to: PlaybackMode
+  confidence: high
+  source: |
+    `PlaybackMode` enum in same module with members classic / one_shot /
+    slicing — matches Simpler's three top-level playback modes. Distinct
+    from `SlicingPlaybackMode` (mono / poly / thru), which scopes to slicing
+    sub-mode.
+
+"Live.SimplerDevice.SimplerDevice.slicing_playback_mode":
+  probed_type:
+    from: int
+    to: SlicingPlaybackMode
+  confidence: high
+  source: |
+    `SlicingPlaybackMode` enum in same module. Property name is a direct
+    snake-case match; raw_doc "Access to Simpler's slicing playback mode"
+    confirms the slicing-scoped sub-mode.
+
+"Live.Eq8Device.Eq8Device.global_mode":
+  probed_type:
+    from: int
+    to: GlobalMode
+  confidence: high
+  source: |
+    `GlobalMode` enum in same module (Eq8Device). Property name is a direct
+    snake-case match.
+
+"Live.Browser.Browser.filter_type":
+  probed_type:
+    from: int
+    to: FilterType
+  confidence: high
+  source: |
+    `FilterType` enum in same module (Browser). Property name is a direct
+    snake-case match.
+
+"Live.Song.Song.session_record_status":
+  probed_type:
+    from: int
+    to: SessionRecordStatus
+  confidence: high
+  source: |
+    `SessionRecordStatus` enum in same module (Song). Property name is a
+    direct snake-case match.
+
+"Live.Track.RoutingType.category":
+  probed_type:
+    from: int
+    to: RoutingTypeCategory
+  confidence: high
+  source: |
+    `RoutingTypeCategory` enum in same module (Track). Property is a member
+    of `RoutingType` and names a category of routing — direct semantic match.
+
+"Live.Clip.Clip.launch_mode":
+  probed_type:
+    from: int
+    to: LaunchMode
+  confidence: high
+  source: |
+    `LaunchMode` enum in same module (Clip). Property name is a direct
+    snake-case match.
+
+"Live.Clip.Clip.launch_quantization":
+  probed_type:
+    from: int
+    to: ClipLaunchQuantization
+  confidence: high
+  source: |
+    Two enums match the name "launch quantization": `ClipLaunchQuantization`
+    in Clip and `Quantization` in Song. The Clip-specific one is the right
+    fit — its members include `q_global` (defer to song-level) and
+    clip-specific values; `Song.Quantization` is the global setting.
+
+"Live.Clip.Clip.warp_mode":
+  probed_type:
+    from: int
+    to: WarpMode
+  confidence: high
+  source: |
+    `WarpMode` enum in same module (Clip). Property name is a direct
+    snake-case match.
+
+"Live.WavetableDevice.WavetableDevice.filter_routing":
+  probed_type:
+    from: int
+    to: FilterRouting
+  confidence: high
+  source: |
+    `FilterRouting` enum in same module (WavetableDevice). Property name is
+    a direct snake-case match.
+
+"Live.WavetableDevice.WavetableDevice.oscillator_1_effect_mode":
+  probed_type:
+    from: int
+    to: EffectMode
+  confidence: high
+  source: |
+    `EffectMode` enum in same module (WavetableDevice). Property name ends
+    in `effect_mode`; the enum is the only one matching that suffix.
+
+"Live.WavetableDevice.WavetableDevice.oscillator_2_effect_mode":
+  probed_type:
+    from: int
+    to: EffectMode
+  confidence: high
+  source: |
+    Same as oscillator_1_effect_mode — sister property, same enum.
+
+"Live.WavetableDevice.WavetableDevice.unison_mode":
+  probed_type:
+    from: int
+    to: UnisonMode
+  confidence: high
+  source: |
+    `UnisonMode` enum in same module (WavetableDevice). Property name is a
+    direct snake-case match.
+
+"Live.WavetableDevice.WavetableDevice.unison_voice_count":
+  probed_type:
+    from: int
+    to: VoiceCount
+  confidence: high
+  source: |
+    `VoiceCount` enum in same module (WavetableDevice). Property name ends
+    in `voice_count`; `VoiceCount` is the only enum matching that suffix.
+
 # ─── Element type for Vector/iterable parameterization (12 entries) ───────────
 
 "Live.Application.Application.unavailable_features":
@@ -1518,9 +1747,9 @@ _meta:
     to: Any
   confidence: high
   source: |
-    Corpus passes int (3, 5), bool (True), str defaults. A probed quirk worth
-    recording: `set_data(key, None)` + `get_data(key, default)` returns None
-    rather than `default`. `Any` matches that reality.
+    Corpus passes int (3, 5), bool (True), str defaults across pushbase /
+    ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data,
+    so `Any` is the honest parameterization for both arg and return.
 
 "Live.Song.Song.set_data":
   arg_types:
@@ -1641,15 +1870,26 @@ _meta:
     `dict_keys` view (Iterable[int]). raw_doc: "Return a list of MIDI notes
     matching the given note IDs."
 
+"Live.Conversions.audio_to_midi_clip":
+  arg_types:
+    audio_to_midi_type:
+      from: int
+      to: "AudioToMidiType | int"
+  confidence: high
+  source: |
+    Applied per the enum-arg convention (see schema header). `AudioToMidiType`
+    enum lives in the same module; the arg name `audio_to_midi_type` is the
+    direct snake-case of the enum class name.
+
 "Live.Conversions.move_devices_on_track_to_new_drum_rack_pad":
   return_type:
     from: null
     to: "DrumPad | None"
   confidence: high
   source: |
-    M4L docs list the return as `DrumPad / None`. Probe observation: returns
-    `None` on no-op (no devices to move). The function moves devices INTO a
-    drum rack pad and returns that pad.
+    M4L docs list the return as `DrumPad / None`. The function moves devices
+    INTO a drum rack pad and returns that pad; the `None` half of the union
+    covers the no-op path that the M4L doc names.
 
 "Live.Licensing.get_unlock_dir":
   return_type:
