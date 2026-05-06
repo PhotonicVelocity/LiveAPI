@@ -9,8 +9,9 @@ Pipeline steps:
     1a. find_malformed_class_names — identify Boost.Python's concatenated class name/doc strings (no mutations)
     1b. fix_malformed_class_nodes — apply the name/raw_doc/repr fix on each affected class node
     1c. rewrite_raw_docs_with_replacements — propagate the renames into raw_doc text throughout the tree
-3a. resolve_inheritance — expand bases into full ancestor chains on class nodes
-3b. relocate_inherited_members — move inherited members to their true defining class
+2. Inheritance resolution
+    2a. resolve_inheritance — expand bases into full ancestor chains on class nodes
+    2b. relocate_inherited_members — move inherited members to their true defining class
 4. parse_enums — parse string-encoded enum names/values into structured members, retype as "enum"
 5a. parse_function_docs — extract signature, description, and C++ signature from function docstrings
 5b. parse_signatures — split Python and C++ signatures into matched args and return types
@@ -300,8 +301,20 @@ def rewrite_raw_docs_with_replacements(tree: TreeNode, ctx: dict[str, Any]) -> T
 
 
 # ------------------------------------------------------------------------------- #
-# Step 3: resolve_inheritance
+# Step 2: inheritance resolution
+#
+# Boost.Python class nodes carry their bases as repr strings; the actual
+# inheritance graph and which members were inherited (vs defined locally)
+# both have to be reconstructed:
+#
+#   2a. resolve_inheritance       — expand bases into full ancestor chains
+#                                   on each class node
+#   2b. relocate_inherited_members — move inherited members from the
+#                                   inherited site to their defining class
 # ------------------------------------------------------------------------------- #
+
+
+# --- Step 2a: resolve_inheritance ---
 
 
 def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
@@ -373,9 +386,7 @@ def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return tree
 
 
-# ------------------------------------------------------------------------------- #
-# Step 3b: relocate_inherited_members
-# ------------------------------------------------------------------------------- #
+# --- Step 2b: relocate_inherited_members ---
 
 
 def relocate_inherited_members(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
