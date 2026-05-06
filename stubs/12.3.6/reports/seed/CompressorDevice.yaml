@@ -14,7 +14,6 @@ primary_class:
   - name: available_input_routing_channels
     raw_doc: Return a list of source channels for input routing in the sidechain.
     type: Live.Track.RoutingChannelVector
-    element_type: Live.Track.RoutingChannel
     settable: false
     listenable:
     - add_available_input_routing_channels_listener
@@ -23,7 +22,6 @@ primary_class:
   - name: available_input_routing_types
     raw_doc: Return a list of source types for input routing in the sidechain.
     type: Live.Track.RoutingTypeVector
-    element_type: Live.Track.RoutingType
     settable: false
     listenable:
     - add_available_input_routing_types_listener
@@ -98,7 +96,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: type
     raw_doc: Return the type of the device.

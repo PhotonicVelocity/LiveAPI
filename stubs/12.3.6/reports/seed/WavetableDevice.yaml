@@ -98,7 +98,6 @@ primary_class:
   - name: oscillator_1_wavetables
     raw_doc: Get a vector of oscillator 1's wavetable names.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_oscillator_1_wavetables_listener
@@ -131,7 +130,6 @@ primary_class:
   - name: oscillator_2_wavetables
     raw_doc: Get a vector of oscillator 2's wavetable names.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_oscillator_2_wavetables_listener
@@ -140,12 +138,10 @@ primary_class:
   - name: oscillator_wavetable_categories
     raw_doc: Get a vector of the available wavetable categories.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: poly_voices
     raw_doc: Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
@@ -182,7 +178,6 @@ primary_class:
   - name: visible_modulation_target_names
     raw_doc: Get the names of all the visible modulation targets.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_visible_modulation_target_names_listener

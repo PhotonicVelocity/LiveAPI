@@ -57,12 +57,10 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: presets
     raw_doc: Get the list of presets the plugin offers.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_presets_listener
@@ -104,4 +102,3 @@ primary_class:
       default: '-1'
     returns:
       type: Live.Base.StringVector
-      element_type: str

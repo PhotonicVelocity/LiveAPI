@@ -35,7 +35,6 @@ primary_class:
   - name: available_input_routing_channels
     raw_doc: Return a list of source channels for input routing.
     type: Live.Track.RoutingChannelVector
-    element_type: Live.Track.RoutingChannel
     settable: false
     listenable:
     - add_available_input_routing_channels_listener
@@ -44,7 +43,6 @@ primary_class:
   - name: available_input_routing_types
     raw_doc: Return a list of source types for input routing.
     type: Live.Track.RoutingTypeVector
-    element_type: Live.Track.RoutingType
     settable: false
     listenable:
     - add_available_input_routing_types_listener
@@ -53,7 +51,6 @@ primary_class:
   - name: available_output_routing_channels
     raw_doc: Return a list of destination channels for output routing.
     type: Live.Track.RoutingChannelVector
-    element_type: Live.Track.RoutingChannel
     settable: false
     listenable:
     - add_available_output_routing_channels_listener
@@ -62,7 +59,6 @@ primary_class:
   - name: available_output_routing_types
     raw_doc: Return a list of destination types for output routing.
     type: Live.Track.RoutingTypeVector
-    element_type: Live.Track.RoutingType
     settable: false
     listenable:
     - add_available_output_routing_types_listener
@@ -299,7 +295,6 @@ primary_class:
   - name: input_routings
     raw_doc: Const access to the list of available input routings.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_input_routings_listener
@@ -308,7 +303,6 @@ primary_class:
   - name: input_sub_routings
     raw_doc: Return a list of all available input sub routings.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_input_sub_routings_listener
@@ -432,7 +426,6 @@ primary_class:
   - name: output_routings
     raw_doc: Const access to the list of all available output routings.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_output_routings_listener
@@ -441,7 +434,6 @@ primary_class:
   - name: output_sub_routings
     raw_doc: Return a list of all available output sub routings.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_output_sub_routings_listener

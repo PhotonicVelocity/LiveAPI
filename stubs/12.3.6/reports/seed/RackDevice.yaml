@@ -115,7 +115,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: return_chains
     raw_doc: Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.

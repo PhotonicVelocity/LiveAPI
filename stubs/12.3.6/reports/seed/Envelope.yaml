@@ -41,7 +41,6 @@ primary_class:
       type: float
     returns:
       type: Live.Envelope.EnvelopeEventVector
-      element_type: Live.Envelope.EnvelopeEvent
   - name: insert_step
     raw_doc: Given a start time, a step length and a value, creates a step in the envelope.
     signature: 'insert_step( (Envelope)arg1, (float)arg2, (float)arg3, (float)arg4) -> None :'

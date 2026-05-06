@@ -21,7 +21,6 @@ primary_class:
   - name: colors
     raw_doc: Returns a list of browser items containing the configured colors.
     type: Live.Browser.BrowserItemVector
-    element_type: Live.Browser.BrowserItem
     settable: false
   - name: current_project
     raw_doc: Returns a browser item with access to all the Current Project content.
@@ -148,7 +147,6 @@ classes:
   - name: children
     raw_doc: Const access to the descendants of this browser item.
     type: Live.Browser.BrowserItemVector
-    element_type: Live.Browser.BrowserItem
     settable: false
   - name: is_device
     raw_doc: Indicates if the browser item represents a device.

@@ -163,7 +163,6 @@ primary_class:
   - name: warp_markers
     raw_doc: Get the warp markers for this sample.
     type: Live.Clip.WarpMarkerVector
-    element_type: Live.Clip.WarpMarker
     settable: false
     listenable:
     - add_warp_markers_listener

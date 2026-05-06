@@ -23,7 +23,6 @@ primary_class:
       Available for AudioClips only.
       Get/Set the available warp modes, that can be used.
     type: Live.Base.IntVector
-    element_type: int
     settable: false
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Clip.
@@ -343,7 +342,6 @@ primary_class:
       Available for AudioClips only.
       Get the warp markers for this audio clip.
     type: Live.Clip.WarpMarkerVector
-    element_type: Live.Clip.WarpMarker
     settable: false
     listenable:
     - add_warp_markers_listener
@@ -598,7 +596,6 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: Live.Clip.MidiNoteVector
-      element_type: Live.Clip.MidiNote
   - name: get_notes
     raw_doc: |-
       Returns a tuple of tuples where each inner tuple represents

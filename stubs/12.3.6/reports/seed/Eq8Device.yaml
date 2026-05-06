@@ -82,7 +82,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: type
     raw_doc: Return the type of the device.

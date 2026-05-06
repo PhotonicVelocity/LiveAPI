@@ -54,7 +54,6 @@ primary_class:
   - name: ir_category_list
     raw_doc: Return the current IR categories list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
   - name: ir_decay_time
     raw_doc: Return the current IrDecayTime
@@ -75,7 +74,6 @@ primary_class:
   - name: ir_file_list
     raw_doc: Return the current IR file list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_ir_file_list_listener
@@ -120,7 +118,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: type
     raw_doc: Return the type of the device.

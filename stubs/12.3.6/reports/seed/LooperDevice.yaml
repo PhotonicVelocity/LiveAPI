@@ -74,7 +74,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: record_length_index
     raw_doc: Access to the Record Length chooser entry index.
@@ -87,7 +86,6 @@ primary_class:
   - name: record_length_list
     raw_doc: Read-only access to the list of Record Length chooser entry strings.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
   - name: tempo
     raw_doc: The tempo of Looper's buffer.

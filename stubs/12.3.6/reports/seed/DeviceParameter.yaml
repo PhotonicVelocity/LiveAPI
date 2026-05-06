@@ -81,7 +81,6 @@ primary_class:
   - name: short_value_items
     raw_doc: Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
   - name: state
     raw_doc: |-
@@ -108,7 +107,6 @@ primary_class:
   - name: value_items
     raw_doc: Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
     type: Live.Base.StringVector
-    element_type: str
     settable: false
   methods:
   - name: begin_gesture

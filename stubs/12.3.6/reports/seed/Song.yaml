@@ -316,7 +316,6 @@ primary_class:
   - name: scale_intervals
     raw_doc: Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)
     type: Live.Base.IntVector
-    element_type: int
     settable: false
     listenable:
     - add_scale_intervals_listener

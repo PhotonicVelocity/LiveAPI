@@ -58,7 +58,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: pitch_bend_range
     raw_doc: Return the pitch bend range for MIDI pitch mode
@@ -79,7 +78,6 @@ primary_class:
   - name: pitch_mode_list
     raw_doc: Return the current pitch mode list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
   - name: type
     raw_doc: Return the type of the device.

@@ -46,7 +46,6 @@ primary_class:
   - name: frequency_dial_mode_list
     raw_doc: Return the current frequency dial mode list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_frequency_dial_mode_list_listener
@@ -79,7 +78,6 @@ primary_class:
   - name: midi_gate_list
     raw_doc: Return the current midi gate list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_midi_gate_list_listener
@@ -96,7 +94,6 @@ primary_class:
   - name: mod_mode_list
     raw_doc: Return the current mod mode list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_mod_mode_list_listener
@@ -113,7 +110,6 @@ primary_class:
   - name: mono_poly_list
     raw_doc: Return the current mono poly mode list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_mono_poly_list_listener
@@ -126,7 +122,6 @@ primary_class:
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
-    element_type: Live.DeviceParameter.DeviceParameter
     settable: false
   - name: pitch_bend_range
     raw_doc: Return the current pitch bend range
@@ -147,7 +142,6 @@ primary_class:
   - name: pitch_mode_list
     raw_doc: Return the current pitch mode list
     type: Live.Base.StringVector
-    element_type: str
     settable: false
     listenable:
     - add_pitch_mode_list_listener

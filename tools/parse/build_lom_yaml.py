@@ -180,11 +180,34 @@ def build_class_registry(
         simple = path.rsplit(".", 1)[-1]
         by_name.setdefault(simple, []).append(path)
 
+    # Concrete containers: classes whose probe observed exactly one
+    # element type (NoneType placeholders filtered). For these, the
+    # element type is a class fact — per-use sites should not
+    # redundantly carry it. Generic containers (Base.Vector,
+    # Base.ObjectVector) have multiple element types observed across
+    # different instances and aren't recorded here, so per-use sites
+    # remain the canonical place for their element_type.
+    concrete_containers: set[str] = set()
+    for class_repr, entry in (probe or {}).items():
+        if not isinstance(entry, dict):
+            continue
+        elem_reprs = entry.get("element_reprs") or []
+        deduped: set[str] = set()
+        for r in elem_reprs:
+            if not isinstance(r, str) or r == "<class 'NoneType'>":
+                continue
+            deduped.add(r)
+        if len(deduped) == 1:
+            path = by_repr.get(class_repr)
+            if path:
+                concrete_containers.add(path)
+
     return {
         "by_repr": by_repr,
         "by_path": by_path,
         "by_name": by_name,
         "probe": probe or {},
+        "concrete_containers": concrete_containers,
     }
 
 
@@ -445,16 +468,17 @@ def build_member(
         if init_doc:
             out["init_doc"] = init_doc
         out["constructable"] = bool(node.get("constructable"))
-        # Probe-derived: iterability + element types for container classes.
+        # Probe-derived: iterability + element type for container classes.
+        # Multi-element observations are NOT recorded at the class level
+        # (they're a union across distinct instances, not a class fact);
+        # per-use sites carry the narrowing instead. Only the singular,
+        # concrete-container case lands here.
         if probe_entry:
             if probe_entry.get("iterable"):
                 out["iterable"] = True
             class_element_types = _qualify_element_types(probe_entry, by_repr)
-            if class_element_types:
-                if len(class_element_types) == 1:
-                    out["element_type"] = class_element_types[0]
-                else:
-                    out["element_types"] = class_element_types
+            if class_element_types and len(class_element_types) == 1:
+                out["element_type"] = class_element_types[0]
         # Methods inside this class qualify their type strings using the
         # class's own path as the enclosing context.
         out.update(_group_class_members(node, registry, class_path))
@@ -477,12 +501,17 @@ def build_member(
             type_str = _qualify_probed_type(prop_info, by_repr)
             if type_str:
                 out["type"] = type_str
-            element_types = _qualify_element_types(prop_info, by_repr)
-            if element_types:
-                if len(element_types) == 1:
-                    out["element_type"] = element_types[0]
-                else:
-                    out["element_types"] = element_types
+            # Skip per-use element_type when the type's class already
+            # carries a singular canonical element_type (concrete
+            # container — the per-use would be pure redundancy).
+            concrete: set[str] = registry.get("concrete_containers") or set()
+            if type_str not in concrete:
+                element_types = _qualify_element_types(prop_info, by_repr)
+                if element_types:
+                    if len(element_types) == 1:
+                        out["element_type"] = element_types[0]
+                    else:
+                        out["element_types"] = element_types
         # Always emit settable — read-only vs read-write is a critical
         # API attribute, not a "default" that should be implicit.
         out["settable"] = bool(node.get("settable"))
@@ -538,14 +567,18 @@ def build_member(
             probed_type = _qualify_probed_type(probe_info, by_repr)
             if probed_type and probed_type != returns.get("type"):
                 returns["probed_type"] = probed_type
-            # Element types from probe are net-new info — parser's
-            # raw_doc-derived returns has no element-type concept.
-            probed_elements = _qualify_element_types(probe_info, by_repr)
-            if probed_elements:
-                if len(probed_elements) == 1:
-                    returns["element_type"] = probed_elements[0]
-                else:
-                    returns["element_types"] = probed_elements
+            # Element types: skip when the return type's class already
+            # carries a singular canonical (concrete container — element
+            # info lives on the class, not the use site).
+            concrete: set[str] = registry.get("concrete_containers") or set()
+            ret_type = returns.get("type")
+            if ret_type not in concrete:
+                probed_elements = _qualify_element_types(probe_info, by_repr)
+                if probed_elements:
+                    if len(probed_elements) == 1:
+                        returns["element_type"] = probed_elements[0]
+                    else:
+                        returns["element_types"] = probed_elements
         if returns:
             out["returns"] = returns
     return out
