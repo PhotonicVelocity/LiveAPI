@@ -1,6 +1,7 @@
 module: MidiMap
 classes:
 - name: CCFeedbackRule
+  path: Live.MidiMap.CCFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
   ancestors: []
   init_doc: |-
@@ -21,6 +22,7 @@ classes:
   - name: enabled
     settable: true
 - name: NoteFeedbackRule
+  path: Live.MidiMap.NoteFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
   ancestors: []
   init_doc: |-
@@ -41,6 +43,7 @@ classes:
   - name: vel_map
     settable: true
 - name: PitchBendFeedbackRule
+  path: Live.MidiMap.PitchBendFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
   ancestors: []
   init_doc: |-
@@ -127,7 +130,7 @@ functions:
   - name: midi_map_handle
     type: int
   - name: parameter
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   - name: midi_channel
     type: int
   - name: controller_number
@@ -149,7 +152,7 @@ functions:
   - name: midi_map_handle
     type: int
   - name: parameter
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   - name: midi_channel
     type: int
   - name: controller_number
@@ -157,7 +160,7 @@ functions:
   - name: map_mode
     type: MapMode
   - name: feedback_rule
-    type: CCFeedbackRule
+    type: Live.MidiMap.CCFeedbackRule
   - name: avoid_takeover
     type: bool
   - name: sensitivity
@@ -173,7 +176,7 @@ functions:
   - name: arg1
     type: int
   - name: arg2
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   - name: arg3
     type: int
   - name: arg4
@@ -187,13 +190,13 @@ functions:
   - name: arg1
     type: int
   - name: arg2
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   - name: arg3
     type: int
   - name: arg4
     type: int
   - name: arg5
-    type: NoteFeedbackRule
+    type: Live.MidiMap.NoteFeedbackRule
   returns:
     type: bool
 - name: map_midi_pitchbend
@@ -203,7 +206,7 @@ functions:
   - name: arg1
     type: int
   - name: arg2
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   - name: arg3
     type: int
   - name: arg4
@@ -217,11 +220,11 @@ functions:
   - name: arg1
     type: int
   - name: arg2
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   - name: arg3
     type: int
   - name: arg4
-    type: PitchBendFeedbackRule
+    type: Live.MidiMap.PitchBendFeedbackRule
   - name: arg5
     type: bool
   returns:
@@ -233,6 +236,6 @@ functions:
   - name: arg1
     type: int
   - name: arg2
-    type: DeviceParameter
+    type: Live.DeviceParameter.DeviceParameter
   returns:
     type: None

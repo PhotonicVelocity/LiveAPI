@@ -1,6 +1,7 @@
 module: Licensing
 classes:
 - name: ProgressDialog
+  path: Live.Licensing.ProgressDialog
   raw_doc: A modal dialog showing a message and a progress animation.
   ancestors: []
   init_doc: |-
@@ -13,7 +14,7 @@ classes:
     cpp_signature: void end_modal_loop(AProgressDialog {lvalue})
     args:
     - name: self
-      type: ProgressDialog
+      type: Live.Licensing.ProgressDialog
     returns:
       type: None
   - name: run_in_modal_loop
@@ -21,7 +22,7 @@ classes:
     cpp_signature: void run_in_modal_loop(AProgressDialog {lvalue})
     args:
     - name: self
-      type: ProgressDialog
+      type: Live.Licensing.ProgressDialog
     returns:
       type: None
   - name: set_status_message
@@ -29,12 +30,13 @@ classes:
     cpp_signature: void set_status_message(TWeakPtr<AProgressDialog>,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
     args:
     - name: self
-      type: ProgressDialog
+      type: Live.Licensing.ProgressDialog
     - name: msg
       type: str
     returns:
       type: None
 - name: PythonLicensingBridge
+  path: Live.Licensing.PythonLicensingBridge
   raw_doc: Interface to the internal licensing services.
   ancestors: []
   init_doc: |-
@@ -62,7 +64,7 @@ classes:
     cpp_signature: void authorize_with_sassafras(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
   - name: create_new_live_set
@@ -71,7 +73,7 @@ classes:
     cpp_signature: void create_new_live_set(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
   - name: deauthenticate_user
@@ -80,7 +82,7 @@ classes:
     cpp_signature: void deauthenticate_user(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
   - name: get_progress_dialog
@@ -89,16 +91,16 @@ classes:
     cpp_signature: TWeakPtr<AProgressDialog> get_progress_dialog(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
-      type: ProgressDialog
+      type: Live.Licensing.ProgressDialog
   - name: get_session_id
     raw_doc: Retrieve stored session ID.
     signature: 'get_session_id( (PythonLicensingBridge)arg1) -> str :'
     cpp_signature: std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> get_session_id(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: str
   - name: get_startup_dialog
@@ -107,20 +109,20 @@ classes:
     cpp_signature: TWeakPtr<AStartupDialog> get_startup_dialog(APythonLicensingBridge {lvalue},boost::python::api::object,boost::python::api::object)
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     - name: authorize_callable
       type: object
     - name: authorize_later_callable
       type: object
     returns:
-      type: StartupDialog
+      type: Live.Licensing.StartupDialog
   - name: get_trial_time_left
     raw_doc: Returns remaining time on a trial as a formatted string.
     signature: 'get_trial_time_left( (PythonLicensingBridge)arg1) -> str :'
     cpp_signature: TString get_trial_time_left(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: str
   - name: invoke_pack_installation_callback
@@ -129,7 +131,7 @@ classes:
     cpp_signature: void invoke_pack_installation_callback(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
   - name: load_and_convert_legacy_unlock_cfg
@@ -138,7 +140,7 @@ classes:
     cpp_signature: boost::python::dict load_and_convert_legacy_unlock_cfg(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: dict
   - name: process_license_response
@@ -147,18 +149,18 @@ classes:
     cpp_signature: TUnlockStatus process_license_response(APythonLicensingBridge {lvalue},boost::python::list)
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     - name: license_response_lines
       type: list
     returns:
-      type: UnlockStatus
+      type: Live.Licensing.UnlockStatus
   - name: process_trial_response
     raw_doc: Process the server's response to a Trial authorization.
     signature: 'process_trial_response( (PythonLicensingBridge)arg1, (str)trial_response_line) -> bool :'
     cpp_signature: bool process_trial_response(APythonLicensingBridge {lvalue},std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     - name: trial_response_line
       type: str
     returns:
@@ -168,7 +170,7 @@ classes:
     cpp_signature: void request_exit(APythonLicensingBridge {lvalue} [,int=0])
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     - name: exit_code
       type: int
       optional: true
@@ -181,7 +183,7 @@ classes:
     cpp_signature: void save_current_set(APythonLicensingBridge {lvalue})
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
   - name: set_network_timer
@@ -190,7 +192,7 @@ classes:
     cpp_signature: void set_network_timer(APythonLicensingBridge {lvalue},boost::python::api::object,int)
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     - name: callback
       type: object
     - name: interval_in_ms
@@ -203,12 +205,13 @@ classes:
     cpp_signature: void store_session_id(APythonLicensingBridge {lvalue},std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
     args:
     - name: self
-      type: PythonLicensingBridge
+      type: Live.Licensing.PythonLicensingBridge
     - name: session_id
       type: str
     returns:
       type: None
 - name: StartupDialog
+  path: Live.Licensing.StartupDialog
   raw_doc: Serves as an entry point for the user to authorize Live on first launch.
   ancestors: []
   init_doc: |-
@@ -221,7 +224,7 @@ classes:
     cpp_signature: void end_modal_loop(AStartupDialog {lvalue})
     args:
     - name: self
-      type: StartupDialog
+      type: Live.Licensing.StartupDialog
     returns:
       type: None
   - name: run_in_modal_loop
@@ -229,7 +232,7 @@ classes:
     cpp_signature: void run_in_modal_loop(AStartupDialog {lvalue},bool)
     args:
     - name: self
-      type: StartupDialog
+      type: Live.Licensing.StartupDialog
     - name: show_only_offline_auth_instructions
       type: bool
     returns:
@@ -239,7 +242,7 @@ classes:
     cpp_signature: void set_notification_message(AStartupDialog {lvalue},TString,bool)
     args:
     - name: self
-      type: StartupDialog
+      type: Live.Licensing.StartupDialog
     - name: notification_text
       type: str
     - name: show_progress_bar
@@ -247,6 +250,7 @@ classes:
     returns:
       type: None
 - name: UnlockStatus
+  path: Live.Licensing.UnlockStatus
   raw_doc: Returns relevant information after unlock
   ancestors: []
   init_doc: |-

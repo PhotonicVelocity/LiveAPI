@@ -1,11 +1,12 @@
 module: ChainMixerDevice
 primary_class:
 - name: ChainMixerDevice
+  path: Live.ChainMixerDevice.ChainMixerDevice
   raw_doc: |-
     This class represents a Chain's Mixer Device in Live, which gives you
     access to the Volume, Panning, and Send properties of a Chain.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

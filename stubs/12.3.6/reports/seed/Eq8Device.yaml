@@ -1,10 +1,11 @@
 module: Eq8Device
 primary_class:
 - name: Eq8Device
+  path: Live.Eq8Device.Eq8Device
   raw_doc: This class represents an Eq8 device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -75,10 +76,11 @@ primary_class:
     settable: false
   classes:
   - name: View
+    path: Live.Eq8Device.Eq8Device.View
     raw_doc: Representing the view aspects of an Eq8 device.
     ancestors:
-    - View
-    - LomObject
+    - Live.Device.Device.View
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python

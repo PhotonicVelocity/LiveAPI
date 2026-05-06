@@ -1,9 +1,10 @@
 module: Groove
 primary_class:
 - name: Groove
+  path: Live.Groove.Groove
   raw_doc: This class represents a groove in Live.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

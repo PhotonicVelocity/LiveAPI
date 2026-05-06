@@ -1,10 +1,11 @@
 module: Chain
 primary_class:
 - name: Chain
+  path: Live.Chain.Chain
   raw_doc: This class represents a group device chain in Live.
   ancestors:
-  - DeviceContainer
-  - LomObject
+  - Live.Track.DeviceContainer
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -109,7 +110,7 @@ primary_class:
     cpp_signature: void delete_device(TChainPyHandle,int)
     args:
     - name: self
-      type: Chain
+      type: Live.Chain.Chain
     - name: arg2
       type: int
     returns:
@@ -120,7 +121,7 @@ primary_class:
     cpp_signature: void duplicate_device(TChainPyHandle,int)
     args:
     - name: self
-      type: Chain
+      type: Live.Chain.Chain
     - name: arg2
       type: int
     returns:
@@ -131,7 +132,7 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])
     args:
     - name: self
-      type: Chain
+      type: Live.Chain.Chain
     - name: device_name
       type: str
     - name: device_index
@@ -139,4 +140,4 @@ primary_class:
       optional: true
       default: '-1'
     returns:
-      type: LomObject
+      type: Live.LomObject.LomObject

@@ -1,10 +1,11 @@
 module: MaxDevice
 primary_class:
 - name: MaxDevice
+  path: Live.MaxDevice.MaxDevice
   raw_doc: This class represents a Max for Live device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -92,7 +93,7 @@ primary_class:
     cpp_signature: int get_bank_count(TMaxDevicePyHandle)
     args:
     - name: self
-      type: MaxDevice
+      type: Live.MaxDevice.MaxDevice
     returns:
       type: int
   - name: get_bank_name
@@ -101,7 +102,7 @@ primary_class:
     cpp_signature: TString get_bank_name(TMaxDevicePyHandle,int)
     args:
     - name: self
-      type: MaxDevice
+      type: Live.MaxDevice.MaxDevice
     - name: arg2
       type: int
     returns:
@@ -112,7 +113,7 @@ primary_class:
     cpp_signature: boost::python::list get_bank_parameters(TMaxDevicePyHandle,int)
     args:
     - name: self
-      type: MaxDevice
+      type: Live.MaxDevice.MaxDevice
     - name: arg2
       type: int
     returns:
@@ -123,8 +124,8 @@ primary_class:
     cpp_signature: boost::python::list get_value_item_icons(TMaxDevicePyHandle,TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: MaxDevice
+      type: Live.MaxDevice.MaxDevice
     - name: arg2
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: list

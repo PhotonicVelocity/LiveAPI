@@ -1,10 +1,11 @@
 module: LooperDevice
 primary_class:
 - name: LooperDevice
+  path: Live.LooperDevice.LooperDevice
   raw_doc: This class represents a Looper device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -90,7 +91,7 @@ primary_class:
     cpp_signature: void clear(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: double_length
@@ -99,7 +100,7 @@ primary_class:
     cpp_signature: void double_length(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: double_speed
@@ -108,7 +109,7 @@ primary_class:
     cpp_signature: void double_speed(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: export_to_clip_slot
@@ -117,9 +118,9 @@ primary_class:
     cpp_signature: void export_to_clip_slot(TLooperDevicePyHandle,TPyHandle<AGroupAndClipSlotBase>)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     - name: arg2
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     returns:
       type: None
   - name: half_length
@@ -128,7 +129,7 @@ primary_class:
     cpp_signature: void half_length(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: half_speed
@@ -137,7 +138,7 @@ primary_class:
     cpp_signature: void half_speed(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: overdub
@@ -146,7 +147,7 @@ primary_class:
     cpp_signature: void overdub(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: play
@@ -155,7 +156,7 @@ primary_class:
     cpp_signature: void play(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: record
@@ -164,7 +165,7 @@ primary_class:
     cpp_signature: void record(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: stop
@@ -173,7 +174,7 @@ primary_class:
     cpp_signature: void stop(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None
   - name: undo
@@ -182,6 +183,6 @@ primary_class:
     cpp_signature: void undo(TLooperDevicePyHandle)
     args:
     - name: self
-      type: LooperDevice
+      type: Live.LooperDevice.LooperDevice
     returns:
       type: None

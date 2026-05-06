@@ -1,12 +1,13 @@
 module: Clip
 primary_class:
 - name: Clip
+  path: Live.Clip.Clip
   raw_doc: |-
     This class represents a Clip in Live. It can be either an Audio
     Clip or a MIDI Clip, in an Arrangement or the Session, depending
     on the Track (Slot) it lives in.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -345,11 +346,11 @@ primary_class:
     cpp_signature: std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> add_new_notes(TPyHandle<AClip>,boost::python::api::object)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: object
     returns:
-      type: IntU64Vector
+      type: Live.Base.IntU64Vector
   - name: add_warp_marker
     raw_doc: |-
       Available for AudioClips only.
@@ -358,7 +359,7 @@ primary_class:
     cpp_signature: void add_warp_marker(TPyHandle<AClip>,boost::python::api::object)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: warp_marker
       type: object
     returns:
@@ -378,9 +379,9 @@ primary_class:
     cpp_signature: void apply_note_modifications(TPyHandle<AClip>,std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
     returns:
       type: None
   - name: automation_envelope
@@ -389,11 +390,11 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AAutomation>> automation_envelope(TPyHandle<AClip>,TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
-      type: Envelope
+      type: Live.Envelope.Envelope
   - name: beat_to_sample_time
     raw_doc: |-
       Available for AudioClips only.
@@ -402,7 +403,7 @@ primary_class:
     cpp_signature: double beat_to_sample_time(TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: beat_time
       type: float
     returns:
@@ -413,7 +414,7 @@ primary_class:
     cpp_signature: void clear_all_envelopes(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: clear_envelope
@@ -422,9 +423,9 @@ primary_class:
     cpp_signature: void clear_envelope(TPyHandle<AClip>,TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
   - name: create_automation_envelope
@@ -433,11 +434,11 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AAutomation>> create_automation_envelope(TPyHandle<AClip>,TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
-      type: Envelope
+      type: Live.Envelope.Envelope
   - name: crop
     raw_doc: |-
       Crops the clip. The region that is cropped depends on whether the clip is
@@ -447,7 +448,7 @@ primary_class:
     cpp_signature: void crop(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: deselect_all_notes
@@ -456,7 +457,7 @@ primary_class:
     cpp_signature: void deselect_all_notes(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: duplicate_loop
@@ -467,7 +468,7 @@ primary_class:
     cpp_signature: void duplicate_loop(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: duplicate_notes_by_id
@@ -483,7 +484,7 @@ primary_class:
     cpp_signature: std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> duplicate_notes_by_id(TPyHandle<AClip>,boost::python::api::object [,boost::python::api::object=None [,int=0]])
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: note_ids
       type: object
     - name: destination_time
@@ -495,7 +496,7 @@ primary_class:
       optional: true
       default: '0'
     returns:
-      type: IntU64Vector
+      type: Live.Base.IntU64Vector
   - name: duplicate_region
     raw_doc: |-
       Duplicate the notes in the specified region to the destination_time.
@@ -506,7 +507,7 @@ primary_class:
     cpp_signature: void duplicate_region(TPyHandle<AClip>,double,double,double [,int=-1 [,int=0]])
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: region_start
       type: float
     - name: region_length
@@ -529,7 +530,7 @@ primary_class:
     cpp_signature: void fire(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: get_all_notes_extended
@@ -543,9 +544,9 @@ primary_class:
     cpp_signature: std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> get_all_notes_extended(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
   - name: get_notes
     raw_doc: |-
       Returns a tuple of tuples where each inner tuple represents
@@ -555,7 +556,7 @@ primary_class:
     cpp_signature: boost::python::tuple get_notes(TPyHandle<AClip>,double,int,double,int)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: from_time
       type: float
     - name: from_pitch
@@ -572,11 +573,11 @@ primary_class:
     cpp_signature: std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> get_notes_by_id(TPyHandle<AClip>,boost::python::api::object)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: note_ids
       type: object
     returns:
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
   - name: get_notes_extended
     raw_doc: |-
       Returns a list of MIDI notes from the given pitch and time range.
@@ -587,7 +588,7 @@ primary_class:
     cpp_signature: std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> get_notes_extended(TPyHandle<AClip>,int,int,double,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: from_pitch
       type: int
     - name: pitch_span
@@ -597,7 +598,7 @@ primary_class:
     - name: time_span
       type: float
     returns:
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
   - name: get_selected_notes
     raw_doc: |-
       Returns a tuple of tuples where each inner tuple
@@ -607,7 +608,7 @@ primary_class:
     cpp_signature: boost::python::tuple get_selected_notes(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: tuple
   - name: get_selected_notes_extended
@@ -620,9 +621,9 @@ primary_class:
     cpp_signature: std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> get_selected_notes_extended(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
   - name: move_playing_pos
     raw_doc: |-
       Jump forward or backward by the specified relative amount in beats.
@@ -631,7 +632,7 @@ primary_class:
     cpp_signature: void move_playing_pos(TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: float
     returns:
@@ -644,7 +645,7 @@ primary_class:
     cpp_signature: void move_warp_marker(TPyHandle<AClip>,double,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: marker_beat_time
       type: float
     - name: beat_time_distance
@@ -660,7 +661,7 @@ primary_class:
     cpp_signature: TString note_number_to_name(TPyHandle<AClip>,int)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: midi_pitch
       type: int
     returns:
@@ -671,7 +672,7 @@ primary_class:
     cpp_signature: void quantize(TPyHandle<AClip>,int,float)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: int
     - name: arg3
@@ -684,7 +685,7 @@ primary_class:
     cpp_signature: void quantize_pitch(TPyHandle<AClip>,int,int,float)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: int
     - name: arg3
@@ -699,7 +700,7 @@ primary_class:
     cpp_signature: void remove_notes(TPyHandle<AClip>,double,int,double,int)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: float
     - name: arg3
@@ -721,7 +722,7 @@ primary_class:
     cpp_signature: void remove_notes_by_id(TPyHandle<AClip>,boost::python::api::object)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: object
     returns:
@@ -737,7 +738,7 @@ primary_class:
     cpp_signature: void remove_notes_extended(TPyHandle<AClip>,int,int,double,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: from_pitch
       type: int
     - name: pitch_span
@@ -756,7 +757,7 @@ primary_class:
     cpp_signature: void remove_warp_marker(TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: beat_time
       type: float
     returns:
@@ -770,7 +771,7 @@ primary_class:
     cpp_signature: void replace_selected_notes(TPyHandle<AClip>,boost::python::tuple)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: tuple
     returns:
@@ -783,7 +784,7 @@ primary_class:
     cpp_signature: double sample_to_beat_time(TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: sample_time
       type: float
     returns:
@@ -798,7 +799,7 @@ primary_class:
     cpp_signature: void scrub(TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: scrub_position
       type: float
     returns:
@@ -811,7 +812,7 @@ primary_class:
     cpp_signature: double seconds_to_sample_time(TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: seconds
       type: float
     returns:
@@ -822,7 +823,7 @@ primary_class:
     cpp_signature: void select_all_notes(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: select_notes_by_id
@@ -831,7 +832,7 @@ primary_class:
     cpp_signature: void select_notes_by_id(TPyHandle<AClip>,boost::python::api::object)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: object
     returns:
@@ -842,7 +843,7 @@ primary_class:
     cpp_signature: void set_fire_button_state(TPyHandle<AClip>,bool)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: bool
     returns:
@@ -856,7 +857,7 @@ primary_class:
     cpp_signature: void set_notes(TPyHandle<AClip>,boost::python::tuple)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     - name: arg2
       type: tuple
     returns:
@@ -867,7 +868,7 @@ primary_class:
     cpp_signature: void stop(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: stop_scrub
@@ -876,14 +877,15 @@ primary_class:
     cpp_signature: void stop_scrub(TPyHandle<AClip>)
     args:
     - name: self
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   classes:
   - name: View
+    path: Live.Clip.Clip.View
     raw_doc: Representing the view aspects of a Clip.
     ancestors:
-    - LomObject
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -905,7 +907,7 @@ primary_class:
       cpp_signature: void hide_envelope(TPyViewData<AClip>)
       args:
       - name: self
-        type: View
+        type: Live.Clip.Clip.View
       returns:
         type: None
     - name: select_envelope_parameter
@@ -914,9 +916,9 @@ primary_class:
       cpp_signature: void select_envelope_parameter(TPyViewData<AClip>,TPyHandle<ATimeableValue>)
       args:
       - name: self
-        type: View
+        type: Live.Clip.Clip.View
       - name: arg2
-        type: DeviceParameter
+        type: Live.DeviceParameter.DeviceParameter
       returns:
         type: None
     - name: show_envelope
@@ -925,7 +927,7 @@ primary_class:
       cpp_signature: void show_envelope(TPyViewData<AClip>)
       args:
       - name: self
-        type: View
+        type: Live.Clip.Clip.View
       returns:
         type: None
     - name: show_loop
@@ -934,11 +936,12 @@ primary_class:
       cpp_signature: void show_loop(TPyViewData<AClip>)
       args:
       - name: self
-        type: View
+        type: Live.Clip.Clip.View
       returns:
         type: None
 classes:
 - name: MidiNote
+  path: Live.Clip.MidiNote
   raw_doc: An object representing a MIDI Note
   ancestors: []
   init_doc: |-
@@ -968,6 +971,7 @@ classes:
   - name: velocity_deviation
     settable: true
 - name: MidiNoteSpecification
+  path: Live.Clip.MidiNoteSpecification
   raw_doc: |-
     An object specifying the data for creating a MIDI note. To be used with the
     add_new_notes function.
@@ -981,6 +985,7 @@ classes:
             void __init__(_object*,int,double,double [,float=100.0 [,bool=False [,float=1.0 [,float=0.0 [,float=64.0]]]]])
   constructable: false
 - name: MidiNoteVector
+  path: Live.Clip.MidiNoteVector
   raw_doc: A container for holding MIDI notes from Live.
   ancestors: []
   init_doc: |-
@@ -993,7 +998,7 @@ classes:
     cpp_signature: void append(std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
     - name: value
       type: object
     returns:
@@ -1003,12 +1008,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: MidiNoteVector
+      type: Live.Clip.MidiNoteVector
     - name: values
       type: object
     returns:
       type: None
 - name: WarpMarker
+  path: Live.Clip.WarpMarker
   raw_doc: This class represents a WarpMarker type.
   ancestors: []
   init_doc: |-
@@ -1026,6 +1032,7 @@ classes:
     raw_doc: A WarpMarker's sample time.
     settable: false
 - name: WarpMarkerVector
+  path: Live.Clip.WarpMarkerVector
   raw_doc: A container for returning warp markers from Live.
   ancestors: []
   init_doc: |-
@@ -1038,9 +1045,9 @@ classes:
     cpp_signature: void append(std::__1::vector<NApiHelpers::TWarpMarker, std::__1::allocator<NApiHelpers::TWarpMarker>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: WarpMarkerVector
+      type: Live.Clip.WarpMarkerVector
     - name: value
-      type: WarpMarker
+      type: Live.Clip.WarpMarker
     returns:
       type: None
   - name: extend
@@ -1048,9 +1055,9 @@ classes:
     cpp_signature: void extend(std::__1::vector<NApiHelpers::TWarpMarker, std::__1::allocator<NApiHelpers::TWarpMarker>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: WarpMarkerVector
+      type: Live.Clip.WarpMarkerVector
     - name: values
-      type: Iterable[WarpMarker]
+      type: Iterable[Live.Clip.WarpMarker]
     returns:
       type: None
 enums:

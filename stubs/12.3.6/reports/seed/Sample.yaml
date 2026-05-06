@@ -1,9 +1,10 @@
 module: Sample
 primary_class:
 - name: Sample
+  path: Live.Sample.Sample
   raw_doc: This class represents a sample file loaded into a Simpler instance.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -167,7 +168,7 @@ primary_class:
     cpp_signature: double beat_to_sample_time(TPyHandle<AMultiSamplePart>,double)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     - name: beat_time
       type: float
     returns:
@@ -178,7 +179,7 @@ primary_class:
     cpp_signature: void clear_slices(TPyHandle<AMultiSamplePart>)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     returns:
       type: None
   - name: gain_display_string
@@ -187,7 +188,7 @@ primary_class:
     cpp_signature: TString gain_display_string(TPyHandle<AMultiSamplePart>)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     returns:
       type: str
   - name: insert_slice
@@ -196,7 +197,7 @@ primary_class:
     cpp_signature: void insert_slice(TPyHandle<AMultiSamplePart>,int)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     - name: slice_time
       type: int
     returns:
@@ -207,7 +208,7 @@ primary_class:
     cpp_signature: int move_slice(TPyHandle<AMultiSamplePart>,int,int)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     - name: old_time
       type: int
     - name: new_time
@@ -220,7 +221,7 @@ primary_class:
     cpp_signature: void remove_slice(TPyHandle<AMultiSamplePart>,int)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     - name: slice_time
       type: int
     returns:
@@ -231,7 +232,7 @@ primary_class:
     cpp_signature: void reset_slices(TPyHandle<AMultiSamplePart>)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     returns:
       type: None
   - name: sample_to_beat_time
@@ -240,7 +241,7 @@ primary_class:
     cpp_signature: double sample_to_beat_time(TPyHandle<AMultiSamplePart>,double)
     args:
     - name: self
-      type: Sample
+      type: Live.Sample.Sample
     - name: sample_time
       type: float
     returns:

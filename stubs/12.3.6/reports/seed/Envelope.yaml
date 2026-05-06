@@ -1,9 +1,10 @@
 module: Envelope
 primary_class:
 - name: Envelope
+  path: Live.Envelope.Envelope
   raw_doc: This class represents an automation or modulation envelope in Live.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -19,7 +20,7 @@ primary_class:
     cpp_signature: void delete_events_in_range(TPyHandle<AAutomation> {lvalue},double,double)
     args:
     - name: self
-      type: Envelope
+      type: Live.Envelope.Envelope
     - name: arg2
       type: float
     - name: arg3
@@ -32,20 +33,20 @@ primary_class:
     cpp_signature: std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> events_in_range(TPyHandle<AAutomation> {lvalue},double,double)
     args:
     - name: self
-      type: Envelope
+      type: Live.Envelope.Envelope
     - name: arg2
       type: float
     - name: arg3
       type: float
     returns:
-      type: EnvelopeEventVector
+      type: Live.Envelope.EnvelopeEventVector
   - name: insert_step
     raw_doc: Given a start time, a step length and a value, creates a step in the envelope.
     signature: 'insert_step( (Envelope)arg1, (float)arg2, (float)arg3, (float)arg4) -> None :'
     cpp_signature: void insert_step(TPyHandle<AAutomation> {lvalue},double,double,double)
     args:
     - name: self
-      type: Envelope
+      type: Live.Envelope.Envelope
     - name: arg2
       type: float
     - name: arg3
@@ -60,13 +61,14 @@ primary_class:
     cpp_signature: double value_at_time(TPyHandle<AAutomation> {lvalue},double)
     args:
     - name: self
-      type: Envelope
+      type: Live.Envelope.Envelope
     - name: arg2
       type: float
     returns:
       type: float
 classes:
 - name: EnvelopeEvent
+  path: Live.Envelope.EnvelopeEvent
   raw_doc: This is a class that represents an envelope event.
   ancestors: []
   init_doc: |-
@@ -84,6 +86,7 @@ classes:
   - name: value
     settable: true
 - name: EnvelopeEventControlCoefficients
+  path: Live.Envelope.EnvelopeEventControlCoefficients
   raw_doc: This class represents the control coefficients of an envelope event.
   ancestors: []
   init_doc: |-
@@ -103,6 +106,7 @@ classes:
   - name: y2
     settable: true
 - name: EnvelopeEventVector
+  path: Live.Envelope.EnvelopeEventVector
   raw_doc: A container for holding envelope events.
   ancestors: []
   init_doc: |-
@@ -115,9 +119,9 @@ classes:
     cpp_signature: void append(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: EnvelopeEventVector
+      type: Live.Envelope.EnvelopeEventVector
     - name: value
-      type: EnvelopeEvent
+      type: Live.Envelope.EnvelopeEvent
     returns:
       type: None
   - name: extend
@@ -125,8 +129,8 @@ classes:
     cpp_signature: void extend(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: EnvelopeEventVector
+      type: Live.Envelope.EnvelopeEventVector
     - name: values
-      type: Iterable[EnvelopeEvent]
+      type: Iterable[Live.Envelope.EnvelopeEvent]
     returns:
       type: None

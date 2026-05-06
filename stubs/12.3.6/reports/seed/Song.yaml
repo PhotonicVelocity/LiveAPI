@@ -1,9 +1,10 @@
 module: Song
 primary_class:
 - name: Song
+  path: Live.Song.Song
   raw_doc: This class represents a Live set.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -433,7 +434,7 @@ primary_class:
     cpp_signature: void begin_undo_step(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: capture_and_insert_scene
@@ -444,7 +445,7 @@ primary_class:
     cpp_signature: void capture_and_insert_scene(TPyHandle<ASong> [,int=Song.CaptureMode.all])
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: capture_mode
       type: int
       optional: true
@@ -461,7 +462,7 @@ primary_class:
     cpp_signature: void capture_midi(TPyHandle<ASong> [,int=Song.CaptureDestination.auto])
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: destination
       type: int
       optional: true
@@ -474,7 +475,7 @@ primary_class:
     cpp_signature: void continue_playing(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: create_audio_track
@@ -486,13 +487,13 @@ primary_class:
     cpp_signature: TWeakPtr<TTrackPyHandle> create_audio_track(TPyHandle<ASong> [,boost::python::api::object=None])
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: index
       type: object
       optional: true
       default: None
     returns:
-      type: Track
+      type: Live.Track.Track
   - name: create_midi_track
     raw_doc: |-
       Create a new midi track at the optional given index and return it.If the index is -1,
@@ -502,13 +503,13 @@ primary_class:
     cpp_signature: TWeakPtr<TTrackPyHandle> create_midi_track(TPyHandle<ASong> [,boost::python::api::object=None])
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: index
       type: object
       optional: true
       default: None
     returns:
-      type: Track
+      type: Live.Track.Track
   - name: create_return_track
     raw_doc: |-
       Create a new return track at the end and return it. If the new track would exceed
@@ -518,9 +519,9 @@ primary_class:
     cpp_signature: TWeakPtr<TTrackPyHandle> create_return_track(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
-      type: Track
+      type: Live.Track.Track
   - name: create_scene
     raw_doc: |-
       Create a new scene at the given index. If the index is -1,
@@ -530,11 +531,11 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AScene>> create_scene(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
-      type: Scene
+      type: Live.Scene.Scene
   - name: delete_return_track
     raw_doc: |-
       Delete the return track with the given index. If no track with this index
@@ -543,7 +544,7 @@ primary_class:
     cpp_signature: void delete_return_track(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
@@ -556,7 +557,7 @@ primary_class:
     cpp_signature: void delete_scene(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
@@ -569,7 +570,7 @@ primary_class:
     cpp_signature: void delete_track(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
@@ -582,7 +583,7 @@ primary_class:
     cpp_signature: void duplicate_scene(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
@@ -596,7 +597,7 @@ primary_class:
     cpp_signature: void duplicate_track(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
@@ -606,7 +607,7 @@ primary_class:
     cpp_signature: void end_undo_step(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: find_device_position
@@ -618,11 +619,11 @@ primary_class:
     cpp_signature: int find_device_position(TPyHandle<ASong>,TPyHandle<ADevice>,TPyHandleBase,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: device
-      type: Device
+      type: Live.Device.Device
     - name: target
-      type: LomObject
+      type: Live.LomObject.LomObject
     - name: target_position
       type: int
     returns:
@@ -635,7 +636,7 @@ primary_class:
     cpp_signature: void force_link_beat_time(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: get_beats_loop_length
@@ -646,9 +647,9 @@ primary_class:
     cpp_signature: NSongApi::TBeatTime get_beats_loop_length(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
-      type: BeatTime
+      type: Live.Song.BeatTime
   - name: get_beats_loop_start
     raw_doc: |-
       Get const access to the songs loop start, using a
@@ -657,9 +658,9 @@ primary_class:
     cpp_signature: NSongApi::TBeatTime get_beats_loop_start(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
-      type: BeatTime
+      type: Live.Song.BeatTime
   - name: get_current_beats_song_time
     raw_doc: |-
       Get const access to the songs current playing position, using a
@@ -668,9 +669,9 @@ primary_class:
     cpp_signature: NSongApi::TBeatTime get_current_beats_song_time(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
-      type: BeatTime
+      type: Live.Song.BeatTime
   - name: get_current_smpte_song_time
     raw_doc: |-
       Get const access to the songs current playing position, by specifying
@@ -679,18 +680,18 @@ primary_class:
     cpp_signature: NSongApi::TSmptTime get_current_smpte_song_time(TPyHandle<ASong>,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: int
     returns:
-      type: SmptTime
+      type: Live.Song.SmptTime
   - name: get_data
     raw_doc: Get data for the given key, that was previously stored using set_data.
     signature: 'get_data( (Song)arg1, (object)key, (object)default_value) -> object :'
     cpp_signature: boost::python::api::object get_data(TPyHandle<ASong>,TString,boost::python::api::object)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: key
       type: str
     - name: default_value
@@ -703,7 +704,7 @@ primary_class:
     cpp_signature: bool is_cue_point_selected(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: bool
   - name: jump_by
@@ -712,7 +713,7 @@ primary_class:
     cpp_signature: void jump_by(TPyHandle<ASong>,double)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: float
     returns:
@@ -723,7 +724,7 @@ primary_class:
     cpp_signature: void jump_to_next_cue(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: jump_to_prev_cue
@@ -732,7 +733,7 @@ primary_class:
     cpp_signature: void jump_to_prev_cue(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: move_device
@@ -741,11 +742,11 @@ primary_class:
     cpp_signature: int move_device(TPyHandle<ASong>,TPyHandle<ADevice>,TPyHandleBase,int)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: device
-      type: Device
+      type: Live.Device.Device
     - name: target
-      type: LomObject
+      type: Live.LomObject.LomObject
     - name: target_position
       type: int
     returns:
@@ -758,7 +759,7 @@ primary_class:
     cpp_signature: void play_selection(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: re_enable_automation
@@ -767,7 +768,7 @@ primary_class:
     cpp_signature: void re_enable_automation(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: redo
@@ -776,7 +777,7 @@ primary_class:
     cpp_signature: TString redo(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: str
   - name: scrub_by
@@ -785,7 +786,7 @@ primary_class:
     cpp_signature: void scrub_by(TPyHandle<ASong>,double)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: arg2
       type: float
     returns:
@@ -796,7 +797,7 @@ primary_class:
     cpp_signature: void set_data(TPyHandle<ASong>,TString,boost::python::api::object)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: key
       type: str
     - name: value
@@ -811,7 +812,7 @@ primary_class:
     cpp_signature: void set_or_delete_cue(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: start_playing
@@ -820,7 +821,7 @@ primary_class:
     cpp_signature: void start_playing(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: stop_all_clips
@@ -829,7 +830,7 @@ primary_class:
     cpp_signature: void stop_all_clips(TPyHandle<ASong> [,bool=True])
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: quantized
       type: bool
       optional: true
@@ -842,7 +843,7 @@ primary_class:
     cpp_signature: void stop_playing(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: tap_tempo
@@ -851,7 +852,7 @@ primary_class:
     cpp_signature: void tap_tempo(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: None
   - name: trigger_session_record
@@ -860,7 +861,7 @@ primary_class:
     cpp_signature: void trigger_session_record(TPyHandle<ASong> [,double=1.7976931348623157e+308])
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     - name: record_length
       type: float
       optional: true
@@ -873,14 +874,15 @@ primary_class:
     cpp_signature: TString undo(TPyHandle<ASong>)
     args:
     - name: self
-      type: Song
+      type: Live.Song.Song
     returns:
       type: str
   classes:
   - name: View
+    path: Live.Song.Song.View
     raw_doc: 'Representing the view aspects of a Live document: The Session and Arrangerview.'
     ancestors:
-    - LomObject
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -948,9 +950,9 @@ primary_class:
       cpp_signature: void select_device(TPyViewData<ASong>,TPyHandle<ADevice> [,bool=True])
       args:
       - name: self
-        type: View
+        type: Live.Song.Song.View
       - name: arg2
-        type: Device
+        type: Live.Device.Device
       - name: should_appoint_device
         type: bool
         optional: true
@@ -959,6 +961,7 @@ primary_class:
         type: None
 classes:
 - name: BeatTime
+  path: Live.Song.BeatTime
   raw_doc: Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
   ancestors: []
   init_doc: |-
@@ -977,9 +980,10 @@ classes:
   - name: ticks
     settable: true
 - name: CuePoint
+  path: Live.Song.CuePoint
   raw_doc: Represents a 'Marker' in the arrangement.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1012,10 +1016,11 @@ classes:
     cpp_signature: void jump(TPyHandle<ACuePoint>)
     args:
     - name: self
-      type: CuePoint
+      type: Live.Song.CuePoint
     returns:
       type: None
 - name: SmptTime
+  path: Live.Song.SmptTime
   raw_doc: |-
     Represents a Time, split into Hours, Minutes, Seconds and Frames.
     The frame type must be specified when calling a function that returns

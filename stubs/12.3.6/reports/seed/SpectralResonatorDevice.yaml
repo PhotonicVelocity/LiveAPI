@@ -1,10 +1,11 @@
 module: SpectralResonatorDevice
 primary_class:
 - name: SpectralResonatorDevice
+  path: Live.SpectralResonatorDevice.SpectralResonatorDevice
   raw_doc: This class represents a Spectral Resonator device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

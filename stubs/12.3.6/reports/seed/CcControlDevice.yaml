@@ -1,10 +1,11 @@
 module: CcControlDevice
 primary_class:
 - name: CcControlDevice
+  path: Live.CcControlDevice.CcControlDevice
   raw_doc: This class represents a CcControl device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -147,6 +148,6 @@ primary_class:
     cpp_signature: void resend(TCcControlDevicePyHandle)
     args:
     - name: self
-      type: CcControlDevice
+      type: Live.CcControlDevice.CcControlDevice
     returns:
       type: None

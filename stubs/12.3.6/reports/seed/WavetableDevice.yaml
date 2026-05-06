@@ -1,10 +1,11 @@
 module: WavetableDevice
 primary_class:
 - name: WavetableDevice
+  path: Live.WavetableDevice.WavetableDevice
   raw_doc: This class represents a Wavetable device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -165,9 +166,9 @@ primary_class:
     cpp_signature: int add_parameter_to_modulation_matrix(TWavetableDevicePyHandle,TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: WavetableDevice
+      type: Live.WavetableDevice.WavetableDevice
     - name: parameter
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: int
   - name: get_modulation_target_parameter_name
@@ -176,7 +177,7 @@ primary_class:
     cpp_signature: TString get_modulation_target_parameter_name(TWavetableDevicePyHandle,int)
     args:
     - name: self
-      type: WavetableDevice
+      type: Live.WavetableDevice.WavetableDevice
     - name: target_index
       type: int
     returns:
@@ -187,7 +188,7 @@ primary_class:
     cpp_signature: float get_modulation_value(TWavetableDevicePyHandle,int,int)
     args:
     - name: self
-      type: WavetableDevice
+      type: Live.WavetableDevice.WavetableDevice
     - name: target_index
       type: int
     - name: source
@@ -200,9 +201,9 @@ primary_class:
     cpp_signature: bool is_parameter_modulatable(TWavetableDevicePyHandle,TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: WavetableDevice
+      type: Live.WavetableDevice.WavetableDevice
     - name: parameter
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: bool
   - name: set_modulation_value
@@ -211,7 +212,7 @@ primary_class:
     cpp_signature: void set_modulation_value(TWavetableDevicePyHandle,int,int,float)
     args:
     - name: self
-      type: WavetableDevice
+      type: Live.WavetableDevice.WavetableDevice
     - name: target_index
       type: int
     - name: source

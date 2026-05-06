@@ -1,10 +1,11 @@
 module: PluginDevice
 primary_class:
 - name: PluginDevice
+  path: Live.PluginDevice.PluginDevice
   raw_doc: This class represents a plugin device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -75,7 +76,7 @@ primary_class:
     cpp_signature: std::__1::vector<TString, std::__1::allocator<TString>> get_parameter_names(TPluginDevicePyHandle [,int=0 [,int=-1]])
     args:
     - name: self
-      type: PluginDevice
+      type: Live.PluginDevice.PluginDevice
     - name: begin
       type: int
       optional: true
@@ -85,4 +86,4 @@ primary_class:
       optional: true
       default: '-1'
     returns:
-      type: StringVector
+      type: Live.Base.StringVector

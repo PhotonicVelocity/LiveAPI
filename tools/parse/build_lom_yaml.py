@@ -133,12 +133,118 @@ _BORING_BASES = {
 }
 
 
-def _simplify_ancestors(class_node: dict[str, Any]) -> list[str]:
-    """Strip Boost.Python boilerplate; reduce ancestor reprs to simple names.
+def build_class_registry(tree: dict[str, Any]) -> dict[str, Any]:
+    """Build the cross-reference index for every class in the tree.
+
+    Returns:
+        {
+          "by_repr": {class_repr: qualified_tree_path},
+          "by_name": {simple_name: [qualified_paths]},
+        }
+
+    The qualified path follows the tree's nesting (e.g.,
+    `Live.Song.Song.View` for the View class nested inside Song.Song),
+    which is more precise than Boost.Python's repr — `<class 'Song.View'>`
+    hides whether View lives at the module level or nested inside
+    Song.Song. Only canonical (non-`ref:true`) class/`type` nodes are
+    recorded. `by_name` is the inverted index used to qualify simple
+    names in raw_doc-derived type strings; collisions (e.g. ~21 distinct
+    `View` classes) keep their list intact and the type qualifier
+    disambiguates by enclosing-path overlap.
+    """
+    by_repr: dict[str, str] = {}
+
+    def walk(node: dict[str, Any], path: str) -> None:
+        if not isinstance(node, dict):
+            return
+        node_type = node.get("type")
+        if node_type in ("class", "type") and not node.get("ref"):
+            r = node.get("repr")
+            if isinstance(r, str):
+                by_repr[r] = path
+        for child in node.get("children", []) or []:
+            child_name = child.get("name") if isinstance(child, dict) else None
+            walk(child, f"{path}.{child_name}" if child_name else path)
+
+    root_name = tree.get("name") or "Live"
+    walk(tree, root_name)
+
+    by_name: dict[str, list[str]] = {}
+    for path in by_repr.values():
+        simple = path.rsplit(".", 1)[-1]
+        by_name.setdefault(simple, []).append(path)
+
+    return {"by_repr": by_repr, "by_name": by_name}
+
+
+# Identifier names that are Python builtins / typing-module fixtures, not
+# Live classes. Left alone by the type qualifier.
+_BUILTIN_TYPE_NAMES = {
+    "None", "True", "False", "Ellipsis",
+    "int", "float", "str", "bool", "bytes", "bytearray", "complex",
+    "list", "dict", "tuple", "set", "frozenset",
+    "object", "type",
+    "Any", "Callable", "Iterable", "Iterator", "Generator",
+    "Sequence", "Mapping", "MutableMapping",
+    "List", "Dict", "Tuple", "Set", "FrozenSet", "Type",
+    "Optional", "Union", "Literal",
+}
+
+_TYPE_TOKEN_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\b")
+
+
+def _prefix_overlap(a: str, b: str) -> int:
+    """Length of common dot-separated prefix between two paths."""
+    n = 0
+    for x, y in zip(a.split("."), b.split(".")):
+        if x != y:
+            break
+        n += 1
+    return n
+
+
+def _qualify_type_string(
+    type_str: str,
+    by_name: dict[str, list[str]],
+    enclosing_path: str | None,
+) -> str:
+    """Replace each Live-class identifier in a type string with its
+    qualified tree path; leave builtins and unknown identifiers alone.
+
+    Composite types (`Iterable[Track]`, `Track | None`, `Tuple[A, B]`)
+    are handled by tokenizing on word boundaries — punctuation and
+    whitespace pass through unchanged. Names with multiple registry
+    matches (e.g. `View`) are disambiguated by picking the candidate
+    whose qualified path shares the longest prefix with `enclosing_path`.
+    """
+
+    def replace(match: re.Match[str]) -> str:
+        token = match.group(0)
+        if token in _BUILTIN_TYPE_NAMES:
+            return token
+        candidates = by_name.get(token)
+        if not candidates:
+            return token
+        if len(candidates) == 1:
+            return candidates[0]
+        ep = enclosing_path
+        if ep:
+            return max(candidates, key=lambda p: _prefix_overlap(p, ep))
+        # Multi-match without context — leave unqualified rather than
+        # picking arbitrarily.
+        return token
+
+    return _TYPE_TOKEN_RE.sub(replace, type_str)
+
+
+def _qualify_ancestors(class_node: dict[str, Any], by_repr: dict[str, str]) -> list[str]:
+    """Strip Boost.Python boilerplate; resolve remaining ancestor reprs to
+    qualified tree paths via `registry["by_repr"]`.
 
     `["<class 'LomObject.LomObject'>", "<class 'Boost.Python.instance'>"]`
-    becomes `["LomObject"]`. Order is preserved (closest base first, which
-    is how the parser emits them).
+    becomes `["Live.LomObject.LomObject"]`. Reprs that don't match any
+    class in the registry fall back to the parser's `Module.Class` form
+    (rare — covers external bases like `Exception`).
     """
     out: list[str] = []
     for ancestor_repr in class_node.get("ancestors", []) or []:
@@ -148,7 +254,7 @@ def _simplify_ancestors(class_node: dict[str, Any]) -> list[str]:
         full = m.group(1)
         if full in _BORING_BASES:
             continue
-        out.append(full.rsplit(".", 1)[-1])
+        out.append(by_repr.get(ancestor_repr, full))
     return out
 
 # endregion
@@ -226,8 +332,18 @@ def _collect_listener_triplets(class_node: dict[str, Any]) -> dict[str, list[str
 # ------------------------------------------------------------------------------- #
 
 
-def build_member(node: dict[str, Any]) -> dict[str, Any] | None:
-    """Convert a tree-node child into its YAML member dict, or None to skip."""
+def build_member(
+    node: dict[str, Any],
+    registry: dict[str, Any],
+    enclosing_path: str | None = None,
+) -> dict[str, Any] | None:
+    """Convert a tree-node child into its YAML member dict, or None to skip.
+
+    `enclosing_path` is the qualified path of the class containing this
+    node (or None at module level). Used to disambiguate type names in
+    function args/returns when the simple name has multiple registry
+    matches (the canonical `View` case).
+    """
     node_type = node.get("type")
     if not isinstance(node_type, str):
         return None
@@ -238,17 +354,31 @@ def build_member(node: dict[str, Any]) -> dict[str, Any] | None:
     if not name or name in SKIP_MEMBERS:
         return None
 
+    by_repr: dict[str, str] = registry["by_repr"]
+    by_name: dict[str, list[str]] = registry["by_name"]
+
     out: dict[str, Any] = {"kind": kind, "name": name}
     if kind == "class":
+        # Class identity: emit the qualified tree path so cross-references
+        # don't have to do name-based lookup. `path` is unique even when
+        # the simple name isn't (e.g., the ~21 distinct nested `View`
+        # classes each get a path like Live.Song.Song.View).
+        repr_str = node.get("repr")
+        class_path: str | None = None
+        if isinstance(repr_str, str) and repr_str in by_repr:
+            class_path = by_repr[repr_str]
+            out["path"] = class_path
         raw_doc = _norm_doc(node.get("raw_doc"))
         if raw_doc:
             out["raw_doc"] = raw_doc
-        out["ancestors"] = _simplify_ancestors(node)
+        out["ancestors"] = _qualify_ancestors(node, by_repr)
         init_doc = _norm_doc(node.get("init_doc"))
         if init_doc:
             out["init_doc"] = init_doc
         out["constructable"] = bool(node.get("constructable"))
-        out.update(_group_class_members(node))
+        # Methods inside this class qualify their type strings using the
+        # class's own path as the enclosing context.
+        out.update(_group_class_members(node, registry, class_path))
     elif kind == "property":
         raw_doc = _norm_doc(node.get("raw_doc"))
         if raw_doc:
@@ -292,17 +422,22 @@ def build_member(node: dict[str, Any]) -> dict[str, Any] | None:
         cpp_sig = _norm_doc(node.get("cpp_signature"))
         if cpp_sig:
             out["cpp_signature"] = cpp_sig
-        args = _convert_args(node.get("args"))
+        args = _convert_args(node.get("args"), by_name, enclosing_path)
         if args:
             out["args"] = args
-        returns = _convert_returns(node.get("returns"))
+        returns = _convert_returns(node.get("returns"), by_name, enclosing_path)
         if returns:
             out["returns"] = returns
     return out
 
 
-def _convert_args(args: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
-    """Convert parser arg dicts into YAML shape.
+def _convert_args(
+    args: list[dict[str, Any]] | None,
+    by_name: dict[str, list[str]],
+    enclosing_path: str | None,
+) -> list[dict[str, Any]]:
+    """Convert parser arg dicts into YAML shape; qualify Live class names
+    in each `type:` string against the class registry.
 
     `self` is kept (the SOT is unopinionated about rendering convention —
     consumers that want to elide it can do so at render time). The
@@ -314,8 +449,9 @@ def _convert_args(args: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
     out: list[dict[str, Any]] = []
     for arg in args:
         item: dict[str, Any] = {"name": arg["name"]}
-        if arg.get("type"):
-            item["type"] = arg["type"]
+        type_str = arg.get("type")
+        if type_str:
+            item["type"] = _qualify_type_string(type_str, by_name, enclosing_path)
         if arg.get("optional"):
             item["optional"] = True
             if arg.get("default") is not None:
@@ -324,16 +460,26 @@ def _convert_args(args: list[dict[str, Any]] | None) -> list[dict[str, Any]]:
     return out
 
 
-def _convert_returns(returns: dict[str, Any] | None) -> dict[str, Any] | None:
-    """Convert parser returns dict into YAML shape (just `type` for now)."""
+def _convert_returns(
+    returns: dict[str, Any] | None,
+    by_name: dict[str, list[str]],
+    enclosing_path: str | None,
+) -> dict[str, Any] | None:
+    """Convert parser returns dict into YAML shape (just `type` for now);
+    qualify Live class names in the `type:` string."""
     if not returns:
         return None
-    if returns.get("type"):
-        return {"type": returns["type"]}
+    type_str = returns.get("type")
+    if type_str:
+        return {"type": _qualify_type_string(type_str, by_name, enclosing_path)}
     return None
 
 
-def _group_class_members(class_node: dict[str, Any]) -> dict[str, Any]:
+def _group_class_members(
+    class_node: dict[str, Any],
+    registry: dict[str, Any],
+    enclosing_path: str | None,
+) -> dict[str, Any]:
     """Walk a class's children and group them by kind into named lists.
 
     Mirrors the module-level structure: properties → methods → nested
@@ -360,7 +506,7 @@ def _group_class_members(class_node: dict[str, Any]) -> dict[str, Any]:
         # owning property below.
         if child.get("type") == "function" and child.get("name") in listener_method_names:
             continue
-        member = build_member(child)
+        member = build_member(child, registry, enclosing_path)
         if member is None:
             continue
         kind = member.pop("kind")
@@ -431,7 +577,7 @@ def _to_named_groups(
 # ------------------------------------------------------------------------------- #
 
 
-def build_module_yaml(module_node: dict[str, Any]) -> dict[str, Any]:
+def build_module_yaml(module_node: dict[str, Any], registry: dict[str, str]) -> dict[str, Any]:
     """Convert one module node into its YAML-shape dict."""
     module_name = module_node["name"]
     groups: dict[str, list[dict[str, Any]]] = {
@@ -442,7 +588,7 @@ def build_module_yaml(module_node: dict[str, Any]) -> dict[str, Any]:
     for child in module_node.get("children", []):
         if child.get("ref"):
             continue
-        member = build_member(child)
+        member = build_member(child, registry)
         if member is None:
             continue
         # `kind` is implicit in which group the entry lives in — drop the
@@ -535,6 +681,7 @@ def main() -> int:
 
     data = json.loads(in_path.read_text())
     tree = data["tree"]
+    registry = build_class_registry(tree)
 
     written = 0
     for module_node in tree.get("children", []):
@@ -543,7 +690,7 @@ def main() -> int:
         name = module_node.get("name")
         if not name:
             continue
-        emit_yaml(build_module_yaml(module_node), out_dir / f"{name}.yaml")
+        emit_yaml(build_module_yaml(module_node, registry), out_dir / f"{name}.yaml")
         written += 1
 
     print(f"Wrote {written} module YAMLs to {out_dir.relative_to(REPO_ROOT)}/")

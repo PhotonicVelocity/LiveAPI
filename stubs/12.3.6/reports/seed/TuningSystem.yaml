@@ -1,9 +1,10 @@
 module: TuningSystem
 primary_class:
 - name: TuningSystem
+  path: Live.TuningSystem.TuningSystem
   raw_doc: Represents a Tuning System and its properties.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -59,6 +60,7 @@ primary_class:
     - reference_pitch_has_listener
 classes:
 - name: PitchClassAndOctave
+  path: Live.TuningSystem.PitchClassAndOctave
   raw_doc: This class represents a PitchClassAndOctave type.
   ancestors: []
   init_doc: |-
@@ -76,6 +78,7 @@ classes:
     raw_doc: A PitchClassAndOctave's octave.
     settable: false
 - name: ReferencePitch
+  path: Live.TuningSystem.ReferencePitch
   raw_doc: This class represents a ReferencePitch type.
   ancestors: []
   init_doc: |-

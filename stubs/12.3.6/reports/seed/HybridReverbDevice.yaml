@@ -1,10 +1,11 @@
 module: HybridReverbDevice
 primary_class:
 - name: HybridReverbDevice
+  path: Live.HybridReverbDevice.HybridReverbDevice
   raw_doc: This class represents a Hybrid Reverb device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

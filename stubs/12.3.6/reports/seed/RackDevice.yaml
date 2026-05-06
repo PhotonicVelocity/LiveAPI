@@ -1,10 +1,11 @@
 module: RackDevice
 primary_class:
 - name: RackDevice
+  path: Live.RackDevice.RackDevice
   raw_doc: This class represents a Rack device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -138,7 +139,7 @@ primary_class:
     cpp_signature: void add_macro(TRackDevicePyHandle)
     args:
     - name: self
-      type: RackDevice
+      type: Live.RackDevice.RackDevice
     returns:
       type: None
   - name: copy_pad
@@ -147,7 +148,7 @@ primary_class:
     cpp_signature: void copy_pad(TRackDevicePyHandle,int,int)
     args:
     - name: self
-      type: RackDevice
+      type: Live.RackDevice.RackDevice
     - name: arg2
       type: int
     - name: arg3
@@ -160,7 +161,7 @@ primary_class:
     cpp_signature: void delete_selected_variation(TPyHandle<ADevice>)
     args:
     - name: self
-      type: Device
+      type: Live.Device.Device
     returns:
       type: None
   - name: insert_chain
@@ -169,20 +170,20 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandleBase> insert_chain(TRackDevicePyHandle [,int=-1])
     args:
     - name: self
-      type: RackDevice
+      type: Live.RackDevice.RackDevice
     - name: index
       type: int
       optional: true
       default: '-1'
     returns:
-      type: LomObject
+      type: Live.LomObject.LomObject
   - name: randomize_macros
     raw_doc: Randomizes the values for all macro controls not excluded from randomization.
     signature: 'randomize_macros( (RackDevice)arg1) -> None :'
     cpp_signature: void randomize_macros(TRackDevicePyHandle)
     args:
     - name: self
-      type: RackDevice
+      type: Live.RackDevice.RackDevice
     returns:
       type: None
   - name: recall_last_used_variation
@@ -191,7 +192,7 @@ primary_class:
     cpp_signature: void recall_last_used_variation(TPyHandle<ADevice>)
     args:
     - name: self
-      type: Device
+      type: Live.Device.Device
     returns:
       type: None
   - name: recall_selected_variation
@@ -200,7 +201,7 @@ primary_class:
     cpp_signature: void recall_selected_variation(TPyHandle<ADevice>)
     args:
     - name: self
-      type: Device
+      type: Live.Device.Device
     returns:
       type: None
   - name: remove_macro
@@ -209,7 +210,7 @@ primary_class:
     cpp_signature: void remove_macro(TRackDevicePyHandle)
     args:
     - name: self
-      type: RackDevice
+      type: Live.RackDevice.RackDevice
     returns:
       type: None
   - name: store_variation
@@ -218,15 +219,16 @@ primary_class:
     cpp_signature: void store_variation(TPyHandle<ADevice>)
     args:
     - name: self
-      type: Device
+      type: Live.Device.Device
     returns:
       type: None
   classes:
   - name: View
+    path: Live.RackDevice.RackDevice.View
     raw_doc: Representing the view aspects of a rack device.
     ancestors:
-    - View
-    - LomObject
+    - Live.Device.Device.View
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python

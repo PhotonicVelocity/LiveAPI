@@ -1,9 +1,10 @@
 module: DeviceIO
 primary_class:
 - name: DeviceIO
+  path: Live.DeviceIO.DeviceIO
   raw_doc: This class represents a specific input or output bus of a device.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

@@ -1,10 +1,11 @@
 module: SimplerDevice
 primary_class:
 - name: SimplerDevice
+  path: Live.SimplerDevice.SimplerDevice
   raw_doc: This class represents a Simpler device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -165,7 +166,7 @@ primary_class:
     cpp_signature: void crop(TSimplerDevicePyHandle)
     args:
     - name: self
-      type: SimplerDevice
+      type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
   - name: guess_playback_length
@@ -176,7 +177,7 @@ primary_class:
     cpp_signature: double guess_playback_length(TSimplerDevicePyHandle)
     args:
     - name: self
-      type: SimplerDevice
+      type: Live.SimplerDevice.SimplerDevice
     returns:
       type: float
   - name: reverse
@@ -187,7 +188,7 @@ primary_class:
     cpp_signature: void reverse(TSimplerDevicePyHandle)
     args:
     - name: self
-      type: SimplerDevice
+      type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
   - name: warp_as
@@ -198,7 +199,7 @@ primary_class:
     cpp_signature: void warp_as(TSimplerDevicePyHandle,double)
     args:
     - name: self
-      type: SimplerDevice
+      type: Live.SimplerDevice.SimplerDevice
     - name: beat_time
       type: float
     returns:
@@ -209,7 +210,7 @@ primary_class:
     cpp_signature: void warp_double(TSimplerDevicePyHandle)
     args:
     - name: self
-      type: SimplerDevice
+      type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
   - name: warp_half
@@ -218,15 +219,16 @@ primary_class:
     cpp_signature: void warp_half(TSimplerDevicePyHandle)
     args:
     - name: self
-      type: SimplerDevice
+      type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
   classes:
   - name: View
+    path: Live.SimplerDevice.SimplerDevice.View
     raw_doc: Representing the view aspects of a simpler device.
     ancestors:
-    - View
-    - LomObject
+    - Live.Device.Device.View
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -311,4 +313,4 @@ functions:
   signature: 'get_available_voice_numbers() -> IntVector :'
   cpp_signature: std::__1::vector<int, std::__1::allocator<int>> get_available_voice_numbers()
   returns:
-    type: IntVector
+    type: Live.Base.IntVector

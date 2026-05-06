@@ -1,9 +1,10 @@
 module: Device
 primary_class:
 - name: Device
+  path: Live.Device.Device
   raw_doc: This class represents a MIDI or Audio DSP-Device in Live.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -82,7 +83,7 @@ primary_class:
     cpp_signature: void save_preset_to_compare_ab_slot(TPyHandle<ADevice>)
     args:
     - name: self
-      type: Device
+      type: Live.Device.Device
     returns:
       type: None
   - name: store_chosen_bank
@@ -91,7 +92,7 @@ primary_class:
     cpp_signature: void store_chosen_bank(TPyHandle<ADevice>,int,int)
     args:
     - name: self
-      type: Device
+      type: Live.Device.Device
     - name: arg2
       type: int
     - name: arg3
@@ -100,9 +101,10 @@ primary_class:
       type: None
   classes:
   - name: View
+    path: Live.Device.Device.View
     raw_doc: Representing the view aspects of a device.
     ancestors:
-    - LomObject
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -120,6 +122,7 @@ primary_class:
       - is_collapsed_has_listener
 classes:
 - name: ATimeableValueVector
+  path: Live.Device.ATimeableValueVector
   ancestors: []
   init_doc: |-
     Raises an exception
@@ -131,9 +134,9 @@ classes:
     cpp_signature: void append(std::__1::vector<TWeakPtr<ATimeableValue>, std::__1::allocator<TWeakPtr<ATimeableValue>>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ATimeableValueVector
+      type: Live.Device.ATimeableValueVector
     - name: value
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
   - name: extend
@@ -141,9 +144,9 @@ classes:
     cpp_signature: void extend(std::__1::vector<TWeakPtr<ATimeableValue>, std::__1::allocator<TWeakPtr<ATimeableValue>>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ATimeableValueVector
+      type: Live.Device.ATimeableValueVector
     - name: values
-      type: Iterable[DeviceParameter]
+      type: Iterable[Live.DeviceParameter.DeviceParameter]
     returns:
       type: None
 enums:

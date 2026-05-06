@@ -1,11 +1,12 @@
 module: DeviceParameter
 primary_class:
 - name: DeviceParameter
+  path: Live.DeviceParameter.DeviceParameter
   raw_doc: |-
     This class represents a (automatable) parameter within a MIDI or
     Audio DSP-Device.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -100,7 +101,7 @@ primary_class:
     cpp_signature: void begin_gesture(TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
   - name: end_gesture
@@ -109,7 +110,7 @@ primary_class:
     cpp_signature: void end_gesture(TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
   - name: re_enable_automation
@@ -118,7 +119,7 @@ primary_class:
     cpp_signature: void re_enable_automation(TPyHandle<ATimeableValue>)
     args:
     - name: self
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
   - name: str_for_value
@@ -130,7 +131,7 @@ primary_class:
     cpp_signature: TString str_for_value(TPyHandle<ATimeableValue>,float)
     args:
     - name: self
-      type: DeviceParameter
+      type: Live.DeviceParameter.DeviceParameter
     - name: arg2
       type: float
     returns:

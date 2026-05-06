@@ -1,10 +1,11 @@
 module: CompressorDevice
 primary_class:
 - name: CompressorDevice
+  path: Live.CompressorDevice.CompressorDevice
   raw_doc: This class represents a Compressor device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

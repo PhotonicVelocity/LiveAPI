@@ -1,10 +1,11 @@
 module: RoarDevice
 primary_class:
 - name: RoarDevice
+  path: Live.RoarDevice.RoarDevice
   raw_doc: This class represents a Roar device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

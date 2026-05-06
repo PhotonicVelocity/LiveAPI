@@ -1,10 +1,11 @@
 module: DrumCellDevice
 primary_class:
 - name: DrumCellDevice
+  path: Live.DrumCellDevice.DrumCellDevice
   raw_doc: This class represents a DrumCell device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

@@ -1,11 +1,12 @@
 module: DrumChain
 primary_class:
 - name: DrumChain
+  path: Live.DrumChain.DrumChain
   raw_doc: This class represents a drum group device chain in Live.
   ancestors:
-  - Chain
-  - DeviceContainer
-  - LomObject
+  - Live.Chain.Chain
+  - Live.Track.DeviceContainer
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

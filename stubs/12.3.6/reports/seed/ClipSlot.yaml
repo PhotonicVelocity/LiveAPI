@@ -1,9 +1,10 @@
 module: ClipSlot
 primary_class:
 - name: ClipSlot
+  path: Live.ClipSlot.ClipSlot
   raw_doc: This class represents an entry in Lives Session view matrix.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -91,11 +92,11 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> create_audio_clip(TPyHandle<AGroupAndClipSlotBase>,TString)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     - name: arg2
       type: str
     returns:
-      type: Clip
+      type: Live.Clip.Clip
   - name: create_clip
     raw_doc: |-
       Creates an empty clip with the given length in the slot.
@@ -104,11 +105,11 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> create_clip(TPyHandle<AGroupAndClipSlotBase>,double)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     - name: arg2
       type: float
     returns:
-      type: Clip
+      type: Live.Clip.Clip
   - name: delete_clip
     raw_doc: |-
       Removes the clip contained in the slot.
@@ -117,7 +118,7 @@ primary_class:
     cpp_signature: void delete_clip(TPyHandle<AGroupAndClipSlotBase>)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     returns:
       type: None
   - name: duplicate_clip_to
@@ -131,9 +132,9 @@ primary_class:
     cpp_signature: void duplicate_clip_to(TPyHandle<AGroupAndClipSlotBase>,TPyHandle<AGroupAndClipSlotBase>)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     - name: arg2
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     returns:
       type: None
   - name: fire
@@ -144,7 +145,7 @@ primary_class:
     cpp_signature: void fire(TPyHandle<AGroupAndClipSlotBase>)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     returns:
       type: None
   - name: set_fire_button_state
@@ -153,7 +154,7 @@ primary_class:
     cpp_signature: void set_fire_button_state(TPyHandle<AGroupAndClipSlotBase>,bool)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     - name: arg2
       type: bool
     returns:
@@ -166,7 +167,7 @@ primary_class:
     cpp_signature: void stop(TPyHandle<AGroupAndClipSlotBase>)
     args:
     - name: self
-      type: ClipSlot
+      type: Live.ClipSlot.ClipSlot
     returns:
       type: None
 enums:

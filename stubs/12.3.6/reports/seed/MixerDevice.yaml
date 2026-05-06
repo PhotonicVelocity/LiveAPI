@@ -1,11 +1,12 @@
 module: MixerDevice
 primary_class:
 - name: MixerDevice
+  path: Live.MixerDevice.MixerDevice
   raw_doc: |-
     This class represents a Mixer Device in Live, which gives you
     access to the Volume and Panning properties of a Track.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

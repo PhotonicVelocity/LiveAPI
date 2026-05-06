@@ -1,9 +1,10 @@
 module: Scene
 primary_class:
 - name: Scene
+  path: Live.Scene.Scene
   raw_doc: This class represents an series of ClipSlots in Lives Sessionview matrix.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -107,7 +108,7 @@ primary_class:
     cpp_signature: void fire(TPyHandle<AScene> [,bool=False [,bool=True]])
     args:
     - name: self
-      type: Scene
+      type: Live.Scene.Scene
     - name: force_legato
       type: bool
       optional: true
@@ -126,7 +127,7 @@ primary_class:
     cpp_signature: void fire_as_selected(TPyHandle<AScene> [,bool=False])
     args:
     - name: self
-      type: Scene
+      type: Live.Scene.Scene
     - name: force_legato
       type: bool
       optional: true
@@ -139,7 +140,7 @@ primary_class:
     cpp_signature: void set_fire_button_state(TPyHandle<AScene>,bool)
     args:
     - name: self
-      type: Scene
+      type: Live.Scene.Scene
     - name: arg2
       type: bool
     returns:

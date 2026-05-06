@@ -1,14 +1,15 @@
 module: Track
 primary_class:
 - name: Track
+  path: Live.Track.Track
   raw_doc: |-
     This class represents a track in Live. It can be either an Audio
     track, a MIDI Track, a Return Track or the Main track. The Main
     Track and at least one Audio or MIDI track will be always present.
     Return Tracks are optional.
   ancestors:
-  - DeviceContainer
-  - LomObject
+  - Live.Track.DeviceContainer
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -433,13 +434,13 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> create_audio_clip(TTrackPyHandle,TString,double)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
       type: str
     - name: arg3
       type: float
     returns:
-      type: Clip
+      type: Live.Clip.Clip
   - name: create_midi_clip
     raw_doc: |-
       Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
@@ -448,31 +449,31 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> create_midi_clip(TTrackPyHandle,double,double)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
       type: float
     - name: arg3
       type: float
     returns:
-      type: Clip
+      type: Live.Clip.Clip
   - name: create_take_lane
     raw_doc: Create a new TakeLane for this track.
     signature: 'create_take_lane( (Track)arg1) -> LomObject :'
     cpp_signature: TWeakPtr<TPyHandleBase> create_take_lane(TTrackPyHandle)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     returns:
-      type: LomObject
+      type: Live.LomObject.LomObject
   - name: delete_clip
     raw_doc: Delete the given clip. Raises a runtime error when the clip belongs to another track.
     signature: 'delete_clip( (Track)arg1, (Clip)arg2) -> None :'
     cpp_signature: void delete_clip(TTrackPyHandle,TPyHandle<AClip>)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
-      type: Clip
+      type: Live.Clip.Clip
     returns:
       type: None
   - name: delete_device
@@ -481,7 +482,7 @@ primary_class:
     cpp_signature: void delete_device(TTrackPyHandle,int)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
       type: int
     returns:
@@ -496,7 +497,7 @@ primary_class:
     cpp_signature: int duplicate_clip_slot(TTrackPyHandle,int)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
       type: int
     returns:
@@ -510,20 +511,20 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> duplicate_clip_to_arrangement(TTrackPyHandle,TPyHandle<AClip>,double)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: clip
-      type: Clip
+      type: Live.Clip.Clip
     - name: destination_time
       type: float
     returns:
-      type: Clip
+      type: Live.Clip.Clip
   - name: duplicate_device
     raw_doc: Duplicate a device at a given index in the 'devices' list.
     signature: 'duplicate_device( (Track)arg1, (int)arg2) -> None :'
     cpp_signature: void duplicate_device(TTrackPyHandle,int)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
       type: int
     returns:
@@ -534,7 +535,7 @@ primary_class:
     cpp_signature: boost::python::api::object get_data(TTrackPyHandle,TString,boost::python::api::object)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: key
       type: str
     - name: default_value
@@ -547,7 +548,7 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandleBase> insert_device(TTrackPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: device_name
       type: str
     - name: device_index
@@ -555,7 +556,7 @@ primary_class:
       optional: true
       default: '-1'
     returns:
-      type: LomObject
+      type: Live.LomObject.LomObject
   - name: jump_in_running_session_clip
     raw_doc: |-
       Jump forward or backward in the currently running Sessionclip (if any)
@@ -565,7 +566,7 @@ primary_class:
     cpp_signature: void jump_in_running_session_clip(TTrackPyHandle,double)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: arg2
       type: float
     returns:
@@ -576,7 +577,7 @@ primary_class:
     cpp_signature: void set_data(TTrackPyHandle,TString,boost::python::api::object)
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: key
       type: str
     - name: value
@@ -589,7 +590,7 @@ primary_class:
     cpp_signature: void stop_all_clips(TTrackPyHandle [,bool=True])
     args:
     - name: self
-      type: Track
+      type: Live.Track.Track
     - name: quantized
       type: bool
       optional: true
@@ -598,9 +599,10 @@ primary_class:
       type: None
   classes:
   - name: View
+    path: Live.Track.Track.View
     raw_doc: Representing the view aspects of a Track.
     ancestors:
-    - LomObject
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -637,7 +639,7 @@ primary_class:
       cpp_signature: bool select_instrument(TPyViewData<ATrack>)
       args:
       - name: self
-        type: View
+        type: Live.Track.Track.View
       returns:
         type: bool
   enums:
@@ -648,14 +650,16 @@ primary_class:
       'OFF': 2
 classes:
 - name: DeviceContainer
+  path: Live.Track.DeviceContainer
   raw_doc: This class is a common super class of Track and Chain
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
 - name: RoutingChannel
+  path: Live.Track.RoutingChannel
   raw_doc: This class represents a routing channel.
   ancestors: []
   init_doc: |-
@@ -670,6 +674,7 @@ classes:
     raw_doc: The routing channel's Layout, e.g., mono or stereo.
     settable: false
 - name: RoutingChannelVector
+  path: Live.Track.RoutingChannelVector
   raw_doc: A container for returning routing channels from Live.
   ancestors: []
   init_doc: |-
@@ -682,9 +687,9 @@ classes:
     cpp_signature: void append(std::__1::vector<NRoutingApi::TRoutingChannel, std::__1::allocator<NRoutingApi::TRoutingChannel>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: RoutingChannelVector
+      type: Live.Track.RoutingChannelVector
     - name: value
-      type: RoutingChannel
+      type: Live.Track.RoutingChannel
     returns:
       type: None
   - name: extend
@@ -692,12 +697,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<NRoutingApi::TRoutingChannel, std::__1::allocator<NRoutingApi::TRoutingChannel>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: RoutingChannelVector
+      type: Live.Track.RoutingChannelVector
     - name: values
-      type: Iterable[RoutingChannel]
+      type: Iterable[Live.Track.RoutingChannel]
     returns:
       type: None
 - name: RoutingType
+  path: Live.Track.RoutingType
   raw_doc: This class represents a routing type.
   ancestors: []
   init_doc: |-
@@ -715,6 +721,7 @@ classes:
     raw_doc: Display name of routing type.
     settable: false
 - name: RoutingTypeVector
+  path: Live.Track.RoutingTypeVector
   raw_doc: A container for returning routing types from Live.
   ancestors: []
   init_doc: |-
@@ -727,9 +734,9 @@ classes:
     cpp_signature: void append(std::__1::vector<NRoutingApi::TRoutingType, std::__1::allocator<NRoutingApi::TRoutingType>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: RoutingTypeVector
+      type: Live.Track.RoutingTypeVector
     - name: value
-      type: RoutingType
+      type: Live.Track.RoutingType
     returns:
       type: None
   - name: extend
@@ -737,9 +744,9 @@ classes:
     cpp_signature: void extend(std::__1::vector<NRoutingApi::TRoutingType, std::__1::allocator<NRoutingApi::TRoutingType>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: RoutingTypeVector
+      type: Live.Track.RoutingTypeVector
     - name: values
-      type: Iterable[RoutingType]
+      type: Iterable[Live.Track.RoutingType]
     returns:
       type: None
 enums:

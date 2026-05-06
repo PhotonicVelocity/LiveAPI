@@ -1,6 +1,7 @@
 module: Listener
 classes:
 - name: ListenerHandle
+  path: Live.Listener.ListenerHandle
   raw_doc: This class represents a Python listener when connected to a Live property.
   ancestors: []
   init_doc: |-
@@ -24,10 +25,11 @@ classes:
     cpp_signature: void disconnect(LPythonRemote {lvalue})
     args:
     - name: self
-      type: ListenerHandle
+      type: Live.Listener.ListenerHandle
     returns:
       type: None
 - name: ListenerVector
+  path: Live.Listener.ListenerVector
   raw_doc: A read only container for accessing a list of listeners.
   ancestors: []
   init_doc: |-
@@ -40,9 +42,9 @@ classes:
     cpp_signature: void append(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ListenerVector
+      type: Live.Listener.ListenerVector
     - name: value
-      type: ListenerHandle
+      type: Live.Listener.ListenerHandle
     returns:
       type: None
   - name: extend
@@ -50,8 +52,8 @@ classes:
     cpp_signature: void extend(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ListenerVector
+      type: Live.Listener.ListenerVector
     - name: values
-      type: Iterable[ListenerHandle]
+      type: Iterable[Live.Listener.ListenerHandle]
     returns:
       type: None

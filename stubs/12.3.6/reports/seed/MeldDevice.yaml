@@ -1,10 +1,11 @@
 module: MeldDevice
 primary_class:
 - name: MeldDevice
+  path: Live.MeldDevice.MeldDevice
   raw_doc: This class represents a Meld device.
   ancestors:
-  - Device
-  - LomObject
+  - Live.Device.Device
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

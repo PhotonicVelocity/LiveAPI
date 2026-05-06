@@ -1,9 +1,10 @@
 module: Browser
 primary_class:
 - name: Browser
+  path: Live.Browser.Browser
   raw_doc: This class represents the live browser data base.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -80,9 +81,9 @@ primary_class:
     cpp_signature: void load_item(TPyHandle<ABrowserDelegate>,NPythonBrowser::TPythonBrowserItem)
     args:
     - name: self
-      type: Browser
+      type: Live.Browser.Browser
     - name: arg2
-      type: BrowserItem
+      type: Live.Browser.BrowserItem
     returns:
       type: None
   - name: preview_item
@@ -91,9 +92,9 @@ primary_class:
     cpp_signature: void preview_item(TPyHandle<ABrowserDelegate>,NPythonBrowser::TPythonBrowserItem)
     args:
     - name: self
-      type: Browser
+      type: Live.Browser.Browser
     - name: arg2
-      type: BrowserItem
+      type: Live.Browser.BrowserItem
     returns:
       type: None
   - name: relation_to_hotswap_target
@@ -102,9 +103,9 @@ primary_class:
     cpp_signature: ableton::live_library::Relation relation_to_hotswap_target(TPyHandle<ABrowserDelegate>,NPythonBrowser::TPythonBrowserItem)
     args:
     - name: self
-      type: Browser
+      type: Live.Browser.Browser
     - name: arg2
-      type: BrowserItem
+      type: Live.Browser.BrowserItem
     returns:
       type: Relation
   - name: stop_preview
@@ -113,11 +114,12 @@ primary_class:
     cpp_signature: void stop_preview(TPyHandle<ABrowserDelegate>)
     args:
     - name: self
-      type: Browser
+      type: Live.Browser.Browser
     returns:
       type: None
 classes:
 - name: BrowserItem
+  path: Live.Browser.BrowserItem
   raw_doc: This class represents an item of the browser hierarchy.
   ancestors: []
   init_doc: |-
@@ -153,6 +155,7 @@ classes:
     raw_doc: The uri describes a unique identifier for a browser item.
     settable: false
 - name: BrowserItemIterator
+  path: Live.Browser.BrowserItemIterator
   raw_doc: This class iterates over children of another BrowserItem.
   ancestors: []
   init_doc: |-
@@ -160,6 +163,7 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
 - name: BrowserItemVector
+  path: Live.Browser.BrowserItemVector
   raw_doc: A container for returning browser items from Live.
   ancestors: []
   init_doc: |-
@@ -172,9 +176,9 @@ classes:
     cpp_signature: void append(std::__1::vector<NPythonBrowser::TPythonBrowserItem, std::__1::allocator<NPythonBrowser::TPythonBrowserItem>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: BrowserItemVector
+      type: Live.Browser.BrowserItemVector
     - name: value
-      type: BrowserItem
+      type: Live.Browser.BrowserItem
     returns:
       type: None
   - name: extend
@@ -182,9 +186,9 @@ classes:
     cpp_signature: void extend(std::__1::vector<NPythonBrowser::TPythonBrowserItem, std::__1::allocator<NPythonBrowser::TPythonBrowserItem>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: BrowserItemVector
+      type: Live.Browser.BrowserItemVector
     - name: values
-      type: Iterable[BrowserItem]
+      type: Iterable[Live.Browser.BrowserItem]
     returns:
       type: None
 enums:

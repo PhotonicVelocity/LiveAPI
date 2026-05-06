@@ -1,9 +1,10 @@
 module: Application
 primary_class:
 - name: Application
+  path: Live.Application.Application
   raw_doc: This class represents the Live application.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -71,7 +72,7 @@ primary_class:
     cpp_signature: int get_bugfix_version(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
       type: int
   - name: get_build_id
@@ -80,7 +81,7 @@ primary_class:
     cpp_signature: TString get_build_id(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
       type: str
   - name: get_document
@@ -89,16 +90,16 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<ASong>> get_document(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
-      type: Song
+      type: Live.Song.Song
   - name: get_major_version
     raw_doc: Returns an integer representing the major version of Live.
     signature: 'get_major_version( (Application)arg1) -> int :'
     cpp_signature: int get_major_version(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
       type: int
   - name: get_minor_version
@@ -107,7 +108,7 @@ primary_class:
     cpp_signature: int get_minor_version(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
       type: int
   - name: get_variant
@@ -116,7 +117,7 @@ primary_class:
     cpp_signature: TString get_variant(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
       type: str
   - name: get_version_string
@@ -125,7 +126,7 @@ primary_class:
     cpp_signature: TString get_version_string(TPyHandle<ASongApp>)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     returns:
       type: str
   - name: has_option
@@ -134,7 +135,7 @@ primary_class:
     cpp_signature: bool has_option(TPyHandle<ASongApp>,TString)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     - name: arg2
       type: str
     returns:
@@ -145,7 +146,7 @@ primary_class:
     cpp_signature: void press_current_dialog_button(TPyHandle<ASongApp>,int)
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     - name: arg2
       type: int
     returns:
@@ -156,9 +157,9 @@ primary_class:
     cpp_signature: int show_message(TPyHandle<ASongApp>,TText [,int=Application.MessageButtons.OK_BUTTON [,bool=False [,bool=False]]])
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     - name: text
-      type: Text
+      type: Live.Base.Text
     - name: buttons
       type: int
       optional: true
@@ -179,7 +180,7 @@ primary_class:
     cpp_signature: int show_on_the_fly_message(TPyHandle<ASongApp>,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=Application.MessageButtons.OK_BUTTON [,bool=False [,bool=False [,int=Application.PushDialogType.MESSAGE_BOX]]]])
     args:
     - name: self
-      type: Application
+      type: Live.Application.Application
     - name: message
       type: str
     - name: buttons
@@ -202,9 +203,10 @@ primary_class:
       type: int
   classes:
   - name: View
+    path: Live.Application.Application.View
     raw_doc: This class represents the view aspects of the Live application.
     ancestors:
-    - LomObject
+    - Live.LomObject.LomObject
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -250,16 +252,16 @@ primary_class:
       cpp_signature: std::__1::vector<TString, std::__1::allocator<TString>> available_main_views(TPyViewData<ASongApp>)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       returns:
-        type: StringVector
+        type: Live.Base.StringVector
     - name: focus_view
       raw_doc: Show and focus one through the identifier string specified view.
       signature: 'focus_view( (View)arg1, (object)arg2) -> None :'
       cpp_signature: void focus_view(TPyViewData<ASongApp>,TString)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       - name: arg2
         type: str
       returns:
@@ -270,7 +272,7 @@ primary_class:
       cpp_signature: void hide_view(TPyViewData<ASongApp>,TString)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       - name: arg2
         type: str
       returns:
@@ -284,7 +286,7 @@ primary_class:
       cpp_signature: bool is_view_visible(TPyViewData<ASongApp>,TString [,bool=True])
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       - name: identifier
         type: str
       - name: main_window_only
@@ -302,7 +304,7 @@ primary_class:
       cpp_signature: void scroll_view(TPyViewData<ASongApp>,int,TString,bool)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       - name: arg2
         type: int
       - name: arg3
@@ -319,7 +321,7 @@ primary_class:
       cpp_signature: void show_view(TPyViewData<ASongApp>,TString)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       - name: arg2
         type: str
       returns:
@@ -332,7 +334,7 @@ primary_class:
       cpp_signature: void toggle_browse(TPyViewData<ASongApp>)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       returns:
         type: None
     - name: zoom_view
@@ -344,7 +346,7 @@ primary_class:
       cpp_signature: void zoom_view(TPyViewData<ASongApp>,int,TString,bool)
       args:
       - name: self
-        type: View
+        type: Live.Application.Application.View
       - name: arg2
         type: int
       - name: arg3
@@ -362,6 +364,7 @@ primary_class:
         right: 3
 classes:
 - name: ControlDescription
+  path: Live.Application.ControlDescription
   raw_doc: Describes a control present in a control surface proxy
   ancestors: []
   init_doc: |-
@@ -376,6 +379,7 @@ classes:
   - name: name
     settable: false
 - name: ControlDescriptionVector
+  path: Live.Application.ControlDescriptionVector
   raw_doc: A container for returning control descriptions.
   ancestors: []
   init_doc: |-
@@ -388,9 +392,9 @@ classes:
     cpp_signature: void append(std::__1::vector<TControlDescription, std::__1::allocator<TControlDescription>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ControlDescriptionVector
+      type: Live.Application.ControlDescriptionVector
     - name: value
-      type: ControlDescription
+      type: Live.Application.ControlDescription
     returns:
       type: None
   - name: extend
@@ -398,12 +402,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<TControlDescription, std::__1::allocator<TControlDescription>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ControlDescriptionVector
+      type: Live.Application.ControlDescriptionVector
     - name: values
-      type: Iterable[ControlDescription]
+      type: Iterable[Live.Application.ControlDescription]
     returns:
       type: None
 - name: ControlSurfaceProxy
+  path: Live.Application.ControlSurfaceProxy
   raw_doc: Represents a control surface running in a different process. For use by M4L
   ancestors: []
   init_doc: |-
@@ -438,7 +443,7 @@ classes:
     cpp_signature: void enable_receive_midi(APythonControlSurfaceProxy {lvalue},bool)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: bool
     returns:
@@ -448,7 +453,7 @@ classes:
     cpp_signature: boost::python::tuple fetch_received_midi_messages(APythonControlSurfaceProxy {lvalue})
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     returns:
       type: tuple
   - name: fetch_received_values
@@ -456,7 +461,7 @@ classes:
     cpp_signature: boost::python::tuple fetch_received_values(APythonControlSurfaceProxy {lvalue})
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     returns:
       type: tuple
   - name: grab_control
@@ -464,7 +469,7 @@ classes:
     cpp_signature: void grab_control(APythonControlSurfaceProxy {lvalue},int)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: int
     returns:
@@ -474,7 +479,7 @@ classes:
     cpp_signature: void release_control(APythonControlSurfaceProxy {lvalue},int)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: int
     returns:
@@ -484,7 +489,7 @@ classes:
     cpp_signature: void send_midi(APythonControlSurfaceProxy {lvalue},boost::python::tuple)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: tuple
     returns:
@@ -494,7 +499,7 @@ classes:
     cpp_signature: void send_value(APythonControlSurfaceProxy {lvalue},boost::python::tuple)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: tuple
     returns:
@@ -504,7 +509,7 @@ classes:
     cpp_signature: void subscribe_to_control(APythonControlSurfaceProxy {lvalue},int)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: int
     returns:
@@ -514,12 +519,13 @@ classes:
     cpp_signature: void unsubscribe_from_control(APythonControlSurfaceProxy {lvalue},int)
     args:
     - name: self
-      type: ControlSurfaceProxy
+      type: Live.Application.ControlSurfaceProxy
     - name: arg2
       type: int
     returns:
       type: None
 - name: UnavailableFeatureVector
+  path: Live.Application.UnavailableFeatureVector
   raw_doc: A container for returning unavailable features.
   ancestors: []
   init_doc: |-
@@ -532,7 +538,7 @@ classes:
     cpp_signature: void append(std::__1::vector<NPythonApplication::TUnavailableFeature, std::__1::allocator<NPythonApplication::TUnavailableFeature>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: UnavailableFeatureVector
+      type: Live.Application.UnavailableFeatureVector
     - name: value
       type: UnavailableFeature
     returns:
@@ -542,12 +548,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<NPythonApplication::TUnavailableFeature, std::__1::allocator<NPythonApplication::TUnavailableFeature>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: UnavailableFeatureVector
+      type: Live.Application.UnavailableFeatureVector
     - name: values
       type: Iterable[UnavailableFeature]
     returns:
       type: None
 - name: Variants
+  path: Live.Application.Variants
   raw_doc: Holds strings representing what type of Live is running.
   ancestors: []
   init_doc: |-
@@ -628,7 +635,7 @@ functions:
   signature: 'get_application() -> Application :'
   cpp_signature: TWeakPtr<TPyHandle<ASongApp>> get_application()
   returns:
-    type: Application
+    type: Live.Application.Application
 - name: get_random_int
   raw_doc: Returns a random integer from the given range.
   signature: 'get_random_int( (int)arg1, (int)arg2) -> int :'

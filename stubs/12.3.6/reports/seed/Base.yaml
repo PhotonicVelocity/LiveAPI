@@ -1,6 +1,7 @@
 module: Base
 classes:
 - name: FloatVector
+  path: Live.Base.FloatVector
   raw_doc: A simple container for returning floats from Live.
   ancestors: []
   init_doc: |-
@@ -13,7 +14,7 @@ classes:
     cpp_signature: void append(std::__1::vector<float, std::__1::allocator<float>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: FloatVector
+      type: Live.Base.FloatVector
     - name: value
       type: float
     returns:
@@ -23,12 +24,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<float, std::__1::allocator<float>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: FloatVector
+      type: Live.Base.FloatVector
     - name: values
       type: Iterable[float]
     returns:
       type: None
 - name: IntU64Vector
+  path: Live.Base.IntU64Vector
   raw_doc: A simple container for returning unsigned long integers from Live.
   ancestors: []
   init_doc: |-
@@ -41,7 +43,7 @@ classes:
     cpp_signature: void append(std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: IntU64Vector
+      type: Live.Base.IntU64Vector
     - name: value
       type: int
     returns:
@@ -51,12 +53,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: IntU64Vector
+      type: Live.Base.IntU64Vector
     - name: values
       type: Iterable[int]
     returns:
       type: None
 - name: IntVector
+  path: Live.Base.IntVector
   raw_doc: A simple container for returning integers from Live.
   ancestors: []
   init_doc: |-
@@ -69,7 +72,7 @@ classes:
     cpp_signature: void append(std::__1::vector<int, std::__1::allocator<int>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: IntVector
+      type: Live.Base.IntVector
     - name: value
       type: int
     returns:
@@ -79,16 +82,18 @@ classes:
     cpp_signature: void extend(std::__1::vector<int, std::__1::allocator<int>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: IntVector
+      type: Live.Base.IntVector
     - name: values
       type: Iterable[int]
     returns:
       type: None
 - name: LimitationError
+  path: Live.Base.LimitationError
   ancestors:
   - Exception
   constructable: false
 - name: ObjectVector
+  path: Live.Base.ObjectVector
   raw_doc: A simple read only container for returning python objects.
   ancestors: []
   init_doc: |-
@@ -101,7 +106,7 @@ classes:
     cpp_signature: void append(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ObjectVector
+      type: Live.Base.ObjectVector
     - name: value
       type: object
     returns:
@@ -111,12 +116,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: ObjectVector
+      type: Live.Base.ObjectVector
     - name: values
       type: object
     returns:
       type: None
 - name: StringVector
+  path: Live.Base.StringVector
   raw_doc: A simple container for returning strings from Live.
   ancestors: []
   init_doc: |-
@@ -129,7 +135,7 @@ classes:
     cpp_signature: void append(std::__1::vector<TString, std::__1::allocator<TString>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: StringVector
+      type: Live.Base.StringVector
     - name: value
       type: str
     returns:
@@ -139,12 +145,13 @@ classes:
     cpp_signature: void extend(std::__1::vector<TString, std::__1::allocator<TString>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: StringVector
+      type: Live.Base.StringVector
     - name: values
       type: Iterable[str]
     returns:
       type: None
 - name: Text
+  path: Live.Base.Text
   raw_doc: A translatable, immutable string.
   ancestors: []
   init_doc: |-
@@ -155,6 +162,7 @@ classes:
   - name: text
     settable: false
 - name: Timer
+  path: Live.Base.Timer
   raw_doc: A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer.
   ancestors: []
   init_doc: |-
@@ -172,7 +180,7 @@ classes:
     cpp_signature: void restart(PythonTimer {lvalue})
     args:
     - name: self
-      type: Timer
+      type: Live.Base.Timer
     returns:
       type: None
   - name: start
@@ -180,7 +188,7 @@ classes:
     cpp_signature: void start(PythonTimer {lvalue})
     args:
     - name: self
-      type: Timer
+      type: Live.Base.Timer
     returns:
       type: None
   - name: stop
@@ -188,10 +196,11 @@ classes:
     cpp_signature: void stop(PythonTimer {lvalue})
     args:
     - name: self
-      type: Timer
+      type: Live.Base.Timer
     returns:
       type: None
 - name: Vector
+  path: Live.Base.Vector
   raw_doc: A simple read only container for returning objects from Live.
   ancestors: []
   init_doc: |-
@@ -204,9 +213,9 @@ classes:
     cpp_signature: void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: Vector
+      type: Live.Base.Vector
     - name: value
-      type: LomObject
+      type: Live.LomObject.LomObject
     returns:
       type: None
   - name: extend
@@ -214,9 +223,9 @@ classes:
     cpp_signature: void extend(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)
     args:
     - name: self
-      type: Vector
+      type: Live.Base.Vector
     - name: values
-      type: Iterable[LomObject]
+      type: Iterable[Live.LomObject.LomObject]
     returns:
       type: None
 functions:
@@ -230,7 +239,7 @@ functions:
   - name: textname
     type: str
   returns:
-    type: Text
+    type: Live.Base.Text
 - name: log
   signature: 'log( (str)arg1) -> None :'
   cpp_signature: void log(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
@@ -244,7 +253,7 @@ functions:
   cpp_signature: std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> subst_args(TText [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='']]]]])
   args:
   - name: text
-    type: Text
+    type: Live.Base.Text
   - name: arg1
     type: str
     optional: true

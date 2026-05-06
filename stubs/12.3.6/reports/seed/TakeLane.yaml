@@ -1,9 +1,10 @@
 module: TakeLane
 primary_class:
 - name: TakeLane
+  path: Live.TakeLane.TakeLane
   raw_doc: This class represents a take lane in Live.
   ancestors:
-  - LomObject
+  - Live.LomObject.LomObject
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -35,13 +36,13 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> create_audio_clip(TPyHandle<ATakeLane>,TString,double)
     args:
     - name: self
-      type: TakeLane
+      type: Live.TakeLane.TakeLane
     - name: arg2
       type: str
     - name: arg3
       type: float
     returns:
-      type: Clip
+      type: Live.Clip.Clip
   - name: create_midi_clip
     raw_doc: |-
       Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
@@ -50,10 +51,10 @@ primary_class:
     cpp_signature: TWeakPtr<TPyHandle<AClip>> create_midi_clip(TPyHandle<ATakeLane>,double,double)
     args:
     - name: self
-      type: TakeLane
+      type: Live.TakeLane.TakeLane
     - name: arg2
       type: float
     - name: arg3
       type: float
     returns:
-      type: Clip
+      type: Live.Clip.Clip
