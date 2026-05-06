@@ -5,11 +5,11 @@
    down more aggressively. The intent: H1 is the page, H2 is a section
    divider, H3 is a member identifier (small but distinct from body text). */
 :root {
-  --sl-text-h1: 2.25rem;
-  --sl-text-h2: 1.5rem;
-  --sl-text-h3: 1rem;
-  --sl-text-h4: 0.95rem;
-  --sl-text-h5: 0.9rem;
+  --sl-text-h1: 2.5rem;
+  --sl-text-h2: 2rem;
+  --sl-text-h3: 1.5rem;
+  --sl-text-h4: 1.2rem;
+  --sl-text-h5: 1.2rem;
 }
 
 /* H3 sits at body text size — distinguish it via monospace + weight rather
@@ -18,9 +18,45 @@
   font-family: var(--sl-font-system-mono);
   font-weight: 600;
 }
+/* Each H3 starts a new member block. Big gap above (signals "new member"),
+   tight gap below (so the description hugs the heading it belongs to). The
+   description's own margin-bottom (default p spacing) provides separation
+   from the next heading's gap. */
 .sl-markdown-content .sl-heading-wrapper.level-h3 {
-  margin-top: 0.6rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h3 + p {
+  margin-top: 0.25rem;
+}
+
+/* H4 — sub-section label within a class (e.g. "Properties", "Methods").
+   Reads as a section divider but at a more subdued level than the class
+   signature itself. Uppercase + tracking is the convention for "this is a
+   section label, not a member identifier."  */
+.sl-markdown-content h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h4 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+/* H5 — member identifier (property name, eventually method name).
+   Monospace + bold like H3 but at a smaller size. Indented so members read
+   as visually nested under their owning class. */
+.sl-markdown-content h5 {
+  font-family: var(--sl-font-system-mono);
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h5 {
+  margin-top: 0.4rem;
   margin-bottom: 0.25rem;
+  padding-left: 1.5rem;
 }
 
 /* Signature span — styled heading for class / enum / function identifiers.

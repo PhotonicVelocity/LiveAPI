@@ -5,27 +5,79 @@ description: "The Live.Application module."
 
 The Live.Application module.
 
-## Primary class
-
 ### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Application.">Application</span></span>
+
+This class represents the Live application.
+
+#### Properties
+
+##### average_process_usage
+
+##### browser
+
+##### canonical_parent
+
+##### control_surfaces
+
+##### current_dialog_button_count
+
+##### current_dialog_message
+
+##### number_of_push_apps_running
+
+##### open_dialog_count
+
+##### peak_process_usage
+
+##### unavailable_features
+
+##### view
 
 ## Other classes
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlDescription</span></span>
 
+Describes a control present in a control surface proxy
+
+#### Properties
+
+##### id
+
+##### name
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
+
+A container for returning control descriptions.
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlSurfaceProxy</span></span>
 
+Represents a control surface running in a different process. For use by M4L
+
+#### Properties
+
+##### control_descriptions
+
+##### pad_layout
+
+##### type_name
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
 
+A container for returning unavailable features.
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">Variants</span></span>
+
+Holds strings representing what type of Live is running.
 
 ## Module Enums
 
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Application.">MessageButtons</span></span>
 
+Specifies the characteristics of the message box, e.g. which buttons to show.
+
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Application.">PushDialogType</span></span>
+
+Specifies the dialog type for Push.
 
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Application.">UnavailableFeature</span></span>
 
@@ -33,10 +85,20 @@ The Live.Application module.
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span>()
 
+Returns true if multiple APCs should be combined.
+
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span>()
+
+Returns an encrypted challenge based on the TEA algortithm
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span>()
 
+Returns the UMAC hash for the given challenge.
+
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_application</span></span>()
 
+Returns the application instance.
+
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span>()
+
+Returns a random integer from the given range.

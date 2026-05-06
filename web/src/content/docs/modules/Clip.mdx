@@ -5,21 +5,155 @@ description: "The Live.Clip module."
 
 The Live.Clip module.
 
-## Primary class
-
 ### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Clip.">Clip</span></span>
+
+This class represents a Clip in Live. It can be either an Audio Clip or a MIDI Clip, in an Arrangement or the Session, depending on the Track (Slot) it lives in.
+
+#### Properties
+
+##### automation_envelopes
+
+##### available_warp_modes
+
+##### canonical_parent
+
+##### color
+
+##### color_index
+
+##### end_marker
+
+##### end_time
+
+##### file_path
+
+##### gain
+
+##### gain_display_string
+
+##### groove
+
+##### has_envelopes
+
+##### has_groove
+
+##### is_arrangement_clip
+
+##### is_audio_clip
+
+##### is_midi_clip
+
+##### is_overdubbing
+
+##### is_playing
+
+##### is_recording
+
+##### is_session_clip
+
+##### is_take_lane_clip
+
+##### is_triggered
+
+##### launch_mode
+
+##### launch_quantization
+
+##### legato
+
+##### length
+
+##### loop_end
+
+##### loop_start
+
+##### looping
+
+##### muted
+
+##### name
+
+##### pitch_coarse
+
+##### pitch_fine
+
+##### playing_position
+
+##### position
+
+##### ram_mode
+
+##### sample_length
+
+##### sample_rate
+
+##### signature_denominator
+
+##### signature_numerator
+
+##### start_marker
+
+##### start_time
+
+##### velocity_amount
+
+##### view
+
+##### warp_markers
+
+##### warp_mode
+
+##### warping
+
+##### will_record_on_start
 
 ## Other classes
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNote</span></span>
 
+An object representing a MIDI Note
+
+#### Properties
+
+##### duration
+
+##### mute
+
+##### note_id
+
+##### pitch
+
+##### probability
+
+##### release_velocity
+
+##### start_time
+
+##### velocity
+
+##### velocity_deviation
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNoteSpecification</span></span>
+
+An object specifying the data for creating a MIDI note. To be used with the add_new_notes function.
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNoteVector</span></span>
 
+A container for holding MIDI notes from Live.
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">WarpMarker</span></span>
 
+This class represents a WarpMarker type.
+
+#### Properties
+
+##### beat_time
+
+##### sample_time
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">WarpMarkerVector</span></span>
+
+A container for returning warp markers from Live.
 
 ## Module Enums
 

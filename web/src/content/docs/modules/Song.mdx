@@ -5,23 +5,179 @@ description: "The Live.Song module."
 
 The Live.Song module.
 
-## Primary class
-
 ### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Song.">Song</span></span>
+
+This class represents a Live set.
+
+#### Properties
+
+##### appointed_device
+
+##### arrangement_overdub
+
+##### back_to_arranger
+
+##### can_capture_midi
+
+##### can_jump_to_next_cue
+
+##### can_jump_to_prev_cue
+
+##### can_redo
+
+##### can_undo
+
+##### canonical_parent
+
+##### clip_trigger_quantization
+
+##### count_in_duration
+
+##### cue_points
+
+##### current_song_time
+
+##### exclusive_arm
+
+##### exclusive_solo
+
+##### file_path
+
+##### groove_amount
+
+##### groove_pool
+
+##### is_ableton_link_enabled
+
+##### is_ableton_link_start_stop_sync_enabled
+
+##### is_counting_in
+
+##### is_playing
+
+##### last_event_time
+
+##### loop
+
+##### loop_length
+
+##### loop_start
+
+##### master_track
+
+##### metronome
+
+##### midi_recording_quantization
+
+##### name
+
+##### nudge_down
+
+##### nudge_up
+
+##### overdub
+
+##### punch_in
+
+##### punch_out
+
+##### re_enable_automation_enabled
+
+##### record_mode
+
+##### return_tracks
+
+##### root_note
+
+##### scale_intervals
+
+##### scale_mode
+
+##### scale_name
+
+##### scenes
+
+##### select_on_launch
+
+##### session_automation_record
+
+##### session_record
+
+##### session_record_status
+
+##### signature_denominator
+
+##### signature_numerator
+
+##### song_length
+
+##### start_time
+
+##### swing_amount
+
+##### tempo
+
+##### tempo_follower_enabled
+
+##### tracks
+
+##### tuning_system
+
+##### view
+
+##### visible_tracks
 
 ## Other classes
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">BeatTime</span></span>
 
+Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
+
+#### Properties
+
+##### bars
+
+##### beats
+
+##### sub_division
+
+##### ticks
+
 ### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span>
 
+Represents a 'Marker' in the arrangement.
+
+#### Properties
+
+##### canonical_parent
+
+##### name
+
+##### time
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
+
+Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type must be specified when calling a function that returns a SmptTime.
+
+#### Properties
+
+##### frames
+
+##### hours
+
+##### minutes
+
+##### seconds
 
 ## Module Enums
 
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">CaptureDestination</span></span>
 
+The destination for MIDI capture.
+
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">CaptureMode</span></span>
+
+The capture mode that is used for capture and insert scene.
 
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">Quantization</span></span>
 
@@ -34,3 +190,5 @@ The Live.Song module.
 ## Module Functions
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Song.">get_all_scales_ordered</span></span>()
+
+Get an ordered tuple of tuples of all available scale names to intervals.

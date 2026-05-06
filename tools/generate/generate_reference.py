@@ -40,6 +40,23 @@ _BORING_BASES = {
     "object",
 }
 
+# Internal / dunder members suppressed from rendered docs. `_live_ptr` is a
+# Boost.Python implementation detail; the dunders are noise from the runtime
+# walk that doesn't represent the public API.
+SKIP_MEMBERS = {
+    "_live_ptr",
+    "__module__",
+    "__qualname__",
+    "__init__",
+    "__class__",
+}
+
+# Listener method-name pattern. These accompany every listenable property
+# (`add_X_listener`, `remove_X_listener`, `X_has_listener`) and aren't
+# user-facing — Step 5 will derive a `listenable` flag from their existence
+# but for now we just filter them from the methods listing.
+_LISTENER_RE = re.compile(r"^(add_\w+_listener|remove_\w+_listener|\w+_has_listener)$")
+
 
 def base_class_for(class_node: dict) -> str | None:
     """Return the simple name of the closest informative base class, or None.
@@ -78,6 +95,19 @@ def first_sentence(text: str | None) -> str:
     if ". " in flat:
         return flat.split(". ", 1)[0] + "."
     return flat
+
+
+def normalize_paragraph(text: str | None) -> str:
+    """Collapse a multi-line runtime docstring to a single normalized paragraph.
+
+    Boost.Python's __doc__ strings are often multi-line with inconsistent
+    indentation; flattening to one line per paragraph reads cleanly inline.
+    Empty lines (paragraph breaks in the source) are collapsed too — most
+    Live docstrings are short enough that one paragraph captures them well.
+    """
+    if not text:
+        return ""
+    return " ".join(line.strip() for line in text.strip().splitlines() if line.strip())
 
 
 def escape_yaml_scalar(text: str) -> str:
@@ -189,14 +219,48 @@ def render_module_page(module_node: dict) -> str:
     lines.append(description)
     lines.append("")
 
+    def emit_class(cls: dict) -> None:
+        """Append a class block — H3 signature, description, property list."""
+        lines.append(f"### {class_signature_html(cls, module_name)}")
+        lines.append("")
+        doc = normalize_paragraph(cls.get("raw_doc"))
+        if doc:
+            lines.append(doc)
+            lines.append("")
+        properties = [
+            c for c in cls.get("children", [])
+            if c.get("type") == "property"
+            and c.get("name")
+            and c["name"] not in SKIP_MEMBERS
+        ]
+        if properties:
+            # H4 hosts the "Properties" section label for this class. Each
+            # property name is an H5 below; CSS indents H5s so they read
+            # as nested under the class signature.
+            lines.append("#### Properties")
+            lines.append("")
+            for prop in properties:
+                lines.append(f"##### {prop['name']}")
+                lines.append("")
+
+    def emit_member(heading_html: str, doc: str | None) -> None:
+        """Append an H3 heading + an optional description paragraph below.
+
+        Used for non-class members (enums, module functions) where there's
+        no nested member structure to render at this step.
+        """
+        lines.append(f"### {heading_html}")
+        lines.append("")
+        if doc:
+            lines.append(doc)
+            lines.append("")
+
     # Main class — rendered as a regular H3 under its own "Primary class"
-    # H2 section. Members (properties, methods, inner classes) of the main
-    # class will land here in later steps as the H3's body content.
+    # H2 section. Properties land here as H4 below the class signature.
     if main_class is not None:
-        lines.append("## Primary class")
-        lines.append("")
-        lines.append(f"### {class_signature_html(main_class, module_name)}")
-        lines.append("")
+        # lines.append("## Primary class")
+        # lines.append("")
+        emit_class(main_class)
 
     # Other classes — auxiliary types that live alongside the main class in
     # the same module (e.g. Live.Song has BeatTime, CuePoint, SmptTime in
@@ -207,8 +271,7 @@ def render_module_page(module_node: dict) -> str:
         lines.append(f"## {header}")
         lines.append("")
         for cls in other_classes:
-            lines.append(f"### {class_signature_html(cls, module_name)}")
-            lines.append("")
+            emit_class(cls)
 
     # Enums use the same signature span structure — keyword `enum` (semantically
     # clearer than the literal `class Foo(int):` Python construct). All Live
@@ -217,17 +280,23 @@ def render_module_page(module_node: dict) -> str:
         lines.append("## Module Enums")
         lines.append("")
         for enum in enums:
-            lines.append(f"### {enum_signature_html(enum, module_name)}")
-            lines.append("")
+            emit_member(
+                enum_signature_html(enum, module_name),
+                normalize_paragraph(enum.get("raw_doc")),
+            )
 
     # Functions render with `def` and empty parens — args land in a later
-    # step, but the parens flag the heading as a callable up front.
+    # step, but the parens flag the heading as a callable up front. Use
+    # `description` (parser-cleaned, signature header + C++ footer stripped)
+    # rather than `raw_doc` (full Boost.Python verbatim dump).
     if functions:
         lines.append("## Module Functions")
         lines.append("")
         for fn in functions:
-            lines.append(f"### {function_signature_html(fn, module_name)}")
-            lines.append("")
+            emit_member(
+                function_signature_html(fn, module_name),
+                normalize_paragraph(fn.get("description") or fn.get("raw_doc")),
+            )
 
     return "\n".join(lines)
 

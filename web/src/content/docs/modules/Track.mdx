@@ -5,21 +5,161 @@ description: "The Live.Track module."
 
 The Live.Track module.
 
-## Primary class
-
 ### <span class="sig" data-kw="class" data-base="(DeviceContainer)"><span class="sig-name" data-path="Live.Track.">Track</span></span>
+
+This class represents a track in Live. It can be either an Audio track, a MIDI Track, a Return Track or the Main track. The Main Track and at least one Audio or MIDI track will be always present. Return Tracks are optional.
+
+#### Properties
+
+##### arm
+
+##### arrangement_clips
+
+##### available_input_routing_channels
+
+##### available_input_routing_types
+
+##### available_output_routing_channels
+
+##### available_output_routing_types
+
+##### back_to_arranger
+
+##### can_be_armed
+
+##### can_be_frozen
+
+##### can_show_chains
+
+##### canonical_parent
+
+##### clip_slots
+
+##### color
+
+##### color_index
+
+##### current_input_routing
+
+##### current_input_sub_routing
+
+##### current_monitoring_state
+
+##### current_output_routing
+
+##### current_output_sub_routing
+
+##### devices
+
+##### fired_slot_index
+
+##### fold_state
+
+##### group_track
+
+##### has_audio_input
+
+##### has_audio_output
+
+##### has_midi_input
+
+##### has_midi_output
+
+##### implicit_arm
+
+##### input_meter_left
+
+##### input_meter_level
+
+##### input_meter_right
+
+##### input_routing_channel
+
+##### input_routing_type
+
+##### input_routings
+
+##### input_sub_routings
+
+##### is_foldable
+
+##### is_frozen
+
+##### is_grouped
+
+##### is_part_of_selection
+
+##### is_showing_chains
+
+##### is_visible
+
+##### mixer_device
+
+##### mute
+
+##### muted_via_solo
+
+##### name
+
+##### output_meter_left
+
+##### output_meter_level
+
+##### output_meter_right
+
+##### output_routing_channel
+
+##### output_routing_type
+
+##### output_routings
+
+##### output_sub_routings
+
+##### performance_impact
+
+##### playing_slot_index
+
+##### solo
+
+##### take_lanes
+
+##### view
 
 ## Other classes
 
 ### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Track.">DeviceContainer</span></span>
 
+This class is a common super class of Track and Chain
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingChannel</span></span>
+
+This class represents a routing channel.
+
+#### Properties
+
+##### display_name
+
+##### layout
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingChannelVector</span></span>
 
+A container for returning routing channels from Live.
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingType</span></span>
 
+This class represents a routing type.
+
+#### Properties
+
+##### attached_object
+
+##### category
+
+##### display_name
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingTypeVector</span></span>
+
+A container for returning routing types from Live.
 
 ## Module Enums
 
