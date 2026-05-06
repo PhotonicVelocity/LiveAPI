@@ -237,8 +237,10 @@ def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
     if "append" not in method_names or "extend" not in method_names:
         return []
     cls_name = cls["name"]
-    # Generic Vector uses TypeVar T in dunders instead of an element type.
-    if cls.get("path") == "Live.Base.Vector":
+    # Parametric containers use TypeVar T in dunders instead of an
+    # element type, and the class name in the slice fallback wraps in
+    # the type parameter (`Vector[T]`).
+    if cls.get("parametric"):
         elem = "T"
         cls_name = f"{cls_name}[T]"
     else:
@@ -368,12 +370,12 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
     name = cls["name"]
     base_str = ""
     if cls.get("iterable"):
-        # Special case: `Live.Base.Vector` is the generic container —
-        # its element type varies per use. Emit as Generic[T] with a
-        # module-level TypeVar declaration. Other iterables are
-        # concrete (specific element type or genuinely heterogeneous).
-        is_generic_vector = cls.get("path") == "Live.Base.Vector"
-        if is_generic_vector:
+        # Parametric classes (the YAML's `parametric: true` flag) need
+        # the stub-typing pattern that lets users specialize them at
+        # use sites — `class Vector(Generic[T])` plus a module-scope
+        # TypeVar. Non-parametric iterables get `Iterable[E]` (or bare
+        # `Iterable` when no element type is known).
+        if cls.get("parametric"):
             base_str = "(Generic[T])"
             typing_extras: set[str] = registry["_module_typing_extras"]
             typing_extras.update(("Generic", "Iterator", "TypeVar", "overload"))

@@ -644,6 +644,14 @@ def build_member(
             out["iterable"] = True
         if class_element_type:
             out["element_type"] = class_element_type
+        # Parametric containers — meant to be specialized at use sites
+        # (`Vector[Track]`, `Vector[Clip]`) rather than carrying a fixed
+        # element type. Today this is just `Live.Base.Vector`. The
+        # renderer reads this flag to decide whether the class
+        # declaration needs the stub-typing pattern (Generic[T] + TypeVar
+        # for Python stubs).
+        if class_path == "Live.Base.Vector":
+            out["parametric"] = True
         # Methods inside this class qualify their type strings using the
         # class's own path as the enclosing context. Pass the class's
         # iterable/element status so `append` and `extend` get their

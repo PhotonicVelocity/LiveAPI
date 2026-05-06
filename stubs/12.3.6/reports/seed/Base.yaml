@@ -216,6 +216,7 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
+  parametric: true
   methods:
   - name: append
     signature: 'append( (Vector)arg1, (object)arg2) -> None :'
