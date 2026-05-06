@@ -4,16 +4,21 @@ This file captures standing repo-level instructions for work in `LiveAPI`.
 
 ## What This Project Is
 
-LiveAPI is a comprehensive reference for the Ableton Live Object Model (LOM) — the object hierarchy exposed by Live's
-Python runtime. It documents classes, properties, methods, enums, and behavioral notes that Ableton doesn't publicly
-document. The reference is the primary deliverable; everything else (tooling, build output, Max for Live docs) exists to
-produce and maintain it.
+LiveAPI documents the Ableton Live Object Model (LOM) — the object hierarchy exposed by Live's Python runtime. It ships
+two products from one introspection pipeline:
+
+1. **Typed Python stubs** (`stubs/<version>/Live/`) — `.pyi` modules for autocomplete + static type checking, published
+   as a PEP 561 stub-only package.
+2. **Reference docs** (`reference/`) — per-class HTML documentation, generated from the stubs and published via
+   MkDocs at [photonicvelocity.github.io/LiveAPI](https://photonicvelocity.github.io/LiveAPI/).
+
+Tooling, captured externals, and posture decisions all exist to keep both products accurate and verifiable.
 
 ## Priorities
 
 1. Follow explicit user instructions for the current task.
 2. Preserve existing work; never discard unrelated changes.
-3. The reference docs are the product — keep them clean, accurate, and well-structured.
+3. Stubs and reference are the products — keep them accurate, sourced, and verifiable.
 
 ## Context Compaction
 
@@ -63,49 +68,38 @@ Serves at http://localhost:8123/LiveAPI/
 
 ## Governing Docs
 
-- **Decisions** — `doc/decisions.md`: terminology, project structure, parse pipeline, reference format, navigation,
-  publishing, tooling direction.
-- **Reference format** — `doc/contributing.md`: page structure template and format principles.
+- **Decisions** — `doc/decisions.md`: terminology and the "Stub Accuracy and Pipeline Posture" rationale
+  cited from the parse / generate / verify tooling.
+- **Tools README** — `tools/README.md`: full pipeline (capture → parse → generate).
+- **Verify README** — `tools/verify/README.md`: the four-tier verification gates.
 
 ## Project Structure
 
-- `reference/` — curated per-class LOM reference docs (the product)
-  - `index.md` — landing page for the MkDocs site
-  - `tracks/` — Track, Clip, ClipSlot, Envelope, MixerDevice, TakeLane
-  - `devices/` — all device classes (base + subclasses)
-  - `other/` — Conversions, Groove, GroovePool, TuningSystem
-- `stubs/` — per-version generated stubs (`<version>/Live/`) with pipeline intermediates in `<version>/pipeline/`
-- `MaxForLive/` — API docs parsed from Max for Live HTML documentation
-- `tools/` — APICapture and build tooling
-  - `apicapture/` — APICapture Control Surface (runs inside Live, captures API metadata)
-  - `parse/` — parsing and stub generation pipeline (see `doc/decisions.md` for full diagram)
-  - `other/` — legacy/utility scripts (serve.sh, watch.py, v1 StubGenerator)
-  - `install.py` — installs APICapture to Remote Scripts folder
-  - `sets/` — Ableton Live sets used with APICapture for probing
-- `doc/` — project-level documentation (decisions, contributing)
-
-## Reference Format
-
-Each reference file documents one LOM class following this structure:
-
-1. `# ClassName` — page title
-2. `> Live.Namespace.ClassName` — full LOM path
-3. Description
-4. Raw probe notes (temporary, collapsed) — will be removed as tooling matures
-5. Children — summary table + per-child details
-6. Properties — summary table + per-property details
-7. Methods — summary table + per-method details
-8. Enums — value tables
-9. Open Questions
-
-Per-member sections use: Type, Listenable, Since, Description, Quirks (optional), Limitations (optional).
-
-Do NOT include Sources, Probe Status, Undo-tracked, Async visibility, or Applicable to in member metadata — these are
-either contributor-only or too verbose. Document in description or quirks when relevant.
+- `stubs/` — per-version generated stubs. `<version>/Live/` is tracked output; `<version>/pipeline/` holds gitignored
+  intermediates (raw capture, parsed tree, refinements).
+- `reference/` — per-class reference markdown, generated from stubs by `tools/generate/generate_reference.py`. Topology:
+  flat top-level pages (Song, Application, Browser, …) plus subdirs `tracks/`, `devices/`, `other/`.
+- `tools/` — capture + parse + generate + verify + publish pipeline.
+  - `apicapture/` — APICapture Control Surface (runs inside Live; produces raw tree + probe data).
+  - `parse/` — parser, manual refinements, and the apply step that produces `LiveTree.parsed.json`.
+  - `generate/` — stub generator and reference-markdown generator.
+  - `verify/` — four-tier verification suite (`run.sh`, `parse_check.py`, `audit_corpus.py`, `audit_ignores.yaml`).
+  - `publish/` — wheel builder + PyPI release glue.
+  - `fetch_external/` — bootstrap for `external/` (corpus pin, M4L docs, release notes).
+  - `sets/` — Ableton Live sets used as fixtures by the probe.
+  - `other/` — small dev utilities (`serve.sh`, `watch.py`, `swap_live.py`, `quit_live.py`).
+  - `install.py` — installs APICapture to Live's Remote Scripts folder.
+  - `run_pipeline.py` — full Stage 1 + 2 + 3 orchestrator.
+- `external/` — gitignored, populated by `tools/fetch_external/bootstrap.sh`:
+  - `corpus/` — decompiled Ableton Remote Scripts (Tier 4 usage tests + offline audit; pinned via `CORPUS_PIN`).
+  - `max-for-live-docs/` — parsed Max for Live HTML reference (docstring source only).
+  - `release-notes/` — Live release notes for cross-referencing version-introduction.
+- `tests/usage/` — hand-curated Tier 4 usage patterns drawn from the corpus.
+- `doc/` — `decisions.md` (terminology + the "Stub Accuracy and Pipeline Posture" rationale cited from tooling).
 
 ## Terminology
 
-- **LOM (Live Object Model)** — the object hierarchy. Not Max-specific; same model accessed by Remote Scripts, Max for
-  Live, and LiveRelay.
+- **LOM (Live Object Model)** — the object hierarchy. Not Max-specific; the same runtime is accessed by Remote Scripts,
+  Max for Live, and any RPC bridge wrapping it.
 - **Namespace** — the Python module containing a class (e.g., `Live.Song` is the namespace, `Song` is the class).
-- Prefer "LOM" over "Live Python API" when referring to the object structure.
+- Prefer "LOM" or "Live Object Model" over "Live Python API" when referring to the object structure.
