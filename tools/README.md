@@ -6,11 +6,13 @@ Three-stage pipeline for capturing Live API metadata and generating typed Python
 Stage 1: Capture + Probe  (inside Live)        → LiveTree.raw.json + LiveClasses.json
 - Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
 - Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
-Stage 2: Parse + Refine   (external)           → LiveTree.parsed.json
-- Parses raw capture into structured tree, merges probe results
-- Applies hand-curated refinements from manual_refinements.yaml (each entry sourced)
+Stage 2: Parse + Refine   (external)           → LiveTree.parsed.json + LiveTree.refined.json
+- Parses raw capture into structured tree, merges probe results (LiveTree.parsed.json)
+- Applies hand-curated refinements from manual_refinements.yaml (each entry sourced),
+  writing the post-refinement tree to LiveTree.refined.json without mutating parsed.json —
+  preserving fresh-parse output lets drift detection surface Live runtime changes
 Stage 3: Generate         (external)           → stubs/<version>/Live/*.pyi
-- Renders parsed tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
+- Renders refined tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
 ```
 
 ## Stage 1: Capture + Probe (runs inside Live)
@@ -169,7 +171,11 @@ python tools/parse/run_parse_pipeline.py 12.3.6
 #   python tools/parse/apply_manual_refinements.py 12.3.6
 ```
 
-Output: `stubs/12.3.6/pipeline/LiveTree.parsed.json`.
+Output: `stubs/12.3.6/pipeline/LiveTree.parsed.json` (fresh parse) and
+`stubs/12.3.6/pipeline/LiveTree.refined.json` (post-refinement). The two are kept distinct so
+the `from:` field in each refinement validates against immutable parser output — Live runtime
+changes that shift what the parser produces surface as drift warnings rather than being
+absorbed by an in-place rewrite.
 
 ### parse_apicapture_results.py
 
@@ -192,19 +198,26 @@ Transforms applied:
 
 ### apply_manual_refinements.py
 
-Applies hand-curated overrides from [`tools/parse/manual_refinements.yaml`](parse/manual_refinements.yaml) in-place onto
-`LiveTree.parsed.json`. Each entry must include a `source:` field documenting why the override is justified — corpus
-def-sites in the decompiled Remote Scripts, M4L docs, docstring inference, etc. Bracket labels per arg
-(`[callsite, N/M defs]`, `[M4L docs]`, `[docstring]`, `[inferred]`, …) make the evidence kind explicit.
+Applies hand-curated overrides from [`tools/parse/manual_refinements.yaml`](parse/manual_refinements.yaml). Reads
+`LiveTree.parsed.json` (fresh parse, never mutated) and writes `LiveTree.refined.json`. Each entry must include a
+`source:` field documenting why the override is justified — corpus def-sites in the decompiled Remote Scripts, M4L
+docs, docstring inference, etc. Bracket labels per arg (`[callsite, N/M defs]`, `[M4L docs]`, `[docstring]`,
+`[inferred]`, …) make the evidence kind explicit.
+
+Each refinement may declare `from:` for the value it expects to find before applying. The applier compares against
+the parsed tree and emits a drift warning on mismatch — useful for catching Live runtime changes (an arg type that
+shifts between versions, a property that starts probing differently). Because parsed.json is the immutable input,
+the warning fires on real drift instead of on the previous run's apply state.
 
 There is no LLM resolution, no callsite-resolve stage, no automated arg-name voting — only what we scrape from Live
 itself, plus the curated refinements with sourced rationale.
 
 ### find_unrefined.py
 
-Walks the parsed tree (post-refinement) and reports anything the parser couldn't pin down — function args/returns
-still typed `object`/`tuple`/`list`, args still named `argN`, properties with null or `NoneType` `probed_type`, and
-iterable classes/properties missing `element_repr`. Each line is a candidate for a `manual_refinements.yaml` entry.
+Walks `LiveTree.refined.json` (post-refinement) and reports anything the parser couldn't pin down — function
+args/returns still typed `object`/`tuple`/`list`, args still named `argN`, properties with null or `NoneType`
+`probed_type`, and iterable classes/properties missing `element_repr`. Each line is a candidate for a
+`manual_refinements.yaml` entry.
 
 ```bash
 python tools/parse/find_unrefined.py 12.3.6                    # full markdown report to stdout
@@ -220,8 +233,8 @@ Useful after a fresh capture, a corpus pin bump, or when triaging what's left to
 python tools/generate/generate_stubs.py 12.3.6
 ```
 
-Reads `LiveTree.parsed.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no refinement
-logic — it renders the tree as-is.
+Reads `LiveTree.refined.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no
+refinement logic — it renders the tree as-is.
 
 Output layout (flat, mirroring the real `Live` C extension module):
 
@@ -253,7 +266,7 @@ tools/
 │       └── app.py           Version number extraction
 ├── parse/                   Stage 2: parsing + manual refinements
 │   ├── parse_apicapture_results.py   Parse raw capture → LiveTree.parsed.json
-│   ├── apply_manual_refinements.py   Apply manual_refinements.yaml in-place
+│   ├── apply_manual_refinements.py   Apply manual_refinements.yaml → LiveTree.refined.json
 │   ├── manual_refinements.yaml       Hand-curated overrides (each with sourced rationale)
 │   ├── refinements_followup.md       Backlog of items needing runtime probes
 │   ├── find_unrefined.py             List items still needing refinement entries

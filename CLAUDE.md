@@ -81,7 +81,8 @@ Serves at http://localhost:8123/LiveAPI/
   flat top-level pages (Song, Application, Browser, …) plus subdirs `tracks/`, `devices/`, `other/`.
 - `tools/` — capture + parse + generate + verify + publish pipeline.
   - `apicapture/` — APICapture Control Surface (runs inside Live; produces raw tree + probe data).
-  - `parse/` — parser, manual refinements, and the apply step that produces `LiveTree.parsed.json`.
+  - `parse/` — parser produces `LiveTree.parsed.json` (fresh, immutable); apply step writes
+    `LiveTree.refined.json` (post-refinement; what the generator consumes).
   - `generate/` — stub generator and reference-markdown generator.
   - `verify/` — four-tier verification suite (`run.sh`, `parse_check.py`, `audit_corpus.py`, `audit_ignores.yaml`).
   - `publish/` — wheel builder + PyPI release glue.

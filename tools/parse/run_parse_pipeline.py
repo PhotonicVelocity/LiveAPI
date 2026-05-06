@@ -2,10 +2,11 @@
 
 Stage 2 is intentionally minimal:
   1. parse_apicapture_results.py — raw capture → LiveTree.parsed.json
-  2. apply_manual_refinements.py — applies tools/parse/manual_refinements.json
-     in-place onto LiveTree.parsed.json. Used to correct known wrongness
-     (e.g. nullable references the probe observed as None at probe time);
-     not used to make stubs prettier. See doc/decisions.md.
+  2. apply_manual_refinements.py — reads LiveTree.parsed.json, applies overrides
+     from tools/parse/manual_refinements.yaml, writes LiveTree.refined.json.
+     The parsed tree is preserved untouched so drift detection on the `from:`
+     field of each refinement compares against fresh-parse output, not a prior
+     run's apply state. See doc/decisions.md for the refinement contract.
 
 Usage:
     python tools/parse/run_parse_pipeline.py 12.3.6
@@ -49,7 +50,14 @@ def main() -> None:
             "Stage 2b: Apply manual refinements",
         )
 
-    print(f"\nStage 2 complete. Parsed tree at stubs/{args.version}/pipeline/LiveTree.parsed.json")
+    pipeline_dir = f"stubs/{args.version}/pipeline"
+    if args.skip_refinements:
+        print(f"\nStage 2 complete. Parsed tree at {pipeline_dir}/LiveTree.parsed.json (refinements skipped)")
+    else:
+        print(
+            f"\nStage 2 complete. Parsed tree at {pipeline_dir}/LiveTree.parsed.json; "
+            f"refined tree at {pipeline_dir}/LiveTree.refined.json"
+        )
 
 
 if __name__ == "__main__":

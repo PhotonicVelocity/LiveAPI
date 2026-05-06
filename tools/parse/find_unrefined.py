@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Find tree members still needing manual refinement entries.
 
-Walks LiveTree.parsed.json (post-refinement) and reports anything the parser
-couldn't pin down: function args/returns still typed `object`/`tuple`/`list`,
-args still named `argN`, properties with null or `NoneType` probed_type, and
-iterable classes/properties missing `element_repr`.
+Walks LiveTree.refined.json (post-refinement output) and reports anything the
+parser couldn't pin down: function args/returns still typed `object`/`tuple`/
+`list`, args still named `argN`, properties with null or `NoneType`
+probed_type, and iterable classes/properties missing `element_repr`.
 
 Each line is a candidate for a manual_refinements.yaml entry — runs are useful
 after a fresh capture, a corpus pin bump, or just to get a sense of what's
@@ -123,7 +123,7 @@ def _format_report(findings: list[Finding], top_classes: int) -> str:
         by_kind.setdefault(kind, []).append((path, detail))
 
     lines: list[str] = []
-    lines.append("# Unrefined items in `LiveTree.parsed.json`")
+    lines.append("# Unrefined items in `LiveTree.refined.json`")
     lines.append("")
     lines.append("Each entry is a candidate for a `tools/parse/manual_refinements.yaml` "
                  "entry. Categories listed in priority order — type accuracy issues come "
@@ -182,9 +182,9 @@ def _format_report(findings: list[Finding], top_classes: int) -> str:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Find unrefined items in LiveTree.parsed.json")
+    parser = argparse.ArgumentParser(description="Find unrefined items in LiveTree.refined.json")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
-    parser.add_argument("--input", help="Path to LiveTree.parsed.json (default: stubs/<version>/pipeline/...)")
+    parser.add_argument("--input", help="Path to LiveTree.refined.json (default: stubs/<version>/pipeline/...)")
     parser.add_argument("--output", help="Write report to this path instead of stdout")
     parser.add_argument("--kind", choices=[
         "arg_type", "return_type", "probed_type",
@@ -196,10 +196,10 @@ def main() -> int:
     args = parser.parse_args()
 
     input_path = Path(args.input) if args.input else (
-        REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.json"
+        REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.refined.json"
     )
     if not input_path.exists():
-        print(f"error: parsed tree not found at {input_path}", file=sys.stderr)
+        print(f"error: refined tree not found at {input_path}", file=sys.stderr)
         return 2
 
     data = json.loads(input_path.read_text())

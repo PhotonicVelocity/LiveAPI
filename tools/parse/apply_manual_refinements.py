@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Apply hand-curated overrides from manual_refinements.yaml to LiveTree.parsed.json.
+"""Apply hand-curated overrides from manual_refinements.yaml.
 
 In strict alignment with doc/decisions.md: refinements are *only* used to correct
 known wrongness in stub output, not to make stubs prettier. Each entry in
 manual_refinements.yaml must include a `source` field documenting why the override
 is justified — see the file header for the contract.
 
-Mutates `LiveTree.parsed.json` in place. Re-running the parse step (which rewrites
-the file from raw capture) requires re-running this script afterward; the
-`run_parse_pipeline.py` orchestrator chains them.
+Reads `LiveTree.parsed.json` (fresh-parse output, never mutated) and writes the
+post-refinement tree to `LiveTree.refined.json`. Keeping the two artifacts
+distinct preserves drift detection: the `from:` field in each refinement is
+compared against the immutable parsed tree, so a Live runtime change that shifts
+what the parser produces will surface as a warning on the next pipeline run
+rather than being quietly absorbed by an in-place rewrite.
 
 Requires PyYAML — see requirements-dev.txt.
 
@@ -175,15 +178,16 @@ def main() -> int:
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument("--refinements", help="Override path to manual_refinements.json")
     parser.add_argument("--input", help="Override path to LiveTree.parsed.json")
+    parser.add_argument("--output", help="Override path to LiveTree.refined.json")
     parser.add_argument("--quiet", action="store_true", help="Don't print per-refinement log lines")
     args = parser.parse_args()
 
     refinements_path = Path(args.refinements) if args.refinements else (
         REPO_ROOT / "tools" / "parse" / "manual_refinements.yaml"
     )
-    parsed_path = Path(args.input) if args.input else (
-        REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.json"
-    )
+    pipeline_dir = REPO_ROOT / "stubs" / args.version / "pipeline"
+    parsed_path = Path(args.input) if args.input else pipeline_dir / "LiveTree.parsed.json"
+    refined_path = Path(args.output) if args.output else pipeline_dir / "LiveTree.refined.json"
 
     if not refinements_path.exists():
         print(f"no manual_refinements.yaml at {refinements_path}; nothing to apply", file=sys.stderr)
@@ -239,9 +243,10 @@ def main() -> int:
         log_lines.extend(_apply_one(node, entry, path))
         applied += 1
 
-    parsed_path.write_text(json.dumps(parsed, indent=2) + "\n")
+    refined_path.parent.mkdir(parents=True, exist_ok=True)
+    refined_path.write_text(json.dumps(parsed, indent=2) + "\n")
 
-    print(f"Applied {applied} refinements to {parsed_path.relative_to(REPO_ROOT)}", file=sys.stderr)
+    print(f"Applied {applied} refinements; wrote {refined_path.relative_to(REPO_ROOT)}", file=sys.stderr)
     if missed:
         print(f"WARN: {len(missed)} refinement target(s) not found in parsed tree:", file=sys.stderr)
         for p in missed[:10]:

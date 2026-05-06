@@ -1,7 +1,14 @@
-# Hand-curated overrides for stub generation, applied after parse_apicapture_results.py
-# produces LiveTree.parsed.json. Per doc/decisions.md ("Stub Accuracy and Pipeline Posture"),
-# refinements are *only* used to correct known wrongness — not to make stubs prettier.
-# Every entry below MUST include a `source` field documenting why the override is justified.
+# Hand-curated overrides for stub generation. apply_manual_refinements.py reads
+# LiveTree.parsed.json (fresh-parse output, never mutated) and writes the refined
+# tree to LiveTree.refined.json — keeping the two artifacts distinct lets the
+# `from:` field in each refinement validate against immutable parser output, so a
+# Live runtime change that shifts what the parser produces will surface as a drift
+# warning instead of being absorbed by an in-place rewrite.
+#
+# Per doc/decisions.md ("Stub Accuracy and Pipeline Posture"), refinements are
+# *only* used to correct known wrongness — not to make stubs prettier. Every
+# entry below MUST include a `source` field documenting why the override is
+# justified.
 #
 # ─────────────────────────────────────────────────────────────────────────────
 # Schema (per dotted path):

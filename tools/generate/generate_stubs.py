@@ -1,4 +1,4 @@
-"""Generate .pyi stub files from LiveTree.parsed.json.
+"""Generate .pyi stub files from LiveTree.refined.json.
 
 Walks the parsed tree and emits typed Python stubs for the Ableton Live Object Model.
 Each namespace module becomes a flat .pyi file under the Live/ package, mirroring how the
@@ -748,15 +748,16 @@ class StubGenerator:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.parsed.json")
+    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.refined.json")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     parser.add_argument(
-        "--input", help="Path to parsed tree (default: stubs/{version}/pipeline/LiveTree.parsed.json)"
+        "--input",
+        help="Path to refined tree (default: stubs/{version}/pipeline/LiveTree.refined.json)",
     )
     parser.add_argument("--output", help="Output directory (default: stubs/{version}/Live)")
     args = parser.parse_args()
 
-    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.parsed.json")
+    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.refined.json")
     output_dir = args.output or join("stubs", args.version, "Live")
 
     with open(input_path) as f:
