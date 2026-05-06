@@ -525,14 +525,16 @@ class StubGenerator:
         """
         if not probed_type:
             return "Any"
-        # NoneType-probed properties are nullable references where the probe happened to
-        # see None at probe time (e.g. Song.View.selected_chain has no chain selected).
-        # Emit Any as an honest "we don't know T" rather than literal `None`, which would
-        # render setters as `value: None` and produce false reportIncompatibleMethodOverride
-        # errors when subclasses assign real values. Manual refinements in
-        # tools/parse/manual_refinements.yaml override Any with the correct `T | None` for
-        # known cases; see doc/decisions.md.
-        resolved = "Any" if probed_type == "NoneType" else probed_type
+        # The parser normalizes runtime-observed types into Python type
+        # annotations (e.g. `type(None).__name__` of `'NoneType'` becomes
+        # the annotation `'None'`). Manual refinements in
+        # `tools/parse/manual_refinements.yaml` are responsible for narrowing
+        # probe-observed-None into the right `T | None` for known cases;
+        # see doc/decisions.md. This emitter no longer widens — what reaches
+        # generation is what gets emitted, so unrefined None observations
+        # surface as literal `-> None` getters and trigger maintainer
+        # attention rather than being silently absorbed as `Any`.
+        resolved = probed_type
         if resolved in self._nested_class_parent:
             # Extract parent from probed_repr if available (e.g. "<class 'Device.View'>" -> "Device")
             parent = None

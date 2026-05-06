@@ -26,7 +26,7 @@
 # <type-spec> can be either:
 #   - A bare scalar:    "Chain | None"
 #   - A {from, to} dict for diff visibility:
-#       from: NoneType
+#       from: "None"
 #       to:   "Chain | None"
 #
 # When `from` is provided, the applier validates it against the parsed-tree value
@@ -76,9 +76,12 @@ _meta:
 #
 # These properties are conceptually `T | None` but the probe happened to observe
 # None on the test instance (e.g. no chain was selected when probing
-# Song.View.selected_chain). The generator now emits `Any` for all NoneType-probed
-# properties (see generate_stubs.py _resolve_probed_type); these refinements
-# narrow `Any` to the specific `T | None` for the cases where T is known.
+# Song.View.selected_chain). The parser stamps `probed_type: "None"` for these;
+# without a refinement the generator would emit a literal `-> None` getter,
+# which is rarely what the maintainer wants. These refinements narrow to the
+# specific `T | None` for the cases where T is known. Cases where the runtime
+# truly only ever returns None (LOM-root canonical_parent) are also recorded
+# below with `from: None, to: None` to document the explicit decision.
 #
 # Source for all 8: docstring describes the property as a nullable reference; type
 # inferred from the property name and Live API conventions; the corpus audit also
@@ -86,7 +89,7 @@ _meta:
 
 "Live.Browser.Browser.hotswap_target":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "Device | None"
   confidence: high
   source: |
@@ -104,7 +107,7 @@ _meta:
 
 "Live.Clip.Clip.groove":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "Groove | None"
   confidence: high
   source: |
@@ -113,7 +116,7 @@ _meta:
 
 "Live.RackDevice.RackDevice.View.selected_chain":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "Chain | None"
   confidence: high
   source: |
@@ -122,7 +125,7 @@ _meta:
 
 "Live.Scene.Scene.color_index":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "int | None"
   confidence: high
   source: |
@@ -131,7 +134,7 @@ _meta:
 
 "Live.Song.Song.View.detail_clip":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "Clip | None"
   confidence: high
   source: |
@@ -140,7 +143,7 @@ _meta:
 
 "Live.Song.Song.View.selected_chain":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "Chain | None"
   confidence: high
   source: |
@@ -150,7 +153,7 @@ _meta:
 
 "Live.Song.Song.View.selected_parameter":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "DeviceParameter | None"
   confidence: high
   source: |
@@ -159,7 +162,7 @@ _meta:
 
 "Live.Song.Song.appointed_device":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "Device | None"
   confidence: high
   source: |
@@ -170,26 +173,29 @@ _meta:
 # ─── LOM-root canonical_parent (genuinely always None) ────────────────────────
 #
 # The two LOM-root nodes — Application and Song — have no parent in the LOM
-# tree, so their `canonical_parent` is literally `None`. The probe observes
-# `NoneType` and the generator widens to `Any`; these refinements narrow it
-# back to `None` since the runtime instance is unique (one Application, one
-# Song per Live process) and the absence-of-parent is structural, not
-# probe-instance-specific.
+# tree, so their `canonical_parent` is literally `None`. The parser stamps
+# `probed_type: "None"`. These `from: None, to: None` entries are
+# pass-through refinements that document the explicit decision: "yes, the
+# probe correctly observed None here, the runtime really does always return
+# None — this is structural, not probe-instance-specific." Without these
+# entries the resulting stubs would emit `-> None` anyway, but recording the
+# rationale here distinguishes intentional-None from unrefined-None for
+# anyone auditing the YAML.
 
 "Live.Application.Application.canonical_parent":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "None"
   confidence: high
   source: |
-    Application is the LOM root. It has no parent — the probe's `NoneType`
+    Application is the LOM root. It has no parent — the probe's None
     observation reflects the structural shape, not an instance-specific
     nullability. Every other class's `canonical_parent` probes as a concrete
     parent type; only this and `Song.canonical_parent` probe as None.
 
 "Live.Song.Song.canonical_parent":
   probed_type:
-    from: NoneType
+    from: "None"
     to: "None"
   confidence: high
   source: |

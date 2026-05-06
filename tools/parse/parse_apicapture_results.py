@@ -1154,6 +1154,13 @@ def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
             if child and child.get("type") == "property":
                 probed_type = prop_info.get("type")
                 if probed_type:
+                    # Normalize the runtime type name into a Python type
+                    # annotation. The probe records `type(value).__name__` —
+                    # so an observed None comes through as the string
+                    # 'NoneType', which is the runtime class name, not a
+                    # Python type annotation. The annotation form is `None`.
+                    if probed_type == "NoneType":
+                        probed_type = "None"
                     child["probed_type"] = probed_type
                 probed_repr = prop_info.get("repr")
                 if probed_repr:
