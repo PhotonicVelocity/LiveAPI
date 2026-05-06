@@ -12,7 +12,7 @@ Pipeline steps:
 2. Inheritance resolution
     2a. resolve_inheritance — expand bases into full ancestor chains on class nodes
     2b. relocate_inherited_members — move inherited members to their true defining class
-4. parse_enums — parse string-encoded enum names/values into structured members, retype as "enum"
+3. parse_enums — parse string-encoded enum names/values into structured members, retype as "enum"
 5a. parse_function_docs — extract signature, description, and C++ signature from function docstrings
 5b. parse_signatures — split Python and C++ signatures into matched args and return types
 5c. build_type_map — build C++ → Python type mapping from signature pairs (stored in ctx, no tree changes)
@@ -39,7 +39,7 @@ TreeNode = dict[str, Any] | list[Any] | Any
 PipelineStep = Any  # Callable[[TreeNode, dict[str, Any]], TreeNode] — can't express cleanly without typing_extensions
 
 
-# ------------------------------------------------------------------------------- #
+# region------------------------------------------------------------------------- #
 # Helpers
 # ------------------------------------------------------------------------------- #
 
@@ -153,8 +153,10 @@ def _clean_description(lines: list[str]) -> str | None:
 
     return "\n".join(cleaned) if cleaned else None
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
+
+# region------------------------------------------------------------------------- #
 # Step 1: clean up malformed class names
 #
 # Boost.Python occasionally concatenates a class's __name__ with its docstring,
@@ -299,8 +301,10 @@ def rewrite_raw_docs_with_replacements(tree: TreeNode, ctx: dict[str, Any]) -> T
         return tree
     return _walk_tree(tree, _visit_rewrite_raw_docs, ctx)
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
+
+# region------------------------------------------------------------------------- #
 # Step 2: inheritance resolution
 #
 # Boost.Python class nodes carry their bases as repr strings; the actual
@@ -478,9 +482,18 @@ def relocate_inherited_members(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     ctx["stats"]["relocated_members"] = relocated
     return tree
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
-# Step 4: parse_enums
+
+# region------------------------------------------------------------------------- #
+# Step 3: parse_enums
+#
+# Boost.Python represents enums as `type` nodes whose `values` field holds a
+# string-encoded dict (e.g. "{0: Module.Enum.up, 1: Module.Enum.down}").
+# This step parses that string into a clean `{name: int}` map, retypes the
+# node from `type` to `enum`, and drops the now-redundant `names`/`values`
+# string fields. Non-enum `type` nodes (e.g. exception classes like
+# LimitationError) pass through untouched.
 # ------------------------------------------------------------------------------- #
 
 # Matches entries like "0: Module.Enum.member_name" in the string-encoded values dict.
@@ -521,6 +534,8 @@ def _visit_parse_enums(node: dict[str, Any], ctx: dict[str, Any], _parent: Class
 def parse_enums(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     """Parse string-encoded enum names/values into structured members, retype as 'enum'."""
     return _walk_tree(tree, _visit_parse_enums, ctx)
+
+# endregion
 
 
 # ------------------------------------------------------------------------------- #
