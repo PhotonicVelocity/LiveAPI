@@ -86,6 +86,65 @@ def relpath_for(module_name: str) -> str:
     return f"modules/{module_name}.mdx"
 
 
+# Site-base prefix for in-MDX cross-references. Mirrors `base: "/LiveAPI"` in
+# astro.config.mjs — Astro doesn't auto-prefix arbitrary content links, so we
+# bake it into hrefs we emit.
+DOCS_URL_BASE = "/LiveAPI/modules"
+
+# Identifier token regex used by the type linker. Single Python-style token —
+# keeps composite types like `Device | None` or `Optional[Track]` literal in
+# the surrounding text, and only the bare names get linked.
+_TYPE_TOKEN_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\b")
+
+
+def build_class_registry(tree: dict) -> dict[str, str]:
+    """Return a `{ClassName: module_name}` map for top-level documented types.
+
+    Top-level class and enum children of each module are linkable in Step 4.
+    Nested classes (e.g. `Live.Song.Song.View`) and enums nested inside their
+    owning class (`DeviceType`, `WarpMode`, ...) aren't yet rendered with
+    their own anchors — those land in Step 10. They're left as plain text by
+    the linker until then.
+    """
+    registry: dict[str, str] = {}
+    for module_node in tree.get("children", []):
+        if module_node.get("type") != "module":
+            continue
+        module_name = module_node.get("name")
+        if not module_name:
+            continue
+        for child in module_node.get("children", []):
+            if child.get("type") in ("class", "enum") and child.get("name"):
+                # First-wins on the off chance of a name collision across
+                # modules — none observed in the current tree, but cheap
+                # defense.
+                registry.setdefault(child["name"], module_name)
+    return registry
+
+
+def linkify_type(type_str: str, registry: dict[str, str]) -> str:
+    """Wrap each registry-known identifier in the type string with an `<a>`.
+
+    Composite types like `Device | None` or `Tuple[Track, Clip]` are handled
+    by tokenizing on word boundaries — punctuation (`|`, `[`, `]`, `,`,
+    spaces) and unknown identifiers (`bool`, `None`, `Optional`) pass through
+    verbatim. Unknown Live types (e.g. nested `View`, `DeviceType`) also pass
+    through, to be picked up in Step 10.
+    """
+
+    def replace(match: re.Match[str]) -> str:
+        token = match.group(0)
+        module = registry.get(token)
+        if module is None:
+            return token
+        # Slug = lowercased class name. Heading text in render_module_page is
+        # the bare name (the path/keyword/base sit in spans/pseudo-elements),
+        # so the auto-slug matches the lowercased identifier.
+        return f'<a href="{DOCS_URL_BASE}/{module.lower()}/#{token.lower()}">{token}</a>'
+
+    return _TYPE_TOKEN_RE.sub(replace, type_str)
+
+
 def first_sentence(text: str | None) -> str:
     """Extract the first sentence from a runtime docstring, normalized."""
     if not text:
@@ -180,21 +239,22 @@ def function_signature_html(fn_node: dict, module_name: str) -> str:
     )
 
 
-def property_heading_html(prop_node: dict) -> str:
+def property_heading_html(prop_node: dict, registry: dict[str, str]) -> str:
     """Render a property name + Python-annotation-style type.
 
     H5 isn't in the right-side TOC (capped at H3) so the type can sit in
-    the DOM text without polluting any nav surface. The `prop-type` span is
-    styled muted via CSS so the name still reads as the primary identifier.
+    the DOM text without polluting any nav surface. Live types in the
+    annotation become `<a>` links to their class anchor; non-Live tokens
+    (`bool`, `None`, ...) stay literal.
     """
     name = prop_node["name"]
     type_name = prop_node.get("probed_type")
     if not type_name:
         return name
-    return f'{name}<span class="prop-type">: {type_name}</span>'
+    return f'{name}<span class="prop-type">: {linkify_type(type_name, registry)}</span>'
 
 
-def render_module_page(module_node: dict) -> str:
+def render_module_page(module_node: dict, registry: dict[str, str]) -> str:
     """Render one module's MDX page (Step 1: skeleton only)."""
     module_name = module_node["name"]
     raw_doc = module_node.get("raw_doc")
@@ -254,7 +314,7 @@ def render_module_page(module_node: dict) -> str:
             lines.append("#### Properties")
             lines.append("")
             for prop in properties:
-                lines.append(f"##### {property_heading_html(prop)}")
+                lines.append(f"##### {property_heading_html(prop, registry)}")
                 lines.append("")
 
     def emit_member(heading_html: str, doc: str | None) -> None:
@@ -339,6 +399,8 @@ def main() -> int:
 
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    registry = build_class_registry(tree)
+
     written = 0
     for module_node in tree.get("children", []):
         if module_node.get("type") != "module":
@@ -348,7 +410,7 @@ def main() -> int:
             continue
         out_file = out_dir / relpath_for(module_name)
         out_file.parent.mkdir(parents=True, exist_ok=True)
-        out_file.write_text(render_module_page(module_node))
+        out_file.write_text(render_module_page(module_node, registry))
         written += 1
 
     print(f"Wrote {written} module pages to {out_dir.relative_to(REPO_ROOT)}/")

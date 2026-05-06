@@ -60,12 +60,12 @@
 }
 
 /* Property type annotation — `: Type` after the property name.
-   Muted weight + orange-tinted to echo the path coloring on class signatures,
-   so the name stays the primary identifier and the type reads as metadata. */
+   Default color is muted gray, used for the `:` separator and unlinked
+   builtin/unrecognized types (`bool`, `None`, `int`) so they fade into
+   scaffolding. Linked Live types override via their own anchor styling. */
 .sl-markdown-content h5 .prop-type {
   font-weight: 400;
-  color: var(--sl-color-orange);
-  opacity: 0.85;
+  color: var(--sl-color-gray-3);
 }
 
 /* Signature span — styled heading for class / enum / function identifiers.
@@ -91,9 +91,12 @@
   color: var(--sl-color-gray-3);
   font-weight: 400;
 }
+/* Inheritance base — distinct accent (purple) so it doesn't read as "more
+   path." Path locates the class in the namespace; base says what it
+   inherits from. Different roles, different colors. */
 .sig::after {
   content: attr(data-base);
-  color: var(--sl-color-orange);
+  color: var(--sl-color-purple);
   font-weight: 400;
   opacity: 0.85;
 }
