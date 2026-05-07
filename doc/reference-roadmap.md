@@ -301,7 +301,11 @@ verifying via cold path.
 - A coverage tracker (probably auto-generated): which members have records,
   which records have verified hypotheses, which are still `unprobed`.
   Renders as a page on the reference site so it's visible to readers.
-- Investigation backlog: a markdown file listing members worth investigating,
+- Investigation backlog: see `doc/probe-backlog.md` (started early in
+  Phase 1 — claims authored into module/class prose ahead of the
+  probe driver are logged there for later verification). Phase 5
+  expands the file to a proper priority-ordered list of members worth
+  investigating,
   ordered by impact (Song / Track / Clip before edge cases).
 - Per-class records, one class at a time, working down a priority list.
 

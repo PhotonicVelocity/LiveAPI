@@ -129,6 +129,31 @@
   font-weight: 400;
 }
 
+/* LomObject badge — small pill rendered after a LOM class's signature
+   (Track, Clip, Song, ..., and every nested view class). Links to the
+   LomObject module page where the universal identity / lifetime model
+   is documented. Sized + styled like the confidence pill so the two
+   read as a metadata family rather than competing visual elements. */
+.sig + .lom-badge,
+.lom-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.25rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.65em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+  line-height: 1.4;
+  background: var(--sl-color-purple-low);
+  color: var(--sl-color-purple-high);
+  text-decoration: none;
+}
+.lom-badge:hover {
+  text-decoration: underline;
+}
+
 /* H2 sets section breaks — give it breathing room above, weight, and a
    full-width underline so its role as a divider is visually unmistakable.
    Tight margin-bottom so the H2 hugs its content rather than floating

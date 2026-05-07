@@ -39,16 +39,22 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Ancestors that aren't worth showing in the displayed class signature.
 # Boost.Python's implementation classes are noise (every Live class derives
-# from them); LomObject is intentionally NOT in this list — when it's the
-# first informative ancestor (e.g. Clip → LomObject directly), we want to
-# show it. Classes with a more-specific direct base (e.g. Track →
-# DeviceContainer) display that instead because `base_class_for` returns
-# the first non-boring ancestor.
+# from them). LomObject is suppressed because the LOM badge surfaces that
+# fact more usefully — every LOM class gets a clickable [LomObject] chip
+# next to its signature linking to the LOM-model explainer page, so a
+# `(LomObject)` on the inheritance line would be redundant. Classes with
+# a more-specific direct base (e.g. Track → DeviceContainer) display that
+# instead because `base_class_for` returns the first non-boring ancestor.
 _BORING_ANCESTORS = {
     "Boost.Python.instance",
     "instance",
     "object",
+    "Live.LomObject.LomObject",
 }
+
+# Qualified path of the universal LOM root. Used to detect "is this class
+# transitively a LomObject?" for the signature badge.
+_LOM_OBJECT_PATH = "Live.LomObject.LomObject"
 
 # Internal members suppressed from rendered docs. `__init__` is a constructor,
 # not a property, and is rendered specially when the time comes (Phase 1 step
@@ -216,17 +222,62 @@ def _signature_html(
     )
 
 
+def is_lom_object(
+    cls: dict,
+    class_index: dict[str, tuple[str, dict]],
+) -> bool:
+    """Return True if `cls` is `LomObject` itself or transitively derives
+    from it. Walks the ancestor chain via `class_index` (which has every
+    documented class keyed by qualified path).
+    """
+    if cls.get("path") == _LOM_OBJECT_PATH:
+        return True
+    seen: set[str] = set()
+    stack: list[str] = list(cls.get("ancestors") or [])
+    while stack:
+        anc = stack.pop()
+        if anc in seen:
+            continue
+        seen.add(anc)
+        if anc == _LOM_OBJECT_PATH:
+            return True
+        entry = class_index.get(anc)
+        if entry is None:
+            continue
+        stack.extend(entry[1].get("ancestors") or [])
+    return False
+
+
+def lom_badge_html() -> str:
+    """The `[LomObject]` chip rendered next to a LOM class's signature.
+
+    Compact monospace pill, muted color, links to the LomObject page where
+    the universal lifetime / identity / construction model is documented.
+    """
+    return (
+        f'<a class="lom-badge" href="{DOCS_URL_BASE}/lomobject/" '
+        f'title="This is a LomObject — see the LomObject page for the universal '
+        f'identity / lifetime model">LomObject</a>'
+    )
+
+
 def class_signature_html(
     cls: dict,
     module_name: str,
     registry: dict[str, str],
     display_name: str | None = None,
+    class_index: dict[str, tuple[str, dict]] | None = None,
 ) -> str:
     """Render `class Name(Base):` — Base linked to its anchor when known.
 
     `display_name` overrides the bare `cls["name"]` for the rendered text;
     used to display dotted nested-class names (e.g. `Track.View` instead of
     just `View`) when a nested class is rendered at the top level.
+
+    `class_index` enables the LomObject badge — any class whose ancestor
+    chain reaches `Live.LomObject.LomObject` gets a chip after the
+    signature (suppressed on `LomObject` itself, which would point at its
+    own page). Pass `None` to disable the badge.
     """
     base = base_class_for(cls)
     base_html: str | None = None
@@ -238,12 +289,21 @@ def class_signature_html(
             )
         else:
             base_html = base
-    return _signature_html(
+    sig = _signature_html(
         kw="class",
         name=display_name or cls["name"],
         module_name=module_name,
         base_html=base_html,
     )
+    # Skip the badge on LomObject itself — pointing at its own page would
+    # be a no-op link, and the page IS the explainer the badge advertises.
+    if (
+        class_index is not None
+        and cls.get("path") != _LOM_OBJECT_PATH
+        and is_lom_object(cls, class_index)
+    ):
+        sig = f"{sig} {lom_badge_html()}"
+    return sig
 
 
 def enum_signature_html(
@@ -469,8 +529,12 @@ def render_module_page(
     main_class = primary_classes[0] if primary_classes else None
 
     lines: list[str] = []
+    # Title defaults to the module name. Modules can override via a
+    # top-level `title:` field in their lom YAML when a more descriptive
+    # page heading is warranted (e.g. LomObject's foundation-page role).
+    page_title = doc.get("title") or module_name
     lines.append("---")
-    lines.append(f"title: {module_name}")
+    lines.append(f"title: {page_title}")
     lines.append(f'description: "{escape_yaml_scalar(seo_description)}"')
     lines.append("---")
     lines.append("")
@@ -492,7 +556,10 @@ def render_module_page(
         `display_name` overrides the rendered class name (used to show
         `Track.View` for a nested class hoisted to the top level).
         """
-        sig = class_signature_html(cls, module_name, registry, display_name=display_name)
+        sig = class_signature_html(
+            cls, module_name, registry,
+            display_name=display_name, class_index=class_index,
+        )
         lines.append(f"### {sig}")
         lines.append("")
         doc_text = normalize_paragraph(cls.get("raw_doc"))
