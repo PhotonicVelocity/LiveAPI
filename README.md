@@ -109,6 +109,29 @@ The stubs ship with a small set of items typed on weaker evidence:
 | `map_midi_*_with_feedback_map` `feedback_rule` arg                            | Strictly typed (no `\| None`).                                         | The corpus never passes literal `None`, but the binding _might_ accept it. Currently strict; would be widened if a probe confirms it.                                                                               |
 | `Live.MidiMap.PitchBendFeedbackRule.value_pair_map`                           | `tuple[tuple, ...]` — outer concrete, inner unparameterized.           | Sister `cc_value_map` / `vel_map` are `tuple[int, ...]`; pitch-bend value pairs likely `tuple[int, int]`, but no corpus literal and no M4L doc confirms the inner shape. Refining without evidence is forbidden.    |
 
+#### `class Track(DeviceContainer):` — a Boost.Python quirk
+
+Track and Chain show as inheriting from a `DeviceContainer` class that you'll never see referenced in any
+Live runtime code, the M4L docs, or Ableton's own decompiled Remote Scripts. The class technically exists
+— Live's Python truly registers it as a base of Track and Chain, and `isinstance(some_track,
+Live.Track.DeviceContainer)` returns True at runtime — but it's a Boost.Python implementation artifact
+rather than a real LOM type.
+
+Mechanically: Live's C++ source binds Track and Chain through Boost.Python's `class_<TTrack,
+bases<TDeviceContainer>>("Track")` form. Boost honors `bases<>` by registering DeviceContainer as a real
+Python superclass (`__bases__`, `__mro__`, `isinstance()` all work), but it binds the actual methods on
+each concrete subclass independently — so `dir(DeviceContainer)` returns essentially nothing while
+`dir(Track)` and `dir(Chain)` each show the full shared interface (`devices`, `name`, `mute`,
+`insert_device`, etc.). The shared C++ implementation gets two independent Python descriptors with
+different docstrings — Track's say "Track", Chain's say "Chain", and a few of Chain's are even slightly
+wrong (e.g. `Chain.color`'s docstring describes the color *index* even though the property is the RGB
+color).
+
+We render the `(DeviceContainer)` base because it's a runtime fact — pyright needs the inheritance to
+type-check `isinstance` patterns honestly. But it's not how anyone actually uses the API; Ableton's
+Push2 corpus, when it wants to "is this a thing with devices?", explicitly checks `isinstance(c,
+(Live.Track.Track, Live.Chain.Chain))` rather than against the common base.
+
 ## First-time setup (contributors)
 
 Two external sources need to be on disk before the pipeline + verify suite work: the decompiled Remote Scripts
