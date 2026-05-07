@@ -6,13 +6,15 @@ Three-stage pipeline for capturing Live API metadata and generating typed Python
 Stage 1: Capture + Probe  (inside Live)        → LiveTree.raw.json + LiveClasses.json
 - Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
 - Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
-Stage 2: Parse + Refine   (external)           → LiveTree.parsed.json + LiveTree.refined.json
-- Parses raw capture into structured tree, merges probe results (LiveTree.parsed.json)
-- Applies hand-curated refinements from manual_refinements.yaml (each entry sourced),
-  writing the post-refinement tree to LiveTree.refined.json without mutating parsed.json —
-  preserving fresh-parse output lets drift detection surface Live runtime changes
+Stage 2: Parse + YAML seed (external)          → LiveTree.parsed.v2.json + stubs/<v>/reports/seed/*.yaml
+- Parses raw capture into a structured tree (LiveTree.parsed.v2.json)
+- Builds the per-module YAML seed under stubs/<v>/reports/seed/, applying algorithmic
+  decisions (type qualification, optional widening, enum widening, listener-triplet folding,
+  parametric-container detection)
 Stage 3: Generate         (external)           → stubs/<version>/Live/*.pyi
-- Renders refined tree into .pyi stubs with typed signatures, properties, enums, and listener callbacks
+- Reads stubs/<v>/lom/*.yaml (the hand-curated SOT — seed + sibling <field>_override: blocks)
+  and emits .pyi stubs. The override mechanism is the seam through which manual refinements
+  reach the rendered output.
 ```
 
 ## Stage 1: Capture + Probe (runs inside Live)
@@ -158,29 +160,32 @@ older Live runtimes (e.g. Live 11's Python 3.7.3) without raising `TypeError` at
 publishing tracks Live 12.x only, but the apicapture pipeline still runs against 11.x via
 `tools/sets/Set 11 Project/`.
 
-## Stage 2: Parse + Refine (runs outside Live)
+## Stage 2: Parse + YAML seed (runs outside Live)
 
 The pipeline is intentionally minimal — see [doc/decisions.md "Stub Accuracy and Pipeline
 Posture"](../doc/decisions.md#stub-accuracy-and-pipeline-posture) for the rationale. Two scripts: parse the raw capture
-into a structured tree, then apply hand-curated refinements.
+into a structured tree, then build a per-module YAML seed that captures every algorithmic decision before any human
+override.
 
 ```bash
 python tools/parse/run_parse_pipeline.py 12.3.6
 # Equivalent to:
-#   python tools/parse/parse_apicapture_results.py 12.3.6
-#   python tools/parse/apply_manual_refinements.py 12.3.6
+#   python tools/parse/parse_apicapture_results_v2.py 12.3.6
+#   python tools/parse/build_lom_yaml.py 12.3.6
 ```
 
-Output: `stubs/12.3.6/pipeline/LiveTree.parsed.json` (fresh parse) and
-`stubs/12.3.6/pipeline/LiveTree.refined.json` (post-refinement). The two are kept distinct so
-the `from:` field in each refinement validates against immutable parser output — Live runtime
-changes that shift what the parser produces surface as drift warnings rather than being
-absorbed by an in-place rewrite.
+Output: `stubs/12.3.6/pipeline/LiveTree.parsed.v2.json` (parsed tree) and
+`stubs/12.3.6/reports/seed/<Module>.yaml` (per-module YAML seed — the algorithmic baseline for each module).
 
-### parse_apicapture_results.py
+The hand-curated SOT lives in `stubs/12.3.6/lom/<Module>.yaml`. It started as a copy of `seed/` and now carries
+sibling `<field>_override:` blocks where humans have tightened types, renamed args, or qualified iterable element
+types. `seed/` regenerates freely on each Stage 2 run; `lom/` is only resynced from `seed/` at intentional checkpoints
+(no automatic flow). Diff `seed/` against `lom/` to see exactly which facts have been hand-touched.
 
-Reads `LiveTree.raw.json` + `LiveClasses.json` from the pipeline directory and produces `LiveTree.parsed.json` — a
-normalized, enriched tree.
+### parse_apicapture_results_v2.py
+
+Reads `LiveTree.raw.json` from the pipeline directory and produces `LiveTree.parsed.v2.json` — a normalized,
+enriched tree. Probe data (`LiveClasses.json`) is currently not consumed by v2; the parser is raw_doc-driven.
 
 Transforms applied:
 
@@ -193,39 +198,22 @@ Transforms applied:
 - **Function doc parsing** — extracts structured `signature`, `description`, and `cpp_signature` from raw docstrings
 - **Signature parsing** — splits Python/C++ signatures into matched args/returns
 - **Type resolution** — resolves raw signature parts into clean structured args/returns using a C++ → Python type map
-- **Probe merge** — folds `LiveClasses.json` runtime types, settability, and listeners into the tree nodes
-  (both class properties/getters and module-level `get_*()` return types)
 
-### apply_manual_refinements.py
+### build_lom_yaml.py
 
-Applies hand-curated overrides from [`tools/parse/manual_refinements.yaml`](parse/manual_refinements.yaml). Reads
-`LiveTree.parsed.json` (fresh parse, never mutated) and writes `LiveTree.refined.json`. Each entry must include a
-`source:` field documenting why the override is justified — corpus def-sites in the decompiled Remote Scripts, M4L
-docs, docstring inference, etc. Bracket labels per arg (`[callsite, N/M defs]`, `[M4L docs]`, `[docstring]`,
-`[inferred]`, …) make the evidence kind explicit.
+Reads `LiveTree.parsed.v2.json` and emits one YAML per top-level Live module under `stubs/<v>/reports/seed/`. The
+algorithmic decisions live here — anything a human shouldn't have to make explicit:
 
-Each refinement may declare `from:` for the value it expects to find before applying. The applier compares against
-the parsed tree and emits a drift warning on mismatch — useful for catching Live runtime changes (an arg type that
-shifts between versions, a property that starts probing differently). Because parsed.json is the immutable input,
-the warning fires on real drift instead of on the previous run's apply state.
+- Type qualification (`Track` → `Live.Track.Track`)
+- Optional widening (`T` + `default=None` → `T | None`)
+- Enum widening (`E` → `E | int` — Boost.Python emits enums as int subclasses)
+- Enum-from-default inference (bare `int` arg with default `Module.Enum.member` → `Enum | int`)
+- Listener-triplet folding (`add_*_listener`/`remove_*_listener`/`*_has_listener` collapsed under the property)
+- Parametric-container detection (Generic[T] for the abstract `Live.Base.Vector`)
+- Layout: blank lines between sections and list items for readability
 
-There is no LLM resolution, no callsite-resolve stage, no automated arg-name voting — only what we scrape from Live
-itself, plus the curated refinements with sourced rationale.
-
-### find_unrefined.py
-
-Walks `LiveTree.refined.json` (post-refinement) and reports anything the parser couldn't pin down — function
-args/returns still typed `object`/`tuple`/`list`, args still named `argN`, properties with null or `NoneType`
-`probed_type`, and iterable classes/properties missing `element_repr`. Each line is a candidate for a
-`manual_refinements.yaml` entry.
-
-```bash
-python tools/parse/find_unrefined.py 12.3.6                    # full markdown report to stdout
-python tools/parse/find_unrefined.py 12.3.6 --kind arg_type    # filter to one category
-python tools/parse/find_unrefined.py 12.3.6 --output /tmp/u.md # write to file
-```
-
-Useful after a fresh capture, a corpus pin bump, or when triaging what's left to refine. Not a CI gate — research tool.
+Format spec: [doc/lom-format.md](../doc/lom-format.md). The override pattern (`<field>_override:` siblings) is what
+the curated `lom/` layer adds on top of the seed.
 
 ## Stage 3: Generate Stubs (runs outside Live)
 
@@ -233,8 +221,9 @@ Useful after a fresh capture, a corpus pin bump, or when triaging what's left to
 python tools/generate/generate_stubs.py 12.3.6
 ```
 
-Reads `LiveTree.refined.json` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator has no
-refinement logic — it renders the tree as-is.
+Reads `stubs/<v>/lom/*.yaml` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator is mechanical —
+it picks `<field>_override.value` when present, else falls back to the parser-derived field. No type inference,
+no narrowing decisions. Renders what the YAML says.
 
 Output layout (flat, mirroring the real `Live` C extension module):
 
@@ -264,22 +253,19 @@ tools/
 │   │   └── DeviceProbe.py     Tick-driven device probing
 │   └── helpers/
 │       └── app.py           Version number extraction
-├── parse/                   Stage 2: parsing + manual refinements
-│   ├── parse_apicapture_results.py   Parse raw capture → LiveTree.parsed.json
-│   ├── apply_manual_refinements.py   Apply manual_refinements.yaml → LiveTree.refined.json
-│   ├── manual_refinements.yaml       Hand-curated overrides (each with sourced rationale)
-│   ├── refinements_followup.md       Backlog of items needing runtime probes
-│   ├── find_unrefined.py             List items still needing refinement entries
-│   └── run_parse_pipeline.py         Orchestrator (parse + apply)
-├── generate/                Stage 3: stub generation
-│   └── generate_stubs.py             Generate .pyi stub files
+├── parse/                   Stage 2: parser + LOM YAML seed builder
+│   ├── parse_apicapture_results_v2.py   Parse raw capture → LiveTree.parsed.v2.json
+│   ├── build_lom_yaml.py                Build per-module YAML seed → stubs/<v>/reports/seed/*.yaml
+│   └── run_parse_pipeline.py            Orchestrator (parse + build)
+├── generate/                Stage 3: stub + reference generation
+│   ├── generate_stubs.py         Read stubs/<v>/lom/*.yaml → emit .pyi
+│   └── generate_reference.py            Reference-doc generator (pending lom/ port)
 ├── verify/                  Verification — pyright audit + corpus consistency checks
 │   ├── run.sh                        Orchestrator (Tiers 1-4)
 │   ├── parse_check.py                Tier 1: ast.parse over every .pyi
 │   ├── audit_corpus.py               Offline pyright audit over external/corpus
 │   ├── audit_ignores.yaml            Investigated-and-declined audit findings
 │   ├── audit_pyrightconfig.json      Pyright config used by audit_corpus.py
-│   ├── verify_refinements_against_corpus.py  Cross-check refinements vs. corpus usage
 │   └── README.md                     Tier definitions and how to run locally
 ├── fetch_external/          External-source bootstrap (outputs to external/, gitignored)
 │   ├── corpus.py                     Clone gluon corpus at CORPUS_PIN → external/corpus/

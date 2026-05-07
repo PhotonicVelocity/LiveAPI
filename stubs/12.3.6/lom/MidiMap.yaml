@@ -1,0 +1,692 @@
+module: MidiMap
+
+classes:
+- name: CCFeedbackRule
+  path: Live.MidiMap.CCFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+
+  properties:
+  - name: cc_no
+    type: int
+    settable: true
+
+  - name: cc_value_map
+    type: tuple
+    element_type_override:
+      value: int
+      confidence: high
+      source: |
+        Corpus assigns int tuples directly: LV2_LX2_LC2_LD2/ParamMap.py:69,
+        SL_MkIII/sl_mkiii.py:117, _Axiom/Encoders.py:38.
+    settable: true
+
+  - name: channel
+    type: int
+    settable: true
+
+  - name: delay_in_ms
+    type: float
+    settable: true
+
+  - name: enabled
+    type: bool
+    settable: true
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.CCFeedbackRule
+    returns:
+      type: None
+
+- name: NoteFeedbackRule
+  path: Live.MidiMap.NoteFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+
+  properties:
+  - name: channel
+    type: int
+    settable: true
+
+  - name: delay_in_ms
+    type: float
+    settable: true
+
+  - name: enabled
+    type: bool
+    settable: true
+
+  - name: note_no
+    type: int
+    settable: true
+
+  - name: vel_map
+    type: tuple
+    element_type_override:
+      value: int
+      confidence: high
+      source: |
+        Corpus assigns int tuples directly: Axiom_AIR_25_49_61.py:594,
+        ableton/v2/control_surface/control_surface.py:420, _Framework/ControlSurface.py:471.
+    settable: true
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.NoteFeedbackRule
+    returns:
+      type: None
+
+- name: PitchBendFeedbackRule
+  path: Live.MidiMap.PitchBendFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+
+  properties:
+  - name: channel
+    type: int
+    settable: true
+
+  - name: delay_in_ms
+    type: float
+    settable: true
+
+  - name: enabled
+    type: bool
+    settable: true
+
+  - name: value_pair_map
+    type: tuple
+    element_type_override:
+      value: tuple
+      confidence: low
+      source: |
+        Field name + context suggests tuples of value pairs, but element type is
+        bare `tuple` (no inner type info) — vague. May want tighter shape if a
+        probe or corpus pattern surfaces it.
+    settable: true
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.PitchBendFeedbackRule
+    returns:
+      type: None
+
+enums:
+- name: MapMode
+  members:
+    absolute: 0
+    relative_signed_bit: 1
+    relative_binary_offset: 2
+    relative_two_compliment: 3
+    relative_signed_bit2: 4
+    absolute_14_bit: 5
+    relative_smooth_signed_bit: 6
+    relative_smooth_binary_offset: 7
+    relative_smooth_two_compliment: 8
+    relative_smooth_signed_bit2: 9
+
+functions:
+- name: forward_midi_cc
+  signature: 'forward_midi_cc( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :'
+  cpp_signature: bool forward_midi_cc(unsigned int,unsigned int,int,int [,bool=True])
+  args:
+  - name: arg1
+    name_override:
+      value: script_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 11/14 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 14/14 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> controller_number  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg2
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 11/14 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 14/14 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> controller_number  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 11/14 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 14/14 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> controller_number  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg4
+    name_override:
+      value: controller_number
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 11/14 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 14/14 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> controller_number  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: should_consume_event
+    type: bool
+    optional: true
+    default: 'True'
+  returns:
+    type: bool
+
+- name: forward_midi_note
+  signature: 'forward_midi_note( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :'
+  cpp_signature: bool forward_midi_note(unsigned int,unsigned int,int,int [,bool=True])
+  args:
+  - name: arg1
+    name_override:
+      value: script_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 7/7 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> note  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg2
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 7/7 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> note  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 7/7 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> note  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg4
+    name_override:
+      value: note
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 7/7 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+          - arg4 -> note  [callsite, 3/7 call sites]: corpus callsites (kwarg-named)
+    type: int
+  - name: should_consume_event
+    type: bool
+    optional: true
+    default: 'True'
+  returns:
+    type: bool
+
+- name: forward_midi_pitchbend
+  signature: 'forward_midi_pitchbend( (int)arg1, (int)arg2, (int)arg3) -> bool :'
+  cpp_signature: bool forward_midi_pitchbend(unsigned int,unsigned int,int)
+  args:
+  - name: arg1
+    name_override:
+      value: script_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 2/2 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 2/2 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg2
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 2/2 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 2/2 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> script_handle  [callsite, 2/2 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> midi_map_handle  [callsite, 2/2 call sites]: corpus callsites (kwarg-named)
+          - arg3 -> midi_channel  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  returns:
+    type: bool
+
+- name: map_midi_cc
+  signature: 'map_midi_cc( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool :'
+  cpp_signature: bool map_midi_cc(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,bool [,float=1.0])
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: parameter
+    type: Live.DeviceParameter.DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: map_mode
+    type: Live.MidiMap.MapMode | int
+  - name: avoid_takeover
+    type: bool
+  - name: sensitivity
+    type: float
+    optional: true
+    default: '1.0'
+  returns:
+    type: bool
+
+- name: map_midi_cc_with_feedback_map
+  signature: 'map_midi_cc_with_feedback_map( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (CCFeedbackRule)feedback_rule, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool :'
+  cpp_signature: bool map_midi_cc_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,NPythonMidiMap::TCCFeedbackRule,bool [,float=1.0])
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: parameter
+    type: Live.DeviceParameter.DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: map_mode
+    type: Live.MidiMap.MapMode | int
+  - name: feedback_rule
+    type: Live.MidiMap.CCFeedbackRule
+  - name: avoid_takeover
+    type: bool
+  - name: sensitivity
+    type: float
+    optional: true
+    default: '1.0'
+  returns:
+    type: bool
+
+- name: map_midi_note
+  signature: 'map_midi_note( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4) -> bool :'
+  cpp_signature: bool map_midi_note(unsigned int,TPyHandle<ATimeableValue>,int,int)
+  args:
+  - name: arg1
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions that take handle as first arg
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency with other MidiMap functions
+          - arg4 -> note  [inferred]: MIDI note number parameter
+    type: int
+  - name: arg2
+    name_override:
+      value: device_parameter
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions that take handle as first arg
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency with other MidiMap functions
+          - arg4 -> note  [inferred]: MIDI note number parameter
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions that take handle as first arg
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency with other MidiMap functions
+          - arg4 -> note  [inferred]: MIDI note number parameter
+    type: int
+  - name: arg4
+    name_override:
+      value: note
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions that take handle as first arg
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency with other MidiMap functions
+          - arg4 -> note  [inferred]: MIDI note number parameter
+    type: int
+  returns:
+    type: bool
+
+- name: map_midi_note_with_feedback_map
+  signature: 'map_midi_note_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4, (NoteFeedbackRule)arg5) -> bool :'
+  cpp_signature: bool map_midi_note_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NPythonMidiMap::TNoteFeedbackRule)
+  args:
+  - name: arg1
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg renames verified against corpus call sites — all three sites pass the
+        same positional shape `(midi_map_handle, parameter, channel, identifier,
+        feedback_rule)`:
+          - _Framework/ControlSurface.py:485
+          - ableton/v2/control_surface/control_surface.py:435
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:608
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses bare
+            `parameter`; qualified to `device_parameter` for stub readability since
+            the type is DeviceParameter
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` — semantic name
+          - arg4 -> note             [callsite, semantic]: callsite passes
+            `control.message_identifier()` which in note context is a MIDI note number
+          - arg5 -> feedback_rule    [callsite]: variable named `feedback_rule`
+    type: int
+  - name: arg2
+    name_override:
+      value: device_parameter
+      source: |
+        Arg renames verified against corpus call sites — all three sites pass the
+        same positional shape `(midi_map_handle, parameter, channel, identifier,
+        feedback_rule)`:
+          - _Framework/ControlSurface.py:485
+          - ableton/v2/control_surface/control_surface.py:435
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:608
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses bare
+            `parameter`; qualified to `device_parameter` for stub readability since
+            the type is DeviceParameter
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` — semantic name
+          - arg4 -> note             [callsite, semantic]: callsite passes
+            `control.message_identifier()` which in note context is a MIDI note number
+          - arg5 -> feedback_rule    [callsite]: variable named `feedback_rule`
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg renames verified against corpus call sites — all three sites pass the
+        same positional shape `(midi_map_handle, parameter, channel, identifier,
+        feedback_rule)`:
+          - _Framework/ControlSurface.py:485
+          - ableton/v2/control_surface/control_surface.py:435
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:608
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses bare
+            `parameter`; qualified to `device_parameter` for stub readability since
+            the type is DeviceParameter
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` — semantic name
+          - arg4 -> note             [callsite, semantic]: callsite passes
+            `control.message_identifier()` which in note context is a MIDI note number
+          - arg5 -> feedback_rule    [callsite]: variable named `feedback_rule`
+    type: int
+  - name: arg4
+    name_override:
+      value: note
+      source: |
+        Arg renames verified against corpus call sites — all three sites pass the
+        same positional shape `(midi_map_handle, parameter, channel, identifier,
+        feedback_rule)`:
+          - _Framework/ControlSurface.py:485
+          - ableton/v2/control_surface/control_surface.py:435
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:608
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses bare
+            `parameter`; qualified to `device_parameter` for stub readability since
+            the type is DeviceParameter
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` — semantic name
+          - arg4 -> note             [callsite, semantic]: callsite passes
+            `control.message_identifier()` which in note context is a MIDI note number
+          - arg5 -> feedback_rule    [callsite]: variable named `feedback_rule`
+    type: int
+  - name: arg5
+    name_override:
+      value: feedback_rule
+      source: |
+        Arg renames verified against corpus call sites — all three sites pass the
+        same positional shape `(midi_map_handle, parameter, channel, identifier,
+        feedback_rule)`:
+          - _Framework/ControlSurface.py:485
+          - ableton/v2/control_surface/control_surface.py:435
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:608
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses bare
+            `parameter`; qualified to `device_parameter` for stub readability since
+            the type is DeviceParameter
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` — semantic name
+          - arg4 -> note             [callsite, semantic]: callsite passes
+            `control.message_identifier()` which in note context is a MIDI note number
+          - arg5 -> feedback_rule    [callsite]: variable named `feedback_rule`
+    type: Live.MidiMap.NoteFeedbackRule
+  returns:
+    type: bool
+
+- name: map_midi_pitchbend
+  signature: 'map_midi_pitchbend( (int)arg1, (DeviceParameter)arg2, (int)arg3, (bool)arg4) -> bool :'
+  cpp_signature: bool map_midi_pitchbend(unsigned int,TPyHandle<ATimeableValue>,int,bool)
+  args:
+  - name: arg1
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency
+          - arg4 -> needs_takeover  [inferred]: manual hints say bools in pitchbend methods indicate whether takeover is needed
+    type: int
+  - name: arg2
+    name_override:
+      value: device_parameter
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency
+          - arg4 -> needs_takeover  [inferred]: manual hints say bools in pitchbend methods indicate whether takeover is needed
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency
+          - arg4 -> needs_takeover  [inferred]: manual hints say bools in pitchbend methods indicate whether takeover is needed
+    type: int
+  - name: arg4
+    name_override:
+      value: needs_takeover
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [inferred]: consistent with other MidiMap functions
+          - arg2 -> device_parameter  [inferred]: type is DeviceParameter — qualified to distinguish from generic parameter
+          - arg3 -> midi_channel  [inferred]: MIDI channel parameter for consistency
+          - arg4 -> needs_takeover  [inferred]: manual hints say bools in pitchbend methods indicate whether takeover is needed
+    type: bool
+  returns:
+    type: bool
+
+- name: map_midi_pitchbend_with_feedback_map
+  signature: 'map_midi_pitchbend_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (PitchBendFeedbackRule)arg4, (bool)arg5) -> bool :'
+  cpp_signature: bool map_midi_pitchbend_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,NPythonMidiMap::TPitchBendFeedbackRule,bool)
+  args:
+  - name: arg1
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg renames verified against corpus call sites — all sites pass the same
+        positional shape `(midi_map_handle, parameter, channel, feedback_rule,
+        not needs_takeover)`:
+          - _Framework/ControlSurface.py:491
+          - ableton/v2/control_surface/control_surface.py:441
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:614
+          - MackieControl/ChannelStrip.py:199, 379
+          - MackieControl_Classic/ChannelStrip.py:197, 377
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses
+            `parameter` / `__fader_parameter`; qualified to `device_parameter`
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` (or `__strip_index`)
+          - arg4 -> feedback_rule    [callsite]: variable named `feedback_rule`
+            / `feeback_rule` [sic]
+          - arg5 -> needs_takeover   [callsite, semantic]: callsite passes
+            `not control.needs_takeover()` — the parameter controls takeover
+            behavior; bool inverted by caller
+    type: int
+  - name: arg2
+    name_override:
+      value: device_parameter
+      source: |
+        Arg renames verified against corpus call sites — all sites pass the same
+        positional shape `(midi_map_handle, parameter, channel, feedback_rule,
+        not needs_takeover)`:
+          - _Framework/ControlSurface.py:491
+          - ableton/v2/control_surface/control_surface.py:441
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:614
+          - MackieControl/ChannelStrip.py:199, 379
+          - MackieControl_Classic/ChannelStrip.py:197, 377
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses
+            `parameter` / `__fader_parameter`; qualified to `device_parameter`
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` (or `__strip_index`)
+          - arg4 -> feedback_rule    [callsite]: variable named `feedback_rule`
+            / `feeback_rule` [sic]
+          - arg5 -> needs_takeover   [callsite, semantic]: callsite passes
+            `not control.needs_takeover()` — the parameter controls takeover
+            behavior; bool inverted by caller
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    name_override:
+      value: midi_channel
+      source: |
+        Arg renames verified against corpus call sites — all sites pass the same
+        positional shape `(midi_map_handle, parameter, channel, feedback_rule,
+        not needs_takeover)`:
+          - _Framework/ControlSurface.py:491
+          - ableton/v2/control_surface/control_surface.py:441
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:614
+          - MackieControl/ChannelStrip.py:199, 379
+          - MackieControl_Classic/ChannelStrip.py:197, 377
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses
+            `parameter` / `__fader_parameter`; qualified to `device_parameter`
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` (or `__strip_index`)
+          - arg4 -> feedback_rule    [callsite]: variable named `feedback_rule`
+            / `feeback_rule` [sic]
+          - arg5 -> needs_takeover   [callsite, semantic]: callsite passes
+            `not control.needs_takeover()` — the parameter controls takeover
+            behavior; bool inverted by caller
+    type: int
+  - name: arg4
+    name_override:
+      value: feedback_rule
+      source: |
+        Arg renames verified against corpus call sites — all sites pass the same
+        positional shape `(midi_map_handle, parameter, channel, feedback_rule,
+        not needs_takeover)`:
+          - _Framework/ControlSurface.py:491
+          - ableton/v2/control_surface/control_surface.py:441
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:614
+          - MackieControl/ChannelStrip.py:199, 379
+          - MackieControl_Classic/ChannelStrip.py:197, 377
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses
+            `parameter` / `__fader_parameter`; qualified to `device_parameter`
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` (or `__strip_index`)
+          - arg4 -> feedback_rule    [callsite]: variable named `feedback_rule`
+            / `feeback_rule` [sic]
+          - arg5 -> needs_takeover   [callsite, semantic]: callsite passes
+            `not control.needs_takeover()` — the parameter controls takeover
+            behavior; bool inverted by caller
+    type: Live.MidiMap.PitchBendFeedbackRule
+  - name: arg5
+    name_override:
+      value: needs_takeover
+      source: |
+        Arg renames verified against corpus call sites — all sites pass the same
+        positional shape `(midi_map_handle, parameter, channel, feedback_rule,
+        not needs_takeover)`:
+          - _Framework/ControlSurface.py:491
+          - ableton/v2/control_surface/control_surface.py:441
+          - Axiom_AIR_25_49_61/Axiom_AIR_25_49_61.py:614
+          - MackieControl/ChannelStrip.py:199, 379
+          - MackieControl_Classic/ChannelStrip.py:197, 377
+        Per-arg mapping:
+          - arg1 -> midi_map_handle  [callsite]: variable named `midi_map_handle`
+          - arg2 -> device_parameter [callsite, type-qualified]: callsite uses
+            `parameter` / `__fader_parameter`; qualified to `device_parameter`
+          - arg3 -> midi_channel     [callsite, semantic]: callsite passes
+            `control.message_channel()` (or `__strip_index`)
+          - arg4 -> feedback_rule    [callsite]: variable named `feedback_rule`
+            / `feeback_rule` [sic]
+          - arg5 -> needs_takeover   [callsite, semantic]: callsite passes
+            `not control.needs_takeover()` — the parameter controls takeover
+            behavior; bool inverted by caller
+    type: bool
+  returns:
+    type: bool
+
+- name: send_feedback_for_parameter
+  signature: 'send_feedback_for_parameter( (int)arg1, (DeviceParameter)arg2) -> None :'
+  cpp_signature: void send_feedback_for_parameter(unsigned int,TPyHandle<ATimeableValue>)
+  args:
+  - name: arg1
+    name_override:
+      value: midi_map_handle
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [callsite, 8/8 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> device_parameter  [callsite]: corpus callsites (kwarg-named)
+    type: int
+  - name: arg2
+    name_override:
+      value: device_parameter
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> midi_map_handle  [callsite, 8/8 call sites]: corpus callsites (kwarg-named)
+          - arg2 -> device_parameter  [callsite]: corpus callsites (kwarg-named)
+    type: Live.DeviceParameter.DeviceParameter
+  returns:
+    type: None

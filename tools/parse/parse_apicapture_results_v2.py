@@ -1,25 +1,30 @@
 """
 Parse and enrich APICapture results into a single normalized tree.
 
-Takes the raw capture outputs (LiveTree.raw.json and LiveClasses.json) and runs a pipeline of transform steps to
-produce LiveTree.parsed.json — a cleaned-up tree with probe data merged in.
+Takes the raw capture (LiveTree.raw.json) and runs a pipeline of transform steps to produce
+LiveTree.parsed.json — a cleaned-up tree with all info derived purely from the raw_doc strings
+emitted by Boost.Python's introspection. Probe data (LiveClasses.json) is consumed downstream,
+not here.
 
 Pipeline steps:
-1. fix_malformed_class_names — split Boost.Python's concatenated class name/doc strings
-2. rewrite_raw_docs — propagate class name fixes into raw_doc text throughout the tree
-3a. resolve_inheritance — expand bases into full ancestor chains on class nodes
-3b. relocate_inherited_members — move inherited members to their true defining class
-4. parse_enums — parse string-encoded enum names/values into structured members, retype as "enum"
-5a. parse_function_docs — extract signature, description, and C++ signature from function docstrings
-5b. parse_signatures — split Python and C++ signatures into matched args and return types
-5c. build_type_map — build C++ → Python type mapping from signature pairs (stored in ctx, no tree changes)
-5d. resolve_signatures — resolve raw signature parts into clean structured args and returns
-6. merge_probe_data — merge runtime probe results (LiveClasses.json) onto matching tree nodes
+1. Malformed class name cleanup (Boost.Python concatenates class names with docstrings in some cases)
+    1a. find_malformed_class_names — identify Boost.Python's concatenated class name/doc strings (no mutations)
+    1b. fix_malformed_class_nodes — apply the name/raw_doc/repr fix on each affected class node
+    1c. rewrite_raw_docs_with_replacements — propagate the renames into raw_doc text throughout the tree
+2. Inheritance resolution
+    2a. resolve_inheritance — expand bases into full ancestor chains on class nodes
+    2b. relocate_inherited_members — move inherited members to their true defining class
+3. parse_enums — parse string-encoded enum names/values into structured members, retype as "enum"
+4. Function signature & arg/return resolution
+    4a. parse_function_docs — extract signature, description, and C++ signature from raw function docstrings
+    4b. parse_signatures — split Python and C++ signature lines into matched arg-text fragments
+    4c. build_type_map — aggregate fragment pairs into a C++ → Python type map (in ctx, no tree changes)
+    4d. resolve_signatures — produce final structured `args:` and `returns:` fields on each function node
 
 Usage:
-    python tools/parse/parse_apicapture_results.py 12.3.6
-    python tools/parse/parse_apicapture_results.py 12.3
-    python tools/parse/parse_apicapture_results.py 12.3.6 --output /tmp/LiveTree.parsed.json
+    python tools/parse/parse_apicapture_results_v2.py 12.3.6
+    python tools/parse/parse_apicapture_results_v2.py 12.3
+    python tools/parse/parse_apicapture_results_v2.py 12.3.6 --output /tmp/LiveTree.parsed.v2.json
 """
 
 from __future__ import annotations
@@ -36,7 +41,7 @@ TreeNode = dict[str, Any] | list[Any] | Any
 PipelineStep = Any  # Callable[[TreeNode, dict[str, Any]], TreeNode] — can't express cleanly without typing_extensions
 
 
-# ------------------------------------------------------------------------------- #
+# region------------------------------------------------------------------------- #
 # Helpers
 # ------------------------------------------------------------------------------- #
 
@@ -150,17 +155,34 @@ def _clean_description(lines: list[str]) -> str | None:
 
     return "\n".join(cleaned) if cleaned else None
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
-# Step 1: fix_malformed_class_names
+
+# region------------------------------------------------------------------------- #
+# Step 1: clean up malformed class names
+#
+# Boost.Python occasionally concatenates a class's __name__ with its docstring,
+# producing class nodes whose `name` field looks like "StartupDialogServes as
+# an entry point ...". The fix runs in three passes so discovery, node-level
+# repair, and tree-wide rename propagation are each isolated:
+#
+#   1a. find_malformed_class_names  — scan the tree, record finds in ctx
+#                                     (no mutations)
+#   1b. fix_malformed_class_nodes   — apply the name/raw_doc/repr fix on each
+#                                     affected node, populate ctx["replacements"]
+#   1c. rewrite_raw_docs_with_replacements
+#                                   — replace the broken name everywhere it
+#                                     appears in any raw_doc field
 # ------------------------------------------------------------------------------- #
 
 
 def _split_joined_class_name(name: str) -> tuple[str, str] | None:
     """Split a malformed class name into (class_name, doc_fragment).
 
-    Boost.Python sometimes concatenates the class name with its docstring when the class name contains spaces.
-    We find the nearest capital letter before the first space and split there.
+    Class identifiers can't contain spaces, so a space anywhere in `name`
+    signals concatenation with a docstring. We find the nearest capital
+    letter before the first space (the start of the docstring's first word
+    in CamelCase context) and split there.
 
     Example: "StartupDialogServes as ..." -> ("StartupDialog", "Serves as ...")
     """
@@ -184,20 +206,50 @@ def _split_joined_class_name(name: str) -> tuple[str, str] | None:
     return class_name, doc_fragment
 
 
-def _visit_fix_class_names(node: dict[str, Any], ctx: dict[str, Any], _parent: ClassContext) -> None:
-    """Visitor: fix malformed class names, stash replacements in ctx."""
+# --- Step 1a: find_malformed_class_names ---
+
+
+def _visit_find_malformed(node: dict[str, Any], ctx: dict[str, Any], _parent: ClassContext) -> None:
+    """Visitor: record class nodes with malformed (name, doc) concatenations."""
     if node.get("type") != "class":
         return
     class_name = node.get("name")
     if not isinstance(class_name, str):
         return
-
     split = _split_joined_class_name(class_name)
     if split is None:
         return
-
     new_name, doc_fragment = split
-    old_name = class_name
+    ctx.setdefault("malformed_class_names", {})[class_name] = {
+        "new_name": new_name,
+        "doc_fragment": doc_fragment,
+    }
+
+
+def find_malformed_class_names(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
+    """Scan tree; record malformed class nodes in ctx. No mutations."""
+    return _walk_tree(tree, _visit_find_malformed, ctx)
+
+
+# --- Step 1b: fix_malformed_class_nodes ---
+
+
+def _visit_fix_malformed_node(node: dict[str, Any], ctx: dict[str, Any], _parent: ClassContext) -> None:
+    """Visitor: apply the rename/raw_doc/repr fix on each malformed class node."""
+    finds = ctx.get("malformed_class_names") or {}
+    if not finds:
+        return
+    if node.get("type") != "class":
+        return
+    old_name = node.get("name")
+    if not isinstance(old_name, str):
+        return
+    info = finds.get(old_name)
+    if info is None:
+        return
+
+    new_name: str = info["new_name"]
+    doc_fragment: str = info["doc_fragment"]
 
     node["name"] = new_name
 
@@ -222,14 +274,14 @@ def _visit_fix_class_names(node: dict[str, Any], ctx: dict[str, Any], _parent: C
     ctx["stats"]["malformed_class_names"] = ctx["stats"].get("malformed_class_names", 0) + 1
 
 
-def fix_malformed_class_names(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
-    """Split Boost.Python's concatenated class name/doc strings."""
-    return _walk_tree(tree, _visit_fix_class_names, ctx)
+def fix_malformed_class_nodes(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
+    """Apply the recorded fix to each malformed class node."""
+    if not ctx.get("malformed_class_names"):
+        return tree
+    return _walk_tree(tree, _visit_fix_malformed_node, ctx)
 
 
-# ------------------------------------------------------------------------------- #
-# Step 2: rewrite_raw_docs
-# ------------------------------------------------------------------------------- #
+# --- Step 1c: rewrite_raw_docs_with_replacements ---
 
 
 def _visit_rewrite_raw_docs(node: dict[str, Any], ctx: dict[str, Any], _parent: ClassContext) -> None:
@@ -245,16 +297,30 @@ def _visit_rewrite_raw_docs(node: dict[str, Any], ctx: dict[str, Any], _parent: 
     node["raw_doc"] = raw_doc
 
 
-def rewrite_raw_docs(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
-    """Propagate class name fixes into raw_doc text throughout the tree."""
+def rewrite_raw_docs_with_replacements(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
+    """Propagate class-name renames from 1b into every raw_doc in the tree."""
     if not ctx.get("replacements"):
         return tree
     return _walk_tree(tree, _visit_rewrite_raw_docs, ctx)
 
+# endregion
 
+
+# region------------------------------------------------------------------------- #
+# Step 2: inheritance resolution
+#
+# Boost.Python class nodes carry their bases as repr strings; the actual
+# inheritance graph and which members were inherited (vs defined locally)
+# both have to be reconstructed:
+#
+#   2a. resolve_inheritance       — expand bases into full ancestor chains
+#                                   on each class node
+#   2b. relocate_inherited_members — move inherited members from the
+#                                   inherited site to their defining class
 # ------------------------------------------------------------------------------- #
-# Step 3: resolve_inheritance
-# ------------------------------------------------------------------------------- #
+
+
+# --- Step 2a: resolve_inheritance ---
 
 
 def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
@@ -326,9 +392,7 @@ def resolve_inheritance(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return tree
 
 
-# ------------------------------------------------------------------------------- #
-# Step 3b: relocate_inherited_members
-# ------------------------------------------------------------------------------- #
+# --- Step 2b: relocate_inherited_members ---
 
 
 def relocate_inherited_members(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
@@ -420,9 +484,18 @@ def relocate_inherited_members(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     ctx["stats"]["relocated_members"] = relocated
     return tree
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
-# Step 4: parse_enums
+
+# region------------------------------------------------------------------------- #
+# Step 3: parse_enums
+#
+# Boost.Python represents enums as `type` nodes whose `values` field holds a
+# string-encoded dict (e.g. "{0: Module.Enum.up, 1: Module.Enum.down}").
+# This step parses that string into a clean `{name: int}` map, retypes the
+# node from `type` to `enum`, and drops the now-redundant `names`/`values`
+# string fields. Non-enum `type` nodes (e.g. exception classes like
+# LimitationError) pass through untouched.
 # ------------------------------------------------------------------------------- #
 
 # Matches entries like "0: Module.Enum.member_name" in the string-encoded values dict.
@@ -464,10 +537,30 @@ def parse_enums(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     """Parse string-encoded enum names/values into structured members, retype as 'enum'."""
     return _walk_tree(tree, _visit_parse_enums, ctx)
 
+# endregion
 
+
+# region------------------------------------------------------------------------- #
+# Step 4: function signature & arg/return resolution
+#
+# Boost.Python emits each function's metadata as a single multiline raw_doc
+# string that mixes the Python-style signature, prose description, and a
+# trailing C++ signature line. The four sub-passes peel that apart and
+# reduce it to a clean structured form (typed args + return type):
+#
+#   4a. parse_function_docs — split raw_doc into (signature, description,
+#                             cpp_signature) string fields
+#   4b. parse_signatures    — split each signature line into raw arg-text
+#                             fragments paired between Python and C++
+#   4c. build_type_map      — aggregate paired fragments across all functions
+#                             to learn C++ → Python type mappings (in ctx,
+#                             no tree changes)
+#   4d. resolve_signatures  — apply the type map to produce final structured
+#                             `args:` and `returns:` fields on each function
 # ------------------------------------------------------------------------------- #
-# Step 5a: parse_function_docs
-# ------------------------------------------------------------------------------- #
+
+
+# --- Step 4a: parse_function_docs ---
 
 _FUNCTION_TYPES = {"function", "builtin_function_or_method", "method", "method_descriptor"}
 
@@ -540,9 +633,7 @@ def parse_function_docs(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return _walk_tree(tree, _visit_parse_function_docs, ctx)
 
 
-# ------------------------------------------------------------------------------- #
-# Step 5b: parse_signatures
-# ------------------------------------------------------------------------------- #
+# --- Step 4b: parse_signatures ---
 
 
 def _split_sig_args(arg_str: str) -> list[tuple[str, int]]:
@@ -820,9 +911,7 @@ def parse_signatures(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     return _walk_tree(tree, _visit_parse_signatures, ctx)
 
 
-# ------------------------------------------------------------------------------- #
-# Step 5c: build_type_map
-# ------------------------------------------------------------------------------- #
+# --- Step 4c: build_type_map ---
 
 # Known C++ → Python primitive mappings that don't need signature evidence.
 _CPP_PRIMITIVES: dict[str, str] = {
@@ -910,31 +999,10 @@ def build_type_map(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
 
     ctx["cpp_to_py"] = cpp_to_py
     ctx["stats"]["type_map_entries"] = len(cpp_to_py)
-
-    # Collect every enum class name in the tree so resolve_signatures can apply
-    # the structural enum-arg convention (Boost.Python emits enum classes as
-    # `int` subclasses, so any arg typed as a bare enum class is implicitly
-    # `EnumType | int` at runtime — the union form is the honest annotation).
-    enum_classes: set[str] = set()
-
-    def _collect(node: TreeNode) -> None:
-        if isinstance(node, dict):
-            if node.get("type") == "enum" and node.get("name"):
-                enum_classes.add(node["name"])
-            for value in node.values():
-                _collect(value)
-        elif isinstance(node, list):
-            for item in node:
-                _collect(item)
-
-    _collect(tree)
-    ctx["enum_classes"] = enum_classes
     return tree
 
 
-# ------------------------------------------------------------------------------- #
-# Step 5d: resolve_signatures
-# ------------------------------------------------------------------------------- #
+# --- Step 4d: resolve_signatures ---
 
 # Regex to parse Python arg text: "(Type)name" or "(Type)name=default"
 _PY_ARG_RE = re.compile(r"^\((\w+)\)(\w+)(?:=(.+))?$")
@@ -997,10 +1065,22 @@ def _resolve_returns(raw: dict[str, Any], cpp_to_py: dict[str, str]) -> dict[str
 
 
 def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent: ClassContext) -> None:
-    """Visitor: resolve raw signature parts into clean structured args and returns.
+    """Resolve raw arg/return text into clean structured `args:` and `returns:`.
 
-    Also applies well-known arg name patterns: arg1→self for instance methods,
-    listener callback naming, and Vector append/extend naming.
+    Two phases:
+
+      1. Per-arg/return resolution — `_resolve_arg` and `_resolve_returns`
+         parse the `(Type)name=default` annotation, fall back to the C++ type
+         map for generic Python types, and produce
+         `{name, type, optional, default}` (or `{type}` for returns).
+
+      2. Three special-case fixups, applied after generic resolution because
+         they need either parent-class context or function-name pattern
+         matching that the per-arg resolver doesn't have:
+
+           a. arg1 → self          (instance-method first arg)
+           b. listener callbacks   (last arg of *_listener triplet)
+           c. Vector append/extend (parent name ends in "Vector")
     """
     if node.get("type") not in _FUNCTION_TYPES:
         return
@@ -1011,46 +1091,49 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
 
     cpp_to_py = ctx.get("cpp_to_py", {})
     name = node.get("name", "")
+
+    # Phase 1: generic per-arg resolution.
     args = [_resolve_arg(a, cpp_to_py) for a in raw_args]
 
-    # Rename arg1 to self when its type matches the parent class or an ancestor
+    # Phase 2a: arg1 → self, when the first arg's type confirms it's the
+    # instance. Boost.Python emits unnamed positional args as `arg1`; for
+    # instance methods, that's conceptually `self`. Only renames when the
+    # type matches the parent class or one of its ancestors — guards against
+    # mis-renaming on functions that aren't actually methods.
     if args and parent.name and args[0].get("name") == "arg1":
         arg1_type = args[0].get("type")
         if arg1_type == parent.name or arg1_type in parent.ancestors:
             args[0]["name"] = "self"
 
-    # Listener methods: last arg is the callback. Live's binding invokes
-    # listeners with zero args, so `Callable[[], None]` is the honest shape.
-    # Corpus check (external/corpus, filtered to Live binding listener names
-    # with strict same-file resolution) showed all 8 resolvable callbacks are
-    # zero-arg; no shipped Remote Script registers a listener that takes args.
+    # Phase 2b: listener callbacks. For listener methods (add_*/remove_*/
+    # *_has_listener), the last arg is the callback. Boost.Python types it
+    # generically (usually `object`), which doesn't communicate the
+    # zero-arg contract. Override to `Callable[[], None]` named "callback".
+    #
+    # Justification: corpus audit (external/corpus, filtered to Live binding
+    # listener names with same-file resolution) shows all 8 resolvable
+    # callbacks are zero-arg; no shipped Remote Script registers a listener
+    # that takes args. The *_has_listener case is technically a callback to
+    # check membership of, not invoke — but the type is still correct.
     is_listener = name.endswith("_listener") and ("add_" in name or "remove_" in name or "has_" in name)
     if is_listener and len(args) >= 2:
         args[-1]["type"] = "Callable[[], None]"
         args[-1]["name"] = "callback"
 
-    # Enum-arg convention: Boost.Python emits enum classes as `int` subclasses,
-    # so any arg typed as a bare enum class also accepts the underlying int at
-    # runtime (audit confirmed against Ableton's shipped Remote Scripts —
-    # corpus passes raw ints to e.g. `MidiMap.map_midi_cc.map_mode`). Widen
-    # bare-enum arg types to `EnumType | int` so the annotation matches the
-    # binding's actual acceptance. Refinements that explicitly want the
-    # strict-enum form can override by setting `to: "EnumType"`.
-    enum_classes: set[str] = ctx.get("enum_classes", set())
-    if enum_classes:
-        for arg in args:
-            arg_type = arg.get("type")
-            if isinstance(arg_type, str) and arg_type in enum_classes:
-                arg["type"] = f"{arg_type} | int"
-
-    # Vector methods: append(value), extend(values)
+    # Phase 2c: Vector append/extend. Live's container types (IntVector,
+    # StringVector, BrowserItemVector, ...) expose `append` and `extend`.
+    # The raw signature shows the parameter as a single element of the
+    # element type; we want:
+    #   - append(arg1) → append(value)               (rename only)
+    #   - extend(arg1) → extend(values: Iterable[E]) (rename + wrap type)
+    # The `extend` type wrap is skipped when the resolver fell back to
+    # `object` — `Iterable[object]` would be misleading scaffolding.
     if parent.name and parent.name.endswith("Vector"):
         if name == "append" and len(args) == 2 and args[1].get("name", "").startswith("arg"):
             args[1]["name"] = "value"
         elif name == "extend" and len(args) == 2:
             if args[1].get("name", "").startswith("arg"):
                 args[1]["name"] = "values"
-            # extend takes an iterable of elements, not a single element
             elem_type = args[1].get("type")
             if elem_type and elem_type != "object":
                 args[1]["type"] = f"Iterable[{elem_type}]"
@@ -1058,7 +1141,7 @@ def _visit_resolve_signatures(node: dict[str, Any], ctx: dict[str, Any], parent:
     node["args"] = args
     node["returns"] = _resolve_returns(raw_returns, cpp_to_py)
 
-    # Track object resolutions
+    # Stats: count args whose final type isn't the `object` fallback.
     resolved = sum(1 for a in args if a["type"] and a["type"] != "object")
     unresolved = sum(1 for a in args if a["type"] == "object")
     ctx["stats"]["resolved_args"] = ctx["stats"].get("resolved_args", 0) + resolved
@@ -1069,243 +1152,17 @@ def resolve_signatures(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
     """Resolve raw signature parts into clean structured args and returns."""
     return _walk_tree(tree, _visit_resolve_signatures, ctx)
 
-
-# ------------------------------------------------------------------------------- #
-# Step 6: merge_probe_data
-# ------------------------------------------------------------------------------- #
+# endregion
 
 
-def merge_probe_data(tree: TreeNode, ctx: dict[str, Any]) -> TreeNode:
-    """Merge runtime probe results (LiveClasses.json) onto matching tree nodes.
-
-    Matches class nodes by repr. Stamps property types, element_repr, constructable,
-    and cross-checks getter return types against resolved signatures.
-    Skips gracefully if no probe data is available in ctx.
-    """
-    probe: dict[str, Any] = ctx.get("probe_data", {})
-    if not probe:
-        return tree
-
-    merged_props = 0
-    merged_element = 0
-    getter_upgrades = 0
-    getter_mismatches: list[str] = []
-
-    def _merge(node: TreeNode) -> None:
-        nonlocal merged_props, merged_element, getter_upgrades
-        if isinstance(node, dict):
-            node_type = node.get("type")
-            if node_type == "class" and not node.get("ref"):
-                r = node.get("repr")
-                entry = probe.get(r) if r else None
-                if entry:
-                    _merge_class(node, entry)
-            elif node_type == "module" and not node.get("ref"):
-                r = node.get("repr")
-                entry = probe.get(r) if r else None
-                if entry and entry.get("is_module"):
-                    _merge_module(node, entry)
-            for value in node.values():
-                _merge(value)
-        elif isinstance(node, list):
-            for item in node:
-                _merge(item)
-
-    _PRIMITIVE_REPRS = {f"<class '{t}'>" for t in ("int", "float", "str", "bool")}
-
-    def _resolve_element_reprs(reprs: list[str]) -> str | None:
-        """Resolve a list of element reprs to a single element_repr.
-
-        - Single repr → use it directly.
-        - All known Live API classes → LomObject.
-        - All same primitive → use it.
-        - Mixed or unknown → object.
-        """
-        if not reprs:
-            return None
-        # Filter out NoneType — empty slots aren't informative
-        meaningful = [r for r in reprs if r != "<class 'NoneType'>"]
-        if not meaningful:
-            return None
-        if len(meaningful) == 1:
-            # Single type — validate it's known
-            r = meaningful[0]
-            if r in probe or r in _PRIMITIVE_REPRS:
-                return r
-            return repr(object)
-        # Multiple types — check if all are known Live API classes
-        if all(r in probe for r in meaningful):
-            return "<class 'LomObject.LomObject'>"
-        # Mixed or unknown
-        return repr(object)
-
-    def _merge_module(node: dict, entry: dict) -> None:
-        """Merge probe data onto a module node — stamp return types of get_*() functions."""
-        nonlocal getter_upgrades
-        children = node.get("children") or []
-        children_by_name: dict[str, dict] = {}
-        for child in children:
-            if isinstance(child, dict) and "name" in child:
-                children_by_name[child["name"]] = child
-
-        getters = entry.get("getters", {})
-        for getter_name, getter_info in getters.items():
-            if not getter_info.get("probed"):
-                continue
-            child = children_by_name.get(getter_name)
-            if not child or child.get("type") not in _FUNCTION_TYPES:
-                continue
-            returns = child.setdefault("returns", {})
-            if not isinstance(returns, dict):
-                continue
-            probed_type = getter_info.get("type")
-            if not probed_type:
-                continue
-            tree_type = returns.get("type")
-            # Only stamp when the parser couldn't pin down the return type.
-            # If the parser had stronger evidence (e.g., from C++ signature),
-            # leave it alone — manual refinements may further narrow it later.
-            if tree_type in (None, "object"):
-                returns["type"] = probed_type
-                getter_upgrades += 1
-
-    def _merge_class(node: dict, entry: dict) -> None:
-        nonlocal merged_props, merged_element, getter_upgrades
-
-        children = node.get("children", [])
-        children_by_name: dict[str, dict] = {}
-        for child in children:
-            if isinstance(child, dict) and "name" in child:
-                children_by_name[child["name"]] = child
-
-        # Properties: stamp probed_type, probed_repr, and element_type/element_repr
-        props = entry.get("properties", {})
-        for prop_name, prop_info in props.items():
-            if not prop_info.get("probed"):
-                continue
-            child = children_by_name.get(prop_name)
-            if child and child.get("type") == "property":
-                probed_type = prop_info.get("type")
-                if probed_type:
-                    # Normalize the runtime type name into a Python type
-                    # annotation. The probe records `type(value).__name__` —
-                    # so an observed None comes through as the string
-                    # 'NoneType', which is the runtime class name, not a
-                    # Python type annotation. The annotation form is `None`.
-                    if probed_type == "NoneType":
-                        probed_type = "None"
-                    child["probed_type"] = probed_type
-                probed_repr = prop_info.get("repr")
-                if probed_repr:
-                    child["probed_repr"] = probed_repr
-                # Resolve element type for iterable properties.
-                # For vector classes, iterability is on the class entry in repr_index.
-                # For tuple properties, element_reprs may be on prop_info directly.
-                class_entry = probe.get(probed_repr) if probed_repr else None
-                is_iterable = (class_entry and class_entry.get("iterable")) or prop_info.get("element_reprs")
-                if is_iterable:
-                    elem_reprs = prop_info.get("element_reprs")
-                    if not elem_reprs and class_entry:
-                        # Fall back to the class entry (only if it has a single
-                        # element type — generic containers like Base.Vector have
-                        # many and shouldn't be used as fallback)
-                        class_reprs = class_entry.get("element_reprs")
-                        if class_reprs and len(class_reprs) == 1:
-                            elem_reprs = class_reprs
-                    if elem_reprs:
-                        resolved = _resolve_element_reprs(elem_reprs)
-                        if resolved:
-                            child["element_repr"] = resolved
-                merged_props += 1
-
-        # _live_ptr is always an int (internal C++ pointer handle on every LOM object)
-        live_ptr = children_by_name.get("_live_ptr")
-        if live_ptr and live_ptr.get("type") == "property" and not live_ptr.get("probed_type"):
-            live_ptr["probed_type"] = "int"
-            merged_props += 1
-
-        # Constructable: stamp onto class node
-        if entry.get("constructable"):
-            saved_children = node.pop("children", None)
-            node["constructable"] = True
-            if saved_children is not None:
-                node["children"] = saved_children
-
-        # Getters: cross-check return types, upgrade object → probed type
-        getters = entry.get("getters", {})
-        for getter_name, getter_info in getters.items():
-            if not getter_info.get("probed"):
-                continue
-            child = children_by_name.get(getter_name)
-            if not child or child.get("type") not in _FUNCTION_TYPES:
-                continue
-            returns = child.get("returns")
-            if not isinstance(returns, dict):
-                continue
-            tree_type = returns.get("type")
-            probed_type = getter_info.get("type")
-            if not probed_type:
-                continue
-            if tree_type == "object" and probed_type != "object":
-                returns["type"] = probed_type
-                getter_upgrades += 1
-            elif tree_type and tree_type != "object" and probed_type != tree_type:
-                getter_mismatches.append(f"{node.get('name')}.{getter_name}: tree={tree_type}, probe={probed_type}")
-
-        # iterable + element_reprs: stamp onto class node
-        # Probe-based: the probe stamped iterable on the class entry
-        # Heuristic: classes with append/extend are iterable even if never probed
-        is_iterable = entry.get("iterable") or any(
-            children_by_name.get(fn, {}).get("type") in _FUNCTION_TYPES for fn in ("append", "extend")
-        )
-        if is_iterable:
-            saved_children = node.pop("children", None)
-            node["iterable"] = True
-            if saved_children is not None:
-                node["children"] = saved_children
-        elem_reprs = entry.get("element_reprs")
-        if elem_reprs:
-            element_repr = _resolve_element_reprs(elem_reprs)
-            if element_repr:
-                saved_children = node.pop("children", None)
-                node["element_repr"] = element_repr
-                if saved_children is not None:
-                    node["children"] = saved_children
-                merged_element += 1
-
-                # Resolve remaining object args on append/extend using element_repr
-                m = re.match(r"<class '(?:[\w.]+\.)?(\w+)'>", element_repr)
-                if m:
-                    element_type = m.group(1)
-                    for fn_name in ("append", "extend"):
-                        fn = children_by_name.get(fn_name)
-                        if not fn or fn.get("type") not in _FUNCTION_TYPES:
-                            continue
-                        for p in fn.get("args", []):
-                            if p.get("type") == "object":
-                                if fn_name == "extend":
-                                    p["type"] = f"Iterable[{element_type}]"
-                                else:
-                                    p["type"] = element_type
-
-    _merge(tree)
-
-    if getter_mismatches:
-        ctx["getter_mismatches"] = getter_mismatches
-    ctx["stats"]["merged_properties"] = merged_props
-    ctx["stats"]["merged_element_types"] = merged_element
-    ctx["stats"]["getter_return_upgrades"] = getter_upgrades
-    ctx["stats"]["getter_return_mismatches"] = len(getter_mismatches)
-    return tree
-
-
-# ------------------------------------------------------------------------------- #
+# region------------------------------------------------------------------------- #
 # Pipeline
 # ------------------------------------------------------------------------------- #
 
 STEPS: list[PipelineStep] = [
-    fix_malformed_class_names,
-    rewrite_raw_docs,
+    find_malformed_class_names,
+    fix_malformed_class_nodes,
+    rewrite_raw_docs_with_replacements,
     resolve_inheritance,
     relocate_inherited_members,
     parse_enums,
@@ -1313,7 +1170,6 @@ STEPS: list[PipelineStep] = [
     parse_signatures,
     build_type_map,
     resolve_signatures,
-    merge_probe_data,
 ]
 
 
@@ -1328,8 +1184,10 @@ def run_pipeline(tree: TreeNode, ctx: dict[str, Any] | None = None) -> tuple[Tre
 
     return tree, ctx
 
+# endregion
 
-# ------------------------------------------------------------------------------- #
+
+# region------------------------------------------------------------------------- #
 # CLI
 # ------------------------------------------------------------------------------- #
 
@@ -1377,11 +1235,6 @@ def main() -> None:
         data = json.load(f)
 
     ctx: dict[str, Any] = {}
-    probe_path = pipeline_dir / "LiveClasses.json"
-    if probe_path.exists():
-        with open(probe_path, "r", encoding="utf-8") as f:
-            ctx["probe_data"] = json.load(f)
-
     parsed, ctx = run_pipeline(data, ctx)
     stats = ctx.get("stats", {})
 
@@ -1394,6 +1247,8 @@ def main() -> None:
     if stats:
         parts.append("(" + ", ".join(f"{v} {k.replace('_', ' ')}" for k, v in stats.items()) + ")")
     print(" ".join(parts))
+    
+# endregion
 
 
 if __name__ == "__main__":

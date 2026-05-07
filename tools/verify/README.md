@@ -24,8 +24,8 @@ Treats the stubs as source code and runs pyright on them. Catches:
 
 Does **not** catch types that are syntactically valid but semantically wrong (e.g.,
 `Iterable[MidiNoteSpecification]` claimed when the binding requires `MidiNoteVector`). That class of
-accuracy issue is addressed by hand-curated `manual_refinements.yaml` overrides with per-entry sourced
-rationale.
+accuracy issue is addressed by hand-curated `<field>_override:` blocks in `stubs/<v>/lom/*.yaml`, each
+carrying a per-override `source:` rationale.
 
 **Tracking only.** Currently zero errors (post-cleanup baseline). `--strict` mode promotes Tier 2 to a
 hard gate; without it Tier 2 stays informational so CI can surface regressions without blocking unrelated
@@ -42,10 +42,10 @@ at the stubs directory lets pyright find `Live/` as a regular Python package via
 has `__init__.pyi` + `py.typed`), so no wheel build / venv install dance is needed for the verify run —
 that infrastructure exists separately for PyPI publishing.
 
-**Tracking only.** Currently 99.9% (2728 symbols, 2725 known, 3 unknown). Surfaced in the CI job summary;
+**Tracking only.** Currently 99.9% (2725 symbols, 2722 known, 3 unknown). Surfaced in the CI job summary;
 promotable to a hard gate via `--strict` (which requires 100%). The 3 remaining unknowns all cascade from
-one root — `PitchBendFeedbackRule.value_pair_map`'s inner-tuple element type — documented in
-`tools/parse/refinements_followup.md`.
+one root — `PitchBendFeedbackRule.value_pair_map`'s inner-tuple element type, where no corpus or M4L
+evidence pins the inner shape and refining without evidence is forbidden.
 
 ### Tier 4 — Usage tests (`pyright tests/usage/`)
 

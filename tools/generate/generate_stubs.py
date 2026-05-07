@@ -1,768 +1,697 @@
-"""Generate .pyi stub files from LiveTree.refined.json.
+#!/usr/bin/env python3
+"""Build .pyi stub files from per-module LOM YAML.
 
-Walks the parsed tree and emits typed Python stubs for the Ableton Live Object Model.
-Each namespace module becomes a flat .pyi file under the Live/ package, mirroring how the
-real C extension module is structured (Live.Song is a module, not a package).
+Reads stubs/<v>/lom/*.yaml (the curated SOT) and emits .pyi stubs.
+Wherever the YAML carries a sibling `<field>_override:` block, the
+override's `value:` is preferred over the parser-derived field — that's
+the seam through which manual refinements reach the rendered stubs.
 
 Usage:
     python tools/generate/generate_stubs.py 12.3.6
-    python tools/generate/generate_stubs.py 12.3.6 --input path/to/parsed.json --output path/to/Live
+    python tools/generate/generate_stubs.py 12.3.6 --input <dir> --output <dir>
 """
 
 from __future__ import annotations
 
 import argparse
-import json
 import re
-import shutil
+import sys
 from io import StringIO
-from os import makedirs
-from os.path import abspath, exists, join
+from pathlib import Path
+from typing import Any
 
-_HEADER = "from __future__ import annotations\nfrom typing import TYPE_CHECKING, Any, Callable, Iterable\n"
+import yaml
 
-# Extra header for files that define Vector types (need Generic, TypeVar, Iterator)
-_VECTOR_HEADER = (
-    "from __future__ import annotations\n"
-    "from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload\n"
-    "\nT = TypeVar('T', covariant=True)\n"
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+
+# --- Override-aware field access --------------------------------------- #
+
+
+def _resolve(node: dict[str, Any], key: str) -> Any:
+    """Read `key` from `node`, preferring `<key>_override.value` when present.
+
+    Mirrors the override pattern in doc/lom-format.md: parser-derived
+    field and human override sit side-by-side; consumer picks override.
+    """
+    override = node.get(f"{key}_override")
+    if isinstance(override, dict) and "value" in override:
+        return override["value"]
+    return node.get(key)
+
+
+# --- Type rendering ---------------------------------------------------- #
+
+# Matches `Live.<Module>.<Class>[.<Nested>...]` in qualified type strings.
+_LIVE_PATH_RE = re.compile(r"\bLive\.[A-Za-z_][\w.]*")
+
+
+def render_type(qualified: str, current_module: str, imports: set[tuple[str, str]]) -> str:
+    """Convert a qualified Live path → bare/dotted form for stub emission.
+
+    `Live.Track.Track` from Song module → "Track" + import from Live.Track.
+    `Live.Song.Song.View` from Song module → "View" (same module, bare leaf).
+    `Live.Device.Device.View` from RackDevice module → "Device.View" + import.
+    Non-Live paths (builtins, composites) pass through unchanged.
+    """
+    parts = qualified.split(".")
+    if len(parts) < 3 or parts[0] != "Live":
+        return qualified
+    target_module = parts[1]
+    top_class = parts[2]
+    rest = parts[3:]
+    if target_module == current_module:
+        # Same module: bare leaf works at every nesting level under
+        # `from __future__ import annotations` (lazy resolution).
+        return parts[-1]
+    imports.add((f"Live.{target_module}", top_class))
+    return ".".join([top_class, *rest]) if rest else top_class
+
+
+def render_type_string(type_str: str | None, current_module: str, imports: set[tuple[str, str]]) -> str:
+    """Replace each Live.X.Y[.Z...] token in a composite type string with
+    its rendered form, accumulating imports."""
+    if not type_str:
+        return "Any"
+    return _LIVE_PATH_RE.sub(lambda m: render_type(m.group(0), current_module, imports), type_str)
+
+
+# --- Stub formatting --------------------------------------------------- #
+
+INDENT = "    "
+
+
+def _indent(lines: list[str], level: int) -> list[str]:
+    return [INDENT * level + line if line else line for line in lines]
+
+
+def _wrap_docstring(text: str) -> list[str]:
+    """Format a docstring in the convention used by the old generator —
+    triple-quoted, on its own line(s) when multi-line, inline otherwise."""
+    text = text.strip()
+    if not text:
+        return []
+    if "\n" not in text:
+        return [f'"""{text}"""']
+    return ['"""', *text.split("\n"), '"""']
+
+
+def _ret_type_for_type(type_str: str | None,
+                       current_module: str,
+                       imports: set[tuple[str, str]]) -> str:
+    """Resolve a property/return type for stub emission.
+
+    The YAML now carries fully-resolved canonical type strings
+    (`list[float]`, `Live.Base.Vector[Live.Track.Track]`, `int | None`,
+    etc.) — the stub generator just unqualifies the Live class names
+    and accumulates imports.
+    """
+    if type_str is None:
+        return "Any"
+    return render_type_string(type_str, current_module, imports)
+
+
+def _format_arg(arg: dict[str, Any], current_module: str, imports: set[tuple[str, str]],
+                enclosing_class: str | None = None) -> str:
+    name = _resolve(arg, "name")
+    # The YAML's `type:` already carries optional widening (`T | None`
+    # when default is None) — we just unqualify Live class names here.
+    type_str = render_type_string(_resolve(arg, "type") or "Any", current_module, imports)
+    if arg.get("optional"):
+        default = arg.get("default") or "None"
+        # Boost.Python's signature qualifies module-level enums under the
+        # enclosing class (e.g. `Application.MessageButtons.OK_BUTTON`).
+        # In our stubs MessageButtons is at module scope, so strip the
+        # enclosing-class prefix to get `MessageButtons.OK_BUTTON` — the
+        # form that actually resolves under pyright.
+        if enclosing_class and default.startswith(f"{enclosing_class}."):
+            default = default[len(enclosing_class) + 1:]
+        return f"{name}: {type_str} = {default}"
+    return f"{name}: {type_str}"
+
+
+def _format_method_args(args: list[dict[str, Any]], current_module: str,
+                        imports: set[tuple[str, str]], is_method: bool,
+                        method_name: str = "", enclosing_class: str | None = None) -> str:
+    """Produce the parenthesized arg list including PEP 570 `, /`.
+
+    Live's binding accepts only positional args, so every callable ends
+    with `, /` after its last positional. For methods, `self` is the
+    first arg and is rendered as `self` (no type annotation, matching
+    Python convention). `__init__` skips the `, /` marker — v1 emits
+    `def __init__(self, ...) -> None: ...` without the positional-only
+    fence."""
+    formatted: list[str] = []
+    rest = list(args)
+    if is_method and rest and rest[0].get("name") == "self":
+        formatted.append("self")
+        rest = rest[1:]
+    for arg in rest:
+        formatted.append(_format_arg(arg, current_module, imports, enclosing_class))
+    if (
+        method_name != "__init__"
+        and formatted
+        and (len(formatted) > 1 or not is_method or formatted[0] != "self")
+    ):
+        formatted.append("/")
+    return ", ".join(formatted)
+
+
+_LISTENER_ADD_DOC = (
+    'Add a listener function or method, which will be called as soon as the\n'
+    'property "{prop}" has changed.'
+)
+_LISTENER_REMOVE_DOC = (
+    'Remove a previously set listener function or method from\n'
+    'property "{prop}".'
+)
+_LISTENER_HAS_DOC = (
+    'Returns true, if the given listener function or method is connected\n'
+    'to the property "{prop}".'
 )
 
-# Matches capitalized identifiers that could be class/enum references in type annotations.
-_TYPE_REF_RE = re.compile(r"\b([A-Z][A-Za-z0-9]+)\b")
 
-# Matches Boost.Python init_doc arg patterns: (type)name or (type)name=default
-_INIT_ARG_RE = re.compile(r"\((\w+)\)(\w+)(?:=([^\s\],\)]+))?")
+def _build_listener_method(method_name: str, prop_name: str) -> list[str]:
+    """Re-expand one folded listener method into a full def block."""
+    if method_name.startswith("add_"):
+        doc = _LISTENER_ADD_DOC.format(prop=prop_name)
+        ret = "None"
+    elif method_name.startswith("remove_"):
+        doc = _LISTENER_REMOVE_DOC.format(prop=prop_name)
+        ret = "None"
+    else:
+        doc = _LISTENER_HAS_DOC.format(prop=prop_name)
+        ret = "bool"
+    out = [f"def {method_name}(self, callback: Callable[[], None], /) -> {ret}:"]
+    for line in _indent(_wrap_docstring(doc), 1):
+        out.append(line)
+    out.append(INDENT + "...")
+    return out
 
-# Extracts the short class name from a repr like "<class 'Module.ClassName'>".
-_CLASS_REPR_RE = re.compile(r"<class '(?:[\w.]+\.)?(\w+)'>")
 
-# Same as above but also captures the module prefix (e.g. "Device" from "<class 'Device.View'>").
-_CLASS_REPR_MODULE_RE = re.compile(r"<class '(?:(\w+)\.)?(\w+)'>")
+def _build_property_block(prop: dict[str, Any], current_module: str,
+                           imports: set[tuple[str, str]],
+                           registry: dict[str, Any]) -> list[str]:
+    """Just the @property + setter (NO listeners — those are emitted as
+    separate sortable members so they alphabetize with regular methods).
 
-# Names that should never appear in TYPE_CHECKING imports.
-_SKIP_NAMES = {"None", "Callable", "Any", "TYPE_CHECKING", "IO", "Exception"}
+    Three cases for type rendering:
+    - Real property with `type:` → emit `def name(self) -> T: ...`
+    - Real property without `type:` (probe didn't observe it) → emit
+      `def name(self): ...` matching v1's no-annotation style
+    - Listener-only signal (no `type:`, no `settable:`) → emit nothing
+      here; only the listener methods land in the class body
+    """
+    name = _resolve(prop, "name")
+    type_str = _resolve(prop, "type")
+    # Property-level element_type_override upgrades a non-parametric type
+    # to its parametric form for the two cases where the property type
+    # itself is generic: `Live.Base.Vector` + element=DeviceParameter →
+    # `Live.Base.Vector[DeviceParameter]`, and `tuple` + element=int →
+    # `tuple[int, ...]`. For typed Vector subclasses (UnavailableFeatureVector,
+    # BrowserItemIterator, etc.) the element lives on the class itself, so the
+    # override is redundant at the property site and skipped here.
+    elem_ov = prop.get("element_type_override")
+    if isinstance(elem_ov, dict) and elem_ov.get("value") and type_str:
+        elem_val = elem_ov["value"]
+        if type_str == "tuple":
+            type_str = f"tuple[{elem_val}, ...]"
+        elif type_str == "Live.Base.Vector":
+            type_str = f"Live.Base.Vector[{elem_val}]"
+    has_settable = "settable" in prop
+    if type_str is None and not has_settable:
+        return []  # listener-only signal — handled by the listener methods
+    if type_str is None:
+        # Real property with no observed type — emit without return
+        # annotation (matches v1).
+        out = ["@property", f"def {name}(self):"]
+        raw_doc = prop.get("raw_doc")
+        if raw_doc:
+            for line in _indent(_wrap_docstring(raw_doc), 1):
+                out.append(line)
+        out.append(INDENT + "...")
+        return out
+    rendered = _ret_type_for_type(type_str, current_module, imports)
+    out = ["@property", f"def {name}(self) -> {rendered}:"]
+    raw_doc = prop.get("raw_doc")
+    if raw_doc:
+        for line in _indent(_wrap_docstring(raw_doc), 1):
+            out.append(line)
+    out.append(INDENT + "...")
+    if prop.get("settable"):
+        out.append("")
+        out.append(f"@{name}.setter")
+        out.append(f"def {name}(self, value: {rendered}) -> None: ...")
+    return out
 
 
-class StubGenerator:
-    def __init__(self, tree: dict, output_dir: str):
-        self.tree = tree
-        self.output_dir = output_dir
+# Dunder sort prefixes so dunders precede all alphabetical members and
+# come out in the iteration-protocol's canonical order (iter, getitem,
+# len, contains, bool). __init__ leads when present.
+_DUNDER_SORT_PREFIX = {
+    "__init__":     "00_init",
+    "__iter__":     "01_iter",
+    "__getitem__":  "02_getitem",
+    "__len__":      "03_len",
+    "__contains__": "04_contains",
+    "__bool__":     "05_bool",
+}
 
-        # Indexes built in Phase 1
-        self._class_to_module: dict[str, str] = {}
-        self._module_classes: dict[str, set[str]] = {}
-        self._nested_class_parent: dict[str, str] = {}  # "View" -> "Device" (nested class -> parent)
-        self._enum_lookup: dict[str, int] = {}
-        self._vector_types: set[str] = set()  # class names that are vector types
-        self._vector_element_fallback: dict[str, str] = {}  # vector class -> default element type
-        self._typed_properties: dict[str, set[str]] = {}  # class name -> property names with probed_type
-        self._class_ancestors: dict[str, list[str]] = {}  # class name -> ancestor class names
 
-    # ------------------------------------------------------------------
-    # Phase 1: Indexing
-    # ------------------------------------------------------------------
+def _sort_key(name: str) -> str:
+    return _DUNDER_SORT_PREFIX.get(name, name)
 
-    def _build_indexes(self) -> None:
-        """Walk the entire tree once to build lookup tables."""
-        for module_node in self.tree.get("children", []):
-            module_name = module_node["name"]
-            self._module_classes.setdefault(module_name, set())
-            for child in module_node.get("children", []):
-                self._index_node(child, module_name, parent_class=None)
 
-    def _index_node(self, node: dict, module_name: str, parent_class: str | None) -> None:
-        if node.get("ref"):
-            return
+def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
+                             imports: set[tuple[str, str]]) -> list[tuple[str, list[str]]]:
+    """Synthesize iterator-protocol methods for an iterable container
+    class. Element type uses the class's `element_type:` when known,
+    otherwise `Any`. The `__getitem__` triplet is overload + overload +
+    impl (matching v1's emission). Live-class element types are
+    rendered through the type qualifier so they unqualify + add imports
+    cleanly.
 
-        name = node.get("name", "")
-        node_type = node.get("type", "")
+    Only fires for *containers* — classes that have both `append` and
+    `extend`. Plain iterators (e.g. `Browser.BrowserItemIterator`) are
+    flagged iterable for the base class but don't get dunders, since
+    iterators don't support append/extend or __len__-style operations.
+    """
+    if not cls.get("iterable"):
+        return []
+    # Only the parametric base (`Live.Base.Vector`) gets dunders synthesized
+    # at this layer. Non-parametric containers inherit the protocol from
+    # `Vector[E]` (their declared base), and plain iterators get only the
+    # `Iterable[E]` base with no body.
+    if not cls.get("parametric"):
+        return []
+    cls_name = cls["name"]
+    # Parametric containers use TypeVar `T` for the element type and
+    # `Self` for the slice return — that way subclasses inheriting via
+    # `class XVector(Vector[E])` see slice operations narrow to `XVector`,
+    # not the broader `Vector[E]`.
+    if cls.get("parametric"):
+        elem = "T"
+        cls_name = "Self"
+    else:
+        elem_raw = _resolve(cls, "element_type") or "Any"
+        elem = render_type_string(elem_raw, current_module, imports)
+    out: list[tuple[str, list[str]]] = []
 
-        if node_type in ("class", "enum", "type"):
-            if parent_class:
-                # Nested class — track parent so we can qualify references
-                self._nested_class_parent[name] = parent_class
+    out.append(("__iter__", [f"def __iter__(self) -> Iterator[{elem}]: ..."]))
+
+    # __getitem__ is emitted as 3 separate `def` blocks (overload + overload
+    # + impl) but they share the sort key — listed alphabetically, all
+    # three blocks appear together at the __getitem__ position.
+    getitem_block = [
+        "@overload",
+        f"def __getitem__(self, index: int) -> {elem}: ...",
+        "",
+        "@overload",
+        f"def __getitem__(self, index: slice) -> {cls_name}: ...",
+        "",
+        f"def __getitem__(self, index: int | slice) -> {elem} | {cls_name}: ...",
+    ]
+    out.append(("__getitem__", getitem_block))
+
+    out.append(("__len__", ["def __len__(self) -> int: ..."]))
+    out.append(("__contains__", ["def __contains__(self, value: object) -> bool: ..."]))
+    out.append(("__bool__", ["def __bool__(self) -> bool: ..."]))
+    return out
+
+
+def _build_container_mutators(cls: dict[str, Any], current_module: str,
+                               imports: set[tuple[str, str]]) -> list[tuple[str, list[str]]]:
+    """Synthesize `append` / `extend` for concrete container subclasses
+    (`container: true` flag). Both methods use the class's element type
+    directly so the abstract `Vector(Generic[T_co])` base stays read-only
+    at the type level — `T_co` covariance lets `Vector[Subclass]`
+    substitute for `Vector[Parent]`, which the input position of an
+    inherited `append(value: T)` would forbid.
+    """
+    if not cls.get("container"):
+        return []
+    elem_raw = _resolve(cls, "element_type")
+    if not elem_raw:
+        return []
+    elem = render_type_string(elem_raw, current_module, imports)
+    return [
+        ("append", [f"def append(self, value: {elem}, /) -> None: ..."]),
+        ("extend", [f"def extend(self, values: Iterable[{elem}], /) -> None: ..."]),
+    ]
+
+
+def _build_method_block(method: dict[str, Any], current_module: str,
+                         imports: set[tuple[str, str]], registry: dict[str, Any],
+                         is_method: bool, enclosing_class: str | None = None) -> list[str]:
+    """Class method or module-level function block."""
+    name = _resolve(method, "name")
+    args = method.get("args") or []
+    returns = method.get("returns") or {}
+    ret_type = _ret_type_for_type(_resolve(returns, "type"), current_module, imports)
+    arg_str = _format_method_args(args, current_module, imports, is_method, name, enclosing_class)
+    raw_doc = method.get("raw_doc")
+    # __init__ uses inline form (`def __init__(...) -> None: ...`)
+    # regardless of arg count — matches v1's emission. Other methods
+    # use the multi-line body even when there's no docstring.
+    if name == "__init__":
+        return [f"def {name}({arg_str}) -> {ret_type}: ..."]
+    out = [f"def {name}({arg_str}) -> {ret_type}:"]
+    if raw_doc:
+        for line in _indent(_wrap_docstring(raw_doc), 1):
+            out.append(line)
+    out.append(INDENT + "...")
+    return out
+
+
+def _build_enum_block(enum: dict[str, Any]) -> list[str]:
+    out = [f"class {enum['name']}(int):"]
+    raw_doc = enum.get("raw_doc")
+    if raw_doc:
+        for line in _indent(_wrap_docstring(raw_doc), 1):
+            out.append(line)
+    members = enum.get("members") or {}
+    if not members:
+        if not raw_doc:
+            out.append(INDENT + "...")
+    else:
+        # Emit by ascending value (matches v1 generator). The parser's
+        # dict order can be source-declaration order which doesn't always
+        # align with value order.
+        for n, v in sorted(members.items(), key=lambda kv: kv[1]):
+            out.append(f"{INDENT}{n}: int = {v}")
+    return out
+
+
+def _build_constant_block(const: dict[str, Any]) -> list[str]:
+    val = const["value"]
+    # Prefer double-quoted string literals (matching v1's emission style)
+    # — `repr()` defaults to single quotes for plain strings.
+    if isinstance(val, str) and "\n" not in val and '"' not in val:
+        val_str = f'"{val}"'
+    else:
+        val_str = repr(val)
+    return [f"{const['name']}: {const.get('type', 'str')} = {val_str}"]
+
+
+def _collect_class_members(cls: dict[str, Any], current_module: str,
+                            imports: set[tuple[str, str]],
+                            registry: dict[str, Any]) -> list[tuple[str, list[str], str]]:
+    """Collect all member blocks at this class as (sort_key, lines, kind) tuples.
+
+    The third tuple element is a presentational kind tag used by the
+    emitter to decide spacing — consecutive `constant` entries pack
+    tight (no blank line between them), other adjacent kinds get a
+    blank-line separator.
+    """
+    entries: list[tuple[str, list[str], str]] = []
+    # Iterator-protocol synthesis for iterable container classes —
+    # __iter__/__getitem__/__len__/__contains__/__bool__. Stub-specific
+    # presentation; not in the YAML.
+    for key, lines in _build_iterable_dunders(cls, current_module, imports):
+        entries.append((key, lines, "method"))
+    for key, lines in _build_container_mutators(cls, current_module, imports):
+        entries.append((key, lines, "method"))
+    for nested in cls.get("classes") or []:
+        entries.append((nested["name"], _build_class_block(nested, current_module, imports, registry), "class"))
+    for nested in cls.get("enums") or []:
+        entries.append((nested["name"], _build_enum_block(nested), "enum"))
+    for prop in cls.get("properties") or []:
+        block = _build_property_block(prop, current_module, imports, registry)
+        if block:
+            entries.append((prop["name"], block, "property"))
+        for listener in prop.get("listenable") or []:
+            entries.append((listener, _build_listener_method(listener, prop["name"]), "method"))
+    for m in cls.get("methods") or []:
+        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True, cls["name"]), "method"))
+    for c in cls.get("constants") or []:
+        entries.append((c["name"], _build_constant_block(c), "constant"))
+    return entries
+
+
+def _build_class_block(cls: dict[str, Any], current_module: str,
+                       imports: set[tuple[str, str]],
+                       registry: dict[str, Any]) -> list[str]:
+    """Class definition with members alphabetized at each level.
+
+    Iterable container classes:
+      - Parametric base (`Live.Base.Vector`) → `class Vector(Generic[T])`
+        with full iterator-protocol + append/extend declared once,
+        all typed against the TypeVar `T`.
+      - Concrete iterable subclasses (`MidiNoteVector`, `FloatVector`, ...)
+        → `class XVector(Vector[E])` with empty body. Every dunder and
+        every typed method comes from the parameterized base.
+      - Non-container iterables that lack append/extend (e.g. iterators)
+        keep `Iterable[E]` as the base since they don't fit the Vector shape.
+    """
+    name = cls["name"]
+    base_str = ""
+    if cls.get("iterable"):
+        is_container = bool(cls.get("container"))
+        if cls.get("parametric"):
+            base_str = "(Generic[T])"
+            typing_extras: set[str] = registry["_module_typing_extras"]
+            typing_extras.update(("Generic", "Iterator", "Self", "TypeVar", "overload"))
+            registry["_module_emits_typevar"] = True
+        elif is_container:
+            elem = _resolve(cls, "element_type")
+            if elem:
+                elem_rendered = render_type_string(elem, current_module, imports)
+                imports.add(("Live.Base", "Vector"))
+                base_str = f"(Vector[{elem_rendered}])"
             else:
-                self._class_to_module[name] = module_name
-                self._module_classes[module_name].add(name)
-
-            # Index enum members for default-value resolution. The structural
-            # widening of bare-enum arg types to `EnumType | int` lives in the
-            # parser (resolve_signatures) — the generator only resolves enum-
-            # typed default values back to their int representation.
-            if node_type == "enum" and node.get("members"):
-                for mname, mval in node["members"].items():
-                    self._enum_lookup[f"{module_name}.{name}.{mname}"] = mval
-
-            # Detect vector types from iterable flag on class nodes
-            # Only treat as vector if it has mutable vector methods (append/extend);
-            # read-only iterables like BrowserItemIterator are not vectors.
-            if node_type == "class":
-                if node.get("iterable"):
-                    children = node.get("children", [])
-                    if any(c.get("name") in ("append", "extend") for c in children):
-                        self._vector_types.add(name)
-                element_repr = node.get("element_repr")
-                if element_repr:
-                    m = _CLASS_REPR_RE.match(element_repr)
-                    if m:
-                        self._vector_element_fallback[name] = m.group(1)
-
-                # Index ancestors and typed properties so we can suppress
-                # subclass property overrides that re-declare a parent property
-                # with no new probe info — see _render_property.
-                ancestors_raw = node.get("ancestors") or []
-                ancestor_names: list[str] = []
-                for a in ancestors_raw:
-                    m = _CLASS_REPR_RE.match(a)
-                    if m:
-                        # ancestor entries look like "<class 'Module.ClassName'>";
-                        # take the trailing ClassName which is what we key by.
-                        ancestor_names.append(m.group(1).split(".")[-1])
-                self._class_ancestors[name] = ancestor_names
-
-                typed_props: set[str] = set()
-                for child in node.get("children", []):
-                    if child.get("type") == "property" and child.get("probed_type"):
-                        typed_props.add(child.get("name", ""))
-                if typed_props:
-                    self._typed_properties[name] = typed_props
-
-            # Recurse into children
-            for child in node.get("children", []):
-                self._index_node(child, module_name, parent_class=parent_class or name)
-
-    # ------------------------------------------------------------------
-    # Phase 2: Generation
-    # ------------------------------------------------------------------
-
-    def generate(self) -> None:
-        """Main entry point: index, then generate all stub files."""
-        self._build_indexes()
-
-        if exists(self.output_dir):
-            shutil.rmtree(self.output_dir)
-        makedirs(self.output_dir)
-
-        module_names: list[str] = []
-        for module_node in self.tree.get("children", []):
-            module_name = module_node["name"]
-            module_names.append(module_name)
-            self._write_module(module_node)
-
-        self._write_top_init(module_names)
-
-        # PEP 561 marker
-        with open(join(self.output_dir, "py.typed"), "w") as f:
-            pass
-
-    def _write_module(self, module_node: dict) -> None:
-        """Write one namespace module as a flat .pyi file.
-
-        The real Live module is a C extension where each submodule (Live.Song, etc.) is a
-        flat module, not a package. We mirror this by writing a single {Module}.pyi file
-        containing the main class and all helper types.
-        """
-        module_name = module_node["name"]
-        main_class, other_nodes = self._split_main_class(module_node)
-        self._write_module_file(module_name, main_class, other_nodes)
-
-    def _split_main_class(self, module_node: dict) -> tuple[dict | None, list[dict]]:
-        """Split children into main-class node and remaining init-level nodes.
-
-        The main class is a direct child class whose name matches the module name.
-        """
-        module_name = module_node["name"]
-        main_class = None
-        init_nodes: list[dict] = []
-
-        for child in module_node.get("children", []):
-            if child.get("ref"):
-                continue
-            if (
-                child.get("type") == "class"
-                and child.get("name") == module_name
-                and main_class is None
-            ):
-                main_class = child
+                base_str = "(Iterable)"
+                typing_extras = registry["_module_typing_extras"]
+                typing_extras.add("Iterable")
+        else:
+            # Plain iterator (no append/extend) — Iterable[E] base, no
+            # synthesized dunders, no TypeVar (concrete element type).
+            elem = _resolve(cls, "element_type")
+            if elem:
+                elem_rendered = render_type_string(elem, current_module, imports)
+                base_str = f"(Iterable[{elem_rendered}])"
             else:
-                init_nodes.append(child)
-
-        return main_class, init_nodes
-
-    # ------------------------------------------------------------------
-    # File writers
-    # ------------------------------------------------------------------
-
-    def _write_module_file(
-        self, module_name: str, main_class_node: dict | None, other_nodes: list[dict],
-    ) -> None:
-        """Write {Module}.pyi as a flat file containing the main class and all helpers."""
-        buf = StringIO()
-        exports: list[str] = []
-        mod_path = f"Live.{module_name}"
-
-        # Render main class first (if present)
-        if main_class_node is not None:
-            self._render_class(main_class_node, buf, indent=0, path=mod_path)
-            exports.append(module_name)
-
-        # Render remaining nodes (helper classes, enums, functions)
-        for node in other_nodes:
-            node_type = node.get("type", "")
-            if node_type == "class":
-                self._render_class(node, buf, indent=0, path=mod_path)
-                exports.append(node["name"])
-            elif node_type == "enum":
-                self._render_enum(node, buf, indent=0)
-                exports.append(node["name"])
-            elif node_type == "type":
-                self._render_type_node(node, buf, indent=0)
-                exports.append(node["name"])
-            elif node_type == "function":
-                func_path = f"{mod_path}.{node['name']}"
-                self._render_function(node, buf, indent=0, is_method=False, path=func_path)
-                exports.append(node["name"])
-
-        body = buf.getvalue()
-
-        # Collect all defined names for import resolution
-        defined_names = set(exports)
-        if main_class_node is not None:
-            defined_names.update(self._collect_defined_names(main_class_node))
-
-        type_checking_block = self._build_type_checking_block(body, module_name, defined_names)
-
-        # Use vector header if this module defines any vector types
-        all_nodes = ([main_class_node] if main_class_node else []) + other_nodes
-        has_vectors = any(n.get("name", "") in self._vector_types for n in all_nodes if n.get("type") == "class")
-        header = _VECTOR_HEADER if has_vectors else _HEADER
-
-        out_file = join(self.output_dir, f"{module_name}.pyi")
-        with open(out_file, "w", encoding="utf-8") as f:
-            f.write(header)
-            if type_checking_block:
-                f.write(f"\n{type_checking_block}\n")
-            f.write(body)
-            f.write(f"\n\n__all__ = {exports!r}\n")
-
-    def _write_top_init(self, module_names: list[str]) -> None:
-        """Write Live/__init__.pyi that imports all submodules."""
-        out_file = join(self.output_dir, "__init__.pyi")
-        with open(out_file, "w", encoding="utf-8") as f:
-            for name in module_names:
-                f.write(f"from . import {name}\n")
-            f.write(f"\n__all__ = {module_names!r}\n")
-
-    # ------------------------------------------------------------------
-    # Node renderers
-    # ------------------------------------------------------------------
-
-    def _render_class(self, node: dict, buf: StringIO, indent: int, path: str = "") -> None:
-        """Render a class node and its non-ref children."""
-        name = node["name"]
-        class_path = f"{path}.{name}" if path else name
-        pad = "    " * indent
-
-        # Determine base class
-        base = self._vector_base(name, node) or self._ancestor_base(node) or self._iterable_base(node)
-        if base:
-            buf.write(f"\n\n{pad}class {name}({base}):")
-        else:
-            buf.write(f"\n\n{pad}class {name}:")
-        doc = node.get("description") or node.get("raw_doc")
-        has_body = False
-
-        if doc:
-            self._write_docstring(doc, buf, indent + 1)
-            has_body = True
-
-        # Render __init__ for constructable classes
-        if node.get("constructable") and node.get("init_doc"):
-            self._render_init(node, buf, indent + 1, containing_class=name)
-            has_body = True
-
-        # Render container dunder methods for vector types
-        if name in self._vector_types:
-            if name == "Vector":
-                self._render_vector_dunders(buf, indent + 1)
-            else:
-                elem = self._vector_element_fallback.get(name, "Any")
-                self._render_vector_dunders(buf, indent + 1, elem=elem, cls=name)
-            has_body = True
-
-        # Render children
-        children = [c for c in node.get("children", []) if not c.get("ref")]
-        if children:
-            self._render_children(children, buf, indent + 1, path=class_path, containing_class=name)
-            has_body = True
-
-        if not has_body:
-            buf.write(f"\n{pad}    ...")
-
-    def _render_init(self, node: dict, buf: StringIO, indent: int, containing_class: str = "") -> None:
-        """Parse init_doc and render an __init__ method for constructable classes."""
-        init_doc = node.get("init_doc", "")
-        if not init_doc:
-            return
-
-        # Extract the signature line (first line starting with __init__)
-        sig_line = ""
-        for line in init_doc.strip().split("\n"):
-            line = line.strip()
-            if line.startswith("__init__"):
-                sig_line = line
-                break
-
-        if not sig_line:
-            return
-
-        # Parse args from the signature
-        args = list(_INIT_ARG_RE.finditer(sig_line))
-        if not args:
-            return
-
-        pad = "    " * indent
-
-        # Build arg list, skipping the first (object)arg1 which is self
-        formatted_args = ["self"]
-        for i, m in enumerate(args):
-            if i == 0 and m.group(1) == "object" and m.group(2) == "arg1":
-                continue  # Skip implicit self
-            arg_type = self._resolve_probed_type(m.group(1), containing_class=containing_class)
-            arg_name = m.group(2)
-            default = m.group(3)
-            if default is not None:
-                formatted_args.append(f"{arg_name}: {arg_type} = {default}")
-            else:
-                formatted_args.append(f"{arg_name}: {arg_type}")
-
-        args_str = ", ".join(formatted_args)
-        buf.write(f"\n\n{pad}def __init__({args_str}) -> None: ...")
-
-    def _render_enum(self, node: dict, buf: StringIO, indent: int) -> None:
-        """Render an enum node as a class with int attributes."""
-        name = node["name"]
-        pad = "    " * indent
-
-        base = self._ancestor_base(node)
-        base_str = f"({base})" if base else ""
-        buf.write(f"\n\n{pad}class {name}{base_str}:")
-        doc = node.get("raw_doc")
-        if doc:
-            self._write_docstring(doc, buf, indent + 1)
-
-        members = node.get("members", {})
-        if members:
-            for mname, mval in sorted(members.items(), key=lambda x: x[1]):
-                buf.write(f"\n{pad}    {mname}: int = {mval}")
-        else:
-            buf.write(f"\n{pad}    ...")
-
-    def _render_function(
-        self, node: dict, buf: StringIO, indent: int, *, is_method: bool, path: str = ""
-    ) -> None:
-        """Render a function/method node."""
-        name = node["name"]
-        pad = "    " * indent
-
-        # Build args — all parameters are positional-only (Boost.Python doesn't
-        # reliably support keyword arguments for Live API methods)
-        args = node.get("args", [])
-        formatted_args: list[str] = []
-        for arg in args:
-            formatted_args.append(self._format_arg(arg))
-        if len(formatted_args) > (1 if is_method else 0):
-            formatted_args.append("/")
-
-        args_str = ", ".join(formatted_args)
-
-        # Return type
-        returns = node.get("returns")
-        ret_type = returns["type"] if returns and returns.get("type") else "None"
-
-        buf.write(f"\n\n{pad}def {name}({args_str}) -> {ret_type}:")
-
-        doc = node.get("description")
-        if doc:
-            self._write_docstring(doc, buf, indent + 1)
-
-        buf.write(f"\n{pad}    ...")
-
-    def _parent_has_typed_property(self, class_name: str, prop_name: str) -> bool:
-        """True iff any ancestor of `class_name` declares `prop_name` with a probed type."""
-        if not class_name:
-            return False
-        for ancestor in self._class_ancestors.get(class_name, []):
-            if prop_name in self._typed_properties.get(ancestor, set()):
-                return True
-        return False
-
-    def _render_property(
-        self, node: dict, buf: StringIO, indent: int, path: str = "", containing_class: str = "",
-    ) -> None:
-        """Render a property node with optional setter.
-
-        Skip the override entirely when the subclass has no probe info AND a parent
-        class declares the same-named property with full info. The probe explicitly
-        recorded `probed: False` for those cases (e.g. Device.is_using_compare_preset_b
-        on container subclasses where reading the property raises at runtime). Emitting
-        a typeless override there produces a Liskov violation against the parent's
-        typed property; not emitting lets normal inheritance fill in the correct shape.
-        """
-        name = node["name"]
-        pad = "    " * indent
-
-        probed_type = node.get("probed_type")
-        probed_repr = node.get("probed_repr", "")
-        type_str = (
-            self._resolve_probed_type(
-                probed_type, containing_class=containing_class, probed_repr=probed_repr,
-            )
-            if probed_type else None
-        )
-
-        if not probed_type and self._parent_has_typed_property(containing_class, name):
-            return
-
-        # For generic vector bases (Vector, ObjectVector), parameterize with the
-        # property's element type. For specialized vectors (MidiNoteVector), keep the
-        # concrete class name — the class def already extends Vector[T].
-        _GENERIC_VECTORS = {"Vector", "ObjectVector"}
-        if type_str and type_str in _GENERIC_VECTORS:
-            element_repr = node.get("element_repr")
-            if element_repr:
-                elem = self._resolve_element_repr(element_repr, containing_class)
-                if elem:
-                    type_str = f"Vector[{elem}]"
-
-        if type_str in ("tuple", "list"):
-            element_repr = node.get("element_repr")
-            if element_repr:
-                elem = self._resolve_element_repr(element_repr, containing_class)
-                if elem:
-                    type_str = f"tuple[{elem}, ...]" if type_str == "tuple" else f"list[{elem}]"
-
-        # Getter
-        ret_annotation = f" -> {type_str}" if type_str else ""
-        buf.write(f"\n\n{pad}@property")
-        buf.write(f"\n{pad}def {name}(self){ret_annotation}:")
-
-        doc = node.get("raw_doc")
-        if doc:
-            self._write_docstring(doc, buf, indent + 1)
-
-        buf.write(f"\n{pad}    ...")
-
-        # Setter
-        if node.get("settable") and type_str:
-            buf.write(f"\n\n{pad}@{name}.setter")
-            buf.write(f"\n{pad}def {name}(self, value: {type_str}) -> None: ...")
-
-    def _render_str_const(self, node: dict, buf: StringIO, indent: int) -> None:
-        """Render a string constant (e.g. Variants members)."""
-        name = node["name"]
-        pad = "    " * indent
-
-        # Value comes as "'Beta'" — strip outer quotes and re-emit
-        raw_value = node.get("value", "")
-        if raw_value.startswith("'") and raw_value.endswith("'"):
-            value = raw_value[1:-1]
-        elif raw_value.startswith('"') and raw_value.endswith('"'):
-            value = raw_value[1:-1]
-        else:
-            value = raw_value
-
-        buf.write(f'\n{pad}{name}: str = "{value}"')
-
-    def _render_type_node(self, node: dict, buf: StringIO, indent: int) -> None:
-        """Render a type node (e.g. LimitationError)."""
-        name = node["name"]
-        pad = "    " * indent
-        base = self._ancestor_base(node)
-        base_str = f"({base})" if base else ""
-        buf.write(f"\n\n{pad}class {name}{base_str}: ...")
-
-    def _render_children(
-        self, children: list[dict], buf: StringIO, indent: int, path: str = "",
-        containing_class: str = "",
-    ) -> None:
-        """Render a list of child nodes, dispatching by type."""
-        for child in children:
-            if child.get("ref"):
-                continue
-
-            child_name = child.get("name", "")
-            child_path = f"{path}.{child_name}" if path else child_name
-            node_type = child.get("type", "")
-            if node_type == "class":
-                self._render_class(child, buf, indent, path=path)
-            elif node_type == "enum":
-                self._render_enum(child, buf, indent)
-            elif node_type == "function":
-                self._render_function(child, buf, indent, is_method=True, path=child_path)
-            elif node_type == "property":
-                self._render_property(child, buf, indent, path=child_path, containing_class=containing_class)
-            elif node_type == "str":
-                self._render_str_const(child, buf, indent)
-            elif node_type == "type":
-                self._render_type_node(child, buf, indent)
-
-    # ------------------------------------------------------------------
-    # Type resolution
-    # ------------------------------------------------------------------
-
-    def _resolve_probed_type(
-        self, probed_type: str | None, *, containing_class: str = "", probed_repr: str = "",
-    ) -> str:
-        """Map a probed type name to a Python type annotation.
-
-        If the type is a nested class (e.g. View), qualify it with the parent class
-        (e.g. Device.View) — unless the containing class defines that nested class itself.
-        Uses probed_repr (e.g. "<class 'Device.View'>") for precise parent resolution.
-        """
-        if not probed_type:
-            return "Any"
-        # The parser normalizes runtime-observed types into Python type
-        # annotations (e.g. `type(None).__name__` of `'NoneType'` becomes
-        # the annotation `'None'`). Manual refinements in
-        # `tools/parse/manual_refinements.yaml` are responsible for narrowing
-        # probe-observed-None into the right `T | None` for known cases;
-        # see doc/decisions.md. This emitter no longer widens — what reaches
-        # generation is what gets emitted, so unrefined None observations
-        # surface as literal `-> None` getters and trigger maintainer
-        # attention rather than being silently absorbed as `Any`.
-        resolved = probed_type
-        if resolved in self._nested_class_parent:
-            # Extract parent from probed_repr if available (e.g. "<class 'Device.View'>" -> "Device")
-            parent = None
-            if probed_repr:
-                inner = probed_repr.strip("<>").removeprefix("class ").strip("'\"")
-                if "." in inner:
-                    parent = inner.rsplit(".", 1)[0]
-            # Fall back to the indexed parent
-            if not parent:
-                parent = self._nested_class_parent[resolved]
-            if parent != containing_class:
-                resolved = f"{parent}.{resolved}"
-        return resolved
-
-    def _format_arg(self, arg: dict) -> str:
-        """Format a function argument for the stub signature."""
-        name = arg["name"]
-        if name == "self":
-            return "self"
-
-        arg_type = arg.get("type", "object")
-        default = arg.get("default")
-
-        # When default references an enum, widen type to accept both enum and int.
-        # The bare-enum widening lives in the parser (resolve_signatures), but the
-        # default-references-enum case still needs this rule because the parser
-        # only sees the arg's annotated type — `int` here — without the semantic
-        # signal that comes from the default value.
-        if default and arg_type == "int" and "." in str(default):
-            parts = str(default).split(".")
-            if len(parts) == 3:
-                enum_class = parts[1]
-                # Check if the enum class is known
-                if enum_class in self._class_to_module:
-                    arg_type = f"{enum_class} | int"
-
-        # When the explicit default value is the literal None (string "None" in the parsed
-        # tree), widen type to accept None. NB: an arg with no default has default == None
-        # (Python None, meaning "no default"), which must NOT trigger widening.
-        # `default == "None"` correctly distinguishes the two cases (Python None != "None"),
-        # whereas `str(default) == "None"` would conflate them.
-        if default == "None" and "None" not in arg_type:
-            arg_type = f"{arg_type} | None"
-
-        s = f"{name}: {arg_type}"
-        if default is not None:
-            s += f" = {self._resolve_default(str(default))}"
-        return s
-
-    def _resolve_default(self, default: str) -> str:
-        """Resolve a default value, replacing enum references with their int value."""
-        if "." not in default:
-            return default
-        # Check if it's a float (not an enum reference)
-        try:
-            float(default)
-            return default
-        except ValueError:
-            pass
-
-        val = self._enum_lookup.get(default)
-        if val is not None:
-            return str(val)
-        return default
-
-    # ------------------------------------------------------------------
-    # TYPE_CHECKING imports
-    # ------------------------------------------------------------------
-
-    def _build_type_checking_block(
-        self,
-        body: str,
-        module_name: str,
-        defined_names: set[str],
-    ) -> str:
-        """Scan body for type references and build an `if TYPE_CHECKING:` import block."""
-        # Find all capitalized identifiers that could be class references
-        referenced = set(_TYPE_REF_RE.findall(body))
-
-        # Filter to known Live API classes/enums
-        referenced &= self._class_to_module.keys()
-
-        # Remove stdlib/builtin names
-        referenced -= _SKIP_NAMES
-
-        # Remove names defined in this file
-        referenced -= defined_names
-
-        if not referenced:
-            return ""
-
-        cross_imports: dict[str, list[str]] = {}
-
-        for cls in sorted(referenced):
-            source_module = self._class_to_module[cls]
-            if source_module == module_name:
-                continue  # defined in this file
-            cross_imports.setdefault(source_module, []).append(cls)
-
-        if not cross_imports:
-            return ""
-
-        lines = ["if TYPE_CHECKING:"]
-        for mod in sorted(cross_imports):
-            names = ", ".join(sorted(cross_imports[mod]))
-            lines.append(f"    from Live.{mod} import {names}")
-
-        return "\n".join(lines) + "\n"
-
-    # ------------------------------------------------------------------
-    # Helpers
-    # ------------------------------------------------------------------
-
-    def _collect_defined_names(self, node: dict) -> set[str]:
-        """Collect all class/enum names defined within a node (including nested)."""
-        names = set()
-        if node.get("type") in ("class", "enum", "type"):
-            names.add(node["name"])
-        for child in node.get("children", []):
-            if not child.get("ref"):
-                names.update(self._collect_defined_names(child))
-        return names
-
-    def _render_vector_dunders(self, buf: StringIO, indent: int,
-                               elem: str = "T", cls: str = "Vector[T]") -> None:
-        """Render container dunder methods for a vector class.
-
-        For the generic ``Vector``, *elem* is ``T`` and *cls* is ``Vector[T]``.
-        For specialized vectors, *elem* is the concrete element type (e.g. ``int``)
-        and *cls* is the class name (e.g. ``IntVector``).
-        """
-        pad = "    " * indent
-        buf.write(f"\n\n{pad}def __iter__(self) -> Iterator[{elem}]: ...")
-        buf.write(f"\n\n{pad}@overload")
-        buf.write(f"\n{pad}def __getitem__(self, index: int) -> {elem}: ...")
-        buf.write(f"\n\n{pad}@overload")
-        buf.write(f"\n{pad}def __getitem__(self, index: slice) -> {cls}: ...")
-        buf.write(f"\n\n{pad}def __getitem__(self, index: int | slice) -> {elem} | {cls}: ...")
-        buf.write(f"\n\n{pad}def __len__(self) -> int: ...")
-        buf.write(f"\n\n{pad}def __contains__(self, value: object) -> bool: ...")
-        buf.write(f"\n\n{pad}def __bool__(self) -> bool: ...")
-
-    def _ancestor_base(self, node: dict) -> str:
-        """Return the direct parent class from ancestors, or empty string."""
-        ancestors = node.get("ancestors", [])
-        if not ancestors:
-            return ""
-        # First ancestor is the direct parent; skip Boost.Python.instance (equivalent to object)
-        parent_repr = ancestors[0]
-        if "Boost.Python.instance" in parent_repr:
-            return ""
-        if "Boost.Python.enum" in parent_repr:
-            return "int"
-        m = _CLASS_REPR_MODULE_RE.match(parent_repr)
-        if not m:
-            return ""
-        parent_module, parent_class = m.group(1), m.group(2)
-        # Qualify with module when the parent class name matches the current class name
-        # (e.g. Device.View → "Device.View" not "View" which would be self-referential)
-        if parent_class == node.get("name") and parent_module:
-            return f"{parent_module}.{parent_class}"
-        return parent_class
-
-    def _resolve_element_repr(self, element_repr: str, containing_class: str = "") -> str | None:
-        """Extract and resolve a type name from an element_repr string like "<class 'Module.Name'>"."""
-        m = _CLASS_REPR_RE.match(element_repr)
-        if not m:
-            return None
-        return self._resolve_probed_type(m.group(1), containing_class=containing_class, probed_repr=element_repr)
-
-    def _iterable_base(self, node: dict) -> str:
-        """Return Iterable[T] for non-vector iterable classes, or empty string."""
-        if not node.get("iterable"):
-            return ""
-        element_repr = node.get("element_repr")
-        if not element_repr:
-            return "Iterable"
-        elem = self._resolve_element_repr(element_repr)
-        return f"Iterable[{elem}]" if elem else "Iterable"
-
-    def _vector_base(self, name: str, node: dict) -> str:
-        """Return the base class string for vector types, or empty string for non-vectors.
-
-        Only the generic ``Vector`` class gets a base (``Generic[T]``).
-        Specialized vectors are standalone — at runtime they inherit from
-        ``Boost.Python.instance``, not from ``Vector``.
-        """
-        if name not in self._vector_types:
-            return ""
-        if name == "Vector":
-            return "Generic[T]"
-        return ""
-
-    def _write_docstring(self, doc: str, buf: StringIO, indent: int) -> None:
-        """Write a docstring at the given indent level."""
-        pad = "    " * indent
-        lines = doc.strip().split("\n")
-        if len(lines) == 1:
-            buf.write(f'\n{pad}"""{lines[0].strip()}"""')
-        else:
-            buf.write(f'\n{pad}"""')
-            for line in lines:
-                stripped = line.strip()
-                if stripped:
-                    buf.write(f"\n{pad}{stripped}")
-                else:
-                    buf.write("")
-            buf.write(f'\n{pad}"""')
-
-
-def main():
-    parser = argparse.ArgumentParser(description="Generate .pyi stub files from LiveTree.refined.json")
-    parser.add_argument("version", help="Live version (e.g. 12.3.6)")
-    parser.add_argument(
-        "--input",
-        help="Path to refined tree (default: stubs/{version}/pipeline/LiveTree.refined.json)",
+                base_str = "(Iterable)"
+            typing_extras = registry["_module_typing_extras"]
+            typing_extras.add("Iterable")
+    else:
+        ancestors = cls.get("ancestors") or []
+        if ancestors:
+            bases = [render_type(a, current_module, imports) for a in ancestors[:1]]
+            base_str = f"({', '.join(bases)})"
+    raw_doc = cls.get("raw_doc")
+    members = _collect_class_members(cls, current_module, imports, registry)
+    if not members and not raw_doc:
+        # Empty class body — inline form: `class X(B): ...`
+        return [f"class {name}{base_str}: ..."]
+
+    out = [f"class {name}{base_str}:"]
+    if raw_doc:
+        for line in _indent(_wrap_docstring(raw_doc), 1):
+            out.append(line)
+    if members:
+        # Blank line separates the class header (declaration + optional
+        # docstring) from its first member. Matches v1.
+        out.append("")
+    if not members:
+        # Class with only a docstring needs no `...` filler — the
+        # docstring itself counts as the body (matches v1).
+        if not raw_doc:
+            out.append(INDENT + "...")
+        return out
+
+    # Dunders sort first (canonical iter-protocol order). Regular
+    # members sort alphabetically after. Consecutive constants pack
+    # tight (no blank between them) — matches v1's class-attribute
+    # emission style for enum-like constant containers (Variants).
+    members.sort(key=lambda kv: _sort_key(kv[0]))
+    prev_kind: str | None = None
+    for i, (_, block, kind) in enumerate(members):
+        # Drop the inter-member blank line when both this and the
+        # previous entry are constants. Also when the previous entry
+        # was the class docstring's separator and this is a constant
+        # (constants attach directly under the docstring, no blank).
+        if i == 0 and raw_doc and kind == "constant":
+            # Remove the blank line we added after the docstring.
+            if out and out[-1] == "":
+                out.pop()
+        elif i > 0:
+            if not (prev_kind == "constant" and kind == "constant"):
+                out.append("")
+        for line in _indent(block, 1):
+            out.append(line)
+        prev_kind = kind
+    return out
+
+
+# --- Module emission --------------------------------------------------- #
+
+
+def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
+    """Generate a full .pyi for one module.
+
+    Order matches v1: primary class first (regardless of name), then all
+    other classes + enums sorted alphabetically together, then functions
+    sorted alphabetically, then constants.
+    """
+    module_name = module["module"]
+    imports: set[tuple[str, str]] = set()
+    # Per-module accumulator for extra typing names beyond the standard
+    # set. Iterable container classes add `Iterator` and `overload`;
+    # the generic Vector adds `Generic` and `TypeVar`.
+    registry["_module_typing_extras"] = set()
+    registry["_module_emits_typevar"] = False
+
+    # Class-like entries (classes + enums) intermix alphabetically except
+    # the primary class which leads regardless.
+    class_entries: list[tuple[str, list[str]]] = []
+    for cls in module.get("classes") or []:
+        class_entries.append((cls["name"], _build_class_block(cls, module_name, imports, registry)))
+    for enum in module.get("enums") or []:
+        class_entries.append((enum["name"], _build_enum_block(enum)))
+    class_entries.sort(key=lambda kv: kv[0])
+
+    fn_entries: list[tuple[str, list[str]]] = []
+    for fn in module.get("functions") or []:
+        fn_entries.append((fn["name"], _build_method_block(fn, module_name, imports, registry, False)))
+    fn_entries.sort(key=lambda kv: kv[0])
+
+    const_entries: list[tuple[str, list[str]]] = []
+    for c in module.get("constants") or []:
+        const_entries.append((c["name"], _build_constant_block(c)))
+    const_entries.sort(key=lambda kv: kv[0])
+
+    body: list[str] = []
+
+    # Primary class first
+    for cls in module.get("primary_class") or []:
+        body.extend(_build_class_block(cls, module_name, imports, registry))
+        body.append("")
+    # Then class-like, function, constant groups
+    for _, block in class_entries:
+        body.extend(block)
+        body.append("")
+    for _, block in fn_entries:
+        body.extend(block)
+        body.append("")
+    for _, block in const_entries:
+        body.extend(block)
+        body.append("")
+
+    # __all__ follows the same ordering as the emitted bodies: primary
+    # class first, then class-likes alphabetically, then functions
+    # alphabetically, then constants alphabetically.
+    names: list[str] = []
+    for cls in module.get("primary_class") or []:
+        names.append(cls["name"])
+    names.extend(name for name, _ in class_entries)
+    names.extend(name for name, _ in fn_entries)
+    names.extend(name for name, _ in const_entries)
+
+    # Header
+    buf = StringIO()
+    buf.write("from __future__ import annotations\n")
+
+    # Typing imports — TYPE_CHECKING first, rest case-sensitive
+    # alphabetical (matches v1's order: TYPE_CHECKING, Any, Callable,
+    # Iterable, Iterator, overload, ...).
+    base_names = {"TYPE_CHECKING", "Any", "Callable", "Iterable"}
+    extras = registry.get("_module_typing_extras") or set()
+    rest = sorted((base_names | extras) - {"TYPE_CHECKING"})
+    typing_names = ["TYPE_CHECKING", *rest]
+    buf.write(f"from typing import {', '.join(typing_names)}\n\n")
+    # TypeVar declaration for the generic Vector base. Covariant — `T`
+    # appears only in output positions (iter, getitem) on the abstract
+    # base. Concrete container subclasses (FloatVector, MidiNoteVector,
+    # ...) get their own append/extend methods synthesized with their
+    # concrete element type, so `T` never appears in input position.
+    if registry.get("_module_emits_typevar"):
+        buf.write("T = TypeVar('T', covariant=True)\n\n")
+    if imports:
+        buf.write("if TYPE_CHECKING:\n")
+        # Group imports by module, sort
+        by_module: dict[str, set[str]] = {}
+        for mod, cls_name in imports:
+            by_module.setdefault(mod, set()).add(cls_name)
+        for mod in sorted(by_module):
+            classes = sorted(by_module[mod])
+            buf.write(f"    from {mod} import {', '.join(classes)}\n")
+        # Three blank lines before first class (matches v1).
+        buf.write("\n\n\n")
+    else:
+        # No TYPE_CHECKING block; two blank lines before first class
+        # (the typing import already wrote one).
+        buf.write("\n")
+
+    buf.write("\n".join(body))
+    if not body or body[-1] != "":
+        buf.write("\n")
+
+    if names:
+        # Blank line between the last class/function and __all__
+        # (matches v1's spacing).
+        buf.write(f"\n__all__ = {names!r}\n")
+
+    return buf.getvalue()
+
+
+# --- CLI --------------------------------------------------------------- #
+
+
+def main() -> int:
+    p = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
+    p.add_argument("version", help="Live version (e.g. 12.3.6)")
+    p.add_argument("--input", help="lom yaml dir (default: stubs/<v>/lom)")
+    p.add_argument("--output", help="output dir for .pyi files")
+    args = p.parse_args()
+
+    seed_dir = (
+        Path(args.input)
+        if args.input
+        else REPO_ROOT / "stubs" / args.version / "lom"
     )
-    parser.add_argument("--output", help="Output directory (default: stubs/{version}/Live)")
-    args = parser.parse_args()
+    out_dir = (
+        Path(args.output).resolve()
+        if args.output
+        else REPO_ROOT / "stubs" / args.version / "Live"
+    )
 
-    input_path = args.input or join("stubs", args.version, "pipeline", "LiveTree.refined.json")
-    output_dir = args.output or join("stubs", args.version, "Live")
+    if not seed_dir.exists():
+        print(f"error: seed yaml dir not found at {seed_dir}", file=sys.stderr)
+        return 2
 
-    with open(input_path) as f:
-        data = json.load(f)
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-    generator = StubGenerator(data["tree"], output_dir)
-    generator.generate()
-    print(f"Stubs written to {abspath(output_dir)}")
+    # Per-module renderer state lives in this dict; each emit_module call
+    # resets the per-module accumulators.
+    registry: dict[str, Any] = {}
+
+    written = 0
+    all_module_names: list[str] = []
+    for path in sorted(seed_dir.glob("*.yaml")):
+        module = yaml.safe_load(path.read_text())
+        text = emit_module(module, registry)
+        out_path = out_dir / f"{module['module']}.pyi"
+        out_path.write_text(text)
+        all_module_names.append(module["module"])
+        written += 1
+
+    # __init__.pyi — re-export every module. Format matches v1: plain
+    # `from . import X` (no `as X` alias, no future-import).
+    init_buf = StringIO()
+    for name in sorted(all_module_names):
+        init_buf.write(f"from . import {name}\n")
+    init_buf.write(f"\n__all__ = {sorted(all_module_names)!r}\n")
+    (out_dir / "__init__.pyi").write_text(init_buf.getvalue())
+
+    # PEP 561 marker — signals "this package ships type information".
+    (out_dir / "py.typed").write_text("")
+
+    try:
+        rel = out_dir.relative_to(REPO_ROOT)
+        print(f"Wrote {written} .pyi files to {rel}/")
+    except ValueError:
+        print(f"Wrote {written} .pyi files to {out_dir}/")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

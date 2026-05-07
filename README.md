@@ -67,10 +67,10 @@ Scripts). Some of that has slack in it — read the stubs as "Ableton's most lik
 - **Types are conservative.** Args without a pinned-down type stay as `object` rather than getting a guess. A
   wrong-but-pretty type that lets pyright accept a runtime-crashing call is worse than a vague-but-honest one —
   especially for Boost.Python's native-Vector args.
-- **Refinements over reality, not prettiness.** Hand-curated overrides in
-  [`tools/parse/manual_refinements.yaml`](tools/parse/manual_refinements.yaml) are only used to correct known wrongness
-  (every entry carries a `source:` field with concrete evidence). They never invent narrowings the binding doesn't
-  actually accept.
+- **Refinements over reality, not prettiness.** Hand-curated overrides live as sibling `<field>_override:` blocks
+  next to the parser-derived value in [`stubs/<v>/lom/*.yaml`](stubs/12.3.6/lom/). They are only used to correct known
+  wrongness (every override carries a `source:` field with concrete evidence) and never invent narrowings the binding
+  doesn't actually accept.
 - **Docstrings are runtime-relayed, not authored.** All docstring text comes from Live's runtime Boost.Python
   `__doc__` strings — captured during the `dir()` walk and emitted into the stub mostly verbatim (the parser strips
   the auto-generated signature header and `C++ signature :` footer for functions, but doesn't rewrite the prose).
@@ -99,8 +99,7 @@ production code. Not a CI gate; used during refinement work.
 
 #### Known weak spots
 
-The stubs ship with a small set of items typed on weaker evidence. The full ledger lives in
-[`tools/parse/refinements_followup.md`](tools/parse/refinements_followup.md); user-facing summary:
+The stubs ship with a small set of items typed on weaker evidence:
 
 | Area                                                                          | Current type                                                           | Why it's weak                                                                                                                                                                                                       |
 | ----------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -114,7 +113,7 @@ The stubs ship with a small set of items typed on weaker evidence. The full ledg
 
 Two external sources need to be on disk before the pipeline + verify suite work: the decompiled Remote Scripts
 corpus (used by Tier 4 usage tests + the offline audit) and the Max for Live LOM docs (cited by
-`manual_refinements.yaml`).
+`<field>_override.source` blocks in `stubs/<v>/lom/*.yaml`).
 
 ```bash
 tools/fetch_external/bootstrap.sh           # corpus + M4L 9.0
@@ -146,8 +145,9 @@ The pipeline draws from four sources, in roughly increasing order of authority:
    names; partial API coverage.
 3. **Decompiled Remote Scripts** (corpus) — Ableton's own shipped Python code provides ground truth for
    parameter names and call shapes. Cloned to `external/corpus/`.
-4. **`tools/parse/manual_refinements.yaml`** — hand-curated overrides with a per-entry `source:` field documenting
-   the rationale (corpus def-site, M4L doc citation, raw_doc, etc.). Enforced by the apply step.
+4. **`stubs/<v>/lom/*.yaml` overrides** — hand-curated `<field>_override:` blocks sitting next to each
+   parser-derived value, with a per-override `source:` field documenting the rationale (corpus def-site, M4L doc
+   citation, raw_doc, etc.). Consumed mechanically by `generate_stubs.py`.
 
 ## Credits
 

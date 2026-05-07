@@ -1,7 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Text, Vector
@@ -22,10 +20,6 @@ class Application(LomObject):
             down: int = 1
             left: int = 2
             right: int = 3
-
-        @property
-        def _live_ptr(self) -> int:
-            ...
 
         def add_browse_mode_listener(self, callback: Callable[[], None], /) -> None:
             """
@@ -366,11 +360,11 @@ class Application(LomObject):
         """
         ...
 
-    def show_message(self, text: Text, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, /) -> int:
+    def show_message(self, text: Text, buttons: MessageButtons | int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, /) -> int:
         """Shows a message box, returning the position of the pressed button."""
         ...
 
-    def show_on_the_fly_message(self, message: str, buttons: MessageButtons | int = 0, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = 0, /) -> int:
+    def show_on_the_fly_message(self, message: str, buttons: MessageButtons | int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = PushDialogType.MESSAGE_BOX, /) -> int:
         """Same as show_message, but for when there is no predefined Text object."""
         ...
 
@@ -404,30 +398,12 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector(Iterable[ControlDescription]):
+class ControlDescriptionVector(Vector[ControlDescription]):
     """A container for returning control descriptions."""
 
-    def __iter__(self) -> Iterator[ControlDescription]: ...
+    def append(self, value: ControlDescription, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> ControlDescription: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> ControlDescriptionVector: ...
-
-    def __getitem__(self, index: int | slice) -> ControlDescription | ControlDescriptionVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: ControlDescription, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[ControlDescription], /) -> None:
-        ...
+    def extend(self, values: Iterable[ControlDescription], /) -> None: ...
 
 class ControlSurfaceProxy:
     """Represents a control surface running in a different process. For use by M4L"""
@@ -553,30 +529,12 @@ class PushDialogType(int):
 class UnavailableFeature(int):
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector(Iterable[UnavailableFeature]):
+class UnavailableFeatureVector(Vector[UnavailableFeature]):
     """A container for returning unavailable features."""
 
-    def __iter__(self) -> Iterator[UnavailableFeature]: ...
+    def append(self, value: UnavailableFeature, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> UnavailableFeature: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> UnavailableFeatureVector: ...
-
-    def __getitem__(self, index: int | slice) -> UnavailableFeature | UnavailableFeatureVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: UnavailableFeature | int, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[UnavailableFeature | int], /) -> None:
-        ...
+    def extend(self, values: Iterable[UnavailableFeature], /) -> None: ...
 
 class Variants:
     """Holds strings representing what type of Live is running."""

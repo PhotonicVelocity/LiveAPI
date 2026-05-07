@@ -4,10 +4,9 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Chain import Chain
-    from Live.Device import ATimeableValueVector, Device, DeviceType
+    from Live.Device import ATimeableValueVector, Device
     from Live.DeviceParameter import DeviceParameter
     from Live.DrumPad import DrumPad
-    from Live.Track import Track
 
 
 
@@ -16,10 +15,6 @@ class RackDevice(Device):
 
     class View(Device.View):
         """Representing the view aspects of a rack device."""
-
-        @property
-        def _live_ptr(self) -> int:
-            ...
 
         def add_drum_pads_scroll_position_listener(self, callback: Callable[[], None], /) -> None:
             """
@@ -150,10 +145,6 @@ class RackDevice(Device):
             """
             ...
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_chains_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
@@ -229,28 +220,8 @@ class RackDevice(Device):
         ...
 
     @property
-    def can_compare_ab(self) -> bool:
-        """Returns true if the Device has the capability to AB compare."""
-        ...
-
-    @property
-    def can_have_chains(self) -> bool:
-        """Returns true if the device is a rack."""
-        ...
-
-    @property
-    def can_have_drum_pads(self) -> bool:
-        """Returns true if the device is a drum rack."""
-        ...
-
-    @property
     def can_show_chains(self) -> bool:
         """return True, if this Rack contains a rack instrument device that is capable of showing its chains in session view."""
-        ...
-
-    @property
-    def canonical_parent(self) -> Track:
-        """Get the canonical parent of the Device."""
         ...
 
     @property
@@ -268,16 +239,6 @@ class RackDevice(Device):
         Returns true, if the given listener function or method is connected
         to the property "chains".
         """
-        ...
-
-    @property
-    def class_display_name(self) -> str:
-        """Return const access to the name of the device's class name as displayed in Live's browser and device chain"""
-        ...
-
-    @property
-    def class_name(self) -> str:
-        """Return const access to the name of the device's class."""
         ...
 
     def copy_pad(self, source_index: int, destination_index: int, /) -> None:
@@ -347,14 +308,6 @@ class RackDevice(Device):
         to the property "is_showing_chains".
         """
         ...
-
-    @property
-    def is_using_compare_preset_b(self) -> bool:
-        """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
-        ...
-
-    @is_using_compare_preset_b.setter
-    def is_using_compare_preset_b(self, value: bool) -> None: ...
 
     @property
     def latency_in_ms(self) -> float:
@@ -499,11 +452,6 @@ class RackDevice(Device):
 
     def store_variation(self) -> None:
         """Stores a new variation of the values of all currently mapped macros"""
-        ...
-
-    @property
-    def type(self) -> DeviceType:
-        """Return the type of the device."""
         ...
 
     @property

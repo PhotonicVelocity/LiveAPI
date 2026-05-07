@@ -318,7 +318,7 @@ def main() -> None:
     # --- Stage 3: Generate ---
 
     _run(["tools/generate/generate_stubs.py", v],
-         "Stage 3: Generate stubs")
+         "Stage 3: Generate stubs from lom/ YAML")
 
     print(f"\nPipeline complete. Stubs at stubs/{v}/Live/")
 

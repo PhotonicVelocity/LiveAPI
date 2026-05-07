@@ -1,12 +1,14 @@
-"""Run Stage 2: parse raw capture into a structured tree, then apply manual refinements.
+"""Run Stage 2: parse the raw capture and build the per-module LOM YAML seed.
 
-Stage 2 is intentionally minimal:
-  1. parse_apicapture_results.py — raw capture → LiveTree.parsed.json
-  2. apply_manual_refinements.py — reads LiveTree.parsed.json, applies overrides
-     from tools/parse/manual_refinements.yaml, writes LiveTree.refined.json.
-     The parsed tree is preserved untouched so drift detection on the `from:`
-     field of each refinement compares against fresh-parse output, not a prior
-     run's apply state. See doc/decisions.md for the refinement contract.
+Stage 2 has two steps now that the JSON-layer refinement pipeline has been
+retired in favor of `stubs/<v>/lom/*.yaml` as the curated SOT:
+
+  1. parse_apicapture_results_v2.py  — raw capture → LiveTree.parsed.v2.json
+  2. build_lom_yaml.py               — parsed tree → stubs/<v>/reports/seed/*.yaml
+
+The seed YAMLs are the algorithmic baseline. The hand-curated SOT lives in
+`stubs/<v>/lom/` and is regenerated from the seed only at intentional sync
+points (i.e. it does not flow automatically through this pipeline).
 
 Usage:
     python tools/parse/run_parse_pipeline.py 12.3.6
@@ -34,30 +36,24 @@ def run(args: list[str], label: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Stage 2: parse raw capture and apply manual refinements")
+    parser = argparse.ArgumentParser(description="Run Stage 2: parse raw capture and build LOM YAML seed")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
-    parser.add_argument("--skip-refinements", action="store_true", help="Skip the manual_refinements.yaml step")
     args = parser.parse_args()
 
     run(
-        ["tools/parse/parse_apicapture_results.py", args.version],
+        ["tools/parse/parse_apicapture_results_v2.py", args.version],
         "Stage 2a: Parse raw capture",
     )
 
-    if not args.skip_refinements:
-        run(
-            ["tools/parse/apply_manual_refinements.py", args.version, "--quiet"],
-            "Stage 2b: Apply manual refinements",
-        )
+    run(
+        ["tools/parse/build_lom_yaml.py", args.version],
+        "Stage 2b: Build LOM YAML seed",
+    )
 
-    pipeline_dir = f"stubs/{args.version}/pipeline"
-    if args.skip_refinements:
-        print(f"\nStage 2 complete. Parsed tree at {pipeline_dir}/LiveTree.parsed.json (refinements skipped)")
-    else:
-        print(
-            f"\nStage 2 complete. Parsed tree at {pipeline_dir}/LiveTree.parsed.json; "
-            f"refined tree at {pipeline_dir}/LiveTree.refined.json"
-        )
+    print(
+        f"\nStage 2 complete. Parsed tree at stubs/{args.version}/pipeline/LiveTree.parsed.v2.json; "
+        f"seed YAMLs at stubs/{args.version}/reports/seed/"
+    )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,251 @@
+module: ClipSlot
+
+primary_class:
+- name: ClipSlot
+  path: Live.ClipSlot.ClipSlot
+  raw_doc: This class represents an entry in Lives Session view matrix.
+  ancestors:
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: canonical_parent
+    raw_doc: Get the canonical parent of the ClipSlot.
+    type: Live.Track.Track
+    settable: false
+
+  - name: clip
+    raw_doc: Returns the Clip which this clipslots currently owns. Might be None.
+    type: Live.Clip.Clip
+    settable: false
+
+  - name: color
+    raw_doc: Returns the canonical color for the clip slot or None if it does not exist.
+    type: int
+    settable: false
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+
+  - name: color_index
+    raw_doc: Returns the canonical color index for the clip slot or None if it does not exist.
+    type: int
+    settable: false
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+
+  - name: controls_other_clips
+    raw_doc: |-
+      Returns true if firing this slot will fire clips in other slots.
+      Can only be true for slots in group tracks.
+    type: bool
+    settable: false
+    listenable:
+    - add_controls_other_clips_listener
+    - remove_controls_other_clips_listener
+    - controls_other_clips_has_listener
+
+  - name: has_clip
+    raw_doc: Returns true if this Clipslot owns a Clip.
+    type: bool
+    settable: false
+    listenable:
+    - add_has_clip_listener
+    - remove_has_clip_listener
+    - has_clip_has_listener
+
+  - name: has_stop_button
+    raw_doc: |-
+      Get/Set if this Clip has a stop button, which will, if fired, stop any
+      other Clip that is currently playing the Track we do belong to.
+    type: bool
+    settable: true
+    listenable:
+    - add_has_stop_button_listener
+    - remove_has_stop_button_listener
+    - has_stop_button_has_listener
+
+  - name: is_group_slot
+    raw_doc: Returns whether this clip slot is a group track slot (group slot).
+    type: bool
+    settable: false
+
+  - name: is_playing
+    raw_doc: Returns whether the clip associated with the slot is playing.
+    type: bool
+    settable: false
+
+  - name: is_recording
+    raw_doc: Returns whether the clip associated with the slot is recording.
+    type: bool
+    settable: false
+
+  - name: is_triggered
+    raw_doc: Const access to the triggering state of the clip slot.
+    type: bool
+    settable: false
+    listenable:
+    - add_is_triggered_listener
+    - remove_is_triggered_listener
+    - is_triggered_has_listener
+
+  - name: playing_status
+    raw_doc: |-
+      Const access to the playing state of the clip slot.
+      Can be either stopped, playing, or recording.
+    type: Live.ClipSlot.ClipSlotPlayingState
+    settable: false
+    listenable:
+    - add_playing_status_listener
+    - remove_playing_status_listener
+    - playing_status_has_listener
+
+  - name: will_record_on_start
+    raw_doc: returns true if the clip slot will record on being fired.
+    type: bool
+    settable: false
+
+  methods:
+  - name: create_audio_clip
+    raw_doc: |-
+      Creates an audio clip referencing the file at the given absolute path in the slot.
+      Throws an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.
+    signature: 'create_audio_clip( (ClipSlot)arg1, (object)arg2) -> Clip :'
+    cpp_signature: TWeakPtr<TPyHandle<AClip>> create_audio_clip(TPyHandle<AGroupAndClipSlotBase>,TString)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    - name: arg2
+      name_override:
+        value: file_path
+        source: |
+          arg2 rename — M4L (clipslot.md) uses `path`. Renamed to `file_path` for
+          clarity (avoids conflation with the dotted-path concept; explicitly
+          indicates a file system path). Names are positional-only and decorative —
+          clarity over doc-conformance.
+      type: str
+    returns:
+      type: Live.Clip.Clip
+
+  - name: create_clip
+    raw_doc: |-
+      Creates an empty clip with the given length in the slot.
+      Throws an error when called on non-empty slots or slots in non-MIDI tracks.
+    signature: 'create_clip( (ClipSlot)arg1, (float)arg2) -> Clip :'
+    cpp_signature: TWeakPtr<TPyHandle<AClip>> create_clip(TPyHandle<AGroupAndClipSlotBase>,double)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    - name: arg2
+      name_override:
+        value: length
+        source: |
+          arg2 rename — the previous `pages` rename was WRONG. The single def-vote
+          came from pushbase/loop_selector_component.py:390 `def create_clip(pages)`,
+          but that is a nested local closure inside `_on_press_loop_selector_matrix`
+          that takes a page count and converts it to a length before calling a
+          different helper — no connection to the binding.
+          Authoritative sources all agree on `length`:
+            - C++ signature: `create_clip(TPyHandle<AGroupAndClipSlotBase>, double)`
+              — single float, semantically a length.
+            - Docstring: "Creates an empty clip with the given length in the slot."
+            - M4L docs (clipslot.md): "Parameter: `length` — Length is given in
+              beats and must be a greater value than 0.0."
+          Direct binding call sites all pass a variable named `length` (or
+          `_clip_length`):
+            - _Framework/ClipCreator.py:20 (`slot.create_clip(length)`)
+            - ableton/v2/control_surface/clip_creator.py:21
+            - ableton/v3/control_surface/components/step_sequence.py:17
+            - novation/print_to_clip.py:133
+            - APC64/render_to_clip.py:141 (`slot.create_clip(self._clip_length)`)
+      type: float
+    returns:
+      type: Live.Clip.Clip
+
+  - name: delete_clip
+    raw_doc: |-
+      Removes the clip contained in the slot.
+      Raises an exception if the slot was empty.
+    signature: 'delete_clip( (ClipSlot)arg1) -> None :'
+    cpp_signature: void delete_clip(TPyHandle<AGroupAndClipSlotBase>)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    returns:
+      type: None
+
+  - name: duplicate_clip_to
+    raw_doc: |-
+      Duplicates the slot's clip to the passed in target slot.
+      Overrides the target's clip if it's not empty.
+      Raises an exception if the (source) slot itself is empty, or if source and
+      target have different track types (audio vs. MIDI). Also raises if the source
+      or target slot is in a group track (so called group slot).
+    signature: 'duplicate_clip_to( (ClipSlot)arg1, (ClipSlot)arg2) -> None :'
+    cpp_signature: void duplicate_clip_to(TPyHandle<AGroupAndClipSlotBase>,TPyHandle<AGroupAndClipSlotBase>)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    - name: arg2
+      name_override:
+        value: target_clip_slot
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> target_clip_slot  [M4L docs]: external/max-for-live-docs/9.0/clipslot.md
+      type: Live.ClipSlot.ClipSlot
+    returns:
+      type: None
+
+  - name: fire
+    raw_doc: |-
+      Fire a Clip if this Clipslot owns one, else trigger the stop button,
+      if we have one.
+    signature: 'fire( (ClipSlot)arg1) -> None :'
+    cpp_signature: void fire(TPyHandle<AGroupAndClipSlotBase>)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    returns:
+      type: None
+
+  - name: set_fire_button_state
+    raw_doc: Set the clipslot's fire button state directly. Supports all launch modes.
+    signature: 'set_fire_button_state( (ClipSlot)arg1, (bool)arg2) -> None :'
+    cpp_signature: void set_fire_button_state(TPyHandle<AGroupAndClipSlotBase>,bool)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    - name: arg2
+      name_override:
+        value: state
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/clipslot.md
+      type: bool
+    returns:
+      type: None
+
+  - name: stop
+    raw_doc: |-
+      Stop playing the contained Clip, if there is a Clip and its currently
+      playing.
+    signature: 'stop( (ClipSlot)arg1) -> None :'
+    cpp_signature: void stop(TPyHandle<AGroupAndClipSlotBase>)
+    args:
+    - name: self
+      type: Live.ClipSlot.ClipSlot
+    returns:
+      type: None
+
+enums:
+- name: ClipSlotPlayingState
+  members:
+    stopped: 0
+    started: 1
+    recording: 2

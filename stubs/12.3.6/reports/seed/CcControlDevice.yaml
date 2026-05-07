@@ -1,0 +1,207 @@
+module: CcControlDevice
+
+primary_class:
+- name: CcControlDevice
+  path: Live.CcControlDevice.CcControlDevice
+  raw_doc: This class represents a CcControl device.
+  ancestors:
+  - Live.Device.Device
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: custom_bool_target
+    raw_doc: Return the custom bool target
+    type: int
+    settable: true
+    listenable:
+    - add_custom_bool_target_listener
+    - remove_custom_bool_target_listener
+    - custom_bool_target_has_listener
+
+  - name: custom_bool_target_list
+    raw_doc: Return the custom bool target list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_0
+    raw_doc: Return the custom float target 0
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_0_listener
+    - remove_custom_float_target_0_listener
+    - custom_float_target_0_has_listener
+
+  - name: custom_float_target_0_list
+    raw_doc: Return the custom float target 0 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_1
+    raw_doc: Return the custom float target 1
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_1_listener
+    - remove_custom_float_target_1_listener
+    - custom_float_target_1_has_listener
+
+  - name: custom_float_target_10
+    raw_doc: Return the custom float target 10
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_10_listener
+    - remove_custom_float_target_10_listener
+    - custom_float_target_10_has_listener
+
+  - name: custom_float_target_10_list
+    raw_doc: Return the custom float target 10 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_11
+    raw_doc: Return the custom float target 11
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_11_listener
+    - remove_custom_float_target_11_listener
+    - custom_float_target_11_has_listener
+
+  - name: custom_float_target_11_list
+    raw_doc: Return the custom float target 11 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_1_list
+    raw_doc: Return the custom float target 1 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_2
+    raw_doc: Return the custom float target 2
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_2_listener
+    - remove_custom_float_target_2_listener
+    - custom_float_target_2_has_listener
+
+  - name: custom_float_target_2_list
+    raw_doc: Return the custom float target 2 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_3
+    raw_doc: Return the custom float target 3
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_3_listener
+    - remove_custom_float_target_3_listener
+    - custom_float_target_3_has_listener
+
+  - name: custom_float_target_3_list
+    raw_doc: Return the custom float target 3 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_4
+    raw_doc: Return the custom float target 4
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_4_listener
+    - remove_custom_float_target_4_listener
+    - custom_float_target_4_has_listener
+
+  - name: custom_float_target_4_list
+    raw_doc: Return the custom float target 4 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_5
+    raw_doc: Return the custom float target 5
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_5_listener
+    - remove_custom_float_target_5_listener
+    - custom_float_target_5_has_listener
+
+  - name: custom_float_target_5_list
+    raw_doc: Return the custom float target 5 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_6
+    raw_doc: Return the custom float target 6
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_6_listener
+    - remove_custom_float_target_6_listener
+    - custom_float_target_6_has_listener
+
+  - name: custom_float_target_6_list
+    raw_doc: Return the custom float target 6 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_7
+    raw_doc: Return the custom float target 7
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_7_listener
+    - remove_custom_float_target_7_listener
+    - custom_float_target_7_has_listener
+
+  - name: custom_float_target_7_list
+    raw_doc: Return the custom float target 7 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_8
+    raw_doc: Return the custom float target 8
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_8_listener
+    - remove_custom_float_target_8_listener
+    - custom_float_target_8_has_listener
+
+  - name: custom_float_target_8_list
+    raw_doc: Return the custom float target 8 list
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: custom_float_target_9
+    raw_doc: Return the custom float target 9
+    type: int
+    settable: true
+    listenable:
+    - add_custom_float_target_9_listener
+    - remove_custom_float_target_9_listener
+    - custom_float_target_9_has_listener
+
+  - name: custom_float_target_9_list
+    raw_doc: Return the custom float target 9 list
+    type: Live.Base.StringVector
+    settable: false
+
+  methods:
+  - name: resend
+    raw_doc: Resend all CC values.
+    signature: 'resend( (CcControlDevice)self) -> None :'
+    cpp_signature: void resend(TCcControlDevicePyHandle)
+    args:
+    - name: self
+      type: Live.CcControlDevice.CcControlDevice
+    returns:
+      type: None

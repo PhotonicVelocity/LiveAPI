@@ -11,10 +11,6 @@ if TYPE_CHECKING:
 class DeviceIO(LomObject):
     """This class represents a specific input or output bus of a device."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_available_routing_channels_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

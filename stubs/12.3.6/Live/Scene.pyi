@@ -12,10 +12,6 @@ if TYPE_CHECKING:
 class Scene(LomObject):
     """This class represents an series of ClipSlots in Lives Sessionview matrix."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_clip_slots_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

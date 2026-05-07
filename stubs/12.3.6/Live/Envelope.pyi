@@ -1,9 +1,8 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Clip import Clip
     from Live.LomObject import LomObject
 
@@ -11,10 +10,6 @@ if TYPE_CHECKING:
 
 class Envelope(LomObject):
     """This class represents an automation or modulation envelope in Live."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     @property
     def canonical_parent(self) -> Clip:
@@ -96,29 +91,11 @@ class EnvelopeEventControlCoefficients:
     @y2.setter
     def y2(self, value: float) -> None: ...
 
-class EnvelopeEventVector(Iterable[EnvelopeEvent]):
+class EnvelopeEventVector(Vector[EnvelopeEvent]):
     """A container for holding envelope events."""
 
-    def __iter__(self) -> Iterator[EnvelopeEvent]: ...
+    def append(self, value: EnvelopeEvent, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> EnvelopeEvent: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> EnvelopeEventVector: ...
-
-    def __getitem__(self, index: int | slice) -> EnvelopeEvent | EnvelopeEventVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: EnvelopeEvent, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[EnvelopeEvent], /) -> None:
-        ...
+    def extend(self, values: Iterable[EnvelopeEvent], /) -> None: ...
 
 __all__ = ['Envelope', 'EnvelopeEvent', 'EnvelopeEventControlCoefficients', 'EnvelopeEventVector']

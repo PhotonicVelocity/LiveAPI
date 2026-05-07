@@ -1,0 +1,345 @@
+module: RackDevice
+
+primary_class:
+- name: RackDevice
+  path: Live.RackDevice.RackDevice
+  raw_doc: This class represents a Rack device.
+  ancestors:
+  - Live.Device.Device
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: can_show_chains
+    raw_doc: return True, if this Rack contains a rack instrument device that is capable of showing its chains in session view.
+    type: bool
+    settable: false
+
+  - name: chain_selector
+    raw_doc: Const access to the chain selector parameter.
+    type: Live.DeviceParameter.DeviceParameter
+    settable: false
+
+  - name: chains
+    raw_doc: Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.
+    type: Live.Base.Vector
+    element_type_override:
+      value: Live.Chain.Chain
+      confidence: high
+      source: |
+        M4L docs (rackdevice.md): `chains list of Chain read-only observe`.
+        Corpus: Push2/convert.py:28 reads `drum_pad.chains[0]` (DrumPad shares the
+        Chain element type via the rack chain hierarchy); pushbase widely
+        iterates rack chains.
+    settable: false
+    listenable:
+    - add_chains_listener
+    - remove_chains_listener
+    - chains_has_listener
+
+  - name: drum_pads
+    raw_doc: Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false.
+    type: Live.Base.Vector[Live.DrumPad.DrumPad]
+    settable: false
+    listenable:
+    - add_drum_pads_listener
+    - remove_drum_pads_listener
+    - drum_pads_has_listener
+
+  - name: has_drum_pads
+    raw_doc: Returns true if the device is a drum rack which has drum pads. Throws an exception if can_have_drum_pads is false.
+    type: bool
+    settable: false
+    listenable:
+    - add_has_drum_pads_listener
+    - remove_has_drum_pads_listener
+    - has_drum_pads_has_listener
+
+  - name: has_macro_mappings
+    raw_doc: Returns true if any of the rack's macros are mapped to a parameter.
+    type: bool
+    settable: false
+    listenable:
+    - add_has_macro_mappings_listener
+    - remove_has_macro_mappings_listener
+    - has_macro_mappings_has_listener
+
+  - name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+
+  - name: is_showing_chains
+    raw_doc: Returns True, if it is showing chains.
+    type: bool
+    settable: true
+    listenable:
+    - add_is_showing_chains_listener
+    - remove_is_showing_chains_listener
+    - is_showing_chains_has_listener
+
+  - name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+
+  - name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+
+  - name: macros_mapped
+    raw_doc: A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something
+    type: tuple[bool, ...]
+    settable: false
+    listenable:
+    - add_macros_mapped_listener
+    - remove_macros_mapped_listener
+    - macros_mapped_has_listener
+
+  - name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+
+  - name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: Live.Device.ATimeableValueVector
+    settable: false
+
+  - name: return_chains
+    raw_doc: Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.
+    type: Live.Base.Vector
+    element_type_override:
+      value: Live.Chain.Chain
+      confidence: high
+      source: |
+        M4L docs (rackdevice.md): `return_chains list of Chain read-only observe`.
+        Same shape as chains; the rack's return_chains hold Chain instances.
+    settable: false
+    listenable:
+    - add_return_chains_listener
+    - remove_return_chains_listener
+    - return_chains_has_listener
+
+  - name: selected_variation_index
+    raw_doc: Access to the index of the currently selected macro variation.Throws an exception if the index is out of range.
+    type: int
+    settable: true
+
+  - name: variation_count
+    raw_doc: Access to the number of macro variations currently stored.
+    type: int
+    settable: false
+    listenable:
+    - add_variation_count_listener
+    - remove_variation_count_listener
+    - variation_count_has_listener
+
+  - name: view
+    raw_doc: Representing the view aspects of a device.
+    type: Live.RackDevice.RackDevice.View
+    settable: false
+
+  - name: visible_drum_pads
+    raw_doc: Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false.
+    type: Live.Base.Vector[Live.DrumPad.DrumPad]
+    settable: false
+    listenable:
+    - add_visible_drum_pads_listener
+    - remove_visible_drum_pads_listener
+    - visible_drum_pads_has_listener
+
+  - name: visible_macro_count
+    raw_doc: Access to the number of macros that are currently visible.
+    type: int
+    settable: false
+    listenable:
+    - add_visible_macro_count_listener
+    - remove_visible_macro_count_listener
+    - visible_macro_count_has_listener
+
+  methods:
+  - name: add_macro
+    raw_doc: Increases the number of visible macro controls in the rack. Throws an exception if the maximum number of macro controls is reached.
+    signature: 'add_macro( (RackDevice)arg1) -> None :'
+    cpp_signature: void add_macro(TRackDevicePyHandle)
+    args:
+    - name: self
+      type: Live.RackDevice.RackDevice
+    returns:
+      type: None
+
+  - name: copy_pad
+    raw_doc: Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127.
+    signature: 'copy_pad( (RackDevice)arg1, (int)arg2, (int)arg3) -> None :'
+    cpp_signature: void copy_pad(TRackDevicePyHandle,int,int)
+    args:
+    - name: self
+      type: Live.RackDevice.RackDevice
+    - name: arg2
+      name_override:
+        value: source_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+            - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+      type: int
+    - name: arg3
+      name_override:
+        value: destination_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+            - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+      type: int
+    returns:
+      type: None
+
+  - name: delete_selected_variation
+    raw_doc: Deletes the currently selected macro variation.Does nothing if there is no selected variation.
+    signature: 'delete_selected_variation( (Device)arg1) -> None :'
+    cpp_signature: void delete_selected_variation(TPyHandle<ADevice>)
+    args:
+    - name: self
+      type: Live.Device.Device
+    returns:
+      type: None
+
+  - name: insert_chain
+    raw_doc: Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence.
+    signature: 'insert_chain( (RackDevice)arg1 [, (int)Index=-1]) -> LomObject :'
+    cpp_signature: TWeakPtr<TPyHandleBase> insert_chain(TRackDevicePyHandle [,int=-1])
+    args:
+    - name: self
+      type: Live.RackDevice.RackDevice
+    - name: index
+      type: int
+      optional: true
+      default: '-1'
+    returns:
+      type: Live.LomObject.LomObject
+      type_override:
+        value: Live.Chain.Chain
+        confidence: high
+        source: |
+          M4L docs (rackdevice.md) name the return as `Chain`; raw_doc: "Insert a
+          new empty chain at the given index".
+
+  - name: randomize_macros
+    raw_doc: Randomizes the values for all macro controls not excluded from randomization.
+    signature: 'randomize_macros( (RackDevice)arg1) -> None :'
+    cpp_signature: void randomize_macros(TRackDevicePyHandle)
+    args:
+    - name: self
+      type: Live.RackDevice.RackDevice
+    returns:
+      type: None
+
+  - name: recall_last_used_variation
+    raw_doc: Recalls the macro variation that was recalled most recently.Does nothing if no variation has been recalled yet.
+    signature: 'recall_last_used_variation( (Device)arg1) -> None :'
+    cpp_signature: void recall_last_used_variation(TPyHandle<ADevice>)
+    args:
+    - name: self
+      type: Live.Device.Device
+    returns:
+      type: None
+
+  - name: recall_selected_variation
+    raw_doc: Recalls the currently selected macro variation.Does nothing if there are no variations.
+    signature: 'recall_selected_variation( (Device)arg1) -> None :'
+    cpp_signature: void recall_selected_variation(TPyHandle<ADevice>)
+    args:
+    - name: self
+      type: Live.Device.Device
+    returns:
+      type: None
+
+  - name: remove_macro
+    raw_doc: Decreases the number of visible macro controls in the rack. Throws an exception if the minimum number of macro controls is reached.
+    signature: 'remove_macro( (RackDevice)arg1) -> None :'
+    cpp_signature: void remove_macro(TRackDevicePyHandle)
+    args:
+    - name: self
+      type: Live.RackDevice.RackDevice
+    returns:
+      type: None
+
+  - name: store_variation
+    raw_doc: Stores a new variation of the values of all currently mapped macros
+    signature: 'store_variation( (Device)arg1) -> None :'
+    cpp_signature: void store_variation(TPyHandle<ADevice>)
+    args:
+    - name: self
+      type: Live.Device.Device
+    returns:
+      type: None
+
+  classes:
+  - name: View
+    path: Live.RackDevice.RackDevice.View
+    raw_doc: Representing the view aspects of a rack device.
+    ancestors:
+    - Live.Device.Device.View
+    - Live.LomObject.LomObject
+    init_doc: |-
+      Raises an exception
+      This class cannot be instantiated from Python
+    constructable: false
+
+    properties:
+    - name: canonical_parent
+      raw_doc: Get the canonical parent of the View.
+      type: Live.RackDevice.RackDevice
+      settable: false
+
+    - name: drum_pads_scroll_position
+      raw_doc: Access to the index of the lowest visible row of pads. Throws an exception if can_have_drum_pads is false.
+      type: int
+      settable: true
+      listenable:
+      - add_drum_pads_scroll_position_listener
+      - remove_drum_pads_scroll_position_listener
+      - drum_pads_scroll_position_has_listener
+
+    - name: is_collapsed
+      raw_doc: Get/Set/Listen if the device is shown collapsed in the device chain.
+      type: bool
+      settable: true
+
+    - name: is_showing_chain_devices
+      raw_doc: Return whether the devices in the currently selected chain are visible. Throws an exception if can_have_chains is false.
+      type: bool
+      settable: true
+      listenable:
+      - add_is_showing_chain_devices_listener
+      - remove_is_showing_chain_devices_listener
+      - is_showing_chain_devices_has_listener
+
+    - name: selected_chain
+      raw_doc: Return access to the currently selected chain.
+      type: None
+      type_override:
+        value: Live.Chain.Chain | None
+        confidence: high
+        source: |
+          Docstring: "Return access to the currently selected chain." Corpus-verified —
+          Ableton's pushbase / Push2 read and assign Chain values to this property.
+      settable: true
+      listenable:
+      - add_selected_chain_listener
+      - remove_selected_chain_listener
+      - selected_chain_has_listener
+
+    - name: selected_drum_pad
+      raw_doc: Return access to the currently selected drum pad. Throws an exception if can_have_drum_pads is false.
+      type: Live.DrumPad.DrumPad
+      settable: true
+      listenable:
+      - add_selected_drum_pad_listener
+      - remove_selected_drum_pad_listener
+      - selected_drum_pad_has_listener

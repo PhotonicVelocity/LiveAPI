@@ -3,10 +3,8 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
-    from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
     from Live.LomObject import LomObject
-    from Live.Song import Song
     from Live.Track import Track
 
 
@@ -16,10 +14,6 @@ class MixerDevice(LomObject):
     This class represents a Mixer Device in Live, which gives you
     access to the Volume and Panning properties of a Track.
     """
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_crossfade_assign_listener(self, callback: Callable[[], None], /) -> None:
         """

@@ -1,0 +1,224 @@
+module: Base
+
+classes:
+- name: FloatVector
+  path: Live.Base.FloatVector
+  raw_doc: A simple container for returning floats from Live.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  element_type_override:
+    value: float
+    confidence: high
+    source: raw_doc says "container for returning floats from Live".
+  container: true
+
+- name: IntU64Vector
+  path: Live.Base.IntU64Vector
+  raw_doc: A simple container for returning unsigned long integers from Live.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  element_type_override:
+    value: int
+    confidence: high
+    source: raw_doc says "container for returning unsigned long integers".
+  container: true
+
+- name: IntVector
+  path: Live.Base.IntVector
+  raw_doc: A simple container for returning integers from Live.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  element_type: int
+  container: true
+
+- name: LimitationError
+  path: Live.Base.LimitationError
+  ancestors:
+  - Exception
+  constructable: false
+
+- name: ObjectVector
+  path: Live.Base.ObjectVector
+  raw_doc: A simple read only container for returning python objects.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  element_type: object
+  container: true
+
+- name: StringVector
+  path: Live.Base.StringVector
+  raw_doc: A simple container for returning strings from Live.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  element_type: str
+  container: true
+
+- name: Text
+  path: Live.Base.Text
+  raw_doc: A translatable, immutable string.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: text
+    settable: false
+    type_override:
+      value: str
+      confidence: high
+      source: |
+        Corpus assigns/reads as string: pushbase/message_box_component.py:159
+        `self._message_box.text = message`; Push2/model/repr.py:726 reads.
+        Baseline + M4L docs confirm string content.
+
+- name: Timer
+  path: Live.Base.Timer
+  raw_doc: A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1, (object)callback, (int)interval [, (bool)repeat=False [, (bool)start=False]]) -> None :
+
+        C++ signature :
+            void __init__(_object*,boost::python::api::object,int [,bool=False [,bool=False]])
+  constructable: true
+
+  properties:
+  - name: running
+    type: bool
+    settable: false
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.Base.Timer
+    - name: callback
+      type: object
+    - name: interval
+      type: int
+    - name: repeat
+      type: bool
+      optional: true
+      default: 'False'
+    - name: start
+      type: bool
+      optional: true
+      default: 'False'
+    returns:
+      type: None
+
+  - name: restart
+    signature: 'restart( (Timer)arg1) -> None :'
+    cpp_signature: void restart(PythonTimer {lvalue})
+    args:
+    - name: self
+      type: Live.Base.Timer
+    returns:
+      type: None
+
+  - name: start
+    signature: 'start( (Timer)arg1) -> None :'
+    cpp_signature: void start(PythonTimer {lvalue})
+    args:
+    - name: self
+      type: Live.Base.Timer
+    returns:
+      type: None
+
+  - name: stop
+    signature: 'stop( (Timer)arg1) -> None :'
+    cpp_signature: void stop(PythonTimer {lvalue})
+    args:
+    - name: self
+      type: Live.Base.Timer
+    returns:
+      type: None
+
+- name: Vector
+  path: Live.Base.Vector
+  raw_doc: A simple read only container for returning objects from Live.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  parametric: true
+
+functions:
+- name: get_text
+  raw_doc: Retrieves the (translated) Text identified by `classname` and `textname`.
+  signature: 'get_text( (str)classname, (str)textname) -> Text :'
+  cpp_signature: TText const* get_text(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
+  args:
+  - name: classname
+    type: str
+  - name: textname
+    type: str
+  returns:
+    type: Live.Base.Text
+
+- name: log
+  signature: 'log( (str)arg1) -> None :'
+  cpp_signature: void log(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
+  args:
+  - name: arg1
+    name_override:
+      value: string
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> string  [callsite, 3/3 defs]: corpus def: external/corpus/LV2_LX2_LC2_LD2/FaderfoxComponent.py:24 (+2 more)
+    type: str
+  returns:
+    type: None
+
+- name: subst_args
+  signature: 'subst_args( (Text)text [, (str)arg1='''' [, (str)arg2='''' [, (str)arg3='''' [, (str)arg4='''' [, (str)arg5='''']]]]]) -> str :'
+  cpp_signature: std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> subst_args(TText [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='']]]]])
+  args:
+  - name: text
+    type: Live.Base.Text
+  - name: arg1
+    type: str
+    optional: true
+    default: ''''''
+  - name: arg2
+    type: str
+    optional: true
+    default: ''''''
+  - name: arg3
+    type: str
+    optional: true
+    default: ''''''
+  - name: arg4
+    type: str
+    optional: true
+    default: ''''''
+  - name: arg5
+    type: str
+    optional: true
+    default: ''''''
+  returns:
+    type: str

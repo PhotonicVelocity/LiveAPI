@@ -7,16 +7,12 @@ if TYPE_CHECKING:
     from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
-    from Live.Track import DeviceContainer, Track
+    from Live.Track import DeviceContainer
 
 
 
 class Chain(DeviceContainer):
     """This class represents a group device chain in Live."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """

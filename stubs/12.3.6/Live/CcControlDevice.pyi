@@ -10,10 +10,6 @@ if TYPE_CHECKING:
 class CcControlDevice(Device):
     """This class represents a CcControl device."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_custom_bool_target_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

@@ -1,0 +1,330 @@
+module: WavetableDevice
+
+primary_class:
+- name: WavetableDevice
+  path: Live.WavetableDevice.WavetableDevice
+  raw_doc: This class represents a Wavetable device.
+  ancestors:
+  - Live.Device.Device
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: filter_routing
+    raw_doc: Return the current filter routing.
+    type: int
+    type_override:
+      value: Live.WavetableDevice.FilterRouting
+      confidence: high
+      source: |
+        `FilterRouting` enum in same module (WavetableDevice). Property name is
+        a direct snake-case match.
+    settable: true
+    listenable:
+    - add_filter_routing_listener
+    - remove_filter_routing_listener
+    - filter_routing_has_listener
+
+  - name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+
+  - name: is_using_compare_preset_b
+    raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    type: bool
+    settable: true
+
+  - name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+
+  - name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+
+  - name: mono_poly
+    raw_doc: Return the current voicing mode.
+    type: int
+    settable: true
+    listenable:
+    - add_mono_poly_listener
+    - remove_mono_poly_listener
+    - mono_poly_has_listener
+
+  - name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+
+  - name: oscillator_1_effect_mode
+    raw_doc: Return the current effect mode of the oscillator 1.
+    type: int
+    type_override:
+      value: Live.WavetableDevice.EffectMode
+      confidence: high
+      source: |
+        `EffectMode` enum in same module (WavetableDevice). Property name ends
+        in `effect_mode`; the enum is the only one matching that suffix.
+    settable: true
+    listenable:
+    - add_oscillator_1_effect_mode_listener
+    - remove_oscillator_1_effect_mode_listener
+    - oscillator_1_effect_mode_has_listener
+
+  - name: oscillator_1_wavetable_category
+    raw_doc: Return the current wavetable category of the oscillator 1.
+    type: int
+    settable: true
+    listenable:
+    - add_oscillator_1_wavetable_category_listener
+    - remove_oscillator_1_wavetable_category_listener
+    - oscillator_1_wavetable_category_has_listener
+
+  - name: oscillator_1_wavetable_index
+    raw_doc: Return the current wavetable index of the oscillator 1.
+    type: int
+    settable: true
+    listenable:
+    - add_oscillator_1_wavetable_index_listener
+    - remove_oscillator_1_wavetable_index_listener
+    - oscillator_1_wavetable_index_has_listener
+
+  - name: oscillator_1_wavetables
+    raw_doc: Get a vector of oscillator 1's wavetable names.
+    type: Live.Base.StringVector
+    settable: false
+    listenable:
+    - add_oscillator_1_wavetables_listener
+    - remove_oscillator_1_wavetables_listener
+    - oscillator_1_wavetables_has_listener
+
+  - name: oscillator_2_effect_mode
+    raw_doc: Return the current effect mode of the oscillator 2.
+    type: int
+    type_override:
+      value: Live.WavetableDevice.EffectMode
+      confidence: high
+      source: |
+        Same as oscillator_1_effect_mode — sister property, same enum.
+    settable: true
+    listenable:
+    - add_oscillator_2_effect_mode_listener
+    - remove_oscillator_2_effect_mode_listener
+    - oscillator_2_effect_mode_has_listener
+
+  - name: oscillator_2_wavetable_category
+    raw_doc: Return the current wavetable category of the oscillator 2.
+    type: int
+    settable: true
+    listenable:
+    - add_oscillator_2_wavetable_category_listener
+    - remove_oscillator_2_wavetable_category_listener
+    - oscillator_2_wavetable_category_has_listener
+
+  - name: oscillator_2_wavetable_index
+    raw_doc: Return the current wavetable index of the oscillator 2.
+    type: int
+    settable: true
+    listenable:
+    - add_oscillator_2_wavetable_index_listener
+    - remove_oscillator_2_wavetable_index_listener
+    - oscillator_2_wavetable_index_has_listener
+
+  - name: oscillator_2_wavetables
+    raw_doc: Get a vector of oscillator 2's wavetable names.
+    type: Live.Base.StringVector
+    settable: false
+    listenable:
+    - add_oscillator_2_wavetables_listener
+    - remove_oscillator_2_wavetables_listener
+    - oscillator_2_wavetables_has_listener
+
+  - name: oscillator_wavetable_categories
+    raw_doc: Get a vector of the available wavetable categories.
+    type: Live.Base.StringVector
+    settable: false
+
+  - name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: Live.Device.ATimeableValueVector
+    settable: false
+
+  - name: poly_voices
+    raw_doc: Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
+    type: int
+    settable: true
+    listenable:
+    - add_poly_voices_listener
+    - remove_poly_voices_listener
+    - poly_voices_has_listener
+
+  - name: unison_mode
+    raw_doc: Return the current unison mode.
+    type: int
+    type_override:
+      value: Live.WavetableDevice.UnisonMode
+      confidence: high
+      source: |
+        `UnisonMode` enum in same module (WavetableDevice). Property name is a
+        direct snake-case match.
+    settable: true
+    listenable:
+    - add_unison_mode_listener
+    - remove_unison_mode_listener
+    - unison_mode_has_listener
+
+  - name: unison_voice_count
+    raw_doc: Return the current number of unison voices.
+    type: int
+    type_override:
+      value: Live.WavetableDevice.VoiceCount
+      confidence: high
+      source: |
+        `VoiceCount` enum in same module (WavetableDevice). Property name ends
+        in `voice_count`; `VoiceCount` is the only enum matching that suffix.
+    settable: true
+    listenable:
+    - add_unison_voice_count_listener
+    - remove_unison_voice_count_listener
+    - unison_voice_count_has_listener
+
+  - name: visible_modulation_target_names
+    raw_doc: Get the names of all the visible modulation targets.
+    type: Live.Base.StringVector
+    settable: false
+    listenable:
+    - add_visible_modulation_target_names_listener
+    - remove_visible_modulation_target_names_listener
+    - visible_modulation_target_names_has_listener
+
+  - name: modulation_matrix_changed
+    listenable:
+    - add_modulation_matrix_changed_listener
+    - remove_modulation_matrix_changed_listener
+    - modulation_matrix_changed_has_listener
+
+  methods:
+  - name: add_parameter_to_modulation_matrix
+    raw_doc: Add a non-pitch parameter to the modulation matrix.
+    signature: 'add_parameter_to_modulation_matrix( (WavetableDevice)self, (DeviceParameter)parameter) -> int :'
+    cpp_signature: int add_parameter_to_modulation_matrix(TWavetableDevicePyHandle,TPyHandle<ATimeableValue>)
+    args:
+    - name: self
+      type: Live.WavetableDevice.WavetableDevice
+    - name: parameter
+      type: Live.DeviceParameter.DeviceParameter
+    returns:
+      type: int
+
+  - name: get_modulation_target_parameter_name
+    raw_doc: Get the parameter name of the modulation target at the given index.
+    signature: 'get_modulation_target_parameter_name( (WavetableDevice)self, (int)target_index) -> str :'
+    cpp_signature: TString get_modulation_target_parameter_name(TWavetableDevicePyHandle,int)
+    args:
+    - name: self
+      type: Live.WavetableDevice.WavetableDevice
+    - name: target_index
+      type: int
+    returns:
+      type: str
+
+  - name: get_modulation_value
+    raw_doc: Get the value of a modulation amount for the given target-source connection.
+    signature: 'get_modulation_value( (WavetableDevice)self, (int)target_index, (int)source) -> float :'
+    cpp_signature: float get_modulation_value(TWavetableDevicePyHandle,int,int)
+    args:
+    - name: self
+      type: Live.WavetableDevice.WavetableDevice
+    - name: target_index
+      type: int
+    - name: source
+      type: int
+    returns:
+      type: float
+
+  - name: is_parameter_modulatable
+    raw_doc: Indicate whether the parameter is modulatable. Note that pitch parameters only exist in python and must be handled there.
+    signature: 'is_parameter_modulatable( (WavetableDevice)self, (DeviceParameter)parameter) -> bool :'
+    cpp_signature: bool is_parameter_modulatable(TWavetableDevicePyHandle,TPyHandle<ATimeableValue>)
+    args:
+    - name: self
+      type: Live.WavetableDevice.WavetableDevice
+    - name: parameter
+      type: Live.DeviceParameter.DeviceParameter
+    returns:
+      type: bool
+
+  - name: set_modulation_value
+    raw_doc: Set the value of a modulation amount for the given target-source connection.
+    signature: 'set_modulation_value( (WavetableDevice)self, (int)target_index, (int)source, (float)value) -> None :'
+    cpp_signature: void set_modulation_value(TWavetableDevicePyHandle,int,int,float)
+    args:
+    - name: self
+      type: Live.WavetableDevice.WavetableDevice
+    - name: target_index
+      type: int
+    - name: source
+      type: int
+    - name: value
+      type: float
+    returns:
+      type: None
+
+enums:
+- name: EffectMode
+  members:
+    none: 0
+    frequency_modulation: 1
+    sync_and_pulse_width: 2
+    warp_and_fold: 3
+
+- name: FilterRouting
+  members:
+    serial: 0
+    parallel: 1
+    split: 2
+
+- name: ModulationSource
+  members:
+    amp_envelope: 0
+    envelope_2: 1
+    envelope_3: 2
+    lfo_1: 3
+    lfo_2: 4
+    midi_velocity: 5
+    midi_note: 6
+    midi_pitch_bend: 7
+    midi_channel_pressure: 8
+    midi_mod_wheel: 9
+    midi_random: 10
+
+- name: UnisonMode
+  members:
+    none: 0
+    classic: 1
+    slow_shimmer: 2
+    fast_shimmer: 3
+    phase_sync: 4
+    position_spread: 5
+    random_note: 6
+
+- name: VoiceCount
+  members:
+    two: 0
+    three: 1
+    four: 2
+    five: 3
+    six: 4
+    seven: 5
+    eight: 6
+
+- name: Voicing
+  members:
+    mono: 0
+    poly: 1

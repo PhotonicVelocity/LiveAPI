@@ -1,0 +1,78 @@
+module: PluginDevice
+
+primary_class:
+- name: PluginDevice
+  path: Live.PluginDevice.PluginDevice
+  raw_doc: This class represents a plugin device.
+  ancestors:
+  - Live.Device.Device
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+
+  - name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+
+  - name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+
+  - name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+
+  - name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: Live.Device.ATimeableValueVector
+    settable: false
+
+  - name: presets
+    raw_doc: Get the list of presets the plugin offers.
+    type: Live.Base.StringVector
+    settable: false
+    listenable:
+    - add_presets_listener
+    - remove_presets_listener
+    - presets_has_listener
+
+  - name: selected_preset_index
+    raw_doc: Access to the index of the currently selected preset.
+    type: int
+    settable: true
+    listenable:
+    - add_selected_preset_index_listener
+    - remove_selected_preset_index_listener
+    - selected_preset_index_has_listener
+
+  methods:
+  - name: get_parameter_names
+    raw_doc: |-
+      Get the range of plugin parameter names, bound by begin and end.
+      If end is smaller than 0 it is interpreted as the parameter count.
+    signature: 'get_parameter_names( (PluginDevice)arg1 [, (int)begin=0 [, (int)end=-1]]) -> StringVector :'
+    cpp_signature: std::__1::vector<TString, std::__1::allocator<TString>> get_parameter_names(TPluginDevicePyHandle [,int=0 [,int=-1]])
+    args:
+    - name: self
+      type: Live.PluginDevice.PluginDevice
+    - name: begin
+      type: int
+      optional: true
+      default: '0'
+    - name: end
+      type: int
+      optional: true
+      default: '-1'
+    returns:
+      type: Live.Base.StringVector

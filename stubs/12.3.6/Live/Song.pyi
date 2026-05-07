@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
-    from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
     from Live.LomObject import LomObject
     from Live.Scene import Scene
@@ -22,10 +21,6 @@ class Song(LomObject):
 
     class View(LomObject):
         """Representing the view aspects of a Live document: The Session and Arrangerview."""
-
-        @property
-        def _live_ptr(self) -> int:
-            ...
 
         def add_detail_clip_listener(self, callback: Callable[[], None], /) -> None:
             """
@@ -243,10 +238,6 @@ class Song(LomObject):
             to the property "selected_track".
             """
             ...
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_appointed_device_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -699,14 +690,14 @@ class Song(LomObject):
         """Get the canonical parent of the song."""
         ...
 
-    def capture_and_insert_scene(self, capture_mode: CaptureMode | int = 0, /) -> None:
+    def capture_and_insert_scene(self, capture_mode: CaptureMode | int = CaptureMode.all, /) -> None:
         """
         Capture currently playing clips and insert them as a new scene after
         the selected scene. Raises a runtime error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def capture_midi(self, destination: CaptureDestination | int = 0, /) -> None:
+    def capture_midi(self, destination: CaptureDestination | int = CaptureDestination.auto, /) -> None:
         """
         Capture recently played MIDI material from audible tracks.
         If no Destination is given or Destination is set to CaptureDestination.auto, the captured material is inserted into the Session or Arrangement depending on which is visible.
@@ -1985,10 +1976,6 @@ class CaptureMode(int):
 
 class CuePoint(LomObject):
     """Represents a 'Marker' in the arrangement."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_name_listener(self, callback: Callable[[], None], /) -> None:
         """

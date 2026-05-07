@@ -3,18 +3,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import StringVector
-    from Live.Device import ATimeableValueVector, Device, DeviceType
-    from Live.Envelope import Envelope
-    from Live.Track import Track
+    from Live.Device import ATimeableValueVector, Device
 
 
 
 class RoarDevice(Device):
     """This class represents a Roar device."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_env_listen_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -28,36 +22,6 @@ class RoarDevice(Device):
         Add a listener function or method, which will be called as soon as the
         property "routing_mode_index" has changed.
         """
-        ...
-
-    @property
-    def can_compare_ab(self) -> bool:
-        """Returns true if the Device has the capability to AB compare."""
-        ...
-
-    @property
-    def can_have_chains(self) -> bool:
-        """Returns true if the device is a rack."""
-        ...
-
-    @property
-    def can_have_drum_pads(self) -> bool:
-        """Returns true if the device is a drum rack."""
-        ...
-
-    @property
-    def canonical_parent(self) -> Track:
-        """Get the canonical parent of the Device."""
-        ...
-
-    @property
-    def class_display_name(self) -> str:
-        """Return const access to the name of the device's class name as displayed in Live's browser and device chain"""
-        ...
-
-    @property
-    def class_name(self) -> str:
-        """Return const access to the name of the device's class."""
         ...
 
     @property
@@ -143,16 +107,6 @@ class RoarDevice(Device):
     @property
     def routing_mode_list(self) -> StringVector:
         """Return the routing mode list"""
-        ...
-
-    @property
-    def type(self) -> DeviceType:
-        """Return the type of the device."""
-        ...
-
-    @property
-    def view(self) -> Device.View:
-        """Representing the view aspects of a device."""
         ...
 
 __all__ = ['RoarDevice']

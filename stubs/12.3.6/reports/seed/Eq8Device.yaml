@@ -1,0 +1,120 @@
+module: Eq8Device
+
+primary_class:
+- name: Eq8Device
+  path: Live.Eq8Device.Eq8Device
+  raw_doc: This class represents an Eq8 device.
+  ancestors:
+  - Live.Device.Device
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: edit_mode
+    raw_doc: Access to Eq8's edit mode.
+    type: bool
+    settable: true
+    listenable:
+    - add_edit_mode_listener
+    - remove_edit_mode_listener
+    - edit_mode_has_listener
+
+  - name: global_mode
+    raw_doc: Access to Eq8's global mode.
+    type: int
+    settable: true
+    listenable:
+    - add_global_mode_listener
+    - remove_global_mode_listener
+    - global_mode_has_listener
+
+  - name: is_active
+    raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+    type: bool
+    settable: false
+
+  - name: is_using_compare_preset_b
+    raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+    type: bool
+    settable: true
+
+  - name: latency_in_ms
+    raw_doc: Returns the latency of the device in ms.
+    type: float
+    settable: false
+
+  - name: latency_in_samples
+    raw_doc: Returns the latency of the device in samples.
+    type: int
+    settable: false
+
+  - name: name
+    raw_doc: Return access to the name of the device.
+    type: str
+    settable: true
+
+  - name: oversample
+    raw_doc: Access to Eq8's oversample value.
+    type: bool
+    settable: true
+    listenable:
+    - add_oversample_listener
+    - remove_oversample_listener
+    - oversample_has_listener
+
+  - name: parameters
+    raw_doc: Const access to the list of available automatable parameters for this device.
+    type: Live.Device.ATimeableValueVector
+    settable: false
+
+  - name: view
+    raw_doc: Representing the view aspects of a device.
+    type: Live.Eq8Device.Eq8Device.View
+    settable: false
+
+  classes:
+  - name: View
+    path: Live.Eq8Device.Eq8Device.View
+    raw_doc: Representing the view aspects of an Eq8 device.
+    ancestors:
+    - Live.Device.Device.View
+    - Live.LomObject.LomObject
+    init_doc: |-
+      Raises an exception
+      This class cannot be instantiated from Python
+    constructable: false
+
+    properties:
+    - name: canonical_parent
+      raw_doc: Get the canonical parent of the View.
+      type: Live.Eq8Device.Eq8Device
+      settable: false
+
+    - name: is_collapsed
+      raw_doc: Get/Set/Listen if the device is shown collapsed in the device chain.
+      type: bool
+      settable: true
+
+    - name: selected_band
+      raw_doc: Access to the selected filter band.
+      type: int
+      settable: true
+      listenable:
+      - add_selected_band_listener
+      - remove_selected_band_listener
+      - selected_band_has_listener
+
+enums:
+- name: EditMode
+  members:
+    a: 0
+    b: 1
+
+- name: GlobalMode
+  members:
+    stereo: 0
+    left_right: 1
+    mid_side: 2

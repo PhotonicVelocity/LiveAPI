@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Chain import Chain
-    from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
     from Live.LomObject import LomObject
 
@@ -15,10 +14,6 @@ class ChainMixerDevice(LomObject):
     This class represents a Chain's Mixer Device in Live, which gives you
     access to the Volume, Panning, and Send properties of a Chain.
     """
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_sends_listener(self, callback: Callable[[], None], /) -> None:
         """

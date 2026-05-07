@@ -1,7 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import IntU64Vector, IntVector, Vector
@@ -10,7 +8,6 @@ if TYPE_CHECKING:
     from Live.Envelope import Envelope
     from Live.Groove import Groove
     from Live.LomObject import LomObject
-    from Live.Track import Track
 
 
 
@@ -23,10 +20,6 @@ class Clip(LomObject):
 
     class View(LomObject):
         """Representing the view aspects of a Clip."""
-
-        @property
-        def _live_ptr(self) -> int:
-            ...
 
         @property
         def canonical_parent(self) -> Clip:
@@ -64,10 +57,6 @@ class Clip(LomObject):
         def show_loop(self) -> None:
             """Show the entire loop in the detail view."""
             ...
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -1528,30 +1517,12 @@ class MidiNoteSpecification:
 
     def __init__(self, pitch: int, start_time: float, duration: float, velocity: float = 100.0, mute: bool = False, probability: float = 1.0, velocity_deviation: float = 0.0, release_velocity: float = 64.0) -> None: ...
 
-class MidiNoteVector(Iterable[MidiNote]):
+class MidiNoteVector(Vector[MidiNote]):
     """A container for holding MIDI notes from Live."""
 
-    def __iter__(self) -> Iterator[MidiNote]: ...
+    def append(self, value: MidiNote, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> MidiNote: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> MidiNoteVector: ...
-
-    def __getitem__(self, index: int | slice) -> MidiNote | MidiNoteVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: MidiNote, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[MidiNote], /) -> None:
-        ...
+    def extend(self, values: Iterable[MidiNote], /) -> None: ...
 
 class WarpMarker:
     """This class represents a WarpMarker type."""
@@ -1568,30 +1539,12 @@ class WarpMarker:
         """A WarpMarker's sample time."""
         ...
 
-class WarpMarkerVector(Iterable[WarpMarker]):
+class WarpMarkerVector(Vector[WarpMarker]):
     """A container for returning warp markers from Live."""
 
-    def __iter__(self) -> Iterator[WarpMarker]: ...
+    def append(self, value: WarpMarker, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> WarpMarker: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> WarpMarkerVector: ...
-
-    def __getitem__(self, index: int | slice) -> WarpMarker | WarpMarkerVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: WarpMarker, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[WarpMarker], /) -> None:
-        ...
+    def extend(self, values: Iterable[WarpMarker], /) -> None: ...
 
 class WarpMode(int):
     beats: int = 0

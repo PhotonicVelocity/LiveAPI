@@ -1,0 +1,46 @@
+module: Listener
+
+classes:
+- name: ListenerHandle
+  path: Live.Listener.ListenerHandle
+  raw_doc: This class represents a Python listener when connected to a Live property.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: listener_func
+    raw_doc: Returns the original function
+    settable: false
+
+  - name: listener_self
+    raw_doc: Returns the weak reference to original self, if it was a bound method
+    settable: false
+
+  - name: name
+    raw_doc: Prints the name of the property that this listener is connected to
+    settable: false
+
+  methods:
+  - name: disconnect
+    raw_doc: Disconnects the listener from its property
+    signature: 'disconnect( (ListenerHandle)arg1) -> None :'
+    cpp_signature: void disconnect(LPythonRemote {lvalue})
+    args:
+    - name: self
+      type: Live.Listener.ListenerHandle
+    returns:
+      type: None
+
+- name: ListenerVector
+  path: Live.Listener.ListenerVector
+  raw_doc: A read only container for accessing a list of listeners.
+  ancestors: []
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+  iterable: true
+  container: true

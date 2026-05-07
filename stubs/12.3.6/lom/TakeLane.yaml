@@ -1,0 +1,93 @@
+module: TakeLane
+
+primary_class:
+- name: TakeLane
+  path: Live.TakeLane.TakeLane
+  raw_doc: This class represents a take lane in Live.
+  ancestors:
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: arrangement_clips
+    raw_doc: Read-only access to the arrangement clips in the take lane.
+    type: Live.Base.Vector[Live.Clip.Clip]
+    settable: false
+    listenable:
+    - add_arrangement_clips_listener
+    - remove_arrangement_clips_listener
+    - arrangement_clips_has_listener
+
+  - name: canonical_parent
+    raw_doc: Get the canonical parent of the take lane.
+    type: Live.Track.Track
+    settable: false
+
+  - name: name
+    raw_doc: Read/write access to the name of the TakeLane, as visible in the take lane header.
+    type: str
+    settable: true
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+
+  methods:
+  - name: create_audio_clip
+    raw_doc: |-
+      Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
+      Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
+    signature: 'create_audio_clip( (TakeLane)arg1, (object)arg2, (float)arg3) -> Clip :'
+    cpp_signature: TWeakPtr<TPyHandle<AClip>> create_audio_clip(TPyHandle<ATakeLane>,TString,double)
+    args:
+    - name: self
+      type: Live.TakeLane.TakeLane
+    - name: arg2
+      name_override:
+        value: file_path
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+      type: str
+    - name: arg3
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+      type: float
+    returns:
+      type: Live.Clip.Clip
+
+  - name: create_midi_clip
+    raw_doc: |-
+      Creates an empty MIDI clip and inserts it into the arrangement at the specified time.
+      Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
+    signature: 'create_midi_clip( (TakeLane)arg1, (float)arg2, (float)arg3) -> Clip :'
+    cpp_signature: TWeakPtr<TPyHandle<AClip>> create_midi_clip(TPyHandle<ATakeLane>,double,double)
+    args:
+    - name: self
+      type: Live.TakeLane.TakeLane
+    - name: arg2
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+      type: float
+    - name: arg3
+      name_override:
+        value: length
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+      type: float
+    returns:
+      type: Live.Clip.Clip

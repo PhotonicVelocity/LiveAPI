@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Clip import WarpMarkerVector, WarpMode
-    from Live.Envelope import Envelope
     from Live.LomObject import LomObject
     from Live.SimplerDevice import SimplerDevice
 
@@ -11,10 +10,6 @@ if TYPE_CHECKING:
 
 class Sample(LomObject):
     """This class represents a sample file loaded into a Simpler instance."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_beats_granulation_resolution_listener(self, callback: Callable[[], None], /) -> None:
         """
