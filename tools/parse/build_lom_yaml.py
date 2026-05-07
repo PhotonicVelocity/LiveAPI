@@ -390,6 +390,27 @@ def _final_type_string(type_str: str | None,
     return type_str
 
 
+def _enum_from_default(default: str | None, by_name: dict[str, list[str]],
+                        enum_paths: set[str]) -> str | None:
+    """If `default` references an enum member (`Application.MessageButtons.OK_BUTTON`,
+    `Song.CaptureMode.all`, or bare `MessageButtons.OK_BUTTON`), return the
+    qualified enum path (`Live.Application.MessageButtons`). Else None.
+
+    Boost.Python's signature qualifies enum members under the enclosing class
+    name, so the second-to-last dotted segment is the enum.
+    """
+    if not default:
+        return None
+    parts = default.split(".")
+    if len(parts) < 2:
+        return None
+    candidate = parts[-2]
+    for qpath in by_name.get(candidate, []):
+        if qpath in enum_paths:
+            return qpath
+    return None
+
+
 def _widen_optional(type_str: str | None, default: str | None) -> str | None:
     """Optional widening: `T` with default `None` → `T | None`. The
     binding actually accepts None for these args, so the annotation
@@ -899,6 +920,16 @@ def _convert_args(
         if type_str:
             type_str = _qualify_type_string(type_str, by_name, enclosing_path)
             type_str = _widen_enum_types(type_str, enum_paths or set())
+            # Enum-from-default inference: Boost.Python emits enum-typed
+            # args as `int` in the C++ signature, but the default reveals
+            # the enum (`Application.MessageButtons.OK_BUTTON`). When the
+            # type is bare `int` and the default resolves to a known enum,
+            # widen to `Enum | int` so callers see both the enum identity
+            # (autocomplete) and the int admissibility (Boost truth).
+            if type_str == "int" and arg.get("optional"):
+                enum_path = _enum_from_default(arg.get("default"), by_name, enum_paths or set())
+                if enum_path:
+                    type_str = f"{enum_path} | int"
             if arg.get("optional"):
                 type_str = _widen_optional(type_str, arg.get("default"))
             item["type"] = type_str

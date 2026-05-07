@@ -220,7 +220,7 @@ primary_class:
     - name: text
       type: Live.Base.Text
     - name: buttons
-      type: int
+      type: Live.Application.MessageButtons | int
       optional: true
       default: Application.MessageButtons.OK_BUTTON
     - name: enable_markup
@@ -244,7 +244,7 @@ primary_class:
     - name: message
       type: str
     - name: buttons
-      type: int
+      type: Live.Application.MessageButtons | int
       optional: true
       default: Application.MessageButtons.OK_BUTTON
     - name: enable_markup
@@ -256,7 +256,7 @@ primary_class:
       optional: true
       default: 'False'
     - name: push_dialog_type
-      type: int
+      type: Live.Application.PushDialogType | int
       optional: true
       default: Application.PushDialogType.MESSAGE_BOX
     returns:

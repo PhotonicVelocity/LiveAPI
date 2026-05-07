@@ -366,11 +366,11 @@ class Application(LomObject):
         """
         ...
 
-    def show_message(self, text: Text, buttons: int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, /) -> int:
+    def show_message(self, text: Text, buttons: MessageButtons | int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, /) -> int:
         """Shows a message box, returning the position of the pressed button."""
         ...
 
-    def show_on_the_fly_message(self, message: str, buttons: int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: int = PushDialogType.MESSAGE_BOX, /) -> int:
+    def show_on_the_fly_message(self, message: str, buttons: MessageButtons | int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: PushDialogType | int = PushDialogType.MESSAGE_BOX, /) -> int:
         """Same as show_message, but for when there is no predefined Text object."""
         ...
 

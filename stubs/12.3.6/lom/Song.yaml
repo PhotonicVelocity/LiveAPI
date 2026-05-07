@@ -593,7 +593,7 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: capture_mode
-      type: int
+      type: Live.Song.CaptureMode | int
       optional: true
       default: Song.CaptureMode.all
     returns:
@@ -611,7 +611,7 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: destination
-      type: int
+      type: Live.Song.CaptureDestination | int
       optional: true
       default: Song.CaptureDestination.auto
     returns:

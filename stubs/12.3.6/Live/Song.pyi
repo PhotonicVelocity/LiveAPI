@@ -698,14 +698,14 @@ class Song(LomObject):
         """Get the canonical parent of the song."""
         ...
 
-    def capture_and_insert_scene(self, capture_mode: int = CaptureMode.all, /) -> None:
+    def capture_and_insert_scene(self, capture_mode: CaptureMode | int = CaptureMode.all, /) -> None:
         """
         Capture currently playing clips and insert them as a new scene after
         the selected scene. Raises a runtime error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def capture_midi(self, destination: int = CaptureDestination.auto, /) -> None:
+    def capture_midi(self, destination: CaptureDestination | int = CaptureDestination.auto, /) -> None:
         """
         Capture recently played MIDI material from audible tracks.
         If no Destination is given or Destination is set to CaptureDestination.auto, the captured material is inserted into the Session or Arrangement depending on which is visible.
