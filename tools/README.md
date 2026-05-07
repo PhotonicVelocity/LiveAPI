@@ -218,7 +218,7 @@ the curated `lom/` layer adds on top of the seed.
 ## Stage 3: Generate Stubs (runs outside Live)
 
 ```
-python tools/generate/build_stubs_from_yaml.py 12.3.6
+python tools/generate/generate_stubs.py 12.3.6
 ```
 
 Reads `stubs/<v>/lom/*.yaml` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator is mechanical —
@@ -258,7 +258,7 @@ tools/
 │   ├── build_lom_yaml.py                Build per-module YAML seed → stubs/<v>/reports/seed/*.yaml
 │   └── run_parse_pipeline.py            Orchestrator (parse + build)
 ├── generate/                Stage 3: stub + reference generation
-│   ├── build_stubs_from_yaml.py         Read stubs/<v>/lom/*.yaml → emit .pyi
+│   ├── generate_stubs.py         Read stubs/<v>/lom/*.yaml → emit .pyi
 │   └── generate_reference.py            Reference-doc generator (pending lom/ port)
 ├── verify/                  Verification — pyright audit + corpus consistency checks
 │   ├── run.sh                        Orchestrator (Tiers 1-4)

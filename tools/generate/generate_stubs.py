@@ -7,8 +7,8 @@ override's `value:` is preferred over the parser-derived field — that's
 the seam through which manual refinements reach the rendered stubs.
 
 Usage:
-    python tools/generate/build_stubs_from_yaml.py 12.3.6
-    python tools/generate/build_stubs_from_yaml.py 12.3.6 --input <dir> --output <dir>
+    python tools/generate/generate_stubs.py 12.3.6
+    python tools/generate/generate_stubs.py 12.3.6 --input <dir> --output <dir>
 """
 
 from __future__ import annotations

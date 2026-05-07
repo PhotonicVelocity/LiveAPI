@@ -10,7 +10,7 @@
 
 - Capture + parse + lom-build pipeline producing `stubs/<v>/lom/*.yaml`
   (the curated SOT — algorithmic seed plus sibling `<field>_override:` blocks).
-- Stubs generated from `lom/` via `build_stubs_from_yaml.py`, including
+- Stubs generated from `lom/` via `generate_stubs.py`, including
   parser-side enum widening, optional widening, listener-triplet folding,
   parametric-container detection, and the override mechanism.
 - Stub docstrings = runtime Boost.Python `__doc__` strings, verbatim.
@@ -299,7 +299,7 @@ don't get rediscovered as surprises later.
   Resolve before any class with a non-trivial constructor enters Phase 5
   scope. The fix is upstream of the documentation work — it's a parser/
   generator gap to close in `parse_apicapture_results_v2.py`,
-  `build_lom_yaml.py`, and `build_stubs_from_yaml.py`.
+  `build_lom_yaml.py`, and `generate_stubs.py`.
 - **Stable URLs.** Class-page anchors are easy. Per-member anchors are
   easy. Per-assertion sub-anchors (`#warp_markers-slope-rule`) require
   thinking through the URL contract before records get cited from

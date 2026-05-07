@@ -45,7 +45,7 @@ where the data lives between stages. For *why* each piece exists see
    ┌──────────────────────────────────┐         ┌──────────────────────────────────┐
    │  Stage 3a — STUBS                │         │  Stage 3b — REFERENCE PAGES      │
    │  tools/generate/                 │         │  tools/generate/                 │
-   │    build_stubs_from_yaml.py      │         │    generate_reference.py         │
+   │    generate_stubs.py             │         │    generate_reference.py         │
    │                                  │         │    (pending lom/ port)           │
    │  → stubs/<v>/Live/*.pyi          │         │  → web/.../modules/*.mdx         │
    └──────────────────────────────────┘         └──────────────────────────────────┘
@@ -167,7 +167,7 @@ capture, M4L docs, or the corpus.
 
 ### 3a. Stub generation
 
-**Tool:** [`tools/generate/build_stubs_from_yaml.py`](../tools/generate/build_stubs_from_yaml.py).
+**Tool:** [`tools/generate/generate_stubs.py`](../tools/generate/generate_stubs.py).
 
 **Output:** [`stubs/<version>/Live/*.pyi`](../stubs/12.3.6/Live/) — typed
 Python stubs published as the `ableton-live-stubs` package via

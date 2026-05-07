@@ -147,7 +147,7 @@ The pipeline draws from four sources, in roughly increasing order of authority:
    parameter names and call shapes. Cloned to `external/corpus/`.
 4. **`stubs/<v>/lom/*.yaml` overrides** — hand-curated `<field>_override:` blocks sitting next to each
    parser-derived value, with a per-override `source:` field documenting the rationale (corpus def-site, M4L doc
-   citation, raw_doc, etc.). Consumed mechanically by `build_stubs_from_yaml.py`.
+   citation, raw_doc, etc.). Consumed mechanically by `generate_stubs.py`.
 
 ## Credits
 
