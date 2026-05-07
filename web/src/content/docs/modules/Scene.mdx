@@ -67,3 +67,15 @@ Get the active state of the scene time signature. When disabled, the scene will 
 Get/Set the scene's time signature numerator. The song will use the scene's time signature as soon as the scene is fired. Returns -1 if the scene has no time signature property.
 
 #### Methods
+
+##### fire<span class="meth-sig">(force_legato: bool = False, can_select_scene_on_launch: bool = True) -> None</span>
+
+Fire the scene directly. Will fire all clipslots that this scene owns and select the scene itself.
+
+##### fire_as_selected<span class="meth-sig">(force_legato: bool = False) -> None</span>
+
+Fire the selected scene. Will fire all clipslots that this scene owns and select the next scene if necessary.
+
+##### set_fire_button_state<span class="meth-sig">(state: bool) -> None</span>
+
+Set the scene's fire button state directly. Supports all launch modes.

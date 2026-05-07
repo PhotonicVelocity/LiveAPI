@@ -65,6 +65,50 @@ Returns the applications view component.
 
 #### Methods
 
+##### get_bugfix_version<span class="meth-sig">() -> int</span>
+
+Returns an integer representing the bugfix version of Live.
+
+##### get_build_id<span class="meth-sig">() -> str</span>
+
+Returns a string identifying the build.
+
+##### get_document<span class="meth-sig">() -> <a href="/LiveAPI/modules/song/#song">Song</a></span>
+
+Returns the current Live Set.
+
+##### get_major_version<span class="meth-sig">() -> int</span>
+
+Returns an integer representing the major version of Live.
+
+##### get_minor_version<span class="meth-sig">() -> int</span>
+
+Returns an integer representing the minor version of Live.
+
+##### get_variant<span class="meth-sig">() -> str</span>
+
+Returns one of the strings in Live.Application.Variants.
+
+##### get_version_string<span class="meth-sig">() -> str</span>
+
+Returns the full version string of Live.
+
+##### has_option<span class="meth-sig">(option_name: str) -> bool</span>
+
+Returns True if the given entry exists in Options.txt, False otherwise.
+
+##### press_current_dialog_button<span class="meth-sig">(index: int) -> None</span>
+
+Press a button, by index, on the current message box.
+
+##### show_message<span class="meth-sig">(text: <a href="/LiveAPI/modules/base/#text">Text</a>, buttons: <a href="/LiveAPI/modules/application/#messagebuttons">MessageButtons</a> | int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False) -> int</span>
+
+Shows a message box, returning the position of the pressed button.
+
+##### show_on_the_fly_message<span class="meth-sig">(message: str, buttons: <a href="/LiveAPI/modules/application/#messagebuttons">MessageButtons</a> | int = MessageButtons.OK_BUTTON, enable_markup: bool = False, show_success_icon: bool = False, push_dialog_type: <a href="/LiveAPI/modules/application/#pushdialogtype">PushDialogType</a> | int = PushDialogType.MESSAGE_BOX) -> int</span>
+
+Same as show_message, but for when there is no predefined Text object.
+
 #### Nested types
 
 - [`Application.View`](#applicationview) — This class represents the view aspects of the Live application.
@@ -80,8 +124,6 @@ Describes a control present in a control surface proxy
 ##### id<span class="prop-type">: int</span>
 
 ##### name<span class="prop-type">: str</span>
-
-#### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
 
@@ -106,6 +148,24 @@ The layout of pads on Push.
 ##### midi_received
 
 #### Methods
+
+##### enable_receive_midi<span class="meth-sig">(enabled: bool) -> None</span>
+
+##### fetch_received_midi_messages<span class="meth-sig">() -> tuple[tuple[int, ...], ...]</span>
+
+##### fetch_received_values<span class="meth-sig">() -> tuple[tuple[int, Any], ...]</span>
+
+##### grab_control<span class="meth-sig">(control_id: int) -> None</span>
+
+##### release_control<span class="meth-sig">(control_id: int) -> None</span>
+
+##### send_midi<span class="meth-sig">(midi_event_bytes: tuple[int, ...]) -> None</span>
+
+##### send_value<span class="meth-sig">(value: tuple[Any, ...]) -> None</span>
+
+##### subscribe_to_control<span class="meth-sig">(control_id: int) -> None</span>
+
+##### unsubscribe_from_control<span class="meth-sig">(control_id: int) -> None</span>
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
 
@@ -142,6 +202,50 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 ##### view_focus_changed
 
 #### Methods
+
+##### add_is_view_visible_listener<span class="meth-sig">(view_name: str, callback: Callable[[], None]) -> None</span>
+
+Add a listener function or method, which will be called as soon as the property "is_view_visible" has changed.
+
+##### available_main_views<span class="meth-sig">() -> <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return a list of strings with the available subcomponent views, which is to be specified, when using the rest of this classes functions. A 'subcomponent view' is a main view component of a document view, like the Session view, the Arranger or Detailview and so on...
+
+##### focus_view<span class="meth-sig">(view: str) -> None</span>
+
+Show and focus one through the identifier string specified view.
+
+##### hide_view<span class="meth-sig">(view_name: str) -> None</span>
+
+Hide one through the identifier string specified view.
+
+##### is_view_visible<span class="meth-sig">(identifier: str, main_window_only: bool = True) -> bool</span>
+
+Return true if the through the identifier string specified view is currently visible. If main_window_only is set to False, this will also check in second window. Notifications from the second window are not yet supported.
+
+##### is_view_visible_has_listener<span class="meth-sig">(view_name: str, callback: Callable[[], None]) -> bool</span>
+
+Returns true, if the given listener function or method is connected to the property "is_view_visible".
+
+##### remove_is_view_visible_listener<span class="meth-sig">(view_name: str, callback: Callable[[], None]) -> None</span>
+
+Remove a previously set listener function or method from property "is_view_visible".
+
+##### scroll_view<span class="meth-sig">(direction: int, view_name: str, modifier_pressed: bool) -> None</span>
+
+Scroll through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
+
+##### show_view<span class="meth-sig">(view: str) -> None</span>
+
+Show one through the identifier string specified view. Will throw a runtime error if this is called in Live's initialization scope.
+
+##### toggle_browse<span class="meth-sig">() -> None</span>
+
+Reveals the device chain, the browser and starts hot swap for the selected device. Calling this function again stops hot swap.
+
+##### zoom_view<span class="meth-sig">(direction: int, view_name: str, modifier_pressed: bool) -> None</span>
+
+Zoom through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
 
 #### Nested types
 

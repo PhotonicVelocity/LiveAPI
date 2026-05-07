@@ -56,3 +56,7 @@ Access to the index of the currently selected preset.
 From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [is_using_compare_preset_b](/LiveAPI/modules/device/#is_using_compare_preset_b-bool), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview)
 
 #### Methods
+
+##### get_parameter_names<span class="meth-sig">(begin: int = 0, end: int = -1) -> <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Get the range of plugin parameter names, bound by begin and end. If end is smaller than 0 it is interpreted as the parameter count.

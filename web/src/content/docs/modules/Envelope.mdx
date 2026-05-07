@@ -25,6 +25,22 @@ This class represents an automation or modulation envelope in Live.
 
 #### Methods
 
+##### delete_events_in_range<span class="meth-sig">(start_time: float, end_time: float) -> None</span>
+
+Deletes the events in the specified time range.
+
+##### events_in_range<span class="meth-sig">(start_time: float, end_time: float) -> <a href="/LiveAPI/modules/envelope/#envelopeeventvector">EnvelopeEventVector</a></span>
+
+Returns the events in the specified time range.
+
+##### insert_step<span class="meth-sig">(start_time: float, length: float, value: float) -> None</span>
+
+Given a start time, a step length and a value, creates a step in the envelope.
+
+##### value_at_time<span class="meth-sig">(time: float) -> float</span>
+
+Returns the parameter value at the specified time.
+
 ## Other classes
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Envelope.">EnvelopeEvent</span></span>
@@ -39,8 +55,6 @@ This is a class that represents an envelope event.
 
 ##### value<span class="prop-type">: float</span>
 
-#### Methods
-
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Envelope.">EnvelopeEventControlCoefficients</span></span>
 
 This class represents the control coefficients of an envelope event.
@@ -54,8 +68,6 @@ This class represents the control coefficients of an envelope event.
 ##### y1<span class="prop-type">: float</span>
 
 ##### y2<span class="prop-type">: float</span>
-
-#### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Envelope.">EnvelopeEventVector</span></span>
 

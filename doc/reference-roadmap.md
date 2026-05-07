@@ -69,10 +69,10 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 5 + 7 complete plus nested-type hoisting (Step
-11 structural piece); module descriptions hand-authored across all 43
-modules; LomObject foundation page + LOM badge / pinned-pair treatment
-across every LOM class.
+Status: Steps 1 through 5 + 7 + 8 complete plus nested-type hoisting
+(Step 11 structural piece); module descriptions hand-authored across
+all 43 modules; LomObject foundation page + LOM badge / pinned-pair
+treatment across every LOM class.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -125,11 +125,17 @@ across every LOM class.
   parser-derived `raw_doc` (collapsed to a single paragraph) when no
   authored prose exists. Property-level `description:` documented in
   `doc/lom-format.md` alongside the class-level field.
-- **Step 8 — Methods listed.** Same ladder as properties: `## Methods`
-  section with method names as H3 headings (signature shape:
-  `name(args) -> return`). Use the parser's `description` field rather
-  than `raw_doc` so the Boost.Python signature header and `C++ signature:`
-  footer don't dump into the doc.
+- **Step 8 — Methods listed.** ✅ Done. `#### Methods` section per
+  class, each method as an H5 heading with a Python-style signature:
+  `name(arg: T, kw: T2 = D) -> Return`. Implicit `self` dropped;
+  `name_override` honored (corpus / M4L names supplant Boost.Python's
+  `arg1` / `arg2`). Args + return rendered in a `.meth-sig` muted span
+  so the method name visually dominates — same idea as the
+  `prop-type` annotation on properties. Description below uses the
+  same `member_description_text` helper as properties (prefer
+  hand-authored `description:`, fall back to `raw_doc`). `__init__`
+  filtered via `SKIP_MEMBERS` — constructor coverage handled
+  separately when constructor records land.
 - **Step 9 — Module-level enums.** Currently rendered as headings only.
   Add member tables (`Member | Value` listing) under each enum heading,
   using the enum's `members` field from the lom YAML.

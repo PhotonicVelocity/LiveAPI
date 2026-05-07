@@ -218,6 +218,162 @@ returns true if the Clip will record on being started.
 
 #### Methods
 
+##### add_new_notes<span class="meth-sig">(notes: Iterable[<a href="/LiveAPI/modules/clip/#midinotespecification">MidiNoteSpecification</a>]) -> <a href="/LiveAPI/modules/base/#intu64vector">IntU64Vector</a></span>
+
+Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification objects. The objects will be used to construct new notes in the clip.
+
+##### add_warp_marker<span class="meth-sig">(warp_marker: <a href="/LiveAPI/modules/clip/#warpmarker">WarpMarker</a>) -> None</span>
+
+Available for AudioClips only. Adds the specified warp marker, if possible.
+
+##### apply_note_modifications<span class="meth-sig">(notes: <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a>) -> None</span>
+
+Expects a list of notes as returned from get_notes_extended. The content of the list will be used to modify existing notes in the clip, based on matching note IDs. This function should be used when modifying existing notes, e.g. changing the velocity or start time. The function ensures that per-note events attached to the modified notes are preserved. This is NOT the case when replacing notes via a combination of remove_notes_extended and add_new_notes. The given list can be a subset of the notes in the clip, but it must not contain any notes that are not present in the clip.
+
+##### automation_envelope<span class="meth-sig">(device_parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> <a href="/LiveAPI/modules/envelope/#envelope">Envelope</a></span>
+
+Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track.
+
+##### beat_to_sample_time<span class="meth-sig">(beat_time: float) -> float</span>
+
+Available for AudioClips only. Converts the given beat time to sample time. Raises an error if the sample is not warped.
+
+##### clear_all_envelopes<span class="meth-sig">() -> None</span>
+
+Clears all envelopes for this clip.
+
+##### clear_envelope<span class="meth-sig">(device_parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> None</span>
+
+Clears the envelope of this clips given parameter.
+
+##### create_automation_envelope<span class="meth-sig">(device_parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> <a href="/LiveAPI/modules/envelope/#envelope">Envelope</a></span>
+
+Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created.
+
+##### crop<span class="meth-sig">() -> None</span>
+
+Crops the clip. The region that is cropped depends on whether the clip is looped or not. If looped, the region outside of the loop is removed. If not looped, the region outside the start and end markers is removed.
+
+##### deselect_all_notes<span class="meth-sig">() -> None</span>
+
+De-selects all notes present in the clip.
+
+##### duplicate_loop<span class="meth-sig">() -> None</span>
+
+Make the loop two times longer and duplicates notes and envelopes. Duplicates the clip start/end range if the clip is not looped.
+
+##### duplicate_notes_by_id<span class="meth-sig">(note_ids: Iterable[int], destination_time: float | None = None, transposition_amount: int = 0) -> <a href="/LiveAPI/modules/base/#intu64vector">IntU64Vector</a></span>
+
+Duplicate all notes matching the given note IDs. If the optional destination_time is not provided, new notes will be inserted after the last selected note. This behavior can be observed when duplicating notes in the Live GUI. If the transposition_amount is specified, the notes in the region will be transposed by the number of semitones. Raises an error on audio clips.
+
+##### duplicate_region<span class="meth-sig">(region_start: float, region_length: float, destination_time: float, pitch: int = -1, transposition_amount: int = 0) -> None</span>
+
+Duplicate the notes in the specified region to the destination_time. Only notes of the specified pitch are duplicated or all if pitch is -1. If the transposition_amount is not 0, the notes in the region will be transposed by the transpose_amount of semitones.Raises an error on audio clips.
+
+##### fire<span class="meth-sig">() -> None</span>
+
+(Re)Start playing this Clip.
+
+##### get_all_notes_extended<span class="meth-sig">() -> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
+
+Returns a list of all MIDI notes from the clip, regardless of their position relative to the start and end markers/loop start and loop end. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+##### get_notes<span class="meth-sig">(from_time: float, from_pitch: int, time_span: float, pitch_span: int) -> tuple[tuple[int, float, float, float, bool], ...]</span>
+
+Returns a tuple of tuples where each inner tuple represents a note starting in the given pitch- and time range. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+##### get_notes_by_id<span class="meth-sig">(note_ids: Iterable[int]) -> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
+
+Return a list of MIDI notes matching the given note IDs.
+
+##### get_notes_extended<span class="meth-sig">(from_pitch: int, pitch_span: int, from_time: float, time_span: float) -> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
+
+Returns a list of MIDI notes from the given pitch and time range. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+##### get_selected_notes<span class="meth-sig">() -> tuple[tuple[int, float, float, float, bool], ...]</span>
+
+Returns a tuple of tuples where each inner tuple represents a selected note. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+##### get_selected_notes_extended<span class="meth-sig">() -> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
+
+Returns a list of all MIDI notes from the clip that are currently selected. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+##### move_playing_pos<span class="meth-sig">(beats: float) -> None</span>
+
+Jump forward or backward by the specified relative amount in beats. Will do nothing, if the Clip is not playing.
+
+##### move_warp_marker<span class="meth-sig">(marker_beat_time: float, beat_time_distance: float) -> None</span>
+
+Available for AudioClips only. Moves the specified warp marker by the specified beat time amount, if possible.
+
+##### note_number_to_name<span class="meth-sig">(midi_pitch: int) -> str</span>
+
+Return a human-readable name for the given MIDI note number. Takes into account the scale and tonal spelling settings of the clip, as well as the current tuning system (if any)
+
+##### quantize<span class="meth-sig">(quantization_grid: <a href="/LiveAPI/modules/clip/#gridquantization">GridQuantization</a> | int, amount: float) -> None</span>
+
+Quantize all notes in a clip or align warp markers.
+
+##### quantize_pitch<span class="meth-sig">(note: int, quantization_grid: <a href="/LiveAPI/modules/clip/#gridquantization">GridQuantization</a> | int, amount: float) -> None</span>
+
+Quantize all the notes of a given pitch. Raises an error on audio clips.
+
+##### remove_notes<span class="meth-sig">(from_time: float, from_pitch: int, time_span: float, pitch_span: int) -> None</span>
+
+Delete all notes starting in the given pitch- and time range.
+
+##### remove_notes_by_id<span class="meth-sig">(note_ids: Iterable[int]) -> None</span>
+
+Delete all notes matching the given note IDs. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
+
+##### remove_notes_extended<span class="meth-sig">(from_pitch: int, pitch_span: int, from_time: float, time_span: float) -> None</span>
+
+Delete all notes starting in the given pitch and time range. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
+
+##### remove_warp_marker<span class="meth-sig">(beat_time: float) -> None</span>
+
+Available for AudioClips only. Removes the specified warp marker, if possible.
+
+##### replace_selected_notes<span class="meth-sig">(notes: tuple[tuple[int, float, float, float, bool], ...]) -> None</span>
+
+Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_selected_notes. The notes described that way will then be used to replace the old selection.
+
+##### sample_to_beat_time<span class="meth-sig">(sample_time: float) -> float</span>
+
+Available for AudioClips only. Converts the given sample time to beat time. Raises an error if the sample is not warped.
+
+##### scrub<span class="meth-sig">(scrub_position: float) -> None</span>
+
+Scrubs inside a clip. scrub_position defines the position in beats that the scrub will start from. The scrub will continue until stop_scrub is called. Global quantization applies to the scrub's position and length.
+
+##### seconds_to_sample_time<span class="meth-sig">(seconds: float) -> float</span>
+
+Available for AudioClips only. Converts the given seconds to sample time. Raises an error if the sample is warped.
+
+##### select_all_notes<span class="meth-sig">() -> None</span>
+
+Selects all notes present in the clip.
+
+##### select_notes_by_id<span class="meth-sig">(note_ids: Iterable[int]) -> None</span>
+
+Selects all notes matching the given note IDs.
+
+##### set_fire_button_state<span class="meth-sig">(state: bool) -> None</span>
+
+Set the clip's fire button state directly. Supports all launch modes.
+
+##### set_notes<span class="meth-sig">(notes: tuple[tuple[int, float, float, float, bool], ...]) -> None</span>
+
+Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_notes. The notes described that way will then be added to the clip.
+
+##### stop<span class="meth-sig">() -> None</span>
+
+Stop playing this Clip.
+
+##### stop_scrub<span class="meth-sig">() -> None</span>
+
+Stops the current scrub.
+
 #### Nested types
 
 - [`Clip.View`](#clipview) — Representing the view aspects of a Clip.
@@ -254,8 +410,6 @@ A numerical ID that's unique within the originating clip of the note. Not to be 
 
 An object specifying the data for creating a MIDI note. To be used with the add_new_notes function.
 
-#### Methods
-
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNoteVector</span></span>
 
 A container for holding MIDI notes from Live.
@@ -273,8 +427,6 @@ A WarpMarker's beat time.
 ##### sample_time<span class="prop-type">: float</span>
 
 A WarpMarker's sample time.
-
-#### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">WarpMarkerVector</span></span>
 
@@ -303,6 +455,22 @@ Get/set wether the grid is showing in triplet mode.
 Get/set clip grid quantization resolution.
 
 #### Methods
+
+##### hide_envelope<span class="meth-sig">() -> None</span>
+
+Hide the envelope view.
+
+##### select_envelope_parameter<span class="meth-sig">(device_parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> None</span>
+
+Select the given device parameter in the envelope view.
+
+##### show_envelope<span class="meth-sig">() -> None</span>
+
+Show the envelope view.
+
+##### show_loop<span class="meth-sig">() -> None</span>
+
+Show the entire loop in the detail view.
 
 ## Enums
 

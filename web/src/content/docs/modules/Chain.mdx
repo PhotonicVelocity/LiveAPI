@@ -75,3 +75,15 @@ Read/write access to the name of the Chain, as visible in the track header.
 Get/Set the solo status of the chain. Note that this will not disable the solo state of any other Chain in the same rack. If you want exclusive solo, you have to disable the solo state of the other Chains manually.
 
 #### Methods
+
+##### delete_device<span class="meth-sig">(index: int) -> None</span>
+
+Remove a device identified by its index from the chain. Throws runtime error if bad index.
+
+##### duplicate_device<span class="meth-sig">(index: int) -> None</span>
+
+Duplicate the device at the given index in the chain.
+
+##### insert_device<span class="meth-sig">(device_name: str, device_index: int = -1) -> <a href="/LiveAPI/modules/device/#device">Device</a></span>
+
+Add a device at a given index in the chain. At end if -1.

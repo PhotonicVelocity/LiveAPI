@@ -92,7 +92,8 @@
    Default color is muted gray, used for the `:` separator and unlinked
    builtin/unrecognized types (`bool`, `None`, `int`) so they fade into
    scaffolding. Linked Live types override via their own anchor styling. */
-.sl-markdown-content h5 .prop-type {
+.sl-markdown-content h5 .prop-type,
+.sl-markdown-content h5 .meth-sig {
   font-weight: 400;
   color: var(--sl-color-gray-3);
 }

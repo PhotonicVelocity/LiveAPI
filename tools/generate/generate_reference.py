@@ -344,8 +344,66 @@ def function_signature_html(fn: dict, module_name: str) -> str:
     )
 
 
-def property_description_text(prop: dict) -> str | None:
-    """Resolve the displayable description for a property.
+def method_signature_html(
+    method: dict,
+    registry: dict[str, str],
+    *,
+    owning_class_name: str | None = None,
+) -> str:
+    """Render a Python-style method signature: `name(arg: T, k: T2 = D) -> R`.
+
+    Drops the implicit `self`. Honors `name_override` on args because the
+    parser-derived names are Boost.Python's `arg1` / `arg2` / ... — the
+    overrides come from corpus + M4L docs and carry the real names.
+
+    Layout: name in monospace bold (inherits from H5), args + return
+    rendered in a `.meth-sig` span that styles them as muted scaffolding
+    so the method name dominates — same idea as property type
+    annotations (`prop-type` span).
+
+    When `owning_class_name` is supplied, defaults of the form
+    `<owning_class_name>.X.Y` (e.g. `Song.CaptureMode.all` on a method
+    declared on `Song`) drop the redundant class-name prefix. The class
+    page already announces the class; repeating the name in every
+    enum-default just adds horizontal noise.
+    """
+    name = _resolve(method, "name")
+    prefix = f"{owning_class_name}." if owning_class_name else None
+    arg_parts: list[str] = []
+    for arg in method.get("args") or []:
+        arg_name = _resolve(arg, "name")
+        if arg_name == "self":
+            continue
+        arg_type = _resolve(arg, "type")
+        type_part = ""
+        if arg_type:
+            type_part = f": {linkify_type(display_type(arg_type), registry)}"
+        default = arg.get("default")
+        if (
+            prefix is not None
+            and isinstance(default, str)
+            and default.startswith(prefix)
+        ):
+            default = default[len(prefix):]
+        default_part = f" = {default}" if default is not None else ""
+        arg_parts.append(f"{arg_name}{type_part}{default_part}")
+    args_html = ", ".join(arg_parts)
+    returns = method.get("returns") or {}
+    return_part = ""
+    if isinstance(returns, dict):
+        return_type = _resolve(returns, "type")
+        if return_type:
+            return_part = (
+                f" -> {linkify_type(display_type(return_type), registry)}"
+            )
+    return (
+        f'{name}'
+        f'<span class="meth-sig">({args_html}){return_part}</span>'
+    )
+
+
+def member_description_text(member: dict) -> str | None:
+    """Resolve the displayable description for a property or method.
 
     Hand-authored `description:` takes precedence over parser-derived
     `raw_doc:` — same convention as the class-level pair (terse runtime
@@ -357,10 +415,10 @@ def property_description_text(prop: dict) -> str | None:
     docstrings are line-wrapped at the binding source and the wrap
     points carry no semantic meaning).
     """
-    desc = _resolve(prop, "description")
+    desc = _resolve(member, "description")
     if isinstance(desc, str) and desc.strip():
         return desc.strip()
-    raw = _resolve(prop, "raw_doc")
+    raw = _resolve(member, "raw_doc")
     if isinstance(raw, str) and raw.strip():
         return normalize_paragraph(raw)
     return None
@@ -725,7 +783,7 @@ def render_module_page(
                 heading = property_heading_html(prop, registry)
                 lines.append(f"##### {heading}")
                 lines.append("")
-                desc = property_description_text(prop)
+                desc = member_description_text(prop)
                 if desc:
                     lines.append(desc)
                     lines.append("")
@@ -734,9 +792,24 @@ def render_module_page(
         # MRO is visible without re-declaring every type / listener.
         for line in inherited_properties_block(cls, class_index, registry):
             lines.append(line)
-        if cls.get("methods"):
+        methods = [
+            m for m in (cls.get("methods") or [])
+            if _resolve(m, "name") and _resolve(m, "name") not in SKIP_MEMBERS
+        ]
+        if methods:
             lines.append("#### Methods")
             lines.append("")
+            for method in methods:
+                heading = method_signature_html(
+                    method, registry,
+                    owning_class_name=cls.get("name"),
+                )
+                lines.append(f"##### {heading}")
+                lines.append("")
+                desc = member_description_text(method)
+                if desc:
+                    lines.append(desc)
+                    lines.append("")
         # Nested types — classes and enums declared inside this class.
         # Surfaced as a unified link list pointing into the page's flat
         # top-level `## Other classes` / `## Enums` sections, where they're

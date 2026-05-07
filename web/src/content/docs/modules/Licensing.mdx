@@ -17,6 +17,12 @@ A modal dialog showing a message and a progress animation.
 
 #### Methods
 
+##### end_modal_loop<span class="meth-sig">() -> None</span>
+
+##### run_in_modal_loop<span class="meth-sig">() -> None</span>
+
+##### set_status_message<span class="meth-sig">(msg: str) -> None</span>
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">PythonLicensingBridge</span></span>
 
 Interface to the internal licensing services.
@@ -43,11 +49,73 @@ Returns true if the set has unsaved changes.
 
 #### Methods
 
+##### authorize_with_sassafras<span class="meth-sig">() -> None</span>
+
+##### create_new_live_set<span class="meth-sig">() -> None</span>
+
+Creates a new live set and discards unsaved changes.
+
+##### deauthenticate_user<span class="meth-sig">() -> None</span>
+
+Deletes the current session ID.
+
+##### get_progress_dialog<span class="meth-sig">() -> <a href="/LiveAPI/modules/licensing/#progressdialog">ProgressDialog</a></span>
+
+Retrieves an instance of ProgressDialog.
+
+##### get_session_id<span class="meth-sig">() -> str</span>
+
+Retrieve stored session ID.
+
+##### get_startup_dialog<span class="meth-sig">(authorize_callable: Callable, authorize_later_callable: Callable) -> <a href="/LiveAPI/modules/licensing/#startupdialog">StartupDialog</a></span>
+
+Retrieves an instance of the startup dialog with the passed callables connected to its buttons.
+
+##### get_trial_time_left<span class="meth-sig">() -> str</span>
+
+Returns remaining time on a trial as a formatted string.
+
+##### invoke_pack_installation_callback<span class="meth-sig">() -> None</span>
+
+Call package installation callback.
+
+##### load_and_convert_legacy_unlock_cfg<span class="meth-sig">() -> dict[str, Any]</span>
+
+Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object.
+
+##### process_license_response<span class="meth-sig">(license_response_lines: list[str]) -> <a href="/LiveAPI/modules/licensing/#unlockstatus">UnlockStatus</a></span>
+
+Processes a list of strings, each representing a server response to a product authorization.
+
+##### process_trial_response<span class="meth-sig">(trial_response_line: str) -> bool</span>
+
+Process the server's response to a Trial authorization.
+
+##### request_exit<span class="meth-sig">(exit_code: int = 0) -> None</span>
+
+##### save_current_set<span class="meth-sig">() -> None</span>
+
+Saves the current Live session.
+
+##### set_network_timer<span class="meth-sig">(callback: Callable | None, interval_in_ms: int) -> None</span>
+
+Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped.
+
+##### store_session_id<span class="meth-sig">(session_id: str) -> None</span>
+
+Securely stores the user's session ID (aka cookie, aka credentials).
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">StartupDialog</span></span>
 
 Serves as an entry point for the user to authorize Live on first launch.
 
 #### Methods
+
+##### end_modal_loop<span class="meth-sig">() -> None</span>
+
+##### run_in_modal_loop<span class="meth-sig">(show_only_offline_auth_instructions: bool) -> None</span>
+
+##### set_notification_message<span class="meth-sig">(notification_text: str, show_progress_bar: bool) -> None</span>
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">UnlockStatus</span></span>
 
@@ -68,8 +136,6 @@ Returns relevant information after unlock
 ##### unlock_error<span class="prop-type">: bool</span>
 
 ##### unlocked<span class="prop-type">: bool</span>
-
-#### Methods
 
 ## Enums
 
