@@ -29,355 +29,583 @@ This class represents a Live set.
 
 ##### appointed_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a> | None</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Read, write, and listen access to the appointed Device
 
+</div>
+
 ##### arrangement_overdub<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the global arrangement overdub state.
 
+</div>
+
 ##### back_to_arranger<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set if triggering a Clip in the Session, disabled the playback of Clips in the Arranger.
 
+</div>
+
 ##### can_capture_midi<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get whether there currently is material to be captured on any tracks.
 
+</div>
+
 ##### can_jump_to_next_cue<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true when there is a cue marker right to the playing pos that we could jump to.
 
+</div>
+
 ##### can_jump_to_prev_cue<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true when there is a cue marker left to the playing pos that we could jump to.
+
+</div>
 
 ##### can_redo<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns true if there is an undone action that we can redo.
+
+</div>
 
 ##### can_undo<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns true if there is an action that we can restore.
+
+</div>
 
 ##### clip_trigger_quantization<span class="prop-type">: <a href="/LiveAPI/modules/song/#quantization">Quantization</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the quantization settings that are used to fire Clips in the Session.
 
+</div>
+
 ##### count_in_duration<span class="prop-type">: int</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the count in duration. Returns an index, mapped as follows: 0 - None, 1 - 1 Bar, 2 - 2 Bars, 3 - 4 Bars.
 
+</div>
+
 ##### cue_points<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/song/#cuepoint">CuePoint</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all cue points of the Live Song.
 
+</div>
+
 ##### current_song_time<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the songs current playing position in beats.
 
+</div>
+
 ##### exclusive_arm<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get if Tracks should be armed exclusively by default.
+
+</div>
 
 ##### exclusive_solo<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get if Tracks should be soloed exclusively by default.
+
+</div>
 
 ##### file_path<span class="prop-type">: str</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get the current Live Set's path on disk.
+
+</div>
 
 ##### groove_amount<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the global groove amount, that adjust all setup grooves in all clips.
+
+</div>
 
 ##### groove_pool<span class="prop-type">: <a href="/LiveAPI/modules/groovepool/#groovepool">GroovePool</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get the groove pool.
+
+</div>
 
 ##### is_ableton_link_enabled<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Enable/disable Ableton Link.
 
+</div>
+
 ##### is_ableton_link_start_stop_sync_enabled<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Enable/disable Ableton Link Start Stop Sync.
 
+</div>
+
 ##### is_counting_in<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get whether currently counting in.
 
+</div>
+
 ##### is_playing<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if the Song is currently playing.
+
+</div>
 
 ##### last_event_time<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the time of the last set event in the song. In contrary to song_length, this will not add some extra beats that are mostly needed for Display purposes in the Arrangerview.
+
+</div>
 
 ##### loop<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the looping flag that en/disables the usage of the global loop markers in the song.
 
+</div>
+
 ##### loop_length<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the length of the global loop marker position in beats.
 
+</div>
+
 ##### loop_start<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the start of the global loop marker position in beats.
+
+</div>
 
 ##### master_track<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Access to the Main Track (always available)
+
+</div>
 
 ##### metronome<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set if the metronom is audible.
 
+</div>
+
 ##### midi_recording_quantization<span class="prop-type">: <a href="/LiveAPI/modules/song/#recordingquantization">RecordingQuantization</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the settings that are used to quantize MIDI recordings.
+
+</div>
 
 ##### name<span class="prop-type">: str</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get the current Live Set's name.
+
+</div>
 
 ##### nudge_down<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the status of the nudge down button.
 
+</div>
+
 ##### nudge_up<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the status of the nudge up button.
 
+</div>
+
 ##### overdub<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Legacy hook for Live 8 overdub state. Now hooks to session record, but never starts playback.
 
+</div>
+
 ##### punch_in<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the flag that will enable recording as soon as the Song plays and hits the global loop start region.
 
+</div>
+
 ##### punch_out<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the flag that will disable recording as soon as the Song plays and hits the global loop end region.
 
+</div>
+
 ##### re_enable_automation_enabled<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if some automated parameter has been overriden
 
+</div>
+
 ##### record_mode<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the state of the global recording flag.
 
+</div>
+
 ##### return_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to the list of available Return Tracks.
 
+</div>
+
 ##### root_note<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Set and access the root (i.e. key) of the song. The root can be a number between 0 and 11, with 0 corresponding to C and 11 corresponding to B.
 
+</div>
+
 ##### scale_intervals<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)
 
+</div>
+
 ##### scale_mode<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the Scale Mode setting in Live. When on, key tracks that belong to the currently selected scale are highlighted in Live's MIDI Note Editor, and pitch-based parameters in MIDI Tools and Devices can be edited in scale degrees rather than semitones.
 
+</div>
+
 ##### scale_name<span class="prop-type">: str</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Set and access the currently selected scale by name. The default scale names that can be saved with a set and recalled are 'Major', 'Minor', 'Dorian', 'Mixolydian' ,'Lydian' ,'Phrygian' ,'Locrian', 'Whole Tone', 'Half-whole Dim.', 'Whole-half Dim.', 'Minor Blues', 'Minor Pentatonic', 'Major Pentatonic', 'Harmonic Minor', 'Harmonic Major', 'Dorian #4', 'Phrygian Dominant', 'Melodic Minor', 'Lydian Augmented', 'Lydian Dominant', 'Super Locrian', 'Bhairav', 'Hungarian Minor', '8-Tone Spanish', 'Hirajoshi', 'In-Sen', 'Iwato', 'Kumoi', 'Pelog Selisir', 'Pelog Tembung', 'Messiaen 3', 'Messiaen 4', 'Messiaen 5', 'Messiaen 6', 'Messiaen 7'
 
+</div>
+
 ##### scenes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/scene/#scene">Scene</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all Scenes in the Live Song.
+
+</div>
 
 ##### select_on_launch<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get if Scenes and Clips should be selected when fired.
+
+</div>
 
 ##### session_automation_record<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if automation recording is enabled.
 
+</div>
+
 ##### session_record<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the session record state.
 
+</div>
+
 ##### session_record_status<span class="prop-type">: <a href="/LiveAPI/modules/song/#sessionrecordstatus">SessionRecordStatus</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the session slot-recording state.
 
+</div>
+
 ##### signature_denominator<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the global signature denominator of the Song.
 
+</div>
+
 ##### signature_numerator<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the global signature numerator of the Song.
 
+</div>
+
 ##### song_length<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the time of the last set event in the song, plus som extra beats that are usually added for better navigation in the arrangerview.
 
+</div>
+
 ##### start_time<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the songs current start time in beats. The set time may be overridden by the current loop/locator start time.
 
+</div>
+
 ##### swing_amount<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the amount of swing that is applied when adding or quantizing notes to MIDI clips
 
+</div>
+
 ##### tempo<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the global project tempo.
 
+</div>
+
 ##### tempo_follower_enabled<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set whether the Tempo Follower is controlling the tempo. The Tempo Follower Toggle must be made visible in the preferences for this property to be effective.
 
+</div>
+
 ##### tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all Player Tracks in the Live Song, excluding the return and Main Track (see also Song.send_tracks and Song.master_track). At least one MIDI or Audio Track is always available.
 
+</div>
+
 ##### tuning_system<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#tuningsystem">TuningSystem</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access the currently active tuning system.
+
+</div>
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a>.View</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Representing the view aspects of a Live document: The Session and Arrangerview.
+
+</div>
 
 ##### visible_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all visible Player Tracks in the Live Song, excluding the return and Main Track (see also Song.send_tracks and Song.master_track). At least one MIDI or Audio Track is always available.
+
+</div>
 
 #### Signals
 
 ##### data
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### scale_information
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
@@ -385,149 +613,293 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 
 ##### capture_and_insert_scene<span class="meth-sig">(<span class="meth-arg">capture_mode</span>: <a href="/LiveAPI/modules/song/#capturemode">CaptureMode</a> | int = <span class="meth-default">CaptureMode.all</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Capture currently playing clips and insert them as a new scene after the selected scene. Raises a runtime error if creating a new scene would exceed the limitations.
+
+</div>
 
 ##### capture_midi<span class="meth-sig">(<span class="meth-arg">destination</span>: <a href="/LiveAPI/modules/song/#capturedestination">CaptureDestination</a> | int = <span class="meth-default">CaptureDestination.auto</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Capture recently played MIDI material from audible tracks. If no Destination is given or Destination is set to CaptureDestination.auto, the captured material is inserted into the Session or Arrangement depending on which is visible. If Destination is set to CaptureDestination.session or CaptureDestination.arrangement, inserts the material into Session or Arrangement, respectively. Raises a limitation error when capturing into the Session and a new scene would have to be created but can't because it would exceed the limitations.
+
+</div>
 
 ##### continue_playing<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Continue playing the song from the current position
+
+</div>
 
 ##### create_audio_track<span class="meth-sig">(<span class="meth-arg">index</span>: int | None = <span class="meth-default">None</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
+<div class="member-desc">
+
 Create a new audio track at the optional given index and return it.If the index is -1, the new track is added at the end. It will create a default audio track if possible. If the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item
+
+</div>
 
 ##### create_midi_track<span class="meth-sig">(<span class="meth-arg">index</span>: int | None = <span class="meth-default">None</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
+<div class="member-desc">
+
 Create a new midi track at the optional given index and return it.If the index is -1, the new track is added at the end.It will create a default midi track if possible. If the index is invalid or the new track would exceed the limitations, a limitation error is raised.If the index is missing, the track is created after the last selected item
+
+</div>
 
 ##### create_return_track<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
+<div class="member-desc">
+
 Create a new return track at the end and return it. If the new track would exceed the limitations, a limitation error is raised. If the maximum number of return tracks is exceeded, a RuntimeError is raised.
+
+</div>
 
 ##### create_scene<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/scene/#scene">Scene</a></span>
 
+<div class="member-desc">
+
 Create a new scene at the given index. If the index is -1, the new scene is added at the end. If the index is invalid or the new scene would exceed the limitations, a limitation error is raised.
+
+</div>
 
 ##### delete_return_track<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Delete the return track with the given index. If no track with this index exists, an exception will be raised.
+
+</div>
 
 ##### delete_scene<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Delete the scene with the given index. If no scene with this index exists, an exception will be raised.
+
+</div>
 
 ##### delete_track<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Delete the track with the given index. If no track with this index exists, an exception will be raised.
+
+</div>
 
 ##### duplicate_scene<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Duplicates a scene and selects the new one. Raises a limitation error if creating a new scene would exceed the limitations.
+
+</div>
 
 ##### duplicate_track<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Duplicates a track and selects the new one. If the track is inside a folded group track, the group track is unfolded. Raises a limitation error if creating a new track would exceed the limitations.
+
+</div>
 
 ##### end_undo_step<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
 ##### find_device_position<span class="meth-sig">(<span class="meth-arg">device</span>: <a href="/LiveAPI/modules/device/#device">Device</a>, <span class="meth-arg">target</span>: <a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a>, <span class="meth-arg">target_position</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Returns the closest possible position to the given target, where the device can be inserted. If inserting is not possible at all (i.e. if the device type is wrong), -1 is returned.
+
+</div>
 
 ##### force_link_beat_time<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Force the Link timeline to jump to Lives current beat time. Danger: This can cause beat time discontinuities in other connected apps.
+
+</div>
 
 ##### get_beats_loop_length<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#beattime">BeatTime</a></span>
 
+<div class="member-desc">
+
 Get const access to the songs loop length, using a BeatTime class with the current global set signature.
+
+</div>
 
 ##### get_beats_loop_start<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#beattime">BeatTime</a></span>
 
+<div class="member-desc">
+
 Get const access to the songs loop start, using a BeatTime class with the current global set signature.
+
+</div>
 
 ##### get_current_beats_song_time<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#beattime">BeatTime</a></span>
 
+<div class="member-desc">
+
 Get const access to the songs current playing position, using a BeatTime class with the current global set signature.
+
+</div>
 
 ##### get_current_smpte_song_time<span class="meth-sig">(<span class="meth-arg">smpte_format</span>: int) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#smpttime">SmptTime</a></span>
 
+<div class="member-desc">
+
 Get const access to the songs current playing position, by specifying the SMPTE format in which you would like to receive the time.
+
+</div>
 
 ##### get_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">default_value</span>: Any) <span class="meth-arrow">-&gt;</span> Any</span>
 
+<div class="member-desc">
+
 Get data for the given key, that was previously stored using set_data.
+
+</div>
 
 ##### is_cue_point_selected<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
 
+<div class="member-desc">
+
 Return true if the global playing pos is currently on a cue point.
+
+</div>
 
 ##### jump_by<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Set a new playing pos, relative to the current one.
+
+</div>
 
 ##### jump_to_next_cue<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Jump to the next cue (marker) if possible.
+
+</div>
 
 ##### jump_to_prev_cue<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Jump to the prior cue (marker) if possible.
+
+</div>
 
 ##### move_device<span class="meth-sig">(<span class="meth-arg">device</span>: <a href="/LiveAPI/modules/device/#device">Device</a>, <span class="meth-arg">target</span>: <a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a>, <span class="meth-arg">target_position</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to.
+
+</div>
 
 ##### play_selection<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Start playing the current set selection, or do nothing if no selection is set.
+
+</div>
 
 ##### re_enable_automation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Discards overrides of automated parameters.
+
+</div>
 
 ##### redo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Redo the last action that was undone.
+
+</div>
 
 ##### scrub_by<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Same as jump_by, but does not stop playback.
+
+</div>
 
 ##### set_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">value</span>: Any) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.
+
+</div>
 
 ##### set_or_delete_cue<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 When a cue is selected, it gets deleted. If no cue is selected, a new cue is created at the current global songtime.
+
+</div>
 
 ##### start_playing<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Start playing from the startmarker
+
+</div>
 
 ##### stop_all_clips<span class="meth-sig">(<span class="meth-arg">quantized</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Stop all playing Clips (if any) but continue playing the Song.
+
+</div>
 
 ##### stop_playing<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Stop playing the Song.
+
+</div>
 
 ##### tap_tempo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Trigger the tap tempo function.
+
+</div>
 
 ##### trigger_session_record<span class="meth-sig">(<span class="meth-arg">record_length</span>: float = <span class="meth-default">1.7976931348623157e+308</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Triggers a new session recording.
+
+</div>
 
 ##### undo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Undo the last action that was made.
+
+</div>
 
 #### Nested types
 
@@ -569,21 +941,33 @@ Represents a 'Marker' in the arrangement.
 
 ##### name<span class="prop-type">: str</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set/Listen to the name of this CuePoint, as visible in the arranger.
 
+</div>
+
 ##### time<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Listen to the CuePoint's time in beats.
+
+</div>
 
 #### Methods
 
 ##### jump<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 When the Song is playing, set the playing-position quantized to this Cuepoint's time. When not playing, simply move the start playing position.
+
+</div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
 
@@ -619,55 +1003,91 @@ Representing the view aspects of a Live document: The Session and Arrangerview.
 
 ##### detail_clip<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip">Clip</a> | None</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the Clip that is currently visible in Lives Detailview.
 
+</div>
+
 ##### draw_mode<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set if the Envelope/Note draw mode is enabled.
 
+</div>
+
 ##### follow_song<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set if the Arrangerview should scroll to show the playmarker.
 
+</div>
+
 ##### highlighted_clip_slot<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a></span>
+
+<div class="member-desc">
 
 Get/Set the clip slot, defined via the selected track and scene in the Session.Will be None for Main- and Sendtracks.
 
+</div>
+
 ##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain">Chain</a> | None</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the highlighted chain if available.
 
+</div>
+
 ##### selected_parameter<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a> | None</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the currently selected device parameter.
 
+</div>
+
 ##### selected_scene<span class="prop-type">: <a href="/LiveAPI/modules/scene/#scene">Scene</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the current selected scene in Lives Sessionview.
 
+</div>
+
 ##### selected_track<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the current selected Track in Lives Session or Arrangerview.
+
+</div>
 
 #### Methods
 
 ##### select_device<span class="meth-sig">(<span class="meth-arg">device</span>: <a href="/LiveAPI/modules/device/#device">Device</a>, <span class="meth-arg">should_appoint_device</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Select the given device.
+
+</div>
 
 ## Enums
 

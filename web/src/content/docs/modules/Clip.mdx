@@ -30,453 +30,797 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Const access to a list of all automation envelopes for this clip.
+
+</div>
 
 ##### available_warp_modes<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Available for AudioClips only. Get/Set the available warp modes, that can be used.
+
+</div>
 
 ##### color<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/set access to the color of the Clip (RGB).
 
+</div>
+
 ##### color_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/set access to the color index of the Clip.
 
+</div>
+
 ##### end_marker<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the Clips end marker pos in beats/seconds (unit depends on warping).
 
+</div>
+
 ##### end_time<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the clip's end time.
 
+</div>
+
 ##### file_path<span class="prop-type">: str</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the path of the file represented by the Audio Clip.
 
+</div>
+
 ##### gain<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Read/write access to the gain setting of the Audio Clip
+
+</div>
 
 ##### gain_display_string<span class="prop-type">: str</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return a string with the gain as dB value
+
+</div>
 
 ##### groove<span class="prop-type">: <a href="/LiveAPI/modules/groove/#groove">Groove</a> | None</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the groove associated with this clip.
 
+</div>
+
 ##### has_envelopes<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Will notify if the clip gets his first envelope or the last envelope is removed.
+
+</div>
 
 ##### has_groove<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns true if a groove is associated with this clip.
+
+</div>
 
 ##### is_arrangement_clip<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 return true if this Clip is an Arrangement Clip. A Clip can be either a Session or Arrangement Clip.
+
+</div>
 
 ##### is_audio_clip<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return true if this Clip is an Audio Clip. A Clip can be either an Audioclip or a MIDI Clip.
+
+</div>
 
 ##### is_midi_clip<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 return true if this Clip is a MIDI Clip. A Clip can be either an Audioclip or a MIDI Clip.
+
+</div>
 
 ##### is_overdubbing<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 returns true if the Clip is recording overdubs
 
+</div>
+
 ##### is_playing<span class="prop-type">: bool</span>
+
+<div class="member-desc">
 
 Get/Set if this Clip is currently playing. If the Clips trigger mode is set to a quantization value, the Clip will not start playing immediately. If you need to know wether the Clip was triggered, use the is_triggered property.
 
+</div>
+
 ##### is_recording<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 returns true if the Clip was triggered to record or is recording.
+
+</div>
 
 ##### is_session_clip<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 return true if this Clip is a Session Clip. A Clip can be either a Session or Arrangement Clip.
+
+</div>
 
 ##### is_take_lane_clip<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 return true if this Clip is a Take Lane Clip. A Take Lane Clip is also always an Arrangement Clip.
+
+</div>
 
 ##### is_triggered<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 returns true if the Clip was triggered or is playing.
+
+</div>
 
 ##### launch_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#launchmode">LaunchMode</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the launch mode setting of the Clip.
 
+</div>
+
 ##### launch_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#cliplaunchquantization">ClipLaunchQuantization</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the launch quantization setting of the Clip.
 
+</div>
+
 ##### legato<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the legato setting of the Clip
+
+</div>
 
 ##### length<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get to the Clips length in beats/seconds (unit depends on warping).
+
+</div>
 
 ##### loop_end<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the loop end pos of this Clip in beats/seconds (unit depends on warping).
 
+</div>
+
 ##### loop_start<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the Clips loopstart pos in beats/seconds (unit depends on warping).
 
+</div>
+
 ##### looping<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the Clips 'loop is enabled' flag .Only Warped Audio Clips or MIDI Clip can be looped.
 
+</div>
+
 ##### muted<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Read/write access to the mute state of the Clip.
 
+</div>
+
 ##### name<span class="prop-type">: str</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Read/write access to the name of the Clip.
 
+</div>
+
 ##### pitch_coarse<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Read/write access to the pitch (in halftones) setting of the Audio Clip, ranging from -48 to 48
 
+</div>
+
 ##### pitch_fine<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Read/write access to the pitch fine setting of the Audio Clip, ranging from -500 to 500
 
+</div>
+
 ##### playing_position<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Constant access to the current playing position of the clip. The returned value is the position in beats for midi and warped audio clips, or in seconds for unwarped audio clips. Stopped clips will return 0.
 
+</div>
+
 ##### position<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the loop position of this Clip in beats/seconds (unit depends on warping).
 
+</div>
+
 ##### ram_mode<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Read/write access to the Ram mode setting of the Audio Clip
+
+</div>
 
 ##### sample_length<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Available for AudioClips only. Get the sample length in sample time or -1 if there is no sample available.
+
+</div>
 
 ##### sample_rate<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Available for AudioClips only. Read-only access to the Clip's sampling rate.
+
+</div>
 
 ##### signature_denominator<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the global signature denominator of the Clip.
 
+</div>
+
 ##### signature_numerator<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the global signature numerator of the Clip.
 
+</div>
+
 ##### start_marker<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set the Clips start marker pos in beats/seconds (unit depends on warping).
 
+</div>
+
 ##### start_time<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get the clip's start time offset. For Session View clips, this is the time the clip was started. For Arrangement View clips, this is the offset within the arrangement.
 
+</div>
+
 ##### velocity_amount<span class="prop-type">: float</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set access to the velocity to volume amount of the Clip.
+
+</div>
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip">Clip</a>.View</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Get the view of the Clip.
+
+</div>
 
 ##### warp_markers<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmarkervector">WarpMarkerVector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Get the warp markers for this audio clip.
 
+</div>
+
 ##### warp_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmode">WarpMode</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Get/Set the warp mode for this audio clip.
 
+</div>
+
 ##### warping<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Available for AudioClips only. Get/Set if this Clip is timestreched.
+
+</div>
 
 ##### will_record_on_start<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 returns true if the Clip will record on being started.
+
+</div>
 
 #### Signals
 
 ##### loop_jump
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### notes
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### playing_status
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
 ##### add_new_notes<span class="meth-sig">(<span class="meth-arg">notes</span>: Iterable[<a href="/LiveAPI/modules/clip/#midinotespecification">MidiNoteSpecification</a>]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#intu64vector">IntU64Vector</a></span>
 
+<div class="member-desc">
+
 Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification objects. The objects will be used to construct new notes in the clip.
+
+</div>
 
 ##### add_warp_marker<span class="meth-sig">(<span class="meth-arg">warp_marker</span>: <a href="/LiveAPI/modules/clip/#warpmarker">WarpMarker</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Available for AudioClips only. Adds the specified warp marker, if possible.
+
+</div>
 
 ##### apply_note_modifications<span class="meth-sig">(<span class="meth-arg">notes</span>: <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Expects a list of notes as returned from get_notes_extended. The content of the list will be used to modify existing notes in the clip, based on matching note IDs. This function should be used when modifying existing notes, e.g. changing the velocity or start time. The function ensures that per-note events attached to the modified notes are preserved. This is NOT the case when replacing notes via a combination of remove_notes_extended and add_new_notes. The given list can be a subset of the notes in the clip, but it must not contain any notes that are not present in the clip.
+
+</div>
 
 ##### automation_envelope<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/envelope/#envelope">Envelope</a></span>
 
+<div class="member-desc">
+
 Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track.
+
+</div>
 
 ##### beat_to_sample_time<span class="meth-sig">(<span class="meth-arg">beat_time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
 
+<div class="member-desc">
+
 Available for AudioClips only. Converts the given beat time to sample time. Raises an error if the sample is not warped.
+
+</div>
 
 ##### clear_all_envelopes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Clears all envelopes for this clip.
+
+</div>
 
 ##### clear_envelope<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Clears the envelope of this clips given parameter.
+
+</div>
 
 ##### create_automation_envelope<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/envelope/#envelope">Envelope</a></span>
 
+<div class="member-desc">
+
 Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created.
+
+</div>
 
 ##### crop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Crops the clip. The region that is cropped depends on whether the clip is looped or not. If looped, the region outside of the loop is removed. If not looped, the region outside the start and end markers is removed.
+
+</div>
 
 ##### deselect_all_notes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 De-selects all notes present in the clip.
+
+</div>
 
 ##### duplicate_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Make the loop two times longer and duplicates notes and envelopes. Duplicates the clip start/end range if the clip is not looped.
+
+</div>
 
 ##### duplicate_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int], <span class="meth-arg">destination_time</span>: float | None = <span class="meth-default">None</span>, <span class="meth-arg">transposition_amount</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#intu64vector">IntU64Vector</a></span>
 
+<div class="member-desc">
+
 Duplicate all notes matching the given note IDs. If the optional destination_time is not provided, new notes will be inserted after the last selected note. This behavior can be observed when duplicating notes in the Live GUI. If the transposition_amount is specified, the notes in the region will be transposed by the number of semitones. Raises an error on audio clips.
+
+</div>
 
 ##### duplicate_region<span class="meth-sig">(<span class="meth-arg">region_start</span>: float, <span class="meth-arg">region_length</span>: float, <span class="meth-arg">destination_time</span>: float, <span class="meth-arg">pitch</span>: int = <span class="meth-default">-1</span>, <span class="meth-arg">transposition_amount</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Duplicate the notes in the specified region to the destination_time. Only notes of the specified pitch are duplicated or all if pitch is -1. If the transposition_amount is not 0, the notes in the region will be transposed by the transpose_amount of semitones.Raises an error on audio clips.
+
+</div>
 
 ##### fire<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 (Re)Start playing this Clip.
+
+</div>
 
 ##### get_all_notes_extended<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
 
+<div class="member-desc">
+
 Returns a list of all MIDI notes from the clip, regardless of their position relative to the start and end markers/loop start and loop end. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+</div>
 
 ##### get_notes<span class="meth-sig">(<span class="meth-arg">from_time</span>: float, <span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">time_span</span>: float, <span class="meth-arg">pitch_span</span>: int) <span class="meth-arrow">-&gt;</span> tuple[tuple[int, float, float, float, bool], ...]</span>
 
+<div class="member-desc">
+
 Returns a tuple of tuples where each inner tuple represents a note starting in the given pitch- and time range. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+</div>
 
 ##### get_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
 
+<div class="member-desc">
+
 Return a list of MIDI notes matching the given note IDs.
+
+</div>
 
 ##### get_notes_extended<span class="meth-sig">(<span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">pitch_span</span>: int, <span class="meth-arg">from_time</span>: float, <span class="meth-arg">time_span</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
 
+<div class="member-desc">
+
 Returns a list of MIDI notes from the given pitch and time range. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+</div>
 
 ##### get_selected_notes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[tuple[int, float, float, float, bool], ...]</span>
 
+<div class="member-desc">
+
 Returns a tuple of tuples where each inner tuple represents a selected note. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+</div>
 
 ##### get_selected_notes_extended<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector">MidiNoteVector</a></span>
 
+<div class="member-desc">
+
 Returns a list of all MIDI notes from the clip that are currently selected. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+</div>
 
 ##### move_playing_pos<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Jump forward or backward by the specified relative amount in beats. Will do nothing, if the Clip is not playing.
+
+</div>
 
 ##### move_warp_marker<span class="meth-sig">(<span class="meth-arg">marker_beat_time</span>: float, <span class="meth-arg">beat_time_distance</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Available for AudioClips only. Moves the specified warp marker by the specified beat time amount, if possible.
+
+</div>
 
 ##### note_number_to_name<span class="meth-sig">(<span class="meth-arg">midi_pitch</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Return a human-readable name for the given MIDI note number. Takes into account the scale and tonal spelling settings of the clip, as well as the current tuning system (if any)
+
+</div>
 
 ##### quantize<span class="meth-sig">(<span class="meth-arg">quantization_grid</span>: <a href="/LiveAPI/modules/clip/#gridquantization">GridQuantization</a> | int, <span class="meth-arg">amount</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Quantize all notes in a clip or align warp markers.
+
+</div>
 
 ##### quantize_pitch<span class="meth-sig">(<span class="meth-arg">note</span>: int, <span class="meth-arg">quantization_grid</span>: <a href="/LiveAPI/modules/clip/#gridquantization">GridQuantization</a> | int, <span class="meth-arg">amount</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Quantize all the notes of a given pitch. Raises an error on audio clips.
+
+</div>
 
 ##### remove_notes<span class="meth-sig">(<span class="meth-arg">from_time</span>: float, <span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">time_span</span>: float, <span class="meth-arg">pitch_span</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Delete all notes starting in the given pitch- and time range.
+
+</div>
 
 ##### remove_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Delete all notes matching the given note IDs. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
+
+</div>
 
 ##### remove_notes_extended<span class="meth-sig">(<span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">pitch_span</span>: int, <span class="meth-arg">from_time</span>: float, <span class="meth-arg">time_span</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Delete all notes starting in the given pitch and time range. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
+
+</div>
 
 ##### remove_warp_marker<span class="meth-sig">(<span class="meth-arg">beat_time</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Available for AudioClips only. Removes the specified warp marker, if possible.
+
+</div>
 
 ##### replace_selected_notes<span class="meth-sig">(<span class="meth-arg">notes</span>: tuple[tuple[int, float, float, float, bool], ...]) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_selected_notes. The notes described that way will then be used to replace the old selection.
+
+</div>
 
 ##### sample_to_beat_time<span class="meth-sig">(<span class="meth-arg">sample_time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
 
+<div class="member-desc">
+
 Available for AudioClips only. Converts the given sample time to beat time. Raises an error if the sample is not warped.
+
+</div>
 
 ##### scrub<span class="meth-sig">(<span class="meth-arg">scrub_position</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Scrubs inside a clip. scrub_position defines the position in beats that the scrub will start from. The scrub will continue until stop_scrub is called. Global quantization applies to the scrub's position and length.
+
+</div>
 
 ##### seconds_to_sample_time<span class="meth-sig">(<span class="meth-arg">seconds</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
 
+<div class="member-desc">
+
 Available for AudioClips only. Converts the given seconds to sample time. Raises an error if the sample is warped.
+
+</div>
 
 ##### select_all_notes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Selects all notes present in the clip.
+
+</div>
 
 ##### select_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Selects all notes matching the given note IDs.
+
+</div>
 
 ##### set_fire_button_state<span class="meth-sig">(<span class="meth-arg">state</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Set the clip's fire button state directly. Supports all launch modes.
+
+</div>
 
 ##### set_notes<span class="meth-sig">(<span class="meth-arg">notes</span>: tuple[tuple[int, float, float, float, bool], ...]) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_notes. The notes described that way will then be added to the clip.
+
+</div>
 
 ##### stop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Stop playing this Clip.
+
+</div>
 
 ##### stop_scrub<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Stops the current scrub.
+
+</div>
 
 #### Nested types
 
@@ -498,7 +842,11 @@ An object representing a MIDI Note
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 A numerical ID that's unique within the originating clip of the note. Not to be used directly, but important for other API calls, namely apply_note_modifications.
+
+</div>
 
 ##### pitch<span class="prop-type">: int</span>
 
@@ -530,13 +878,21 @@ This class represents a WarpMarker type.
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 A WarpMarker's beat time.
+
+</div>
 
 ##### sample_time<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 A WarpMarker's sample time.
+
+</div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Clip.">WarpMarkerVector</span></span>
 
@@ -562,29 +918,53 @@ Representing the view aspects of a Clip.
 
 ##### grid_is_triplet<span class="prop-type">: bool</span>
 
+<div class="member-desc">
+
 Get/set wether the grid is showing in triplet mode.
+
+</div>
 
 ##### grid_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#gridquantization">GridQuantization</a></span>
 
+<div class="member-desc">
+
 Get/set clip grid quantization resolution.
+
+</div>
 
 #### Methods
 
 ##### hide_envelope<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Hide the envelope view.
+
+</div>
 
 ##### select_envelope_parameter<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Select the given device parameter in the envelope view.
+
+</div>
 
 ##### show_envelope<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Show the envelope view.
+
+</div>
 
 ##### show_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Show the entire loop in the detail view.
+
+</div>
 
 ## Enums
 

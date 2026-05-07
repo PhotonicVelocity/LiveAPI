@@ -28,57 +28,101 @@ This class represents a drum group device chain in Live.
 
 ##### choke_group<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the chain's choke group setting.
 
+</div>
+
 ##### color<span class="prop-type">: int</span>
 
+<div class="member-desc">
+
 Access the color index of the Chain.
+
+</div>
 
 ##### color_index<span class="prop-type">: int</span>
 
+<div class="member-desc">
+
 Access the color index of the Chain.
+
+</div>
 
 ##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>]</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return const access to all available Devices that are present in the chains
+
+</div>
 
 ##### in_note<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the incoming MIDI note that will trigger this chain.
 
+</div>
+
 ##### is_auto_colored<span class="prop-type">: bool</span>
+
+<div class="member-desc">
 
 Get/set access to the auto color flag of the Chain. If True, the Chain will always have the same color as the containing Track or Chain.
 
+</div>
+
 ##### mute<span class="prop-type">: bool</span>
 
+<div class="member-desc">
+
 Mute/unmute the chain.
+
+</div>
 
 ##### muted_via_solo<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return const access to whether this chain is muted due to some other chain being soloed.
+
+</div>
 
 ##### name<span class="prop-type">: str</span>
 
+<div class="member-desc">
+
 Read/write access to the name of the Chain, as visible in the track header.
+
+</div>
 
 ##### out_note<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the MIDI note sent to the devices in the chain.
 
+</div>
+
 ##### solo<span class="prop-type">: bool</span>
 
+<div class="member-desc">
+
 Get/Set the solo status of the chain. Note that this will not disable the solo state of any other Chain in the same rack. If you want exclusive solo, you have to disable the solo state of the other Chains manually.
+
+</div>
 
 #### Inherited
 

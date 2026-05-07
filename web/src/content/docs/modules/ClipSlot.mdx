@@ -31,103 +31,179 @@ This class represents an entry in Lives Session view matrix.
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the Clip which this clipslots currently owns. Might be None.
+
+</div>
 
 ##### color<span class="prop-type">: int</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns the canonical color for the clip slot or None if it does not exist.
 
+</div>
+
 ##### color_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns the canonical color index for the clip slot or None if it does not exist.
 
+</div>
+
 ##### controls_other_clips<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if firing this slot will fire clips in other slots. Can only be true for slots in group tracks.
 
+</div>
+
 ##### has_clip<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if this Clipslot owns a Clip.
 
+</div>
+
 ##### has_stop_button<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Get/Set if this Clip has a stop button, which will, if fired, stop any other Clip that is currently playing the Track we do belong to.
+
+</div>
 
 ##### is_group_slot<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns whether this clip slot is a group track slot (group slot).
+
+</div>
 
 ##### is_playing<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns whether the clip associated with the slot is playing.
+
+</div>
 
 ##### is_recording<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns whether the clip associated with the slot is recording.
+
+</div>
 
 ##### is_triggered<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to the triggering state of the clip slot.
 
+</div>
+
 ##### playing_status<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslotplayingstate">ClipSlotPlayingState</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to the playing state of the clip slot. Can be either stopped, playing, or recording.
+
+</div>
 
 ##### will_record_on_start<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 returns true if the clip slot will record on being fired.
+
+</div>
 
 #### Methods
 
 ##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
+<div class="member-desc">
+
 Creates an audio clip referencing the file at the given absolute path in the slot. Throws an error when called on non-empty slots or slots in non-audio or frozen tracks, or when the path doesn't point at a valid audio file.
+
+</div>
 
 ##### create_clip<span class="meth-sig">(<span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
+<div class="member-desc">
+
 Creates an empty clip with the given length in the slot. Throws an error when called on non-empty slots or slots in non-MIDI tracks.
+
+</div>
 
 ##### delete_clip<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Removes the clip contained in the slot. Raises an exception if the slot was empty.
+
+</div>
 
 ##### duplicate_clip_to<span class="meth-sig">(<span class="meth-arg">target_clip_slot</span>: <a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Duplicates the slot's clip to the passed in target slot. Overrides the target's clip if it's not empty. Raises an exception if the (source) slot itself is empty, or if source and target have different track types (audio vs. MIDI). Also raises if the source or target slot is in a group track (so called group slot).
+
+</div>
 
 ##### fire<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Fire a Clip if this Clipslot owns one, else trigger the stop button, if we have one.
+
+</div>
 
 ##### set_fire_button_state<span class="meth-sig">(<span class="meth-arg">state</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Set the clipslot's fire button state directly. Supports all launch modes.
+
+</div>
 
 ##### stop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Stop playing the contained Clip, if there is a Clip and its currently playing.
+
+</div>
 
 ## Enums
 

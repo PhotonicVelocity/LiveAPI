@@ -385,12 +385,32 @@ primary_class:
         Return true if the through the identifier string specified view is currently
         visible. If main_window_only is set to False, this will also check in second
         window. Notifications from the second window are not yet supported.
+      description: |
+        Returns whether the view named by `view_name` is currently
+        visible. With `main_window_only=False`, also checks the
+        second window — note that notifications from the second
+        window are not yet supported.
+
+        Parameterized observable — the LOM's only one (as of 12.3.6).
+        Read by calling `is_view_visible(view_name)`. Subscribe via
+        the matching listener triplet, which takes view_name as its
+        first parameter:
+
+        ```
+        add_is_view_visible_listener(view_name, callback)
+        remove_is_view_visible_listener(view_name, callback)
+        is_view_visible_has_listener(view_name, callback)
+        ```
+      listenable:
+      - add_is_view_visible_listener
+      - remove_is_view_visible_listener
+      - is_view_visible_has_listener
       signature: 'is_view_visible( (View)arg1, (object)identifier [, (bool)main_window_only=True]) -> bool :'
       cpp_signature: bool is_view_visible(TPyViewData<ASongApp>,TString [,bool=True])
       args:
       - name: self
         type: Live.Application.Application.View
-      - name: identifier
+      - name: view_name
         type: str
       - name: main_window_only
         type: bool

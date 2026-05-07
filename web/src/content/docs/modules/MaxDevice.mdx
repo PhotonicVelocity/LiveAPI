@@ -28,55 +28,91 @@ This class represents a Max for Live device.
 
 ##### audio_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio">DeviceIO</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all audio inputs of the device.
 
+</div>
+
 ##### audio_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio">DeviceIO</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all audio outputs of the device.
+
+</div>
 
 ##### is_active<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+</div>
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the latency of the device in ms.
+
+</div>
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the latency of the device in samples.
+
+</div>
 
 ##### midi_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all midi outputs of the device.
+
+</div>
 
 ##### midi_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of all midi outputs of the device.
 
+</div>
+
 ##### name<span class="prop-type">: str</span>
 
+<div class="member-desc">
+
 Return access to the name of the device.
+
+</div>
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Const access to the list of available automatable parameters for this device.
+
+</div>
 
 #### Inherited
 
@@ -86,22 +122,38 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 ##### bank_parameters_changed
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
 ##### get_bank_count<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Get the number of parameter banks. This is related to hardware control surfaces.
+
+</div>
 
 ##### get_bank_name<span class="meth-sig">(<span class="meth-arg">bank_index</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Get the name of a parameter bank given by index. This is related to hardware control surfaces.
+
+</div>
 
 ##### get_bank_parameters<span class="meth-sig">(<span class="meth-arg">bank_index</span>: int) <span class="meth-arrow">-&gt;</span> list[int]</span>
 
+<div class="member-desc">
+
 Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces.
+
+</div>
 
 ##### get_value_item_icons<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> list[str]</span>
 
+<div class="member-desc">
+
 Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.
+
+</div>

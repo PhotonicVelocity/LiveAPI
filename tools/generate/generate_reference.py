@@ -455,28 +455,34 @@ def member_description_text(member: dict) -> str | None:
     return None
 
 
-def property_flags_html(prop: dict) -> str:
-    """Render small chip(s) for property modifiers — read-only,
-    listenable. Settable + not-listenable (the common default) returns
-    empty string so most properties render with no flags line at all,
-    keeping the rendered page quiet for the common case and reserving
-    visual weight for the deviations:
+def member_flags_html(member: dict) -> str:
+    """Render small chip(s) for member modifiers — read-only,
+    listenable. The default case (settable, not listenable for
+    properties; not listenable for methods) returns empty string so
+    most members render with no flags line at all, keeping the page
+    quiet for the common case and reserving visual weight for the
+    deviations:
 
-      - `[RO]`     — `settable: false`
-      - `[listen]` — `listenable:` present (folded listener triplet)
+      - `[read-only]` — `settable: false` (properties only)
+      - `[listen]`    — `listenable:` present (folded listener triplet)
 
-    Output is a div line that lives between the property heading and
+    Methods don't use `settable:`; they only ever pick up the
+    `listen` chip — currently `Application.View.is_view_visible` is
+    the only such method (a parameterized observable whose triplet
+    takes a view-name identifier alongside the callback).
+
+    Output is a div line that lives between the member heading and
     the description, so the chips read as metadata attached to the
-    property without competing with the name + type on the heading.
+    member without competing with the name + type on the heading.
     """
     chips: list[str] = []
-    if _resolve(prop, "settable") is False:
+    if _resolve(member, "settable") is False:
         chips.append('<span class="prop-flag prop-flag-ro">read-only</span>')
-    if _resolve(prop, "listenable"):
+    if _resolve(member, "listenable"):
         chips.append(
             f'<a class="prop-flag prop-flag-listen" '
             f'href="{DOCS_URL_BASE}/listener/" '
-            f'title="This property is observable — see Listener for the '
+            f'title="This member is observable — see Listener for the '
             f'subscription model.">listen</a>'
         )
     if not chips:
@@ -914,7 +920,7 @@ def render_module_page(
                     heading = property_heading_html(prop, registry)
                     lines.append(f"##### {heading}")
                     lines.append("")
-                    flags = property_flags_html(prop)
+                    flags = member_flags_html(prop)
                     if flags:
                         lines.append(flags)
                         lines.append("")
@@ -924,13 +930,13 @@ def render_module_page(
                 heading = property_heading_html(prop, registry)
                 lines.append(f"##### {heading}")
                 lines.append("")
-                flags = property_flags_html(prop)
+                flags = member_flags_html(prop)
                 if flags:
                     lines.append(flags)
                     lines.append("")
                 desc = member_description_text(prop)
                 if desc:
-                    lines.append(desc)
+                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                     lines.append("")
         # Inherited members from transitive ancestors — rendered as a
         # single H4 block under the class so what's available via the
@@ -950,17 +956,32 @@ def render_module_page(
                 heading = property_heading_html(prop, registry)
                 lines.append(f"##### {heading}")
                 lines.append("")
-                flags = property_flags_html(prop)
+                flags = member_flags_html(prop)
                 if flags:
                     lines.append(flags)
                     lines.append("")
                 desc = member_description_text(prop)
                 if desc:
-                    lines.append(desc)
+                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                     lines.append("")
+        # Filter listener-triplet methods folded into a parent method's
+        # `listenable:` field — the parameterized-observable case (the
+        # only current example: `Application.View.is_view_visible` and
+        # its three matching `*_listener` methods). The triplet members
+        # are surfaced via the parent method's `[listen]` chip; their
+        # signatures are documented through the parent's `description:`.
+        triplet_method_names: set[str] = set()
+        for m in cls.get("methods") or []:
+            for triplet_name in (_resolve(m, "listenable") or []):
+                if isinstance(triplet_name, str):
+                    triplet_method_names.add(triplet_name)
         methods = [
             m for m in (cls.get("methods") or [])
-            if _resolve(m, "name") and _resolve(m, "name") not in SKIP_MEMBERS
+            if (
+                _resolve(m, "name")
+                and _resolve(m, "name") not in SKIP_MEMBERS
+                and _resolve(m, "name") not in triplet_method_names
+            )
         ]
         if methods:
             lines.append("#### Methods")
@@ -972,9 +993,13 @@ def render_module_page(
                 )
                 lines.append(f"##### {heading}")
                 lines.append("")
+                flags = member_flags_html(method)
+                if flags:
+                    lines.append(flags)
+                    lines.append("")
                 desc = member_description_text(method)
                 if desc:
-                    lines.append(desc)
+                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                     lines.append("")
         # Nested types — classes and enums declared inside this class.
         # Surfaced as a unified link list pointing into the page's flat
@@ -1072,6 +1097,10 @@ def render_module_page(
             lines.append("")
             desc = member_description_text(enum)
             if desc:
+                # Enum description — top-level H3 entity, sits at page
+                # margin like a class description. NOT wrapped in
+                # `.member-desc` (that's for property / method
+                # descriptions nested under a class's H4 sections).
                 lines.append(desc)
                 lines.append("")
             members = enum.get("members") or {}

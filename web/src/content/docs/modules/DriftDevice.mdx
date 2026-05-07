@@ -30,207 +30,347 @@ This class represents a Drift device.
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+</div>
 
 ##### is_using_compare_preset_b<span class="prop-type">: bool</span>
 
+<div class="member-desc">
+
 Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+</div>
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the latency of the device in ms.
+
+</div>
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the latency of the device in samples.
+
+</div>
 
 ##### mod_matrix_filter_source_1_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the filter mod source 1 index
+
+</div>
 
 ##### mod_matrix_filter_source_1_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the filter mod source 1 list
+
+</div>
 
 ##### mod_matrix_filter_source_2_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the filter mod source 2 index
+
+</div>
 
 ##### mod_matrix_filter_source_2_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the filter mod source 2 list
+
+</div>
 
 ##### mod_matrix_lfo_source_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the lfo mod source index
+
+</div>
 
 ##### mod_matrix_lfo_source_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the lfo mod source list
+
+</div>
 
 ##### mod_matrix_pitch_source_1_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the pitch mod source 1 index
+
+</div>
 
 ##### mod_matrix_pitch_source_1_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the pitch mod source 1 list
+
+</div>
 
 ##### mod_matrix_pitch_source_2_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the pitch mod source 2 index
+
+</div>
 
 ##### mod_matrix_pitch_source_2_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the pitch mod source 2 list
+
+</div>
 
 ##### mod_matrix_shape_source_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the shape mod source index
+
+</div>
 
 ##### mod_matrix_shape_source_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the shape mod source list
+
+</div>
 
 ##### mod_matrix_source_1_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the custom mod source 1 index
+
+</div>
 
 ##### mod_matrix_source_1_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the custom mod source 1 list
+
+</div>
 
 ##### mod_matrix_source_2_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the custom mod source 2 index
+
+</div>
 
 ##### mod_matrix_source_2_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the custom mod source 2 list
+
+</div>
 
 ##### mod_matrix_source_3_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the custom mod source 3 index
+
+</div>
 
 ##### mod_matrix_source_3_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the custom mod source 3 list
+
+</div>
 
 ##### mod_matrix_target_1_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the custom mod target 1 index
+
+</div>
 
 ##### mod_matrix_target_1_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the custom mod target 1 list
+
+</div>
 
 ##### mod_matrix_target_2_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the custom mod target 2 index
+
+</div>
 
 ##### mod_matrix_target_2_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the custom mod target 2 list
+
+</div>
 
 ##### mod_matrix_target_3_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the custom mod target 3 index
+
+</div>
 
 ##### mod_matrix_target_3_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the custom mod target 3 list
+
+</div>
 
 ##### name<span class="prop-type">: str</span>
 
+<div class="member-desc">
+
 Return access to the name of the device.
+
+</div>
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Const access to the list of available automatable parameters for this device.
+
+</div>
 
 ##### pitch_bend_range<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the Pitch Bend Range
 
+</div>
+
 ##### voice_count_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the voice count index
+
+</div>
 
 ##### voice_count_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the voice count list
+
+</div>
 
 ##### voice_mode_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the voice mode index
+
+</div>
 
 ##### voice_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return the voice mode list
+
+</div>
 
 #### Inherited
 

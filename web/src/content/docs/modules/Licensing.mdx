@@ -33,7 +33,11 @@ Interface to the internal licensing services.
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns Live's current base product ID.
+
+</div>
 
 ##### in_sassafras_mode<span class="prop-type">: bool</span>
 
@@ -43,19 +47,31 @@ Returns Live's current base product ID.
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
+
+</div>
 
 ##### random_number_for_trial_authorization<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
+
+</div>
 
 ##### set_has_unsaved_changes<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns true if the set has unsaved changes.
+
+</div>
 
 #### Methods
 
@@ -63,57 +79,109 @@ Returns true if the set has unsaved changes.
 
 ##### create_new_live_set<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Creates a new live set and discards unsaved changes.
+
+</div>
 
 ##### deauthenticate_user<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Deletes the current session ID.
+
+</div>
 
 ##### get_progress_dialog<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#progressdialog">ProgressDialog</a></span>
 
+<div class="member-desc">
+
 Retrieves an instance of ProgressDialog.
+
+</div>
 
 ##### get_session_id<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Retrieve stored session ID.
+
+</div>
 
 ##### get_startup_dialog<span class="meth-sig">(<span class="meth-arg">authorize_callable</span>: Callable, <span class="meth-arg">authorize_later_callable</span>: Callable) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#startupdialog">StartupDialog</a></span>
 
+<div class="member-desc">
+
 Retrieves an instance of the startup dialog with the passed callables connected to its buttons.
+
+</div>
 
 ##### get_trial_time_left<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Returns remaining time on a trial as a formatted string.
+
+</div>
 
 ##### invoke_pack_installation_callback<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Call package installation callback.
+
+</div>
 
 ##### load_and_convert_legacy_unlock_cfg<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> dict[str, Any]</span>
 
+<div class="member-desc">
+
 Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object.
+
+</div>
 
 ##### process_license_response<span class="meth-sig">(<span class="meth-arg">license_response_lines</span>: list[str]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#unlockstatus">UnlockStatus</a></span>
 
+<div class="member-desc">
+
 Processes a list of strings, each representing a server response to a product authorization.
+
+</div>
 
 ##### process_trial_response<span class="meth-sig">(<span class="meth-arg">trial_response_line</span>: str) <span class="meth-arrow">-&gt;</span> bool</span>
 
+<div class="member-desc">
+
 Process the server's response to a Trial authorization.
+
+</div>
 
 ##### request_exit<span class="meth-sig">(<span class="meth-arg">exit_code</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
 ##### save_current_set<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Saves the current Live session.
+
+</div>
 
 ##### set_network_timer<span class="meth-sig">(<span class="meth-arg">callback</span>: Callable | None, <span class="meth-arg">interval_in_ms</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped.
+
+</div>
 
 ##### store_session_id<span class="meth-sig">(<span class="meth-arg">session_id</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Securely stores the user's session ID (aka cookie, aka credentials).
+
+</div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">StartupDialog</span></span>
 

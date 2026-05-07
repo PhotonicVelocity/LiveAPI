@@ -68,18 +68,23 @@
   margin-bottom: 0.25rem;
   padding-left: 1.5rem;
 }
-/* Property description — paragraph immediately following an H5 heading
-   (with an optional `.prop-flags` flags line between). Indented to
-   match the H5 column so the description visually attaches to the
-   property it describes rather than re-anchoring at the page margin.
-   Slightly muted color marks it as descriptive text adjacent to a
-   member identifier rather than body prose. */
-.sl-markdown-content .sl-heading-wrapper.level-h5 + p,
-.sl-markdown-content .sl-heading-wrapper.level-h5 + .prop-flags + p {
-  margin-top: 0;
-  margin-bottom: 0.4rem;
+/* Member description — wraps the prose paragraph(s) below a property /
+   method / signal H5 heading. Generator emits `<div class="member-desc">`
+   around the description so multi-paragraph blocks stay indented
+   together (the previous adjacent-sibling chain only caught the first
+   paragraph). Indented to match the H5 column so the description
+   visually attaches to the member it describes rather than
+   re-anchoring at the page margin; slightly muted color marks it as
+   descriptive text adjacent to a member identifier. Class / enum /
+   function H3 descriptions are NOT wrapped — they sit at page margin
+   alongside the signature. */
+.sl-markdown-content .member-desc {
   padding-left: 1.5rem;
   color: var(--sl-color-gray-2);
+}
+.sl-markdown-content .member-desc p {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
 }
 
 /* Property flags row — sits between the H5 heading and the description.

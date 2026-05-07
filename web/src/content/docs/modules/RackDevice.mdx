@@ -31,111 +31,187 @@ This class represents a Rack device.
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 return True, if this Rack contains a rack instrument device that is capable of showing its chains in session view.
+
+</div>
 
 ##### chain_selector<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Const access to the chain selector parameter.
+
+</div>
 
 ##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.
 
+</div>
+
 ##### drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false.
 
+</div>
+
 ##### has_drum_pads<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if the device is a drum rack which has drum pads. Throws an exception if can_have_drum_pads is false.
 
+</div>
+
 ##### has_macro_mappings<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns true if any of the rack's macros are mapped to a parameter.
+
+</div>
 
 ##### is_active<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+</div>
 
 ##### is_showing_chains<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Returns True, if it is showing chains.
+
+</div>
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the latency of the device in ms.
+
+</div>
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the latency of the device in samples.
+
+</div>
 
 ##### macros_mapped<span class="prop-type">: tuple[bool, ...]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something
 
+</div>
+
 ##### name<span class="prop-type">: str</span>
 
+<div class="member-desc">
+
 Return access to the name of the device.
+
+</div>
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Const access to the list of available automatable parameters for this device.
+
+</div>
 
 ##### return_chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.
 
+</div>
+
 ##### selected_variation_index<span class="prop-type">: int</span>
+
+<div class="member-desc">
 
 Access to the index of the currently selected macro variation.Throws an exception if the index is out of range.
 
+</div>
+
 ##### variation_count<span class="prop-type">: int</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the number of macro variations currently stored.
+
+</div>
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>.View</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Representing the view aspects of a device.
+
+</div>
 
 ##### visible_drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false.
 
+</div>
+
 ##### visible_macro_count<span class="prop-type">: int</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the number of macros that are currently visible.
+
+</div>
 
 #### Inherited
 
@@ -145,39 +221,75 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 ##### add_macro<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Increases the number of visible macro controls in the rack. Throws an exception if the maximum number of macro controls is reached.
+
+</div>
 
 ##### copy_pad<span class="meth-sig">(<span class="meth-arg">source_index</span>: int, <span class="meth-arg">destination_index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127.
+
+</div>
 
 ##### delete_selected_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Deletes the currently selected macro variation.Does nothing if there is no selected variation.
+
+</div>
 
 ##### insert_chain<span class="meth-sig">(<span class="meth-arg">index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/chain/#chain">Chain</a></span>
 
+<div class="member-desc">
+
 Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence.
+
+</div>
 
 ##### randomize_macros<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Randomizes the values for all macro controls not excluded from randomization.
+
+</div>
 
 ##### recall_last_used_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Recalls the macro variation that was recalled most recently.Does nothing if no variation has been recalled yet.
+
+</div>
 
 ##### recall_selected_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Recalls the currently selected macro variation.Does nothing if there are no variations.
+
+</div>
 
 ##### remove_macro<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Decreases the number of visible macro controls in the rack. Throws an exception if the minimum number of macro controls is reached.
+
+</div>
 
 ##### store_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Stores a new variation of the values of all currently mapped macros
+
+</div>
 
 #### Nested types
 
@@ -205,28 +317,48 @@ Representing the view aspects of a rack device.
 
 ##### drum_pads_scroll_position<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Access to the index of the lowest visible row of pads. Throws an exception if can_have_drum_pads is false.
 
+</div>
+
 ##### is_collapsed<span class="prop-type">: bool</span>
+
+<div class="member-desc">
 
 Get/Set/Listen if the device is shown collapsed in the device chain.
 
+</div>
+
 ##### is_showing_chain_devices<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return whether the devices in the currently selected chain are visible. Throws an exception if can_have_chains is false.
 
+</div>
+
 ##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain">Chain</a> | None</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return access to the currently selected chain.
 
+</div>
+
 ##### selected_drum_pad<span class="prop-type">: <a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a></span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return access to the currently selected drum pad. Throws an exception if can_have_drum_pads is false.
+
+</div>

@@ -29,109 +29,193 @@ This class represents the Live application.
 
 ##### average_process_usage<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Reports Live's average CPU load.
+
+</div>
 
 ##### browser<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browser">Browser</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns an interface to the browser.
+
+</div>
 
 ##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[object]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Const access to a list of the control surfaces selected in preferences, in the same order. The list contains None if no control surface is active at that index.
+
+</div>
 
 ##### current_dialog_button_count<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Number of buttons on the current dialog.
+
+</div>
 
 ##### current_dialog_message<span class="prop-type">: str</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Text of the last dialog that appeared; Empty if all dialogs just disappeared.
+
+</div>
 
 ##### number_of_push_apps_running<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the number of connected Push apps.
+
+</div>
 
 ##### open_dialog_count<span class="prop-type">: int</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 The number of open dialogs in Live. 0 if not dialog is open.
 
+</div>
+
 ##### peak_process_usage<span class="prop-type">: float</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Reports Live's peak CPU load.
 
+</div>
+
 ##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector">UnavailableFeatureVector</a></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 List of features that are unavailable due to limitations of the current Live edition.
+
+</div>
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a>.View</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+<div class="member-desc">
+
 Returns the applications view component.
+
+</div>
 
 #### Methods
 
 ##### get_bugfix_version<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Returns an integer representing the bugfix version of Live.
+
+</div>
 
 ##### get_build_id<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Returns a string identifying the build.
+
+</div>
 
 ##### get_document<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#song">Song</a></span>
 
+<div class="member-desc">
+
 Returns the current Live Set.
+
+</div>
 
 ##### get_major_version<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Returns an integer representing the major version of Live.
+
+</div>
 
 ##### get_minor_version<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Returns an integer representing the minor version of Live.
+
+</div>
 
 ##### get_variant<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Returns one of the strings in Live.Application.Variants.
+
+</div>
 
 ##### get_version_string<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
+<div class="member-desc">
+
 Returns the full version string of Live.
+
+</div>
 
 ##### has_option<span class="meth-sig">(<span class="meth-arg">option_name</span>: str) <span class="meth-arrow">-&gt;</span> bool</span>
 
+<div class="member-desc">
+
 Returns True if the given entry exists in Options.txt, False otherwise.
+
+</div>
 
 ##### press_current_dialog_button<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Press a button, by index, on the current message box.
+
+</div>
 
 ##### show_message<span class="meth-sig">(<span class="meth-arg">text</span>: <a href="/LiveAPI/modules/base/#text">Text</a>, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>) <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Shows a message box, returning the position of the pressed button.
+
+</div>
 
 ##### show_on_the_fly_message<span class="meth-sig">(<span class="meth-arg">message</span>: str, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">push_dialog_type</span>: <a href="/LiveAPI/modules/application/#pushdialogtype">PushDialogType</a> | int = <span class="meth-default">PushDialogType.MESSAGE_BOX</span>) <span class="meth-arrow">-&gt;</span> int</span>
 
+<div class="member-desc">
+
 Same as show_message, but for when there is no predefined Text object.
+
+</div>
 
 #### Nested types
 
@@ -169,9 +253,13 @@ Represents a control surface running in a different process. For use by M4L
 
 ##### pad_layout<span class="prop-type">: str</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 The layout of pads on Push.
+
+</div>
 
 ##### type_name<span class="prop-type">: str</span>
 
@@ -181,11 +269,11 @@ The layout of pads on Push.
 
 ##### control_values_arrived
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### midi_received
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
@@ -237,67 +325,111 @@ This class represents the view aspects of the Live application.
 
 ##### browse_mode<span class="prop-type">: bool</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return true if HotSwap mode is active for any target.
 
+</div>
+
 ##### focused_document_view<span class="prop-type">: str</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Return the name of the document view ('Session' or 'Arranger') shown in the currently selected window.
+
+</div>
 
 #### Signals
 
 ##### view_focus_changed
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
-##### add_is_view_visible_listener<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">callback</span>: Callable[[], None]) <span class="meth-arrow">-&gt;</span> None</span>
-
-Add a listener function or method, which will be called as soon as the property "is_view_visible" has changed.
-
 ##### available_main_views<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="member-desc">
 
 Return a list of strings with the available subcomponent views, which is to be specified, when using the rest of this classes functions. A 'subcomponent view' is a main view component of a document view, like the Session view, the Arranger or Detailview and so on...
 
+</div>
+
 ##### focus_view<span class="meth-sig">(<span class="meth-arg">view</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+
+<div class="member-desc">
 
 Show and focus one through the identifier string specified view.
 
+</div>
+
 ##### hide_view<span class="meth-sig">(<span class="meth-arg">view_name</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+
+<div class="member-desc">
 
 Hide one through the identifier string specified view.
 
-##### is_view_visible<span class="meth-sig">(<span class="meth-arg">identifier</span>: str, <span class="meth-arg">main_window_only</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> bool</span>
+</div>
 
-Return true if the through the identifier string specified view is currently visible. If main_window_only is set to False, this will also check in second window. Notifications from the second window are not yet supported.
+##### is_view_visible<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">main_window_only</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> bool</span>
 
-##### is_view_visible_has_listener<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">callback</span>: Callable[[], None]) <span class="meth-arrow">-&gt;</span> bool</span>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
-Returns true, if the given listener function or method is connected to the property "is_view_visible".
+<div class="member-desc">
 
-##### remove_is_view_visible_listener<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">callback</span>: Callable[[], None]) <span class="meth-arrow">-&gt;</span> None</span>
+Returns whether the view named by `view_name` is currently
+visible. With `main_window_only=False`, also checks the
+second window — note that notifications from the second
+window are not yet supported.
 
-Remove a previously set listener function or method from property "is_view_visible".
+Parameterized observable — the LOM's only one (as of 12.3.6).
+Read by calling `is_view_visible(view_name)`. Subscribe via
+the matching listener triplet, which takes view_name as its
+first parameter:
+
+```
+add_is_view_visible_listener(view_name, callback)
+remove_is_view_visible_listener(view_name, callback)
+is_view_visible_has_listener(view_name, callback)
+```
+
+</div>
 
 ##### scroll_view<span class="meth-sig">(<span class="meth-arg">direction</span>: int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Scroll through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
+
+</div>
 
 ##### show_view<span class="meth-sig">(<span class="meth-arg">view</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Show one through the identifier string specified view. Will throw a runtime error if this is called in Live's initialization scope.
+
+</div>
 
 ##### toggle_browse<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Reveals the device chain, the browser and starts hot swap for the selected device. Calling this function again stops hot swap.
+
+</div>
 
 ##### zoom_view<span class="meth-sig">(<span class="meth-arg">direction</span>: int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
+<div class="member-desc">
+
 Zoom through the identifier string specified view into the given direction, if possible. Will silently return if the specified view can not perform the requested action.
+
+</div>
 
 #### Nested types
 

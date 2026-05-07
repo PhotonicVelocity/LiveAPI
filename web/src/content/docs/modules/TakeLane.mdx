@@ -28,22 +28,38 @@ This class represents a take lane in Live.
 
 ##### arrangement_clips<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip">Clip</a>]</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Read-only access to the arrangement clips in the take lane.
 
+</div>
+
 ##### name<span class="prop-type">: str</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+<div class="member-desc">
 
 Read/write access to the name of the TakeLane, as visible in the take lane header.
+
+</div>
 
 #### Methods
 
 ##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str, <span class="meth-arg">start_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
+<div class="member-desc">
+
 Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time. Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
+
+</div>
 
 ##### create_midi_clip<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
+<div class="member-desc">
+
 Creates an empty MIDI clip and inserts it into the arrangement at the specified time. Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
+
+</div>
