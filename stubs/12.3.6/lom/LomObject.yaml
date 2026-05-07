@@ -1,5 +1,6 @@
 module: LomObject
 title: Live Object Model
+sidebar_hidden: true
 _note: |
   Special-cased in the rendered reference site: hoisted above the
   alphabetical Modules group as a first-class sidebar entry (see
