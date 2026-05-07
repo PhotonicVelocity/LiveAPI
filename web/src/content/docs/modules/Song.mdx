@@ -5,7 +5,7 @@ description: "The Live.Song module."
 
 The Live.Song module.
 
-### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Song.">Song</span></span>
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">Song</span></span>
 
 This class represents a Live set.
 
@@ -33,7 +33,7 @@ This class represents a Live set.
 
 ##### count_in_duration<span class="prop-type">: int</span>
 
-##### cue_points<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### cue_points<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/song/#cuepoint">CuePoint</a>]</span>
 
 ##### current_song_time<span class="prop-type">: float</span>
 
@@ -85,7 +85,7 @@ This class represents a Live set.
 
 ##### record_mode<span class="prop-type">: bool</span>
 
-##### return_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### return_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
 
 ##### root_note<span class="prop-type">: int</span>
 
@@ -95,7 +95,7 @@ This class represents a Live set.
 
 ##### scale_name<span class="prop-type">: str</span>
 
-##### scenes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### scenes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/scene/#scene">Scene</a>]</span>
 
 ##### select_on_launch<span class="prop-type">: bool</span>
 
@@ -119,13 +119,17 @@ This class represents a Live set.
 
 ##### tempo_follower_enabled<span class="prop-type">: bool</span>
 
-##### tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
 
 ##### tuning_system<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#tuningsystem">TuningSystem</a></span>
 
-##### view<span class="prop-type">: View</span>
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a>.View</span>
 
-##### visible_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### visible_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
+
+##### data
+
+##### scale_information
 
 ## Other classes
 
@@ -143,7 +147,7 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
 ##### ticks<span class="prop-type">: int</span>
 
-### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span>
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span>
 
 Represents a 'Marker' in the arrangement.
 

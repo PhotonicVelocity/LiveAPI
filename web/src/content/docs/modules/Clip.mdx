@@ -5,13 +5,13 @@ description: "The Live.Clip module."
 
 The Live.Clip module.
 
-### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Clip.">Clip</span></span>
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">Clip</span></span>
 
 This class represents a Clip in Live. It can be either an Audio Clip or a MIDI Clip, in an Arrangement or the Session, depending on the Track (Slot) it lives in.
 
 #### Properties
 
-##### automation_envelopes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### automation_envelopes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/envelope/#envelope">Envelope</a>]</span>
 
 ##### available_warp_modes<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
 
@@ -97,7 +97,7 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 ##### velocity_amount<span class="prop-type">: float</span>
 
-##### view<span class="prop-type">: View</span>
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip">Clip</a>.View</span>
 
 ##### warp_markers<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmarkervector">WarpMarkerVector</a></span>
 
@@ -106,6 +106,12 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 ##### warping<span class="prop-type">: bool</span>
 
 ##### will_record_on_start<span class="prop-type">: bool</span>
+
+##### loop_jump
+
+##### notes
+
+##### playing_status
 
 ## Other classes
 

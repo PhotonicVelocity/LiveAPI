@@ -11,25 +11,13 @@ This class represents a Rack device.
 
 #### Properties
 
-##### can_compare_ab<span class="prop-type">: bool</span>
-
-##### can_have_chains<span class="prop-type">: bool</span>
-
-##### can_have_drum_pads<span class="prop-type">: bool</span>
-
 ##### can_show_chains<span class="prop-type">: bool</span>
-
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
 ##### chain_selector<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
 ##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
 
-##### class_display_name<span class="prop-type">: str</span>
-
-##### class_name<span class="prop-type">: str</span>
-
-##### drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a>]</span>
 
 ##### has_drum_pads<span class="prop-type">: bool</span>
 
@@ -39,13 +27,11 @@ This class represents a Rack device.
 
 ##### is_showing_chains<span class="prop-type">: bool</span>
 
-##### is_using_compare_preset_b<span class="prop-type">: bool</span>
-
 ##### latency_in_ms<span class="prop-type">: float</span>
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
-##### macros_mapped<span class="prop-type">: tuple</span>
+##### macros_mapped<span class="prop-type">: tuple[bool, ...]</span>
 
 ##### name<span class="prop-type">: str</span>
 
@@ -55,12 +41,10 @@ This class represents a Rack device.
 
 ##### selected_variation_index<span class="prop-type">: int</span>
 
-##### type<span class="prop-type">: <a href="/LiveAPI/modules/device/#devicetype">DeviceType</a></span>
-
 ##### variation_count<span class="prop-type">: int</span>
 
-##### view<span class="prop-type">: View</span>
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>.View</span>
 
-##### visible_drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+##### visible_drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a>]</span>
 
 ##### visible_macro_count<span class="prop-type">: int</span>

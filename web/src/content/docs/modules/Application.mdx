@@ -5,7 +5,7 @@ description: "The Live.Application module."
 
 The Live.Application module.
 
-### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Application.">Application</span></span>
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">Application</span></span>
 
 This class represents the Live application.
 
@@ -17,7 +17,7 @@ This class represents the Live application.
 
 ##### canonical_parent<span class="prop-type">: None</span>
 
-##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#objectvector">ObjectVector</a></span>
+##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[object]</span>
 
 ##### current_dialog_button_count<span class="prop-type">: int</span>
 
@@ -31,7 +31,7 @@ This class represents the Live application.
 
 ##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector">UnavailableFeatureVector</a></span>
 
-##### view<span class="prop-type">: View</span>
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a>.View</span>
 
 ## Other classes
 
@@ -60,6 +60,10 @@ Represents a control surface running in a different process. For use by M4L
 ##### pad_layout<span class="prop-type">: str</span>
 
 ##### type_name<span class="prop-type">: str</span>
+
+##### control_values_arrived
+
+##### midi_received
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
 

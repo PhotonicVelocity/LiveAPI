@@ -61,40 +61,20 @@ Structure to define feedback properties of MIDI mappings.
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">forward_midi_cc</span></span>()
 
-forward_midi_cc( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool : C++ signature : bool forward_midi_cc(unsigned int,unsigned int,int,int [,bool=True])
-
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">forward_midi_note</span></span>()
-
-forward_midi_note( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool : C++ signature : bool forward_midi_note(unsigned int,unsigned int,int,int [,bool=True])
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">forward_midi_pitchbend</span></span>()
 
-forward_midi_pitchbend( (int)arg1, (int)arg2, (int)arg3) -> bool : C++ signature : bool forward_midi_pitchbend(unsigned int,unsigned int,int)
-
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">map_midi_cc</span></span>()
-
-map_midi_cc( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool : C++ signature : bool map_midi_cc(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,bool [,float=1.0])
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">map_midi_cc_with_feedback_map</span></span>()
 
-map_midi_cc_with_feedback_map( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (CCFeedbackRule)feedback_rule, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool : C++ signature : bool map_midi_cc_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,NPythonMidiMap::TCCFeedbackRule,bool [,float=1.0])
-
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">map_midi_note</span></span>()
-
-map_midi_note( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4) -> bool : C++ signature : bool map_midi_note(unsigned int,TPyHandle<ATimeableValue>,int,int)
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">map_midi_note_with_feedback_map</span></span>()
 
-map_midi_note_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4, (NoteFeedbackRule)arg5) -> bool : C++ signature : bool map_midi_note_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NPythonMidiMap::TNoteFeedbackRule)
-
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">map_midi_pitchbend</span></span>()
-
-map_midi_pitchbend( (int)arg1, (DeviceParameter)arg2, (int)arg3, (bool)arg4) -> bool : C++ signature : bool map_midi_pitchbend(unsigned int,TPyHandle<ATimeableValue>,int,bool)
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">map_midi_pitchbend_with_feedback_map</span></span>()
 
-map_midi_pitchbend_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (PitchBendFeedbackRule)arg4, (bool)arg5) -> bool : C++ signature : bool map_midi_pitchbend_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,NPythonMidiMap::TPitchBendFeedbackRule,bool)
-
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.MidiMap.">send_feedback_for_parameter</span></span>()
-
-send_feedback_for_parameter( (int)arg1, (DeviceParameter)arg2) -> None : C++ signature : void send_feedback_for_parameter(unsigned int,TPyHandle<ATimeableValue>)
