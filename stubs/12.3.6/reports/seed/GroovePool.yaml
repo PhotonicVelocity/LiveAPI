@@ -1,4 +1,5 @@
 module: GroovePool
+
 primary_class:
 - name: GroovePool
   path: Live.GroovePool.GroovePool
@@ -9,14 +10,17 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the groove pool.
     type: Live.Song.Song
     settable: false
+
   - name: grooves
     raw_doc: Access to the list of grooves
     type: Live.Base.Vector[Live.Groove.Groove]

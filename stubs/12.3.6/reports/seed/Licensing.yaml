@@ -1,4 +1,5 @@
 module: Licensing
+
 classes:
 - name: ProgressDialog
   path: Live.Licensing.ProgressDialog
@@ -8,6 +9,7 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   methods:
   - name: end_modal_loop
     signature: 'end_modal_loop( (ProgressDialog)arg1) -> None :'
@@ -17,6 +19,7 @@ classes:
       type: Live.Licensing.ProgressDialog
     returns:
       type: None
+
   - name: run_in_modal_loop
     signature: 'run_in_modal_loop( (ProgressDialog)arg1) -> None :'
     cpp_signature: void run_in_modal_loop(AProgressDialog {lvalue})
@@ -25,6 +28,7 @@ classes:
       type: Live.Licensing.ProgressDialog
     returns:
       type: None
+
   - name: set_status_message
     signature: 'set_status_message( (object)arg1, (str)msg) -> None :'
     cpp_signature: void set_status_message(TWeakPtr<AProgressDialog>,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
@@ -35,6 +39,7 @@ classes:
       type: str
     returns:
       type: None
+
 - name: PythonLicensingBridge
   path: Live.Licensing.PythonLicensingBridge
   raw_doc: Interface to the internal licensing services.
@@ -43,21 +48,27 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: base_product_id
     raw_doc: Returns Live's current base product ID.
     settable: false
+
   - name: in_sassafras_mode
     settable: false
+
   - name: license_must_match_variant
     raw_doc: Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
     settable: false
+
   - name: random_number_for_trial_authorization
     raw_doc: Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
     settable: false
+
   - name: set_has_unsaved_changes
     raw_doc: Returns true if the set has unsaved changes.
     settable: false
+
   methods:
   - name: authorize_with_sassafras
     signature: 'authorize_with_sassafras( (PythonLicensingBridge)arg1) -> None :'
@@ -67,6 +78,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
+
   - name: create_new_live_set
     raw_doc: Creates a new live set and discards unsaved changes.
     signature: 'create_new_live_set( (PythonLicensingBridge)arg1) -> None :'
@@ -76,6 +88,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
+
   - name: deauthenticate_user
     raw_doc: Deletes the current session ID.
     signature: 'deauthenticate_user( (PythonLicensingBridge)arg1) -> None :'
@@ -85,6 +98,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
+
   - name: get_progress_dialog
     raw_doc: Retrieves an instance of ProgressDialog.
     signature: 'get_progress_dialog( (PythonLicensingBridge)arg1) -> ProgressDialog :'
@@ -94,6 +108,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: Live.Licensing.ProgressDialog
+
   - name: get_session_id
     raw_doc: Retrieve stored session ID.
     signature: 'get_session_id( (PythonLicensingBridge)arg1) -> str :'
@@ -103,6 +118,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: str
+
   - name: get_startup_dialog
     raw_doc: Retrieves an instance of the startup dialog with the passed callables connected to its buttons.
     signature: 'get_startup_dialog( (PythonLicensingBridge)arg1, (object)authorize_callable, (object)authorize_later_callable) -> StartupDialog :'
@@ -116,6 +132,7 @@ classes:
       type: object
     returns:
       type: Live.Licensing.StartupDialog
+
   - name: get_trial_time_left
     raw_doc: Returns remaining time on a trial as a formatted string.
     signature: 'get_trial_time_left( (PythonLicensingBridge)arg1) -> str :'
@@ -125,6 +142,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: str
+
   - name: invoke_pack_installation_callback
     raw_doc: Call package installation callback.
     signature: 'invoke_pack_installation_callback( (PythonLicensingBridge)arg1) -> None :'
@@ -134,6 +152,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
+
   - name: load_and_convert_legacy_unlock_cfg
     raw_doc: Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object.
     signature: 'load_and_convert_legacy_unlock_cfg( (PythonLicensingBridge)arg1) -> dict :'
@@ -143,6 +162,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: dict
+
   - name: process_license_response
     raw_doc: Processes a list of strings, each representing a server response to a product authorization.
     signature: 'process_license_response( (PythonLicensingBridge)arg1, (list)license_response_lines) -> UnlockStatus :'
@@ -154,6 +174,7 @@ classes:
       type: list
     returns:
       type: Live.Licensing.UnlockStatus
+
   - name: process_trial_response
     raw_doc: Process the server's response to a Trial authorization.
     signature: 'process_trial_response( (PythonLicensingBridge)arg1, (str)trial_response_line) -> bool :'
@@ -165,6 +186,7 @@ classes:
       type: str
     returns:
       type: bool
+
   - name: request_exit
     signature: 'request_exit( (PythonLicensingBridge)arg1 [, (int)exit_code=0]) -> None :'
     cpp_signature: void request_exit(APythonLicensingBridge {lvalue} [,int=0])
@@ -177,6 +199,7 @@ classes:
       default: '0'
     returns:
       type: None
+
   - name: save_current_set
     raw_doc: Saves the current Live session.
     signature: 'save_current_set( (PythonLicensingBridge)arg1) -> None :'
@@ -186,6 +209,7 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: None
+
   - name: set_network_timer
     raw_doc: Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped.
     signature: 'set_network_timer( (PythonLicensingBridge)arg1, (object)callback, (int)interval_in_ms) -> None :'
@@ -199,6 +223,7 @@ classes:
       type: int
     returns:
       type: None
+
   - name: store_session_id
     raw_doc: Securely stores the user's session ID (aka cookie, aka credentials).
     signature: 'store_session_id( (PythonLicensingBridge)arg1, (str)session_id) -> None :'
@@ -210,6 +235,7 @@ classes:
       type: str
     returns:
       type: None
+
 - name: StartupDialog
   path: Live.Licensing.StartupDialog
   raw_doc: Serves as an entry point for the user to authorize Live on first launch.
@@ -218,6 +244,7 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   methods:
   - name: end_modal_loop
     signature: 'end_modal_loop( (StartupDialog)arg1) -> None :'
@@ -227,6 +254,7 @@ classes:
       type: Live.Licensing.StartupDialog
     returns:
       type: None
+
   - name: run_in_modal_loop
     signature: 'run_in_modal_loop( (StartupDialog)arg1, (bool)show_only_offline_auth_instructions) -> None :'
     cpp_signature: void run_in_modal_loop(AStartupDialog {lvalue},bool)
@@ -237,6 +265,7 @@ classes:
       type: bool
     returns:
       type: None
+
   - name: set_notification_message
     signature: 'set_notification_message( (StartupDialog)arg1, (object)notification_text, (bool)show_progress_bar) -> None :'
     cpp_signature: void set_notification_message(AStartupDialog {lvalue},TString,bool)
@@ -249,6 +278,7 @@ classes:
       type: bool
     returns:
       type: None
+
 - name: UnlockStatus
   path: Live.Licensing.UnlockStatus
   raw_doc: Returns relevant information after unlock
@@ -259,28 +289,36 @@ classes:
         C++ signature :
             void __init__(_object*)
   constructable: true
+
   properties:
   - name: authorization_deactivated
     type: bool
     settable: false
+
   - name: authorization_expired
     type: bool
     settable: false
+
   - name: has_max_unlock_products
     type: bool
     settable: false
+
   - name: temp_demo_mode
     type: bool
     settable: false
+
   - name: time_limited
     type: bool
     settable: false
+
   - name: unlock_error
     type: bool
     settable: false
+
   - name: unlocked
     type: bool
     settable: false
+
   methods:
   - name: __init__
     args:
@@ -288,12 +326,14 @@ classes:
       type: Live.Licensing.UnlockStatus
     returns:
       type: None
+
 enums:
 - name: TrialContext
   members:
     SAVE: 0
     FORCE_UPDATE: 2
     STARTUP: 3
+
 functions:
 - name: authorization_clock_days_ahead
   raw_doc: Advances the current date by the number of days specified by _AuthClockDaysAhead
@@ -301,6 +341,7 @@ functions:
   cpp_signature: int authorization_clock_days_ahead()
   returns:
     type: int
+
 - name: get_authorization_page_url
   raw_doc: Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization.
   signature: 'get_authorization_page_url( (bool)reauthorize, (bool)is_trial) -> str :'
@@ -312,24 +353,28 @@ functions:
     type: bool
   returns:
     type: str
+
 - name: get_purchase_live_url
   raw_doc: Returns the environment-aware purchase URL for purchasing Live licenses
   signature: 'get_purchase_live_url() -> str :'
   cpp_signature: std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> get_purchase_live_url()
   returns:
     type: str
+
 - name: get_services_url
   raw_doc: Returns the URL against which service calls (e.g. for authorization) can be performed.
   signature: 'get_services_url() -> str :'
   cpp_signature: std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> get_services_url()
   returns:
     type: str
+
 - name: get_unlock_dir
   raw_doc: Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.
   signature: 'get_unlock_dir() -> tuple :'
   cpp_signature: boost::python::tuple get_unlock_dir()
   returns:
     type: tuple[object, ...]
+
 - name: launch_web_browser
   raw_doc: Opens a web browser at the specified URL on the user's computer.
   signature: 'launch_web_browser( (str)url) -> None :'

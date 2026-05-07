@@ -1,4 +1,5 @@
 module: Song
+
 primary_class:
 - name: Song
   path: Live.Song.Song
@@ -9,10 +10,12 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: appointed_device
     raw_doc: Read, write, and listen access to the appointed Device
     type: None
@@ -21,6 +24,7 @@ primary_class:
     - add_appointed_device_listener
     - remove_appointed_device_listener
     - appointed_device_has_listener
+
   - name: arrangement_overdub
     raw_doc: Get/Set the global arrangement overdub state.
     type: bool
@@ -29,6 +33,7 @@ primary_class:
     - add_arrangement_overdub_listener
     - remove_arrangement_overdub_listener
     - arrangement_overdub_has_listener
+
   - name: back_to_arranger
     raw_doc: |-
       Get/Set if triggering a Clip in the Session, disabled the playback of
@@ -39,6 +44,7 @@ primary_class:
     - add_back_to_arranger_listener
     - remove_back_to_arranger_listener
     - back_to_arranger_has_listener
+
   - name: can_capture_midi
     raw_doc: Get whether there currently is material to be captured on any tracks.
     type: bool
@@ -47,6 +53,7 @@ primary_class:
     - add_can_capture_midi_listener
     - remove_can_capture_midi_listener
     - can_capture_midi_has_listener
+
   - name: can_jump_to_next_cue
     raw_doc: |-
       Returns true when there is a cue marker right to the playing pos that
@@ -57,6 +64,7 @@ primary_class:
     - add_can_jump_to_next_cue_listener
     - remove_can_jump_to_next_cue_listener
     - can_jump_to_next_cue_has_listener
+
   - name: can_jump_to_prev_cue
     raw_doc: |-
       Returns true when there is a cue marker left to the playing pos that
@@ -67,18 +75,22 @@ primary_class:
     - add_can_jump_to_prev_cue_listener
     - remove_can_jump_to_prev_cue_listener
     - can_jump_to_prev_cue_has_listener
+
   - name: can_redo
     raw_doc: Returns true if there is an undone action that we can redo.
     type: bool
     settable: false
+
   - name: can_undo
     raw_doc: Returns true if there is an action that we can restore.
     type: bool
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the song.
     type: None
     settable: false
+
   - name: clip_trigger_quantization
     raw_doc: |-
       Get/Set access to the quantization settings that are used to fire
@@ -89,6 +101,7 @@ primary_class:
     - add_clip_trigger_quantization_listener
     - remove_clip_trigger_quantization_listener
     - clip_trigger_quantization_has_listener
+
   - name: count_in_duration
     raw_doc: |-
       Get the count in duration. Returns an index, mapped as follows:
@@ -99,6 +112,7 @@ primary_class:
     - add_count_in_duration_listener
     - remove_count_in_duration_listener
     - count_in_duration_has_listener
+
   - name: cue_points
     raw_doc: Const access to a list of all cue points of the Live Song.
     type: Live.Base.Vector[Live.Song.CuePoint]
@@ -107,6 +121,7 @@ primary_class:
     - add_cue_points_listener
     - remove_cue_points_listener
     - cue_points_has_listener
+
   - name: current_song_time
     raw_doc: Get/Set access to the songs current playing position in beats.
     type: float
@@ -115,6 +130,7 @@ primary_class:
     - add_current_song_time_listener
     - remove_current_song_time_listener
     - current_song_time_has_listener
+
   - name: exclusive_arm
     raw_doc: Get if Tracks should be armed exclusively by default.
     type: bool
@@ -123,14 +139,17 @@ primary_class:
     - add_exclusive_arm_listener
     - remove_exclusive_arm_listener
     - exclusive_arm_has_listener
+
   - name: exclusive_solo
     raw_doc: Get if Tracks should be soloed exclusively by default.
     type: bool
     settable: false
+
   - name: file_path
     raw_doc: Get the current Live Set's path on disk.
     type: str
     settable: false
+
   - name: groove_amount
     raw_doc: |-
       Get/Set the global groove amount, that adjust all setup grooves
@@ -141,10 +160,12 @@ primary_class:
     - add_groove_amount_listener
     - remove_groove_amount_listener
     - groove_amount_has_listener
+
   - name: groove_pool
     raw_doc: Get the groove pool.
     type: Live.GroovePool.GroovePool
     settable: false
+
   - name: is_ableton_link_enabled
     raw_doc: Enable/disable Ableton Link.
     type: bool
@@ -153,6 +174,7 @@ primary_class:
     - add_is_ableton_link_enabled_listener
     - remove_is_ableton_link_enabled_listener
     - is_ableton_link_enabled_has_listener
+
   - name: is_ableton_link_start_stop_sync_enabled
     raw_doc: Enable/disable Ableton Link Start Stop Sync.
     type: bool
@@ -161,6 +183,7 @@ primary_class:
     - add_is_ableton_link_start_stop_sync_enabled_listener
     - remove_is_ableton_link_start_stop_sync_enabled_listener
     - is_ableton_link_start_stop_sync_enabled_has_listener
+
   - name: is_counting_in
     raw_doc: Get whether currently counting in.
     type: bool
@@ -169,6 +192,7 @@ primary_class:
     - add_is_counting_in_listener
     - remove_is_counting_in_listener
     - is_counting_in_has_listener
+
   - name: is_playing
     raw_doc: Returns true if the Song is currently playing.
     type: bool
@@ -177,6 +201,7 @@ primary_class:
     - add_is_playing_listener
     - remove_is_playing_listener
     - is_playing_has_listener
+
   - name: last_event_time
     raw_doc: |-
       Return the time of the last set event in the song. In contrary to
@@ -184,6 +209,7 @@ primary_class:
       for Display purposes in the Arrangerview.
     type: float
     settable: false
+
   - name: loop
     raw_doc: |-
       Get/Set the looping flag that en/disables the usage of the global
@@ -194,6 +220,7 @@ primary_class:
     - add_loop_listener
     - remove_loop_listener
     - loop_has_listener
+
   - name: loop_length
     raw_doc: Get/Set the length of the global loop marker position in beats.
     type: float
@@ -202,6 +229,7 @@ primary_class:
     - add_loop_length_listener
     - remove_loop_length_listener
     - loop_length_has_listener
+
   - name: loop_start
     raw_doc: Get/Set the start of the global loop marker position in beats.
     type: float
@@ -210,10 +238,12 @@ primary_class:
     - add_loop_start_listener
     - remove_loop_start_listener
     - loop_start_has_listener
+
   - name: master_track
     raw_doc: Access to the Main Track (always available)
     type: Live.Track.Track
     settable: false
+
   - name: metronome
     raw_doc: Get/Set if the metronom is audible.
     type: bool
@@ -222,6 +252,7 @@ primary_class:
     - add_metronome_listener
     - remove_metronome_listener
     - metronome_has_listener
+
   - name: midi_recording_quantization
     raw_doc: |-
       Get/Set access to the settings that are used to quantize
@@ -232,10 +263,12 @@ primary_class:
     - add_midi_recording_quantization_listener
     - remove_midi_recording_quantization_listener
     - midi_recording_quantization_has_listener
+
   - name: name
     raw_doc: Get the current Live Set's name.
     type: str
     settable: false
+
   - name: nudge_down
     raw_doc: Get/Set the status of the nudge down button.
     type: bool
@@ -244,6 +277,7 @@ primary_class:
     - add_nudge_down_listener
     - remove_nudge_down_listener
     - nudge_down_has_listener
+
   - name: nudge_up
     raw_doc: Get/Set the status of the nudge up button.
     type: bool
@@ -252,6 +286,7 @@ primary_class:
     - add_nudge_up_listener
     - remove_nudge_up_listener
     - nudge_up_has_listener
+
   - name: overdub
     raw_doc: |-
       Legacy hook for Live 8 overdub state. Now hooks to
@@ -262,6 +297,7 @@ primary_class:
     - add_overdub_listener
     - remove_overdub_listener
     - overdub_has_listener
+
   - name: punch_in
     raw_doc: |-
       Get/Set the flag that will enable recording as soon as the Song plays
@@ -272,6 +308,7 @@ primary_class:
     - add_punch_in_listener
     - remove_punch_in_listener
     - punch_in_has_listener
+
   - name: punch_out
     raw_doc: |-
       Get/Set the flag that will disable recording as soon as the Song plays
@@ -282,6 +319,7 @@ primary_class:
     - add_punch_out_listener
     - remove_punch_out_listener
     - punch_out_has_listener
+
   - name: re_enable_automation_enabled
     raw_doc: Returns true if some automated parameter has been overriden
     type: bool
@@ -290,6 +328,7 @@ primary_class:
     - add_re_enable_automation_enabled_listener
     - remove_re_enable_automation_enabled_listener
     - re_enable_automation_enabled_has_listener
+
   - name: record_mode
     raw_doc: Get/Set the state of the global recording flag.
     type: bool
@@ -298,6 +337,7 @@ primary_class:
     - add_record_mode_listener
     - remove_record_mode_listener
     - record_mode_has_listener
+
   - name: return_tracks
     raw_doc: Const access to the list of available Return Tracks.
     type: Live.Base.Vector[Live.Track.Track]
@@ -306,6 +346,7 @@ primary_class:
     - add_return_tracks_listener
     - remove_return_tracks_listener
     - return_tracks_has_listener
+
   - name: root_note
     raw_doc: Set and access the root (i.e. key) of the song. The root can be a number between 0 and 11, with 0 corresponding to C and 11 corresponding to B.
     type: int
@@ -314,6 +355,7 @@ primary_class:
     - add_root_note_listener
     - remove_root_note_listener
     - root_note_has_listener
+
   - name: scale_intervals
     raw_doc: Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)
     type: Live.Base.IntVector
@@ -322,6 +364,7 @@ primary_class:
     - add_scale_intervals_listener
     - remove_scale_intervals_listener
     - scale_intervals_has_listener
+
   - name: scale_mode
     raw_doc: Access to the Scale Mode setting in Live. When on, key tracks that belong to the currently selected scale are highlighted in Live's MIDI Note Editor, and pitch-based parameters in MIDI Tools and Devices can be edited in scale degrees rather than semitones.
     type: bool
@@ -330,6 +373,7 @@ primary_class:
     - add_scale_mode_listener
     - remove_scale_mode_listener
     - scale_mode_has_listener
+
   - name: scale_name
     raw_doc: |-
       Set and access the currently selected scale by name. The default scale names that can be saved with a set and recalled are
@@ -347,6 +391,7 @@ primary_class:
     - add_scale_name_listener
     - remove_scale_name_listener
     - scale_name_has_listener
+
   - name: scenes
     raw_doc: Const access to a list of all Scenes in the Live Song.
     type: Live.Base.Vector[Live.Scene.Scene]
@@ -355,10 +400,12 @@ primary_class:
     - add_scenes_listener
     - remove_scenes_listener
     - scenes_has_listener
+
   - name: select_on_launch
     raw_doc: Get if Scenes and Clips should be selected when fired.
     type: bool
     settable: false
+
   - name: session_automation_record
     raw_doc: Returns true if automation recording is enabled.
     type: bool
@@ -367,6 +414,7 @@ primary_class:
     - add_session_automation_record_listener
     - remove_session_automation_record_listener
     - session_automation_record_has_listener
+
   - name: session_record
     raw_doc: Get/Set the session record state.
     type: bool
@@ -375,6 +423,7 @@ primary_class:
     - add_session_record_listener
     - remove_session_record_listener
     - session_record_has_listener
+
   - name: session_record_status
     raw_doc: Get the session slot-recording state.
     type: int
@@ -383,6 +432,7 @@ primary_class:
     - add_session_record_status_listener
     - remove_session_record_status_listener
     - session_record_status_has_listener
+
   - name: signature_denominator
     raw_doc: Get/Set access to the global signature denominator of the Song.
     type: int
@@ -391,6 +441,7 @@ primary_class:
     - add_signature_denominator_listener
     - remove_signature_denominator_listener
     - signature_denominator_has_listener
+
   - name: signature_numerator
     raw_doc: Get/Set access to the global signature numerator of the Song.
     type: int
@@ -399,6 +450,7 @@ primary_class:
     - add_signature_numerator_listener
     - remove_signature_numerator_listener
     - signature_numerator_has_listener
+
   - name: song_length
     raw_doc: |-
       Return the time of the last set event in the song, plus som extra beats
@@ -409,6 +461,7 @@ primary_class:
     - add_song_length_listener
     - remove_song_length_listener
     - song_length_has_listener
+
   - name: start_time
     raw_doc: |-
       Get/Set access to the songs current start time in beats. The set time
@@ -419,6 +472,7 @@ primary_class:
     - add_start_time_listener
     - remove_start_time_listener
     - start_time_has_listener
+
   - name: swing_amount
     raw_doc: Get/Set access to the amount of swing that is applied when adding or quantizing notes to MIDI clips
     type: float
@@ -427,6 +481,7 @@ primary_class:
     - add_swing_amount_listener
     - remove_swing_amount_listener
     - swing_amount_has_listener
+
   - name: tempo
     raw_doc: Get/Set the global project tempo.
     type: float
@@ -435,6 +490,7 @@ primary_class:
     - add_tempo_listener
     - remove_tempo_listener
     - tempo_has_listener
+
   - name: tempo_follower_enabled
     raw_doc: Get/Set whether the Tempo Follower is controlling the tempo. The Tempo Follower Toggle must be made visible in the preferences for this property to be effective.
     type: bool
@@ -443,6 +499,7 @@ primary_class:
     - add_tempo_follower_enabled_listener
     - remove_tempo_follower_enabled_listener
     - tempo_follower_enabled_has_listener
+
   - name: tracks
     raw_doc: |-
       Const access to a list of all Player Tracks in the Live Song, excluding
@@ -454,6 +511,7 @@ primary_class:
     - add_tracks_listener
     - remove_tracks_listener
     - tracks_has_listener
+
   - name: tuning_system
     raw_doc: Access the currently active tuning system.
     type: Live.TuningSystem.TuningSystem
@@ -462,12 +520,14 @@ primary_class:
     - add_tuning_system_listener
     - remove_tuning_system_listener
     - tuning_system_has_listener
+
   - name: view
     raw_doc: |-
       Representing the view aspects of a Live document:
       The Session and Arrangerview.
     type: Live.Song.Song.View
     settable: false
+
   - name: visible_tracks
     raw_doc: |-
       Const access to a list of all visible Player Tracks in the Live Song, excluding
@@ -479,16 +539,19 @@ primary_class:
     - add_visible_tracks_listener
     - remove_visible_tracks_listener
     - visible_tracks_has_listener
+
   - name: data
     listenable:
     - add_data_listener
     - remove_data_listener
     - data_has_listener
+
   - name: scale_information
     listenable:
     - add_scale_information_listener
     - remove_scale_information_listener
     - scale_information_has_listener
+
   methods:
   - name: begin_undo_step
     signature: 'begin_undo_step( (Song)arg1) -> None :'
@@ -498,6 +561,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: capture_and_insert_scene
     raw_doc: |-
       Capture currently playing clips and insert them as a new scene after
@@ -513,6 +577,7 @@ primary_class:
       default: Song.CaptureMode.all
     returns:
       type: None
+
   - name: capture_midi
     raw_doc: |-
       Capture recently played MIDI material from audible tracks.
@@ -530,6 +595,7 @@ primary_class:
       default: Song.CaptureDestination.auto
     returns:
       type: None
+
   - name: continue_playing
     raw_doc: Continue playing the song from the current position
     signature: 'continue_playing( (Song)arg1) -> None :'
@@ -539,6 +605,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: create_audio_track
     raw_doc: |-
       Create a new audio track at the optional given index and return it.If the index is -1,
@@ -555,6 +622,7 @@ primary_class:
       default: None
     returns:
       type: Live.Track.Track
+
   - name: create_midi_track
     raw_doc: |-
       Create a new midi track at the optional given index and return it.If the index is -1,
@@ -571,6 +639,7 @@ primary_class:
       default: None
     returns:
       type: Live.Track.Track
+
   - name: create_return_track
     raw_doc: |-
       Create a new return track at the end and return it. If the new track would exceed
@@ -583,6 +652,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: Live.Track.Track
+
   - name: create_scene
     raw_doc: |-
       Create a new scene at the given index. If the index is -1,
@@ -597,6 +667,7 @@ primary_class:
       type: int
     returns:
       type: Live.Scene.Scene
+
   - name: delete_return_track
     raw_doc: |-
       Delete the return track with the given index. If no track with this index
@@ -610,6 +681,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: delete_scene
     raw_doc: |-
       Delete the scene with the given index. If no scene with this index
@@ -623,6 +695,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: delete_track
     raw_doc: |-
       Delete the track with the given index. If no track with this index
@@ -636,6 +709,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: duplicate_scene
     raw_doc: |-
       Duplicates a scene and selects the new one.
@@ -649,6 +723,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: duplicate_track
     raw_doc: |-
       Duplicates a track and selects the new one.
@@ -663,6 +738,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: end_undo_step
     signature: 'end_undo_step( (Song)arg1) -> None :'
     cpp_signature: void end_undo_step(TPyHandle<ASong>)
@@ -671,6 +747,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: find_device_position
     raw_doc: |-
       Returns the closest possible position to the given target, where the
@@ -689,6 +766,7 @@ primary_class:
       type: int
     returns:
       type: int
+
   - name: force_link_beat_time
     raw_doc: |-
       Force the Link timeline to jump to Lives current beat time.
@@ -700,6 +778,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: get_beats_loop_length
     raw_doc: |-
       Get const access to the songs loop length, using a
@@ -711,6 +790,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: Live.Song.BeatTime
+
   - name: get_beats_loop_start
     raw_doc: |-
       Get const access to the songs loop start, using a
@@ -722,6 +802,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: Live.Song.BeatTime
+
   - name: get_current_beats_song_time
     raw_doc: |-
       Get const access to the songs current playing position, using a
@@ -733,6 +814,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: Live.Song.BeatTime
+
   - name: get_current_smpte_song_time
     raw_doc: |-
       Get const access to the songs current playing position, by specifying
@@ -746,6 +828,7 @@ primary_class:
       type: int
     returns:
       type: Live.Song.SmptTime
+
   - name: get_data
     raw_doc: Get data for the given key, that was previously stored using set_data.
     signature: 'get_data( (Song)arg1, (object)key, (object)default_value) -> object :'
@@ -759,6 +842,7 @@ primary_class:
       type: object
     returns:
       type: object
+
   - name: is_cue_point_selected
     raw_doc: Return true if the global playing pos is currently on a cue point.
     signature: 'is_cue_point_selected( (Song)arg1) -> bool :'
@@ -768,6 +852,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: bool
+
   - name: jump_by
     raw_doc: Set a new playing pos, relative to the current one.
     signature: 'jump_by( (Song)arg1, (float)arg2) -> None :'
@@ -779,6 +864,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: jump_to_next_cue
     raw_doc: Jump to the next cue (marker) if possible.
     signature: 'jump_to_next_cue( (Song)arg1) -> None :'
@@ -788,6 +874,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: jump_to_prev_cue
     raw_doc: Jump to the prior cue (marker) if possible.
     signature: 'jump_to_prev_cue( (Song)arg1) -> None :'
@@ -797,6 +884,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: move_device
     raw_doc: Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to.
     signature: 'move_device( (Song)arg1, (Device)device, (LomObject)target, (int)target_position) -> int :'
@@ -812,6 +900,7 @@ primary_class:
       type: int
     returns:
       type: int
+
   - name: play_selection
     raw_doc: |-
       Start playing the current set selection, or do nothing if
@@ -823,6 +912,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: re_enable_automation
     raw_doc: Discards overrides of automated parameters.
     signature: 're_enable_automation( (Song)arg1) -> None :'
@@ -832,6 +922,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: redo
     raw_doc: Redo the last action that was undone.
     signature: 'redo( (Song)arg1) -> str :'
@@ -841,6 +932,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: str
+
   - name: scrub_by
     raw_doc: Same as jump_by, but does not stop playback.
     signature: 'scrub_by( (Song)arg1, (float)arg2) -> None :'
@@ -852,6 +944,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: set_data
     raw_doc: Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.
     signature: 'set_data( (Song)arg1, (object)key, (object)value) -> None :'
@@ -865,6 +958,7 @@ primary_class:
       type: object
     returns:
       type: None
+
   - name: set_or_delete_cue
     raw_doc: |-
       When a cue is selected, it gets deleted. If no cue is selected,
@@ -876,6 +970,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: start_playing
     raw_doc: Start playing from the startmarker
     signature: 'start_playing( (Song)arg1) -> None :'
@@ -885,6 +980,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: stop_all_clips
     raw_doc: Stop all playing Clips (if any) but continue playing the Song.
     signature: 'stop_all_clips( (Song)arg1 [, (bool)Quantized=True]) -> None :'
@@ -898,6 +994,7 @@ primary_class:
       default: 'True'
     returns:
       type: None
+
   - name: stop_playing
     raw_doc: Stop playing the Song.
     signature: 'stop_playing( (Song)arg1) -> None :'
@@ -907,6 +1004,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: tap_tempo
     raw_doc: Trigger the tap tempo function.
     signature: 'tap_tempo( (Song)arg1) -> None :'
@@ -916,6 +1014,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: None
+
   - name: trigger_session_record
     raw_doc: Triggers a new session recording.
     signature: 'trigger_session_record( (Song)self [, (float)record_length=1.7976931348623157e+308]) -> None :'
@@ -929,6 +1028,7 @@ primary_class:
       default: '1.7976931348623157e+308'
     returns:
       type: None
+
   - name: undo
     raw_doc: Undo the last action that was made.
     signature: 'undo( (Song)arg1) -> str :'
@@ -938,6 +1038,7 @@ primary_class:
       type: Live.Song.Song
     returns:
       type: str
+
   classes:
   - name: View
     path: Live.Song.Song.View
@@ -948,14 +1049,17 @@ primary_class:
       Raises an exception
       This class cannot be instantiated from Python
     constructable: false
+
     properties:
     - name: _live_ptr
       type: int
       settable: false
+
     - name: canonical_parent
       raw_doc: Get the canonical parent of the song view.
       type: Live.Song.Song
       settable: false
+
     - name: detail_clip
       raw_doc: Get/Set the Clip that is currently visible in Lives Detailview.
       type: None
@@ -964,6 +1068,7 @@ primary_class:
       - add_detail_clip_listener
       - remove_detail_clip_listener
       - detail_clip_has_listener
+
     - name: draw_mode
       raw_doc: Get/Set if the Envelope/Note draw mode is enabled.
       type: bool
@@ -972,6 +1077,7 @@ primary_class:
       - add_draw_mode_listener
       - remove_draw_mode_listener
       - draw_mode_has_listener
+
     - name: follow_song
       raw_doc: Get/Set if the Arrangerview should scroll to show the playmarker.
       type: bool
@@ -980,10 +1086,12 @@ primary_class:
       - add_follow_song_listener
       - remove_follow_song_listener
       - follow_song_has_listener
+
     - name: highlighted_clip_slot
       raw_doc: Get/Set the clip slot, defined via the selected track and scene in the Session.Will be None for Main- and Sendtracks.
       type: Live.ClipSlot.ClipSlot
       settable: true
+
     - name: selected_chain
       raw_doc: Get the highlighted chain if available.
       type: None
@@ -992,6 +1100,7 @@ primary_class:
       - add_selected_chain_listener
       - remove_selected_chain_listener
       - selected_chain_has_listener
+
     - name: selected_parameter
       raw_doc: Get the currently selected device parameter.
       type: None
@@ -1000,6 +1109,7 @@ primary_class:
       - add_selected_parameter_listener
       - remove_selected_parameter_listener
       - selected_parameter_has_listener
+
     - name: selected_scene
       raw_doc: Get/Set the current selected scene in Lives Sessionview.
       type: Live.Scene.Scene
@@ -1008,6 +1118,7 @@ primary_class:
       - add_selected_scene_listener
       - remove_selected_scene_listener
       - selected_scene_has_listener
+
     - name: selected_track
       raw_doc: Get/Set the current selected Track in Lives Session or Arrangerview.
       type: Live.Track.Track
@@ -1016,6 +1127,7 @@ primary_class:
       - add_selected_track_listener
       - remove_selected_track_listener
       - selected_track_has_listener
+
     methods:
     - name: select_device
       raw_doc: Select the given device.
@@ -1032,6 +1144,7 @@ primary_class:
         default: 'True'
       returns:
         type: None
+
 classes:
 - name: BeatTime
   path: Live.Song.BeatTime
@@ -1043,19 +1156,24 @@ classes:
         C++ signature :
             void __init__(_object*)
   constructable: true
+
   properties:
   - name: bars
     type: int
     settable: true
+
   - name: beats
     type: int
     settable: true
+
   - name: sub_division
     type: int
     settable: true
+
   - name: ticks
     type: int
     settable: true
+
   methods:
   - name: __init__
     args:
@@ -1063,6 +1181,7 @@ classes:
       type: Live.Song.BeatTime
     returns:
       type: None
+
 - name: CuePoint
   path: Live.Song.CuePoint
   raw_doc: Represents a 'Marker' in the arrangement.
@@ -1072,14 +1191,17 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the cue point.
     type: Live.Song.Song
     settable: false
+
   - name: name
     raw_doc: Get/Set/Listen to the name of this CuePoint, as visible in the arranger.
     type: str
@@ -1088,6 +1210,7 @@ classes:
     - add_name_listener
     - remove_name_listener
     - name_has_listener
+
   - name: time
     raw_doc: Get/Listen to the CuePoint's time in beats.
     type: float
@@ -1096,6 +1219,7 @@ classes:
     - add_time_listener
     - remove_time_listener
     - time_has_listener
+
   methods:
   - name: jump
     raw_doc: |-
@@ -1109,6 +1233,7 @@ classes:
       type: Live.Song.CuePoint
     returns:
       type: None
+
 - name: SmptTime
   path: Live.Song.SmptTime
   raw_doc: |-
@@ -1122,19 +1247,24 @@ classes:
         C++ signature :
             void __init__(_object*)
   constructable: true
+
   properties:
   - name: frames
     type: int
     settable: true
+
   - name: hours
     type: int
     settable: true
+
   - name: minutes
     type: int
     settable: true
+
   - name: seconds
     type: int
     settable: true
+
   methods:
   - name: __init__
     args:
@@ -1142,6 +1272,7 @@ classes:
       type: Live.Song.SmptTime
     returns:
       type: None
+
 enums:
 - name: CaptureDestination
   raw_doc: The destination for MIDI capture.
@@ -1149,11 +1280,13 @@ enums:
     auto: 0
     session: 1
     arrangement: 2
+
 - name: CaptureMode
   raw_doc: The capture mode that is used for capture and insert scene.
   members:
     all: 0
     all_except_selected: 1
+
 - name: Quantization
   members:
     q_no_q: 0
@@ -1170,6 +1303,7 @@ enums:
     q_sixtenth: 11
     q_sixtenth_triplet: 12
     q_thirtytwoth: 13
+
 - name: RecordingQuantization
   members:
     rec_q_no_q: 0
@@ -1181,11 +1315,13 @@ enums:
     rec_q_sixtenth_triplet: 6
     rec_q_sixtenth_sixtenth_triplet: 7
     rec_q_thirtysecond: 8
+
 - name: SessionRecordStatus
   members:
     'off': 0
     transition: 2
     'on': 1
+
 - name: TimeFormat
   members:
     ms_time: 0
@@ -1194,6 +1330,7 @@ enums:
     smpte_30: 3
     smpte_30_drop: 4
     smpte_29: 5
+
 functions:
 - name: get_all_scales_ordered
   raw_doc: Get an ordered tuple of tuples of all available scale names to intervals.

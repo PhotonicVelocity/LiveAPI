@@ -1,4 +1,5 @@
 module: Groove
+
 primary_class:
 - name: Groove
   path: Live.Groove.Groove
@@ -9,18 +10,22 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: base
     raw_doc: Get/set the groove's base grid.
     type: Live.Groove.Base
     settable: true
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the groove.
     type: Live.GroovePool.GroovePool
     settable: false
+
   - name: name
     raw_doc: Read/write/listen access to the groove's name
     type: str
@@ -29,6 +34,7 @@ primary_class:
     - add_name_listener
     - remove_name_listener
     - name_has_listener
+
   - name: quantization_amount
     raw_doc: Read/write/listen access to the groove's quantization amount.
     type: float
@@ -37,6 +43,7 @@ primary_class:
     - add_quantization_amount_listener
     - remove_quantization_amount_listener
     - quantization_amount_has_listener
+
   - name: random_amount
     raw_doc: Read/write/listen access to the groove's random amount.
     type: float
@@ -45,6 +52,7 @@ primary_class:
     - add_random_amount_listener
     - remove_random_amount_listener
     - random_amount_has_listener
+
   - name: timing_amount
     raw_doc: Read/write/listen access to the groove's timing amount.
     type: float
@@ -53,6 +61,7 @@ primary_class:
     - add_timing_amount_listener
     - remove_timing_amount_listener
     - timing_amount_has_listener
+
   - name: velocity_amount
     raw_doc: Read/write/listen access to the groove's velocity amount.
     type: float
@@ -61,6 +70,7 @@ primary_class:
     - add_velocity_amount_listener
     - remove_velocity_amount_listener
     - velocity_amount_has_listener
+
 enums:
 - name: Base
   members:

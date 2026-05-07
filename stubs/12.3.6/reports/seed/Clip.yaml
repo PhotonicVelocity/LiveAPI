@@ -1,4 +1,5 @@
 module: Clip
+
 primary_class:
 - name: Clip
   path: Live.Clip.Clip
@@ -12,24 +13,29 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: automation_envelopes
     raw_doc: Const access to a list of all automation envelopes for this clip.
     type: Live.Base.Vector[Live.Envelope.Envelope]
     settable: false
+
   - name: available_warp_modes
     raw_doc: |-
       Available for AudioClips only.
       Get/Set the available warp modes, that can be used.
     type: Live.Base.IntVector
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Clip.
     type: Live.ClipSlot.ClipSlot
     settable: false
+
   - name: color
     raw_doc: Get/set access to the color of the Clip (RGB).
     type: int
@@ -38,6 +44,7 @@ primary_class:
     - add_color_listener
     - remove_color_listener
     - color_has_listener
+
   - name: color_index
     raw_doc: Get/set access to the color index of the Clip.
     type: int
@@ -46,6 +53,7 @@ primary_class:
     - add_color_index_listener
     - remove_color_index_listener
     - color_index_has_listener
+
   - name: end_marker
     raw_doc: Get/Set the Clips end marker pos in beats/seconds (unit depends on warping).
     type: float
@@ -54,6 +62,7 @@ primary_class:
     - add_end_marker_listener
     - remove_end_marker_listener
     - end_marker_has_listener
+
   - name: end_time
     raw_doc: Get the clip's end time.
     type: float
@@ -62,6 +71,7 @@ primary_class:
     - add_end_time_listener
     - remove_end_time_listener
     - end_time_has_listener
+
   - name: file_path
     raw_doc: Get the path of the file represented by the Audio Clip.
     type: str
@@ -70,6 +80,7 @@ primary_class:
     - add_file_path_listener
     - remove_file_path_listener
     - file_path_has_listener
+
   - name: gain
     raw_doc: |-
       Available for AudioClips only.
@@ -81,10 +92,12 @@ primary_class:
     - add_gain_listener
     - remove_gain_listener
     - gain_has_listener
+
   - name: gain_display_string
     raw_doc: Return a string with the gain as dB value
     type: str
     settable: false
+
   - name: groove
     raw_doc: Get the groove associated with this clip.
     type: None
@@ -93,6 +106,7 @@ primary_class:
     - add_groove_listener
     - remove_groove_listener
     - groove_has_listener
+
   - name: has_envelopes
     raw_doc: Will notify if the clip gets his first envelope or the last envelope is removed.
     type: bool
@@ -101,28 +115,33 @@ primary_class:
     - add_has_envelopes_listener
     - remove_has_envelopes_listener
     - has_envelopes_has_listener
+
   - name: has_groove
     raw_doc: Returns true if a groove is associated with this clip.
     type: bool
     settable: false
+
   - name: is_arrangement_clip
     raw_doc: |-
       return true if this Clip is an Arrangement Clip.
       A Clip can be either a Session or Arrangement Clip.
     type: bool
     settable: false
+
   - name: is_audio_clip
     raw_doc: |-
       Return true if this Clip is an Audio Clip.
       A Clip can be either an Audioclip or a MIDI Clip.
     type: bool
     settable: false
+
   - name: is_midi_clip
     raw_doc: |-
       return true if this Clip is a MIDI Clip.
       A Clip can be either an Audioclip or a MIDI Clip.
     type: bool
     settable: false
+
   - name: is_overdubbing
     raw_doc: returns true if the Clip is recording overdubs
     type: bool
@@ -131,6 +150,7 @@ primary_class:
     - add_is_overdubbing_listener
     - remove_is_overdubbing_listener
     - is_overdubbing_has_listener
+
   - name: is_playing
     raw_doc: |-
       Get/Set if this Clip is currently playing. If the Clips trigger mode
@@ -138,6 +158,7 @@ primary_class:
       If you need to know wether the Clip was triggered, use the is_triggered property.
     type: bool
     settable: true
+
   - name: is_recording
     raw_doc: returns true if the Clip was triggered to record or is recording.
     type: bool
@@ -146,22 +167,26 @@ primary_class:
     - add_is_recording_listener
     - remove_is_recording_listener
     - is_recording_has_listener
+
   - name: is_session_clip
     raw_doc: |-
       return true if this Clip is a Session Clip.
       A Clip can be either a Session or Arrangement Clip.
     type: bool
     settable: false
+
   - name: is_take_lane_clip
     raw_doc: |-
       return true if this Clip is a Take Lane Clip.
       A Take Lane Clip is also always an Arrangement Clip.
     type: bool
     settable: false
+
   - name: is_triggered
     raw_doc: returns true if the Clip was triggered or is playing.
     type: bool
     settable: false
+
   - name: launch_mode
     raw_doc: Get/Set access to the launch mode setting of the Clip.
     type: int
@@ -170,6 +195,7 @@ primary_class:
     - add_launch_mode_listener
     - remove_launch_mode_listener
     - launch_mode_has_listener
+
   - name: launch_quantization
     raw_doc: Get/Set access to the launch quantization setting of the Clip.
     type: int
@@ -178,6 +204,7 @@ primary_class:
     - add_launch_quantization_listener
     - remove_launch_quantization_listener
     - launch_quantization_has_listener
+
   - name: legato
     raw_doc: Get/Set access to the legato setting of the Clip
     type: bool
@@ -186,10 +213,12 @@ primary_class:
     - add_legato_listener
     - remove_legato_listener
     - legato_has_listener
+
   - name: length
     raw_doc: Get to the Clips length in beats/seconds (unit depends on warping).
     type: float
     settable: false
+
   - name: loop_end
     raw_doc: Get/Set the loop end pos of this Clip in beats/seconds (unit depends on warping).
     type: float
@@ -198,6 +227,7 @@ primary_class:
     - add_loop_end_listener
     - remove_loop_end_listener
     - loop_end_has_listener
+
   - name: loop_start
     raw_doc: Get/Set the Clips loopstart pos in beats/seconds (unit depends on warping).
     type: float
@@ -206,6 +236,7 @@ primary_class:
     - add_loop_start_listener
     - remove_loop_start_listener
     - loop_start_has_listener
+
   - name: looping
     raw_doc: |-
       Get/Set the Clips 'loop is enabled' flag
@@ -216,6 +247,7 @@ primary_class:
     - add_looping_listener
     - remove_looping_listener
     - looping_has_listener
+
   - name: muted
     raw_doc: Read/write access to the mute state of the Clip.
     type: bool
@@ -224,6 +256,7 @@ primary_class:
     - add_muted_listener
     - remove_muted_listener
     - muted_has_listener
+
   - name: name
     raw_doc: Read/write access to the name of the Clip.
     type: str
@@ -232,6 +265,7 @@ primary_class:
     - add_name_listener
     - remove_name_listener
     - name_has_listener
+
   - name: pitch_coarse
     raw_doc: |-
       Available for AudioClips only.
@@ -243,6 +277,7 @@ primary_class:
     - add_pitch_coarse_listener
     - remove_pitch_coarse_listener
     - pitch_coarse_has_listener
+
   - name: pitch_fine
     raw_doc: |-
       Available for AudioClips only.
@@ -254,6 +289,7 @@ primary_class:
     - add_pitch_fine_listener
     - remove_pitch_fine_listener
     - pitch_fine_has_listener
+
   - name: playing_position
     raw_doc: |-
       Constant access to the current playing position of the clip.
@@ -265,6 +301,7 @@ primary_class:
     - add_playing_position_listener
     - remove_playing_position_listener
     - playing_position_has_listener
+
   - name: position
     raw_doc: Get/Set the loop position of this Clip in beats/seconds (unit depends on warping).
     type: float
@@ -273,6 +310,7 @@ primary_class:
     - add_position_listener
     - remove_position_listener
     - position_has_listener
+
   - name: ram_mode
     raw_doc: |-
       Available for AudioClips only.
@@ -283,18 +321,21 @@ primary_class:
     - add_ram_mode_listener
     - remove_ram_mode_listener
     - ram_mode_has_listener
+
   - name: sample_length
     raw_doc: |-
       Available for AudioClips only.
       Get the sample length in sample time or -1 if there is no sample available.
     type: int
     settable: false
+
   - name: sample_rate
     raw_doc: |-
       Available for AudioClips only.
       Read-only access to the Clip's sampling rate.
     type: float
     settable: false
+
   - name: signature_denominator
     raw_doc: Get/Set access to the global signature denominator of the Clip.
     type: int
@@ -303,6 +344,7 @@ primary_class:
     - add_signature_denominator_listener
     - remove_signature_denominator_listener
     - signature_denominator_has_listener
+
   - name: signature_numerator
     raw_doc: Get/Set access to the global signature numerator of the Clip.
     type: int
@@ -311,6 +353,7 @@ primary_class:
     - add_signature_numerator_listener
     - remove_signature_numerator_listener
     - signature_numerator_has_listener
+
   - name: start_marker
     raw_doc: Get/Set the Clips start marker pos in beats/seconds (unit depends on warping).
     type: float
@@ -319,6 +362,7 @@ primary_class:
     - add_start_marker_listener
     - remove_start_marker_listener
     - start_marker_has_listener
+
   - name: start_time
     raw_doc: Get the clip's start time offset. For Session View clips, this is the time the clip was started. For Arrangement View clips, this is the offset within the arrangement.
     type: float
@@ -327,6 +371,7 @@ primary_class:
     - add_start_time_listener
     - remove_start_time_listener
     - start_time_has_listener
+
   - name: velocity_amount
     raw_doc: Get/Set access to the velocity to volume amount of the Clip.
     type: float
@@ -335,10 +380,12 @@ primary_class:
     - add_velocity_amount_listener
     - remove_velocity_amount_listener
     - velocity_amount_has_listener
+
   - name: view
     raw_doc: Get the view of the Clip.
     type: Live.Clip.Clip.View
     settable: false
+
   - name: warp_markers
     raw_doc: |-
       Available for AudioClips only.
@@ -349,6 +396,7 @@ primary_class:
     - add_warp_markers_listener
     - remove_warp_markers_listener
     - warp_markers_has_listener
+
   - name: warp_mode
     raw_doc: |-
       Available for AudioClips only.
@@ -359,6 +407,7 @@ primary_class:
     - add_warp_mode_listener
     - remove_warp_mode_listener
     - warp_mode_has_listener
+
   - name: warping
     raw_doc: |-
       Available for AudioClips only.
@@ -369,25 +418,30 @@ primary_class:
     - add_warping_listener
     - remove_warping_listener
     - warping_has_listener
+
   - name: will_record_on_start
     raw_doc: returns true if the Clip will record on being started.
     type: bool
     settable: false
+
   - name: loop_jump
     listenable:
     - add_loop_jump_listener
     - remove_loop_jump_listener
     - loop_jump_has_listener
+
   - name: notes
     listenable:
     - add_notes_listener
     - remove_notes_listener
     - notes_has_listener
+
   - name: playing_status
     listenable:
     - add_playing_status_listener
     - remove_playing_status_listener
     - playing_status_has_listener
+
   methods:
   - name: add_new_notes
     raw_doc: |-
@@ -402,6 +456,7 @@ primary_class:
       type: object
     returns:
       type: Live.Base.IntU64Vector
+
   - name: add_warp_marker
     raw_doc: |-
       Available for AudioClips only.
@@ -415,6 +470,7 @@ primary_class:
       type: object
     returns:
       type: None
+
   - name: apply_note_modifications
     raw_doc: |-
       Expects a list of notes as returned from get_notes_extended. The content
@@ -435,6 +491,7 @@ primary_class:
       type: Live.Clip.MidiNoteVector
     returns:
       type: None
+
   - name: automation_envelope
     raw_doc: Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track.
     signature: 'automation_envelope( (Clip)arg1, (DeviceParameter)arg2) -> Envelope :'
@@ -446,6 +503,7 @@ primary_class:
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: Live.Envelope.Envelope
+
   - name: beat_to_sample_time
     raw_doc: |-
       Available for AudioClips only.
@@ -459,6 +517,7 @@ primary_class:
       type: float
     returns:
       type: float
+
   - name: clear_all_envelopes
     raw_doc: Clears all envelopes for this clip.
     signature: 'clear_all_envelopes( (Clip)arg1) -> None :'
@@ -468,6 +527,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: clear_envelope
     raw_doc: Clears the envelope of this clips given parameter.
     signature: 'clear_envelope( (Clip)arg1, (DeviceParameter)arg2) -> None :'
@@ -479,6 +539,7 @@ primary_class:
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
+
   - name: create_automation_envelope
     raw_doc: Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created.
     signature: 'create_automation_envelope( (Clip)arg1, (DeviceParameter)arg2) -> Envelope :'
@@ -490,6 +551,7 @@ primary_class:
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: Live.Envelope.Envelope
+
   - name: crop
     raw_doc: |-
       Crops the clip. The region that is cropped depends on whether the clip is
@@ -502,6 +564,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: deselect_all_notes
     raw_doc: De-selects all notes present in the clip.
     signature: 'deselect_all_notes( (Clip)arg1) -> None :'
@@ -511,6 +574,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: duplicate_loop
     raw_doc: |-
       Make the loop two times longer and duplicates notes and envelopes.
@@ -522,6 +586,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: duplicate_notes_by_id
     raw_doc: |-
       Duplicate all notes matching the given note IDs.
@@ -548,6 +613,7 @@ primary_class:
       default: '0'
     returns:
       type: Live.Base.IntU64Vector
+
   - name: duplicate_region
     raw_doc: |-
       Duplicate the notes in the specified region to the destination_time.
@@ -575,6 +641,7 @@ primary_class:
       default: '0'
     returns:
       type: None
+
   - name: fire
     raw_doc: (Re)Start playing this Clip.
     signature: 'fire( (Clip)arg1) -> None :'
@@ -584,6 +651,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: get_all_notes_extended
     raw_doc: |-
       Returns a list of all MIDI notes from the clip, regardless of their position
@@ -598,6 +666,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: Live.Clip.MidiNoteVector
+
   - name: get_notes
     raw_doc: |-
       Returns a tuple of tuples where each inner tuple represents
@@ -618,6 +687,7 @@ primary_class:
       type: int
     returns:
       type: tuple
+
   - name: get_notes_by_id
     raw_doc: Return a list of MIDI notes matching the given note IDs.
     signature: 'get_notes_by_id( (Clip)arg1, (object)note_ids) -> MidiNoteVector :'
@@ -629,6 +699,7 @@ primary_class:
       type: object
     returns:
       type: Live.Clip.MidiNoteVector
+
   - name: get_notes_extended
     raw_doc: |-
       Returns a list of MIDI notes from the given pitch and time range.
@@ -650,6 +721,7 @@ primary_class:
       type: float
     returns:
       type: Live.Clip.MidiNoteVector
+
   - name: get_selected_notes
     raw_doc: |-
       Returns a tuple of tuples where each inner tuple
@@ -662,6 +734,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: tuple
+
   - name: get_selected_notes_extended
     raw_doc: |-
       Returns a list of all MIDI notes from the clip that are currently selected.
@@ -675,6 +748,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: Live.Clip.MidiNoteVector
+
   - name: move_playing_pos
     raw_doc: |-
       Jump forward or backward by the specified relative amount in beats.
@@ -688,6 +762,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: move_warp_marker
     raw_doc: |-
       Available for AudioClips only.
@@ -703,6 +778,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: note_number_to_name
     raw_doc: |-
       Return a human-readable name for the given MIDI note number.
@@ -717,6 +793,7 @@ primary_class:
       type: int
     returns:
       type: str
+
   - name: quantize
     raw_doc: Quantize all notes in a clip or align warp markers.
     signature: 'quantize( (Clip)arg1, (int)arg2, (float)arg3) -> None :'
@@ -730,6 +807,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: quantize_pitch
     raw_doc: Quantize all the notes of a given pitch. Raises an error on audio clips.
     signature: 'quantize_pitch( (Clip)arg1, (int)arg2, (int)arg3, (float)arg4) -> None :'
@@ -745,6 +823,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: remove_notes
     raw_doc: Delete all notes starting in the given pitch- and time range.
     signature: 'remove_notes( (Clip)arg1, (float)arg2, (int)arg3, (float)arg4, (int)arg5) -> None :'
@@ -762,6 +841,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: remove_notes_by_id
     raw_doc: |-
       Delete all notes matching the given note IDs.
@@ -778,6 +858,7 @@ primary_class:
       type: object
     returns:
       type: None
+
   - name: remove_notes_extended
     raw_doc: |-
       Delete all notes starting in the given pitch and time range.
@@ -800,6 +881,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: remove_warp_marker
     raw_doc: |-
       Available for AudioClips only.
@@ -813,6 +895,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: replace_selected_notes
     raw_doc: |-
       Called with a tuple of tuples where each inner tuple represents
@@ -827,6 +910,7 @@ primary_class:
       type: tuple
     returns:
       type: None
+
   - name: sample_to_beat_time
     raw_doc: |-
       Available for AudioClips only.
@@ -840,6 +924,7 @@ primary_class:
       type: float
     returns:
       type: float
+
   - name: scrub
     raw_doc: |-
       Scrubs inside a clip.
@@ -855,6 +940,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: seconds_to_sample_time
     raw_doc: |-
       Available for AudioClips only.
@@ -868,6 +954,7 @@ primary_class:
       type: float
     returns:
       type: float
+
   - name: select_all_notes
     raw_doc: Selects all notes present in the clip.
     signature: 'select_all_notes( (Clip)arg1) -> None :'
@@ -877,6 +964,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: select_notes_by_id
     raw_doc: Selects all notes matching the given note IDs.
     signature: 'select_notes_by_id( (Clip)arg1, (object)arg2) -> None :'
@@ -888,6 +976,7 @@ primary_class:
       type: object
     returns:
       type: None
+
   - name: set_fire_button_state
     raw_doc: Set the clip's fire button state directly. Supports all launch modes.
     signature: 'set_fire_button_state( (Clip)arg1, (bool)arg2) -> None :'
@@ -899,6 +988,7 @@ primary_class:
       type: bool
     returns:
       type: None
+
   - name: set_notes
     raw_doc: |-
       Called with a tuple of tuples where each inner tuple represents
@@ -913,6 +1003,7 @@ primary_class:
       type: tuple
     returns:
       type: None
+
   - name: stop
     raw_doc: Stop playing this Clip.
     signature: 'stop( (Clip)arg1) -> None :'
@@ -922,6 +1013,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   - name: stop_scrub
     raw_doc: Stops the current scrub.
     signature: 'stop_scrub( (Clip)arg1) -> None :'
@@ -931,6 +1023,7 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: None
+
   classes:
   - name: View
     path: Live.Clip.Clip.View
@@ -941,22 +1034,27 @@ primary_class:
       Raises an exception
       This class cannot be instantiated from Python
     constructable: false
+
     properties:
     - name: _live_ptr
       type: int
       settable: false
+
     - name: canonical_parent
       raw_doc: Get the canonical parent of the clip view.
       type: Live.Clip.Clip
       settable: false
+
     - name: grid_is_triplet
       raw_doc: Get/set wether the grid is showing in triplet mode.
       type: bool
       settable: true
+
     - name: grid_quantization
       raw_doc: Get/set clip grid quantization resolution.
       type: Live.Clip.GridQuantization
       settable: true
+
     methods:
     - name: hide_envelope
       raw_doc: Hide the envelope view.
@@ -967,6 +1065,7 @@ primary_class:
         type: Live.Clip.Clip.View
       returns:
         type: None
+
     - name: select_envelope_parameter
       raw_doc: Select the given device parameter in the envelope view.
       signature: 'select_envelope_parameter( (View)arg1, (DeviceParameter)arg2) -> None :'
@@ -978,6 +1077,7 @@ primary_class:
         type: Live.DeviceParameter.DeviceParameter
       returns:
         type: None
+
     - name: show_envelope
       raw_doc: Show the envelope view.
       signature: 'show_envelope( (View)arg1) -> None :'
@@ -987,6 +1087,7 @@ primary_class:
         type: Live.Clip.Clip.View
       returns:
         type: None
+
     - name: show_loop
       raw_doc: Show the entire loop in the detail view.
       signature: 'show_loop( (View)arg1) -> None :'
@@ -996,6 +1097,7 @@ primary_class:
         type: Live.Clip.Clip.View
       returns:
         type: None
+
 classes:
 - name: MidiNote
   path: Live.Clip.MidiNote
@@ -1005,37 +1107,47 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: duration
     type: float
     settable: true
+
   - name: mute
     type: bool
     settable: true
+
   - name: note_id
     raw_doc: |-
       A numerical ID that's unique within the originating clip of the note. Not to be
       used directly, but important for other API calls, namely apply_note_modifications.
     type: int
     settable: false
+
   - name: pitch
     type: int
     settable: true
+
   - name: probability
     type: float
     settable: true
+
   - name: release_velocity
     type: float
     settable: true
+
   - name: start_time
     type: float
     settable: true
+
   - name: velocity
     type: float
     settable: true
+
   - name: velocity_deviation
     type: float
     settable: true
+
 - name: MidiNoteSpecification
   path: Live.Clip.MidiNoteSpecification
   raw_doc: |-
@@ -1050,6 +1162,7 @@ classes:
         C++ signature :
             void __init__(_object*,int,double,double [,float=100.0 [,bool=False [,float=1.0 [,float=0.0 [,float=64.0]]]]])
   constructable: true
+
   methods:
   - name: __init__
     args:
@@ -1083,6 +1196,7 @@ classes:
       default: '64.0'
     returns:
       type: None
+
 - name: MidiNoteVector
   path: Live.Clip.MidiNoteVector
   raw_doc: A container for holding MIDI notes from Live.
@@ -1093,6 +1207,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Clip.MidiNote
+
   methods:
   - name: append
     signature: 'append( (MidiNoteVector)arg1, (object)arg2) -> None :'
@@ -1104,6 +1219,7 @@ classes:
       type: Live.Clip.MidiNote
     returns:
       type: None
+
   - name: extend
     signature: 'extend( (MidiNoteVector)arg1, (object)arg2) -> None :'
     cpp_signature: void extend(std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> {lvalue},boost::python::api::object)
@@ -1114,6 +1230,7 @@ classes:
       type: Iterable[Live.Clip.MidiNote]
     returns:
       type: None
+
 - name: WarpMarker
   path: Live.Clip.WarpMarker
   raw_doc: This class represents a WarpMarker type.
@@ -1125,15 +1242,18 @@ classes:
         C++ signature :
             void __init__(_object*,double,double)
   constructable: true
+
   properties:
   - name: beat_time
     raw_doc: A WarpMarker's beat time.
     type: float
     settable: false
+
   - name: sample_time
     raw_doc: A WarpMarker's sample time.
     type: float
     settable: false
+
   methods:
   - name: __init__
     args:
@@ -1145,6 +1265,7 @@ classes:
       type: float
     returns:
       type: None
+
 - name: WarpMarkerVector
   path: Live.Clip.WarpMarkerVector
   raw_doc: A container for returning warp markers from Live.
@@ -1155,6 +1276,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Clip.WarpMarker
+
   methods:
   - name: append
     signature: 'append( (WarpMarkerVector)arg1, (object)arg2) -> None :'
@@ -1166,6 +1288,7 @@ classes:
       type: Live.Clip.WarpMarker
     returns:
       type: None
+
   - name: extend
     signature: 'extend( (WarpMarkerVector)arg1, (object)arg2) -> None :'
     cpp_signature: void extend(std::__1::vector<NApiHelpers::TWarpMarker, std::__1::allocator<NApiHelpers::TWarpMarker>> {lvalue},boost::python::api::object)
@@ -1176,6 +1299,7 @@ classes:
       type: Iterable[Live.Clip.WarpMarker]
     returns:
       type: None
+
 enums:
 - name: ClipLaunchQuantization
   members:
@@ -1194,6 +1318,7 @@ enums:
     q_sixteenth: 12
     q_sixteenth_triplet: 13
     q_thirtysecond: 14
+
 - name: GridQuantization
   members:
     no_grid: 0
@@ -1207,12 +1332,14 @@ enums:
     g_sixteenth: 8
     g_thirtysecond: 9
     count: 10
+
 - name: LaunchMode
   members:
     trigger: 0
     gate: 1
     toggle: 2
     repeat: 3
+
 - name: WarpMode
   members:
     beats: 0

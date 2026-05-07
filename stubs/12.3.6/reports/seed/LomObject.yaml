@@ -1,4 +1,5 @@
 module: LomObject
+
 primary_class:
 - name: LomObject
   path: Live.LomObject.LomObject
@@ -8,6 +9,7 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int

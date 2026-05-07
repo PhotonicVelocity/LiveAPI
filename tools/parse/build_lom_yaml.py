@@ -1132,6 +1132,68 @@ _Dumper.add_representer(str, _str_representer)
 _Dumper.ignore_aliases = lambda self, data: True  # type: ignore[method-assign]
 
 
+_SECTION_KEYS = frozenset({
+    "primary_class", "classes", "enums", "functions", "constants",
+    "properties", "methods",
+})
+_KEY_ONLY_RE = re.compile(r"^(\s*)([A-Za-z_][A-Za-z0-9_]*):\s*$")
+_LITERAL_OPEN_RE = re.compile(r":\s*\|-?\s*$")
+_LIST_ITEM_RE = re.compile(r"^(\s*)- ")
+
+
+def _add_blank_lines(text: str) -> str:
+    """Insert blank lines between sibling list items under structural section
+    keys (properties, methods, classes, ...) for readability. Also inserts a
+    blank line before each new structural section key. Skips literal blocks.
+    """
+    lines = text.split("\n")
+    result: list[str] = []
+    parent_key_at_indent: dict[int, str] = {}
+    seen_first_item_at_indent: dict[int, bool] = {}
+    literal_indent: int | None = None
+
+    for line in lines:
+        if not line.strip():
+            literal_indent = None
+            result.append(line)
+            continue
+
+        indent = len(line) - len(line.lstrip())
+
+        if literal_indent is not None:
+            if indent > literal_indent:
+                result.append(line)
+                continue
+            literal_indent = None
+
+        for ind in [k for k in parent_key_at_indent if k > indent]:
+            parent_key_at_indent.pop(ind, None)
+            seen_first_item_at_indent.pop(ind, None)
+
+        m_list = _LIST_ITEM_RE.match(line)
+        m_key = _KEY_ONLY_RE.match(line)
+
+        if m_list:
+            parent = parent_key_at_indent.get(indent)
+            if parent in _SECTION_KEYS:
+                if seen_first_item_at_indent.get(indent, False) and result and result[-1].strip():
+                    result.append("")
+                seen_first_item_at_indent[indent] = True
+        elif m_key:
+            key = m_key.group(2)
+            parent_key_at_indent[indent] = key
+            seen_first_item_at_indent[indent] = False
+            if key in _SECTION_KEYS and result and result[-1].strip():
+                result.append("")
+
+        if _LITERAL_OPEN_RE.search(line):
+            literal_indent = indent
+
+        result.append(line)
+
+    return "\n".join(result)
+
+
 def emit_yaml(data: dict[str, Any], path: Path) -> None:
     text = yaml.dump(
         data,
@@ -1141,7 +1203,7 @@ def emit_yaml(data: dict[str, Any], path: Path) -> None:
         allow_unicode=True,
         width=10000,
     )
-    path.write_text(text)
+    path.write_text(_add_blank_lines(text))
 
 # endregion
 

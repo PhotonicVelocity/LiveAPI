@@ -1,4 +1,5 @@
 module: HybridReverbDevice
+
 primary_class:
 - name: HybridReverbDevice
   path: Live.HybridReverbDevice.HybridReverbDevice
@@ -10,34 +11,42 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
     type: bool
     settable: false
+
   - name: can_have_chains
     raw_doc: Returns true if the device is a rack.
     type: bool
     settable: false
+
   - name: can_have_drum_pads
     raw_doc: Returns true if the device is a drum rack.
     type: bool
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Device.
     type: Live.Track.Track
     settable: false
+
   - name: class_display_name
     raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
     type: str
     settable: false
+
   - name: class_name
     raw_doc: Return const access to the name of the device's class.
     type: str
     settable: false
+
   - name: ir_attack_time
     raw_doc: Return the current IrAttackTime
     type: float
@@ -46,6 +55,7 @@ primary_class:
     - add_ir_attack_time_listener
     - remove_ir_attack_time_listener
     - ir_attack_time_has_listener
+
   - name: ir_category_index
     raw_doc: Return the current IR category index
     type: int
@@ -54,10 +64,12 @@ primary_class:
     - add_ir_category_index_listener
     - remove_ir_category_index_listener
     - ir_category_index_has_listener
+
   - name: ir_category_list
     raw_doc: Return the current IR categories list
     type: Live.Base.StringVector
     settable: false
+
   - name: ir_decay_time
     raw_doc: Return the current IrDecayTime
     type: float
@@ -66,6 +78,7 @@ primary_class:
     - add_ir_decay_time_listener
     - remove_ir_decay_time_listener
     - ir_decay_time_has_listener
+
   - name: ir_file_index
     raw_doc: Return the current IR file index
     type: int
@@ -74,6 +87,7 @@ primary_class:
     - add_ir_file_index_listener
     - remove_ir_file_index_listener
     - ir_file_index_has_listener
+
   - name: ir_file_list
     raw_doc: Return the current IR file list
     type: Live.Base.StringVector
@@ -82,6 +96,7 @@ primary_class:
     - add_ir_file_list_listener
     - remove_ir_file_list_listener
     - ir_file_list_has_listener
+
   - name: ir_size_factor
     raw_doc: Return the current IrSizeFactor
     type: float
@@ -90,6 +105,7 @@ primary_class:
     - add_ir_size_factor_listener
     - remove_ir_size_factor_listener
     - ir_size_factor_has_listener
+
   - name: ir_time_shaping_on
     raw_doc: Return the current IrTimeShapingOn
     type: bool
@@ -98,34 +114,42 @@ primary_class:
     - add_ir_time_shaping_on_listener
     - remove_ir_time_shaping_on_listener
     - ir_time_shaping_on_has_listener
+
   - name: is_active
     raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
     type: bool
     settable: false
+
   - name: is_using_compare_preset_b
     raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
     type: bool
     settable: true
+
   - name: latency_in_ms
     raw_doc: Returns the latency of the device in ms.
     type: float
     settable: false
+
   - name: latency_in_samples
     raw_doc: Returns the latency of the device in samples.
     type: int
     settable: false
+
   - name: name
     raw_doc: Return access to the name of the device.
     type: str
     settable: true
+
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
     settable: false
+
   - name: type
     raw_doc: Return the type of the device.
     type: Live.Device.DeviceType
     settable: false
+
   - name: view
     raw_doc: Representing the view aspects of a device.
     type: Live.Device.Device.View

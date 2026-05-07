@@ -1,4 +1,5 @@
 module: Sample
+
 primary_class:
 - name: Sample
   path: Live.Sample.Sample
@@ -9,10 +10,12 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: beats_granulation_resolution
     raw_doc: Access to the Granulation Resolution parameter in Beats Warp Mode.
     type: int
@@ -21,6 +24,7 @@ primary_class:
     - add_beats_granulation_resolution_listener
     - remove_beats_granulation_resolution_listener
     - beats_granulation_resolution_has_listener
+
   - name: beats_transient_envelope
     raw_doc: Access to the Transient Envelope parameter in Beats Warp Mode.
     type: float
@@ -29,6 +33,7 @@ primary_class:
     - add_beats_transient_envelope_listener
     - remove_beats_transient_envelope_listener
     - beats_transient_envelope_has_listener
+
   - name: beats_transient_loop_mode
     raw_doc: Access to the Transient Loop Mode parameter in Beats Warp Mode.
     type: int
@@ -37,10 +42,12 @@ primary_class:
     - add_beats_transient_loop_mode_listener
     - remove_beats_transient_loop_mode_listener
     - beats_transient_loop_mode_has_listener
+
   - name: canonical_parent
     raw_doc: Access to the sample's canonical parent.
     type: Live.SimplerDevice.SimplerDevice
     settable: false
+
   - name: complex_pro_envelope
     raw_doc: Access to the Envelope parameter in Complex Pro Mode.
     type: float
@@ -49,6 +56,7 @@ primary_class:
     - add_complex_pro_envelope_listener
     - remove_complex_pro_envelope_listener
     - complex_pro_envelope_has_listener
+
   - name: complex_pro_formants
     raw_doc: Access to the Formants parameter in Complex Pro Warp Mode.
     type: float
@@ -57,6 +65,7 @@ primary_class:
     - add_complex_pro_formants_listener
     - remove_complex_pro_formants_listener
     - complex_pro_formants_has_listener
+
   - name: end_marker
     raw_doc: Access to the position of the sample's end marker.
     type: int
@@ -65,6 +74,7 @@ primary_class:
     - add_end_marker_listener
     - remove_end_marker_listener
     - end_marker_has_listener
+
   - name: file_path
     raw_doc: Get the path of the sample file.
     type: str
@@ -73,6 +83,7 @@ primary_class:
     - add_file_path_listener
     - remove_file_path_listener
     - file_path_has_listener
+
   - name: gain
     raw_doc: Access to the sample gain.
     type: float
@@ -81,14 +92,17 @@ primary_class:
     - add_gain_listener
     - remove_gain_listener
     - gain_has_listener
+
   - name: length
     raw_doc: Get the length of the sample file in sample frames.
     type: int
     settable: false
+
   - name: sample_rate
     raw_doc: Access to the audio sample rate of the sample.
     type: float
     settable: false
+
   - name: slices
     raw_doc: Access to the list of slice points in sample time in the sample.
     type: tuple
@@ -97,6 +111,7 @@ primary_class:
     - add_slices_listener
     - remove_slices_listener
     - slices_has_listener
+
   - name: slicing_beat_division
     raw_doc: Access to sample's slicing step size.
     type: int
@@ -105,6 +120,7 @@ primary_class:
     - add_slicing_beat_division_listener
     - remove_slicing_beat_division_listener
     - slicing_beat_division_has_listener
+
   - name: slicing_region_count
     raw_doc: Access to sample's slicing split count.
     type: int
@@ -113,6 +129,7 @@ primary_class:
     - add_slicing_region_count_listener
     - remove_slicing_region_count_listener
     - slicing_region_count_has_listener
+
   - name: slicing_sensitivity
     raw_doc: |-
       Access to sample's slicing sensitivity whose sensitivity is in between 0.0 and 1.0.
@@ -123,6 +140,7 @@ primary_class:
     - add_slicing_sensitivity_listener
     - remove_slicing_sensitivity_listener
     - slicing_sensitivity_has_listener
+
   - name: slicing_style
     raw_doc: Access to sample's slicing style.
     type: int
@@ -131,6 +149,7 @@ primary_class:
     - add_slicing_style_listener
     - remove_slicing_style_listener
     - slicing_style_has_listener
+
   - name: start_marker
     raw_doc: Access to the position of the sample's start marker.
     type: int
@@ -139,6 +158,7 @@ primary_class:
     - add_start_marker_listener
     - remove_start_marker_listener
     - start_marker_has_listener
+
   - name: texture_flux
     raw_doc: Access to the Flux parameter in Texture Warp Mode.
     type: float
@@ -147,6 +167,7 @@ primary_class:
     - add_texture_flux_listener
     - remove_texture_flux_listener
     - texture_flux_has_listener
+
   - name: texture_grain_size
     raw_doc: Access to the Grain Size parameter in Texture Warp Mode.
     type: float
@@ -155,6 +176,7 @@ primary_class:
     - add_texture_grain_size_listener
     - remove_texture_grain_size_listener
     - texture_grain_size_has_listener
+
   - name: tones_grain_size
     raw_doc: Access to the Grain Size parameter in Tones Warp Mode.
     type: float
@@ -163,6 +185,7 @@ primary_class:
     - add_tones_grain_size_listener
     - remove_tones_grain_size_listener
     - tones_grain_size_has_listener
+
   - name: warp_markers
     raw_doc: Get the warp markers for this sample.
     type: Live.Clip.WarpMarkerVector
@@ -171,6 +194,7 @@ primary_class:
     - add_warp_markers_listener
     - remove_warp_markers_listener
     - warp_markers_has_listener
+
   - name: warp_mode
     raw_doc: Access to the sample's warp mode.
     type: int
@@ -179,6 +203,7 @@ primary_class:
     - add_warp_mode_listener
     - remove_warp_mode_listener
     - warp_mode_has_listener
+
   - name: warping
     raw_doc: Access to the sample's warping property.
     type: bool
@@ -187,6 +212,7 @@ primary_class:
     - add_warping_listener
     - remove_warping_listener
     - warping_has_listener
+
   methods:
   - name: beat_to_sample_time
     raw_doc: Converts the given beat time to sample time. Raises an error if the sample is not warped.
@@ -199,6 +225,7 @@ primary_class:
       type: float
     returns:
       type: float
+
   - name: clear_slices
     raw_doc: Clears all slices created in Simpler's manual mode.
     signature: 'clear_slices( (Sample)self) -> None :'
@@ -208,6 +235,7 @@ primary_class:
       type: Live.Sample.Sample
     returns:
       type: None
+
   - name: gain_display_string
     raw_doc: Get the gain's display value as a string.
     signature: 'gain_display_string( (Sample)self) -> str :'
@@ -217,6 +245,7 @@ primary_class:
       type: Live.Sample.Sample
     returns:
       type: str
+
   - name: insert_slice
     raw_doc: Add a slice point at the provided time if there is none.
     signature: 'insert_slice( (Sample)self, (int)slice_time) -> None :'
@@ -228,6 +257,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: move_slice
     raw_doc: Move the slice point at the provided time.
     signature: 'move_slice( (Sample)self, (int)old_time, (int)new_time) -> int :'
@@ -241,6 +271,7 @@ primary_class:
       type: int
     returns:
       type: int
+
   - name: remove_slice
     raw_doc: Remove the slice point at the provided time if there is one.
     signature: 'remove_slice( (Sample)self, (int)slice_time) -> None :'
@@ -252,6 +283,7 @@ primary_class:
       type: int
     returns:
       type: None
+
   - name: reset_slices
     raw_doc: Resets all edited slices to their original positions.
     signature: 'reset_slices( (Sample)self) -> None :'
@@ -261,6 +293,7 @@ primary_class:
       type: Live.Sample.Sample
     returns:
       type: None
+
   - name: sample_to_beat_time
     raw_doc: Converts the given sample time to beat time. Raises an error if the sample is not warped.
     signature: 'sample_to_beat_time( (Sample)self, (float)sample_time) -> float :'
@@ -272,6 +305,7 @@ primary_class:
       type: float
     returns:
       type: float
+
 enums:
 - name: SlicingBeatDivision
   members:
@@ -286,12 +320,14 @@ enums:
     one_bar: 8
     two_bars: 9
     four_bars: 10
+
 - name: SlicingStyle
   members:
     transient: 0
     beat: 1
     region: 2
     manual: 3
+
 - name: TransientLoopMode
   members:
     'off': 0

@@ -1,4 +1,5 @@
 module: TakeLane
+
 primary_class:
 - name: TakeLane
   path: Live.TakeLane.TakeLane
@@ -9,10 +10,12 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: arrangement_clips
     raw_doc: Read-only access to the arrangement clips in the take lane.
     type: Live.Base.Vector[Live.Clip.Clip]
@@ -21,10 +24,12 @@ primary_class:
     - add_arrangement_clips_listener
     - remove_arrangement_clips_listener
     - arrangement_clips_has_listener
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the take lane.
     type: Live.Track.Track
     settable: false
+
   - name: name
     raw_doc: Read/write access to the name of the TakeLane, as visible in the take lane header.
     type: str
@@ -33,6 +38,7 @@ primary_class:
     - add_name_listener
     - remove_name_listener
     - name_has_listener
+
   methods:
   - name: create_audio_clip
     raw_doc: |-
@@ -49,6 +55,7 @@ primary_class:
       type: float
     returns:
       type: Live.Clip.Clip
+
   - name: create_midi_clip
     raw_doc: |-
       Creates an empty MIDI clip and inserts it into the arrangement at the specified time.

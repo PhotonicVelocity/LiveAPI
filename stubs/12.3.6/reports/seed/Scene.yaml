@@ -1,4 +1,5 @@
 module: Scene
+
 primary_class:
 - name: Scene
   path: Live.Scene.Scene
@@ -9,14 +10,17 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the scene.
     type: Live.Song.Song
     settable: false
+
   - name: clip_slots
     raw_doc: return a list of clipslots (see class AClipSlot) that this scene covers.
     type: Live.Base.Vector[Live.ClipSlot.ClipSlot]
@@ -25,6 +29,7 @@ primary_class:
     - add_clip_slots_listener
     - remove_clip_slots_listener
     - clip_slots_has_listener
+
   - name: color
     raw_doc: Get/set access to the color of the scene (RGB).
     type: int
@@ -33,6 +38,7 @@ primary_class:
     - add_color_listener
     - remove_color_listener
     - color_has_listener
+
   - name: color_index
     raw_doc: Get/set access to the color index of the scene. Can be None for no color.
     type: None
@@ -41,10 +47,12 @@ primary_class:
     - add_color_index_listener
     - remove_color_index_listener
     - color_index_has_listener
+
   - name: is_empty
     raw_doc: Returns True if all clip slots of this scene are empty.
     type: bool
     settable: false
+
   - name: is_triggered
     raw_doc: Const access to the scene's trigger state.
     type: bool
@@ -53,6 +61,7 @@ primary_class:
     - add_is_triggered_listener
     - remove_is_triggered_listener
     - is_triggered_has_listener
+
   - name: name
     raw_doc: Get/Set the name of the scene.
     type: str
@@ -61,6 +70,7 @@ primary_class:
     - add_name_listener
     - remove_name_listener
     - name_has_listener
+
   - name: tempo
     raw_doc: |-
       Get/Set the tempo value of the scene.
@@ -72,6 +82,7 @@ primary_class:
     - add_tempo_listener
     - remove_tempo_listener
     - tempo_has_listener
+
   - name: tempo_enabled
     raw_doc: |-
       Get/Set the active state of the scene tempo.
@@ -82,6 +93,7 @@ primary_class:
     - add_tempo_enabled_listener
     - remove_tempo_enabled_listener
     - tempo_enabled_has_listener
+
   - name: time_signature_denominator
     raw_doc: |-
       Get/Set the scene's time signature denominator.
@@ -93,6 +105,7 @@ primary_class:
     - add_time_signature_denominator_listener
     - remove_time_signature_denominator_listener
     - time_signature_denominator_has_listener
+
   - name: time_signature_enabled
     raw_doc: |-
       Get the active state of the scene time signature.
@@ -103,6 +116,7 @@ primary_class:
     - add_time_signature_enabled_listener
     - remove_time_signature_enabled_listener
     - time_signature_enabled_has_listener
+
   - name: time_signature_numerator
     raw_doc: |-
       Get/Set the scene's time signature numerator.
@@ -114,6 +128,7 @@ primary_class:
     - add_time_signature_numerator_listener
     - remove_time_signature_numerator_listener
     - time_signature_numerator_has_listener
+
   methods:
   - name: fire
     raw_doc: |-
@@ -134,6 +149,7 @@ primary_class:
       default: 'True'
     returns:
       type: None
+
   - name: fire_as_selected
     raw_doc: |-
       Fire the selected scene. Will fire all clipslots that this scene owns and
@@ -149,6 +165,7 @@ primary_class:
       default: 'False'
     returns:
       type: None
+
   - name: set_fire_button_state
     raw_doc: Set the scene's fire button state directly. Supports all launch modes.
     signature: 'set_fire_button_state( (Scene)arg1, (bool)arg2) -> None :'

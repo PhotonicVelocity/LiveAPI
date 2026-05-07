@@ -1,4 +1,5 @@
 module: Eq8Device
+
 primary_class:
 - name: Eq8Device
   path: Live.Eq8Device.Eq8Device
@@ -10,34 +11,42 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
     type: bool
     settable: false
+
   - name: can_have_chains
     raw_doc: Returns true if the device is a rack.
     type: bool
     settable: false
+
   - name: can_have_drum_pads
     raw_doc: Returns true if the device is a drum rack.
     type: bool
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Device.
     type: Live.Track.Track
     settable: false
+
   - name: class_display_name
     raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
     type: str
     settable: false
+
   - name: class_name
     raw_doc: Return const access to the name of the device's class.
     type: str
     settable: false
+
   - name: edit_mode
     raw_doc: Access to Eq8's edit mode.
     type: bool
@@ -46,6 +55,7 @@ primary_class:
     - add_edit_mode_listener
     - remove_edit_mode_listener
     - edit_mode_has_listener
+
   - name: global_mode
     raw_doc: Access to Eq8's global mode.
     type: int
@@ -54,26 +64,32 @@ primary_class:
     - add_global_mode_listener
     - remove_global_mode_listener
     - global_mode_has_listener
+
   - name: is_active
     raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
     type: bool
     settable: false
+
   - name: is_using_compare_preset_b
     raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
     type: bool
     settable: true
+
   - name: latency_in_ms
     raw_doc: Returns the latency of the device in ms.
     type: float
     settable: false
+
   - name: latency_in_samples
     raw_doc: Returns the latency of the device in samples.
     type: int
     settable: false
+
   - name: name
     raw_doc: Return access to the name of the device.
     type: str
     settable: true
+
   - name: oversample
     raw_doc: Access to Eq8's oversample value.
     type: bool
@@ -82,18 +98,22 @@ primary_class:
     - add_oversample_listener
     - remove_oversample_listener
     - oversample_has_listener
+
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
     settable: false
+
   - name: type
     raw_doc: Return the type of the device.
     type: Live.Device.DeviceType
     settable: false
+
   - name: view
     raw_doc: Representing the view aspects of a device.
     type: Live.Eq8Device.Eq8Device.View
     settable: false
+
   classes:
   - name: View
     path: Live.Eq8Device.Eq8Device.View
@@ -105,18 +125,22 @@ primary_class:
       Raises an exception
       This class cannot be instantiated from Python
     constructable: false
+
     properties:
     - name: _live_ptr
       type: int
       settable: false
+
     - name: canonical_parent
       raw_doc: Get the canonical parent of the View.
       type: Live.Eq8Device.Eq8Device
       settable: false
+
     - name: is_collapsed
       raw_doc: Get/Set/Listen if the device is shown collapsed in the device chain.
       type: bool
       settable: true
+
     - name: selected_band
       raw_doc: Access to the selected filter band.
       type: int
@@ -125,11 +149,13 @@ primary_class:
       - add_selected_band_listener
       - remove_selected_band_listener
       - selected_band_has_listener
+
 enums:
 - name: EditMode
   members:
     a: 0
     b: 1
+
 - name: GlobalMode
   members:
     stereo: 0

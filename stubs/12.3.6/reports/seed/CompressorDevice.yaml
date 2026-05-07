@@ -1,4 +1,5 @@
 module: CompressorDevice
+
 primary_class:
 - name: CompressorDevice
   path: Live.CompressorDevice.CompressorDevice
@@ -10,10 +11,12 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: available_input_routing_channels
     raw_doc: Return a list of source channels for input routing in the sidechain.
     type: Live.Track.RoutingChannelVector
@@ -22,6 +25,7 @@ primary_class:
     - add_available_input_routing_channels_listener
     - remove_available_input_routing_channels_listener
     - available_input_routing_channels_has_listener
+
   - name: available_input_routing_types
     raw_doc: Return a list of source types for input routing in the sidechain.
     type: Live.Track.RoutingTypeVector
@@ -30,30 +34,37 @@ primary_class:
     - add_available_input_routing_types_listener
     - remove_available_input_routing_types_listener
     - available_input_routing_types_has_listener
+
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
     type: bool
     settable: false
+
   - name: can_have_chains
     raw_doc: Returns true if the device is a rack.
     type: bool
     settable: false
+
   - name: can_have_drum_pads
     raw_doc: Returns true if the device is a drum rack.
     type: bool
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Device.
     type: Live.Track.Track
     settable: false
+
   - name: class_display_name
     raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
     type: str
     settable: false
+
   - name: class_name
     raw_doc: Return const access to the name of the device's class.
     type: str
     settable: false
+
   - name: input_routing_channel
     raw_doc: |-
       Get and set the current source channel for input routing in the sidechain.
@@ -65,6 +76,7 @@ primary_class:
     - add_input_routing_channel_listener
     - remove_input_routing_channel_listener
     - input_routing_channel_has_listener
+
   - name: input_routing_type
     raw_doc: |-
       Get and set the current source type for input routing in the sidechain.
@@ -76,34 +88,42 @@ primary_class:
     - add_input_routing_type_listener
     - remove_input_routing_type_listener
     - input_routing_type_has_listener
+
   - name: is_active
     raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
     type: bool
     settable: false
+
   - name: is_using_compare_preset_b
     raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
     type: bool
     settable: true
+
   - name: latency_in_ms
     raw_doc: Returns the latency of the device in ms.
     type: float
     settable: false
+
   - name: latency_in_samples
     raw_doc: Returns the latency of the device in samples.
     type: int
     settable: false
+
   - name: name
     raw_doc: Return access to the name of the device.
     type: str
     settable: true
+
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
     settable: false
+
   - name: type
     raw_doc: Return the type of the device.
     type: Live.Device.DeviceType
     settable: false
+
   - name: view
     raw_doc: Representing the view aspects of a device.
     type: Live.Device.Device.View

@@ -1,4 +1,5 @@
 module: DeviceIO
+
 primary_class:
 - name: DeviceIO
   path: Live.DeviceIO.DeviceIO
@@ -9,10 +10,12 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: available_routing_channels
     raw_doc: Return a list of channels for this IO endpoint.
     type: Live.Track.RoutingChannelVector
@@ -21,6 +24,7 @@ primary_class:
     - add_available_routing_channels_listener
     - remove_available_routing_channels_listener
     - available_routing_channels_has_listener
+
   - name: available_routing_types
     raw_doc: Return a list of available routing types for this IO endpoint.
     type: Live.Track.RoutingTypeVector
@@ -29,14 +33,17 @@ primary_class:
     - add_available_routing_types_listener
     - remove_available_routing_types_listener
     - available_routing_types_has_listener
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the device IO.
     type: Live.MaxDevice.MaxDevice
     settable: false
+
   - name: default_external_routing_channel_is_none
     raw_doc: Get and set whether the default routing channel for External routing types is none.
     type: bool
     settable: true
+
   - name: routing_channel
     raw_doc: |-
       Get and set the current routing channel.
@@ -48,6 +55,7 @@ primary_class:
     - add_routing_channel_listener
     - remove_routing_channel_listener
     - routing_channel_has_listener
+
   - name: routing_type
     raw_doc: |-
       Get and set the current routing type.

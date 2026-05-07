@@ -1,4 +1,5 @@
 module: Listener
+
 classes:
 - name: ListenerHandle
   path: Live.Listener.ListenerHandle
@@ -8,16 +9,20 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: listener_func
     raw_doc: Returns the original function
     settable: false
+
   - name: listener_self
     raw_doc: Returns the weak reference to original self, if it was a bound method
     settable: false
+
   - name: name
     raw_doc: Prints the name of the property that this listener is connected to
     settable: false
+
   methods:
   - name: disconnect
     raw_doc: Disconnects the listener from its property
@@ -28,6 +33,7 @@ classes:
       type: Live.Listener.ListenerHandle
     returns:
       type: None
+
 - name: ListenerVector
   path: Live.Listener.ListenerVector
   raw_doc: A read only container for accessing a list of listeners.
@@ -37,6 +43,7 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
+
   methods:
   - name: append
     signature: 'append( (ListenerVector)arg1, (object)arg2) -> None :'
@@ -48,6 +55,7 @@ classes:
       type: Live.Listener.ListenerHandle
     returns:
       type: None
+
   - name: extend
     signature: 'extend( (ListenerVector)arg1, (object)arg2) -> None :'
     cpp_signature: void extend(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)

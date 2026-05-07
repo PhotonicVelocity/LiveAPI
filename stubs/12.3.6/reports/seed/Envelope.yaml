@@ -1,4 +1,5 @@
 module: Envelope
+
 primary_class:
 - name: Envelope
   path: Live.Envelope.Envelope
@@ -9,14 +10,17 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the envelope.
     type: Live.Clip.Clip
     settable: false
+
   methods:
   - name: delete_events_in_range
     raw_doc: Deletes the events in the specified time range.
@@ -31,6 +35,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: events_in_range
     raw_doc: Returns the events in the specified time range.
     signature: 'events_in_range( (Envelope)arg1, (float)arg2, (float)arg3) -> EnvelopeEventVector :'
@@ -44,6 +49,7 @@ primary_class:
       type: float
     returns:
       type: Live.Envelope.EnvelopeEventVector
+
   - name: insert_step
     raw_doc: Given a start time, a step length and a value, creates a step in the envelope.
     signature: 'insert_step( (Envelope)arg1, (float)arg2, (float)arg3, (float)arg4) -> None :'
@@ -59,6 +65,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: value_at_time
     raw_doc: Returns the parameter value at the specified time.
     signature: 'value_at_time( (Envelope)arg1, (float)arg2) -> float :'
@@ -70,6 +77,7 @@ primary_class:
       type: float
     returns:
       type: float
+
 classes:
 - name: EnvelopeEvent
   path: Live.Envelope.EnvelopeEvent
@@ -82,16 +90,20 @@ classes:
         C++ signature :
             void __init__(_object*,double,float,NApiHelpers::TEnvelopeEventControlCoefficients)
   constructable: true
+
   properties:
   - name: control_coefficients
     type: Live.Envelope.EnvelopeEventControlCoefficients
     settable: true
+
   - name: time
     type: float
     settable: true
+
   - name: value
     type: float
     settable: true
+
   methods:
   - name: __init__
     args:
@@ -105,6 +117,7 @@ classes:
       type: EnvelopeEventControlCoefficients
     returns:
       type: None
+
 - name: EnvelopeEventControlCoefficients
   path: Live.Envelope.EnvelopeEventControlCoefficients
   raw_doc: This class represents the control coefficients of an envelope event.
@@ -116,19 +129,24 @@ classes:
         C++ signature :
             void __init__(_object*,double,double,double,double)
   constructable: true
+
   properties:
   - name: x1
     type: float
     settable: true
+
   - name: x2
     type: float
     settable: true
+
   - name: y1
     type: float
     settable: true
+
   - name: y2
     type: float
     settable: true
+
   methods:
   - name: __init__
     args:
@@ -144,6 +162,7 @@ classes:
       type: float
     returns:
       type: None
+
 - name: EnvelopeEventVector
   path: Live.Envelope.EnvelopeEventVector
   raw_doc: A container for holding envelope events.
@@ -154,6 +173,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Envelope.EnvelopeEvent
+
   methods:
   - name: append
     signature: 'append( (EnvelopeEventVector)arg1, (object)arg2) -> None :'
@@ -165,6 +185,7 @@ classes:
       type: Live.Envelope.EnvelopeEvent
     returns:
       type: None
+
   - name: extend
     signature: 'extend( (EnvelopeEventVector)arg1, (object)arg2) -> None :'
     cpp_signature: void extend(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)

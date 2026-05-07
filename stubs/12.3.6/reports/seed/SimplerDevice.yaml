@@ -1,4 +1,5 @@
 module: SimplerDevice
+
 primary_class:
 - name: SimplerDevice
   path: Live.SimplerDevice.SimplerDevice
@@ -10,22 +11,27 @@ primary_class:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
   properties:
   - name: _live_ptr
     type: int
     settable: false
+
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
     type: bool
     settable: false
+
   - name: can_have_chains
     raw_doc: Returns true if the device is a rack.
     type: bool
     settable: false
+
   - name: can_have_drum_pads
     raw_doc: Returns true if the device is a drum rack.
     type: bool
     settable: false
+
   - name: can_warp_as
     raw_doc: Returns true if warp_as is available.
     type: bool
@@ -34,6 +40,7 @@ primary_class:
     - add_can_warp_as_listener
     - remove_can_warp_as_listener
     - can_warp_as_has_listener
+
   - name: can_warp_double
     raw_doc: Returns true if warp_double is available.
     type: bool
@@ -42,6 +49,7 @@ primary_class:
     - add_can_warp_double_listener
     - remove_can_warp_double_listener
     - can_warp_double_has_listener
+
   - name: can_warp_half
     raw_doc: Returns true if warp_half is available.
     type: bool
@@ -50,34 +58,42 @@ primary_class:
     - add_can_warp_half_listener
     - remove_can_warp_half_listener
     - can_warp_half_has_listener
+
   - name: canonical_parent
     raw_doc: Get the canonical parent of the Device.
     type: Live.Track.Track
     settable: false
+
   - name: class_display_name
     raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
     type: str
     settable: false
+
   - name: class_name
     raw_doc: Return const access to the name of the device's class.
     type: str
     settable: false
+
   - name: is_active
     raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
     type: bool
     settable: false
+
   - name: is_using_compare_preset_b
     raw_doc: Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
     type: bool
     settable: true
+
   - name: latency_in_ms
     raw_doc: Returns the latency of the device in ms.
     type: float
     settable: false
+
   - name: latency_in_samples
     raw_doc: Returns the latency of the device in samples.
     type: int
     settable: false
+
   - name: multi_sample_mode
     raw_doc: Returns whether Simpler is in mulit-sample mode.
     type: bool
@@ -86,10 +102,12 @@ primary_class:
     - add_multi_sample_mode_listener
     - remove_multi_sample_mode_listener
     - multi_sample_mode_has_listener
+
   - name: name
     raw_doc: Return access to the name of the device.
     type: str
     settable: true
+
   - name: note_pitch_bend_range
     raw_doc: Access to the Note Pitch Bend Range in Simpler.
     type: int
@@ -98,6 +116,7 @@ primary_class:
     - add_note_pitch_bend_range_listener
     - remove_note_pitch_bend_range_listener
     - note_pitch_bend_range_has_listener
+
   - name: pad_slicing
     raw_doc: |-
       When set to true, slices can be added in slicing mode by playing notes
@@ -108,10 +127,12 @@ primary_class:
     - add_pad_slicing_listener
     - remove_pad_slicing_listener
     - pad_slicing_has_listener
+
   - name: parameters
     raw_doc: Const access to the list of available automatable parameters for this device.
     type: Live.Device.ATimeableValueVector
     settable: false
+
   - name: pitch_bend_range
     raw_doc: Access to the Pitch Bend Range in Simpler.
     type: int
@@ -120,6 +141,7 @@ primary_class:
     - add_pitch_bend_range_listener
     - remove_pitch_bend_range_listener
     - pitch_bend_range_has_listener
+
   - name: playback_mode
     raw_doc: Access to Simpler's playback mode.
     type: int
@@ -128,6 +150,7 @@ primary_class:
     - add_playback_mode_listener
     - remove_playback_mode_listener
     - playback_mode_has_listener
+
   - name: playing_position
     raw_doc: |-
       Constant access to the current playing position in the sample.
@@ -138,6 +161,7 @@ primary_class:
     - add_playing_position_listener
     - remove_playing_position_listener
     - playing_position_has_listener
+
   - name: playing_position_enabled
     raw_doc: |-
       Returns whether Simpler is showing the playing position.
@@ -148,6 +172,7 @@ primary_class:
     - add_playing_position_enabled_listener
     - remove_playing_position_enabled_listener
     - playing_position_enabled_has_listener
+
   - name: retrigger
     raw_doc: Access to Simpler's retrigger mode.
     type: bool
@@ -156,6 +181,7 @@ primary_class:
     - add_retrigger_listener
     - remove_retrigger_listener
     - retrigger_has_listener
+
   - name: sample
     raw_doc: Get the loaded Sample.
     type: Live.Sample.Sample
@@ -164,6 +190,7 @@ primary_class:
     - add_sample_listener
     - remove_sample_listener
     - sample_has_listener
+
   - name: slicing_playback_mode
     raw_doc: Access to Simpler's slicing playback mode.
     type: int
@@ -172,14 +199,17 @@ primary_class:
     - add_slicing_playback_mode_listener
     - remove_slicing_playback_mode_listener
     - slicing_playback_mode_has_listener
+
   - name: type
     raw_doc: Return the type of the device.
     type: Live.Device.DeviceType
     settable: false
+
   - name: view
     raw_doc: Representing the view aspects of a device.
     type: Live.SimplerDevice.SimplerDevice.View
     settable: false
+
   - name: voices
     raw_doc: Access to the number of voices in Simpler.
     type: int
@@ -188,6 +218,7 @@ primary_class:
     - add_voices_listener
     - remove_voices_listener
     - voices_has_listener
+
   methods:
   - name: crop
     raw_doc: |-
@@ -200,6 +231,7 @@ primary_class:
       type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
+
   - name: guess_playback_length
     raw_doc: |-
       Return an estimated beat time for the playback length between start- and end-marker.
@@ -211,6 +243,7 @@ primary_class:
       type: Live.SimplerDevice.SimplerDevice
     returns:
       type: float
+
   - name: reverse
     raw_doc: |-
       Reverse the loaded sample.
@@ -222,6 +255,7 @@ primary_class:
       type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
+
   - name: warp_as
     raw_doc: |-
       Warp the playback region between start- and end-marker as the given length.
@@ -235,6 +269,7 @@ primary_class:
       type: float
     returns:
       type: None
+
   - name: warp_double
     raw_doc: Doubles the tempo for region between start- and end-marker.
     signature: 'warp_double( (SimplerDevice)self) -> None :'
@@ -244,6 +279,7 @@ primary_class:
       type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
+
   - name: warp_half
     raw_doc: Halves the tempo for region between start- and end-marker.
     signature: 'warp_half( (SimplerDevice)self) -> None :'
@@ -253,6 +289,7 @@ primary_class:
       type: Live.SimplerDevice.SimplerDevice
     returns:
       type: None
+
   classes:
   - name: View
     path: Live.SimplerDevice.SimplerDevice.View
@@ -264,18 +301,22 @@ primary_class:
       Raises an exception
       This class cannot be instantiated from Python
     constructable: false
+
     properties:
     - name: _live_ptr
       type: int
       settable: false
+
     - name: canonical_parent
       raw_doc: Get the canonical parent of the View.
       type: Live.SimplerDevice.SimplerDevice
       settable: false
+
     - name: is_collapsed
       raw_doc: Get/Set/Listen if the device is shown collapsed in the device chain.
       type: bool
       settable: true
+
     - name: sample_end
       raw_doc: Access to the modulated samples end position in samples. Returns -1 in case there is no sample loaded.
       type: int
@@ -284,6 +325,7 @@ primary_class:
       - add_sample_end_listener
       - remove_sample_end_listener
       - sample_end_has_listener
+
     - name: sample_env_fade_in
       raw_doc: Access to the envelope fade-in time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
       type: int
@@ -292,6 +334,7 @@ primary_class:
       - add_sample_env_fade_in_listener
       - remove_sample_env_fade_in_listener
       - sample_env_fade_in_has_listener
+
     - name: sample_env_fade_out
       raw_doc: Access to the envelope fade-out time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
       type: int
@@ -300,6 +343,7 @@ primary_class:
       - add_sample_env_fade_out_listener
       - remove_sample_env_fade_out_listener
       - sample_env_fade_out_has_listener
+
     - name: sample_loop_end
       raw_doc: Access to the modulated samples loop end position in samples. Returns -1 in case there is no sample loaded.
       type: int
@@ -308,6 +352,7 @@ primary_class:
       - add_sample_loop_end_listener
       - remove_sample_loop_end_listener
       - sample_loop_end_has_listener
+
     - name: sample_loop_fade
       raw_doc: Access to the modulated samples loop fade position in samples. Returns -1 in case there is no sample loaded.
       type: int
@@ -316,6 +361,7 @@ primary_class:
       - add_sample_loop_fade_listener
       - remove_sample_loop_fade_listener
       - sample_loop_fade_has_listener
+
     - name: sample_loop_start
       raw_doc: Access to the modulated samples loop start position in samples. Returns -1 in case there is no sample loaded.
       type: int
@@ -324,6 +370,7 @@ primary_class:
       - add_sample_loop_start_listener
       - remove_sample_loop_start_listener
       - sample_loop_start_has_listener
+
     - name: sample_start
       raw_doc: Access to the modulated samples start position in samples. Returns -1 in case there is no sample loaded.
       type: int
@@ -332,6 +379,7 @@ primary_class:
       - add_sample_start_listener
       - remove_sample_start_listener
       - sample_start_has_listener
+
     - name: selected_slice
       raw_doc: Access to the selected slice.
       type: int
@@ -340,17 +388,20 @@ primary_class:
       - add_selected_slice_listener
       - remove_selected_slice_listener
       - selected_slice_has_listener
+
 enums:
 - name: PlaybackMode
   members:
     classic: 0
     one_shot: 1
     slicing: 2
+
 - name: SlicingPlaybackMode
   members:
     mono: 0
     poly: 1
     thru: 2
+
 functions:
 - name: get_available_voice_numbers
   raw_doc: Get a vector of valid Simpler voice numbers.
