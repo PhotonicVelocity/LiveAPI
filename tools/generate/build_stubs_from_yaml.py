@@ -8,7 +8,7 @@ the seam through which manual refinements reach the rendered stubs.
 
 Usage:
     python tools/generate/build_stubs_from_yaml.py 12.3.6
-    python tools/generate/build_stubs_from_yaml.py 12.3.6 --input stubs/<v>/reports/seed --output stubs/<v>/variants/v2-no-refinements/Live
+    python tools/generate/build_stubs_from_yaml.py 12.3.6 --input <dir> --output <dir>
 """
 
 from __future__ import annotations
@@ -615,7 +615,7 @@ def main() -> int:
     out_dir = (
         Path(args.output).resolve()
         if args.output
-        else REPO_ROOT / "stubs" / args.version / "variants" / "v2-with-refinements" / "Live"
+        else REPO_ROOT / "stubs" / args.version / "Live"
     )
 
     if not seed_dir.exists():
