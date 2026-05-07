@@ -65,7 +65,7 @@
 }
 .sl-markdown-content .sl-heading-wrapper.level-h5 {
   margin-top: 0.4rem;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.15rem;
   padding-left: 1.5rem;
 }
 /* Member description — wraps the prose paragraph(s) below a property /
@@ -80,22 +80,32 @@
    alongside the signature. */
 .sl-markdown-content .member-desc {
   padding-left: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
   color: var(--sl-color-gray-2);
 }
 .sl-markdown-content .member-desc p {
   margin-top: 0;
   margin-bottom: 0.4rem;
 }
+.sl-markdown-content .member-desc p:last-child {
+  margin-bottom: 0;
+}
 
-/* Property flags row — sits between the H5 heading and the description.
-   Indented to match the H5 column. Tight spacing above (pulls toward
-   the heading it modifies) and below (so the description still hugs
-   the heading-flags pair). */
+/* Property flags row — emitted BEFORE the H5 heading in DOM order so
+   `float: right` pulls the chips onto the heading's row at the right
+   edge of the column. The H5 wraps text on the left if it's long;
+   the chips stay right-aligned. `.member-desc` below clears the
+   float so the description doesn't wrap around the chip box. */
 .sl-markdown-content .prop-flags {
-  margin: -0.1rem 0 0.2rem 1.5rem;
+  float: right;
+  margin: 0 0 0 0.4rem;
   display: flex;
   gap: 0.4rem;
   flex-wrap: wrap;
+}
+.sl-markdown-content .member-desc {
+  clear: right;
 }
 .sl-markdown-content .prop-flag {
   display: inline-block;

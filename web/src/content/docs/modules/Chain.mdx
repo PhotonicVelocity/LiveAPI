@@ -16,39 +16,39 @@ This class represents a group device chain in Live.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### color<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### color<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
 Access the color index of the Chain.
 
 </div>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### color_index<span class="prop-type">: int</span>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
 <div class="member-desc">
 
 Access the color index of the Chain.
 
 </div>
 
-##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a>]</span>
 
 <div class="member-desc">
 
@@ -56,9 +56,9 @@ Return const access to all available Devices that are present in the chains
 
 </div>
 
-##### has_audio_input<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### has_audio_input<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -66,9 +66,9 @@ return True, if this Chain can be feed with an Audio signal. This is true for al
 
 </div>
 
-##### has_audio_output<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### has_audio_output<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -76,9 +76,9 @@ return True, if this Chain sends out an Audio signal. This is true for all Audio
 
 </div>
 
-##### has_midi_input<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### has_midi_input<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -86,9 +86,9 @@ return True, if this Chain can be feed with an Audio signal. This is true for al
 
 </div>
 
-##### has_midi_output<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### has_midi_output<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -96,9 +96,9 @@ return True, if this Chain sends out MIDI events. This is true for all MIDI Chai
 
 </div>
 
-##### is_auto_colored<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_auto_colored<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -106,9 +106,9 @@ Get/set access to the auto color flag of the Chain. If True, the Chain will alwa
 
 </div>
 
-##### mixer_device<span class="prop-type">: <a href="/LiveAPI/modules/chainmixerdevice/#chainmixerdevice">ChainMixerDevice</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### mixer_device<span class="prop-type">: <a href="/LiveAPI/modules/chainmixerdevice/#chainmixerdevice" title="ChainMixerDevice">ChainMixerDevice</a></span>
 
 <div class="member-desc">
 
@@ -116,9 +116,9 @@ Return access to the mixer device that holds the chain's mixer parameters: the V
 
 </div>
 
-##### mute<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### mute<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -126,9 +126,9 @@ Mute/unmute the chain.
 
 </div>
 
-##### muted_via_solo<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### muted_via_solo<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -136,9 +136,9 @@ Return const access to whether this chain is muted due to some other chain being
 
 </div>
 
-##### name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### name<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -146,9 +146,9 @@ Read/write access to the name of the Chain, as visible in the track header.
 
 </div>
 
-##### solo<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### solo<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -174,7 +174,7 @@ Duplicate the device at the given index in the chain.
 
 </div>
 
-##### insert_device<span class="meth-sig">(<span class="meth-arg">device_name</span>: str, <span class="meth-arg">device_index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/device/#device">Device</a></span>
+##### insert_device<span class="meth-sig">(<span class="meth-arg">device_name</span>: str, <span class="meth-arg">device_index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span>
 
 <div class="member-desc">
 

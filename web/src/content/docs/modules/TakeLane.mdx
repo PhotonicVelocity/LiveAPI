@@ -16,19 +16,19 @@ This class represents a take lane in Live.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### arrangement_clips<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip">Clip</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### arrangement_clips<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span>
 
 <div class="member-desc">
 
@@ -36,9 +36,9 @@ Read-only access to the arrangement clips in the take lane.
 
 </div>
 
-##### name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### name<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -48,7 +48,7 @@ Read/write access to the name of the TakeLane, as visible in the take lane heade
 
 #### Methods
 
-##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str, <span class="meth-arg">start_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str, <span class="meth-arg">start_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
 
 <div class="member-desc">
 
@@ -56,7 +56,7 @@ Creates an audio clip referencing the file at the given path and inserts it into
 
 </div>
 
-##### create_midi_clip<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### create_midi_clip<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
 
 <div class="member-desc">
 

@@ -480,6 +480,15 @@ primary_class:
               - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
               - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
         type: int
+        type_override:
+          value: Live.Application.Application.View.NavDirection | int
+          confidence: high
+          source: |
+            raw_doc says "into the given direction". Application.View nests
+            a single enum (`NavDirection`) with members up/down/left/right —
+            direct semantic match. Boost.Python emits the enum class as an
+            int subclass, hence `NavDirection | int` (standard enum-widening
+            pattern).
       - name: arg3
         name_override:
           value: view_name
@@ -551,6 +560,15 @@ primary_class:
               - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
               - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
         type: int
+        type_override:
+          value: Live.Application.Application.View.NavDirection | int
+          confidence: high
+          source: |
+            raw_doc says "into the given direction". Application.View nests
+            a single enum (`NavDirection`) with members up/down/left/right —
+            direct semantic match. Boost.Python emits the enum class as an
+            int subclass, hence `NavDirection | int` (standard enum-widening
+            pattern).
       - name: arg3
         name_override:
           value: view_name

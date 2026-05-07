@@ -17,19 +17,19 @@ This class represents a Rack device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### can_show_chains<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### can_show_chains<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -37,9 +37,9 @@ return True, if this Rack contains a rack instrument device that is capable of s
 
 </div>
 
-##### chain_selector<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### chain_selector<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span>
 
 <div class="member-desc">
 
@@ -47,9 +47,9 @@ Const access to the chain selector parameter.
 
 </div>
 
-##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span>
 
 <div class="member-desc">
 
@@ -57,9 +57,9 @@ Return const access to the list of chains in this device. Throws an exception if
 
 </div>
 
-##### drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad" title="DrumPad">DrumPad</a>]</span>
 
 <div class="member-desc">
 
@@ -67,9 +67,9 @@ Return const access to the list of drum pads in this device. Throws an exception
 
 </div>
 
-##### has_drum_pads<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### has_drum_pads<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -77,9 +77,9 @@ Returns true if the device is a drum rack which has drum pads. Throws an excepti
 
 </div>
 
-##### has_macro_mappings<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### has_macro_mappings<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -87,9 +87,9 @@ Returns true if any of the rack's macros are mapped to a parameter.
 
 </div>
 
-##### is_active<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### is_active<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -97,9 +97,9 @@ Return const access to whether this device is active. This will be false bothwhe
 
 </div>
 
-##### is_showing_chains<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_showing_chains<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -107,9 +107,9 @@ Returns True, if it is showing chains.
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -117,9 +117,9 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -127,9 +127,9 @@ Returns the latency of the device in samples.
 
 </div>
 
-##### macros_mapped<span class="prop-type">: tuple[bool, ...]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### macros_mapped<span class="prop-type">: tuple[bool, ...]</span>
 
 <div class="member-desc">
 
@@ -145,9 +145,9 @@ Return access to the name of the device.
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
 
 <div class="member-desc">
 
@@ -155,9 +155,9 @@ Const access to the list of available automatable parameters for this device.
 
 </div>
 
-##### return_chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### return_chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span>
 
 <div class="member-desc">
 
@@ -173,9 +173,9 @@ Access to the index of the currently selected macro variation.Throws an exceptio
 
 </div>
 
-##### variation_count<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### variation_count<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -183,9 +183,9 @@ Access to the number of macro variations currently stored.
 
 </div>
 
-##### view<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>.View</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdeviceview" title="RackDevice.View">View</a></span>
 
 <div class="member-desc">
 
@@ -193,9 +193,9 @@ Representing the view aspects of a device.
 
 </div>
 
-##### visible_drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### visible_drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad" title="DrumPad">DrumPad</a>]</span>
 
 <div class="member-desc">
 
@@ -203,9 +203,9 @@ Return const access to the list of visible drum pads in this device. Throws an e
 
 </div>
 
-##### visible_macro_count<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### visible_macro_count<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -243,7 +243,7 @@ Deletes the currently selected macro variation.Does nothing if there is no selec
 
 </div>
 
-##### insert_chain<span class="meth-sig">(<span class="meth-arg">index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/chain/#chain">Chain</a></span>
+##### insert_chain<span class="meth-sig">(<span class="meth-arg">index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a></span>
 
 <div class="member-desc">
 
@@ -305,19 +305,19 @@ Representing the view aspects of a rack device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### drum_pads_scroll_position<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### drum_pads_scroll_position<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -333,9 +333,9 @@ Get/Set/Listen if the device is shown collapsed in the device chain.
 
 </div>
 
-##### is_showing_chain_devices<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_showing_chain_devices<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -343,9 +343,9 @@ Return whether the devices in the currently selected chain are visible. Throws a
 
 </div>
 
-##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain">Chain</a> | None</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a> | None</span>
 
 <div class="member-desc">
 
@@ -353,9 +353,9 @@ Return access to the currently selected chain.
 
 </div>
 
-##### selected_drum_pad<span class="prop-type">: <a href="/LiveAPI/modules/drumpad/#drumpad">DrumPad</a></span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### selected_drum_pad<span class="prop-type">: <a href="/LiveAPI/modules/drumpad/#drumpad" title="DrumPad">DrumPad</a></span>
 
 <div class="member-desc">
 

@@ -16,19 +16,19 @@ This class represents a Looper device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### is_active<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### is_active<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -44,9 +44,9 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -54,9 +54,9 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -64,9 +64,9 @@ Returns the latency of the device in samples.
 
 </div>
 
-##### loop_length<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### loop_length<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -82,9 +82,9 @@ Return access to the name of the device.
 
 </div>
 
-##### overdub_after_record<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### overdub_after_record<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -92,9 +92,9 @@ If true, Looper will switch to overdub after recording, when recording a fixed n
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
 
 <div class="member-desc">
 
@@ -102,9 +102,9 @@ Const access to the list of available automatable parameters for this device.
 
 </div>
 
-##### record_length_index<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### record_length_index<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -112,9 +112,9 @@ Access to the Record Length chooser entry index.
 
 </div>
 
-##### record_length_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### record_length_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
 
 <div class="member-desc">
 
@@ -122,9 +122,9 @@ Read-only access to the list of Record Length chooser entry strings.
 
 </div>
 
-##### tempo<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### tempo<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -162,7 +162,7 @@ Double the speed of Looper's playback.
 
 </div>
 
-##### export_to_clip_slot<span class="meth-sig">(<span class="meth-arg">clip_slot</span>: <a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### export_to_clip_slot<span class="meth-sig">(<span class="meth-arg">clip_slot</span>: <a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
 <div class="member-desc">
 

@@ -29,9 +29,9 @@ Interface to the internal licensing services.
 
 #### Properties
 
-##### base_product_id<span class="prop-type">: str</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### base_product_id<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -39,13 +39,13 @@ Returns Live's current base product ID.
 
 </div>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### in_sassafras_mode<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ##### license_must_match_variant<span class="prop-type">: bool</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <div class="member-desc">
 
@@ -53,9 +53,9 @@ Returns a bool indicating if we require the license information returned by the 
 
 </div>
 
-##### random_number_for_trial_authorization<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### random_number_for_trial_authorization<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -63,9 +63,9 @@ Returns the integer to send along with the Trial authorization request. This sam
 
 </div>
 
-##### set_has_unsaved_changes<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### set_has_unsaved_changes<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -93,7 +93,7 @@ Deletes the current session ID.
 
 </div>
 
-##### get_progress_dialog<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#progressdialog">ProgressDialog</a></span>
+##### get_progress_dialog<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#progressdialog" title="ProgressDialog">ProgressDialog</a></span>
 
 <div class="member-desc">
 
@@ -109,7 +109,7 @@ Retrieve stored session ID.
 
 </div>
 
-##### get_startup_dialog<span class="meth-sig">(<span class="meth-arg">authorize_callable</span>: Callable, <span class="meth-arg">authorize_later_callable</span>: Callable) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#startupdialog">StartupDialog</a></span>
+##### get_startup_dialog<span class="meth-sig">(<span class="meth-arg">authorize_callable</span>: Callable, <span class="meth-arg">authorize_later_callable</span>: Callable) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></span>
 
 <div class="member-desc">
 
@@ -141,7 +141,7 @@ Loads the Unlock.cfg file and returns either an empty dict or one that can be co
 
 </div>
 
-##### process_license_response<span class="meth-sig">(<span class="meth-arg">license_response_lines</span>: list[str]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#unlockstatus">UnlockStatus</a></span>
+##### process_license_response<span class="meth-sig">(<span class="meth-arg">license_response_lines</span>: list[str]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></span>
 
 <div class="member-desc">
 
@@ -201,6 +201,8 @@ Returns relevant information after unlock
 
 #### Properties
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### authorization_deactivated<span class="prop-type">: bool</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
@@ -226,8 +228,6 @@ Returns relevant information after unlock
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ##### unlocked<span class="prop-type">: bool</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ## Enums
 

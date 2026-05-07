@@ -16,19 +16,19 @@ This class represents a Simpler device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### can_warp_as<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### can_warp_as<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -36,9 +36,9 @@ Returns true if warp_as is available.
 
 </div>
 
-##### can_warp_double<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### can_warp_double<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -46,9 +46,9 @@ Returns true if warp_double is available.
 
 </div>
 
-##### can_warp_half<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### can_warp_half<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -56,9 +56,9 @@ Returns true if warp_half is available.
 
 </div>
 
-##### is_active<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### is_active<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -74,9 +74,9 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -84,9 +84,9 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -94,9 +94,9 @@ Returns the latency of the device in samples.
 
 </div>
 
-##### multi_sample_mode<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### multi_sample_mode<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -112,9 +112,9 @@ Return access to the name of the device.
 
 </div>
 
-##### note_pitch_bend_range<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### note_pitch_bend_range<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -122,9 +122,9 @@ Access to the Note Pitch Bend Range in Simpler.
 
 </div>
 
-##### pad_slicing<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### pad_slicing<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -132,9 +132,9 @@ When set to true, slices can be added in slicing mode by playing notes .that are
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
 
 <div class="member-desc">
 
@@ -142,9 +142,9 @@ Const access to the list of available automatable parameters for this device.
 
 </div>
 
-##### pitch_bend_range<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### pitch_bend_range<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -152,9 +152,9 @@ Access to the Pitch Bend Range in Simpler.
 
 </div>
 
-##### playback_mode<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#playbackmode">PlaybackMode</a></span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### playback_mode<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#playbackmode" title="PlaybackMode">PlaybackMode</a></span>
 
 <div class="member-desc">
 
@@ -162,9 +162,9 @@ Access to Simpler's playback mode.
 
 </div>
 
-##### playing_position<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### playing_position<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -172,9 +172,9 @@ Constant access to the current playing position in the sample. The returned valu
 
 </div>
 
-##### playing_position_enabled<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### playing_position_enabled<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -182,9 +182,9 @@ Returns whether Simpler is showing the playing position. The returned value is T
 
 </div>
 
-##### retrigger<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### retrigger<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -192,9 +192,9 @@ Access to Simpler's retrigger mode.
 
 </div>
 
-##### sample<span class="prop-type">: <a href="/LiveAPI/modules/sample/#sample">Sample</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample<span class="prop-type">: <a href="/LiveAPI/modules/sample/#sample" title="Sample">Sample</a></span>
 
 <div class="member-desc">
 
@@ -202,9 +202,9 @@ Get the loaded Sample.
 
 </div>
 
-##### slicing_playback_mode<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#slicingplaybackmode">SlicingPlaybackMode</a></span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### slicing_playback_mode<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#slicingplaybackmode" title="SlicingPlaybackMode">SlicingPlaybackMode</a></span>
 
 <div class="member-desc">
 
@@ -212,9 +212,9 @@ Access to Simpler's slicing playback mode.
 
 </div>
 
-##### view<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#simplerdevice">SimplerDevice</a>.View</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#simplerdeviceview" title="SimplerDevice.View">View</a></span>
 
 <div class="member-desc">
 
@@ -222,9 +222,9 @@ Representing the view aspects of a device.
 
 </div>
 
-##### voices<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### voices<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -300,13 +300,13 @@ Representing the view aspects of a simpler device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#simplerdevice">SimplerDevice</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#simplerdevice" title="SimplerDevice">SimplerDevice</a></span>
 
 <hr class="lom-pinned-separator" />
 
@@ -318,9 +318,9 @@ Get/Set/Listen if the device is shown collapsed in the device chain.
 
 </div>
 
-##### sample_end<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_end<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -328,9 +328,9 @@ Access to the modulated samples end position in samples. Returns -1 in case ther
 
 </div>
 
-##### sample_env_fade_in<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_env_fade_in<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -338,9 +338,9 @@ Access to the envelope fade-in time in samples. Returned value is only in use wh
 
 </div>
 
-##### sample_env_fade_out<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_env_fade_out<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -348,9 +348,9 @@ Access to the envelope fade-out time in samples. Returned value is only in use w
 
 </div>
 
-##### sample_loop_end<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_loop_end<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -358,9 +358,9 @@ Access to the modulated samples loop end position in samples. Returns -1 in case
 
 </div>
 
-##### sample_loop_fade<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_loop_fade<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -368,9 +368,9 @@ Access to the modulated samples loop fade position in samples. Returns -1 in cas
 
 </div>
 
-##### sample_loop_start<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_loop_start<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -378,9 +378,9 @@ Access to the modulated samples loop start position in samples. Returns -1 in ca
 
 </div>
 
-##### sample_start<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### sample_start<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -388,9 +388,9 @@ Access to the modulated samples start position in samples. Returns -1 in case th
 
 </div>
 
-##### selected_slice<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### selected_slice<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -422,6 +422,6 @@ Access to the selected slice.
 
 ## Functions
 
-### <span class="sig"><span class="sig-name" data-path="Live.SimplerDevice.">get_available_voice_numbers</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
+### <span class="sig"><span class="sig-name" data-path="Live.SimplerDevice.">get_available_voice_numbers</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#intvector" title="IntVector">IntVector</a></span>
 
 Get a vector of valid Simpler voice numbers.

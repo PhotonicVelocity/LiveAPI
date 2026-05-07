@@ -17,19 +17,19 @@ This class represents a plugin device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### is_active<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### is_active<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -37,9 +37,9 @@ Return const access to whether this device is active. This will be false bothwhe
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -47,9 +47,9 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -65,9 +65,9 @@ Return access to the name of the device.
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
 
 <div class="member-desc">
 
@@ -75,9 +75,9 @@ Const access to the list of available automatable parameters for this device.
 
 </div>
 
-##### presets<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### presets<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
 
 <div class="member-desc">
 
@@ -85,9 +85,9 @@ Get the list of presets the plugin offers.
 
 </div>
 
-##### selected_preset_index<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### selected_preset_index<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -101,7 +101,7 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 #### Methods
 
-##### get_parameter_names<span class="meth-sig">(<span class="meth-arg">begin</span>: int = <span class="meth-default">0</span>, <span class="meth-arg">end</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+##### get_parameter_names<span class="meth-sig">(<span class="meth-arg">begin</span>: int = <span class="meth-default">0</span>, <span class="meth-arg">end</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
 
 <div class="member-desc">
 

@@ -16,19 +16,19 @@ This class represents a drum group device chain in Live.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### choke_group<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### choke_group<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -52,9 +52,9 @@ Access the color index of the Chain.
 
 </div>
 
-##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a>]</span>
 
 <div class="member-desc">
 
@@ -62,9 +62,9 @@ Return const access to all available Devices that are present in the chains
 
 </div>
 
-##### in_note<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### in_note<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -88,9 +88,9 @@ Mute/unmute the chain.
 
 </div>
 
-##### muted_via_solo<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### muted_via_solo<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -106,9 +106,9 @@ Read/write access to the name of the Chain, as visible in the track header.
 
 </div>
 
-##### out_note<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### out_note<span class="prop-type">: int</span>
 
 <div class="member-desc">
 

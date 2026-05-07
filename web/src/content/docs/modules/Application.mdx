@@ -17,19 +17,19 @@ This class represents the Live application.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ##### canonical_parent<span class="prop-type">: None</span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
 <hr class="lom-pinned-separator" />
 
-##### average_process_usage<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### average_process_usage<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -37,9 +37,9 @@ Reports Live's average CPU load.
 
 </div>
 
-##### browser<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browser">Browser</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### browser<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browser" title="Browser">Browser</a></span>
 
 <div class="member-desc">
 
@@ -47,9 +47,9 @@ Returns an interface to the browser.
 
 </div>
 
-##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[object]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[object]</span>
 
 <div class="member-desc">
 
@@ -57,9 +57,9 @@ Const access to a list of the control surfaces selected in preferences, in the s
 
 </div>
 
-##### current_dialog_button_count<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### current_dialog_button_count<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -67,9 +67,9 @@ Number of buttons on the current dialog.
 
 </div>
 
-##### current_dialog_message<span class="prop-type">: str</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### current_dialog_message<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -77,9 +77,9 @@ Text of the last dialog that appeared; Empty if all dialogs just disappeared.
 
 </div>
 
-##### number_of_push_apps_running<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### number_of_push_apps_running<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -87,9 +87,9 @@ Returns the number of connected Push apps.
 
 </div>
 
-##### open_dialog_count<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### open_dialog_count<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -97,9 +97,9 @@ The number of open dialogs in Live. 0 if not dialog is open.
 
 </div>
 
-##### peak_process_usage<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### peak_process_usage<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -107,9 +107,9 @@ Reports Live's peak CPU load.
 
 </div>
 
-##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector">UnavailableFeatureVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector" title="UnavailableFeatureVector">UnavailableFeatureVector</a></span>
 
 <div class="member-desc">
 
@@ -117,9 +117,9 @@ List of features that are unavailable due to limitations of the current Live edi
 
 </div>
 
-##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a>.View</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#applicationview" title="Application.View">View</a></span>
 
 <div class="member-desc">
 
@@ -145,7 +145,7 @@ Returns a string identifying the build.
 
 </div>
 
-##### get_document<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#song">Song</a></span>
+##### get_document<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#song" title="Song">Song</a></span>
 
 <div class="member-desc">
 
@@ -201,7 +201,7 @@ Press a button, by index, on the current message box.
 
 </div>
 
-##### show_message<span class="meth-sig">(<span class="meth-arg">text</span>: <a href="/LiveAPI/modules/base/#text">Text</a>, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>) <span class="meth-arrow">-&gt;</span> int</span>
+##### show_message<span class="meth-sig">(<span class="meth-arg">text</span>: <a href="/LiveAPI/modules/base/#text" title="Text">Text</a>, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>) <span class="meth-arrow">-&gt;</span> int</span>
 
 <div class="member-desc">
 
@@ -209,7 +209,7 @@ Shows a message box, returning the position of the pressed button.
 
 </div>
 
-##### show_on_the_fly_message<span class="meth-sig">(<span class="meth-arg">message</span>: str, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">push_dialog_type</span>: <a href="/LiveAPI/modules/application/#pushdialogtype">PushDialogType</a> | int = <span class="meth-default">PushDialogType.MESSAGE_BOX</span>) <span class="meth-arrow">-&gt;</span> int</span>
+##### show_on_the_fly_message<span class="meth-sig">(<span class="meth-arg">message</span>: str, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">push_dialog_type</span>: <a href="/LiveAPI/modules/application/#pushdialogtype" title="PushDialogType">PushDialogType</a> | int = <span class="meth-default">PushDialogType.MESSAGE_BOX</span>) <span class="meth-arrow">-&gt;</span> int</span>
 
 <div class="member-desc">
 
@@ -229,13 +229,13 @@ Describes a control present in a control surface proxy
 
 #### Properties
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### id<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ##### name<span class="prop-type">: str</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
 
@@ -247,13 +247,13 @@ Represents a control surface running in a different process. For use by M4L
 
 #### Properties
 
-##### control_descriptions<span class="prop-type">: <a href="/LiveAPI/modules/application/#controldescriptionvector">ControlDescriptionVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### pad_layout<span class="prop-type">: str</span>
+##### control_descriptions<span class="prop-type">: <a href="/LiveAPI/modules/application/#controldescriptionvector" title="ControlDescriptionVector">ControlDescriptionVector</a></span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### pad_layout<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -261,19 +261,19 @@ The layout of pads on Push.
 
 </div>
 
-##### type_name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
+##### type_name<span class="prop-type">: str</span>
+
 #### Signals
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### control_values_arrived
 
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 ##### midi_received
-
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
@@ -313,19 +313,19 @@ This class represents the view aspects of the Live application.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/application/#application" title="Application">Application</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### browse_mode<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### browse_mode<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -333,9 +333,9 @@ Return true if HotSwap mode is active for any target.
 
 </div>
 
-##### focused_document_view<span class="prop-type">: str</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### focused_document_view<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -345,13 +345,13 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 #### Signals
 
-##### view_focus_changed
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### view_focus_changed
 
 #### Methods
 
-##### available_main_views<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+##### available_main_views<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
 
 <div class="member-desc">
 
@@ -375,9 +375,9 @@ Hide one through the identifier string specified view.
 
 </div>
 
-##### is_view_visible<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">main_window_only</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_view_visible<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">main_window_only</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> bool</span>
 
 <div class="member-desc">
 
@@ -399,7 +399,7 @@ is_view_visible_has_listener(view_name, callback)
 
 </div>
 
-##### scroll_view<span class="meth-sig">(<span class="meth-arg">direction</span>: int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### scroll_view<span class="meth-sig">(<span class="meth-arg">direction</span>: <a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
 <div class="member-desc">
 
@@ -423,7 +423,7 @@ Reveals the device chain, the browser and starts hot swap for the selected devic
 
 </div>
 
-##### zoom_view<span class="meth-sig">(<span class="meth-arg">direction</span>: int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### zoom_view<span class="meth-sig">(<span class="meth-arg">direction</span>: <a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
 <div class="member-desc">
 
@@ -472,6 +472,17 @@ Specifies the dialog type for Push.
 <tr><td><code>note_velocity_ranges_and_probabilities</code></td><td>0</td></tr>
 </table>
 
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application.View.NavDirection</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>up</code></td><td>0</td></tr>
+<tr><td><code>down</code></td><td>1</td></tr>
+<tr><td><code>left</code></td><td>2</td></tr>
+<tr><td><code>right</code></td><td>3</td></tr>
+</table>
+
 ## Functions
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
@@ -486,7 +497,7 @@ Returns an encrypted challenge based on the TEA algortithm
 
 Returns the UMAC hash for the given challenge.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_application</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/application/#application">Application</a></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_application</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/application/#application" title="Application">Application</a></span>
 
 Returns the application instance.
 

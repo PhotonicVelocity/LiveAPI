@@ -16,19 +16,19 @@ This class represents a Max for Live device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### audio_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio">DeviceIO</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### audio_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio" title="DeviceIO">DeviceIO</a>]</span>
 
 <div class="member-desc">
 
@@ -36,9 +36,9 @@ Const access to a list of all audio inputs of the device.
 
 </div>
 
-##### audio_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio">DeviceIO</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### audio_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio" title="DeviceIO">DeviceIO</a>]</span>
 
 <div class="member-desc">
 
@@ -46,9 +46,9 @@ Const access to a list of all audio outputs of the device.
 
 </div>
 
-##### is_active<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### is_active<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -56,9 +56,9 @@ Return const access to whether this device is active. This will be false bothwhe
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -66,9 +66,9 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -76,9 +76,9 @@ Returns the latency of the device in samples.
 
 </div>
 
-##### midi_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### midi_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span>
 
 <div class="member-desc">
 
@@ -86,9 +86,9 @@ Const access to a list of all midi outputs of the device.
 
 </div>
 
-##### midi_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### midi_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span>
 
 <div class="member-desc">
 
@@ -104,9 +104,9 @@ Return access to the name of the device.
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
 
 <div class="member-desc">
 
@@ -120,9 +120,9 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 #### Signals
 
-##### bank_parameters_changed
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### bank_parameters_changed
 
 #### Methods
 
@@ -150,7 +150,7 @@ Get the indices of parameters of the given bank index. Empty slots are marked as
 
 </div>
 
-##### get_value_item_icons<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> list[str]</span>
+##### get_value_item_icons<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> list[str]</span>
 
 <div class="member-desc">
 

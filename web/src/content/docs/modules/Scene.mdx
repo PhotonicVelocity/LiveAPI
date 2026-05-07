@@ -16,19 +16,19 @@ This class represents an series of ClipSlots in Lives Sessionview matrix.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song" title="Song">Song</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a>]</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>]</span>
 
 <div class="member-desc">
 
@@ -36,9 +36,9 @@ return a list of clipslots (see class AClipSlot) that this scene covers.
 
 </div>
 
-##### color<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### color<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -46,9 +46,9 @@ Get/set access to the color of the scene (RGB).
 
 </div>
 
-##### color_index<span class="prop-type">: int | None</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### color_index<span class="prop-type">: int | None</span>
 
 <div class="member-desc">
 
@@ -56,9 +56,9 @@ Get/set access to the color index of the scene. Can be None for no color.
 
 </div>
 
-##### is_empty<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### is_empty<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -66,9 +66,9 @@ Returns True if all clip slots of this scene are empty.
 
 </div>
 
-##### is_triggered<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_triggered<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -76,9 +76,9 @@ Const access to the scene's trigger state.
 
 </div>
 
-##### name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### name<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -86,9 +86,9 @@ Get/Set the name of the scene.
 
 </div>
 
-##### tempo<span class="prop-type">: float</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### tempo<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -96,9 +96,9 @@ Get/Set the tempo value of the scene. The song will use the scene's tempo as soo
 
 </div>
 
-##### tempo_enabled<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### tempo_enabled<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -106,9 +106,9 @@ Get/Set the active state of the scene tempo. When disabled, the scene will use t
 
 </div>
 
-##### time_signature_denominator<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### time_signature_denominator<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -116,9 +116,9 @@ Get/Set the scene's time signature denominator. The song will use the scene's ti
 
 </div>
 
-##### time_signature_enabled<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### time_signature_enabled<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -126,9 +126,9 @@ Get the active state of the scene time signature. When disabled, the scene will 
 
 </div>
 
-##### time_signature_numerator<span class="prop-type">: int</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### time_signature_numerator<span class="prop-type">: int</span>
 
 <div class="member-desc">
 

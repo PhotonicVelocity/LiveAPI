@@ -17,19 +17,19 @@ This class represents a MIDI or Audio DSP-Device in Live.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### can_compare_ab<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### can_compare_ab<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -37,9 +37,9 @@ Returns true if the Device has the capability to AB compare.
 
 </div>
 
-##### can_have_chains<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### can_have_chains<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -47,9 +47,9 @@ Returns true if the device is a rack.
 
 </div>
 
-##### can_have_drum_pads<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### can_have_drum_pads<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -57,9 +57,9 @@ Returns true if the device is a drum rack.
 
 </div>
 
-##### class_display_name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### class_display_name<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -67,9 +67,9 @@ Return const access to the name of the device's class name as displayed in Live'
 
 </div>
 
-##### class_name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### class_name<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -77,9 +77,9 @@ Return const access to the name of the device's class.
 
 </div>
 
-##### is_active<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_active<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -87,9 +87,9 @@ Return const access to whether this device is active. This will be false bothwhe
 
 </div>
 
-##### is_using_compare_preset_b<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_using_compare_preset_b<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 
@@ -97,9 +97,9 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### latency_in_ms<span class="prop-type">: float</span>
 
 <div class="member-desc">
 
@@ -107,9 +107,9 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### latency_in_samples<span class="prop-type">: int</span>
 
 <div class="member-desc">
 
@@ -117,9 +117,9 @@ Returns the latency of the device in samples.
 
 </div>
 
-##### name<span class="prop-type">: str</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### name<span class="prop-type">: str</span>
 
 <div class="member-desc">
 
@@ -127,9 +127,9 @@ Return access to the name of the device.
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
 
 <div class="member-desc">
 
@@ -137,9 +137,9 @@ Const access to the list of available automatable parameters for this device.
 
 </div>
 
-##### type<span class="prop-type">: <a href="/LiveAPI/modules/device/#devicetype">DeviceType</a></span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### type<span class="prop-type">: <a href="/LiveAPI/modules/device/#devicetype" title="DeviceType">DeviceType</a></span>
 
 <div class="member-desc">
 
@@ -147,9 +147,9 @@ Return the type of the device.
 
 </div>
 
-##### view<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a>.View</span>
-
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/device/#deviceview" title="Device.View">View</a></span>
 
 <div class="member-desc">
 
@@ -191,19 +191,19 @@ Representing the view aspects of a device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### _live_ptr<span class="prop-type">: int</span>
 
 <div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a></span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span>
 
 <hr class="lom-pinned-separator" />
 
-##### is_collapsed<span class="prop-type">: bool</span>
-
 <div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
+
+##### is_collapsed<span class="prop-type">: bool</span>
 
 <div class="member-desc">
 

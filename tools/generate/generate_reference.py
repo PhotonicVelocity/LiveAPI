@@ -81,10 +81,17 @@ SKIP_MEMBERS = {
 # astro.config.mjs — Astro doesn't auto-prefix arbitrary content links.
 DOCS_URL_BASE = "/LiveAPI/modules"
 
-# Identifier-token regex used by the type linker. Single Python-style token —
-# composite types like `Vector[Clip] | None` keep their punctuation literal;
-# only the bare identifiers get linked.
-_TYPE_TOKEN_RE = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*\b")
+# Identifier-token regex used by the type linker. Matches either a
+# dotted PascalCase chain (greedy, longest-first — `Application.View.NavDirection`)
+# or a single identifier (`Clip`, `int`, `bool`). The dotted alternative
+# comes first so the regex engine prefers it; that lets the linker
+# look up nested types under their full qualified name in the registry
+# and link the whole chain to the correct anchor rather than partial-
+# matching the leading top-level class.
+_TYPE_TOKEN_RE = re.compile(
+    r"\b[A-Z][A-Za-z0-9_]*(?:\.[A-Z][A-Za-z0-9_]*)+\b"
+    r"|\b[A-Za-z_][A-Za-z0-9_]*\b"
+)
 
 # Strip `Live.<Module>.` prefix from qualified type strings for display.
 # `Live.Base.Vector[Live.Clip.Clip] | None` → `Vector[Clip] | None`.
@@ -124,20 +131,36 @@ def base_class_for(class_node: dict) -> str | None:
 
 
 def build_class_registry(modules: dict[str, dict]) -> dict[str, str]:
-    """Return `{ClassName: module_name}` for top-level documented types.
+    """Return `{display_name: module_name}` for every documented type.
 
-    Top-level classes and enums in each module are linkable; nested types
-    (e.g. `Track.View`, `Clip.WarpMode`) aren't anchored on their own pages
-    yet — they're left as plain text by the linker until Step 10.
+    Display name is the dotted simple form: `Track` for a top-level
+    class, `Application.View` for a depth-1 nested class,
+    `Application.View.NavDirection` for a depth-2 nested enum, etc.
+    Walks every module's class tree recursively so the linkifier can
+    resolve nested types of any depth.
     """
     registry: dict[str, str] = {}
+
+    def walk(cls: dict, prefix: str, module_name: str) -> None:
+        if not isinstance(cls, dict):
+            return
+        name = cls.get("name")
+        if not name:
+            return
+        full = f"{prefix}.{name}" if prefix else name
+        registry.setdefault(full, module_name)
+        for nested in cls.get("classes") or []:
+            walk(nested, full, module_name)
+        for enum in cls.get("enums") or []:
+            e_name = enum.get("name")
+            if e_name:
+                registry.setdefault(f"{full}.{e_name}", module_name)
+
     for module_name, doc in modules.items():
         for cls in doc.get("primary_class") or []:
-            if cls.get("name"):
-                registry.setdefault(cls["name"], module_name)
+            walk(cls, "", module_name)
         for cls in doc.get("classes") or []:
-            if cls.get("name"):
-                registry.setdefault(cls["name"], module_name)
+            walk(cls, "", module_name)
         for enum in doc.get("enums") or []:
             if enum.get("name"):
                 registry.setdefault(enum["name"], module_name)
@@ -149,20 +172,65 @@ def display_type(type_str: str) -> str:
     return _LIVE_PREFIX_RE.sub("", type_str)
 
 
-def linkify_type(type_str: str, registry: dict[str, str]) -> str:
+def linkify_type(
+    type_str: str,
+    registry: dict[str, str],
+    current_module: str | None = None,
+) -> str:
     """Wrap each registry-known identifier in the type string with an `<a>`.
 
     Composite types like `Vector[Clip] | None` are tokenized on word
     boundaries — punctuation passes through verbatim, and unknown
     identifiers (`bool`, `None`, `int`, ...) stay literal.
+
+    Dotted patterns (`Application.View.NavDirection`) try longest-prefix
+    matching against the registry: full path first, then progressively
+    shorter prefixes, so deeply-nested types link to the correct anchor
+    when registered, falling back to the top-level class link otherwise.
+    Anchors strip the dots — Starlight's auto-slug for an H3 heading
+    `Application.View.NavDirection` is `applicationviewnavdirection`.
+
+    `current_module` (the module being rendered) shortens the displayed
+    link text when the matched type lives on the same page: for a
+    same-module candidate, the longest same-module prefix is stripped
+    from the visible text. So `Application.View.NavDirection` on the
+    Application page renders as `NavDirection` (link still targets
+    `#applicationviewnavdirection`); cross-module references stay
+    fully qualified for disambiguation. The `title` attribute carries
+    the full qualified name for hover.
     """
 
     def replace(match: re.Match[str]) -> str:
         token = match.group(0)
-        module = registry.get(token)
-        if module is None:
-            return token
-        return f'<a href="{DOCS_URL_BASE}/{module.lower()}/#{token.lower()}">{token}</a>'
+        parts = token.split(".")
+        for i in range(len(parts), 0, -1):
+            candidate = ".".join(parts[:i])
+            module = registry.get(candidate)
+            if module is None:
+                continue
+            anchor = candidate.lower().replace(".", "")
+            display = candidate
+            if (
+                current_module is not None
+                and module.lower() == current_module.lower()
+                and i > 1
+            ):
+                for j in range(i - 1, 0, -1):
+                    prefix = ".".join(parts[:j])
+                    prefix_module = registry.get(prefix)
+                    if (
+                        prefix_module is not None
+                        and prefix_module.lower() == current_module.lower()
+                    ):
+                        display = ".".join(parts[j:i])
+                        break
+            link = (
+                f'<a href="{DOCS_URL_BASE}/{module.lower()}/#{anchor}" '
+                f'title="{candidate}">{display}</a>'
+            )
+            trailing = "".join(f".{p}" for p in parts[i:])
+            return f"{link}{trailing}"
+        return token
 
     return _TYPE_TOKEN_RE.sub(replace, type_str)
 
@@ -342,6 +410,7 @@ def _callable_args_returns_html(
     registry: dict[str, str],
     *,
     owning_class_name: str | None = None,
+    current_module: str | None = None,
 ) -> str:
     """Render the `(args) -> return` portion of a callable signature.
 
@@ -367,7 +436,7 @@ def _callable_args_returns_html(
         arg_type = _resolve(arg, "type")
         type_part = ""
         if arg_type:
-            type_part = f": {linkify_type(display_type(arg_type), registry)}"
+            type_part = f": {linkify_type(display_type(arg_type), registry, current_module=current_module)}"
         default = arg.get("default")
         if (
             prefix is not None
@@ -392,7 +461,7 @@ def _callable_args_returns_html(
         if return_type:
             return_part = (
                 f' <span class="meth-arrow">-&gt;</span> '
-                f'{linkify_type(display_type(return_type), registry)}'
+                f'{linkify_type(display_type(return_type), registry, current_module=current_module)}'
             )
     return f'<span class="meth-sig">({args_html}){return_part}</span>'
 
@@ -412,7 +481,9 @@ def function_signature_html(
     return _signature_html(
         name=fn["name"],
         module_name=module_name,
-        suffix=_callable_args_returns_html(fn, registry),
+        suffix=_callable_args_returns_html(
+            fn, registry, current_module=module_name,
+        ),
     )
 
 
@@ -421,6 +492,7 @@ def method_signature_html(
     registry: dict[str, str],
     *,
     owning_class_name: str | None = None,
+    current_module: str | None = None,
 ) -> str:
     """Render a Python-style method signature: `name(arg: T, k: T2 = D) -> R`.
 
@@ -430,7 +502,7 @@ def method_signature_html(
     signature wrapper since methods sit inside their class's page.
     """
     name = _resolve(method, "name")
-    return f'{name}{_callable_args_returns_html(method, registry, owning_class_name=owning_class_name)}'
+    return f'{name}{_callable_args_returns_html(method, registry, owning_class_name=owning_class_name, current_module=current_module)}'
 
 
 def member_description_text(member: dict) -> str | None:
@@ -490,18 +562,25 @@ def member_flags_html(member: dict) -> str:
     return f'<div class="prop-flags">{" ".join(chips)}</div>'
 
 
-def property_heading_html(prop: dict, registry: dict[str, str]) -> str:
+def property_heading_html(
+    prop: dict,
+    registry: dict[str, str],
+    current_module: str | None = None,
+) -> str:
     """Render a property name + Python-annotation-style type.
 
     H5 isn't in the right-side TOC (capped at H3) so the type can sit in
     the DOM text without polluting nav. Live types in the annotation
     become `<a>` links; non-Live tokens (`bool`, `None`, ...) stay literal.
+    `current_module` shortens same-module type display via `linkify_type`.
     """
     name = _resolve(prop, "name")
     type_str = _resolve(prop, "type")
     if not type_str:
         return name
-    rendered = linkify_type(display_type(type_str), registry)
+    rendered = linkify_type(
+        display_type(type_str), registry, current_module=current_module,
+    )
     return f'{name}<span class="prop-type">: {rendered}</span>'
 
 
@@ -917,23 +996,26 @@ def render_module_page(
                 # (RO / listen) still render — they're per-class facts,
                 # not redundant with the foundation page.
                 for prop in pinned:
-                    heading = property_heading_html(prop, registry)
-                    lines.append(f"##### {heading}")
-                    lines.append("")
+                    # Chips emitted BEFORE the H5 — CSS floats them
+                    # right so they visually appear on the same line
+                    # as the heading at the right edge of the column.
                     flags = member_flags_html(prop)
                     if flags:
                         lines.append(flags)
                         lines.append("")
+                    heading = property_heading_html(prop, registry, current_module=module_name)
+                    lines.append(f"##### {heading}")
+                    lines.append("")
                 lines.append('<hr class="lom-pinned-separator" />')
                 lines.append("")
             for prop in properties:
-                heading = property_heading_html(prop, registry)
-                lines.append(f"##### {heading}")
-                lines.append("")
                 flags = member_flags_html(prop)
                 if flags:
                     lines.append(flags)
                     lines.append("")
+                heading = property_heading_html(prop, registry, current_module=module_name)
+                lines.append(f"##### {heading}")
+                lines.append("")
                 desc = member_description_text(prop)
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
@@ -953,13 +1035,13 @@ def render_module_page(
             lines.append("#### Signals")
             lines.append("")
             for prop in signals:
-                heading = property_heading_html(prop, registry)
-                lines.append(f"##### {heading}")
-                lines.append("")
                 flags = member_flags_html(prop)
                 if flags:
                     lines.append(flags)
                     lines.append("")
+                heading = property_heading_html(prop, registry, current_module=module_name)
+                lines.append(f"##### {heading}")
+                lines.append("")
                 desc = member_description_text(prop)
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
@@ -987,16 +1069,17 @@ def render_module_page(
             lines.append("#### Methods")
             lines.append("")
             for method in methods:
-                heading = method_signature_html(
-                    method, registry,
-                    owning_class_name=cls.get("name"),
-                )
-                lines.append(f"##### {heading}")
-                lines.append("")
                 flags = member_flags_html(method)
                 if flags:
                     lines.append(flags)
                     lines.append("")
+                heading = method_signature_html(
+                    method, registry,
+                    owning_class_name=cls.get("name"),
+                    current_module=module_name,
+                )
+                lines.append(f"##### {heading}")
+                lines.append("")
                 desc = member_description_text(method)
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
@@ -1056,18 +1139,32 @@ def render_module_page(
     if main_class is not None:
         emit_class(main_class)
 
-    # Collect all non-primary classes onto a single flat list:
-    # other top-level classes + nested classes from every top-level class
-    # (including from primary). Nested classes render via the same
-    # `emit_class` machinery, but with a dotted display name (`Track.View`)
-    # so the qualified identity is clear. Parents' `Nested classes` link
-    # lists point into this section.
-    classes_flat: list[tuple[dict | None, dict]] = []
+    # Collect every non-primary class and every nested class/enum at
+    # any depth. Each hoisted entry carries the full dotted display
+    # path (e.g. `Application.View`, `Application.View.NavDirection`)
+    # so the qualified identity is clear and the slug matches the
+    # link list emitted by the parent's `#### Nested types` block.
+    # Parents' Nested types lists only show *direct* children — the
+    # reader walks into a nested class's hoisted entry to find its
+    # own Nested types list, recursively.
+    classes_flat: list[tuple[str | None, dict]] = []  # (display_path, cls)
+    enums_flat: list[tuple[str | None, dict]] = []    # (display_path, enum)
     for cls in other_classes:
         classes_flat.append((None, cls))
+    for enum in enums:
+        enums_flat.append((None, enum))
+
+    def _walk_nested(cls: dict, prefix: str) -> None:
+        for nc in cls.get("classes") or []:
+            display = f"{prefix}.{nc['name']}"
+            classes_flat.append((display, nc))
+            _walk_nested(nc, display)
+        for ne in cls.get("enums") or []:
+            display = f"{prefix}.{ne['name']}"
+            enums_flat.append((display, ne))
+
     for top_cls in [*primary_classes, *other_classes]:
-        for nc in top_cls.get("classes") or []:
-            classes_flat.append((top_cls, nc))
+        _walk_nested(top_cls, top_cls["name"])
 
     if classes_flat:
         # "Other classes" only makes sense when there's a primary; without
@@ -1075,23 +1172,13 @@ def render_module_page(
         header = "Other classes" if main_class is not None else "Classes"
         lines.append(f"## {header}")
         lines.append("")
-        for parent, cls in classes_flat:
-            display = f"{parent['name']}.{cls['name']}" if parent else None
+        for display, cls in classes_flat:
             emit_class(cls, display_name=display)
-
-    # Same flattening for enums — top-level module enums + nested ones.
-    enums_flat: list[tuple[dict | None, dict]] = []
-    for enum in enums:
-        enums_flat.append((None, enum))
-    for top_cls in [*primary_classes, *other_classes]:
-        for ne in top_cls.get("enums") or []:
-            enums_flat.append((top_cls, ne))
 
     if enums_flat:
         lines.append("## Enums")
         lines.append("")
-        for parent, enum in enums_flat:
-            display = f"{parent['name']}.{enum['name']}" if parent else None
+        for display, enum in enums_flat:
             sig = enum_signature_html(enum, module_name, display_name=display)
             lines.append(f"### {sig}")
             lines.append("")
