@@ -222,12 +222,26 @@
   color: var(--sl-color-white);
   font-weight: 700;
 }
-/* Inheritance base — parens stay at default body color so they don't
-   compete with the linked class name. The inner <a> uses Starlight's
-   default link color, matching property-type links elsewhere on the
-   page (consistent type-link treatment regardless of position). */
+/* Inheritance base — rendered entirely via CSS pseudo-elements so the
+   base text doesn't bleed into the H3's `textContent` (Starlight's
+   right-side TOC reads textContent, and we want it to show only the
+   class name). The parens are pseudo-elements on `.sig-base`; the
+   base name is a pseudo-element on the empty `.sig-base-link` /
+   `.sig-base-text` element (text comes from `data-base`). The link
+   stays clickable — clicks on the rendered text hit the underlying
+   `<a>`. */
 .sig-base {
   font-weight: 400;
+}
+.sig-base::before {
+  content: "(";
+}
+.sig-base::after {
+  content: ")";
+}
+.sig-base-link::before,
+.sig-base-text::before {
+  content: attr(data-base);
 }
 
 /* LomObject badge — small pill rendered after a LOM class's signature

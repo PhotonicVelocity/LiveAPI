@@ -268,36 +268,56 @@ def _signature_html(
     *,
     name: str,
     module_name: str,
-    base_html: str | None = None,
+    base_name: str | None = None,
+    base_href: str | None = None,
     suffix: str = "",
 ) -> str:
     """Render a path-prefixed signature span.
 
-    Nested span structure so the path can be a CSS pseudo-element (kept
-    out of DOM text, so the right-side TOC sees the bare name), while
-    the base lives in the DOM as a real element (so it can host a link
-    to the base class's reference page):
+    Nested span structure so the path AND the inheritance base both
+    sit out of DOM text — the right-side TOC reads only the bare
+    class/enum/function name. The path is a CSS pseudo-element on
+    `.sig-name::before` (via `data-path`); the base name and its
+    surrounding parens are CSS pseudo-elements on the empty
+    `.sig-base-link` / `.sig-base-text` element (via `data-base`):
 
         <span class="sig">
           <span class="sig-name" data-path=...>NAME</span>
-          <span class="sig-base">(BASE_HTML)</span>      # optional
+          <span class="sig-base">                   # optional
+            <a class="sig-base-link" href=... data-base=...></a>
+          </span>
         </span>
+
+    The `<a>` for a linked base has no DOM children but renders the
+    base name via `::before { content: attr(data-base) }`; clicks on
+    the rendered text hit the `<a>` so navigation still works.
+    `aria-label` carries the base name for screen readers.
 
     No leading keyword (`class` / `enum` / `def`). The page's section
     header (`## Other classes` / `## Enums` / `## Functions`) already
     labels the kind, and the structural shape of the signature
     (inheritance parens vs args + return vs neither) communicates the
-    member type. Repeating the keyword on every entry was redundant —
-    and `enum` was anyway a Sphinx-doc convention rather than literal
-    Python (Live's enums are int-subclass `class`es bound by
-    Boost.Python).
+    member type.
 
     `suffix` is for visual additions kept in DOM text — primarily the
-    `(args) -> R` portion on function / method signatures, hung off
-    the suffix slot via `_callable_args_returns_html`.
+    LomObject chip on classes (also rendered with empty DOM text so
+    its label doesn't pollute the TOC).
     """
     inner_attrs = f' data-path="Live.{module_name}."'
-    base_part = f'<span class="sig-base">({base_html})</span>' if base_html else ""
+    if base_name:
+        if base_href:
+            base_inner = (
+                f'<a class="sig-base-link" href="{base_href}" '
+                f'data-base="{base_name}" aria-label="{base_name}"></a>'
+            )
+        else:
+            base_inner = (
+                f'<span class="sig-base-text" data-base="{base_name}" '
+                f'aria-label="{base_name}"></span>'
+            )
+        base_part = f'<span class="sig-base">{base_inner}</span>'
+    else:
+        base_part = ""
     return (
         f'<span class="sig">'
         f'<span class="sig-name"{inner_attrs}>{name}</span>'
@@ -369,19 +389,18 @@ def class_signature_html(
     from `::before`), so Starlight's TOC stays clean.
     """
     base = base_class_for(cls)
-    base_html: str | None = None
+    base_href: str | None = None
     if base:
         target_module = registry.get(base)
         if target_module:
-            base_html = (
-                f'<a href="{DOCS_URL_BASE}/{target_module.lower()}/#{base.lower()}">{base}</a>'
+            base_href = (
+                f"{DOCS_URL_BASE}/{target_module.lower()}/#{base.lower()}"
             )
-        else:
-            base_html = base
     sig = _signature_html(
         name=display_name or cls["name"],
         module_name=module_name,
-        base_html=base_html,
+        base_name=base,
+        base_href=base_href,
     )
     # Append the LomObject chip INSIDE the sig HTML (so it goes inside
     # the H3 element when emitted as `### {sig}`). The chip's `<a>`
@@ -1032,13 +1051,14 @@ def render_module_page(
                 # (RO / listen) still render — they're per-class facts,
                 # not redundant with the foundation page.
                 for prop in pinned:
-                    # Chip HTML appended INSIDE the H5 line — `<span>`
-                    # / `<a>` chips with no DOM text content; visible
-                    # labels rendered via CSS `::before`. CSS floats
-                    # the chips right within the H5.
+                    # Chips suppressed on the pinned LOM-universal pair.
+                    # `_live_ptr` and `canonical_parent` are inherently
+                    # read-only and the pinned-pair section header
+                    # already frames them as the LOM identity /
+                    # navigation surface — adding `[read-only]` chips
+                    # to each is noise the section already conveys.
                     heading = property_heading_html(prop, registry, current_module=module_name)
-                    flags = member_flags_html(prop)
-                    lines.append(f"##### {heading}{flags}")
+                    lines.append(f"##### {heading}")
                     lines.append("")
                 lines.append('<hr class="lom-pinned-separator" />')
                 lines.append("")
