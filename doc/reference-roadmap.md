@@ -69,10 +69,10 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 5 + 7 + 8 + 9 + 10 complete plus nested-type
-hoisting (Step 11 structural piece); module descriptions hand-authored
-across all 43 modules; LomObject foundation page + LOM badge /
-pinned-pair treatment across every LOM class.
+Status: Steps 1 through 5 + 7 + 8 + 9 + 10 + 14 complete plus
+nested-type hoisting (Step 11 structural piece); module descriptions
+hand-authored across all 43 modules; LomObject foundation page + LOM
+badge / pinned-pair treatment across every LOM class.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -184,9 +184,17 @@ pinned-pair treatment across every LOM class.
   `<field>_override:` block in `stubs/<v>/lom/*.yaml`, render the `source:`
   and `confidence:` inline with the member (small italic note under the
   type line, or a callout block — design when the data lands).
-- **Step 14 — Inherited methods.** Same idea as Step 5 but for methods,
-  once methods are rendered (Step 8). Same display approach decision as
-  inherited properties applies — likely the same answer.
+- **Step 14 — Inherited methods.** ✅ Done. Inherited methods render
+  in the same `#### Inherited` block as inherited properties — one
+  line per ancestor, members comma-separated. Methods get a `()`
+  suffix on the link text so the eye picks up the kind without
+  needing to click into the signature. Same dedup machinery as
+  properties (BFS by ancestor, first occurrence wins, own-class
+  members shadow inherited copies, `__init__` filtered via
+  `SKIP_MEMBERS`). `inherited_properties_block` widened + renamed to
+  `inherited_block`. `starlight_slug` now decodes HTML entities first
+  so method anchors (`-&gt;` in source) match the rendered-page slug
+  Starlight generates from `->`.
 
 After Step 13, every field in `stubs/<v>/lom/*.yaml` (parser-derived
 fields plus override blocks) is rendered. Phase 1 is structurally complete.

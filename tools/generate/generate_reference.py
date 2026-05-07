@@ -28,6 +28,7 @@ Defaults:
 from __future__ import annotations
 
 import argparse
+import html
 import re
 import sys
 from pathlib import Path
@@ -479,15 +480,19 @@ _HTML_TAG_RE = re.compile(r"<[^>]+>")
 def starlight_slug(heading_text: str) -> str:
     """Mirror Starlight's heading-to-id slug behavior (GitHub-style slugger).
 
-    Algorithm: lowercase, strip HTML tags, drop punctuation (`.` `:` `(` `)`
-    etc.) WITHOUT inserting a separator, replace runs of whitespace with a
+    Algorithm: strip HTML tags, decode HTML entities (so `&gt;` collapses
+    to `>` and gets dropped as punctuation, matching what Starlight's
+    slugger sees from the rendered heading), lowercase, drop punctuation
+    WITHOUT inserting a separator, replace runs of whitespace with a
     single `-`, trim leading/trailing `-`. Examples:
       `name: str`                          → `name-str`
       `parameters: ATimeableValueVector`   → `parameters-atimeablevaluevector`
       `Track(DeviceContainer)`             → `trackdevicecontainer`
       `view: Device.View`                  → `view-deviceview`
+      `foo() -&gt; None`                   → `foo---none`
     """
-    text = _HTML_TAG_RE.sub("", heading_text).lower()
+    text = _HTML_TAG_RE.sub("", heading_text)
+    text = html.unescape(text).lower()
     # Drop punctuation; keep word chars, whitespace, and dashes
     text = re.sub(r"[^\w\s-]", "", text)
     # Whitespace runs → single `-`
@@ -565,6 +570,46 @@ def resolve_lom_universal(
     return out
 
 
+def inherited_methods(
+    cls: dict,
+    class_index: dict[str, tuple[str, dict]],
+) -> list[tuple[str, str, dict]]:
+    """Walk the class's ancestor chain transitively and collect inherited
+    methods as (ancestor_qpath, ancestor_module_name, method_dict).
+
+    Same dedup machinery as `inherited_properties`: BFS by ancestor,
+    first occurrence per name wins (so closer ancestors with covariant
+    overrides shadow farther ancestors), and the class's own methods
+    shadow inherited copies. `SKIP_MEMBERS` filtered (`__init__`).
+    """
+    out: list[tuple[str, str, dict]] = []
+    own_names = {
+        _resolve(m, "name")
+        for m in (cls.get("methods") or [])
+        if _resolve(m, "name")
+    }
+    seen_names: set[str] = set(own_names)
+    seen_ancestors: set[str] = set()
+    stack = list(cls.get("ancestors") or [])
+    while stack:
+        anc_path = stack.pop(0)
+        if anc_path in seen_ancestors:
+            continue
+        seen_ancestors.add(anc_path)
+        entry = class_index.get(anc_path)
+        if entry is None:
+            continue
+        _anc_module, anc_cls = entry
+        for method in anc_cls.get("methods") or []:
+            name = _resolve(method, "name")
+            if not name or name in SKIP_MEMBERS or name in seen_names:
+                continue
+            seen_names.add(name)
+            out.append((anc_path, _anc_module, method))
+        stack.extend(anc_cls.get("ancestors") or [])
+    return out
+
+
 def inherited_properties(
     cls: dict,
     class_index: dict[str, tuple[str, dict]],
@@ -608,7 +653,7 @@ def inherited_properties(
     return out
 
 
-def inherited_properties_block(
+def inherited_block(
     cls: dict,
     class_index: dict[str, tuple[str, dict]],
     registry: dict[str, str],
@@ -618,43 +663,61 @@ def inherited_properties_block(
 
         #### Inherited
 
-        From `Device`: [can_compare_ab](...), [class_name](...)
+        From `Device`: [can_compare_ab](...), [class_name](...), [foo()](...)
 
-    One line per ancestor, comma-joined property links inline. Compact;
-    surfaces what's available without re-declaring full type/listenable.
+    One line per ancestor, comma-joined member links inline. Properties
+    render as bare names (`name`); methods render with parens (`foo()`)
+    so the eye picks up the kind without dropping into the type / arg
+    detail. Compact — surfaces what's available without re-declaring
+    full signatures.
 
     Universal LOM members (`_live_ptr`, `canonical_parent`) are pinned
     at the top of the Properties section by `emit_class`, so they're
-    filtered out of the inherited block here to avoid double-rendering.
+    filtered out here to avoid double-rendering.
     """
-    inherited = [
+    inherited_props = [
         (a, m, p) for (a, m, p) in inherited_properties(cls, class_index)
         if _resolve(p, "name") not in LOM_UNIVERSAL_MEMBERS
     ]
-    if not inherited:
+    inherited_meths = inherited_methods(cls, class_index)
+    if not inherited_props and not inherited_meths:
         return []
 
-    # Group by ancestor, preserving first-encountered order.
-    by_ancestor: list[tuple[str, str, list[dict]]] = []
+    # Group by ancestor, preserving first-encountered order. Each entry:
+    # [path, module, props, methods].
+    by_ancestor: list[list] = []
     seen: dict[str, int] = {}
-    for anc_path, anc_module, prop in inherited:
+
+    def _slot(anc_path: str, anc_module: str) -> list:
         if anc_path not in seen:
             seen[anc_path] = len(by_ancestor)
-            by_ancestor.append((anc_path, anc_module, []))
-        by_ancestor[seen[anc_path]][2].append(prop)
+            by_ancestor.append([anc_path, anc_module, [], []])
+        return by_ancestor[seen[anc_path]]
+
+    for anc_path, anc_module, prop in inherited_props:
+        _slot(anc_path, anc_module)[2].append(prop)
+    for anc_path, anc_module, method in inherited_meths:
+        _slot(anc_path, anc_module)[3].append(method)
 
     out = ["#### Inherited", ""]
-    for anc_path, anc_module, props in by_ancestor:
+    for anc_path, anc_module, props, methods in by_ancestor:
         anc_name = anc_path.rsplit(".", 1)[-1]
-        # Each prop link points to the ancestor's H5 anchor on the ancestor's
-        # module page. Anchor matches Starlight's auto-slug of the H5 text.
-        links = []
+        links: list[str] = []
         for p in props:
             pname = _resolve(p, "name")
-            heading = property_heading_html(p, registry)
-            slug = starlight_slug(heading)
+            slug = starlight_slug(property_heading_html(p, registry))
             links.append(
                 f'[{pname}]({DOCS_URL_BASE}/{anc_module.lower()}/#{slug})'
+            )
+        for method in methods:
+            mname = _resolve(method, "name")
+            slug = starlight_slug(
+                method_signature_html(
+                    method, registry, owning_class_name=anc_name,
+                )
+            )
+            links.append(
+                f'[{mname}()]({DOCS_URL_BASE}/{anc_module.lower()}/#{slug})'
             )
         out.append(f"From `{anc_name}`: {', '.join(links)}")
         out.append("")
@@ -820,7 +883,7 @@ def render_module_page(
         # Inherited members from transitive ancestors — rendered as a
         # single H4 block under the class so what's available via the
         # MRO is visible without re-declaring every type / listener.
-        for line in inherited_properties_block(cls, class_index, registry):
+        for line in inherited_block(cls, class_index, registry):
             lines.append(line)
         methods = [
             m for m in (cls.get("methods") or [])
