@@ -1,9 +1,132 @@
 module: Listener
+title: Listeners
+_note: |
+  Special-cased in the rendered reference site: hoisted above the
+  alphabetical Modules group as a first-class sidebar entry (see
+  `web/astro.config.mjs`), and the `listen` property-flag chip on
+  every observable property's reference page links here. Touch this
+  module's prose with that prominence in mind — it is the foundation
+  page describing the LOM subscription model, not just a class
+  reference for `ListenerHandle` / `ListenerVector`.
 description: |
-  Holds the bookkeeping types behind Live's listener callbacks. The
-  `ListenerHandle` class wraps an active subscription on an observable LOM
-  property; the `ListenerVector` collects multiple handles for bulk lifetime
-  management.
+  Live's observable properties — those marked `[listen]` on reference
+  pages — expose a callback-based subscription model. Three methods
+  bind onto the property's owning class for each observable property,
+  derived mechanically from the property name:
+
+  ```
+  add_<prop>_listener(callback)
+  remove_<prop>_listener(callback)
+  <prop>_has_listener(callback)
+  ```
+
+  These triplets aren't shown in their own right on class pages —
+  they fold under the property they belong to, with the `[listen]`
+  chip as the surface signal. The shape is uniform: every observable
+  property in the LOM exposes the same three methods.
+
+  ## Subscribing
+
+  Register a callback with `add_<prop>_listener(callback)`. Live fires
+  the callback when the property's value changes. The callback is
+  invoked with **no arguments** — it's a notification that a change
+  occurred, not a delivery of the new value. Read the current value
+  by accessing the property on the owning object:
+
+  ```python
+  def on_tempo_change():
+      print(song.transport.tempo)
+
+  song.transport.add_tempo_listener(on_tempo_change)
+  ```
+
+  Deregister via `remove_<prop>_listener(callback)`. Removal matches
+  by object identity — the same function reference must be passed to
+  both `add` and `remove`. Inspect via `<prop>_has_listener(callback)`,
+  returning bool.
+
+  ## Lifetime: keep callbacks alive
+
+  Live holds the registered callback for as long as the subscription
+  is active, but Python's garbage collector doesn't know about that
+  reference. If the only Python-side handle on the callback is the
+  one inside the `add_..._listener(callback)` call itself, the
+  function may be reclaimed when its surrounding scope exits — and
+  the subscription becomes silently inert.
+
+  Stash callbacks somewhere with a stable lifetime: a module-level
+  variable, an attribute on a long-lived object, or a `ListenerVector`
+  (the bookkeeping container documented below — collects multiple
+  handles for bulk lifetime management).
+
+  Bound methods are particularly fragile. `self.on_tempo_change`
+  creates a fresh bound-method instance on every attribute access:
+
+  ```python
+  song.transport.add_tempo_listener(self.on_tempo_change)
+  ...
+  song.transport.remove_tempo_listener(self.on_tempo_change)
+  # ↑ different bound-method instance — does not match the registration
+  ```
+
+  Bind once, store the reference, pass that reference to both `add`
+  and `remove`:
+
+  ```python
+  self._on_tempo_change = self.on_tempo_change
+  song.transport.add_tempo_listener(self._on_tempo_change)
+  ...
+  song.transport.remove_tempo_listener(self._on_tempo_change)
+  ```
+
+  ## Threading
+
+  Listener attachment runs on Live's main thread. Callback invocation
+  fires synchronously when Live decides the property has changed,
+  presumed (but unverified) to also run on Live's main thread. Don't
+  block inside a callback — long-running work in a synchronous
+  handler stalls the message pump that delivers the next event.
+  Compute, queue for a worker, and return.
+
+  ## When the underlying object is destroyed
+
+  Listeners are bound to a `LomObject` instance. When the C++ side
+  destroys the underlying object — track deleted, clip removed, Set
+  closed — Live **does not call the listener** to notify of the
+  destruction. Subsequent attribute reads on the
+  destroyed-but-still-Python-referenced LomObject typically raise;
+  the subscription is simply silently inert.
+
+  Code that needs to unwind subscriptions on destruction has to
+  detect it by other means — typically by listening on a parent
+  collection (e.g. `Song.tracks`'s listener fires on track deletion,
+  with the deleted track no longer in the returned list).
+
+  ## Signal-only triplets
+
+  Not every listener triplet has a readable property behind it. `Clip`
+  exposes `add_notes_listener` / `remove_notes_listener` /
+  `notes_has_listener` for being notified when a clip's notes change,
+  but `clip.notes` itself isn't an attribute — there's no property to
+  read, only the signal that something happened. Same shape on
+  `Clip.loop_jump` and a handful of others. The triplet exists as a
+  pure event subscription; the would-be property is a YAML organizing
+  fiction we use to give the triplet a name.
+
+  Reference pages surface these as named entries under the class's
+  Properties section (`notes`, `loop_jump`, ...) carrying the same
+  `[listen]` chip as value-bearing observable properties — the
+  subscription mechanism is identical, so the navigation surface is
+  uniform. The visible difference: signal-only entries have no type
+  annotation, because there's no value to type.
+
+  ## Bookkeeping types
+
+  `ListenerHandle` and `ListenerVector` are the runtime classes
+  Live's binding exposes for managing subscriptions in aggregate.
+  Documented below; relevant when a long-lived component manages
+  many subscriptions and wants a single container for their
+  lifetimes.
 
 classes:
 - name: ListenerHandle

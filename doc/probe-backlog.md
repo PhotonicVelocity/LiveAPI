@@ -74,6 +74,53 @@ graduate off this list as records are written.
   `canonical_parent` until it returns `None` or repeats; log the
   terminator class for each starting class.
 
+### Listeners — `add_*_listener` return value
+
+- **Claim** (Listener foundation page, Subscribing section): "Register
+  a callback with `add_<prop>_listener(callback)`."
+- **What's known**: LiveRelay's bridge (`bridge.py:1250`) calls the
+  method but discards any return value, so the bridge's behavior is
+  agnostic.
+- **What's unverified**: the runtime-level return value. `None`?
+  `ListenerHandle`? Something else? Worth knowing because the prose
+  on this page documents `ListenerHandle` as a bookkeeping class but
+  doesn't claim it's the return value.
+- **Probe sketch**: subscribe a no-op callback to
+  `song.transport.tempo`; capture the return; report `type(...)` and
+  `repr(...)`. Repeat across a few representative listenable
+  properties (signal-only, value-bearing, on different LOM classes).
+
+### Listeners — callback firing thread
+
+- **Claim** (Listener foundation page, Threading section): "Callback
+  invocation fires synchronously when Live decides the property has
+  changed, presumed (but unverified) to also run on Live's main
+  thread."
+- **What's known**: LiveRelay docs confirm listener *attachment* runs
+  on Live's main thread. Firing thread is presumed but not documented.
+- **What's unverified**: whether callbacks fire on the main thread,
+  the audio thread, a message-pump thread, or context-dependent.
+  Material for callers contemplating thread-affine work in handlers.
+- **Probe sketch**: subscribe a callback that records
+  `threading.current_thread().name`; trigger property changes for a
+  representative set (transport state, clip notes, song selection);
+  log thread names.
+
+### Listeners — same callback added twice
+
+- **Claim** (Listener foundation page, Subscribing section): "Removal
+  matches by object identity — the same function reference must be
+  passed to both `add` and `remove`."
+- **What's known**: LiveRelay's bridge doesn't prevent double-add on
+  its side; the runtime behavior is opaque.
+- **What's unverified**: when the same callback identity is added
+  twice, does Live fire it twice (separate registrations), once
+  (idempotent), or raise? Affects whether callers need to wrap their
+  own dedupe.
+- **Probe sketch**: register a callback that increments a counter;
+  call `add_..._listener(callback)` twice; trigger the property
+  change once; assert the counter equals 1 vs 2.
+
 ## Graduated (links to records)
 
 _None yet — Phase 2 record schema not locked._

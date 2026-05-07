@@ -69,10 +69,11 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 5 + 7 + 8 + 9 + 10 + 14 complete plus
-nested-type hoisting (Step 11 structural piece); module descriptions
-hand-authored across all 43 modules; LomObject foundation page + LOM
-badge / pinned-pair treatment across every LOM class.
+Status: Steps 1 through 10 + 14 complete plus nested-type hoisting
+(Step 11 structural piece); module descriptions hand-authored across
+all 43 modules; LomObject + Listener foundation pages hoisted in the
+sidebar; LOM badge / pinned-pair treatment + property flag chips
+(`read-only` / `listen`) on every applicable property.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -116,9 +117,15 @@ badge / pinned-pair treatment across every LOM class.
   LomObject base is demonstrably present on every class. Layout is
   comma-separated per-ancestor (one line each); revisit visual treatment
   later if the density becomes a problem on Device subclasses.
-- **Step 6 — Property settable / listenable.** Annotate with `(get/set,
-  listenable)` derived from the `settable` flag and the existence of
-  `add_X_listener` siblings. Goes inline with the type line.
+- **Step 6 — Property settable / listenable.** ✅ Done. Each property
+  in the rendered Properties section gets a chip row between the H5
+  heading and the description, surfacing the modifiers the type
+  annotation alone doesn't carry: `read-only` chip when
+  `settable: false`, `listen` chip when the property has a folded
+  listener triplet. Settable + not-listenable (the common default)
+  renders no chip — only deviations carry visual weight. The `listen`
+  chip links to `/LiveAPI/modules/listener/` (the foundation page
+  describing the subscription model — see Step 11.5 / sidebar hoist).
 - **Step 7 — Property descriptions.** ✅ Done. Each property's
   description renders below the H5 heading. Resolution prefers a
   hand-authored property-level `description:` field; falls back to the

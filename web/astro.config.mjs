@@ -37,6 +37,11 @@ export default defineConfig({
           badge: { text: "core", variant: "tip" },
         },
         {
+          label: "Listener",
+          link: "/modules/listener/",
+          badge: { text: "core", variant: "tip" },
+        },
+        {
           label: "Modules",
           autogenerate: { directory: "modules" },
           collapsed: false,

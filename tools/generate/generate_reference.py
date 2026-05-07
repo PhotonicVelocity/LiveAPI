@@ -850,10 +850,23 @@ def render_module_page(
             lines.append(class_description.strip())
             lines.append("")
         rendered_name = display_name or cls["name"]
-        properties = [
-            p for p in (cls.get("properties") or [])
-            if _resolve(p, "name") and _resolve(p, "name") not in SKIP_MEMBERS
-        ]
+        # Partition the YAML's `properties:` list into real properties
+        # (anything with a type) and signal-only triplets (`listenable:`
+        # but no `type:` — see Listener page §"Signal-only triplets").
+        # Signal-only entries aren't readable attributes; they exist
+        # only as listener triplets, so they render under their own
+        # `#### Signals` section rather than mixed into Properties
+        # where the absence of a type would be silently misleading.
+        properties: list[dict] = []
+        signals: list[dict] = []
+        for p in (cls.get("properties") or []):
+            pname = _resolve(p, "name")
+            if not pname or pname in SKIP_MEMBERS:
+                continue
+            if not _resolve(p, "type") and _resolve(p, "listenable"):
+                signals.append(p)
+            else:
+                properties.append(p)
         # Pin LOM-universal members (`_live_ptr`, `canonical_parent`) at
         # the top of the Properties section on every LomObject class
         # other than LomObject itself. Resolves each from the closest
@@ -924,6 +937,27 @@ def render_module_page(
         # MRO is visible without re-declaring every type / listener.
         for line in inherited_block(cls, class_index, registry):
             lines.append(line)
+        # Signal-only listener triplets — `notes`, `loop_jump`, etc.
+        # Surfaced in their own section so the reader doesn't read
+        # them as untyped properties; the section header is the
+        # signal that "these are subscription points, not attributes."
+        # The `[listen]` chip stays on each entry as the link to the
+        # Listener foundation page.
+        if signals:
+            lines.append("#### Signals")
+            lines.append("")
+            for prop in signals:
+                heading = property_heading_html(prop, registry)
+                lines.append(f"##### {heading}")
+                lines.append("")
+                flags = property_flags_html(prop)
+                if flags:
+                    lines.append(flags)
+                    lines.append("")
+                desc = member_description_text(prop)
+                if desc:
+                    lines.append(desc)
+                    lines.append("")
         methods = [
             m for m in (cls.get("methods") or [])
             if _resolve(m, "name") and _resolve(m, "name") not in SKIP_MEMBERS
