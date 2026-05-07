@@ -216,8 +216,18 @@ def _signature_html(
     )
 
 
-def class_signature_html(cls: dict, module_name: str, registry: dict[str, str]) -> str:
-    """Render `class Name(Base):` — Base linked to its anchor when known."""
+def class_signature_html(
+    cls: dict,
+    module_name: str,
+    registry: dict[str, str],
+    display_name: str | None = None,
+) -> str:
+    """Render `class Name(Base):` — Base linked to its anchor when known.
+
+    `display_name` overrides the bare `cls["name"]` for the rendered text;
+    used to display dotted nested-class names (e.g. `Track.View` instead of
+    just `View`) when a nested class is rendered at the top level.
+    """
     base = base_class_for(cls)
     base_html: str | None = None
     if base:
@@ -230,17 +240,26 @@ def class_signature_html(cls: dict, module_name: str, registry: dict[str, str]) 
             base_html = base
     return _signature_html(
         kw="class",
-        name=cls["name"],
+        name=display_name or cls["name"],
         module_name=module_name,
         base_html=base_html,
     )
 
 
-def enum_signature_html(enum: dict, module_name: str) -> str:
-    """All Live enums inherit `int`; the base is implicit and not shown."""
+def enum_signature_html(
+    enum: dict,
+    module_name: str,
+    display_name: str | None = None,
+) -> str:
+    """All Live enums inherit `int`; the base is implicit and not shown.
+
+    `display_name` overrides the bare `enum["name"]` for the rendered text;
+    used to display dotted nested-enum names (e.g. `Track.monitoring_states`)
+    when a nested enum is rendered at the top level alongside module enums.
+    """
     return _signature_html(
         kw="enum",
-        name=enum["name"],
+        name=display_name or enum["name"],
         module_name=module_name,
     )
 
@@ -278,19 +297,22 @@ _HTML_TAG_RE = re.compile(r"<[^>]+>")
 
 
 def starlight_slug(heading_text: str) -> str:
-    """Mirror Starlight's heading-to-id slug behavior.
+    """Mirror Starlight's heading-to-id slug behavior (GitHub-style slugger).
 
-    Observed pattern from the rendered site: lowercase, strip HTML tags,
-    keep alphanumerics + underscores, replace runs of any other characters
-    (`:`, ` `, `[`, `]`, `,`, ...) with a single `-`. Trim leading/trailing
-    `-`. Examples:
+    Algorithm: lowercase, strip HTML tags, drop punctuation (`.` `:` `(` `)`
+    etc.) WITHOUT inserting a separator, replace runs of whitespace with a
+    single `-`, trim leading/trailing `-`. Examples:
       `name: str`                          → `name-str`
       `parameters: ATimeableValueVector`   → `parameters-atimeablevaluevector`
-      `can_compare_ab: bool`               → `can_compare_ab-bool`
+      `Track(DeviceContainer)`             → `trackdevicecontainer`
+      `view: Device.View`                  → `view-deviceview`
     """
     text = _HTML_TAG_RE.sub("", heading_text).lower()
-    out = re.sub(r"[^a-z0-9_]+", "-", text)
-    return out.strip("-")
+    # Drop punctuation; keep word chars, whitespace, and dashes
+    text = re.sub(r"[^\w\s-]", "", text)
+    # Whitespace runs → single `-`
+    text = re.sub(r"\s+", "-", text)
+    return text.strip("-")
 
 
 def build_class_index(modules: dict[str, dict]) -> dict[str, tuple[str, dict]]:
@@ -455,16 +477,29 @@ def render_module_page(
     lines.append(description)
     lines.append("")
 
-    def emit_class(cls: dict) -> None:
-        """Append a class block — H3 signature, description, properties,
-        and inherited-from-ancestor properties.
+    def emit_class(cls: dict, display_name: str | None = None) -> None:
+        """Append a class block — H3 signature, description, then the
+        class's H4 section scaffold (Properties, Methods, Nested classes,
+        Nested enums, Constants).
+
+        Nested classes render as a link list pointing OUT to where they're
+        rendered at the top level (in the page's own `## Nested classes`
+        H2 section). This keeps every class on a uniform render — same
+        depth, same heading levels, same future member layout — instead
+        of inlining nested classes one level deeper and running out of
+        heading levels.
+
+        `display_name` overrides the rendered class name (used to show
+        `Track.View` for a nested class hoisted to the top level).
         """
-        lines.append(f"### {class_signature_html(cls, module_name, registry)}")
+        sig = class_signature_html(cls, module_name, registry, display_name=display_name)
+        lines.append(f"### {sig}")
         lines.append("")
         doc_text = normalize_paragraph(cls.get("raw_doc"))
         if doc_text:
             lines.append(doc_text)
             lines.append("")
+        rendered_name = display_name or cls["name"]
         properties = [
             p for p in (cls.get("properties") or [])
             if _resolve(p, "name") and _resolve(p, "name") not in SKIP_MEMBERS
@@ -472,11 +507,48 @@ def render_module_page(
         if properties:
             lines.append("#### Properties")
             lines.append("")
-            for prop in properties:
-                lines.append(f"##### {property_heading_html(prop, registry)}")
-                lines.append("")
-        for line in inherited_properties_block(cls, class_index, registry):
-            lines.append(line)
+        if cls.get("methods"):
+            lines.append("#### Methods")
+            lines.append("")
+        # Nested types — classes and enums declared inside this class.
+        # Surfaced as a unified link list pointing into the page's flat
+        # top-level `## Other classes` / `## Enums` sections, where they're
+        # rendered once. Keeps the parent-class member layout flat (one
+        # section per kind: properties, methods, nested types) instead of
+        # splitting on declaration kind.
+        nested_classes = cls.get("classes") or []
+        nested_enums = cls.get("enums") or []
+        if nested_classes or nested_enums:
+            lines.append("#### Nested types")
+            lines.append("")
+            for nc in nested_classes:
+                nc_display = f"{rendered_name}.{nc['name']}"
+                base = base_class_for(nc)
+                # Anchor matches Starlight's auto-slug for the H3 heading
+                # we'll emit at the top level. The H3 visible text is the
+                # full signature span — `Name(Base)` after HTML stripping.
+                anchor_text = f"{nc_display}({base})" if base else nc_display
+                anchor = starlight_slug(anchor_text)
+                first_line = first_sentence(nc.get("raw_doc")) or ""
+                line = f"- [`{nc_display}`](#{anchor})"
+                if first_line:
+                    line += f" — {first_line}"
+                lines.append(line)
+            for ne in nested_enums:
+                ne_display = f"{rendered_name}.{ne['name']}"
+                # H3 text for an enum is just the dotted name (kw/path are
+                # CSS pseudo-elements), so the slug is simpler than for a
+                # class with a base.
+                anchor = starlight_slug(ne_display)
+                first_line = first_sentence(ne.get("raw_doc")) or ""
+                line = f"- [`{ne_display}`](#{anchor})"
+                if first_line:
+                    line += f" — {first_line}"
+                lines.append(line)
+            lines.append("")
+        if cls.get("constants"):
+            lines.append("#### Constants")
+            lines.append("")
 
     def emit_member(heading_html: str, doc_text: str | None) -> None:
         """Append an H3 heading + an optional description paragraph below.
@@ -493,24 +565,49 @@ def render_module_page(
     if main_class is not None:
         emit_class(main_class)
 
-    if other_classes:
+    # Collect all non-primary classes onto a single flat list:
+    # other top-level classes + nested classes from every top-level class
+    # (including from primary). Nested classes render via the same
+    # `emit_class` machinery, but with a dotted display name (`Track.View`)
+    # so the qualified identity is clear. Parents' `Nested classes` link
+    # lists point into this section.
+    classes_flat: list[tuple[dict | None, dict]] = []
+    for cls in other_classes:
+        classes_flat.append((None, cls))
+    for top_cls in [*primary_classes, *other_classes]:
+        for nc in top_cls.get("classes") or []:
+            classes_flat.append((top_cls, nc))
+
+    if classes_flat:
+        # "Other classes" only makes sense when there's a primary; without
+        # one (function-only modules and the like) just call them Classes.
         header = "Other classes" if main_class is not None else "Classes"
         lines.append(f"## {header}")
         lines.append("")
-        for cls in other_classes:
-            emit_class(cls)
+        for parent, cls in classes_flat:
+            display = f"{parent['name']}.{cls['name']}" if parent else None
+            emit_class(cls, display_name=display)
 
-    if enums:
-        lines.append("## Module Enums")
+    # Same flattening for enums — top-level module enums + nested ones.
+    enums_flat: list[tuple[dict | None, dict]] = []
+    for enum in enums:
+        enums_flat.append((None, enum))
+    for top_cls in [*primary_classes, *other_classes]:
+        for ne in top_cls.get("enums") or []:
+            enums_flat.append((top_cls, ne))
+
+    if enums_flat:
+        lines.append("## Enums")
         lines.append("")
-        for enum in enums:
+        for parent, enum in enums_flat:
+            display = f"{parent['name']}.{enum['name']}" if parent else None
             emit_member(
-                enum_signature_html(enum, module_name),
+                enum_signature_html(enum, module_name, display_name=display),
                 normalize_paragraph(enum.get("raw_doc")),
             )
 
     if functions:
-        lines.append("## Module Functions")
+        lines.append("## Functions")
         lines.append("")
         for fn in functions:
             emit_member(

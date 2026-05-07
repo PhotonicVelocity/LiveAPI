@@ -69,8 +69,8 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 4 + base-class inheritance linking complete; module
-descriptions hand-authored across all 43 modules.
+Status: Steps 1 through 5 complete plus nested-type hoisting (Step 11
+structural piece); module descriptions hand-authored across all 43 modules.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -131,10 +131,23 @@ descriptions hand-authored across all 43 modules.
 - **Step 10 — Module-level functions.** Currently rendered as headings only.
   Add full signature with args + return type, the `description` field as
   prose, and `**Parameters:**` / `**Returns:**` labeled sections.
-- **Step 11 — Nested classes.** Classes defined inside other classes
-  (e.g., `Clip.View`, `Track.View`, `Song.View`). Render as their own
-  section on the parent class's page, with the nested class's properties
-  / methods rendered inline.
+- **Step 11 — Nested classes + enums.** ✅ Structural piece done
+  (member rendering inherits from Steps 6–8 once those land). Classes
+  and enums declared inside other classes (e.g., `Clip.View`, `Track.View`,
+  `Track.monitoring_states`) are **hoisted** to top-level rendering on
+  the same page rather than rendered inline-indented under the parent.
+  Decision: chose Approach B (hoist) over Approach A (inline) to avoid
+  heading-level exhaustion — a nested class with its own properties /
+  methods would have run out of distinct heading levels before the
+  member-section pass even started. The parent class shows a single
+  `#### Nested types` subsection that lists the nested classes and enums
+  as a link list pointing to their hoisted anchors. Hoisted nested classes
+  render via the same `emit_class` machinery as top-level classes (with
+  a dotted display name, `Track.View`, for qualified identity); hoisted
+  nested enums fold into the page's `## Enums` section likewise. This
+  also collapsed the previous `## Other classes` / `## Nested classes`
+  split into one section, and `## Module Enums` / `## Module Functions`
+  shed the now-redundant "Module" qualifier.
 - **Step 12 — References / Access via.** Cross-reference pass — for each
   class T, list every member elsewhere in the LOM whose type / return
   is T. Implemented as a single tree-walk at generator startup that

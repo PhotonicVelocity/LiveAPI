@@ -15,129 +15,11 @@ This class represents a Live set.
 
 #### Properties
 
-##### appointed_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a> | None</span>
+#### Methods
 
-##### arrangement_overdub<span class="prop-type">: bool</span>
+#### Nested types
 
-##### back_to_arranger<span class="prop-type">: bool</span>
-
-##### can_capture_midi<span class="prop-type">: bool</span>
-
-##### can_jump_to_next_cue<span class="prop-type">: bool</span>
-
-##### can_jump_to_prev_cue<span class="prop-type">: bool</span>
-
-##### can_redo<span class="prop-type">: bool</span>
-
-##### can_undo<span class="prop-type">: bool</span>
-
-##### canonical_parent<span class="prop-type">: None</span>
-
-##### clip_trigger_quantization<span class="prop-type">: <a href="/LiveAPI/modules/song/#quantization">Quantization</a></span>
-
-##### count_in_duration<span class="prop-type">: int</span>
-
-##### cue_points<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/song/#cuepoint">CuePoint</a>]</span>
-
-##### current_song_time<span class="prop-type">: float</span>
-
-##### exclusive_arm<span class="prop-type">: bool</span>
-
-##### exclusive_solo<span class="prop-type">: bool</span>
-
-##### file_path<span class="prop-type">: str</span>
-
-##### groove_amount<span class="prop-type">: float</span>
-
-##### groove_pool<span class="prop-type">: <a href="/LiveAPI/modules/groovepool/#groovepool">GroovePool</a></span>
-
-##### is_ableton_link_enabled<span class="prop-type">: bool</span>
-
-##### is_ableton_link_start_stop_sync_enabled<span class="prop-type">: bool</span>
-
-##### is_counting_in<span class="prop-type">: bool</span>
-
-##### is_playing<span class="prop-type">: bool</span>
-
-##### last_event_time<span class="prop-type">: float</span>
-
-##### loop<span class="prop-type">: bool</span>
-
-##### loop_length<span class="prop-type">: float</span>
-
-##### loop_start<span class="prop-type">: float</span>
-
-##### master_track<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
-
-##### metronome<span class="prop-type">: bool</span>
-
-##### midi_recording_quantization<span class="prop-type">: <a href="/LiveAPI/modules/song/#recordingquantization">RecordingQuantization</a></span>
-
-##### name<span class="prop-type">: str</span>
-
-##### nudge_down<span class="prop-type">: bool</span>
-
-##### nudge_up<span class="prop-type">: bool</span>
-
-##### overdub<span class="prop-type">: bool</span>
-
-##### punch_in<span class="prop-type">: bool</span>
-
-##### punch_out<span class="prop-type">: bool</span>
-
-##### re_enable_automation_enabled<span class="prop-type">: bool</span>
-
-##### record_mode<span class="prop-type">: bool</span>
-
-##### return_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
-
-##### root_note<span class="prop-type">: int</span>
-
-##### scale_intervals<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
-
-##### scale_mode<span class="prop-type">: bool</span>
-
-##### scale_name<span class="prop-type">: str</span>
-
-##### scenes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/scene/#scene">Scene</a>]</span>
-
-##### select_on_launch<span class="prop-type">: bool</span>
-
-##### session_automation_record<span class="prop-type">: bool</span>
-
-##### session_record<span class="prop-type">: bool</span>
-
-##### session_record_status<span class="prop-type">: <a href="/LiveAPI/modules/song/#sessionrecordstatus">SessionRecordStatus</a></span>
-
-##### signature_denominator<span class="prop-type">: int</span>
-
-##### signature_numerator<span class="prop-type">: int</span>
-
-##### song_length<span class="prop-type">: float</span>
-
-##### start_time<span class="prop-type">: float</span>
-
-##### swing_amount<span class="prop-type">: float</span>
-
-##### tempo<span class="prop-type">: float</span>
-
-##### tempo_follower_enabled<span class="prop-type">: bool</span>
-
-##### tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
-
-##### tuning_system<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#tuningsystem">TuningSystem</a></span>
-
-##### view<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a>.View</span>
-
-##### visible_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
-
-##### data
-
-##### scale_information
-
-#### Inherited
-
-From `LomObject`: [_live_ptr](/LiveAPI/modules/lomobject/#_live_ptr-int)
+- [`Song.View`](#songviewlomobject) — Representing the view aspects of a Live document: The Session and Arrangerview.
 
 ## Other classes
 
@@ -147,13 +29,7 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
 #### Properties
 
-##### bars<span class="prop-type">: int</span>
-
-##### beats<span class="prop-type">: int</span>
-
-##### sub_division<span class="prop-type">: int</span>
-
-##### ticks<span class="prop-type">: int</span>
+#### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">CuePoint</span><span class="sig-base">(<a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a>)</span></span>
 
@@ -161,15 +37,7 @@ Represents a 'Marker' in the arrangement.
 
 #### Properties
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a></span>
-
-##### name<span class="prop-type">: str</span>
-
-##### time<span class="prop-type">: float</span>
-
-#### Inherited
-
-From `LomObject`: [_live_ptr](/LiveAPI/modules/lomobject/#_live_ptr-int)
+#### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
 
@@ -177,15 +45,17 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 #### Properties
 
-##### frames<span class="prop-type">: int</span>
+#### Methods
 
-##### hours<span class="prop-type">: int</span>
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">Song.View</span><span class="sig-base">(<a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a>)</span></span>
 
-##### minutes<span class="prop-type">: int</span>
+Representing the view aspects of a Live document: The Session and Arrangerview.
 
-##### seconds<span class="prop-type">: int</span>
+#### Properties
 
-## Module Enums
+#### Methods
+
+## Enums
 
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">CaptureDestination</span></span>
 
@@ -203,7 +73,7 @@ The capture mode that is used for capture and insert scene.
 
 ### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">TimeFormat</span></span>
 
-## Module Functions
+## Functions
 
 ### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Song.">get_all_scales_ordered</span></span>()
 

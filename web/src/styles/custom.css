@@ -34,7 +34,8 @@
    Reads as a section divider but at a more subdued level than the class
    signature itself. Uppercase + tracking is the convention for "this is a
    section label, not a member identifier."  */
-.sl-markdown-content h4 {
+.sl-markdown-content h4,
+.sl-markdown-content h6 {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -43,6 +44,15 @@
 .sl-markdown-content .sl-heading-wrapper.level-h4 {
   margin-top: 1rem;
   margin-bottom: 0;
+}
+/* H6 — nested-class subsection label (Properties, Methods, ... inside a
+   nested class's body). Same styling as H4 but indented to sit under the
+   nested-class signature, parallel to how nested classes themselves are
+   indented under their owning class. */
+.sl-markdown-content .sl-heading-wrapper.level-h6 {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  padding-left: 1.5rem;
 }
 
 /* H5 — member identifier (property name, eventually method name).
@@ -57,6 +67,14 @@
   margin-top: 0.4rem;
   margin-bottom: 0.25rem;
   padding-left: 1.5rem;
+}
+/* Nested type headings (class / enum / future function) — semantically H5
+   (kept out of the TOC, indented under their owning class), but visually
+   the same size as a top-level class signature. The indent preserves
+   structural nesting; the size matches because a nested type is the same
+   kind of thing as a top-level type (just owned by another class). */
+.sl-markdown-content h5:has(.sig) {
+  font-size: var(--sl-text-h3);
 }
 
 /* Property type annotation — `: Type` after the property name.
