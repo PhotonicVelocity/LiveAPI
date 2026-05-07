@@ -151,26 +151,26 @@ Returns relevant information after unlock
 
 ## Functions
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
 Advances the current date by the number of days specified by _AuthClockDaysAhead
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span><span class="meth-sig">(<span class="meth-arg">reauthorize</span>: bool, <span class="meth-arg">is_trial</span>: bool) <span class="meth-arrow">-&gt;</span> str</span>
 
 Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
 Returns the environment-aware purchase URL for purchasing Live licenses
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
 Returns the URL against which service calls (e.g. for authorization) can be performed.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[str, bool]</span>
 
 Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span><span class="meth-sig">(<span class="meth-arg">url</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
 
 Opens a web browser at the specified URL on the user's computer.

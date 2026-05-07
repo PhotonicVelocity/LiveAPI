@@ -69,7 +69,7 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 5 + 7 + 8 + 9 complete plus nested-type
+Status: Steps 1 through 5 + 7 + 8 + 9 + 10 complete plus nested-type
 hoisting (Step 11 structural piece); module descriptions hand-authored
 across all 43 modules; LomObject foundation page + LOM badge /
 pinned-pair treatment across every LOM class.
@@ -144,9 +144,18 @@ pinned-pair treatment across every LOM class.
   rendered in backticks; integer values bare. Same machinery handles
   hoisted nested enums (`Track.monitoring_states`, ...) since they
   share the flat top-level rendering path.
-- **Step 10 — Module-level functions.** Currently rendered as headings only.
-  Add full signature with args + return type, the `description` field as
-  prose, and `**Parameters:**` / `**Returns:**` labeled sections.
+- **Step 10 — Module-level functions.** ✅ Done (signature only).
+  Each function on the page's `## Functions` section renders the
+  H3 keyword/path signature followed by a Python-style `(args) -> R`
+  portion using the same `.meth-sig` machinery as class methods —
+  factored into `_callable_args_returns_html` shared by both. Args
+  honor `name_override`, types linkified, defaults colorized.
+  Description below uses `member_description_text` (hand-authored
+  `description:` first, runtime `raw_doc` second). Deferred from
+  the original step: explicit `**Parameters:**` / `**Returns:**`
+  labeled sections — the inline annotation reads cleanly enough that
+  the labeled-section treatment may not be needed; revisit if the
+  page becomes harder to scan once more functions land.
 - **Step 11 — Nested classes + enums.** ✅ Structural piece done
   (member rendering inherits from Steps 6–8 once those land). Classes
   and enums declared inside other classes (e.g., `Clip.View`, `Track.View`,

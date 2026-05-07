@@ -290,22 +290,22 @@ Specifies the dialog type for Push.
 
 ## Functions
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
 
 Returns true if multiple APCs should be combined.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span><span class="meth-sig">(<span class="meth-arg">dongle1</span>: int, <span class="meth-arg">dongle2</span>: int, <span class="meth-arg">key_index</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> tuple[int, ...]</span>
 
 Returns an encrypted challenge based on the TEA algortithm
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span><span class="meth-sig">(<span class="meth-arg">challenge</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
 Returns the UMAC hash for the given challenge.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_application</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_application</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/application/#application">Application</a></span>
 
 Returns the application instance.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span>()
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span><span class="meth-sig">(<span class="meth-arg">min_value</span>: int, <span class="meth-arg">max_value</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
 Returns a random integer from the given range.

@@ -334,43 +334,30 @@ def enum_signature_html(
     )
 
 
-def function_signature_html(fn: dict, module_name: str) -> str:
-    """Empty parens for now — full args land in a later step."""
-    return _signature_html(
-        kw="def",
-        name=fn["name"],
-        module_name=module_name,
-        suffix="()",
-    )
-
-
-def method_signature_html(
-    method: dict,
+def _callable_args_returns_html(
+    callable_node: dict,
     registry: dict[str, str],
     *,
     owning_class_name: str | None = None,
 ) -> str:
-    """Render a Python-style method signature: `name(arg: T, k: T2 = D) -> R`.
+    """Render the `(args) -> return` portion of a callable signature.
 
-    Drops the implicit `self`. Honors `name_override` on args because the
-    parser-derived names are Boost.Python's `arg1` / `arg2` / ... — the
-    overrides come from corpus + M4L docs and carry the real names.
+    Shared between class methods and module-level functions. Returns
+    the inner HTML for a `.meth-sig` span:
 
-    Layout: name in monospace bold (inherits from H5), args + return
-    rendered in a `.meth-sig` span that styles them as muted scaffolding
-    so the method name dominates — same idea as property type
-    annotations (`prop-type` span).
+        <span class="meth-sig">(<span class="meth-arg">x</span>: T,
+          <span class="meth-arg">k</span>: T2 = <span class="meth-default">D</span>)
+          <span class="meth-arrow">-&gt;</span> R</span>
 
-    When `owning_class_name` is supplied, defaults of the form
-    `<owning_class_name>.X.Y` (e.g. `Song.CaptureMode.all` on a method
-    declared on `Song`) drop the redundant class-name prefix. The class
-    page already announces the class; repeating the name in every
-    enum-default just adds horizontal noise.
+    Drops `self` (methods only). Honors `name_override` on args
+    (Boost.Python's `arg1` / `arg2` placeholders supplanted by corpus +
+    M4L docs). When `owning_class_name` is supplied, defaults of the
+    form `<owning_class_name>.X.Y` drop the redundant class-name prefix
+    on the class's own page.
     """
-    name = _resolve(method, "name")
     prefix = f"{owning_class_name}." if owning_class_name else None
     arg_parts: list[str] = []
-    for arg in method.get("args") or []:
+    for arg in callable_node.get("args") or []:
         arg_name = _resolve(arg, "name")
         if arg_name == "self":
             continue
@@ -395,7 +382,7 @@ def method_signature_html(
             f'{type_part}{default_part}'
         )
     args_html = ", ".join(arg_parts)
-    returns = method.get("returns") or {}
+    returns = callable_node.get("returns") or {}
     return_part = ""
     if isinstance(returns, dict):
         return_type = _resolve(returns, "type")
@@ -404,10 +391,44 @@ def method_signature_html(
                 f' <span class="meth-arrow">-&gt;</span> '
                 f'{linkify_type(display_type(return_type), registry)}'
             )
-    return (
-        f'{name}'
-        f'<span class="meth-sig">({args_html}){return_part}</span>'
+    return f'<span class="meth-sig">({args_html}){return_part}</span>'
+
+
+def function_signature_html(
+    fn: dict,
+    module_name: str,
+    registry: dict[str, str],
+) -> str:
+    """Module-level function signature: `def name(args) -> return`.
+
+    Same kw/path/name framing as classes (rendered as H3 with the
+    keyword as a CSS pseudo-element); the args + return portion is the
+    same `.meth-sig` span machinery as methods, hung off the suffix
+    slot of `_signature_html`.
+    """
+    return _signature_html(
+        kw="def",
+        name=fn["name"],
+        module_name=module_name,
+        suffix=_callable_args_returns_html(fn, registry),
     )
+
+
+def method_signature_html(
+    method: dict,
+    registry: dict[str, str],
+    *,
+    owning_class_name: str | None = None,
+) -> str:
+    """Render a Python-style method signature: `name(arg: T, k: T2 = D) -> R`.
+
+    Method name in monospace bold (inherits from H5); args + return in
+    the `.meth-sig` muted scaffolding span — same machinery as
+    module-level functions, just without the surrounding kw/path
+    signature wrapper since methods sit inside their class's page.
+    """
+    name = _resolve(method, "name")
+    return f'{name}{_callable_args_returns_html(method, registry, owning_class_name=owning_class_name)}'
 
 
 def member_description_text(member: dict) -> str | None:
@@ -939,8 +960,8 @@ def render_module_page(
         lines.append("")
         for fn in functions:
             emit_member(
-                function_signature_html(fn, module_name),
-                normalize_paragraph(fn.get("raw_doc")),
+                function_signature_html(fn, module_name, registry),
+                member_description_text(fn),
             )
 
     return "\n".join(lines)

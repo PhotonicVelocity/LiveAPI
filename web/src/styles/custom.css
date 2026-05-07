@@ -93,7 +93,7 @@
    builtin/unrecognized types (`bool`, `None`, `int`) so they fade into
    scaffolding. Linked Live types override via their own anchor styling. */
 .sl-markdown-content h5 .prop-type,
-.sl-markdown-content h5 .meth-sig {
+.sl-markdown-content .meth-sig {
   font-weight: 400;
   color: var(--sl-color-gray-3);
 }
@@ -123,14 +123,14 @@
    - Arg names (.meth-arg)    : lighter than scaffolding, monospace bold-ish
    - Defaults  (.meth-default): warm accent (Python REPL convention)
    - Return arrow (.meth-arrow): kept muted, slightly more legible */
-.sl-markdown-content h5 .meth-sig .meth-arg {
+.sl-markdown-content .meth-sig .meth-arg {
   color: var(--sl-color-text);
   font-weight: 500;
 }
-.sl-markdown-content h5 .meth-sig .meth-default {
+.sl-markdown-content .meth-sig .meth-default {
   color: var(--sl-color-orange-high);
 }
-.sl-markdown-content h5 .meth-sig .meth-arrow {
+.sl-markdown-content .meth-sig .meth-arrow {
   color: var(--sl-color-gray-2);
 }
 
