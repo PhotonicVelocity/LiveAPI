@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 """Generate Starlight (Astro) MDX reference pages from LiveTree.refined.json.
 
+NOTE: The JSON-layer refinement pipeline that produced LiveTree.refined.json
+has been retired (refinements now live in stubs/<v>/lom/*.yaml as the curated
+SOT). This script still reads the legacy refined.json file from the local
+pipeline cache; porting it to read directly from lom/ is a pending follow-up
+under Phase 1 of the reference roadmap.
+
 Phase 1 of the documentation roadmap (`doc/reference-roadmap.md`): mechanical
 translation of what the parser already knows. Built incrementally per the
 step-ladder — each step adds one layer of detail to the rendered output.

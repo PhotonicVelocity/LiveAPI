@@ -8,10 +8,11 @@
 
 ## Phase 0: where we are today
 
-- Capture + parse + refine pipeline producing `LiveTree.refined.json`.
-- Stubs generated from the refined tree, including parser-side enum widening,
-  NoneType normalization, listener `Callable[[], None]` typing, refinement
-  override system.
+- Capture + parse + lom-build pipeline producing `stubs/<v>/lom/*.yaml`
+  (the curated SOT — algorithmic seed plus sibling `<field>_override:` blocks).
+- Stubs generated from `lom/` via `build_stubs_from_yaml.py`, including
+  parser-side enum widening, optional widening, listener-triplet folding,
+  parametric-container detection, and the override mechanism.
 - Stub docstrings = runtime Boost.Python `__doc__` strings, verbatim.
 - No reference site (parked).
 - No hypothesis records, no behavioral probing.
@@ -21,16 +22,16 @@ covered at all.
 
 ## Phase 1 — Reference v0: render what we already know
 
-**Goal.** Resurface a published reference site, but driven from the refined
-tree this time (not AST-parsing the `.pyi` like the old generator did). Pure
+**Goal.** Resurface a published reference site, but driven from the lom YAML
+SOT this time (not AST-parsing the `.pyi` like the old generator did). Pure
 mechanical translation of what the parser already knows; no human-authored
 content yet.
 
 **What lands.**
 
-- A new `tools/generate/generate_reference.py` that consumes
-  `LiveTree.refined.json`. Eliminates the duplicate-parse logic the audit
-  flagged.
+- `tools/generate/generate_reference.py` ported from the legacy
+  `LiveTree.refined.json` input to read `stubs/<v>/lom/*.yaml` directly.
+  Eliminates the duplicate-parse logic the audit flagged.
 - Per-class markdown pages with: title, full path, type signatures,
   property/method/enum tables, `Access via` cross-reference list, runtime
   docstring as the description (with a small "auto-generated docstring" tag
@@ -64,9 +65,9 @@ work tossed; Starlight project lives at `web/`.
 
 The generator is built up incrementally — each step is its own commit-sized
 change, each step's output is independently shippable. Earlier steps consume
-just the structural surface from the refined tree; later steps add detail
-until everything in `LiveTree.refined.json` and `manual_refinements.yaml`
-flows through to the rendered page.
+just the structural surface from the lom YAML; later steps add detail until
+everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
+blocks) flows through to the rendered page.
 
 Status as of context reset (mid-Step 2, Blender-styled signatures landed
 across class / enum / function headings, main class promoted):
@@ -125,19 +126,17 @@ listenable)` derived from the `settable` flag and the existence of
   collapsible `<details>` at the bottom of each class section, or a
   `## References` section near the page bottom (decide by looking at
   layout density once the data lands).
-- **Step 12 — Refinement metadata surfacing.** When a member has an entry
-  in `manual_refinements.yaml`, render the `source:` and `confidence:`
-  inline with the member (small italic note under the type line, or a
-  callout block — design when the data lands). The `_note:` field — when
-  present — gets a more prominent callout since it's typically richer
-  prose worth surfacing.
+- **Step 12 — Refinement metadata surfacing.** When a field has a sibling
+  `<field>_override:` block in `stubs/<v>/lom/*.yaml`, render the `source:`
+  and `confidence:` inline with the member (small italic note under the
+  type line, or a callout block — design when the data lands).
 - **Step 13 — Inherited members.** For classes with parents in the LOM
   (mostly just `LomObject` for Live document objects, but some richer
   hierarchies exist), show inherited properties / methods in their own
   section with bullet links to the base class's documentation.
 
-After Step 13, every field in `LiveTree.refined.json` +
-`manual_refinements.yaml` is rendered. Phase 1 is structurally complete.
+After Step 13, every field in `stubs/<v>/lom/*.yaml` (parser-derived
+fields plus override blocks) is rendered. Phase 1 is structurally complete.
 Phase 2's authored prose / hypothesis records is the next layer of
 content, not infrastructure.
 
@@ -172,7 +171,7 @@ plumbing, with humans as the only verifier."
   level for now), quirks, verified-against (still version-tagged, just
   empty-handed).
 - Storage convention decided. Lean: per-class file in
-  `doc/records/<Class>.yaml`, parallel to `tools/parse/manual_refinements.yaml`.
+  `doc/records/<Class>.yaml`, parallel to `stubs/<v>/lom/<Module>.yaml`.
 - Validator script run in CI: ensures every record refers to a real symbol
   in the refined tree, schema is well-formed, no duplicate IDs.
 - Reference generator extended to read records. Authored description
@@ -229,7 +228,7 @@ shape, one output shape.
 **Connection to manual refinements.** The probe driver doesn't just verify
 behavioral assertions (side effects, raises, listener fires) — it can also
 verify type claims (this property is settable, accepts T, returns T on read).
-That means today's `confidence: high` in `manual_refinements.yaml`
+That means today's `confidence: high` in lom override blocks
 (corpus-verified) becomes `confidence: verified` (runtime-probed) once the
 probe touches the same member. The refinement system and the hypothesis
 system converge on a single confidence ladder; type accuracy and behavioral
@@ -274,9 +273,8 @@ verifying via cold path.
 - A coverage tracker (probably auto-generated): which members have records,
   which records have verified hypotheses, which are still `unprobed`.
   Renders as a page on the reference site so it's visible to readers.
-- Investigation backlog: `refinements_followup.md`-style file listing
-  members worth investigating, ordered by impact (Song / Track / Clip
-  before edge cases).
+- Investigation backlog: a markdown file listing members worth investigating,
+  ordered by impact (Song / Track / Clip before edge cases).
 - Per-class records, one class at a time, working down a priority list.
 
 **Why last.** This phase isn't a feature; it's iteration on infrastructure
@@ -300,8 +298,8 @@ don't get rediscovered as surprises later.
   audit). Reference and stub-docstring injection both inherit the gap.
   Resolve before any class with a non-trivial constructor enters Phase 5
   scope. The fix is upstream of the documentation work — it's a parser/
-  generator gap to close in `parse_apicapture_results.py` and
-  `generate_stubs.py`.
+  generator gap to close in `parse_apicapture_results_v2.py`,
+  `build_lom_yaml.py`, and `build_stubs_from_yaml.py`.
 - **Stable URLs.** Class-page anchors are easy. Per-member anchors are
   easy. Per-assertion sub-anchors (`#warp_markers-slope-rule`) require
   thinking through the URL contract before records get cited from

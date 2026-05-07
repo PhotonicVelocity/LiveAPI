@@ -61,11 +61,12 @@ without letting users type them as kwargs"; it stays.
    - Return **types** and property **types**: same rule — what was observed from Live, otherwise `Any`.
    - Generic-looking but truthful beats pretty but wrong.
 
-   **Manual refinements** (`tools/parse/manual_refinements.yaml`) are the one sanctioned override path,
-   used only to correct known wrongness — a probed type that's loose where the binding is strict, a
-   missing element-type on a `Vector`, a return type the parser couldn't infer. Every entry carries a
-   `source:` field with concrete evidence (corpus def-site, M4L doc citation, raw_doc text). Refinements
-   never invent narrowings the binding doesn't actually accept.
+   **Manual refinements** live as sibling `<field>_override:` blocks next to the parser-derived value in
+   `stubs/<v>/lom/*.yaml`. They are the one sanctioned override path, used only to correct known
+   wrongness — a probed type that's loose where the binding is strict, a missing element-type on a
+   `Vector`, a return type the parser couldn't infer. Every override carries a `source:` field with
+   concrete evidence (corpus def-site, M4L doc citation, raw_doc text). Refinements never invent
+   narrowings the binding doesn't actually accept.
 
 3. **MaxForLive docs: docstring-only.** M4L describes a related-but-distinct API. Its content flows into
    `.pyi` docstrings as informational prose ("Max for Live names this parameter `direction`") and never

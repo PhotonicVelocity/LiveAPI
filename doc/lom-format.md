@@ -6,8 +6,9 @@ emitted to `stubs/<v>/reports/seed/<Module>.yaml` by Stage 2 of the
 pipeline — see [`dataflow.md`](dataflow.md)).
 
 This is the format both stub generation (4a) and reference page
-generation (4b) consume. Examples below are real entries from
-`LiveTree.refined.json`, recast in YAML.
+generation (4b) consume. Examples below are real entries from the
+hand-curated `stubs/<v>/lom/<Module>.yaml` files (the SOT — algorithmic
+seed plus sibling `<field>_override:` blocks).
 
 ## Conventions
 
@@ -299,7 +300,7 @@ lands.
 
 ## Deferred
 
-- **Confidence vocabulary.** Today's `manual_refinements.yaml` uses
+- **Confidence vocabulary.** The legacy `manual_refinements.yaml` (now ported into `lom/`) used
   `high` / `medium` / `low`; the design draft mentions `verified` /
   `state-dependent` / `intermittent` / `mismatch` / `unprobed`. To
   reconcile when hypothesis verification lands.

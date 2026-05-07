@@ -18,45 +18,48 @@ where the data lives between stages. For *why* each piece exists see
                           LiveTree.raw.json + LiveClasses.json
                                           ▼
                 ┌────────────────────────────────────────────────────────┐
-                │   Stage 2 — PARSE                                      │
+                │   Stage 2a — PARSE                                     │
                 │   driver:  tools/parse/run_parse_pipeline.py           │
-                │   runs:    tools/parse/parse_apicapture_results.py     │
+                │   runs:    tools/parse/parse_apicapture_results_v2.py  │
                 └────────────────────────────────────────────────────────┘
                                           │
-                          LiveTree.parsed.json (immutable)
+                          LiveTree.parsed.v2.json (immutable)
+                                          ▼
+                ┌────────────────────────────────────────────────────────┐
+                │   Stage 2b — BUILD YAML SEED                           │
+                │   driver:  tools/parse/run_parse_pipeline.py           │
+                │   runs:    tools/parse/build_lom_yaml.py               │
+                └────────────────────────────────────────────────────────┘
+                                          │
+                          stubs/<v>/reports/seed/*.yaml
                                           │
    ┌────────────────────────────────┐     │
-   │ tools/parse/                   │     │
-   │   manual_refinements.yaml      │─────┤
-   │ (HAND-CURATED, ~2000 lines)    │     │
-   └────────────────────────────────┘     ▼
-                ┌────────────────────────────────────────────────────────┐
-                │   Stage 3 — REFINE                                     │
-                │   driver:  tools/parse/run_parse_pipeline.py           │
-                │   runs:    tools/parse/apply_manual_refinements.py     │
-                └────────────────────────────────────────────────────────┘
-                                          │
-                          LiveTree.refined.json (committed)
-                                          ▼
-              ┌───────────────────────────┴───────────────────────────┐
-              ▼                                                       ▼
+   │ stubs/<v>/lom/*.yaml           │  ◀──┘  (resync at intentional checkpoints)
+   │ HAND-CURATED SOT — seed +      │
+   │ sibling <field>_override:      │
+   │ blocks (each with source:)     │
+   └────────────────┬───────────────┘
+                    ▼
+              ┌─────┴─────────────────────────────────────────────┐
+              ▼                                                   ▼
    ┌──────────────────────────────────┐         ┌──────────────────────────────────┐
-   │  Stage 4a — STUBS                │         │  Stage 4b — REFERENCE PAGES      │
-   │  tools/generate/generate_stubs.py│         │  tools/generate/                 │
-   │                                  │         │    generate_reference.py         │
+   │  Stage 3a — STUBS                │         │  Stage 3b — REFERENCE PAGES      │
+   │  tools/generate/                 │         │  tools/generate/                 │
+   │    build_stubs_from_yaml.py      │         │    generate_reference.py         │
+   │                                  │         │    (pending lom/ port)           │
    │  → stubs/<v>/Live/*.pyi          │         │  → web/.../modules/*.mdx         │
    └──────────────────────────────────┘         └──────────────────────────────────┘
                                                               │
                                                               ▼
                                                 ┌──────────────────────────────────┐
-                                                │  Stage 5 — SITE BUILD            │
+                                                │  Stage 4 — SITE BUILD            │
                                                 │  npm run build (web/)            │
                                                 │  Astro / Starlight integration   │
                                                 │  → web/dist/ → GitHub Pages      │
                                                 └──────────────────────────────────┘
 ```
 
-`LiveTree.refined.json` is the **single source of truth** that fans out into
+`stubs/<v>/lom/*.yaml` is the **single source of truth** that fans out into
 both renderings (stubs and reference). Nothing is hand-maintained twice.
 
 ---
@@ -93,12 +96,12 @@ the raw capture (confusing naming — see Stage 3a).
 
 ---
 
-## Stage 2 — Parse (offline)
+## Stage 2a — Parse (offline)
 
-**Tool:** [`tools/parse/parse_apicapture_results.py`](../tools/parse/parse_apicapture_results.py)
+**Tool:** [`tools/parse/parse_apicapture_results_v2.py`](../tools/parse/parse_apicapture_results_v2.py)
 (invoked via [`tools/parse/run_parse_pipeline.py`](../tools/parse/run_parse_pipeline.py)).
 
-**Inputs:** `LiveTree.raw.json` + `LiveClasses.json` from Stage 1.
+**Inputs:** `LiveTree.raw.json` from Stage 1.
 
 Multi-step transform pipeline; each step takes the tree + a shared context dict and returns the transformed tree:
 
@@ -107,53 +110,64 @@ Multi-step transform pipeline; each step takes the tree + a shared context dict 
 3. resolve inheritance (ancestors + relocate inherited members to defining class)
 4. parse enum members from string-encoded forms, retype as `"enum"`
 5. parse function docs into structured `signature` / `description` / C++ pairs, build C++→Python type map, resolve into clean args + returns
-6. merge `LiveClasses.json` probe data onto matching tree nodes
 
-**Output:** [`stubs/<version>/pipeline/LiveTree.parsed.json`](../stubs/12.3.6/pipeline/) —
-the canonical parser output. **Never hand-edited.** Stage 3's drift
-detection compares against this exact tree.
+**Output:** [`stubs/<version>/pipeline/LiveTree.parsed.v2.json`](../stubs/12.3.6/pipeline/) —
+the canonical parser output. **Never hand-edited.**
 
 **Hand-curated:** none. Mechanical transform of capture data only.
 
 ---
 
-## Stage 3 — Refine (offline)
+## Stage 2b — Build YAML seed (offline)
 
-**Tool:** [`tools/parse/apply_manual_refinements.py`](../tools/parse/apply_manual_refinements.py)
+**Tool:** [`tools/parse/build_lom_yaml.py`](../tools/parse/build_lom_yaml.py)
 (also invoked via `run_parse_pipeline.py`).
 
-**Inputs:** `LiveTree.parsed.json` + the hand-curated overrides file.
+**Inputs:** `LiveTree.parsed.v2.json`.
 
-The only place in the pipeline where human knowledge enters the tree.
-Kept as its own stage so the parsed tree stays immutable — drift detection
-on the `from:` field of each refinement compares against fresh-parse output,
-not a prior run's apply state.
+Converts the parsed tree into one YAML file per top-level Live module, applying
+the algorithmic decisions a human shouldn't have to make explicit:
 
-**Hand-curated input:** [`tools/parse/manual_refinements.yaml`](../tools/parse/manual_refinements.yaml) — ~2000 lines of sourced overrides.
+- Type qualification (`Track` → `Live.Track.Track`)
+- Optional widening (`T` + `default=None` → `T | None`)
+- Enum widening (`E` → `E | int` — Boost.Python emits enums as int subclasses)
+- Enum-from-default inference (bare `int` arg with default `Module.Enum.member` → `Enum | int`)
+- Listener-triplet folding (`add_*_listener`/`remove_*_listener`/`*_has_listener` collapsed under the property)
+- Parametric-container detection (Generic[T] for the abstract `Live.Base.Vector`)
 
-Schema per dotted path: `args:` rename positional args, `arg_types:` /
-`return_type:` / `probed_type:` / `element_repr:` override types. Each entry
-**requires** a `source:` field (corpus def-site, M4L doc citation, raw_doc
-text). Type-changing entries also require a `confidence:` level (`high` /
-`medium` / `low`).
-
-**Drift safety:** every type-changing entry can include a `from:` value the
-applier validates against the parsed-tree value, so a Live-version change
-that shifts parser output surfaces as a warning rather than being silently
-absorbed.
-
-**Output:** [`stubs/<version>/pipeline/LiveTree.refined.json`](../stubs/12.3.6/pipeline/LiveTree.refined.json) — the source of truth for everything downstream.
+**Output:** [`stubs/<version>/reports/seed/<Module>.yaml`](../stubs/12.3.6/reports/seed/) —
+the algorithmic baseline. Regenerated freely; not hand-edited.
 
 ---
 
-## Stage 4 — Two renderings of one tree
+## The lom/ SOT (hand-curated)
 
-Both consumers read `LiveTree.refined.json` and *only* that file. They
-never reach back to raw capture, M4L docs, or the corpus.
+**Location:** [`stubs/<version>/lom/<Module>.yaml`](../stubs/12.3.6/lom/).
 
-### 4a. Stub generation
+Started as a copy of `seed/`. Carries sibling `<field>_override:` blocks where humans
+have tightened types, renamed args, or qualified iterable element types. Each override
+has a `value:`, an optional `confidence:` (`high` / `medium` / `low` for typed
+overrides), and a required `source:` field (corpus def-site, M4L doc citation, raw_doc
+text). Format spec: [`lom-format.md`](lom-format.md).
 
-**Tool:** [`tools/generate/generate_stubs.py`](../tools/generate/generate_stubs.py).
+`seed/` regenerates on every Stage 2 run; `lom/` is only resynced at intentional
+checkpoints, so a fresh capture won't trample existing overrides. Diffing `seed/`
+against `lom/` shows exactly which facts have been hand-touched.
+
+**Drift safety:** type overrides can include a `from:` value that's validated against
+the parsed-tree value during port/audit, so a Live-version change that shifts parser
+output surfaces as a warning rather than being silently absorbed.
+
+---
+
+## Stage 3 — Two renderings of one SOT
+
+Both consumers read `lom/*.yaml` and *only* that. They never reach back to raw
+capture, M4L docs, or the corpus.
+
+### 3a. Stub generation
+
+**Tool:** [`tools/generate/build_stubs_from_yaml.py`](../tools/generate/build_stubs_from_yaml.py).
 
 **Output:** [`stubs/<version>/Live/*.pyi`](../stubs/12.3.6/Live/) — typed
 Python stubs published as the `ableton-live-stubs` package via
@@ -161,9 +175,11 @@ Python stubs published as the `ableton-live-stubs` package via
 
 **Hand-curated:** none.
 
-### 4b. Reference page generation
+### 3b. Reference page generation
 
-**Tool:** [`tools/generate/generate_reference.py`](../tools/generate/generate_reference.py).
+**Tool:** [`tools/generate/generate_reference.py`](../tools/generate/generate_reference.py)
+(currently still reads the legacy `LiveTree.refined.json`; porting to read directly from
+`lom/*.yaml` is a pending follow-up under Phase 1 of the reference roadmap).
 
 **Output:** [`web/src/content/docs/modules/*.mdx`](../web/src/content/docs/modules/) — one MDX page per top-level Live module (43 today). The current step ladder (modules → classes → properties → property types → settable/listenable → ...) is tracked in [`reference-roadmap.md`](reference-roadmap.md).
 
@@ -179,7 +195,7 @@ Python stubs published as the `ableton-live-stubs` package via
 
 ---
 
-## Stage 5 — Site build
+## Stage 4 — Site build
 
 **Tool:** Astro + Starlight (`npm run build` in [`web/`](../web/)). Pulls in
 the generated MDX, the hand-curated landing page, the CSS, and the config →
@@ -193,27 +209,27 @@ emits a static site under `web/dist/` → published to GitHub Pages at
 | Asset                                         | Source            | Drift risk |
 |-----------------------------------------------|-------------------|------------|
 | `tools/sets/<Set>.als`                         | hand              | low — only needs to exercise the API surface |
-| `tools/parse/manual_refinements.yaml`          | hand (sourced)    | tracked via `from:` drift checks; verified against the corpus in CI |
+| `stubs/<v>/lom/*.yaml` (override blocks)       | hand (sourced)    | tracked via `from:` drift checks; verified against the corpus in CI |
 | `web/src/content/docs/index.mdx`               | hand              | none (static landing page) |
 | `web/src/styles/custom.css`, `astro.config.mjs`| hand              | low |
-| `stubs/<v>/pipeline/LiveTree.parsed.json`      | generated (Stage 2)  | regenerated from raw on every parse run |
-| `stubs/<v>/pipeline/LiveTree.refined.json`     | generated (Stage 3)  | committed; rebuilt when refinements or capture change |
-| `stubs/<v>/Live/*.pyi`                         | generated (Stage 4a) | committed; published to PyPI |
-| `web/src/content/docs/modules/*.mdx`           | generated (Stage 4b) | committed; published to GitHub Pages |
+| `stubs/<v>/pipeline/LiveTree.parsed.v2.json`   | generated (Stage 2a) | regenerated from raw on every parse run; gitignored |
+| `stubs/<v>/reports/seed/*.yaml`                | generated (Stage 2b) | committed; algorithmic baseline for diffing against `lom/` |
+| `stubs/<v>/Live/*.pyi`                         | generated (Stage 3a) | committed; published to PyPI |
+| `web/src/content/docs/modules/*.mdx`           | generated (Stage 3b) | committed; published to GitHub Pages |
 
 ---
 
 ## Adjacent things that aren't in the main flow
 
-- [`external/corpus/`](../external/) — Ableton's shipped Remote Scripts, fetched by [`tools/fetch_external/`](../tools/fetch_external/). Used as evidence (`source:` citations) when authoring refinements, and by [`tools/verify/`](../tools/verify/) to assert refined stubs accept the corpus. Not consumed by stub or reference generation directly.
-- [`doc/live-api/*.md`](live-api/) — *legacy* hand-authored per-class notes from before the Starlight pivot. Currently untracked / not consumed by anything in the pipeline. Worth deciding whether to retire, fold into refinements as `source:` evidence, or carry forward into Phase 2 hypothesis records.
-- **Hypothesis records (Phase 2, not yet implemented).** [`reference-design.md`](reference-design.md) describes a future authoring surface — YAML/JSON behavioral claims that get verified against running Live and rendered alongside the structural skeleton. None of this exists in the pipeline today; the current generator only renders what `LiveTree.refined.json` contains.
+- [`external/corpus/`](../external/) — Ableton's shipped Remote Scripts, fetched by [`tools/fetch_external/`](../tools/fetch_external/). Used as evidence (`source:` citations) when authoring overrides, and by [`tools/verify/`](../tools/verify/) to assert generated stubs accept the corpus. Not consumed by stub or reference generation directly.
+- [`doc/live-api/*.md`](live-api/) — *legacy* hand-authored per-class notes from before the Starlight pivot. Currently untracked / not consumed by anything in the pipeline. Worth deciding whether to retire, fold into overrides as `source:` evidence, or carry forward into Phase 2 hypothesis records.
+- **Hypothesis records (Phase 2, not yet implemented).** [`reference-design.md`](reference-design.md) describes a future authoring surface — YAML/JSON behavioral claims that get verified against running Live and rendered alongside the structural skeleton. None of this exists in the pipeline today; the current generator only renders what `lom/*.yaml` contains.
 
 ---
 
 ## Open questions for the architecture discussion
 
-- Should hypothesis records (Phase 2) be a *third* input alongside `LiveTree.refined.json`, or merge into the refined tree before generation?
-- Is `manual_refinements.yaml` the right home for prose (descriptions, quirks, examples) too, or does that surface deserve its own authored format?
+- Should hypothesis records (Phase 2) be a *third* input alongside `lom/*.yaml`, or merge into the lom YAML before generation?
+- Is the lom YAML the right home for prose (descriptions, quirks, examples) too, or does that surface deserve its own authored format?
 - Status of `doc/live-api/`: retire, port forward, or keep as scratchpad?
-- Reference and stubs both consume `LiveTree.refined.json` directly today. As authored content grows, do we want an intermediate "rendered tree" stage that pre-resolves cross-references, link slugs, etc., so both consumers don't reimplement that logic?
+- Reference and stubs both consume `lom/*.yaml` directly today. As authored content grows, do we want an intermediate "rendered tree" stage that pre-resolves cross-references, link slugs, etc., so both consumers don't reimplement that logic?

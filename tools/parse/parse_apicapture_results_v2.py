@@ -22,9 +22,9 @@ Pipeline steps:
     4d. resolve_signatures — produce final structured `args:` and `returns:` fields on each function node
 
 Usage:
-    python tools/parse/parse_apicapture_results.py 12.3.6
-    python tools/parse/parse_apicapture_results.py 12.3
-    python tools/parse/parse_apicapture_results.py 12.3.6 --output /tmp/LiveTree.parsed.json
+    python tools/parse/parse_apicapture_results_v2.py 12.3.6
+    python tools/parse/parse_apicapture_results_v2.py 12.3
+    python tools/parse/parse_apicapture_results_v2.py 12.3.6 --output /tmp/LiveTree.parsed.v2.json
 """
 
 from __future__ import annotations

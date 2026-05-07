@@ -61,13 +61,14 @@ after reinstalling. Changes to `APICapture.py` or `__init__.py` require a full L
 
 ## Project Structure
 
-- `stubs/` — per-version generated stubs. `<version>/Live/` is tracked output; `<version>/pipeline/` holds gitignored
-  intermediates (raw capture, parsed tree, refinements).
+- `stubs/` — per-version generated stubs. `<version>/Live/` is tracked output; `<version>/lom/*.yaml` is the
+  curated SOT (parser-derived seed + sibling `<field>_override:` blocks for hand-tightened types/names);
+  `<version>/reports/seed/` is the algorithmic baseline; `<version>/pipeline/` holds gitignored intermediates.
 - `tools/` — capture + parse + generate + verify + publish pipeline.
   - `apicapture/` — APICapture Control Surface (runs inside Live; produces raw tree + probe data).
-  - `parse/` — parser produces `LiveTree.parsed.json` (fresh, immutable); apply step writes
-    `LiveTree.refined.json` (post-refinement; what the generator consumes).
-  - `generate/` — stub generator (reference-markdown generator parked on `reference-doc-generator-wip`).
+  - `parse/` — `parse_apicapture_results_v2.py` produces `LiveTree.parsed.v2.json`;
+    `build_lom_yaml.py` converts that into the per-module YAML seed under `stubs/<v>/reports/seed/`.
+  - `generate/` — `build_stubs_from_yaml.py` reads `stubs/<v>/lom/*.yaml` and emits .pyi stubs.
   - `verify/` — four-tier verification suite (`run.sh`, `parse_check.py`, `audit_corpus.py`, `audit_ignores.yaml`).
   - `publish/` — wheel builder + PyPI release glue.
   - `fetch_external/` — bootstrap for `external/` (corpus pin, M4L docs, release notes).

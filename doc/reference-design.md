@@ -62,10 +62,10 @@ A record carries:
   mismatches, terminology overloads, cases the type system can't capture.
   Reference renders inline; stub docstring renders the most important ones as
   a `Notes:` section.
-- **Refinement metadata** — when a refinement narrows a type, the rationale
-  (`source:`, `confidence:`, `_note:` from `manual_refinements.yaml`) surfaces
-  in the reference so readers see _why_ a type was narrowed. Invisible from the
-  stub itself.
+- **Refinement metadata** — when an override narrows a type, the rationale
+  (`source:` and `confidence:` from the `<field>_override:` block in
+  `stubs/<v>/lom/*.yaml`) surfaces in the reference so readers see _why_ a type
+  was narrowed. Invisible from the stub itself.
 - **Verified-against** — the Live version the assertions were last verified
   against. Surfaces drift across version bumps.
 
@@ -152,8 +152,8 @@ members leave a tombstone for one Live version cycle.
 This doc deliberately doesn't decide:
 
 - **Sidecar storage format.** Per-member files vs single shared file vs
-  embedded in `manual_refinements.yaml`. Affects authoring ergonomics and
-  merge-conflict surface.
+  embedded as additional override-style fields in `stubs/<v>/lom/*.yaml`.
+  Affects authoring ergonomics and merge-conflict surface.
 - **Stub docstring rendering style.** Replace runtime `__doc__` outright, or
   prepend authored prose with the runtime text below, or keep `__doc__` and
   append a `Notes:` section. Pick by writing a few examples and reading them.

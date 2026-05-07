@@ -13,7 +13,7 @@ Note: feedback_rule on map_midi_*_with_feedback_map was previously widened to
 `T | None`, but a re-audit showed the corpus initializes `feedback_rule = None`
 then reassigns to a concrete subtype before every dispatch — None is never
 actually passed. The widening was removed; if a probe confirms the binding
-accepts None, re-add it (see refinements_followup.md).
+accepts None, re-add it as a `type_override` on the arg in lom/MidiMap.yaml.
 """
 
 from __future__ import annotations
