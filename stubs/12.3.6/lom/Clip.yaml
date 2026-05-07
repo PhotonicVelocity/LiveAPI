@@ -1554,29 +1554,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Clip.MidiNote
-
-  methods:
-  - name: append
-    signature: 'append( (MidiNoteVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Clip.MidiNoteVector
-    - name: value
-      type: Live.Clip.MidiNote
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (MidiNoteVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NClipApi::TNoteInfo, std::__1::allocator<NClipApi::TNoteInfo>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Clip.MidiNoteVector
-    - name: values
-      type: Iterable[Live.Clip.MidiNote]
-    returns:
-      type: None
+  container: true
 
 - name: WarpMarker
   path: Live.Clip.WarpMarker
@@ -1623,29 +1601,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Clip.WarpMarker
-
-  methods:
-  - name: append
-    signature: 'append( (WarpMarkerVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NApiHelpers::TWarpMarker, std::__1::allocator<NApiHelpers::TWarpMarker>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Clip.WarpMarkerVector
-    - name: value
-      type: Live.Clip.WarpMarker
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (WarpMarkerVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NApiHelpers::TWarpMarker, std::__1::allocator<NApiHelpers::TWarpMarker>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Clip.WarpMarkerVector
-    - name: values
-      type: Iterable[Live.Clip.WarpMarker]
-    returns:
-      type: None
+  container: true
 
 enums:
 - name: ClipLaunchQuantization

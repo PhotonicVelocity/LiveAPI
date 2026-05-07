@@ -606,29 +606,7 @@ classes:
       in a control surface proxy." Direct corpus iteration:
       _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c in
       self._proxy.control_descriptions`.
-
-  methods:
-  - name: append
-    signature: 'append( (ControlDescriptionVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<TControlDescription, std::__1::allocator<TControlDescription>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Application.ControlDescriptionVector
-    - name: value
-      type: Live.Application.ControlDescription
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (ControlDescriptionVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<TControlDescription, std::__1::allocator<TControlDescription>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Application.ControlDescriptionVector
-    - name: values
-      type: Iterable[Live.Application.ControlDescription]
-    returns:
-      type: None
+  container: true
 
 - name: ControlSurfaceProxy
   path: Live.Application.ControlSurfaceProxy
@@ -936,29 +914,7 @@ classes:
       `Live.Application.UnavailableFeature.X not in
       Live.Application.get_application().unavailable_features` — confirms
       elements are UnavailableFeature enum values.
-
-  methods:
-  - name: append
-    signature: 'append( (UnavailableFeatureVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NPythonApplication::TUnavailableFeature, std::__1::allocator<NPythonApplication::TUnavailableFeature>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Application.UnavailableFeatureVector
-    - name: value
-      type: Live.Application.UnavailableFeature | int
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (UnavailableFeatureVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NPythonApplication::TUnavailableFeature, std::__1::allocator<NPythonApplication::TUnavailableFeature>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Application.UnavailableFeatureVector
-    - name: values
-      type: Iterable[Live.Application.UnavailableFeature | int]
-    returns:
-      type: None
+  container: true
 
 - name: Variants
   path: Live.Application.Variants

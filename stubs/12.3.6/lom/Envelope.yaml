@@ -223,26 +223,4 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Envelope.EnvelopeEvent
-
-  methods:
-  - name: append
-    signature: 'append( (EnvelopeEventVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Envelope.EnvelopeEventVector
-    - name: value
-      type: Live.Envelope.EnvelopeEvent
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (EnvelopeEventVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NApiHelpers::TEnvelopeEvent, std::__1::allocator<NApiHelpers::TEnvelopeEvent>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Envelope.EnvelopeEventVector
-    - name: values
-      type: Iterable[Live.Envelope.EnvelopeEvent]
-    returns:
-      type: None
+  container: true

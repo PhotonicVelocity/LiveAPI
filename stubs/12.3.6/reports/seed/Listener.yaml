@@ -43,26 +43,4 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
-
-  methods:
-  - name: append
-    signature: 'append( (ListenerVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Listener.ListenerVector
-    - name: value
-      type: Live.Listener.ListenerHandle
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (ListenerVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<TWeakPtr<LPythonRemote>, std::__1::allocator<TWeakPtr<LPythonRemote>>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Listener.ListenerVector
-    - name: values
-      type: Iterable[Live.Listener.ListenerHandle]
-    returns:
-      type: None
+  container: true

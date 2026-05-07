@@ -1,7 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Vector
@@ -1619,30 +1617,12 @@ class RoutingChannelLayout(int):
     mono: int = 1
     stereo: int = 2
 
-class RoutingChannelVector(Iterable[RoutingChannel]):
+class RoutingChannelVector(Vector[RoutingChannel]):
     """A container for returning routing channels from Live."""
 
-    def __iter__(self) -> Iterator[RoutingChannel]: ...
+    def append(self, value: RoutingChannel, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> RoutingChannel: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> RoutingChannelVector: ...
-
-    def __getitem__(self, index: int | slice) -> RoutingChannel | RoutingChannelVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: RoutingChannel, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[RoutingChannel], /) -> None:
-        ...
+    def extend(self, values: Iterable[RoutingChannel], /) -> None: ...
 
 class RoutingType:
     """This class represents a routing type."""
@@ -1672,29 +1652,11 @@ class RoutingTypeCategory(int):
     none: int = 6
     invalid: int = 7
 
-class RoutingTypeVector(Iterable[RoutingType]):
+class RoutingTypeVector(Vector[RoutingType]):
     """A container for returning routing types from Live."""
 
-    def __iter__(self) -> Iterator[RoutingType]: ...
+    def append(self, value: RoutingType, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> RoutingType: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> RoutingTypeVector: ...
-
-    def __getitem__(self, index: int | slice) -> RoutingType | RoutingTypeVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: RoutingType, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[RoutingType], /) -> None:
-        ...
+    def extend(self, values: Iterable[RoutingType], /) -> None: ...
 
 __all__ = ['Track', 'DeviceContainer', 'DeviceInsertMode', 'RoutingChannel', 'RoutingChannelLayout', 'RoutingChannelVector', 'RoutingType', 'RoutingTypeCategory', 'RoutingTypeVector']

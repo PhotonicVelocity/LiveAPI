@@ -284,29 +284,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Browser.BrowserItem
-
-  methods:
-  - name: append
-    signature: 'append( (BrowserItemVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NPythonBrowser::TPythonBrowserItem, std::__1::allocator<NPythonBrowser::TPythonBrowserItem>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Browser.BrowserItemVector
-    - name: value
-      type: Live.Browser.BrowserItem
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (BrowserItemVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NPythonBrowser::TPythonBrowserItem, std::__1::allocator<NPythonBrowser::TPythonBrowserItem>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Browser.BrowserItemVector
-    - name: values
-      type: Iterable[Live.Browser.BrowserItem]
-    returns:
-      type: None
+  container: true
 
 enums:
 - name: FilterType

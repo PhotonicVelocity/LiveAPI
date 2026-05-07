@@ -1,7 +1,5 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Text, Vector
@@ -404,30 +402,12 @@ class ControlDescription:
     def name(self) -> str:
         ...
 
-class ControlDescriptionVector(Iterable[ControlDescription]):
+class ControlDescriptionVector(Vector[ControlDescription]):
     """A container for returning control descriptions."""
 
-    def __iter__(self) -> Iterator[ControlDescription]: ...
+    def append(self, value: ControlDescription, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> ControlDescription: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> ControlDescriptionVector: ...
-
-    def __getitem__(self, index: int | slice) -> ControlDescription | ControlDescriptionVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: ControlDescription, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[ControlDescription], /) -> None:
-        ...
+    def extend(self, values: Iterable[ControlDescription], /) -> None: ...
 
 class ControlSurfaceProxy:
     """Represents a control surface running in a different process. For use by M4L"""
@@ -553,30 +533,12 @@ class PushDialogType(int):
 class UnavailableFeature(int):
     note_velocity_ranges_and_probabilities: int = 0
 
-class UnavailableFeatureVector(Iterable[UnavailableFeature]):
+class UnavailableFeatureVector(Vector[UnavailableFeature]):
     """A container for returning unavailable features."""
 
-    def __iter__(self) -> Iterator[UnavailableFeature]: ...
+    def append(self, value: UnavailableFeature, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> UnavailableFeature: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> UnavailableFeatureVector: ...
-
-    def __getitem__(self, index: int | slice) -> UnavailableFeature | UnavailableFeatureVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: UnavailableFeature | int, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[UnavailableFeature | int], /) -> None:
-        ...
+    def extend(self, values: Iterable[UnavailableFeature], /) -> None: ...
 
 class Variants:
     """Holds strings representing what type of Live is running."""

@@ -14,29 +14,7 @@ classes:
     value: float
     confidence: high
     source: raw_doc says "container for returning floats from Live".
-
-  methods:
-  - name: append
-    signature: 'append( (FloatVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<float, std::__1::allocator<float>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.FloatVector
-    - name: value
-      type: float
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (FloatVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<float, std::__1::allocator<float>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.FloatVector
-    - name: values
-      type: Iterable[float]
-    returns:
-      type: None
+  container: true
 
 - name: IntU64Vector
   path: Live.Base.IntU64Vector
@@ -51,29 +29,7 @@ classes:
     value: int
     confidence: high
     source: raw_doc says "container for returning unsigned long integers".
-
-  methods:
-  - name: append
-    signature: 'append( (IntU64Vector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.IntU64Vector
-    - name: value
-      type: int
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (IntU64Vector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<unsigned long long, std::__1::allocator<unsigned long long>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.IntU64Vector
-    - name: values
-      type: Iterable[int]
-    returns:
-      type: None
+  container: true
 
 - name: IntVector
   path: Live.Base.IntVector
@@ -85,29 +41,7 @@ classes:
   constructable: false
   iterable: true
   element_type: int
-
-  methods:
-  - name: append
-    signature: 'append( (IntVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<int, std::__1::allocator<int>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.IntVector
-    - name: value
-      type: int
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (IntVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<int, std::__1::allocator<int>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.IntVector
-    - name: values
-      type: Iterable[int]
-    returns:
-      type: None
+  container: true
 
 - name: LimitationError
   path: Live.Base.LimitationError
@@ -125,36 +59,7 @@ classes:
   constructable: false
   iterable: true
   element_type: object
-
-  methods:
-  - name: append
-    signature: 'append( (ObjectVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.ObjectVector
-    - name: value
-      type: object
-      type_override:
-        value: Any
-        confidence: high
-        source: |
-          C++ signature: `void append(vector<boost::python::api::object>, object)`.
-          ObjectVector holds arbitrary Python objects — Any matches the binding
-          contract directly.
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (ObjectVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<boost::python::api::object, std::__1::allocator<boost::python::api::object>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.ObjectVector
-    - name: values
-      type: Iterable[object]
-    returns:
-      type: None
+  container: true
 
 - name: StringVector
   path: Live.Base.StringVector
@@ -166,29 +71,7 @@ classes:
   constructable: false
   iterable: true
   element_type: str
-
-  methods:
-  - name: append
-    signature: 'append( (StringVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<TString, std::__1::allocator<TString>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.StringVector
-    - name: value
-      type: str
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (StringVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<TString, std::__1::allocator<TString>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.StringVector
-    - name: values
-      type: Iterable[str]
-    returns:
-      type: None
+  container: true
 
 - name: Text
   path: Live.Base.Text
@@ -283,29 +166,6 @@ classes:
   constructable: false
   iterable: true
   parametric: true
-
-  methods:
-  - name: append
-    signature: 'append( (Vector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.Vector
-    - name: value
-      type: Live.LomObject.LomObject
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (Vector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<TWeakPtr<TPyHandleBase>, std::__1::allocator<TWeakPtr<TPyHandleBase>>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Base.Vector
-    - name: values
-      type: Iterable[Live.LomObject.LomObject]
-    returns:
-      type: None
 
 functions:
 - name: get_text

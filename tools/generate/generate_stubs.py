@@ -277,16 +277,20 @@ def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
     """
     if not cls.get("iterable"):
         return []
-    method_names = {m["name"] for m in cls.get("methods") or []}
-    if "append" not in method_names or "extend" not in method_names:
+    # Only the parametric base (`Live.Base.Vector`) gets dunders synthesized
+    # at this layer. Non-parametric containers inherit the protocol from
+    # `Vector[E]` (their declared base), and plain iterators get only the
+    # `Iterable[E]` base with no body.
+    if not cls.get("parametric"):
         return []
     cls_name = cls["name"]
-    # Parametric containers use TypeVar T in dunders instead of an
-    # element type, and the class name in the slice fallback wraps in
-    # the type parameter (`Vector[T]`).
+    # Parametric containers use TypeVar `T` for the element type and
+    # `Self` for the slice return — that way subclasses inheriting via
+    # `class XVector(Vector[E])` see slice operations narrow to `XVector`,
+    # not the broader `Vector[E]`.
     if cls.get("parametric"):
         elem = "T"
-        cls_name = f"{cls_name}[T]"
+        cls_name = "Self"
     else:
         elem_raw = _resolve(cls, "element_type") or "Any"
         elem = render_type_string(elem_raw, current_module, imports)
@@ -312,6 +316,27 @@ def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
     out.append(("__contains__", ["def __contains__(self, value: object) -> bool: ..."]))
     out.append(("__bool__", ["def __bool__(self) -> bool: ..."]))
     return out
+
+
+def _build_container_mutators(cls: dict[str, Any], current_module: str,
+                               imports: set[tuple[str, str]]) -> list[tuple[str, list[str]]]:
+    """Synthesize `append` / `extend` for concrete container subclasses
+    (`container: true` flag). Both methods use the class's element type
+    directly so the abstract `Vector(Generic[T_co])` base stays read-only
+    at the type level — `T_co` covariance lets `Vector[Subclass]`
+    substitute for `Vector[Parent]`, which the input position of an
+    inherited `append(value: T)` would forbid.
+    """
+    if not cls.get("container"):
+        return []
+    elem_raw = _resolve(cls, "element_type")
+    if not elem_raw:
+        return []
+    elem = render_type_string(elem_raw, current_module, imports)
+    return [
+        ("append", [f"def append(self, value: {elem}, /) -> None: ..."]),
+        ("extend", [f"def extend(self, values: Iterable[{elem}], /) -> None: ..."]),
+    ]
 
 
 def _build_method_block(method: dict[str, Any], current_module: str,
@@ -383,6 +408,8 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
     # presentation; not in the YAML.
     for key, lines in _build_iterable_dunders(cls, current_module, imports):
         entries.append((key, lines, "method"))
+    for key, lines in _build_container_mutators(cls, current_module, imports):
+        entries.append((key, lines, "method"))
     for nested in cls.get("classes") or []:
         entries.append((nested["name"], _build_class_block(nested, current_module, imports, registry), "class"))
     for nested in cls.get("enums") or []:
@@ -405,25 +432,38 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
                        registry: dict[str, Any]) -> list[str]:
     """Class definition with members alphabetized at each level.
 
-    Iterable container classes use `Iterable[E]` (or bare `Iterable` if
-    no element type is known) as their base regardless of `ancestors:`,
-    matching v1 generator behavior — the iterability is the relevant
-    structural information for typing, not the LomObject ancestry.
+    Iterable container classes:
+      - Parametric base (`Live.Base.Vector`) → `class Vector(Generic[T])`
+        with full iterator-protocol + append/extend declared once,
+        all typed against the TypeVar `T`.
+      - Concrete iterable subclasses (`MidiNoteVector`, `FloatVector`, ...)
+        → `class XVector(Vector[E])` with empty body. Every dunder and
+        every typed method comes from the parameterized base.
+      - Non-container iterables that lack append/extend (e.g. iterators)
+        keep `Iterable[E]` as the base since they don't fit the Vector shape.
     """
     name = cls["name"]
     base_str = ""
     if cls.get("iterable"):
-        # Parametric classes (the YAML's `parametric: true` flag) need
-        # the stub-typing pattern that lets users specialize them at
-        # use sites — `class Vector(Generic[T])` plus a module-scope
-        # TypeVar. Non-parametric iterables get `Iterable[E]` (or bare
-        # `Iterable` when no element type is known).
+        is_container = bool(cls.get("container"))
         if cls.get("parametric"):
             base_str = "(Generic[T])"
             typing_extras: set[str] = registry["_module_typing_extras"]
-            typing_extras.update(("Generic", "Iterator", "TypeVar", "overload"))
+            typing_extras.update(("Generic", "Iterator", "Self", "TypeVar", "overload"))
             registry["_module_emits_typevar"] = True
+        elif is_container:
+            elem = _resolve(cls, "element_type")
+            if elem:
+                elem_rendered = render_type_string(elem, current_module, imports)
+                imports.add(("Live.Base", "Vector"))
+                base_str = f"(Vector[{elem_rendered}])"
+            else:
+                base_str = "(Iterable)"
+                typing_extras = registry["_module_typing_extras"]
+                typing_extras.add("Iterable")
         else:
+            # Plain iterator (no append/extend) — Iterable[E] base, no
+            # synthesized dunders, no TypeVar (concrete element type).
             elem = _resolve(cls, "element_type")
             if elem:
                 elem_rendered = render_type_string(elem, current_module, imports)
@@ -431,13 +471,7 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
             else:
                 base_str = "(Iterable)"
             typing_extras = registry["_module_typing_extras"]
-            # Iterator + overload for the dunder method signatures.
-            # Generic + TypeVar mirror v1's emission — v1 declares
-            # `T = TypeVar('T', covariant=True)` in any module that
-            # defines an iterable container class, even when T isn't
-            # referenced. We replicate to keep diffs clean.
-            typing_extras.update(("Generic", "Iterator", "TypeVar", "overload"))
-            registry["_module_emits_typevar"] = True
+            typing_extras.add("Iterable")
     else:
         ancestors = cls.get("ancestors") or []
         if ancestors:
@@ -564,9 +598,11 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     rest = sorted((base_names | extras) - {"TYPE_CHECKING"})
     typing_names = ["TYPE_CHECKING", *rest]
     buf.write(f"from typing import {', '.join(typing_names)}\n\n")
-    # TypeVar declaration for the generic Vector class. v1 emits it
-    # *before* the TYPE_CHECKING block (between the typing imports and
-    # the conditional).
+    # TypeVar declaration for the generic Vector base. Covariant — `T`
+    # appears only in output positions (iter, getitem) on the abstract
+    # base. Concrete container subclasses (FloatVector, MidiNoteVector,
+    # ...) get their own append/extend methods synthesized with their
+    # concrete element type, so `T` never appears in input position.
     if registry.get("_module_emits_typevar"):
         buf.write("T = TypeVar('T', covariant=True)\n\n")
     if imports:

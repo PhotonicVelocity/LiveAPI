@@ -938,29 +938,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Track.RoutingChannel
-
-  methods:
-  - name: append
-    signature: 'append( (RoutingChannelVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NRoutingApi::TRoutingChannel, std::__1::allocator<NRoutingApi::TRoutingChannel>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Track.RoutingChannelVector
-    - name: value
-      type: Live.Track.RoutingChannel
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (RoutingChannelVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NRoutingApi::TRoutingChannel, std::__1::allocator<NRoutingApi::TRoutingChannel>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Track.RoutingChannelVector
-    - name: values
-      type: Iterable[Live.Track.RoutingChannel]
-    returns:
-      type: None
+  container: true
 
 - name: RoutingType
   path: Live.Track.RoutingType
@@ -1003,29 +981,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.Track.RoutingType
-
-  methods:
-  - name: append
-    signature: 'append( (RoutingTypeVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<NRoutingApi::TRoutingType, std::__1::allocator<NRoutingApi::TRoutingType>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Track.RoutingTypeVector
-    - name: value
-      type: Live.Track.RoutingType
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (RoutingTypeVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<NRoutingApi::TRoutingType, std::__1::allocator<NRoutingApi::TRoutingType>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Track.RoutingTypeVector
-    - name: values
-      type: Iterable[Live.Track.RoutingType]
-    returns:
-      type: None
+  container: true
 
 enums:
 - name: DeviceInsertMode

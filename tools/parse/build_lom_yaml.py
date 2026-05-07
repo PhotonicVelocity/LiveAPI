@@ -757,6 +757,18 @@ def build_member(
             out["parametric"] = True
         elif class_element_type:
             out["element_type"] = class_element_type
+        # Container marker — set when the parser observed both `append`
+        # and `extend` on the class. Distinguishes true vector-style
+        # containers from plain iterators (e.g. `BrowserItemIterator`)
+        # so the stub generator can inherit the iterator protocol from
+        # `Vector[E]` for containers and just use `Iterable[E]` for
+        # iterators. The `append` / `extend` methods themselves are
+        # then skipped during YAML emission — they're synthesizable
+        # from the element type.
+        if is_iterable and not out.get("parametric"):
+            kids = {c.get("name") for c in node.get("children") or [] if c.get("name")}
+            if "append" in kids and "extend" in kids:
+                out["container"] = True
         # Collect property names that ancestor classes have already
         # typed via probe — used to skip redundant untyped duplicates
         # at this class (the inherited typed version takes over via
@@ -775,7 +787,8 @@ def build_member(
         out.update(_group_class_members(node, registry, class_path,
                                         is_iterable=is_iterable,
                                         class_element=class_element_type,
-                                        inherited_typed_props=inherited_typed_props))
+                                        inherited_typed_props=inherited_typed_props,
+                                        is_parametric=out.get("parametric", False)))
         # Synthesize __init__ as a real method node for constructable
         # classes. Args are parsed from `init_doc:` when it carries a
         # real signature; otherwise it's just `(self) -> None`. Inject
@@ -963,6 +976,7 @@ def _group_class_members(
     is_iterable: bool = False,
     class_element: str | None = None,
     inherited_typed_props: set[str] | None = None,
+    is_parametric: bool = False,
 ) -> dict[str, Any]:
     """Walk a class's children and group them by kind into named lists.
 
@@ -1015,24 +1029,14 @@ def _group_class_members(
             if triplet:
                 member["listenable"] = triplet
             seen_property_names.add(member["name"])
-        elif kind == "function" and is_iterable and class_element:
-            # Container-class append/extend: override the second arg's
-            # type with the class's element type. The parser keeps the
-            # raw_doc `object` annotation; v1's merge_probe_data step
-            # did this rewrite — we replicate it here so the YAML's
-            # arg type is the canonical one. Enum-typed elements are
-            # widened to `E | int`.
-            mname = member["name"]
-            if mname in ("append", "extend"):
-                margs = member.get("args") or []
-                if len(margs) == 2:
-                    margs[1] = dict(margs[1])
-                    enum_paths: set[str] = registry.get("enum_paths") or set()
-                    elem = _widen_enum_types(class_element, enum_paths) or class_element
-                    margs[1]["type"] = (
-                        f"Iterable[{elem}]" if mname == "extend" else elem
-                    )
-                    member["args"] = margs
+        elif kind == "function" and is_iterable and member["name"] in ("append", "extend"):
+            # `append`/`extend` get synthesized at stub-render time from
+            # the class's `container: true` flag and element type, so
+            # we don't carry them in the YAML. Dropping them on the
+            # parametric base too keeps `Vector` read-only at the type
+            # level (Generic[T_co]) — concrete container subclasses
+            # synthesize their own typed mutators with concrete elements.
+            continue
         groups[kind].append(member)
 
     # Synthesize orphan listener triplets: their target name doesn't exist

@@ -187,29 +187,7 @@ classes:
   constructable: false
   iterable: true
   element_type: Live.DeviceParameter.DeviceParameter
-
-  methods:
-  - name: append
-    signature: 'append( (ATimeableValueVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void append(std::__1::vector<TWeakPtr<ATimeableValue>, std::__1::allocator<TWeakPtr<ATimeableValue>>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Device.ATimeableValueVector
-    - name: value
-      type: Live.DeviceParameter.DeviceParameter
-    returns:
-      type: None
-
-  - name: extend
-    signature: 'extend( (ATimeableValueVector)arg1, (object)arg2) -> None :'
-    cpp_signature: void extend(std::__1::vector<TWeakPtr<ATimeableValue>, std::__1::allocator<TWeakPtr<ATimeableValue>>> {lvalue},boost::python::api::object)
-    args:
-    - name: self
-      type: Live.Device.ATimeableValueVector
-    - name: values
-      type: Iterable[Live.DeviceParameter.DeviceParameter]
-    returns:
-      type: None
+  container: true
 
 enums:
 - name: DeviceType

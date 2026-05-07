@@ -1,9 +1,8 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.Device import Device
     from Live.LomObject import LomObject
 
@@ -237,30 +236,12 @@ class BrowserItem:
 class BrowserItemIterator(Iterable[BrowserItem]):
     """This class iterates over children of another BrowserItem."""
 
-class BrowserItemVector(Iterable[BrowserItem]):
+class BrowserItemVector(Vector[BrowserItem]):
     """A container for returning browser items from Live."""
 
-    def __iter__(self) -> Iterator[BrowserItem]: ...
+    def append(self, value: BrowserItem, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> BrowserItem: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> BrowserItemVector: ...
-
-    def __getitem__(self, index: int | slice) -> BrowserItem | BrowserItemVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: BrowserItem, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[BrowserItem], /) -> None:
-        ...
+    def extend(self, values: Iterable[BrowserItem], /) -> None: ...
 
 class FilterType(int):
     disabled: int = -1

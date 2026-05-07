@@ -1,9 +1,8 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, TypeVar, overload
-
-T = TypeVar('T', covariant=True)
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
+    from Live.Base import Vector
     from Live.DeviceParameter import DeviceParameter
     from Live.LomObject import LomObject
     from Live.Track import Track
@@ -268,29 +267,11 @@ class Device(LomObject):
         """Representing the view aspects of a device."""
         ...
 
-class ATimeableValueVector(Iterable[DeviceParameter]):
+class ATimeableValueVector(Vector[DeviceParameter]):
 
-    def __iter__(self) -> Iterator[DeviceParameter]: ...
+    def append(self, value: DeviceParameter, /) -> None: ...
 
-    @overload
-    def __getitem__(self, index: int) -> DeviceParameter: ...
-
-    @overload
-    def __getitem__(self, index: slice) -> ATimeableValueVector: ...
-
-    def __getitem__(self, index: int | slice) -> DeviceParameter | ATimeableValueVector: ...
-
-    def __len__(self) -> int: ...
-
-    def __contains__(self, value: object) -> bool: ...
-
-    def __bool__(self) -> bool: ...
-
-    def append(self, value: DeviceParameter, /) -> None:
-        ...
-
-    def extend(self, values: Iterable[DeviceParameter], /) -> None:
-        ...
+    def extend(self, values: Iterable[DeviceParameter], /) -> None: ...
 
 class DeviceType(int):
     """The type of the device."""
