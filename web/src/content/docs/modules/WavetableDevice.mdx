@@ -114,23 +114,23 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 #### Methods
 
-##### add_parameter_to_modulation_matrix<span class="meth-sig">(parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> int</span>
+##### add_parameter_to_modulation_matrix<span class="meth-sig">(<span class="meth-arg">parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> int</span>
 
 Add a non-pitch parameter to the modulation matrix.
 
-##### get_modulation_target_parameter_name<span class="meth-sig">(target_index: int) -> str</span>
+##### get_modulation_target_parameter_name<span class="meth-sig">(<span class="meth-arg">target_index</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
 
 Get the parameter name of the modulation target at the given index.
 
-##### get_modulation_value<span class="meth-sig">(target_index: int, source: int) -> float</span>
+##### get_modulation_value<span class="meth-sig">(<span class="meth-arg">target_index</span>: int, <span class="meth-arg">source</span>: int) <span class="meth-arrow">-&gt;</span> float</span>
 
 Get the value of a modulation amount for the given target-source connection.
 
-##### is_parameter_modulatable<span class="meth-sig">(parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> bool</span>
+##### is_parameter_modulatable<span class="meth-sig">(<span class="meth-arg">parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> bool</span>
 
 Indicate whether the parameter is modulatable. Note that pitch parameters only exist in python and must be handled there.
 
-##### set_modulation_value<span class="meth-sig">(target_index: int, source: int, value: float) -> None</span>
+##### set_modulation_value<span class="meth-sig">(<span class="meth-arg">target_index</span>: int, <span class="meth-arg">source</span>: int, <span class="meth-arg">value</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
 Set the value of a modulation amount for the given target-source connection.
 

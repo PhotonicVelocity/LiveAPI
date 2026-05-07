@@ -32,10 +32,10 @@ Read/write access to the name of the TakeLane, as visible in the take lane heade
 
 #### Methods
 
-##### create_audio_clip<span class="meth-sig">(file_path: str, start_time: float) -> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str, <span class="meth-arg">start_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
 Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time. Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
 
-##### create_midi_clip<span class="meth-sig">(start_time: float, length: float) -> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### create_midi_clip<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
 Creates an empty MIDI clip and inserts it into the arrangement at the specified time. Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.

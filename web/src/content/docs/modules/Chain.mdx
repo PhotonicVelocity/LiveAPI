@@ -76,14 +76,14 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 #### Methods
 
-##### delete_device<span class="meth-sig">(index: int) -> None</span>
+##### delete_device<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
 Remove a device identified by its index from the chain. Throws runtime error if bad index.
 
-##### duplicate_device<span class="meth-sig">(index: int) -> None</span>
+##### duplicate_device<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
 Duplicate the device at the given index in the chain.
 
-##### insert_device<span class="meth-sig">(device_name: str, device_index: int = -1) -> <a href="/LiveAPI/modules/device/#device">Device</a></span>
+##### insert_device<span class="meth-sig">(<span class="meth-arg">device_name</span>: str, <span class="meth-arg">device_index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/device/#device">Device</a></span>
 
 Add a device at a given index in the chain. At end if -1.

@@ -66,18 +66,18 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 #### Methods
 
-##### get_bank_count<span class="meth-sig">() -> int</span>
+##### get_bank_count<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
 Get the number of parameter banks. This is related to hardware control surfaces.
 
-##### get_bank_name<span class="meth-sig">(bank_index: int) -> str</span>
+##### get_bank_name<span class="meth-sig">(<span class="meth-arg">bank_index</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
 
 Get the name of a parameter bank given by index. This is related to hardware control surfaces.
 
-##### get_bank_parameters<span class="meth-sig">(bank_index: int) -> list[int]</span>
+##### get_bank_parameters<span class="meth-sig">(<span class="meth-arg">bank_index</span>: int) <span class="meth-arrow">-&gt;</span> list[int]</span>
 
 Get the indices of parameters of the given bank index. Empty slots are marked as -1. Bank index -1 refers to the best-of bank. This function is related to hardware control surfaces.
 
-##### get_value_item_icons<span class="meth-sig">(device_parameter: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) -> list[str]</span>
+##### get_value_item_icons<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> list[str]</span>
 
 Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.

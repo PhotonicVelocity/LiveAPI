@@ -76,19 +76,19 @@ Return the list of possible values for this parameter. Raises an error if 'is_qu
 
 #### Methods
 
-##### begin_gesture<span class="meth-sig">() -> None</span>
+##### begin_gesture<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
 Notify the begin of a modification of the parameter, when a sequence of modifications have to be consider a consistent group -- for Sexample, when recording automation.
 
-##### end_gesture<span class="meth-sig">() -> None</span>
+##### end_gesture<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
 Notify the end of a modification of the parameter. See begin_gesture.
 
-##### re_enable_automation<span class="meth-sig">() -> None</span>
+##### re_enable_automation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
 Reenable automation for this parameter.
 
-##### str_for_value<span class="meth-sig">(value: float) -> str</span>
+##### str_for_value<span class="meth-sig">(<span class="meth-arg">value</span>: float) <span class="meth-arrow">-&gt;</span> str</span>
 
 Return a string representation of the given value. To be used for display purposes only. This value can include characters like 'db' or 'hz', depending on the type of the parameter.
 

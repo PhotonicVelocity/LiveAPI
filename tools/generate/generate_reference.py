@@ -385,8 +385,15 @@ def method_signature_html(
             and default.startswith(prefix)
         ):
             default = default[len(prefix):]
-        default_part = f" = {default}" if default is not None else ""
-        arg_parts.append(f"{arg_name}{type_part}{default_part}")
+        default_part = (
+            f' = <span class="meth-default">{default}</span>'
+            if default is not None
+            else ""
+        )
+        arg_parts.append(
+            f'<span class="meth-arg">{arg_name}</span>'
+            f'{type_part}{default_part}'
+        )
     args_html = ", ".join(arg_parts)
     returns = method.get("returns") or {}
     return_part = ""
@@ -394,7 +401,8 @@ def method_signature_html(
         return_type = _resolve(returns, "type")
         if return_type:
             return_part = (
-                f" -> {linkify_type(display_type(return_type), registry)}"
+                f' <span class="meth-arrow">-&gt;</span> '
+                f'{linkify_type(display_type(return_type), registry)}'
             )
     return (
         f'{name}'

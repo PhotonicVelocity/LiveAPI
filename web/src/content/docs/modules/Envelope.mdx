@@ -25,19 +25,19 @@ This class represents an automation or modulation envelope in Live.
 
 #### Methods
 
-##### delete_events_in_range<span class="meth-sig">(start_time: float, end_time: float) -> None</span>
+##### delete_events_in_range<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">end_time</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
 Deletes the events in the specified time range.
 
-##### events_in_range<span class="meth-sig">(start_time: float, end_time: float) -> <a href="/LiveAPI/modules/envelope/#envelopeeventvector">EnvelopeEventVector</a></span>
+##### events_in_range<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">end_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/envelope/#envelopeeventvector">EnvelopeEventVector</a></span>
 
 Returns the events in the specified time range.
 
-##### insert_step<span class="meth-sig">(start_time: float, length: float, value: float) -> None</span>
+##### insert_step<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float, <span class="meth-arg">value</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
 Given a start time, a step length and a value, creates a step in the envelope.
 
-##### value_at_time<span class="meth-sig">(time: float) -> float</span>
+##### value_at_time<span class="meth-sig">(<span class="meth-arg">time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
 
 Returns the parameter value at the specified time.
 

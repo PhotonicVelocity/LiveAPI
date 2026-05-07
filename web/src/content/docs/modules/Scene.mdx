@@ -68,14 +68,14 @@ Get/Set the scene's time signature numerator. The song will use the scene's time
 
 #### Methods
 
-##### fire<span class="meth-sig">(force_legato: bool = False, can_select_scene_on_launch: bool = True) -> None</span>
+##### fire<span class="meth-sig">(<span class="meth-arg">force_legato</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">can_select_scene_on_launch</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
 Fire the scene directly. Will fire all clipslots that this scene owns and select the scene itself.
 
-##### fire_as_selected<span class="meth-sig">(force_legato: bool = False) -> None</span>
+##### fire_as_selected<span class="meth-sig">(<span class="meth-arg">force_legato</span>: bool = <span class="meth-default">False</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
 Fire the selected scene. Will fire all clipslots that this scene owns and select the next scene if necessary.
 
-##### set_fire_button_state<span class="meth-sig">(state: bool) -> None</span>
+##### set_fire_button_state<span class="meth-sig">(<span class="meth-arg">state</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
 Set the scene's fire button state directly. Supports all launch modes.

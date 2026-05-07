@@ -251,55 +251,55 @@ Representing the view aspects of a Track.
 
 #### Methods
 
-##### create_audio_clip<span class="meth-sig">(file_path: str, position: float) -> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str, <span class="meth-arg">position</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
 Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time. Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
 
-##### create_midi_clip<span class="meth-sig">(start_time: float, length: float) -> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### create_midi_clip<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
 Creates an empty MIDI clip and inserts it into the arrangement at the specified time. Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
 
-##### create_take_lane<span class="meth-sig">() -> <a href="/LiveAPI/modules/takelane/#takelane">TakeLane</a></span>
+##### create_take_lane<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/takelane/#takelane">TakeLane</a></span>
 
 Create a new TakeLane for this track.
 
-##### delete_clip<span class="meth-sig">(clip: <a href="/LiveAPI/modules/clip/#clip">Clip</a>) -> None</span>
+##### delete_clip<span class="meth-sig">(<span class="meth-arg">clip</span>: <a href="/LiveAPI/modules/clip/#clip">Clip</a>) <span class="meth-arrow">-&gt;</span> None</span>
 
 Delete the given clip. Raises a runtime error when the clip belongs to another track.
 
-##### delete_device<span class="meth-sig">(index: int) -> None</span>
+##### delete_device<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
 Delete a device identified by the index in the 'devices' list.
 
-##### duplicate_clip_slot<span class="meth-sig">(index: int) -> int</span>
+##### duplicate_clip_slot<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
 Duplicate a clip and put it into the next free slot and return the index of the destination slot. A new scene is created if no free slot is available. If creating the new scene would exceed the limitations, a runtime error is raised.
 
-##### duplicate_clip_to_arrangement<span class="meth-sig">(clip: <a href="/LiveAPI/modules/clip/#clip">Clip</a>, destination_time: float) -> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
+##### duplicate_clip_to_arrangement<span class="meth-sig">(<span class="meth-arg">clip</span>: <a href="/LiveAPI/modules/clip/#clip">Clip</a>, <span class="meth-arg">destination_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
 Duplicate the given clip into the arrangement of this track at the provided destination time and return it. When the type of the clip and the type of the track are incompatible, a runtime error is raised.
 
-##### duplicate_device<span class="meth-sig">(index: int) -> None</span>
+##### duplicate_device<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
 Duplicate a device at a given index in the 'devices' list.
 
-##### get_data<span class="meth-sig">(key: str, default_value: Any) -> Any</span>
+##### get_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">default_value</span>: Any) <span class="meth-arrow">-&gt;</span> Any</span>
 
 Get data for the given key, that was previously stored using set_data.
 
-##### insert_device<span class="meth-sig">(device_name: str, device_index: int = -1) -> <a href="/LiveAPI/modules/device/#device">Device</a></span>
+##### insert_device<span class="meth-sig">(<span class="meth-arg">device_name</span>: str, <span class="meth-arg">device_index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/device/#device">Device</a></span>
 
 Add a device at a given index in the 'devices' list. At end if -1.
 
-##### jump_in_running_session_clip<span class="meth-sig">(beats: float) -> None</span>
+##### jump_in_running_session_clip<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
 
 Jump forward or backward in the currently running Sessionclip (if any) by the specified relative amount in beats. Does nothing if no Session Clip is currently running.
 
-##### set_data<span class="meth-sig">(key: str, value: Any) -> None</span>
+##### set_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">value</span>: Any) <span class="meth-arrow">-&gt;</span> None</span>
 
 Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.
 
-##### stop_all_clips<span class="meth-sig">(quantized: bool = True) -> None</span>
+##### stop_all_clips<span class="meth-sig">(<span class="meth-arg">quantized</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
 
 Stop running and triggered clip and slots on this track.
 
@@ -415,7 +415,7 @@ Get/Set/Listen the insertion mode of the device.  While in insertion mode, loadi
 
 #### Methods
 
-##### select_instrument<span class="meth-sig">() -> bool</span>
+##### select_instrument<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
 
 Selects the track's instrument if it has one.
 

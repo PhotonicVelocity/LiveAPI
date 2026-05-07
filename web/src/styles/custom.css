@@ -98,6 +98,24 @@
   color: var(--sl-color-gray-3);
 }
 
+/* Method-signature syntax flavor — light coloring on the parts that
+   carry semantic weight inside the signature, so the eye picks up
+   names / types / defaults as different categories rather than one
+   undifferentiated gray block.
+   - Arg names (.meth-arg)    : lighter than scaffolding, monospace bold-ish
+   - Defaults  (.meth-default): warm accent (Python REPL convention)
+   - Return arrow (.meth-arrow): kept muted, slightly more legible */
+.sl-markdown-content h5 .meth-sig .meth-arg {
+  color: var(--sl-color-text);
+  font-weight: 500;
+}
+.sl-markdown-content h5 .meth-sig .meth-default {
+  color: var(--sl-color-orange-high);
+}
+.sl-markdown-content h5 .meth-sig .meth-arrow {
+  color: var(--sl-color-gray-2);
+}
+
 /* Signature span — styled heading for class / enum / function identifiers.
    Nested-span structure keeps the DOM text minimal — keyword and path
    are CSS pseudo-elements (not in the DOM text, hence not in the TOC).

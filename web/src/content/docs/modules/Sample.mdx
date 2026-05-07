@@ -112,35 +112,35 @@ Access to the sample's warping property.
 
 #### Methods
 
-##### beat_to_sample_time<span class="meth-sig">(beat_time: float) -> float</span>
+##### beat_to_sample_time<span class="meth-sig">(<span class="meth-arg">beat_time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
 
 Converts the given beat time to sample time. Raises an error if the sample is not warped.
 
-##### clear_slices<span class="meth-sig">() -> None</span>
+##### clear_slices<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
 Clears all slices created in Simpler's manual mode.
 
-##### gain_display_string<span class="meth-sig">() -> str</span>
+##### gain_display_string<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
 Get the gain's display value as a string.
 
-##### insert_slice<span class="meth-sig">(slice_time: int) -> None</span>
+##### insert_slice<span class="meth-sig">(<span class="meth-arg">slice_time</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
 Add a slice point at the provided time if there is none.
 
-##### move_slice<span class="meth-sig">(old_time: int, new_time: int) -> int</span>
+##### move_slice<span class="meth-sig">(<span class="meth-arg">old_time</span>: int, <span class="meth-arg">new_time</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
 Move the slice point at the provided time.
 
-##### remove_slice<span class="meth-sig">(slice_time: int) -> None</span>
+##### remove_slice<span class="meth-sig">(<span class="meth-arg">slice_time</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
 Remove the slice point at the provided time if there is one.
 
-##### reset_slices<span class="meth-sig">() -> None</span>
+##### reset_slices<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
 
 Resets all edited slices to their original positions.
 
-##### sample_to_beat_time<span class="meth-sig">(sample_time: float) -> float</span>
+##### sample_to_beat_time<span class="meth-sig">(<span class="meth-arg">sample_time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
 
 Converts the given sample time to beat time. Raises an error if the sample is not warped.
 
