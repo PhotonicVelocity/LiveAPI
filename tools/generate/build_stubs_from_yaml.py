@@ -605,7 +605,7 @@ def main() -> int:
         else REPO_ROOT / "stubs" / args.version / "lom"
     )
     out_dir = (
-        Path(args.output)
+        Path(args.output).resolve()
         if args.output
         else REPO_ROOT / "stubs" / args.version / "variants" / "v2-with-refinements" / "Live"
     )
@@ -638,7 +638,14 @@ def main() -> int:
     init_buf.write(f"\n__all__ = {sorted(all_module_names)!r}\n")
     (out_dir / "__init__.pyi").write_text(init_buf.getvalue())
 
-    print(f"Wrote {written} .pyi files to {out_dir.relative_to(REPO_ROOT)}/")
+    # PEP 561 marker — signals "this package ships type information".
+    (out_dir / "py.typed").write_text("")
+
+    try:
+        rel = out_dir.relative_to(REPO_ROOT)
+        print(f"Wrote {written} .pyi files to {rel}/")
+    except ValueError:
+        print(f"Wrote {written} .pyi files to {out_dir}/")
     return 0
 
 
