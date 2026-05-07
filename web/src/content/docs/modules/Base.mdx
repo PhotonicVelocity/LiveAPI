@@ -1,0 +1,62 @@
+---
+title: Base
+description: "The Live.Base module."
+---
+
+The Live.Base module.
+
+## Classes
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">FloatVector</span></span>
+
+A simple container for returning floats from Live.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">IntU64Vector</span></span>
+
+A simple container for returning unsigned long integers from Live.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">IntVector</span></span>
+
+A simple container for returning integers from Live.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">ObjectVector</span></span>
+
+A simple read only container for returning python objects.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">StringVector</span></span>
+
+A simple container for returning strings from Live.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">Text</span></span>
+
+A translatable, immutable string.
+
+#### Properties
+
+##### text<span class="prop-type">: str</span>
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">Timer</span></span>
+
+A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer.
+
+#### Properties
+
+##### running<span class="prop-type">: bool</span>
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Base.">Vector</span></span>
+
+A simple read only container for returning objects from Live.
+
+## Module Functions
+
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Base.">get_text</span></span>()
+
+Retrieves the (translated) Text identified by `classname` and `textname`.
+
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Base.">log</span></span>()
+
+log( (str)arg1) -> None : C++ signature : void log(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
+
+### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Base.">subst_args</span></span>()
+
+subst_args( (Text)text [, (str)arg1='' [, (str)arg2='' [, (str)arg3='' [, (str)arg4='' [, (str)arg5='']]]]]) -> str : C++ signature : std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> subst_args(TText [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='' [,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>='']]]]])

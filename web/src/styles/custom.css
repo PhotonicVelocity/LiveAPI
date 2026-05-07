@@ -1,0 +1,282 @@
+/* LiveAPI custom styles. */
+
+/* Tighten the heading hierarchy — Starlight's defaults run too large at
+   every level, so H1 / H2 / H3 all read as similarly-prominent. Step them
+   down more aggressively. The intent: H1 is the page, H2 is a section
+   divider, H3 is a member identifier (small but distinct from body text). */
+:root {
+  --sl-text-h1: 2.5rem;
+  --sl-text-h2: 2rem;
+  --sl-text-h3: 1.5rem;
+  --sl-text-h4: 1.2rem;
+  --sl-text-h5: 1.2rem;
+}
+
+/* H3 sits at body text size — distinguish it via monospace + weight rather
+   than scale, so class/enum/function names read as Python identifiers. */
+.sl-markdown-content h3 {
+  font-family: var(--sl-font-system-mono);
+  font-weight: 600;
+}
+/* Each H3 starts a new member block. Big gap above (signals "new member"),
+   tight gap below (so the description hugs the heading it belongs to). The
+   description's own margin-bottom (default p spacing) provides separation
+   from the next heading's gap. */
+.sl-markdown-content .sl-heading-wrapper.level-h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h3 + p {
+  margin-top: 0.25rem;
+}
+
+/* H4 — sub-section label within a class (e.g. "Properties", "Methods").
+   Reads as a section divider but at a more subdued level than the class
+   signature itself. Uppercase + tracking is the convention for "this is a
+   section label, not a member identifier."  */
+.sl-markdown-content h4 {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h4 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+/* H5 — member identifier (property name, eventually method name).
+   Monospace + bold like H3 but at a smaller size. Indented so members read
+   as visually nested under their owning class. */
+.sl-markdown-content h5 {
+  font-family: var(--sl-font-system-mono);
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h5 {
+  margin-top: 0.4rem;
+  margin-bottom: 0.25rem;
+  padding-left: 1.5rem;
+}
+
+/* Property type annotation — `: Type` after the property name.
+   Default color is muted gray, used for the `:` separator and unlinked
+   builtin/unrecognized types (`bool`, `None`, `int`) so they fade into
+   scaffolding. Linked Live types override via their own anchor styling. */
+.sl-markdown-content h5 .prop-type {
+  font-weight: 400;
+  color: var(--sl-color-gray-3);
+}
+
+/* Signature span — styled heading for class / enum / function identifiers.
+   Nested-span structure keeps the DOM text to just the bare name (so the
+   right-side TOC shows "BeatTime", not "class Live.Song.BeatTime"). The
+   keyword, path, and base are CSS pseudo-elements driven by data-attrs —
+   not in the DOM text, hence not in the TOC.
+
+       <span class="sig" data-kw="class" data-base="(LomObject)">
+         <span class="sig-name" data-path="Live.Song.">BeatTime</span>
+       </span>
+
+   - .sig::before  →  the keyword (grey)
+   - .sig-name::before  →  the path (dim orange)
+   - .sig-name (text)  →  the name (bright white bold)
+   - .sig::after  →  the optional base (dim orange)
+*/
+.sig {
+  font-family: var(--sl-font-system-mono);
+}
+.sig::before {
+  content: attr(data-kw) "  ";
+  color: var(--sl-color-gray-3);
+  font-weight: 400;
+}
+/* Inheritance base — distinct accent (purple) so it doesn't read as "more
+   path." Path locates the class in the namespace; base says what it
+   inherits from. Different roles, different colors. */
+.sig::after {
+  content: attr(data-base);
+  color: var(--sl-color-purple);
+  font-weight: 400;
+  opacity: 0.85;
+}
+.sig-name::before {
+  content: attr(data-path);
+  color: var(--sl-color-orange);
+  font-weight: 400;
+  opacity: 0.85;
+}
+.sig-name {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+
+/* H2 sets section breaks — give it breathing room above, weight, and a
+   full-width underline so its role as a divider is visually unmistakable.
+   Tight margin-bottom so the H2 hugs its content rather than floating
+   between equal-sized gaps above and below. */
+.sl-markdown-content h2 {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--sl-color-gray-3);
+}
+
+/* Spacing lives on the heading-wrapper div (Starlight wraps every heading
+   in <div class="sl-heading-wrapper level-hN">). Putting margins on the
+   bare h2/h3 has no effect — the wrapper's default spacing dominates. */
+.sl-markdown-content .sl-heading-wrapper.level-h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h2 + * {
+  margin-top: 0.4rem;
+}
+
+
+/* Class line under page H1 — `class Live.Song.Song(LomObject)`.
+   Sphinx/Blender-style typographic header that locates the page in the
+   namespace tree and shows the base class. */
+.class-line {
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-size: var(--sl-text-body);
+  color: var(--sl-color-text);
+}
+.class-line .kw {
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
+.class-line code {
+  font-weight: 600;
+}
+
+/* Confidence-level pill. Color-coded for the evidence ladder. */
+.confidence-badge {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.25rem;
+  font-size: 0.75em;
+  font-weight: 500;
+  font-family: var(--sl-font-system-mono);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  vertical-align: baseline;
+  line-height: 1.4;
+}
+.confidence-verified,
+.confidence-verified-with-null-control {
+  background: var(--sl-color-green-low);
+  color: var(--sl-color-green-high);
+}
+.confidence-high {
+  background: var(--sl-color-blue-low);
+  color: var(--sl-color-blue-high);
+}
+.confidence-medium {
+  background: var(--sl-color-yellow-low);
+  color: var(--sl-color-yellow-high);
+}
+.confidence-low,
+.confidence-intermittent,
+.confidence-state-dependent {
+  background: var(--sl-color-orange-low);
+  color: var(--sl-color-orange-high);
+}
+.confidence-unprobed,
+.confidence-unprobed-precondition,
+.confidence-mismatch {
+  background: var(--sl-color-gray-5);
+  color: var(--sl-color-gray-2);
+}
+
+/* Compact behavior cluster — only renders non-default aspects.
+   Each badge is a key:value pair on a colored chip. */
+.behavior-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 1rem;
+}
+.behavior-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-7);
+  border: 1px solid var(--sl-color-gray-6);
+  font-size: var(--sl-text-sm);
+}
+.behavior-chip .chip-key {
+  font-weight: 500;
+  color: var(--sl-color-gray-3);
+}
+.behavior-chip .chip-value {
+  color: var(--sl-color-text);
+}
+
+/* Provenance footer — small italic line at the bottom of a member section. */
+.provenance {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+  font-style: italic;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--sl-color-gray-6);
+}
+
+/* Access-via collapsible — small unobtrusive disclosure at the bottom. */
+.access-via {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: var(--sl-text-sm);
+}
+.access-via summary {
+  cursor: pointer;
+  color: var(--sl-color-gray-3);
+  padding: 0.3rem 0;
+  user-select: none;
+}
+.access-via summary:hover {
+  color: var(--sl-color-text);
+}
+.access-via ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-left: 1.5rem;
+}
+.access-via li {
+  margin: 0.2rem 0;
+}
+
+/* Invariant card — boxed predicate + description with protected-by links. */
+.invariant-card {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: var(--sl-color-bg-sidebar);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+}
+.invariant-card .invariant-id {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
+}
+.invariant-card .invariant-predicate {
+  margin: 0.4rem 0;
+  padding: 0.3rem 0.6rem;
+  background: var(--sl-color-gray-6);
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  white-space: pre-wrap;
+}
+.invariant-card .invariant-protected-by {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+  margin-top: 0.5rem;
+}

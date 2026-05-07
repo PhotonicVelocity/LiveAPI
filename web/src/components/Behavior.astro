@@ -1,0 +1,52 @@
+---
+// Compact behavior cluster — only renders non-default aspects.
+// Properties default to immediate / undo-tracked / no side effects; if
+// everything's default, callers can skip rendering this entirely. When
+// rendered, each chip carries a key:value pair (and an optional confidence
+// badge for the whole cluster).
+//
+// Usage:
+//   <Behavior chips={[
+//     { key: "Visibility", value: "next_tick" },
+//     { key: "Undo", value: "no" },
+//   ]} confidence="verified" />
+import ConfidenceBadge from "./ConfidenceBadge.astro";
+
+type Level =
+  | "verified"
+  | "verified-with-null-control"
+  | "high"
+  | "medium"
+  | "low"
+  | "intermittent"
+  | "state-dependent"
+  | "unprobed"
+  | "unprobed-precondition"
+  | "mismatch";
+
+interface Chip {
+  key: string;
+  value: string;
+}
+
+interface Props {
+  chips: Chip[];
+  confidence?: Level;
+}
+
+const { chips, confidence } = Astro.props;
+---
+
+{
+  chips.length > 0 && (
+    <div class="behavior-cluster">
+      {chips.map((chip) => (
+        <span class="behavior-chip">
+          <span class="chip-key">{chip.key}</span>
+          <span class="chip-value" set:html={chip.value} />
+        </span>
+      ))}
+      {confidence && <ConfidenceBadge level={confidence} />}
+    </div>
+  )
+}

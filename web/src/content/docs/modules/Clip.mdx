@@ -1,0 +1,166 @@
+---
+title: Clip
+description: "The Live.Clip module."
+---
+
+The Live.Clip module.
+
+### <span class="sig" data-kw="class" data-base="(LomObject)"><span class="sig-name" data-path="Live.Clip.">Clip</span></span>
+
+This class represents a Clip in Live. It can be either an Audio Clip or a MIDI Clip, in an Arrangement or the Session, depending on the Track (Slot) it lives in.
+
+#### Properties
+
+##### automation_envelopes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+
+##### available_warp_modes<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a></span>
+
+##### color<span class="prop-type">: int</span>
+
+##### color_index<span class="prop-type">: int</span>
+
+##### end_marker<span class="prop-type">: float</span>
+
+##### end_time<span class="prop-type">: float</span>
+
+##### file_path<span class="prop-type">: str</span>
+
+##### gain<span class="prop-type">: float</span>
+
+##### gain_display_string<span class="prop-type">: str</span>
+
+##### groove<span class="prop-type">: <a href="/LiveAPI/modules/groove/#groove">Groove</a> | None</span>
+
+##### has_envelopes<span class="prop-type">: bool</span>
+
+##### has_groove<span class="prop-type">: bool</span>
+
+##### is_arrangement_clip<span class="prop-type">: bool</span>
+
+##### is_audio_clip<span class="prop-type">: bool</span>
+
+##### is_midi_clip<span class="prop-type">: bool</span>
+
+##### is_overdubbing<span class="prop-type">: bool</span>
+
+##### is_playing<span class="prop-type">: bool</span>
+
+##### is_recording<span class="prop-type">: bool</span>
+
+##### is_session_clip<span class="prop-type">: bool</span>
+
+##### is_take_lane_clip<span class="prop-type">: bool</span>
+
+##### is_triggered<span class="prop-type">: bool</span>
+
+##### launch_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#launchmode">LaunchMode</a></span>
+
+##### launch_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#cliplaunchquantization">ClipLaunchQuantization</a></span>
+
+##### legato<span class="prop-type">: bool</span>
+
+##### length<span class="prop-type">: float</span>
+
+##### loop_end<span class="prop-type">: float</span>
+
+##### loop_start<span class="prop-type">: float</span>
+
+##### looping<span class="prop-type">: bool</span>
+
+##### muted<span class="prop-type">: bool</span>
+
+##### name<span class="prop-type">: str</span>
+
+##### pitch_coarse<span class="prop-type">: int</span>
+
+##### pitch_fine<span class="prop-type">: float</span>
+
+##### playing_position<span class="prop-type">: float</span>
+
+##### position<span class="prop-type">: float</span>
+
+##### ram_mode<span class="prop-type">: bool</span>
+
+##### sample_length<span class="prop-type">: int</span>
+
+##### sample_rate<span class="prop-type">: float</span>
+
+##### signature_denominator<span class="prop-type">: int</span>
+
+##### signature_numerator<span class="prop-type">: int</span>
+
+##### start_marker<span class="prop-type">: float</span>
+
+##### start_time<span class="prop-type">: float</span>
+
+##### velocity_amount<span class="prop-type">: float</span>
+
+##### view<span class="prop-type">: View</span>
+
+##### warp_markers<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmarkervector">WarpMarkerVector</a></span>
+
+##### warp_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmode">WarpMode</a></span>
+
+##### warping<span class="prop-type">: bool</span>
+
+##### will_record_on_start<span class="prop-type">: bool</span>
+
+## Other classes
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNote</span></span>
+
+An object representing a MIDI Note
+
+#### Properties
+
+##### duration<span class="prop-type">: float</span>
+
+##### mute<span class="prop-type">: bool</span>
+
+##### note_id<span class="prop-type">: int</span>
+
+##### pitch<span class="prop-type">: int</span>
+
+##### probability<span class="prop-type">: float</span>
+
+##### release_velocity<span class="prop-type">: float</span>
+
+##### start_time<span class="prop-type">: float</span>
+
+##### velocity<span class="prop-type">: float</span>
+
+##### velocity_deviation<span class="prop-type">: float</span>
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNoteSpecification</span></span>
+
+An object specifying the data for creating a MIDI note. To be used with the add_new_notes function.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">MidiNoteVector</span></span>
+
+A container for holding MIDI notes from Live.
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">WarpMarker</span></span>
+
+This class represents a WarpMarker type.
+
+#### Properties
+
+##### beat_time<span class="prop-type">: float</span>
+
+##### sample_time<span class="prop-type">: float</span>
+
+### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Clip.">WarpMarkerVector</span></span>
+
+A container for returning warp markers from Live.
+
+## Module Enums
+
+### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Clip.">ClipLaunchQuantization</span></span>
+
+### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Clip.">GridQuantization</span></span>
+
+### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Clip.">LaunchMode</span></span>
+
+### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Clip.">WarpMode</span></span>
