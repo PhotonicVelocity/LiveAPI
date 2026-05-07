@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 """Build .pyi stub files from per-module LOM YAML.
 
-Reads stubs/<v>/reports/seed/*.yaml (output of build_lom_yaml.py) and
-emits .pyi stubs structurally equivalent to what the old generator
-produces from LiveTree.parsed.json. Used to validate the YAML carries
-all the data the old pipeline consumed.
+Reads stubs/<v>/lom/*.yaml (the curated SOT) and emits .pyi stubs.
+Wherever the YAML carries a sibling `<field>_override:` block, the
+override's `value:` is preferred over the parser-derived field — that's
+the seam through which manual refinements reach the rendered stubs.
 
 Usage:
     python tools/generate/build_stubs_from_yaml.py 12.3.6
-    python tools/generate/build_stubs_from_yaml.py 12.3.6 --output stubs/<v>/variants/v2-yaml/Live
+    python tools/generate/build_stubs_from_yaml.py 12.3.6 --input stubs/<v>/reports/seed --output stubs/<v>/variants/v2-no-refinements/Live
 """
 
 from __future__ import annotations
@@ -23,6 +23,21 @@ from typing import Any
 import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+
+# --- Override-aware field access --------------------------------------- #
+
+
+def _resolve(node: dict[str, Any], key: str) -> Any:
+    """Read `key` from `node`, preferring `<key>_override.value` when present.
+
+    Mirrors the override pattern in doc/lom-format.md: parser-derived
+    field and human override sit side-by-side; consumer picks override.
+    """
+    override = node.get(f"{key}_override")
+    if isinstance(override, dict) and "value" in override:
+        return override["value"]
+    return node.get(key)
+
 
 # --- Type rendering ---------------------------------------------------- #
 
@@ -96,10 +111,10 @@ def _ret_type_for_type(type_str: str | None,
 
 
 def _format_arg(arg: dict[str, Any], current_module: str, imports: set[tuple[str, str]]) -> str:
-    name = arg["name"]
+    name = _resolve(arg, "name")
     # The YAML's `type:` already carries optional widening (`T | None`
     # when default is None) — we just unqualify Live class names here.
-    type_str = render_type_string(arg.get("type") or "Any", current_module, imports)
+    type_str = render_type_string(_resolve(arg, "type") or "Any", current_module, imports)
     if arg.get("optional"):
         default = arg.get("default") or "None"
         return f"{name}: {type_str} = {default}"
@@ -178,8 +193,22 @@ def _build_property_block(prop: dict[str, Any], current_module: str,
     - Listener-only signal (no `type:`, no `settable:`) → emit nothing
       here; only the listener methods land in the class body
     """
-    name = prop["name"]
-    type_str = prop.get("type")
+    name = _resolve(prop, "name")
+    type_str = _resolve(prop, "type")
+    # Property-level element_type_override upgrades a non-parametric type
+    # to its parametric form for the two cases where the property type
+    # itself is generic: `Live.Base.Vector` + element=DeviceParameter →
+    # `Live.Base.Vector[DeviceParameter]`, and `tuple` + element=int →
+    # `tuple[int, ...]`. For typed Vector subclasses (UnavailableFeatureVector,
+    # BrowserItemIterator, etc.) the element lives on the class itself, so the
+    # override is redundant at the property site and skipped here.
+    elem_ov = prop.get("element_type_override")
+    if isinstance(elem_ov, dict) and elem_ov.get("value") and type_str:
+        elem_val = elem_ov["value"]
+        if type_str == "tuple":
+            type_str = f"tuple[{elem_val}, ...]"
+        elif type_str == "Live.Base.Vector":
+            type_str = f"Live.Base.Vector[{elem_val}]"
     has_settable = "settable" in prop
     if type_str is None and not has_settable:
         return []  # listener-only signal — handled by the listener methods
@@ -251,7 +280,7 @@ def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
         elem = "T"
         cls_name = f"{cls_name}[T]"
     else:
-        elem_raw = cls.get("element_type") or "Any"
+        elem_raw = _resolve(cls, "element_type") or "Any"
         elem = render_type_string(elem_raw, current_module, imports)
     out: list[tuple[str, list[str]]] = []
 
@@ -281,10 +310,10 @@ def _build_method_block(method: dict[str, Any], current_module: str,
                          imports: set[tuple[str, str]], registry: dict[str, Any],
                          is_method: bool) -> list[str]:
     """Class method or module-level function block."""
-    name = method["name"]
+    name = _resolve(method, "name")
     args = method.get("args") or []
     returns = method.get("returns") or {}
-    ret_type = _ret_type_for_type(returns.get("type"), current_module, imports)
+    ret_type = _ret_type_for_type(_resolve(returns, "type"), current_module, imports)
     arg_str = _format_method_args(args, current_module, imports, is_method, name)
     raw_doc = method.get("raw_doc")
     # __init__ uses inline form (`def __init__(...) -> None: ...`)
@@ -387,7 +416,7 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
             typing_extras.update(("Generic", "Iterator", "TypeVar", "overload"))
             registry["_module_emits_typevar"] = True
         else:
-            elem = cls.get("element_type")
+            elem = _resolve(cls, "element_type")
             if elem:
                 elem_rendered = render_type_string(elem, current_module, imports)
                 base_str = f"(Iterable[{elem_rendered}])"
@@ -416,8 +445,10 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
     if raw_doc:
         for line in _indent(_wrap_docstring(raw_doc), 1):
             out.append(line)
-        if members:
-            out.append("")
+    if members:
+        # Blank line separates the class header (declaration + optional
+        # docstring) from its first member. Matches v1.
+        out.append("")
     if not members:
         # Class with only a docstring needs no `...` filler — the
         # docstring itself counts as the body (matches v1).
@@ -564,19 +595,19 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
 def main() -> int:
     p = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     p.add_argument("version", help="Live version (e.g. 12.3.6)")
-    p.add_argument("--input", help="seed yaml dir")
+    p.add_argument("--input", help="lom yaml dir (default: stubs/<v>/lom)")
     p.add_argument("--output", help="output dir for .pyi files")
     args = p.parse_args()
 
     seed_dir = (
         Path(args.input)
         if args.input
-        else REPO_ROOT / "stubs" / args.version / "reports" / "seed"
+        else REPO_ROOT / "stubs" / args.version / "lom"
     )
     out_dir = (
         Path(args.output)
         if args.output
-        else REPO_ROOT / "stubs" / args.version / "variants" / "v2-no-refinements" / "Live"
+        else REPO_ROOT / "stubs" / args.version / "variants" / "v2-with-refinements" / "Live"
     )
 
     if not seed_dir.exists():
