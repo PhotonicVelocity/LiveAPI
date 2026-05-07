@@ -50,11 +50,13 @@ _BORING_ANCESTORS = {
     "object",
 }
 
-# Internal members suppressed from rendered docs. `_live_ptr` is the
-# Boost.Python pointer-to-C++ implementation detail; `__init__` is rendered
-# specially when the time comes (Phase 1 step still pending).
+# Internal members suppressed from rendered docs. `__init__` is a constructor,
+# not a property, and is rendered specially when the time comes (Phase 1 step
+# still pending). `_live_ptr` IS surfaced — it's the pointer-to-C++ handle
+# that LomObject exposes universally, and showing it (declared on LomObject,
+# inherited everywhere else) is the clearest demonstration of the LOM's
+# universal-base structure.
 SKIP_MEMBERS = {
-    "_live_ptr",
     "__init__",
 }
 
@@ -268,6 +270,134 @@ def property_heading_html(prop: dict, registry: dict[str, str]) -> str:
     return f'{name}<span class="prop-type">: {rendered}</span>'
 
 
+# --- Inheritance ------------------------------------------------------- #
+
+
+# Strip raw HTML tags + entities so slug() sees only the visible text.
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def starlight_slug(heading_text: str) -> str:
+    """Mirror Starlight's heading-to-id slug behavior.
+
+    Observed pattern from the rendered site: lowercase, strip HTML tags,
+    keep alphanumerics + underscores, replace runs of any other characters
+    (`:`, ` `, `[`, `]`, `,`, ...) with a single `-`. Trim leading/trailing
+    `-`. Examples:
+      `name: str`                          → `name-str`
+      `parameters: ATimeableValueVector`   → `parameters-atimeablevaluevector`
+      `can_compare_ab: bool`               → `can_compare_ab-bool`
+    """
+    text = _HTML_TAG_RE.sub("", heading_text).lower()
+    out = re.sub(r"[^a-z0-9_]+", "-", text)
+    return out.strip("-")
+
+
+def build_class_index(modules: dict[str, dict]) -> dict[str, tuple[str, dict]]:
+    """Return `{qualified_path: (module_name, class_dict)}` for every class.
+
+    Used to look up an ancestor by its qualified `Live.X.Y` path so we can
+    render properties inherited from it with links to its declaration page.
+    """
+    index: dict[str, tuple[str, dict]] = {}
+
+    def walk(cls: dict, module_name: str, parent_qpath: str) -> None:
+        if not isinstance(cls, dict) or not cls.get("name"):
+            return
+        path = cls.get("path") or f"{parent_qpath}.{cls['name']}"
+        index[path] = (module_name, cls)
+        for nested in cls.get("classes") or []:
+            walk(nested, module_name, path)
+
+    for module_name, doc in modules.items():
+        base = f"Live.{module_name}"
+        for top in doc.get("primary_class") or []:
+            walk(top, module_name, base)
+        for top in doc.get("classes") or []:
+            walk(top, module_name, base)
+    return index
+
+
+def inherited_properties(
+    cls: dict,
+    class_index: dict[str, tuple[str, dict]],
+) -> list[tuple[str, str, dict]]:
+    """Walk the class's ancestor chain transitively and collect inherited
+    properties as (ancestor_qpath, ancestor_module_name, prop_dict).
+
+    Each property is yielded once; if multiple ancestors declare the same
+    name (e.g. an MRO with shadowing), the first ancestor encountered wins.
+    Properties in `SKIP_MEMBERS` are filtered.
+    """
+    out: list[tuple[str, str, dict]] = []
+    seen_names: set[str] = set()
+    seen_ancestors: set[str] = set()
+    stack = list(cls.get("ancestors") or [])
+    while stack:
+        anc_path = stack.pop(0)
+        if anc_path in seen_ancestors:
+            continue
+        seen_ancestors.add(anc_path)
+        entry = class_index.get(anc_path)
+        if entry is None:
+            continue
+        anc_module, anc_cls = entry
+        for prop in anc_cls.get("properties") or []:
+            name = _resolve(prop, "name")
+            if not name or name in SKIP_MEMBERS or name in seen_names:
+                continue
+            seen_names.add(name)
+            out.append((anc_path, anc_module, prop))
+        stack.extend(anc_cls.get("ancestors") or [])
+    return out
+
+
+def inherited_properties_block(
+    cls: dict,
+    class_index: dict[str, tuple[str, dict]],
+    registry: dict[str, str],
+) -> list[str]:
+    """Render the `Inherited` H4 subsection for a class. Returns the lines
+    to append (empty list if nothing to inherit). Format:
+
+        #### Inherited
+
+        From `LomObject`: [_live_ptr](/LiveAPI/modules/lomobject/#_live_ptr-int)
+
+    One line per ancestor, comma-joined property links inline. Compact;
+    surfaces what's available without re-declaring full type/listenable.
+    """
+    inherited = inherited_properties(cls, class_index)
+    if not inherited:
+        return []
+
+    # Group by ancestor, preserving first-encountered order.
+    by_ancestor: list[tuple[str, str, list[dict]]] = []
+    seen: dict[str, int] = {}
+    for anc_path, anc_module, prop in inherited:
+        if anc_path not in seen:
+            seen[anc_path] = len(by_ancestor)
+            by_ancestor.append((anc_path, anc_module, []))
+        by_ancestor[seen[anc_path]][2].append(prop)
+
+    out = ["#### Inherited", ""]
+    for anc_path, anc_module, props in by_ancestor:
+        anc_name = anc_path.rsplit(".", 1)[-1]
+        # Each prop link points to the ancestor's H5 anchor on the ancestor's
+        # module page. Anchor matches Starlight's auto-slug of the H5 text.
+        links = []
+        for p in props:
+            pname = _resolve(p, "name")
+            heading = property_heading_html(p, registry)
+            slug = starlight_slug(heading)
+            links.append(
+                f'[{pname}]({DOCS_URL_BASE}/{anc_module.lower()}/#{slug})'
+            )
+        out.append(f"From `{anc_name}`: {', '.join(links)}")
+        out.append("")
+    return out
+
+
 # --- Module page rendering --------------------------------------------- #
 
 
@@ -281,17 +411,24 @@ def relpath_for(module_name: str) -> str:
     return f"modules/{module_name}.mdx"
 
 
-def render_module_page(module_name: str, doc: dict, registry: dict[str, str]) -> str:
-    """Render one module's MDX page (paused at Step 4: property types).
+def render_module_page(
+    module_name: str,
+    doc: dict,
+    registry: dict[str, str],
+    class_index: dict[str, tuple[str, dict]] | None = None,
+) -> str:
+    """Render one module's MDX page (Step 5: properties + inherited).
 
     Layout:
-      - YAML frontmatter (title + description from the module's first sentence)
+      - YAML frontmatter (title + description)
       - Module description paragraph
-      - Primary class section: signature, doc, properties listing
+      - Primary class section: signature, doc, own properties, inherited
       - "Other classes" section: each class as a sub-section
       - Module Enums section
       - Module Functions section
     """
+    if class_index is None:
+        class_index = {}
     # Hand-authored module description (per doc/lom-format.md). Falls back
     # to a visible placeholder so empty modules are obvious to writers.
     description = doc.get("description") or "_No module description._"
@@ -319,7 +456,9 @@ def render_module_page(module_name: str, doc: dict, registry: dict[str, str]) ->
     lines.append("")
 
     def emit_class(cls: dict) -> None:
-        """Append a class block — H3 signature, description, property list."""
+        """Append a class block — H3 signature, description, properties,
+        and inherited-from-ancestor properties.
+        """
         lines.append(f"### {class_signature_html(cls, module_name, registry)}")
         lines.append("")
         doc_text = normalize_paragraph(cls.get("raw_doc"))
@@ -336,6 +475,8 @@ def render_module_page(module_name: str, doc: dict, registry: dict[str, str]) ->
             for prop in properties:
                 lines.append(f"##### {property_heading_html(prop, registry)}")
                 lines.append("")
+        for line in inherited_properties_block(cls, class_index, registry):
+            lines.append(line)
 
     def emit_member(heading_html: str, doc_text: str | None) -> None:
         """Append an H3 heading + an optional description paragraph below.
@@ -413,12 +554,13 @@ def main() -> int:
             modules[d["module"]] = d
 
     registry = build_class_registry(modules)
+    class_index = build_class_index(modules)
 
     written = 0
     for module_name, doc in modules.items():
         out_file = out_dir / relpath_for(module_name)
         out_file.parent.mkdir(parents=True, exist_ok=True)
-        out_file.write_text(render_module_page(module_name, doc, registry))
+        out_file.write_text(render_module_page(module_name, doc, registry, class_index))
         written += 1
 
     print(f"Wrote {written} module pages to {out_dir.relative_to(REPO_ROOT)}/")

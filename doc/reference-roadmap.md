@@ -69,8 +69,8 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status as of context reset (mid-Step 2, Blender-styled signatures landed
-across class / enum / function headings, main class promoted):
+Status: Steps 1 through 4 + base-class inheritance linking complete; module
+descriptions hand-authored across all 43 modules.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -83,58 +83,72 @@ across class / enum / function headings, main class promoted):
   `def Live.Module.name()`) with span-level coloring (kw / path / name /
   base) and white-bold class name dominating dim-orange path. Custom CSS
   in `web/src/styles/custom.css` covers heading hierarchy + signature spans.
+  Base class is rendered as a clickable `<a>` (linked to its anchor on its
+  module page) when the base resolves in the registry.
 - **Step 1.75 — Main class promotion.** ✅ Done. The class whose name
   matches the module name (the conventional Live.X.X pairing) renders as
   a prominent signature line at the top of the page. Remaining classes
   move under `## Other classes`. When properties / methods land, they
   attach directly under the main class as `## Properties`, `## Methods`,
   etc., making the main-vs-auxiliary structure explicit.
-- **Step 2 — Class descriptions.** Pending. Each class heading gets its
+- **Step 2 — Class descriptions.** ✅ Done. Each class heading gets its
   `raw_doc` rendered below as a paragraph. Same for enums and module
-  functions when those have raw_doc set.
-- **Step 3 — Properties listed.** For each class (starting with the main
-  class), render a `## Properties` section with each property name as an
-  H3 (signature shape: just the property name in monospace bold). No types
-  or descriptions yet.
-- **Step 4 — Property types.** Add each property's `type` (resolved through
-  `<field>_override:` if present) to its heading or as a labeled field
-  below it (`**Type:** float` style).
-- **Step 5 — Property settable / listenable.** Annotate with `(get/set,
-listenable)` derived from the `settable` flag and the existence of
+  functions when those have raw_doc set. Module-level pages additionally
+  carry hand-authored `description:` prose at the page top (lom YAML's
+  module-top-level `description:` field; see lom-format.md).
+- **Step 3 — Properties listed.** ✅ Done. For each class (starting with
+  the main class), `#### Properties` section emits each property name as
+  an H5 in monospace bold, indented under the class. Filters
+  `_live_ptr` and `__init__` from the listing.
+- **Step 4 — Property types.** ✅ Done. Each property's resolved type
+  (`<field>_override.value` if present, else parser-derived) is rendered
+  inline next to the name as a Python annotation: `arm: bool`,
+  `arrangement_clips: Vector[Clip]`. Live-class tokens are linked to their
+  anchors on their module pages; primitive/typing tokens (`bool`, `None`,
+  `int`, `Iterable`) stay plain.
+- **Step 5 — Inherited properties.** ✅ Done. After each class's
+  `#### Properties` section, an `#### Inherited` block lists members
+  declared on the class's transitive ancestors, grouped by ancestor with
+  inline links to the declaration's anchor on the ancestor's module page.
+  `_live_ptr` removed from the renderer's skip-list so the universal
+  LomObject base is demonstrably present on every class. Layout is
+  comma-separated per-ancestor (one line each); revisit visual treatment
+  later if the density becomes a problem on Device subclasses.
+- **Step 6 — Property settable / listenable.** Annotate with `(get/set,
+  listenable)` derived from the `settable` flag and the existence of
   `add_X_listener` siblings. Goes inline with the type line.
-- **Step 6 — Property descriptions.** Each property's `raw_doc` (which is
+- **Step 7 — Property descriptions.** Each property's `raw_doc` (which is
   already the cleaned description for properties — no signature header
   to strip, unlike methods) renders as a paragraph below the type metadata.
-- **Step 7 — Methods listed.** Same ladder as properties: `## Methods`
+- **Step 8 — Methods listed.** Same ladder as properties: `## Methods`
   section with method names as H3 headings (signature shape:
   `name(args) -> return`). Use the parser's `description` field rather
   than `raw_doc` so the Boost.Python signature header and `C++ signature:`
   footer don't dump into the doc.
-- **Step 8 — Module-level enums.** Currently rendered as headings only.
+- **Step 9 — Module-level enums.** Currently rendered as headings only.
   Add member tables (`Member | Value` listing) under each enum heading,
   using the enum's `members` field from the lom YAML.
-- **Step 9 — Module-level functions.** Currently rendered as headings only.
+- **Step 10 — Module-level functions.** Currently rendered as headings only.
   Add full signature with args + return type, the `description` field as
   prose, and `**Parameters:**` / `**Returns:**` labeled sections.
-- **Step 10 — Nested classes.** Classes defined inside other classes
+- **Step 11 — Nested classes.** Classes defined inside other classes
   (e.g., `Clip.View`, `Track.View`, `Song.View`). Render as their own
   section on the parent class's page, with the nested class's properties
   / methods rendered inline.
-- **Step 11 — References / Access via.** Cross-reference pass — for each
+- **Step 12 — References / Access via.** Cross-reference pass — for each
   class T, list every member elsewhere in the LOM whose type / return
   is T. Implemented as a single tree-walk at generator startup that
   builds a `class_name → [(owner, member, kind)]` map. Renders as a
   collapsible `<details>` at the bottom of each class section, or a
   `## References` section near the page bottom (decide by looking at
   layout density once the data lands).
-- **Step 12 — Refinement metadata surfacing.** When a field has a sibling
+- **Step 13 — Refinement metadata surfacing.** When a field has a sibling
   `<field>_override:` block in `stubs/<v>/lom/*.yaml`, render the `source:`
   and `confidence:` inline with the member (small italic note under the
   type line, or a callout block — design when the data lands).
-- **Step 13 — Inherited members.** For classes with parents in the LOM
-  (mostly just `LomObject` for Live document objects, but some richer
-  hierarchies exist), show inherited properties / methods in their own
-  section with bullet links to the base class's documentation.
+- **Step 14 — Inherited methods.** Same idea as Step 5 but for methods,
+  once methods are rendered (Step 8). Same display approach decision as
+  inherited properties applies — likely the same answer.
 
 After Step 13, every field in `stubs/<v>/lom/*.yaml` (parser-derived
 fields plus override blocks) is rendered. Phase 1 is structurally complete.
