@@ -23,6 +23,16 @@ Interface to the internal licensing services.
 
 #### Properties
 
+##### base_product_id<span class="prop-type">: str</span>
+
+##### in_sassafras_mode<span class="prop-type">: bool</span>
+
+##### license_must_match_variant<span class="prop-type">: bool</span>
+
+##### random_number_for_trial_authorization<span class="prop-type">: int</span>
+
+##### set_has_unsaved_changes<span class="prop-type">: bool</span>
+
 #### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">StartupDialog</span></span>
@@ -36,6 +46,20 @@ Serves as an entry point for the user to authorize Live on first launch.
 Returns relevant information after unlock
 
 #### Properties
+
+##### authorization_deactivated<span class="prop-type">: bool</span>
+
+##### authorization_expired<span class="prop-type">: bool</span>
+
+##### has_max_unlock_products<span class="prop-type">: bool</span>
+
+##### temp_demo_mode<span class="prop-type">: bool</span>
+
+##### time_limited<span class="prop-type">: bool</span>
+
+##### unlock_error<span class="prop-type">: bool</span>
+
+##### unlocked<span class="prop-type">: bool</span>
 
 #### Methods
 

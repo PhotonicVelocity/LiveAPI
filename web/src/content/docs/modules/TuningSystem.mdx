@@ -15,6 +15,28 @@ Represents a Tuning System and its properties.
 
 #### Properties
 
+<a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/" title="LOM identity / navigation pair — universal across every LomObject. Click for the foundation model.">LomObject</a>
+
+##### _live_ptr<span class="prop-type">: int</span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a></span>
+
+<hr class="lom-pinned-separator" />
+
+##### highest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave">PitchClassAndOctave</a></span>
+
+##### lowest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave">PitchClassAndOctave</a></span>
+
+##### name<span class="prop-type">: str</span>
+
+##### note_tunings<span class="prop-type">: list[float]</span>
+
+##### number_of_notes_in_pseudo_octave<span class="prop-type">: int</span>
+
+##### pseudo_octave_in_cents<span class="prop-type">: float</span>
+
+##### reference_pitch<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#referencepitch">ReferencePitch</a></span>
+
 ## Other classes
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.TuningSystem.">PitchClassAndOctave</span></span>
@@ -23,6 +45,10 @@ This class represents a PitchClassAndOctave type.
 
 #### Properties
 
+##### index_in_octave<span class="prop-type">: int</span>
+
+##### octave<span class="prop-type">: int</span>
+
 #### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.TuningSystem.">ReferencePitch</span></span>
@@ -30,5 +56,11 @@ This class represents a PitchClassAndOctave type.
 This class represents a ReferencePitch type.
 
 #### Properties
+
+##### frequency<span class="prop-type">: float</span>
+
+##### index_in_octave<span class="prop-type">: int</span>
+
+##### octave<span class="prop-type">: int</span>
 
 #### Methods

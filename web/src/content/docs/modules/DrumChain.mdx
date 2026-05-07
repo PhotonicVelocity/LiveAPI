@@ -13,3 +13,37 @@ outbound choke group, and other drum-rack-specific routing.
 This class represents a drum group device chain in Live.
 
 #### Properties
+
+<a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/" title="LOM identity / navigation pair — universal across every LomObject. Click for the foundation model.">LomObject</a>
+
+##### _live_ptr<span class="prop-type">: int</span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a></span>
+
+<hr class="lom-pinned-separator" />
+
+##### choke_group<span class="prop-type">: int</span>
+
+##### color<span class="prop-type">: int</span>
+
+##### color_index<span class="prop-type">: int</span>
+
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>]</span>
+
+##### in_note<span class="prop-type">: int</span>
+
+##### is_auto_colored<span class="prop-type">: bool</span>
+
+##### mute<span class="prop-type">: bool</span>
+
+##### muted_via_solo<span class="prop-type">: bool</span>
+
+##### name<span class="prop-type">: str</span>
+
+##### out_note<span class="prop-type">: int</span>
+
+##### solo<span class="prop-type">: bool</span>
+
+#### Inherited
+
+From `Chain`: [has_audio_input](/LiveAPI/modules/chain/#has_audio_input-bool), [has_audio_output](/LiveAPI/modules/chain/#has_audio_output-bool), [has_midi_input](/LiveAPI/modules/chain/#has_midi_input-bool), [has_midi_output](/LiveAPI/modules/chain/#has_midi_output-bool), [mixer_device](/LiveAPI/modules/chain/#mixer_device-chainmixerdevice)

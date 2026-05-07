@@ -79,3 +79,24 @@ primary_class:
   - name: _live_ptr
     type: int
     settable: false
+
+  # Synthesized — not declared on `Live.LomObject.LomObject` in Live's
+  # runtime. Each top-level LOM-tree node (Track, Scene, Clip, Device,
+  # Application, Song, ...) redeclares `canonical_parent` independently
+  # with a class-specific narrower return type (covariant override),
+  # presumably so the runtime can avoid a generic `LomObject | None`.
+  # Hoisted here in the YAML so the LomObject page reflects the
+  # conceptual model — every LOM-tree node exposes it. Per-class
+  # declarations on subclasses still take precedence in the rendered
+  # output (Track shows `canonical_parent: Song`, not the generic).
+  - name: canonical_parent
+    raw_doc: Get the canonical parent — the structural owner one step up the LOM tree.
+    type: Live.LomObject.LomObject | None
+    settable: false
+    _synthesized: true
+    _synthesis_note: |
+      Conceptually universal across LOM-tree nodes but not declared
+      on `LomObject` itself in Live's runtime. Application and Song
+      probe as the only LOM nodes whose `canonical_parent` returns
+      None (they sit at the root). All other concrete LOM classes
+      return a concrete parent type.

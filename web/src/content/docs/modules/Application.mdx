@@ -15,6 +15,34 @@ This class represents the Live application.
 
 #### Properties
 
+<a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/" title="LOM identity / navigation pair — universal across every LomObject. Click for the foundation model.">LomObject</a>
+
+##### _live_ptr<span class="prop-type">: int</span>
+
+##### canonical_parent<span class="prop-type">: None</span>
+
+<hr class="lom-pinned-separator" />
+
+##### average_process_usage<span class="prop-type">: float</span>
+
+##### browser<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browser">Browser</a></span>
+
+##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[object]</span>
+
+##### current_dialog_button_count<span class="prop-type">: int</span>
+
+##### current_dialog_message<span class="prop-type">: str</span>
+
+##### number_of_push_apps_running<span class="prop-type">: int</span>
+
+##### open_dialog_count<span class="prop-type">: int</span>
+
+##### peak_process_usage<span class="prop-type">: float</span>
+
+##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector">UnavailableFeatureVector</a></span>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a>.View</span>
+
 #### Methods
 
 #### Nested types
@@ -29,6 +57,10 @@ Describes a control present in a control surface proxy
 
 #### Properties
 
+##### id<span class="prop-type">: int</span>
+
+##### name<span class="prop-type">: str</span>
+
 #### Methods
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
@@ -40,6 +72,16 @@ A container for returning control descriptions.
 Represents a control surface running in a different process. For use by M4L
 
 #### Properties
+
+##### control_descriptions<span class="prop-type">: <a href="/LiveAPI/modules/application/#controldescriptionvector">ControlDescriptionVector</a></span>
+
+##### pad_layout<span class="prop-type">: str</span>
+
+##### type_name<span class="prop-type">: str</span>
+
+##### control_values_arrived
+
+##### midi_received
 
 #### Methods
 
@@ -58,6 +100,20 @@ Holds strings representing what type of Live is running.
 This class represents the view aspects of the Live application.
 
 #### Properties
+
+<a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/" title="LOM identity / navigation pair — universal across every LomObject. Click for the foundation model.">LomObject</a>
+
+##### _live_ptr<span class="prop-type">: int</span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a></span>
+
+<hr class="lom-pinned-separator" />
+
+##### browse_mode<span class="prop-type">: bool</span>
+
+##### focused_document_view<span class="prop-type">: str</span>
+
+##### view_focus_changed
 
 #### Methods
 

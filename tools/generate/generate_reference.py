@@ -56,6 +56,16 @@ _BORING_ANCESTORS = {
 # transitively a LomObject?" for the signature badge.
 _LOM_OBJECT_PATH = "Live.LomObject.LomObject"
 
+# Property names that conceptually belong to every LomObject — the LOM
+# identity/navigation surface. Rendered with a small linked chip next to
+# the property heading so they read as "from the LomObject foundation"
+# wherever they appear (own or inherited), regardless of which section
+# they happen to land in. `_live_ptr` is structurally inherited from
+# LomObject; `canonical_parent` is synthesized onto LomObject in the
+# YAML (see LomObject.yaml) to mirror the runtime convention of
+# covariant per-class redeclaration.
+LOM_UNIVERSAL_MEMBERS = frozenset({"_live_ptr", "canonical_parent"})
+
 # Internal members suppressed from rendered docs. `__init__` is a constructor,
 # not a property, and is rendered specially when the time comes (Phase 1 step
 # still pending). `_live_ptr` IS surfaced — it's the pointer-to-C++ handle
@@ -334,19 +344,43 @@ def function_signature_html(fn: dict, module_name: str) -> str:
     )
 
 
-def property_heading_html(prop: dict, registry: dict[str, str]) -> str:
+def lom_member_chip_html() -> str:
+    """Small `LomObject` chip rendered next to a universal LOM member
+    (`_live_ptr`, `canonical_parent`) on a non-LomObject class page.
+    Same visual family as the class-signature LomObject badge but
+    smaller; ties the property to the foundation page wherever it
+    appears (own properties section, inherited section, ...).
+    """
+    return (
+        f'<a class="lom-member" href="{DOCS_URL_BASE}/lomobject/" '
+        f'title="Universal LomObject member — see LomObject for the canonical '
+        f'definition">LomObject</a>'
+    )
+
+
+def property_heading_html(
+    prop: dict,
+    registry: dict[str, str],
+    *,
+    lom_universal: bool = False,
+) -> str:
     """Render a property name + Python-annotation-style type.
 
     H5 isn't in the right-side TOC (capped at H3) so the type can sit in
     the DOM text without polluting nav. Live types in the annotation
     become `<a>` links; non-Live tokens (`bool`, `None`, ...) stay literal.
+
+    `lom_universal=True` appends a small clickable LomObject chip after
+    the type — used to mark `_live_ptr` / `canonical_parent` as the
+    LOM-identity/navigation pair on every LomObject class page.
     """
     name = _resolve(prop, "name")
     type_str = _resolve(prop, "type")
+    chip = f" {lom_member_chip_html()}" if lom_universal else ""
     if not type_str:
-        return name
+        return f"{name}{chip}"
     rendered = linkify_type(display_type(type_str), registry)
-    return f'{name}<span class="prop-type">: {rendered}</span>'
+    return f'{name}<span class="prop-type">: {rendered}</span>{chip}'
 
 
 # --- Inheritance ------------------------------------------------------- #
@@ -400,6 +434,51 @@ def build_class_index(modules: dict[str, dict]) -> dict[str, tuple[str, dict]]:
     return index
 
 
+def resolve_lom_universal(
+    cls: dict,
+    class_index: dict[str, tuple[str, dict]],
+) -> list[dict]:
+    """Resolve `_live_ptr` and `canonical_parent` for `cls`, picking the
+    closest declaration in the MRO (own → ancestor BFS). Returns the
+    resolved prop dicts in canonical order. Used to pin the LOM
+    identity/navigation pair at the top of the Properties section on
+    every LomObject class — uniform position regardless of whether the
+    class declares them itself (covariant override) or inherits them.
+    """
+    out: list[dict] = []
+    own_by_name = {
+        _resolve(p, "name"): p
+        for p in (cls.get("properties") or [])
+        if _resolve(p, "name")
+    }
+    for name in ("_live_ptr", "canonical_parent"):
+        if name in own_by_name:
+            out.append(own_by_name[name])
+            continue
+        # BFS the ancestor chain — first match wins.
+        seen: set[str] = set()
+        stack = list(cls.get("ancestors") or [])
+        found = None
+        while stack and found is None:
+            anc_path = stack.pop(0)
+            if anc_path in seen:
+                continue
+            seen.add(anc_path)
+            entry = class_index.get(anc_path)
+            if entry is None:
+                continue
+            _anc_module, anc_cls = entry
+            for p in anc_cls.get("properties") or []:
+                if _resolve(p, "name") == name:
+                    found = p
+                    break
+            if found is None:
+                stack.extend(anc_cls.get("ancestors") or [])
+        if found is not None:
+            out.append(found)
+    return out
+
+
 def inherited_properties(
     cls: dict,
     class_index: dict[str, tuple[str, dict]],
@@ -409,10 +488,19 @@ def inherited_properties(
 
     Each property is yielded once; if multiple ancestors declare the same
     name (e.g. an MRO with shadowing), the first ancestor encountered wins.
-    Properties in `SKIP_MEMBERS` are filtered.
+    Properties already declared on `cls` itself shadow the inherited copy
+    (covariant overrides like `Track.canonical_parent: Song` vs the
+    synthesized `LomObject.canonical_parent: LomObject | None`) — those
+    are filtered out so they don't double-render. Properties in
+    `SKIP_MEMBERS` are also filtered.
     """
     out: list[tuple[str, str, dict]] = []
-    seen_names: set[str] = set()
+    own_names = {
+        _resolve(p, "name")
+        for p in (cls.get("properties") or [])
+        if _resolve(p, "name")
+    }
+    seen_names: set[str] = set(own_names)
     seen_ancestors: set[str] = set()
     stack = list(cls.get("ancestors") or [])
     while stack:
@@ -444,12 +532,19 @@ def inherited_properties_block(
 
         #### Inherited
 
-        From `LomObject`: [_live_ptr](/LiveAPI/modules/lomobject/#_live_ptr-int)
+        From `Device`: [can_compare_ab](...), [class_name](...)
 
     One line per ancestor, comma-joined property links inline. Compact;
     surfaces what's available without re-declaring full type/listenable.
+
+    Universal LOM members (`_live_ptr`, `canonical_parent`) are pinned
+    at the top of the Properties section by `emit_class`, so they're
+    filtered out of the inherited block here to avoid double-rendering.
     """
-    inherited = inherited_properties(cls, class_index)
+    inherited = [
+        (a, m, p) for (a, m, p) in inherited_properties(cls, class_index)
+        if _resolve(p, "name") not in LOM_UNIVERSAL_MEMBERS
+    ]
     if not inherited:
         return []
 
@@ -581,9 +676,57 @@ def render_module_page(
             p for p in (cls.get("properties") or [])
             if _resolve(p, "name") and _resolve(p, "name") not in SKIP_MEMBERS
         ]
-        if properties:
+        # Pin LOM-universal members (`_live_ptr`, `canonical_parent`) at
+        # the top of the Properties section on every LomObject class
+        # other than LomObject itself. Resolves each from the closest
+        # MRO declaration — own (covariant override like
+        # `Track.canonical_parent: Song`) takes precedence, otherwise
+        # walks ancestors. The Inherited section filters the same names
+        # so nothing renders twice.
+        pinned: list[dict] = []
+        if (
+            class_index is not None
+            and is_lom_object(cls, class_index)
+            and cls.get("path") != _LOM_OBJECT_PATH
+        ):
+            pinned = resolve_lom_universal(cls, class_index)
+            pinned_names = {_resolve(p, "name") for p in pinned}
+            properties = [
+                p for p in properties
+                if _resolve(p, "name") not in pinned_names
+            ]
+        if pinned or properties:
             lines.append("#### Properties")
             lines.append("")
+            if pinned:
+                # Single LomObject chip acts as the sub-header for the
+                # pinned LOM-universal pair (`_live_ptr`, `canonical_parent`).
+                # Per-property chips suppressed — the header carries the
+                # link, and the separator below creates the visual break
+                # before the per-class properties begin.
+                lines.append(
+                    f'<a class="lom-pinned-header" '
+                    f'href="{DOCS_URL_BASE}/lomobject/" '
+                    f'title="LOM identity / navigation pair — universal '
+                    f'across every LomObject. Click for the foundation '
+                    f'model.">LomObject</a>'
+                )
+                lines.append("")
+                for prop in pinned:
+                    heading = property_heading_html(prop, registry)
+                    lines.append(f"##### {heading}")
+                    lines.append("")
+                lines.append('<hr class="lom-pinned-separator" />')
+                lines.append("")
+            for prop in properties:
+                heading = property_heading_html(prop, registry)
+                lines.append(f"##### {heading}")
+                lines.append("")
+        # Inherited members from transitive ancestors — rendered as a
+        # single H4 block under the class so what's available via the
+        # MRO is visible without re-declaring every type / listener.
+        for line in inherited_properties_block(cls, class_index, registry):
+            lines.append(line)
         if cls.get("methods"):
             lines.append("#### Methods")
             lines.append("")

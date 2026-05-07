@@ -154,6 +154,64 @@
   text-decoration: underline;
 }
 
+/* LomObject member chip — smaller sibling of `.lom-badge`, sits next to
+   universal-LOM property names (`_live_ptr`, `canonical_parent`) in the
+   Properties + Inherited sections to mark them as the LOM identity /
+   navigation pair tied to the foundation page. Same color family as the
+   class-level badge so the two read as a metadata family. */
+.lom-member {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0 0.35rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.6em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+  line-height: 1.5;
+  background: var(--sl-color-purple-low);
+  color: var(--sl-color-purple-high);
+  text-decoration: none;
+}
+.lom-member:hover {
+  text-decoration: underline;
+}
+
+/* Pinned-pair header — single small `LomObject` chip rendered above
+   the pair of universal LOM members at the top of a class's Properties
+   section. Acts as both the visual marker and the clickable link to
+   the foundation page; per-property chips are suppressed in favor of
+   this group-level treatment. Aligned with the H5 indent below so the
+   chip sits visually attached to the members it labels. */
+.lom-pinned-header {
+  display: inline-block;
+  margin-left: 1.5rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.25rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--sl-color-purple-low);
+  color: var(--sl-color-purple-high);
+  text-decoration: none;
+}
+.lom-pinned-header:hover {
+  text-decoration: underline;
+}
+/* Separator between the pinned pair and the per-class properties. Thin
+   muted rule indented to match the H5 column. Width pulled in so the
+   separator sits inside the property gutter rather than spanning the
+   page. */
+hr.lom-pinned-separator {
+  border: none;
+  border-top: 1px solid var(--sl-color-gray-6);
+  margin: 0.5rem 0 0.5rem 1.5rem;
+  width: calc(100% - 1.5rem);
+  opacity: 0.5;
+}
+
 /* H2 sets section breaks — give it breathing room above, weight, and a
    full-width underline so its role as a divider is visually unmistakable.
    Tight margin-bottom so the H2 hugs its content rather than floating
