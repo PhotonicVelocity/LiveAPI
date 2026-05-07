@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Clip import WarpMarkerVector
+    from Live.Clip import WarpMarkerVector, WarpMode
     from Live.LomObject import LomObject
     from Live.SimplerDevice import SimplerDevice
 

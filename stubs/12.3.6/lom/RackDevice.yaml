@@ -262,7 +262,7 @@ primary_class:
     returns:
       type: Live.LomObject.LomObject
       type_override:
-        value: Chain
+        value: Live.Chain.Chain
         confidence: high
         source: |
           M4L docs (rackdevice.md) name the return as `Chain`; raw_doc: "Insert a
@@ -367,7 +367,7 @@ primary_class:
       raw_doc: Return access to the currently selected chain.
       type: None
       type_override:
-        value: Chain | None
+        value: Live.Chain.Chain | None
         confidence: high
         source: |
           Docstring: "Return access to the currently selected chain." Corpus-verified —

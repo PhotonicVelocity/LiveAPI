@@ -102,7 +102,7 @@ primary_class:
     raw_doc: Get the groove associated with this clip.
     type: None
     type_override:
-      value: Groove | None
+      value: Live.Groove.Groove | None
       confidence: high
       source: |
         Docstring: "Get the groove associated with this clip." M4L confirms `Groove`
@@ -197,7 +197,7 @@ primary_class:
     raw_doc: Get/Set access to the launch mode setting of the Clip.
     type: int
     type_override:
-      value: LaunchMode
+      value: Live.Clip.LaunchMode
       confidence: high
       source: |
         `LaunchMode` enum in same module (Clip). Property name is a direct
@@ -212,7 +212,7 @@ primary_class:
     raw_doc: Get/Set access to the launch quantization setting of the Clip.
     type: int
     type_override:
-      value: ClipLaunchQuantization
+      value: Live.Clip.ClipLaunchQuantization
       confidence: high
       source: |
         Two enums match the name "launch quantization": `ClipLaunchQuantization`
@@ -423,7 +423,7 @@ primary_class:
       Get/Set the warp mode for this audio clip.
     type: int
     type_override:
-      value: WarpMode
+      value: Live.Clip.WarpMode
       confidence: high
       source: |
         `WarpMode` enum in same module (Clip). Property name is a direct
@@ -493,7 +493,7 @@ primary_class:
           (`note_specifications` at _MxDCore/MxDCore.py:820+) both work.
       type: object
       type_override:
-        value: Iterable[MidiNoteSpecification]
+        value: Iterable[Live.Clip.MidiNoteSpecification]
         confidence: high
         source: |
           arg2 rename — [M4L docs]: external/max-for-live-docs/9.0/clip.md.
@@ -520,7 +520,7 @@ primary_class:
     - name: warp_marker
       type: object
       type_override:
-        value: WarpMarker
+        value: Live.Clip.WarpMarker
         confidence: high
         source: |
           M4L docs (clip.md): "Adds the specified warp marker, if possible." The
@@ -943,7 +943,7 @@ primary_class:
           annotation.
       type: int
       type_override:
-        value: GridQuantization | int
+        value: Live.Clip.GridQuantization | int
         confidence: high
         source: |
           Arg names from M4L docs (clip.md). arg2 type — applied per the enum-arg
@@ -1018,7 +1018,7 @@ primary_class:
           'amount'; sister method `quantize(quantization_grid, amount)` confirms.
       type: int
       type_override:
-        value: GridQuantization | int
+        value: Live.Clip.GridQuantization | int
         confidence: high
         source: |
           arg2 rename — callsite, 6/7 defs use 'note' across drum_group_component

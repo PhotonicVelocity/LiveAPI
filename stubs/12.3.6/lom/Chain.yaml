@@ -195,7 +195,7 @@ primary_class:
     returns:
       type: Live.LomObject.LomObject
       type_override:
-        value: Device
+        value: Live.Device.Device
         confidence: high
         source: |
           C++ signature returns `TWeakPtr<TPyHandleBase>` (the generic LomObject

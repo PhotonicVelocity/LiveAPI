@@ -643,7 +643,7 @@ classes:
   - name: control_descriptions
     settable: false
     type_override:
-      value: ControlDescriptionVector
+      value: Live.Application.ControlDescriptionVector
       confidence: high
       source: |
         Probe couldn't reach this class (ControlSurfaceProxy is M4L-only). Direct

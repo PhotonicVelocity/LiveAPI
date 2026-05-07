@@ -3,8 +3,11 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import IntVector, Vector
+    from Live.Chain import Chain
+    from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
+    from Live.DeviceParameter import DeviceParameter
     from Live.GroovePool import GroovePool
     from Live.LomObject import LomObject
     from Live.Scene import Scene

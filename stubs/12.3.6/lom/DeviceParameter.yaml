@@ -22,7 +22,7 @@ primary_class:
     raw_doc: Returns state of type AutomationState.
     type: int
     type_override:
-      value: AutomationState
+      value: Live.DeviceParameter.AutomationState
       confidence: high
       source: |
         `AutomationState` enum in same module. Property name matches the enum
@@ -114,7 +114,7 @@ primary_class:
       - disabled - the parameter's value cannot be changed.
     type: int
     type_override:
-      value: ParameterState
+      value: Live.DeviceParameter.ParameterState
       confidence: high
       source: |
         Two enums in same module overlap on the name `state`: `AutomationState`

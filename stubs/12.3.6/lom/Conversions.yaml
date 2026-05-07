@@ -24,7 +24,7 @@ functions:
   - name: audio_to_midi_type
     type: int
     type_override:
-      value: AudioToMidiType | int
+      value: Live.Conversions.AudioToMidiType | int
       confidence: high
       source: |
         Applied per the enum-arg convention (see schema header). `AudioToMidiType`
@@ -100,7 +100,7 @@ functions:
   returns:
     type: Live.LomObject.LomObject
     type_override:
-      value: DrumPad | None
+      value: Live.DrumPad.DrumPad | None
       confidence: high
       source: |
         M4L docs list the return as `DrumPad / None`. The function moves devices

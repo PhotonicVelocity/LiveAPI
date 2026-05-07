@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.ChainMixerDevice import ChainMixerDevice
+    from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
     from Live.Track import DeviceContainer

@@ -51,7 +51,7 @@ primary_class:
     raw_doc: Return the current filter routing.
     type: int
     type_override:
-      value: FilterRouting
+      value: Live.WavetableDevice.FilterRouting
       confidence: high
       source: |
         `FilterRouting` enum in same module (WavetableDevice). Property name is
@@ -100,7 +100,7 @@ primary_class:
     raw_doc: Return the current effect mode of the oscillator 1.
     type: int
     type_override:
-      value: EffectMode
+      value: Live.WavetableDevice.EffectMode
       confidence: high
       source: |
         `EffectMode` enum in same module (WavetableDevice). Property name ends
@@ -142,7 +142,7 @@ primary_class:
     raw_doc: Return the current effect mode of the oscillator 2.
     type: int
     type_override:
-      value: EffectMode
+      value: Live.WavetableDevice.EffectMode
       confidence: high
       source: |
         Same as oscillator_1_effect_mode — sister property, same enum.
@@ -207,7 +207,7 @@ primary_class:
     raw_doc: Return the current unison mode.
     type: int
     type_override:
-      value: UnisonMode
+      value: Live.WavetableDevice.UnisonMode
       confidence: high
       source: |
         `UnisonMode` enum in same module (WavetableDevice). Property name is a
@@ -222,7 +222,7 @@ primary_class:
     raw_doc: Return the current number of unison voices.
     type: int
     type_override:
-      value: VoiceCount
+      value: Live.WavetableDevice.VoiceCount
       confidence: high
       source: |
         `VoiceCount` enum in same module (WavetableDevice). Property name ends

@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Any, Callable, Generic, Iterable, Iterator, Ty
 T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
+    from Live.Device import Device
     from Live.LomObject import LomObject
 
 

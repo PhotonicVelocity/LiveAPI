@@ -45,7 +45,7 @@ primary_class:
     raw_doc: Bang triggered when the hotswap target has changed.
     type: int
     type_override:
-      value: FilterType
+      value: Live.Browser.FilterType
       confidence: high
       source: |
         `FilterType` enum in same module (Browser). Property name is a direct
@@ -60,7 +60,7 @@ primary_class:
     raw_doc: Bang triggered when the hotswap target has changed.
     type: None
     type_override:
-      value: Device | None
+      value: Live.Device.Device | None
       confidence: high
       source: |
         Corpus reads `hotswap_target` as a `Device`: Push2/browser_component.py:538

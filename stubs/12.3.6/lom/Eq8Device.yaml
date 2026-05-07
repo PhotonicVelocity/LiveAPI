@@ -60,7 +60,7 @@ primary_class:
     raw_doc: Access to Eq8's global mode.
     type: int
     type_override:
-      value: GlobalMode
+      value: Live.Eq8Device.GlobalMode
       confidence: high
       source: |
         `GlobalMode` enum in same module (Eq8Device). Property name is a direct

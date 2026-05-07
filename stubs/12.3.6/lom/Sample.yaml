@@ -38,7 +38,7 @@ primary_class:
     raw_doc: Access to the Transient Loop Mode parameter in Beats Warp Mode.
     type: int
     type_override:
-      value: TransientLoopMode
+      value: Live.Sample.TransientLoopMode
       confidence: high
       source: |
         `TransientLoopMode` enum in same module (Sample). Property name is a
@@ -129,7 +129,7 @@ primary_class:
     raw_doc: Access to sample's slicing step size.
     type: int
     type_override:
-      value: SlicingBeatDivision
+      value: Live.Sample.SlicingBeatDivision
       confidence: high
       source: |
         `SlicingBeatDivision` enum in same module (Sample). Property name is a
@@ -164,7 +164,7 @@ primary_class:
     raw_doc: Access to sample's slicing style.
     type: int
     type_override:
-      value: SlicingStyle
+      value: Live.Sample.SlicingStyle
       confidence: high
       source: |
         `SlicingStyle` enum in same module (Sample). Property name is a direct
@@ -224,7 +224,7 @@ primary_class:
     raw_doc: Access to the sample's warp mode.
     type: int
     type_override:
-      value: WarpMode
+      value: Live.Clip.WarpMode
       confidence: high
       source: |
         `WarpMode` enum lives in Clip but drives both `Clip.warp_mode` and

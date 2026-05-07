@@ -146,7 +146,7 @@ primary_class:
     raw_doc: Access to Simpler's playback mode.
     type: int
     type_override:
-      value: PlaybackMode
+      value: Live.SimplerDevice.PlaybackMode
       confidence: high
       source: |
         `PlaybackMode` enum in same module with members classic / one_shot /
@@ -203,7 +203,7 @@ primary_class:
     raw_doc: Access to Simpler's slicing playback mode.
     type: int
     type_override:
-      value: SlicingPlaybackMode
+      value: Live.SimplerDevice.SlicingPlaybackMode
       confidence: high
       source: |
         `SlicingPlaybackMode` enum in same module. Property name is a direct

@@ -8,6 +8,7 @@ if TYPE_CHECKING:
     from Live.ClipSlot import ClipSlot
     from Live.DeviceParameter import DeviceParameter
     from Live.Envelope import Envelope
+    from Live.Groove import Groove
     from Live.LomObject import LomObject
 
 

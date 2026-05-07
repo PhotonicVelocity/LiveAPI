@@ -613,7 +613,7 @@ primary_class:
     returns:
       type: Live.LomObject.LomObject
       type_override:
-        value: TakeLane
+        value: Live.TakeLane.TakeLane
         confidence: high
         source: |
           C++ signature returns `TWeakPtr<TPyHandleBase>` (generic LomObject), but
@@ -766,7 +766,7 @@ primary_class:
     returns:
       type: Live.LomObject.LomObject
       type_override:
-        value: Device
+        value: Live.Device.Device
         confidence: high
         source: |
           Same shape as Chain.insert_device. C++ returns `TWeakPtr<TPyHandleBase>`
@@ -981,7 +981,7 @@ classes:
     raw_doc: Category of the routing type.
     type: int
     type_override:
-      value: RoutingTypeCategory
+      value: Live.Track.RoutingTypeCategory
       confidence: high
       source: |
         `RoutingTypeCategory` enum in same module (Track). Property is a member

@@ -20,7 +20,7 @@ primary_class:
     raw_doc: Read, write, and listen access to the appointed Device
     type: None
     type_override:
-      value: Device | None
+      value: Live.Device.Device | None
       confidence: high
       source: |
         Docstring: "Read, write, and listen access to the appointed Device." Corpus-
@@ -443,7 +443,7 @@ primary_class:
     raw_doc: Get the session slot-recording state.
     type: int
     type_override:
-      value: SessionRecordStatus
+      value: Live.Song.SessionRecordStatus
       confidence: high
       source: |
         `SessionRecordStatus` enum in same module (Song). Property name is a
@@ -1163,7 +1163,7 @@ primary_class:
       raw_doc: Get/Set the Clip that is currently visible in Lives Detailview.
       type: None
       type_override:
-        value: Clip | None
+        value: Live.Clip.Clip | None
         confidence: high
         source: |
           Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
@@ -1201,7 +1201,7 @@ primary_class:
       raw_doc: Get the highlighted chain if available.
       type: None
       type_override:
-        value: Chain | None
+        value: Live.Chain.Chain | None
         confidence: high
         source: |
           Docstring: "Get the highlighted chain if available." Corpus-verified —
@@ -1217,7 +1217,7 @@ primary_class:
       raw_doc: Get the currently selected device parameter.
       type: None
       type_override:
-        value: DeviceParameter | None
+        value: Live.DeviceParameter.DeviceParameter | None
         confidence: high
         source: |
           Docstring confirms `DeviceParameter` return type. M4L docs explicit:
