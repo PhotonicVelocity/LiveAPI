@@ -96,8 +96,9 @@ across class / enum / function headings, main class promoted):
   class), render a `## Properties` section with each property name as an
   H3 (signature shape: just the property name in monospace bold). No types
   or descriptions yet.
-- **Step 4 — Property types.** Add the `probed_type` to each property's
-  heading or as a labeled field below it (`**Type:** float` style).
+- **Step 4 — Property types.** Add each property's `type` (resolved through
+  `<field>_override:` if present) to its heading or as a labeled field
+  below it (`**Type:** float` style).
 - **Step 5 — Property settable / listenable.** Annotate with `(get/set,
 listenable)` derived from the `settable` flag and the existence of
   `add_X_listener` siblings. Goes inline with the type line.
@@ -111,7 +112,7 @@ listenable)` derived from the `settable` flag and the existence of
   footer don't dump into the doc.
 - **Step 8 — Module-level enums.** Currently rendered as headings only.
   Add member tables (`Member | Value` listing) under each enum heading,
-  using the enum's `members` field from the refined tree.
+  using the enum's `members` field from the lom YAML.
 - **Step 9 — Module-level functions.** Currently rendered as headings only.
   Add full signature with args + return type, the `description` field as
   prose, and `**Parameters:**` / `**Returns:**` labeled sections.
@@ -173,7 +174,7 @@ plumbing, with humans as the only verifier."
 - Storage convention decided. Lean: per-class file in
   `doc/records/<Class>.yaml`, parallel to `stubs/<v>/lom/<Module>.yaml`.
 - Validator script run in CI: ensures every record refers to a real symbol
-  in the refined tree, schema is well-formed, no duplicate IDs.
+  in the lom YAML, schema is well-formed, no duplicate IDs.
 - Reference generator extended to read records. Authored description
   replaces runtime docstring when present (with the runtime version
   available in a "see source" admonition or similar).
@@ -294,12 +295,11 @@ phase once the probe is doing real verification work.
 These are concerns that thread through multiple phases; flagged here so they
 don't get rediscovered as surprises later.
 
-- **`__init__` constructor handling.** Bypasses the parser tree (per the
-  audit). Reference and stub-docstring injection both inherit the gap.
-  Resolve before any class with a non-trivial constructor enters Phase 5
-  scope. The fix is upstream of the documentation work — it's a parser/
-  generator gap to close in `parse_apicapture_results_v2.py`,
-  `build_lom_yaml.py`, and `generate_stubs.py`.
+- **`__init__` constructor handling.** `build_lom_yaml.py` now synthesizes
+  an `__init__` method from `init_doc:` for constructable classes (or
+  `(self) -> None` when none parses), and `generate_stubs.py` renders it.
+  Authored prose for constructors (the doc-side concern) still rides on
+  Phase 2's record format.
 - **Stable URLs.** Class-page anchors are easy. Per-member anchors are
   easy. Per-assertion sub-anchors (`#warp_markers-slope-rule`) require
   thinking through the URL contract before records get cited from

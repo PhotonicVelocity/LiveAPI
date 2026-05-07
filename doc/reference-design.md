@@ -164,7 +164,8 @@ This doc deliberately doesn't decide:
   multiple members (warp-marker slope rule applies across `add` / `move` /
   `remove`); should the prose live once at the class level and be referenced,
   or duplicate-for-locality at each member?
-- **Constructor (`__init__`) coverage.** Currently bypasses the parser tree;
-  the reference and stub-docstring injection both inherit the gap. Resolve
-  before any class with a non-trivial constructor enters the documentation
-  scope.
+- **Constructor (`__init__`) coverage.** `build_lom_yaml.py` now synthesizes
+  an `__init__` method from `init_doc` for constructable classes (or
+  `(self) -> None` when none is present), so this is wired into the lom
+  YAML and the stubs. Reference rendering of authored constructor prose
+  remains an open layout question.

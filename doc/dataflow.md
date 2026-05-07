@@ -81,10 +81,12 @@ with a known `.als` (from [`tools/sets/`](../tools/sets/)) and uses
 | probe (basic)    | [`PropertyProbe.py`](../tools/apicapture/scripts/PropertyProbe.py)  | Visits live instances, reads each property, records runtime types         |
 | probe (full)     | [`DeviceProbe.py`](../tools/apicapture/scripts/DeviceProbe.py)      | Loads every device through the browser to expose device-specific types    |
 
-**Outputs** (under [`stubs/<version>/Live/`](../stubs/12.3.6/)):
+**Outputs** (under [`stubs/<version>/pipeline/`](../stubs/12.3.6/pipeline/) — gitignored):
 
-- `LiveTree.raw.json` — structural snapshot (the dir-walk tree)
-- `LiveClasses.json` — runtime probe data keyed by class repr (property types, settable flags, no-arg getters)
+- `LiveTree.raw.json` — structural snapshot (the dir-walk tree). Consumed by Stage 2a.
+- `LiveClasses.json` — runtime probe data keyed by class repr (property types, settable flags, no-arg getters).
+  Currently *not* consumed by the v2 parse pipeline (which is raw_doc-only); kept around as a future input
+  for probe-confirmed type widening and for pre-port verification of overrides.
 
 **Hand-curated inputs:** the `.als` set files in
 [`tools/sets/`](../tools/sets/) — Live needs *something* loaded for probes to
@@ -133,7 +135,11 @@ the algorithmic decisions a human shouldn't have to make explicit:
 - Enum widening (`E` → `E | int` — Boost.Python emits enums as int subclasses)
 - Enum-from-default inference (bare `int` arg with default `Module.Enum.member` → `Enum | int`)
 - Listener-triplet folding (`add_*_listener`/`remove_*_listener`/`*_has_listener` collapsed under the property)
-- Parametric-container detection (Generic[T] for the abstract `Live.Base.Vector`)
+- Parametric-container flag (`Live.Base.Vector` → `parametric: true`; renders as `Generic[T]`)
+- Container detection (iterables exposing both `append` and `extend` → `container: true`; concrete subclasses
+  inherit from `Vector[E]` and synthesize typed mutators at stub-render time)
+- Inherited-property cleanup (drop properties identical to an ancestor's declaration so pyright resolves the
+  annotation from the inherited declaration; keeps overrides intact)
 
 **Output:** [`stubs/<version>/reports/seed/<Module>.yaml`](../stubs/12.3.6/reports/seed/) —
 the algorithmic baseline. Regenerated freely; not hand-edited.

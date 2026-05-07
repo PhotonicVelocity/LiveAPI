@@ -56,8 +56,8 @@ without letting users type them as kwargs"; it stays.
    - Arg **names**: from the parsed C++ signature embedded in the raw docstring (when non-generic) or
      structural inference. Otherwise `argN`. No name lookups against external sources (decompiled Remote
      Scripts, M4L docs) — those are evidence of how the API was _used_, not how the binding is _defined_.
-   - Arg **types**: from probe data (type observed at runtime) or parsed C++ signature only. Otherwise
-     `Any`. Prose docstrings and M4L type claims are not acceptable type sources.
+   - Arg **types**: from the parsed C++ signature only. Otherwise `Any`. Prose docstrings and M4L type
+     claims are not acceptable type sources.
    - Return **types** and property **types**: same rule — what was observed from Live, otherwise `Any`.
    - Generic-looking but truthful beats pretty but wrong.
 
