@@ -135,11 +135,6 @@ class MaxDevice(Device):
         ...
 
     @property
-    def is_using_compare_preset_b(self):
-        """Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors."""
-        ...
-
-    @property
     def latency_in_ms(self) -> float:
         """Returns the latency of the device in ms."""
         ...

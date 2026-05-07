@@ -181,6 +181,19 @@ def build_class_registry(
         simple = path.rsplit(".", 1)[-1]
         by_name.setdefault(simple, []).append(path)
 
+    # Per-class set of property names with a probed type. Used to
+    # suppress untyped duplicate properties on subclasses when an
+    # ancestor already has a typed version (so the subclass inherits
+    # the typed annotation rather than shadowing it with `Any`).
+    typed_props_by_repr: dict[str, set[str]] = {}
+    for class_repr, entry in (probe or {}).items():
+        names: set[str] = set()
+        for prop_name, info in (entry.get("properties") or {}).items():
+            if info.get("probed") and info.get("type"):
+                names.add(prop_name)
+        if names:
+            typed_props_by_repr[class_repr] = names
+
     # Concrete containers: classes whose probe observed exactly one
     # element type (NoneType placeholders filtered). For these, the
     # element type is a class fact — per-use sites should not
@@ -209,6 +222,7 @@ def build_class_registry(
         "by_name": by_name,
         "probe": probe or {},
         "concrete_containers": concrete_containers,
+        "typed_props_by_repr": typed_props_by_repr,
     }
 
 
@@ -670,13 +684,25 @@ def build_member(
             out["parametric"] = True
         elif class_element_type:
             out["element_type"] = class_element_type
+        # Collect property names that ancestor classes have already
+        # typed via probe — used to skip redundant untyped duplicates
+        # at this class (the inherited typed version takes over via
+        # MRO at runtime / pyright resolution).
+        inherited_typed_props: set[str] = set()
+        typed_by_repr = registry.get("typed_props_by_repr") or {}
+        by_path = registry.get("by_path") or {}
+        for ancestor_path in out["ancestors"]:
+            anc_repr = by_path.get(ancestor_path)
+            if anc_repr and anc_repr in typed_by_repr:
+                inherited_typed_props.update(typed_by_repr[anc_repr])
         # Methods inside this class qualify their type strings using the
         # class's own path as the enclosing context. Pass the class's
         # iterable/element status so `append` and `extend` get their
         # arg types specialized to the element type.
         out.update(_group_class_members(node, registry, class_path,
                                         is_iterable=is_iterable,
-                                        class_element=class_element_type))
+                                        class_element=class_element_type,
+                                        inherited_typed_props=inherited_typed_props))
         # Synthesize __init__ as a real method node for constructable
         # classes. Args are parsed from `init_doc:` when it carries a
         # real signature; otherwise it's just `(self) -> None`. Inject
@@ -849,6 +875,7 @@ def _group_class_members(
     enclosing_path: str | None,
     is_iterable: bool = False,
     class_element: str | None = None,
+    inherited_typed_props: set[str] | None = None,
 ) -> dict[str, Any]:
     """Walk a class's children and group them by kind into named lists.
 
@@ -887,6 +914,16 @@ def _group_class_members(
             continue
         kind = member.pop("kind")
         if kind == "property":
+            # Drop untyped properties when an ancestor class already
+            # carries a typed version (the inherited annotation wins
+            # at type-check time; emitting an untyped duplicate here
+            # would just shadow the typed one with `Any`).
+            if (
+                "type" not in member
+                and inherited_typed_props
+                and member["name"] in inherited_typed_props
+            ):
+                continue
             triplet = triplets.get(member["name"])
             if triplet:
                 member["listenable"] = triplet
