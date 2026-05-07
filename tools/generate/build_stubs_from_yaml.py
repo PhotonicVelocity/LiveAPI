@@ -110,20 +110,28 @@ def _ret_type_for_type(type_str: str | None,
     return render_type_string(type_str, current_module, imports)
 
 
-def _format_arg(arg: dict[str, Any], current_module: str, imports: set[tuple[str, str]]) -> str:
+def _format_arg(arg: dict[str, Any], current_module: str, imports: set[tuple[str, str]],
+                enclosing_class: str | None = None) -> str:
     name = _resolve(arg, "name")
     # The YAML's `type:` already carries optional widening (`T | None`
     # when default is None) — we just unqualify Live class names here.
     type_str = render_type_string(_resolve(arg, "type") or "Any", current_module, imports)
     if arg.get("optional"):
         default = arg.get("default") or "None"
+        # Boost.Python's signature qualifies module-level enums under the
+        # enclosing class (e.g. `Application.MessageButtons.OK_BUTTON`).
+        # In our stubs MessageButtons is at module scope, so strip the
+        # enclosing-class prefix to get `MessageButtons.OK_BUTTON` — the
+        # form that actually resolves under pyright.
+        if enclosing_class and default.startswith(f"{enclosing_class}."):
+            default = default[len(enclosing_class) + 1:]
         return f"{name}: {type_str} = {default}"
     return f"{name}: {type_str}"
 
 
 def _format_method_args(args: list[dict[str, Any]], current_module: str,
                         imports: set[tuple[str, str]], is_method: bool,
-                        method_name: str = "") -> str:
+                        method_name: str = "", enclosing_class: str | None = None) -> str:
     """Produce the parenthesized arg list including PEP 570 `, /`.
 
     Live's binding accepts only positional args, so every callable ends
@@ -138,7 +146,7 @@ def _format_method_args(args: list[dict[str, Any]], current_module: str,
         formatted.append("self")
         rest = rest[1:]
     for arg in rest:
-        formatted.append(_format_arg(arg, current_module, imports))
+        formatted.append(_format_arg(arg, current_module, imports, enclosing_class))
     if (
         method_name != "__init__"
         and formatted
@@ -308,13 +316,13 @@ def _build_iterable_dunders(cls: dict[str, Any], current_module: str,
 
 def _build_method_block(method: dict[str, Any], current_module: str,
                          imports: set[tuple[str, str]], registry: dict[str, Any],
-                         is_method: bool) -> list[str]:
+                         is_method: bool, enclosing_class: str | None = None) -> list[str]:
     """Class method or module-level function block."""
     name = _resolve(method, "name")
     args = method.get("args") or []
     returns = method.get("returns") or {}
     ret_type = _ret_type_for_type(_resolve(returns, "type"), current_module, imports)
-    arg_str = _format_method_args(args, current_module, imports, is_method, name)
+    arg_str = _format_method_args(args, current_module, imports, is_method, name, enclosing_class)
     raw_doc = method.get("raw_doc")
     # __init__ uses inline form (`def __init__(...) -> None: ...`)
     # regardless of arg count — matches v1's emission. Other methods
@@ -386,7 +394,7 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
         for listener in prop.get("listenable") or []:
             entries.append((listener, _build_listener_method(listener, prop["name"]), "method"))
     for m in cls.get("methods") or []:
-        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True), "method"))
+        entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True, cls["name"]), "method"))
     for c in cls.get("constants") or []:
         entries.append((c["name"], _build_constant_block(c), "constant"))
     return entries
