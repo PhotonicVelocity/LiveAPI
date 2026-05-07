@@ -69,8 +69,10 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 5 complete plus nested-type hoisting (Step 11
-structural piece); module descriptions hand-authored across all 43 modules.
+Status: Steps 1 through 5 + 7 complete plus nested-type hoisting (Step
+11 structural piece); module descriptions hand-authored across all 43
+modules; LomObject foundation page + LOM badge / pinned-pair treatment
+across every LOM class.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -117,9 +119,12 @@ structural piece); module descriptions hand-authored across all 43 modules.
 - **Step 6 — Property settable / listenable.** Annotate with `(get/set,
   listenable)` derived from the `settable` flag and the existence of
   `add_X_listener` siblings. Goes inline with the type line.
-- **Step 7 — Property descriptions.** Each property's `raw_doc` (which is
-  already the cleaned description for properties — no signature header
-  to strip, unlike methods) renders as a paragraph below the type metadata.
+- **Step 7 — Property descriptions.** ✅ Done. Each property's
+  description renders below the H5 heading. Resolution prefers a
+  hand-authored property-level `description:` field; falls back to the
+  parser-derived `raw_doc` (collapsed to a single paragraph) when no
+  authored prose exists. Property-level `description:` documented in
+  `doc/lom-format.md` alongside the class-level field.
 - **Step 8 — Methods listed.** Same ladder as properties: `## Methods`
   section with method names as H3 headings (signature shape:
   `name(args) -> return`). Use the parser's `description` field rather

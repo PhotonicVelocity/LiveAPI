@@ -25,117 +25,231 @@ This class represents a Live set.
 
 ##### appointed_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a> | None</span>
 
+Read, write, and listen access to the appointed Device
+
 ##### arrangement_overdub<span class="prop-type">: bool</span>
+
+Get/Set the global arrangement overdub state.
 
 ##### back_to_arranger<span class="prop-type">: bool</span>
 
+Get/Set if triggering a Clip in the Session, disabled the playback of Clips in the Arranger.
+
 ##### can_capture_midi<span class="prop-type">: bool</span>
+
+Get whether there currently is material to be captured on any tracks.
 
 ##### can_jump_to_next_cue<span class="prop-type">: bool</span>
 
+Returns true when there is a cue marker right to the playing pos that we could jump to.
+
 ##### can_jump_to_prev_cue<span class="prop-type">: bool</span>
+
+Returns true when there is a cue marker left to the playing pos that we could jump to.
 
 ##### can_redo<span class="prop-type">: bool</span>
 
+Returns true if there is an undone action that we can redo.
+
 ##### can_undo<span class="prop-type">: bool</span>
+
+Returns true if there is an action that we can restore.
 
 ##### clip_trigger_quantization<span class="prop-type">: <a href="/LiveAPI/modules/song/#quantization">Quantization</a></span>
 
+Get/Set access to the quantization settings that are used to fire Clips in the Session.
+
 ##### count_in_duration<span class="prop-type">: int</span>
+
+Get the count in duration. Returns an index, mapped as follows: 0 - None, 1 - 1 Bar, 2 - 2 Bars, 3 - 4 Bars.
 
 ##### cue_points<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/song/#cuepoint">CuePoint</a>]</span>
 
+Const access to a list of all cue points of the Live Song.
+
 ##### current_song_time<span class="prop-type">: float</span>
+
+Get/Set access to the songs current playing position in beats.
 
 ##### exclusive_arm<span class="prop-type">: bool</span>
 
+Get if Tracks should be armed exclusively by default.
+
 ##### exclusive_solo<span class="prop-type">: bool</span>
+
+Get if Tracks should be soloed exclusively by default.
 
 ##### file_path<span class="prop-type">: str</span>
 
+Get the current Live Set's path on disk.
+
 ##### groove_amount<span class="prop-type">: float</span>
+
+Get/Set the global groove amount, that adjust all setup grooves in all clips.
 
 ##### groove_pool<span class="prop-type">: <a href="/LiveAPI/modules/groovepool/#groovepool">GroovePool</a></span>
 
+Get the groove pool.
+
 ##### is_ableton_link_enabled<span class="prop-type">: bool</span>
+
+Enable/disable Ableton Link.
 
 ##### is_ableton_link_start_stop_sync_enabled<span class="prop-type">: bool</span>
 
+Enable/disable Ableton Link Start Stop Sync.
+
 ##### is_counting_in<span class="prop-type">: bool</span>
+
+Get whether currently counting in.
 
 ##### is_playing<span class="prop-type">: bool</span>
 
+Returns true if the Song is currently playing.
+
 ##### last_event_time<span class="prop-type">: float</span>
+
+Return the time of the last set event in the song. In contrary to song_length, this will not add some extra beats that are mostly needed for Display purposes in the Arrangerview.
 
 ##### loop<span class="prop-type">: bool</span>
 
+Get/Set the looping flag that en/disables the usage of the global loop markers in the song.
+
 ##### loop_length<span class="prop-type">: float</span>
+
+Get/Set the length of the global loop marker position in beats.
 
 ##### loop_start<span class="prop-type">: float</span>
 
+Get/Set the start of the global loop marker position in beats.
+
 ##### master_track<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+Access to the Main Track (always available)
 
 ##### metronome<span class="prop-type">: bool</span>
 
+Get/Set if the metronom is audible.
+
 ##### midi_recording_quantization<span class="prop-type">: <a href="/LiveAPI/modules/song/#recordingquantization">RecordingQuantization</a></span>
+
+Get/Set access to the settings that are used to quantize MIDI recordings.
 
 ##### name<span class="prop-type">: str</span>
 
+Get the current Live Set's name.
+
 ##### nudge_down<span class="prop-type">: bool</span>
+
+Get/Set the status of the nudge down button.
 
 ##### nudge_up<span class="prop-type">: bool</span>
 
+Get/Set the status of the nudge up button.
+
 ##### overdub<span class="prop-type">: bool</span>
+
+Legacy hook for Live 8 overdub state. Now hooks to session record, but never starts playback.
 
 ##### punch_in<span class="prop-type">: bool</span>
 
+Get/Set the flag that will enable recording as soon as the Song plays and hits the global loop start region.
+
 ##### punch_out<span class="prop-type">: bool</span>
+
+Get/Set the flag that will disable recording as soon as the Song plays and hits the global loop end region.
 
 ##### re_enable_automation_enabled<span class="prop-type">: bool</span>
 
+Returns true if some automated parameter has been overriden
+
 ##### record_mode<span class="prop-type">: bool</span>
+
+Get/Set the state of the global recording flag.
 
 ##### return_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
 
+Const access to the list of available Return Tracks.
+
 ##### root_note<span class="prop-type">: int</span>
+
+Set and access the root (i.e. key) of the song. The root can be a number between 0 and 11, with 0 corresponding to C and 11 corresponding to B.
 
 ##### scale_intervals<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
 
+Reports the current scale's intervals as a list of integers, starting with the root and representing the number of halfsteps (e.g. Major -> 0, 2, 4, 5, 7, 9, 11)
+
 ##### scale_mode<span class="prop-type">: bool</span>
+
+Access to the Scale Mode setting in Live. When on, key tracks that belong to the currently selected scale are highlighted in Live's MIDI Note Editor, and pitch-based parameters in MIDI Tools and Devices can be edited in scale degrees rather than semitones.
 
 ##### scale_name<span class="prop-type">: str</span>
 
+Set and access the currently selected scale by name. The default scale names that can be saved with a set and recalled are 'Major', 'Minor', 'Dorian', 'Mixolydian' ,'Lydian' ,'Phrygian' ,'Locrian', 'Whole Tone', 'Half-whole Dim.', 'Whole-half Dim.', 'Minor Blues', 'Minor Pentatonic', 'Major Pentatonic', 'Harmonic Minor', 'Harmonic Major', 'Dorian #4', 'Phrygian Dominant', 'Melodic Minor', 'Lydian Augmented', 'Lydian Dominant', 'Super Locrian', 'Bhairav', 'Hungarian Minor', '8-Tone Spanish', 'Hirajoshi', 'In-Sen', 'Iwato', 'Kumoi', 'Pelog Selisir', 'Pelog Tembung', 'Messiaen 3', 'Messiaen 4', 'Messiaen 5', 'Messiaen 6', 'Messiaen 7'
+
 ##### scenes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/scene/#scene">Scene</a>]</span>
+
+Const access to a list of all Scenes in the Live Song.
 
 ##### select_on_launch<span class="prop-type">: bool</span>
 
+Get if Scenes and Clips should be selected when fired.
+
 ##### session_automation_record<span class="prop-type">: bool</span>
+
+Returns true if automation recording is enabled.
 
 ##### session_record<span class="prop-type">: bool</span>
 
+Get/Set the session record state.
+
 ##### session_record_status<span class="prop-type">: <a href="/LiveAPI/modules/song/#sessionrecordstatus">SessionRecordStatus</a></span>
+
+Get the session slot-recording state.
 
 ##### signature_denominator<span class="prop-type">: int</span>
 
+Get/Set access to the global signature denominator of the Song.
+
 ##### signature_numerator<span class="prop-type">: int</span>
+
+Get/Set access to the global signature numerator of the Song.
 
 ##### song_length<span class="prop-type">: float</span>
 
+Return the time of the last set event in the song, plus som extra beats that are usually added for better navigation in the arrangerview.
+
 ##### start_time<span class="prop-type">: float</span>
+
+Get/Set access to the songs current start time in beats. The set time may be overridden by the current loop/locator start time.
 
 ##### swing_amount<span class="prop-type">: float</span>
 
+Get/Set access to the amount of swing that is applied when adding or quantizing notes to MIDI clips
+
 ##### tempo<span class="prop-type">: float</span>
+
+Get/Set the global project tempo.
 
 ##### tempo_follower_enabled<span class="prop-type">: bool</span>
 
+Get/Set whether the Tempo Follower is controlling the tempo. The Tempo Follower Toggle must be made visible in the preferences for this property to be effective.
+
 ##### tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
+
+Const access to a list of all Player Tracks in the Live Song, excluding the return and Main Track (see also Song.send_tracks and Song.master_track). At least one MIDI or Audio Track is always available.
 
 ##### tuning_system<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#tuningsystem">TuningSystem</a></span>
 
+Access the currently active tuning system.
+
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a>.View</span>
 
+Representing the view aspects of a Live document: The Session and Arrangerview.
+
 ##### visible_tracks<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/track/#track">Track</a>]</span>
+
+Const access to a list of all visible Player Tracks in the Live Song, excluding the return and Main Track (see also Song.send_tracks and Song.master_track). At least one MIDI or Audio Track is always available.
 
 ##### data
 
@@ -181,7 +295,11 @@ Represents a 'Marker' in the arrangement.
 
 ##### name<span class="prop-type">: str</span>
 
+Get/Set/Listen to the name of this CuePoint, as visible in the arranger.
+
 ##### time<span class="prop-type">: float</span>
+
+Get/Listen to the CuePoint's time in beats.
 
 #### Methods
 
@@ -217,19 +335,35 @@ Representing the view aspects of a Live document: The Session and Arrangerview.
 
 ##### detail_clip<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip">Clip</a> | None</span>
 
+Get/Set the Clip that is currently visible in Lives Detailview.
+
 ##### draw_mode<span class="prop-type">: bool</span>
+
+Get/Set if the Envelope/Note draw mode is enabled.
 
 ##### follow_song<span class="prop-type">: bool</span>
 
+Get/Set if the Arrangerview should scroll to show the playmarker.
+
 ##### highlighted_clip_slot<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a></span>
+
+Get/Set the clip slot, defined via the selected track and scene in the Session.Will be None for Main- and Sendtracks.
 
 ##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain">Chain</a> | None</span>
 
+Get the highlighted chain if available.
+
 ##### selected_parameter<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a> | None</span>
+
+Get the currently selected device parameter.
 
 ##### selected_scene<span class="prop-type">: <a href="/LiveAPI/modules/scene/#scene">Scene</a></span>
 
+Get/Set the current selected scene in Lives Sessionview.
+
 ##### selected_track<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+Get/Set the current selected Track in Lives Session or Arrangerview.
 
 #### Methods
 

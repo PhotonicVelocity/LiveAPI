@@ -25,17 +25,31 @@ Represents a Tuning System and its properties.
 
 ##### highest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave">PitchClassAndOctave</a></span>
 
+Get/Set the highest note of the current tuning system, where the first entry is the index within the pseudo octave and the second entry is the octave.
+
 ##### lowest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave">PitchClassAndOctave</a></span>
+
+Get/Set the lowest note of the current tuning system, where the first entry is the index within the pseudo octave and the second entry is the octave.
 
 ##### name<span class="prop-type">: str</span>
 
+Get/Set the name of the currently active tuning system.
+
 ##### note_tunings<span class="prop-type">: list[float]</span>
+
+Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament.
 
 ##### number_of_notes_in_pseudo_octave<span class="prop-type">: int</span>
 
+Get the number of notes in the pseudo octave.
+
 ##### pseudo_octave_in_cents<span class="prop-type">: float</span>
 
+Get the pseudo octave in cents for the currently active tuning system.
+
 ##### reference_pitch<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#referencepitch">ReferencePitch</a></span>
+
+Get/Set the reference pitch the currently active tuning system.
 
 ## Other classes
 
@@ -47,7 +61,11 @@ This class represents a PitchClassAndOctave type.
 
 ##### index_in_octave<span class="prop-type">: int</span>
 
+A PitchClassAndOctave's index within the pseudo octave.
+
 ##### octave<span class="prop-type">: int</span>
+
+A PitchClassAndOctave's octave.
 
 #### Methods
 
@@ -59,8 +77,14 @@ This class represents a ReferencePitch type.
 
 ##### frequency<span class="prop-type">: float</span>
 
+A ReferencePitch's frequency in Hz.
+
 ##### index_in_octave<span class="prop-type">: int</span>
 
+A ReferencePitch's index within the pseudo octave.
+
 ##### octave<span class="prop-type">: int</span>
+
+A ReferencePitch's octave.
 
 #### Methods

@@ -24,25 +24,47 @@ This class represents a Looper device.
 
 ##### is_active<span class="prop-type">: bool</span>
 
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
 ##### is_using_compare_preset_b<span class="prop-type">: bool</span>
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
+Returns the latency of the device in ms.
+
 ##### latency_in_samples<span class="prop-type">: int</span>
+
+Returns the latency of the device in samples.
 
 ##### loop_length<span class="prop-type">: float</span>
 
+The length of Looper's buffer.
+
 ##### name<span class="prop-type">: str</span>
+
+Return access to the name of the device.
 
 ##### overdub_after_record<span class="prop-type">: bool</span>
 
+If true, Looper will switch to overdub after recording, when recording a fixed number of bars. Otherwise, the switch will be to playback without overdubbing.
+
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
+
+Const access to the list of available automatable parameters for this device.
 
 ##### record_length_index<span class="prop-type">: int</span>
 
+Access to the Record Length chooser entry index.
+
 ##### record_length_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+Read-only access to the list of Record Length chooser entry strings.
+
 ##### tempo<span class="prop-type">: float</span>
+
+The tempo of Looper's buffer.
 
 #### Inherited
 

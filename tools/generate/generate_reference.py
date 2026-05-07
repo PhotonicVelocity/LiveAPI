@@ -344,6 +344,28 @@ def function_signature_html(fn: dict, module_name: str) -> str:
     )
 
 
+def property_description_text(prop: dict) -> str | None:
+    """Resolve the displayable description for a property.
+
+    Hand-authored `description:` takes precedence over parser-derived
+    `raw_doc:` — same convention as the class-level pair (terse runtime
+    docstring vs. authored prose). Both honor sibling `<field>_override:`
+    blocks via `_resolve`.
+
+    Description is preserved as-is (may be multi-paragraph markdown);
+    raw_doc fallback is collapsed to a single paragraph (runtime
+    docstrings are line-wrapped at the binding source and the wrap
+    points carry no semantic meaning).
+    """
+    desc = _resolve(prop, "description")
+    if isinstance(desc, str) and desc.strip():
+        return desc.strip()
+    raw = _resolve(prop, "raw_doc")
+    if isinstance(raw, str) and raw.strip():
+        return normalize_paragraph(raw)
+    return None
+
+
 def property_heading_html(prop: dict, registry: dict[str, str]) -> str:
     """Render a property name + Python-annotation-style type.
 
@@ -688,6 +710,11 @@ def render_module_page(
                     f'declarations on LomObject.">LomObject</a>'
                 )
                 lines.append("")
+                # Descriptions on the pinned pair are suppressed: each
+                # subclass's `canonical_parent` raw_doc is just "Get the
+                # canonical parent of the X" — restates the name without
+                # adding signal. The canonical explanation lives on
+                # LomObject and the chip header links there.
                 for prop in pinned:
                     heading = property_heading_html(prop, registry)
                     lines.append(f"##### {heading}")
@@ -698,6 +725,10 @@ def render_module_page(
                 heading = property_heading_html(prop, registry)
                 lines.append(f"##### {heading}")
                 lines.append("")
+                desc = property_description_text(prop)
+                if desc:
+                    lines.append(desc)
+                    lines.append("")
         # Inherited members from transitive ancestors — rendered as a
         # single H4 block under the class so what's available via the
         # MRO is visible without re-declaring every type / listener.

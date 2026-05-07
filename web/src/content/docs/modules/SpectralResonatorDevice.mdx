@@ -24,39 +24,75 @@ This class represents a Spectral Resonator device.
 
 ##### frequency_dial_mode<span class="prop-type">: int</span>
 
+Return the current frequency dial mode index
+
 ##### frequency_dial_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the current frequency dial mode list
 
 ##### is_active<span class="prop-type">: bool</span>
 
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
 ##### is_using_compare_preset_b<span class="prop-type">: bool</span>
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
+Returns the latency of the device in ms.
+
 ##### latency_in_samples<span class="prop-type">: int</span>
+
+Returns the latency of the device in samples.
 
 ##### midi_gate<span class="prop-type">: int</span>
 
+Return the current midi gate index
+
 ##### midi_gate_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the current midi gate list
 
 ##### mod_mode<span class="prop-type">: int</span>
 
+Return the current mod mode index
+
 ##### mod_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the current mod mode list
 
 ##### mono_poly<span class="prop-type">: int</span>
 
+Return the current mono poly mode index
+
 ##### mono_poly_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the current mono poly mode list
 
 ##### name<span class="prop-type">: str</span>
 
+Return access to the name of the device.
+
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
+
+Const access to the list of available automatable parameters for this device.
 
 ##### pitch_bend_range<span class="prop-type">: int</span>
 
+Return the current pitch bend range
+
 ##### pitch_mode<span class="prop-type">: int</span>
+
+Return the current pitch mode index
 
 ##### pitch_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+Return the current pitch mode list
+
 ##### polyphony<span class="prop-type">: int</span>
+
+Return the current polyphony
 
 #### Inherited
 

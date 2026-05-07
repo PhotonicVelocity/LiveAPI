@@ -25,23 +25,43 @@ This class represents the Live application.
 
 ##### average_process_usage<span class="prop-type">: float</span>
 
+Reports Live's average CPU load.
+
 ##### browser<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browser">Browser</a></span>
+
+Returns an interface to the browser.
 
 ##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[object]</span>
 
+Const access to a list of the control surfaces selected in preferences, in the same order. The list contains None if no control surface is active at that index.
+
 ##### current_dialog_button_count<span class="prop-type">: int</span>
+
+Number of buttons on the current dialog.
 
 ##### current_dialog_message<span class="prop-type">: str</span>
 
+Text of the last dialog that appeared; Empty if all dialogs just disappeared.
+
 ##### number_of_push_apps_running<span class="prop-type">: int</span>
+
+Returns the number of connected Push apps.
 
 ##### open_dialog_count<span class="prop-type">: int</span>
 
+The number of open dialogs in Live. 0 if not dialog is open.
+
 ##### peak_process_usage<span class="prop-type">: float</span>
+
+Reports Live's peak CPU load.
 
 ##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector">UnavailableFeatureVector</a></span>
 
+List of features that are unavailable due to limitations of the current Live edition.
+
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a>.View</span>
+
+Returns the applications view component.
 
 #### Methods
 
@@ -77,6 +97,8 @@ Represents a control surface running in a different process. For use by M4L
 
 ##### pad_layout<span class="prop-type">: str</span>
 
+The layout of pads on Push.
+
 ##### type_name<span class="prop-type">: str</span>
 
 ##### control_values_arrived
@@ -111,7 +133,11 @@ This class represents the view aspects of the Live application.
 
 ##### browse_mode<span class="prop-type">: bool</span>
 
+Return true if HotSwap mode is active for any target.
+
 ##### focused_document_view<span class="prop-type">: str</span>
+
+Return the name of the document view ('Session' or 'Arranger') shown in the currently selected window.
 
 ##### view_focus_changed
 

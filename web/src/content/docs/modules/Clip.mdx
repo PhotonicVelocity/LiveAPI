@@ -24,97 +24,191 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 ##### automation_envelopes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/envelope/#envelope">Envelope</a>]</span>
 
+Const access to a list of all automation envelopes for this clip.
+
 ##### available_warp_modes<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector">IntVector</a></span>
+
+Available for AudioClips only. Get/Set the available warp modes, that can be used.
 
 ##### color<span class="prop-type">: int</span>
 
+Get/set access to the color of the Clip (RGB).
+
 ##### color_index<span class="prop-type">: int</span>
+
+Get/set access to the color index of the Clip.
 
 ##### end_marker<span class="prop-type">: float</span>
 
+Get/Set the Clips end marker pos in beats/seconds (unit depends on warping).
+
 ##### end_time<span class="prop-type">: float</span>
+
+Get the clip's end time.
 
 ##### file_path<span class="prop-type">: str</span>
 
+Get the path of the file represented by the Audio Clip.
+
 ##### gain<span class="prop-type">: float</span>
+
+Available for AudioClips only. Read/write access to the gain setting of the Audio Clip
 
 ##### gain_display_string<span class="prop-type">: str</span>
 
+Return a string with the gain as dB value
+
 ##### groove<span class="prop-type">: <a href="/LiveAPI/modules/groove/#groove">Groove</a> | None</span>
+
+Get the groove associated with this clip.
 
 ##### has_envelopes<span class="prop-type">: bool</span>
 
+Will notify if the clip gets his first envelope or the last envelope is removed.
+
 ##### has_groove<span class="prop-type">: bool</span>
+
+Returns true if a groove is associated with this clip.
 
 ##### is_arrangement_clip<span class="prop-type">: bool</span>
 
+return true if this Clip is an Arrangement Clip. A Clip can be either a Session or Arrangement Clip.
+
 ##### is_audio_clip<span class="prop-type">: bool</span>
+
+Return true if this Clip is an Audio Clip. A Clip can be either an Audioclip or a MIDI Clip.
 
 ##### is_midi_clip<span class="prop-type">: bool</span>
 
+return true if this Clip is a MIDI Clip. A Clip can be either an Audioclip or a MIDI Clip.
+
 ##### is_overdubbing<span class="prop-type">: bool</span>
+
+returns true if the Clip is recording overdubs
 
 ##### is_playing<span class="prop-type">: bool</span>
 
+Get/Set if this Clip is currently playing. If the Clips trigger mode is set to a quantization value, the Clip will not start playing immediately. If you need to know wether the Clip was triggered, use the is_triggered property.
+
 ##### is_recording<span class="prop-type">: bool</span>
+
+returns true if the Clip was triggered to record or is recording.
 
 ##### is_session_clip<span class="prop-type">: bool</span>
 
+return true if this Clip is a Session Clip. A Clip can be either a Session or Arrangement Clip.
+
 ##### is_take_lane_clip<span class="prop-type">: bool</span>
+
+return true if this Clip is a Take Lane Clip. A Take Lane Clip is also always an Arrangement Clip.
 
 ##### is_triggered<span class="prop-type">: bool</span>
 
+returns true if the Clip was triggered or is playing.
+
 ##### launch_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#launchmode">LaunchMode</a></span>
+
+Get/Set access to the launch mode setting of the Clip.
 
 ##### launch_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#cliplaunchquantization">ClipLaunchQuantization</a></span>
 
+Get/Set access to the launch quantization setting of the Clip.
+
 ##### legato<span class="prop-type">: bool</span>
+
+Get/Set access to the legato setting of the Clip
 
 ##### length<span class="prop-type">: float</span>
 
+Get to the Clips length in beats/seconds (unit depends on warping).
+
 ##### loop_end<span class="prop-type">: float</span>
+
+Get/Set the loop end pos of this Clip in beats/seconds (unit depends on warping).
 
 ##### loop_start<span class="prop-type">: float</span>
 
+Get/Set the Clips loopstart pos in beats/seconds (unit depends on warping).
+
 ##### looping<span class="prop-type">: bool</span>
+
+Get/Set the Clips 'loop is enabled' flag .Only Warped Audio Clips or MIDI Clip can be looped.
 
 ##### muted<span class="prop-type">: bool</span>
 
+Read/write access to the mute state of the Clip.
+
 ##### name<span class="prop-type">: str</span>
+
+Read/write access to the name of the Clip.
 
 ##### pitch_coarse<span class="prop-type">: int</span>
 
+Available for AudioClips only. Read/write access to the pitch (in halftones) setting of the Audio Clip, ranging from -48 to 48
+
 ##### pitch_fine<span class="prop-type">: float</span>
+
+Available for AudioClips only. Read/write access to the pitch fine setting of the Audio Clip, ranging from -500 to 500
 
 ##### playing_position<span class="prop-type">: float</span>
 
+Constant access to the current playing position of the clip. The returned value is the position in beats for midi and warped audio clips, or in seconds for unwarped audio clips. Stopped clips will return 0.
+
 ##### position<span class="prop-type">: float</span>
+
+Get/Set the loop position of this Clip in beats/seconds (unit depends on warping).
 
 ##### ram_mode<span class="prop-type">: bool</span>
 
+Available for AudioClips only. Read/write access to the Ram mode setting of the Audio Clip
+
 ##### sample_length<span class="prop-type">: int</span>
+
+Available for AudioClips only. Get the sample length in sample time or -1 if there is no sample available.
 
 ##### sample_rate<span class="prop-type">: float</span>
 
+Available for AudioClips only. Read-only access to the Clip's sampling rate.
+
 ##### signature_denominator<span class="prop-type">: int</span>
+
+Get/Set access to the global signature denominator of the Clip.
 
 ##### signature_numerator<span class="prop-type">: int</span>
 
+Get/Set access to the global signature numerator of the Clip.
+
 ##### start_marker<span class="prop-type">: float</span>
+
+Get/Set the Clips start marker pos in beats/seconds (unit depends on warping).
 
 ##### start_time<span class="prop-type">: float</span>
 
+Get the clip's start time offset. For Session View clips, this is the time the clip was started. For Arrangement View clips, this is the offset within the arrangement.
+
 ##### velocity_amount<span class="prop-type">: float</span>
+
+Get/Set access to the velocity to volume amount of the Clip.
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip">Clip</a>.View</span>
 
+Get the view of the Clip.
+
 ##### warp_markers<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmarkervector">WarpMarkerVector</a></span>
+
+Available for AudioClips only. Get the warp markers for this audio clip.
 
 ##### warp_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmode">WarpMode</a></span>
 
+Available for AudioClips only. Get/Set the warp mode for this audio clip.
+
 ##### warping<span class="prop-type">: bool</span>
 
+Available for AudioClips only. Get/Set if this Clip is timestreched.
+
 ##### will_record_on_start<span class="prop-type">: bool</span>
+
+returns true if the Clip will record on being started.
 
 ##### loop_jump
 
@@ -141,6 +235,8 @@ An object representing a MIDI Note
 ##### mute<span class="prop-type">: bool</span>
 
 ##### note_id<span class="prop-type">: int</span>
+
+A numerical ID that's unique within the originating clip of the note. Not to be used directly, but important for other API calls, namely apply_note_modifications.
 
 ##### pitch<span class="prop-type">: int</span>
 
@@ -172,7 +268,11 @@ This class represents a WarpMarker type.
 
 ##### beat_time<span class="prop-type">: float</span>
 
+A WarpMarker's beat time.
+
 ##### sample_time<span class="prop-type">: float</span>
+
+A WarpMarker's sample time.
 
 #### Methods
 
@@ -196,7 +296,11 @@ Representing the view aspects of a Clip.
 
 ##### grid_is_triplet<span class="prop-type">: bool</span>
 
+Get/set wether the grid is showing in triplet mode.
+
 ##### grid_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#gridquantization">GridQuantization</a></span>
+
+Get/set clip grid quantization resolution.
 
 #### Methods
 

@@ -24,21 +24,39 @@ This class represents a Shifter device.
 
 ##### is_active<span class="prop-type">: bool</span>
 
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
 ##### is_using_compare_preset_b<span class="prop-type">: bool</span>
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
+Returns the latency of the device in ms.
+
 ##### latency_in_samples<span class="prop-type">: int</span>
+
+Returns the latency of the device in samples.
 
 ##### name<span class="prop-type">: str</span>
 
+Return access to the name of the device.
+
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
+
+Const access to the list of available automatable parameters for this device.
 
 ##### pitch_bend_range<span class="prop-type">: int</span>
 
+Return the pitch bend range for MIDI pitch mode
+
 ##### pitch_mode_index<span class="prop-type">: int</span>
 
+Return the current pitch mode index
+
 ##### pitch_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the current pitch mode list
 
 #### Inherited
 

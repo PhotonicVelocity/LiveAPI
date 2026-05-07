@@ -24,24 +24,46 @@ This class represents an series of ClipSlots in Lives Sessionview matrix.
 
 ##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a>]</span>
 
+return a list of clipslots (see class AClipSlot) that this scene covers.
+
 ##### color<span class="prop-type">: int</span>
+
+Get/set access to the color of the scene (RGB).
 
 ##### color_index<span class="prop-type">: int | None</span>
 
+Get/set access to the color index of the scene. Can be None for no color.
+
 ##### is_empty<span class="prop-type">: bool</span>
+
+Returns True if all clip slots of this scene are empty.
 
 ##### is_triggered<span class="prop-type">: bool</span>
 
+Const access to the scene's trigger state.
+
 ##### name<span class="prop-type">: str</span>
+
+Get/Set the name of the scene.
 
 ##### tempo<span class="prop-type">: float</span>
 
+Get/Set the tempo value of the scene. The song will use the scene's tempo as soon as the scene is fired. Returns -1 if the scene has no tempo property.
+
 ##### tempo_enabled<span class="prop-type">: bool</span>
+
+Get/Set the active state of the scene tempo. When disabled, the scene will use the song's tempo,and the tempo value returned will be -1Returns a bool indicating the state of the scene's tempo
 
 ##### time_signature_denominator<span class="prop-type">: int</span>
 
+Get/Set the scene's time signature denominator. The song will use the scene's time signature as soon as the scene is fired. Returns -1 if the scene has no time signature property.
+
 ##### time_signature_enabled<span class="prop-type">: bool</span>
 
+Get the active state of the scene time signature. When disabled, the scene will use the song's time signature,and the time signature values returned will be -1Returns a bool indicating the state of the scene's time signature
+
 ##### time_signature_numerator<span class="prop-type">: int</span>
+
+Get/Set the scene's time signature numerator. The song will use the scene's time signature as soon as the scene is fired. Returns -1 if the scene has no time signature property.
 
 #### Methods

@@ -126,6 +126,8 @@ Real source: `Live.Song.Song.arrangement_overdub`.
 ```yaml
 - name: arrangement_overdub
   raw_doc: Get/Set the global arrangement overdub state.
+  description: |                                   # hand — optional, takes
+    Authored prose, may be multi-paragraph.        # precedence over raw_doc
   type: bool                                       # parser
   settable: true                                   # parser
   listenable:                                      # parser — listener triplet folded under the property
@@ -133,6 +135,12 @@ Real source: `Live.Song.Song.arrangement_overdub`.
   - remove_arrangement_overdub_listener
   - arrangement_overdub_has_listener
 ```
+
+`description:` on a property is the same idea as on a class: hand-
+authored markdown prose, rendered below the property heading. Falls
+back to `raw_doc` when absent, so most properties currently render
+their runtime docstring; switch to `description` when prose needs
+more space than the runtime line affords.
 
 Override example (`Live.Song.Song.appointed_device`):
 

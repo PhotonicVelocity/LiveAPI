@@ -25,37 +25,71 @@ This class represents the live browser data base.
 
 ##### audio_effects<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
 
+Returns a browser item with access to all the Audio Effects content.
+
 ##### clips<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the Clips content.
 
 ##### colors<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector">BrowserItemVector</a></span>
 
+Returns a list of browser items containing the configured colors.
+
 ##### current_project<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the Current Project content.
 
 ##### drums<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
 
+Returns a browser item with access to all the Drums content.
+
 ##### filter_type<span class="prop-type">: <a href="/LiveAPI/modules/browser/#filtertype">FilterType</a></span>
+
+Bang triggered when the hotswap target has changed.
 
 ##### hotswap_target<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a> | None</span>
 
+Bang triggered when the hotswap target has changed.
+
 ##### instruments<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the Instruments content.
 
 ##### legacy_libraries<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector">BrowserItemVector</a></span>
 
+Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed.
+
 ##### max_for_live<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the Max For Live content.
 
 ##### midi_effects<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
 
+Returns a browser item with access to all the Midi Effects content.
+
 ##### packs<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the Packs content.
 
 ##### plugins<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
 
+Returns a browser item with access to all the Plugins content.
+
 ##### samples<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the Samples content.
 
 ##### sounds<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
 
+Returns a browser item with access to all the Sounds content.
+
 ##### user_folders<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector">BrowserItemVector</a></span>
 
+Returns a list of browser items containing all the user folders.
+
 ##### user_library<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem">BrowserItem</a></span>
+
+Returns a browser item with access to all the User Library content.
 
 ##### full_refresh
 
@@ -71,21 +105,39 @@ This class represents an item of the browser hierarchy.
 
 ##### children<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector">BrowserItemVector</a></span>
 
+Const access to the descendants of this browser item.
+
 ##### is_device<span class="prop-type">: bool</span>
+
+Indicates if the browser item represents a device.
 
 ##### is_folder<span class="prop-type">: bool</span>
 
+Indicates if the browser item represents folder.
+
 ##### is_loadable<span class="prop-type">: bool</span>
+
+True if item can be loaded via the Browser's 'load_item' method.
 
 ##### is_selected<span class="prop-type">: bool</span>
 
+True if the item is ancestor of or the actual selection.
+
 ##### iter_children<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemiterator">BrowserItemIterator</a></span>
+
+Const iterable access to the descendants of this browser item.
 
 ##### name<span class="prop-type">: str</span>
 
+Const access to the canonical display name of this browser item.
+
 ##### source<span class="prop-type">: str</span>
 
+Specifies where does item come from -- i.e. Live pack, user library...
+
 ##### uri<span class="prop-type">: str</span>
+
+The uri describes a unique identifier for a browser item.
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Browser.">BrowserItemIterator</span></span>
 

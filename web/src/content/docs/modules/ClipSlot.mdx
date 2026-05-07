@@ -25,27 +25,51 @@ This class represents an entry in Lives Session view matrix.
 
 ##### clip<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip">Clip</a></span>
 
+Returns the Clip which this clipslots currently owns. Might be None.
+
 ##### color<span class="prop-type">: int</span>
+
+Returns the canonical color for the clip slot or None if it does not exist.
 
 ##### color_index<span class="prop-type">: int</span>
 
+Returns the canonical color index for the clip slot or None if it does not exist.
+
 ##### controls_other_clips<span class="prop-type">: bool</span>
+
+Returns true if firing this slot will fire clips in other slots. Can only be true for slots in group tracks.
 
 ##### has_clip<span class="prop-type">: bool</span>
 
+Returns true if this Clipslot owns a Clip.
+
 ##### has_stop_button<span class="prop-type">: bool</span>
+
+Get/Set if this Clip has a stop button, which will, if fired, stop any other Clip that is currently playing the Track we do belong to.
 
 ##### is_group_slot<span class="prop-type">: bool</span>
 
+Returns whether this clip slot is a group track slot (group slot).
+
 ##### is_playing<span class="prop-type">: bool</span>
+
+Returns whether the clip associated with the slot is playing.
 
 ##### is_recording<span class="prop-type">: bool</span>
 
+Returns whether the clip associated with the slot is recording.
+
 ##### is_triggered<span class="prop-type">: bool</span>
+
+Const access to the triggering state of the clip slot.
 
 ##### playing_status<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslotplayingstate">ClipSlotPlayingState</a></span>
 
+Const access to the playing state of the clip slot. Can be either stopped, playing, or recording.
+
 ##### will_record_on_start<span class="prop-type">: bool</span>
+
+returns true if the clip slot will record on being fired.
 
 #### Methods
 

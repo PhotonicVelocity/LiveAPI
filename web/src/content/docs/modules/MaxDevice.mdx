@@ -24,21 +24,39 @@ This class represents a Max for Live device.
 
 ##### audio_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio">DeviceIO</a>]</span>
 
+Const access to a list of all audio inputs of the device.
+
 ##### audio_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio">DeviceIO</a>]</span>
+
+Const access to a list of all audio outputs of the device.
 
 ##### is_active<span class="prop-type">: bool</span>
 
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
 ##### latency_in_ms<span class="prop-type">: float</span>
+
+Returns the latency of the device in ms.
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
+Returns the latency of the device in samples.
+
 ##### midi_inputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
+
+Const access to a list of all midi outputs of the device.
 
 ##### midi_outputs<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a></span>
 
+Const access to a list of all midi outputs of the device.
+
 ##### name<span class="prop-type">: str</span>
 
+Return access to the name of the device.
+
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
+
+Const access to the list of available automatable parameters for this device.
 
 ##### bank_parameters_changed
 

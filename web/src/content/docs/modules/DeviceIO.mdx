@@ -24,10 +24,20 @@ This class represents a specific input or output bus of a device.
 
 ##### available_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector">RoutingChannelVector</a></span>
 
+Return a list of channels for this IO endpoint.
+
 ##### available_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector">RoutingTypeVector</a></span>
+
+Return a list of available routing types for this IO endpoint.
 
 ##### default_external_routing_channel_is_none<span class="prop-type">: bool</span>
 
+Get and set whether the default routing channel for External routing types is none.
+
 ##### routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel">RoutingChannel</a></span>
 
+Get and set the current routing channel. Raises ValueError if the channel isn't one of the current values in available_routing_channels.
+
 ##### routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype">RoutingType</a></span>
+
+Get and set the current routing type. Raises ValueError if the type isn't one of the current values in available_routing_types.

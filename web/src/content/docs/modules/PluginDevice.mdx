@@ -25,17 +25,31 @@ This class represents a plugin device.
 
 ##### is_active<span class="prop-type">: bool</span>
 
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
 ##### latency_in_ms<span class="prop-type">: float</span>
+
+Returns the latency of the device in ms.
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
+Returns the latency of the device in samples.
+
 ##### name<span class="prop-type">: str</span>
+
+Return access to the name of the device.
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
 
+Const access to the list of available automatable parameters for this device.
+
 ##### presets<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+Get the list of presets the plugin offers.
+
 ##### selected_preset_index<span class="prop-type">: int</span>
+
+Access to the index of the currently selected preset.
 
 #### Inherited
 

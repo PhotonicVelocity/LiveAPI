@@ -24,25 +24,47 @@ This class represents a drum group device chain in Live.
 
 ##### choke_group<span class="prop-type">: int</span>
 
+Access to the chain's choke group setting.
+
 ##### color<span class="prop-type">: int</span>
+
+Access the color index of the Chain.
 
 ##### color_index<span class="prop-type">: int</span>
 
+Access the color index of the Chain.
+
 ##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>]</span>
+
+Return const access to all available Devices that are present in the chains
 
 ##### in_note<span class="prop-type">: int</span>
 
+Access to the incoming MIDI note that will trigger this chain.
+
 ##### is_auto_colored<span class="prop-type">: bool</span>
+
+Get/set access to the auto color flag of the Chain. If True, the Chain will always have the same color as the containing Track or Chain.
 
 ##### mute<span class="prop-type">: bool</span>
 
+Mute/unmute the chain.
+
 ##### muted_via_solo<span class="prop-type">: bool</span>
+
+Return const access to whether this chain is muted due to some other chain being soloed.
 
 ##### name<span class="prop-type">: str</span>
 
+Read/write access to the name of the Chain, as visible in the track header.
+
 ##### out_note<span class="prop-type">: int</span>
 
+Access to the MIDI note sent to the devices in the chain.
+
 ##### solo<span class="prop-type">: bool</span>
+
+Get/Set the solo status of the chain. Note that this will not disable the solo state of any other Chain in the same rack. If you want exclusive solo, you have to disable the solo state of the other Chains manually.
 
 #### Inherited
 

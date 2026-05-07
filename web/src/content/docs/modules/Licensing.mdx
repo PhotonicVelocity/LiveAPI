@@ -25,13 +25,21 @@ Interface to the internal licensing services.
 
 ##### base_product_id<span class="prop-type">: str</span>
 
+Returns Live's current base product ID.
+
 ##### in_sassafras_mode<span class="prop-type">: bool</span>
 
 ##### license_must_match_variant<span class="prop-type">: bool</span>
 
+Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
+
 ##### random_number_for_trial_authorization<span class="prop-type">: int</span>
 
+Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
+
 ##### set_has_unsaved_changes<span class="prop-type">: bool</span>
+
+Returns true if the set has unsaved changes.
 
 #### Methods
 

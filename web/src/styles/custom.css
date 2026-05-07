@@ -68,6 +68,17 @@
   margin-bottom: 0.25rem;
   padding-left: 1.5rem;
 }
+/* Property description — paragraph immediately following an H5 heading.
+   Indented to match the H5 column so the description visually attaches
+   to the property it describes rather than re-anchoring at the page
+   margin. Slightly muted color marks it as descriptive text adjacent
+   to a member identifier rather than body prose. */
+.sl-markdown-content .sl-heading-wrapper.level-h5 + p {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  padding-left: 1.5rem;
+  color: var(--sl-color-gray-2);
+}
 /* Nested type headings (class / enum / future function) — semantically H5
    (kept out of the TOC, indented under their owning class), but visually
    the same size as a top-level class signature. The indent preserves

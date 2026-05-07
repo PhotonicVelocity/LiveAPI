@@ -24,29 +24,55 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 ##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate">AutomationState</a></span>
 
+Returns state of type AutomationState.
+
 ##### default_value<span class="prop-type">: float</span>
+
+Return the default value for this parameter.  A Default value is only available for non-quantized parameter types (see 'is_quantized').
 
 ##### display_value<span class="prop-type">: float</span>
 
+Get/Set the current value (as visible in the GUI) this parameter. The value must be inside the min/max properties of this device.
+
 ##### is_enabled<span class="prop-type">: bool</span>
+
+Returns false if the parameter has been macro mapped or disabled by Max.
 
 ##### is_quantized<span class="prop-type">: bool</span>
 
+Returns True, if this value is a boolean or integer like switch. Non quantized values are continues float values.
+
 ##### max<span class="prop-type">: float</span>
+
+Returns const access to the upper value of the allowed range for this parameter
 
 ##### min<span class="prop-type">: float</span>
 
+Returns const access to the lower value of the allowed range for this parameter
+
 ##### name<span class="prop-type">: str</span>
+
+Returns const access the name of this parameter, as visible in Lives automation choosers.
 
 ##### original_name<span class="prop-type">: str</span>
 
+Returns const access the original name of this parameter, unaffected of any renamings.
+
 ##### short_value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
 
 ##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate">ParameterState</a></span>
 
+Returns the state of the parameter: - enabled - the parameter's value can be changed, - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled, - disabled - the parameter's value cannot be changed.
+
 ##### value<span class="prop-type">: float</span>
 
+Get/Set the current internal value of this parameter. The value must be inside the min/max properties of this device.
+
 ##### value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
 
 #### Methods
 
