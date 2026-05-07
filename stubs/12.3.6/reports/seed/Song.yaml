@@ -83,7 +83,7 @@ primary_class:
     raw_doc: |-
       Get/Set access to the quantization settings that are used to fire
       Clips in the Session.
-    type: Quantization
+    type: Live.Song.Quantization
     settable: true
     listenable:
     - add_clip_trigger_quantization_listener
@@ -226,7 +226,7 @@ primary_class:
     raw_doc: |-
       Get/Set access to the settings that are used to quantize
       MIDI recordings.
-    type: RecordingQuantization
+    type: Live.Song.RecordingQuantization
     settable: true
     listenable:
     - add_midi_recording_quantization_listener

@@ -2,7 +2,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
-    from Live.Device import ATimeableValueVector, Device
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track
 
 

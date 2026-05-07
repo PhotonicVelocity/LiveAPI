@@ -608,7 +608,7 @@ classes:
     - name: self
       type: Live.Application.UnavailableFeatureVector
     - name: value
-      type: UnavailableFeature
+      type: Live.Application.UnavailableFeature | int
     returns:
       type: None
   - name: extend
@@ -618,7 +618,7 @@ classes:
     - name: self
       type: Live.Application.UnavailableFeatureVector
     - name: values
-      type: Iterable[UnavailableFeature]
+      type: Iterable[Live.Application.UnavailableFeature | int]
     returns:
       type: None
 - name: Variants

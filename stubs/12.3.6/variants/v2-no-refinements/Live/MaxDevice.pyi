@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
-    from Live.Device import ATimeableValueVector, Device
+    from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.DeviceIO import DeviceIO
     from Live.DeviceParameter import DeviceParameter
     from Live.Track import Track

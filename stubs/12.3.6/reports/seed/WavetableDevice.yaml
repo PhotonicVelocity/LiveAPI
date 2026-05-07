@@ -156,7 +156,7 @@ primary_class:
     - poly_voices_has_listener
   - name: type
     raw_doc: Return the type of the device.
-    type: DeviceType
+    type: Live.Device.DeviceType
     settable: false
   - name: unison_mode
     raw_doc: Return the current unison mode.

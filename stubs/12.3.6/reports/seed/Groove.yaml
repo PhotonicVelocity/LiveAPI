@@ -15,7 +15,7 @@ primary_class:
     settable: false
   - name: base
     raw_doc: Get/set the groove's base grid.
-    type: Base
+    type: Live.Groove.Base
     settable: true
   - name: canonical_parent
     raw_doc: Get the canonical parent of the groove.

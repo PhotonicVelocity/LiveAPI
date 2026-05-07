@@ -572,10 +572,10 @@ class UnavailableFeatureVector(Iterable):
 
     def __bool__(self) -> bool: ...
 
-    def append(self, value: UnavailableFeature, /) -> None:
+    def append(self, value: UnavailableFeature | int, /) -> None:
         ...
 
-    def extend(self, values: Iterable[UnavailableFeature], /) -> None:
+    def extend(self, values: Iterable[UnavailableFeature | int], /) -> None:
         ...
 
 class Variants:

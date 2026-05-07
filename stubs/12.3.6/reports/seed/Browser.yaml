@@ -127,7 +127,7 @@ primary_class:
     - name: arg2
       type: Live.Browser.BrowserItem
     returns:
-      type: Relation
+      type: Live.Browser.Relation
   - name: stop_preview
     raw_doc: Stop the current preview.
     signature: 'stop_preview( (Browser)arg1) -> None :'

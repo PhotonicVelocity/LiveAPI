@@ -171,7 +171,7 @@ functions:
   - name: controller_number
     type: int
   - name: map_mode
-    type: MapMode
+    type: Live.MidiMap.MapMode | int
   - name: avoid_takeover
     type: bool
   - name: sensitivity
@@ -193,7 +193,7 @@ functions:
   - name: controller_number
     type: int
   - name: map_mode
-    type: MapMode
+    type: Live.MidiMap.MapMode | int
   - name: feedback_rule
     type: Live.MidiMap.CCFeedbackRule
   - name: avoid_takeover

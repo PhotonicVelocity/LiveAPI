@@ -164,7 +164,10 @@ def build_class_registry(
         if not isinstance(node, dict):
             return
         node_type = node.get("type")
-        if node_type in ("class", "type") and not node.get("ref"):
+        # Enums are class-like for cross-reference purposes — same
+        # qualification, same ancestor lookup. They're recorded here
+        # so type-string qualification finds them.
+        if node_type in ("class", "type", "enum") and not node.get("ref"):
             r = node.get("repr")
             if isinstance(r, str):
                 by_repr[r] = path
@@ -180,6 +183,23 @@ def build_class_registry(
     for path in by_repr.values():
         simple = path.rsplit(".", 1)[-1]
         by_name.setdefault(simple, []).append(path)
+
+    # Qualified paths of every enum class. Used to widen enum-typed args
+    # to `Enum | int` (Boost.Python emits enum classes as int subclasses
+    # so any int is also accepted at runtime — the union form is the
+    # honest annotation).
+    enum_paths: set[str] = set()
+
+    def _walk_enums(node: dict[str, Any], path: str) -> None:
+        if not isinstance(node, dict):
+            return
+        if node.get("type") == "enum" and not node.get("ref") and node.get("name"):
+            enum_paths.add(path)
+        for child in node.get("children", []) or []:
+            child_name = child.get("name") if isinstance(child, dict) else None
+            _walk_enums(child, f"{path}.{child_name}" if child_name else path)
+
+    _walk_enums(tree, root_name)
 
     # Per-class set of property names with a probed type. Used to
     # suppress untyped duplicate properties on subclasses when an
@@ -223,7 +243,39 @@ def build_class_registry(
         "probe": probe or {},
         "concrete_containers": concrete_containers,
         "typed_props_by_repr": typed_props_by_repr,
+        "enum_paths": enum_paths,
     }
+
+
+_LIVE_PATH_RE = re.compile(r"\bLive\.[A-Za-z_][\w.]*")
+
+
+def _widen_enum_types(type_str: str | None, enum_paths: set[str]) -> str | None:
+    """Widen any bare enum-class reference in a type string to `Enum | int`.
+
+    Boost.Python emits enum classes as int subclasses, so any int is
+    also accepted at runtime. The union form (`MapMode | int`) is the
+    honest annotation. Composite types like `Iterable[MapMode]` get the
+    inner reference widened: `Iterable[MapMode | int]`.
+
+    Idempotent — a token already followed by ` | int` is left alone.
+    """
+    if not type_str or not enum_paths:
+        return type_str
+
+    def replace(match: re.Match[str]) -> str:
+        token = match.group(0)
+        if token not in enum_paths:
+            return token
+        # Skip if already followed by `| int` (idempotency).
+        end = match.end()
+        assert type_str is not None
+        rest = type_str[end:end + 8]
+        if rest.lstrip().startswith("| int"):
+            return token
+        return f"{token} | int"
+
+    return _LIVE_PATH_RE.sub(replace, type_str)
 
 
 def _qualify_probed_type(info: dict[str, Any], by_repr: dict[str, str]) -> str | None:
@@ -788,7 +840,8 @@ def build_member(
         cpp_sig = _norm_doc(node.get("cpp_signature"))
         if cpp_sig:
             out["cpp_signature"] = cpp_sig
-        args = _convert_args(node.get("args"), by_name, enclosing_path)
+        args = _convert_args(node.get("args"), by_name, enclosing_path,
+                              enum_paths=registry.get("enum_paths"))
         if args:
             out["args"] = args
         returns = _convert_returns(node.get("returns"), by_name, enclosing_path)
@@ -824,11 +877,13 @@ def _convert_args(
     args: list[dict[str, Any]] | None,
     by_name: dict[str, list[str]],
     enclosing_path: str | None,
+    enum_paths: set[str] | None = None,
 ) -> list[dict[str, Any]]:
     """Convert parser arg dicts into YAML shape; qualify Live class names
-    in each `type:` string against the class registry. Optional widening
-    fires here (`T = None` → `T | None`) so the SOT type already
-    reflects what the binding actually accepts.
+    in each `type:` string against the class registry. Enum widening
+    (`E` → `E | int`) and optional widening (`T` → `T | None` when
+    default is None) both fire here so the SOT type already reflects
+    what the binding actually accepts.
 
     `self` is kept (the SOT is unopinionated about rendering convention —
     consumers that want to elide it can do so at render time). The
@@ -843,6 +898,7 @@ def _convert_args(
         type_str = arg.get("type")
         if type_str:
             type_str = _qualify_type_string(type_str, by_name, enclosing_path)
+            type_str = _widen_enum_types(type_str, enum_paths or set())
             if arg.get("optional"):
                 type_str = _widen_optional(type_str, arg.get("default"))
             item["type"] = type_str
@@ -933,14 +989,17 @@ def _group_class_members(
             # type with the class's element type. The parser keeps the
             # raw_doc `object` annotation; v1's merge_probe_data step
             # did this rewrite — we replicate it here so the YAML's
-            # arg type is the canonical one.
+            # arg type is the canonical one. Enum-typed elements are
+            # widened to `E | int`.
             mname = member["name"]
             if mname in ("append", "extend"):
                 margs = member.get("args") or []
                 if len(margs) == 2:
                     margs[1] = dict(margs[1])
+                    enum_paths: set[str] = registry.get("enum_paths") or set()
+                    elem = _widen_enum_types(class_element, enum_paths) or class_element
                     margs[1]["type"] = (
-                        f"Iterable[{class_element}]" if mname == "extend" else class_element
+                        f"Iterable[{elem}]" if mname == "extend" else elem
                     )
                     member["args"] = margs
         groups[kind].append(member)

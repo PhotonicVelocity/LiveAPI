@@ -88,7 +88,7 @@ primary_class:
     - selected_engine_has_listener
   - name: type
     raw_doc: Return the type of the device.
-    type: DeviceType
+    type: Live.Device.DeviceType
     settable: false
   - name: unison_voices
     raw_doc: Return the Unison Voice count

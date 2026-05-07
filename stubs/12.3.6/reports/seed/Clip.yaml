@@ -955,7 +955,7 @@ primary_class:
       settable: true
     - name: grid_quantization
       raw_doc: Get/set clip grid quantization resolution.
-      type: GridQuantization
+      type: Live.Clip.GridQuantization
       settable: true
     methods:
     - name: hide_envelope

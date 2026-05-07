@@ -128,7 +128,7 @@ primary_class:
     settable: true
   - name: type
     raw_doc: Return the type of the device.
-    type: DeviceType
+    type: Live.Device.DeviceType
     settable: false
   - name: variation_count
     raw_doc: Access to the number of macro variations currently stored.

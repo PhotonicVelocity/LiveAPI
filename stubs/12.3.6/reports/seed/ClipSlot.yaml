@@ -89,7 +89,7 @@ primary_class:
     raw_doc: |-
       Const access to the playing state of the clip slot.
       Can be either stopped, playing, or recording.
-    type: ClipSlotPlayingState
+    type: Live.ClipSlot.ClipSlotPlayingState
     settable: false
     listenable:
     - add_playing_status_listener

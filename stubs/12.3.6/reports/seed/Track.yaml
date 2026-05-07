@@ -744,7 +744,7 @@ classes:
     settable: false
   - name: layout
     raw_doc: The routing channel's Layout, e.g., mono or stereo.
-    type: RoutingChannelLayout
+    type: Live.Track.RoutingChannelLayout
     settable: false
 - name: RoutingChannelVector
   path: Live.Track.RoutingChannelVector

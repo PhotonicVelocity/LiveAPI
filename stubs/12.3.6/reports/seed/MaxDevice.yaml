@@ -92,7 +92,7 @@ primary_class:
     settable: false
   - name: type
     raw_doc: Return the type of the device.
-    type: DeviceType
+    type: Live.Device.DeviceType
     settable: false
   - name: view
     raw_doc: Representing the view aspects of a device.
