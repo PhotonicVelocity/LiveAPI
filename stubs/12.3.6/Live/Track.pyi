@@ -173,20 +173,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "color_index" has changed.
-        """
-        ...
-
-    def add_color_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "color" has changed.
-        """
-        ...
-
     def add_current_input_routing_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
@@ -341,27 +327,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    def add_mute_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "mute" has changed.
-        """
-        ...
-
-    def add_muted_via_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "muted_via_solo" has changed.
-        """
-        ...
-
-    def add_name_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "name" has changed.
-        """
-        ...
-
     def add_output_meter_left_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
@@ -422,13 +387,6 @@ class Track(DeviceContainer):
         """
         Add a listener function or method, which will be called as soon as the
         property "playing_slot_index" has changed.
-        """
-        ...
-
-    def add_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "solo" has changed.
         """
         ...
 
@@ -567,36 +525,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    @property
-    def color(self) -> int:
-        """Get/set access to the color of the Track (RGB)."""
-        ...
-
-    @color.setter
-    def color(self, value: int) -> None: ...
-
-    def color_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "color".
-        """
-        ...
-
-    @property
-    def color_index(self) -> int:
-        """Get/Set access to the color index of the track. Can be None for no color."""
-        ...
-
-    @color_index.setter
-    def color_index(self, value: int) -> None: ...
-
-    def color_index_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "color_index".
-        """
-        ...
-
     def create_audio_clip(self, file_path: str, position: float, /) -> Clip:
         """
         Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time.
@@ -713,10 +641,6 @@ class Track(DeviceContainer):
         """Delete the given clip. Raises a runtime error when the clip belongs to another track."""
         ...
 
-    def delete_device(self, index: int, /) -> None:
-        """Delete a device identified by the index in the 'devices' list."""
-        ...
-
     @property
     def devices(self) -> Vector[Device]:
         """
@@ -748,10 +672,6 @@ class Track(DeviceContainer):
         destination time and return it. When the type of the clip and the type of the
         track are incompatible, a runtime error is raised.
         """
-        ...
-
-    def duplicate_device(self, index: int, /) -> None:
-        """Duplicate a device at a given index in the 'devices' list."""
         ...
 
     @property
@@ -963,10 +883,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    def insert_device(self, device_name: str, device_index: int = -1, /) -> Device:
-        """Add a device at a given index in the 'devices' list. At end if -1."""
-        ...
-
     @property
     def is_foldable(self) -> bool:
         """return True if the track can be (un)folded to hide/reveal contained tracks."""
@@ -1034,48 +950,6 @@ class Track(DeviceContainer):
         IN: int = 0
         AUTO: int = 1
         OFF: int = 2
-
-    @property
-    def mute(self) -> bool:
-        """Mute/unmute the track."""
-        ...
-
-    @mute.setter
-    def mute(self, value: bool) -> None: ...
-
-    def mute_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "mute".
-        """
-        ...
-
-    @property
-    def muted_via_solo(self) -> bool:
-        """Returns true if the track is muted because another track is soloed."""
-        ...
-
-    def muted_via_solo_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "muted_via_solo".
-        """
-        ...
-
-    @property
-    def name(self) -> str:
-        """Read/write access to the name of the Track, as visible in the track header."""
-        ...
-
-    @name.setter
-    def name(self, value: str) -> None: ...
-
-    def name_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "name".
-        """
-        ...
 
     @property
     def output_meter_left(self) -> float:
@@ -1268,20 +1142,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    def remove_color_index_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "color_index".
-        """
-        ...
-
-    def remove_color_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "color".
-        """
-        ...
-
     def remove_current_input_routing_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
@@ -1436,27 +1296,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    def remove_mute_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "mute".
-        """
-        ...
-
-    def remove_muted_via_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "muted_via_solo".
-        """
-        ...
-
-    def remove_name_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "name".
-        """
-        ...
-
     def remove_output_meter_left_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
@@ -1520,13 +1359,6 @@ class Track(DeviceContainer):
         """
         ...
 
-    def remove_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "solo".
-        """
-        ...
-
     def remove_take_lanes_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
@@ -1536,25 +1368,6 @@ class Track(DeviceContainer):
 
     def set_data(self, key: str, value: Any, /) -> None:
         """Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set."""
-        ...
-
-    @property
-    def solo(self) -> bool:
-        """
-        Get/Set the solo status of the track. Note that this will not disable the
-        solo state of any other track. If you want exclusive solo, you have to
-        disable the solo state of the other Tracks manually.
-        """
-        ...
-
-    @solo.setter
-    def solo(self, value: bool) -> None: ...
-
-    def solo_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "solo".
-        """
         ...
 
     def stop_all_clips(self, quantized: bool = True, /) -> None:
@@ -1580,6 +1393,193 @@ class Track(DeviceContainer):
 
 class DeviceContainer(LomObject):
     """This class is a common super class of Track and Chain"""
+
+    def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Add a listener function or method, which will be called as soon as the
+        property "color_index" has changed.
+        """
+        ...
+
+    def add_color_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Add a listener function or method, which will be called as soon as the
+        property "color" has changed.
+        """
+        ...
+
+    def add_mute_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Add a listener function or method, which will be called as soon as the
+        property "mute" has changed.
+        """
+        ...
+
+    def add_muted_via_solo_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Add a listener function or method, which will be called as soon as the
+        property "muted_via_solo" has changed.
+        """
+        ...
+
+    def add_name_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Add a listener function or method, which will be called as soon as the
+        property "name" has changed.
+        """
+        ...
+
+    def add_solo_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Add a listener function or method, which will be called as soon as the
+        property "solo" has changed.
+        """
+        ...
+
+    @property
+    def color(self) -> int:
+        """Get/set access to the color of the Track (RGB)."""
+        ...
+
+    @color.setter
+    def color(self, value: int) -> None: ...
+
+    def color_has_listener(self, callback: Callable[[], None], /) -> bool:
+        """
+        Returns true, if the given listener function or method is connected
+        to the property "color".
+        """
+        ...
+
+    @property
+    def color_index(self) -> int:
+        """Get/Set access to the color index of the track. Can be None for no color."""
+        ...
+
+    @color_index.setter
+    def color_index(self, value: int) -> None: ...
+
+    def color_index_has_listener(self, callback: Callable[[], None], /) -> bool:
+        """
+        Returns true, if the given listener function or method is connected
+        to the property "color_index".
+        """
+        ...
+
+    def delete_device(self, index: int, /) -> None:
+        """Delete a device identified by the index in the 'devices' list."""
+        ...
+
+    def duplicate_device(self, index: int, /) -> None:
+        """Duplicate a device at a given index in the 'devices' list."""
+        ...
+
+    def insert_device(self, device_name: str, device_index: int = -1, /) -> Device:
+        """Add a device at a given index in the 'devices' list. At end if -1."""
+        ...
+
+    @property
+    def mute(self) -> bool:
+        """Mute/unmute the track."""
+        ...
+
+    @mute.setter
+    def mute(self, value: bool) -> None: ...
+
+    def mute_has_listener(self, callback: Callable[[], None], /) -> bool:
+        """
+        Returns true, if the given listener function or method is connected
+        to the property "mute".
+        """
+        ...
+
+    @property
+    def muted_via_solo(self) -> bool:
+        """Returns true if the track is muted because another track is soloed."""
+        ...
+
+    def muted_via_solo_has_listener(self, callback: Callable[[], None], /) -> bool:
+        """
+        Returns true, if the given listener function or method is connected
+        to the property "muted_via_solo".
+        """
+        ...
+
+    @property
+    def name(self) -> str:
+        """Read/write access to the name of the Track, as visible in the track header."""
+        ...
+
+    @name.setter
+    def name(self, value: str) -> None: ...
+
+    def name_has_listener(self, callback: Callable[[], None], /) -> bool:
+        """
+        Returns true, if the given listener function or method is connected
+        to the property "name".
+        """
+        ...
+
+    def remove_color_index_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Remove a previously set listener function or method from
+        property "color_index".
+        """
+        ...
+
+    def remove_color_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Remove a previously set listener function or method from
+        property "color".
+        """
+        ...
+
+    def remove_mute_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Remove a previously set listener function or method from
+        property "mute".
+        """
+        ...
+
+    def remove_muted_via_solo_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Remove a previously set listener function or method from
+        property "muted_via_solo".
+        """
+        ...
+
+    def remove_name_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Remove a previously set listener function or method from
+        property "name".
+        """
+        ...
+
+    def remove_solo_listener(self, callback: Callable[[], None], /) -> None:
+        """
+        Remove a previously set listener function or method from
+        property "solo".
+        """
+        ...
+
+    @property
+    def solo(self) -> bool:
+        """
+        Get/Set the solo status of the track. Note that this will not disable the
+        solo state of any other track. If you want exclusive solo, you have to
+        disable the solo state of the other Tracks manually.
+        """
+        ...
+
+    @solo.setter
+    def solo(self, value: bool) -> None: ...
+
+    def solo_has_listener(self, callback: Callable[[], None], /) -> bool:
+        """
+        Returns true, if the given listener function or method is connected
+        to the property "solo".
+        """
+        ...
 
 class DeviceInsertMode(int):
     default: int = 0

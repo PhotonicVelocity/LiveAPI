@@ -134,6 +134,41 @@ Override example (`Live.Song.Song.appointed_device`):
   - appointed_device_has_listener
 ```
 
+## Synthesized phantom-base classes
+
+A handful of classes in the LOM are *phantom bases* — Boost.Python registers
+them as Python superclasses (real `__bases__`, real `__mro__`, real
+`isinstance()` truth) but binds no methods on them, so `dir()` returns an
+empty class. The build_lom_yaml pipeline hoists these classes' inferred
+interface from the shared shape of their direct subclasses. See
+[`dataflow.md` — Phantom-base hoist](dataflow.md#phantom-base-hoist) for
+the full algorithm.
+
+Synthesized classes carry two metadata fields next to their normal
+`raw_doc` / `ancestors` / etc.:
+
+```yaml
+- name: DeviceContainer
+  path: Live.Track.DeviceContainer
+  raw_doc: This class is a common super class of Track and Chain
+  ancestors: [Live.LomObject.LomObject]
+  init_doc: ...
+  constructable: false
+  _synthesized_from: [Live.Track.Track, Live.Chain.Chain]
+  _synthesis_note: |
+    Members below are hoisted from the shared interface of Track, Chain
+    (all Boost.Python-registered subclasses of this class via
+    bases<DeviceContainer>). The runtime binds these on each subclass
+    individually rather than on this base, so dir() captures see them
+    as duplicates...
+  properties: [...]   # hoisted shared shape
+  methods: [...]      # hoisted (with self: DeviceContainer)
+```
+
+Renderers may use `_synthesized_from` to flag the class visually
+("synthesized base interface") so readers know its members are derived
+from observed subclass shapes, not directly observed on the class.
+
 ## Iterable container classes
 
 Iterability is encoded by two flags:

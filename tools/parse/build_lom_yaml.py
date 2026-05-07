@@ -1299,25 +1299,191 @@ def main() -> int:
             continue
         modules[name] = build_module_yaml(module_node, registry)
 
-    dropped = _drop_ancestor_inherited_properties(modules)
+    # Two-pass cleanup with hoist sandwiched between:
+    #   1. Drop inherited duplicates — gets `_live_ptr` off DeviceContainer
+    #      (LomObject's universal property leaks onto every subclass via dir()).
+    #      After this pass DeviceContainer is truly empty, exposing it as a
+    #      phantom base.
+    #   2. Hoist shared members from subclasses onto each phantom base.
+    #   3. Drop inherited duplicates again — subclasses (Track, Chain) shed
+    #      the members the phantom base now declares.
+    dropped_pre  = _drop_ancestor_inherited_properties(modules)
+    hoisted      = _hoist_phantom_base_interfaces(modules)
+    dropped_post = _drop_ancestor_inherited_properties(modules) if hoisted else 0
     for name, doc in modules.items():
         emit_yaml(doc, out_dir / f"{name}.yaml")
 
     print(f"Wrote {len(modules)} module YAMLs to {out_dir.relative_to(REPO_ROOT)}/")
-    if dropped:
-        print(f"  (skipped {dropped} property declarations identical to an ancestor's)")
+    if hoisted:
+        print(f"  (hoisted {hoisted} members from subclasses onto phantom base classes)")
+    total_dropped = dropped_pre + dropped_post
+    if total_dropped:
+        print(f"  (skipped {total_dropped} property declarations identical to an ancestor's)")
     return 0
 
 
-def _drop_ancestor_inherited_properties(modules: dict[str, dict[str, Any]]) -> int:
-    """Post-build cleanup: drop properties whose shape matches an ancestor's
-    declaration. Keeps the YAML small (no `_live_ptr: int` repeated on every
-    LomObject subclass; no `Device` properties redeclared on every device
-    subclass) and lets pyright resolve inherited annotations naturally.
+def _hoist_phantom_base_interfaces(modules: dict[str, dict[str, Any]]) -> int:
+    """Synthesize phantom-base interfaces from shared subclass shapes.
 
-    A property is dropped only when it has no `*_override:` blocks and an
-    ancestor declares the same `name`/`type`/`settable`/`listenable` shape
-    (also without overrides).
+    Boost.Python sometimes registers a C++ base class as a Python superclass
+    (so `isinstance(track, DeviceContainer)` is True) without binding any of
+    that base's methods on the Python class itself — the methods get bound
+    redundantly on each concrete subclass instead. The result: a "phantom
+    base" with no own members, despite real inheritance.
+
+    Detection: a phantom base is a class that
+      - is used as an ancestor by 2+ other classes,
+      - has zero own properties and zero own methods,
+      - has at least 2 subclasses we can directly inspect.
+
+    Hoist criterion (conservative): a member is hoisted onto the phantom
+    only when its shape is identical across all subclass declarations,
+    OR (for methods) when the only difference is the `self:` arg's type
+    (which becomes `self: <phantom-base-path>` on the hoisted version).
+
+    Members that legitimately narrow on subclasses (e.g. `Track.devices:
+    Vector[Device]` vs `Chain.devices: Vector[LomObject]`) DON'T match
+    shape, so they stay on the subclasses as covariant overrides — and
+    pyright sees them as proper Liskov-narrowing overrides of the
+    phantom-base's general type.
+
+    Marks the synthesized class with `_synthesized_from:` (list of
+    contributing subclass paths) and `_synthesis_note:` (prose) so the
+    rendered docs can flag the synthesis.
+    """
+    classes_by_path: dict[str, dict[str, Any]] = {}
+
+    def _index(cls: dict[str, Any], parent_qpath: str) -> None:
+        if not isinstance(cls, dict) or not cls.get("name"):
+            return
+        path = cls.get("path") or f"{parent_qpath}.{cls['name']}"
+        classes_by_path[path] = cls
+        for nested in cls.get("classes") or []:
+            _index(nested, path)
+
+    for module_name, doc in modules.items():
+        base = f"Live.{module_name}"
+        for top in doc.get("primary_class") or []:
+            _index(top, base)
+        for top in doc.get("classes") or []:
+            _index(top, base)
+
+    # Find phantom bases: empty-shaped classes that are the DIRECT parent of
+    # 2+ subclasses. Only direct subclasses contribute to hoisting — a
+    # transitive subclass (e.g. DrumChain inheriting from Chain inheriting
+    # from DeviceContainer) wouldn't necessarily share the base's interface.
+    # The parser's resolve_inheritance step puts direct bases first in the
+    # `ancestors:` list, so `ancestors[0]` is the direct parent.
+    ancestor_use: dict[str, list[str]] = {}
+    for path, cls in classes_by_path.items():
+        ancestors = cls.get("ancestors") or []
+        if not ancestors:
+            continue
+        direct_parent = ancestors[0]
+        ancestor_use.setdefault(direct_parent, []).append(path)
+
+    phantom_bases: list[tuple[str, list[str]]] = []
+    for anc_path, users in ancestor_use.items():
+        if len(users) < 2:
+            continue
+        anc = classes_by_path.get(anc_path)
+        if not anc:
+            continue
+        if (anc.get("properties") or []) or (anc.get("methods") or []):
+            continue
+        phantom_bases.append((anc_path, users))
+
+    if not phantom_bases:
+        return 0
+
+    def _pshape(prop: dict[str, Any]) -> tuple[Any, ...]:
+        return (
+            prop.get("type"),
+            prop.get("settable"),
+            tuple(prop.get("listenable") or ()),
+        )
+
+    def _msig(method: dict[str, Any]) -> tuple[Any, ...]:
+        args = tuple((a.get("name"), a.get("type")) for a in (method.get("args") or []))
+        return (args, (method.get("returns") or {}).get("type"))
+
+    def _normalize_self(method: dict[str, Any], base_path: str) -> dict[str, Any]:
+        """Copy with `self:` arg's type rewritten to `base_path` for shape compare."""
+        from copy import deepcopy
+        out = deepcopy(method)
+        args = out.get("args") or []
+        if args and args[0].get("name") == "self":
+            args[0] = dict(args[0])
+            args[0]["type"] = base_path
+        return out
+
+    total_hoisted = 0
+    for base_path, sub_paths in phantom_bases:
+        from copy import deepcopy
+        base_cls = classes_by_path[base_path]
+        subs = [classes_by_path[p] for p in sub_paths if p in classes_by_path]
+        if len(subs) < 2:
+            continue
+
+        # Properties: shape-identical across ALL subclasses → hoist as-is.
+        prop_maps = [{p["name"]: p for p in (s.get("properties") or [])} for s in subs]
+        common_props = set.intersection(*(set(m) for m in prop_maps))
+        hoisted_props: list[dict[str, Any]] = []
+        for nm in sorted(common_props):
+            shapes = {_pshape(m[nm]) for m in prop_maps}
+            if len(shapes) == 1:
+                hoisted_props.append(deepcopy(prop_maps[0][nm]))
+
+        # Methods: shape-identical after normalizing `self:` arg → hoist with base path on self.
+        meth_maps = [{m["name"]: m for m in (s.get("methods") or [])} for s in subs]
+        common_meths = set.intersection(*(set(m) for m in meth_maps))
+        hoisted_meths: list[dict[str, Any]] = []
+        for nm in sorted(common_meths):
+            normalized = [_normalize_self(m[nm], base_path) for m in meth_maps]
+            if len({_msig(n) for n in normalized}) == 1:
+                hoisted_meths.append(normalized[0])
+
+        if not hoisted_props and not hoisted_meths:
+            continue
+
+        if hoisted_props:
+            base_cls["properties"] = hoisted_props
+        if hoisted_meths:
+            base_cls["methods"] = hoisted_meths
+        base_cls["_synthesized_from"] = list(sub_paths)
+        base_cls["_synthesis_note"] = (
+            f"Members below are hoisted from the shared interface of "
+            f"{', '.join(p.rsplit('.', 1)[-1] for p in sub_paths)} (all "
+            f"Boost.Python-registered subclasses of this class via "
+            f"bases<{base_path.rsplit('.', 1)[-1]}>). The runtime binds "
+            f"these on each subclass individually rather than on this "
+            f"base, so dir() captures see them as duplicates. The hoist "
+            f"makes the type-system fact (isinstance(x, "
+            f"{base_path.rsplit('.', 1)[-1]}) is True for each subclass) "
+            f"renderable. Only structurally-identical shapes are hoisted; "
+            f"members that narrow on subclasses (e.g. covariant Vector[T] "
+            f"return types) stay on subclasses as proper overrides."
+        )
+        total_hoisted += len(hoisted_props) + len(hoisted_meths)
+
+    return total_hoisted
+
+
+def _drop_ancestor_inherited_properties(modules: dict[str, dict[str, Any]]) -> int:
+    """Post-build cleanup: drop properties + methods whose shape matches an
+    ancestor's declaration.
+
+    Keeps the YAML small (no `_live_ptr: int` repeated on every LomObject
+    subclass; no `Device` properties redeclared on every device subclass;
+    no DeviceContainer methods redeclared on Track/Chain after a hoist)
+    and lets pyright resolve inherited annotations naturally.
+
+    A member is dropped only when it has no `*_override:` blocks and an
+    ancestor declares the same shape (also without overrides):
+      - properties: same `name`/`type`/`settable`/`listenable`
+      - methods: same `name`/`args`/`returns` after self-arg normalization
+                 (subclass `self: Subclass` and ancestor `self: Ancestor`
+                 are treated as equivalent for this comparison).
     """
     classes_by_path: dict[str, dict[str, Any]] = {}
 
@@ -1342,7 +1508,25 @@ def _drop_ancestor_inherited_properties(modules: dict[str, dict[str, Any]]) -> i
     def _has_overrides(prop: dict[str, Any]) -> bool:
         return any(k.endswith("_override") for k in prop)
 
-    def _ancestor_props(cls_path: str) -> list[tuple[str, dict[str, Any]]]:
+    def _msig_normalized(method: dict[str, Any], self_path: str) -> tuple[Any, ...]:
+        """Method signature with `self:` arg's type rewritten to `self_path`,
+        so subclass `self: Subclass` and ancestor `self: Ancestor` compare equal.
+        """
+        args = method.get("args") or []
+        norm_args = []
+        for a in args:
+            if a.get("name") == "self":
+                norm_args.append(("self", self_path))
+            else:
+                norm_args.append((a.get("name"), a.get("type")))
+        return (tuple(norm_args), (method.get("returns") or {}).get("type"))
+
+    def _ancestor_members(cls_path: str, key: str) -> list[tuple[str, dict[str, Any]]]:
+        """Walk transitive ancestors yielding (ancestor_path, member) for `key`
+        (e.g. 'properties' or 'methods'). LIFO traversal — used only for
+        same-shape comparisons, so order doesn't matter beyond visiting each
+        ancestor at most once.
+        """
         out: list[tuple[str, dict[str, Any]]] = []
         seen: set[str] = set()
         cls = classes_by_path.get(cls_path)
@@ -1357,40 +1541,78 @@ def _drop_ancestor_inherited_properties(modules: dict[str, dict[str, Any]]) -> i
             anc = classes_by_path.get(anc_path)
             if not anc:
                 continue
-            for prop in anc.get("properties") or []:
-                out.append((anc_path, prop))
+            for member in anc.get(key) or []:
+                out.append((anc_path, member))
             stack.extend(anc.get("ancestors") or [])
         return out
 
     dropped = 0
     for cls_path, cls in classes_by_path.items():
+        # Properties: shape compare on (type, settable, listenable).
         props = cls.get("properties")
-        if not props:
-            continue
-        keep: list[dict[str, Any]] = []
-        for prop in props:
-            if _has_overrides(prop):
-                keep.append(prop)
-                continue
-            my_shape = _shape(prop)
-            redundant = False
-            for _, anc_prop in _ancestor_props(cls_path):
-                if anc_prop.get("name") != prop.get("name"):
-                    continue
-                if _has_overrides(anc_prop):
-                    continue
-                if _shape(anc_prop) == my_shape:
-                    redundant = True
-                    break
-            if redundant:
-                dropped += 1
-            else:
-                keep.append(prop)
-        if len(keep) != len(props):
-            if keep:
-                cls["properties"] = keep
-            else:
-                del cls["properties"]
+        if props:
+            keep: list[dict[str, Any]] = []
+            for prop in props:
+                if _has_overrides(prop):
+                    keep.append(prop); continue
+                my_shape = _shape(prop)
+                redundant = False
+                for _, anc_prop in _ancestor_members(cls_path, "properties"):
+                    if anc_prop.get("name") != prop.get("name"):
+                        continue
+                    if _has_overrides(anc_prop):
+                        continue
+                    if _shape(anc_prop) == my_shape:
+                        redundant = True
+                        break
+                if redundant:
+                    dropped += 1
+                else:
+                    keep.append(prop)
+            if len(keep) != len(props):
+                if keep:
+                    cls["properties"] = keep
+                else:
+                    del cls["properties"]
+
+        # Methods: signature compare with `self:` arg normalized so subclass
+        # and ancestor `self` types don't spuriously differ.
+        meths = cls.get("methods")
+        if meths:
+            keep_m: list[dict[str, Any]] = []
+            for m in meths:
+                if _has_overrides(m):
+                    keep_m.append(m); continue
+                my_sig = _msig_normalized(m, cls_path)
+                redundant = False
+                for anc_path, anc_m in _ancestor_members(cls_path, "methods"):
+                    if anc_m.get("name") != m.get("name"):
+                        continue
+                    if _has_overrides(anc_m):
+                        continue
+                    # Each side normalizes its own self to the comparing class's
+                    # path — matched signatures are sub/anc-of-each-class.
+                    if _msig_normalized(anc_m, anc_path) == my_sig and \
+                       _msig_normalized(m, cls_path) == _msig_normalized(anc_m, anc_path):
+                        # Both signatures identical when self → respective owner.
+                        # Method on subclass is redundant if its other args/return
+                        # match the ancestor's after self-normalization to base.
+                        # (We compare with self normalized to ANCESTOR on both sides.)
+                        pass
+                    # Compare with self → ancestor-path on both sides:
+                    if _msig_normalized(m, anc_path) == _msig_normalized(anc_m, anc_path):
+                        redundant = True
+                        break
+                if redundant:
+                    dropped += 1
+                else:
+                    keep_m.append(m)
+            if len(keep_m) != len(meths):
+                if keep_m:
+                    cls["methods"] = keep_m
+                else:
+                    del cls["methods"]
+
     return dropped
 
 

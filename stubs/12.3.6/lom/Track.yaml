@@ -113,24 +113,6 @@ primary_class:
     - remove_clip_slots_listener
     - clip_slots_has_listener
 
-  - name: color
-    raw_doc: Get/set access to the color of the Track (RGB).
-    type: int
-    settable: true
-    listenable:
-    - add_color_listener
-    - remove_color_listener
-    - color_has_listener
-
-  - name: color_index
-    raw_doc: Get/Set access to the color index of the track. Can be None for no color.
-    type: int
-    settable: true
-    listenable:
-    - add_color_index_listener
-    - remove_color_index_listener
-    - color_index_has_listener
-
   - name: current_input_routing
     raw_doc: |-
       Get/Set the name of the current active input routing.
@@ -387,33 +369,6 @@ primary_class:
     type: Live.MixerDevice.MixerDevice
     settable: false
 
-  - name: mute
-    raw_doc: Mute/unmute the track.
-    type: bool
-    settable: true
-    listenable:
-    - add_mute_listener
-    - remove_mute_listener
-    - mute_has_listener
-
-  - name: muted_via_solo
-    raw_doc: Returns true if the track is muted because another track is soloed.
-    type: bool
-    settable: false
-    listenable:
-    - add_muted_via_solo_listener
-    - remove_muted_via_solo_listener
-    - muted_via_solo_has_listener
-
-  - name: name
-    raw_doc: Read/write access to the name of the Track, as visible in the track header.
-    type: str
-    settable: true
-    listenable:
-    - add_name_listener
-    - remove_name_listener
-    - name_has_listener
-
   - name: output_meter_left
     raw_doc: |-
       Momentary value of left output channel meter, 0.0 to 1.0.
@@ -509,18 +464,6 @@ primary_class:
     - add_playing_slot_index_listener
     - remove_playing_slot_index_listener
     - playing_slot_index_has_listener
-
-  - name: solo
-    raw_doc: |-
-      Get/Set the solo status of the track. Note that this will not disable the
-      solo state of any other track. If you want exclusive solo, you have to
-      disable the solo state of the other Tracks manually.
-    type: bool
-    settable: true
-    listenable:
-    - add_solo_listener
-    - remove_solo_listener
-    - solo_has_listener
 
   - name: take_lanes
     raw_doc: returns the take lanes.
@@ -647,28 +590,6 @@ primary_class:
     returns:
       type: None
 
-  - name: delete_device
-    raw_doc: Delete a device identified by the index in the 'devices' list.
-    signature: 'delete_device( (Track)arg1, (int)arg2) -> None :'
-    cpp_signature: void delete_device(TTrackPyHandle,int)
-    args:
-    - name: self
-      type: Live.Track.Track
-    - name: arg2
-      name_override:
-        value: index
-        source: |
-          arg2 rename — same situation as Chain.delete_device. The lone def-vote
-          came from Push2/device_navigation.py:151 (a module-level helper that
-          takes a Device convenience arg and converts to int before calling the
-          binding). The binding takes an int index.
-            - C++ signature: `void delete_device(TTrackPyHandle, int)` — int
-            - Docstring: "Delete a device identified by the index in the 'devices' list"
-            - M4L docs (track.md): `Parameter: index`
-      type: int
-    returns:
-      type: None
-
   - name: duplicate_clip_slot
     raw_doc: |-
       Duplicate a clip and put it into the next free slot and return the index
@@ -707,23 +628,6 @@ primary_class:
     returns:
       type: Live.Clip.Clip
 
-  - name: duplicate_device
-    raw_doc: Duplicate a device at a given index in the 'devices' list.
-    signature: 'duplicate_device( (Track)arg1, (int)arg2) -> None :'
-    cpp_signature: void duplicate_device(TTrackPyHandle,int)
-    args:
-    - name: self
-      type: Live.Track.Track
-    - name: arg2
-      name_override:
-        value: index
-        source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [docstring]: description mentions 'index in the devices list' — device position index
-      type: int
-    returns:
-      type: None
-
   - name: get_data
     raw_doc: Get data for the given key, that was previously stored using set_data.
     signature: 'get_data( (Track)arg1, (object)key, (object)default_value) -> object :'
@@ -745,30 +649,6 @@ primary_class:
         value: Any
         confidence: high
         source: Same pattern as Song.get_data — corpus-confirmed.
-
-  - name: insert_device
-    raw_doc: Add a device at a given index in the 'devices' list. At end if -1.
-    signature: 'insert_device( (Track)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :'
-    cpp_signature: TWeakPtr<TPyHandleBase> insert_device(TTrackPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])
-    args:
-    - name: self
-      type: Live.Track.Track
-    - name: device_name
-      type: str
-    - name: device_index
-      type: int
-      optional: true
-      default: '-1'
-    returns:
-      type: Live.LomObject.LomObject
-      type_override:
-        value: Live.Device.Device
-        confidence: high
-        source: |
-          Same shape as Chain.insert_device. C++ returns `TWeakPtr<TPyHandleBase>`
-          (generic LomObject), but probe data shows `track.devices` element_repr
-          is `<class 'Device.Device'>` — the runtime returns Device instances when
-          iterated, matching the insert return. raw_doc + M4L confirm semantics.
 
   - name: jump_in_running_session_clip
     raw_doc: |-
@@ -894,6 +774,132 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
+
+  properties:
+  - name: color
+    raw_doc: Get/set access to the color of the Track (RGB).
+    type: int
+    settable: true
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+
+  - name: color_index
+    raw_doc: Get/Set access to the color index of the track. Can be None for no color.
+    type: int
+    settable: true
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+
+  - name: mute
+    raw_doc: Mute/unmute the track.
+    type: bool
+    settable: true
+    listenable:
+    - add_mute_listener
+    - remove_mute_listener
+    - mute_has_listener
+
+  - name: muted_via_solo
+    raw_doc: Returns true if the track is muted because another track is soloed.
+    type: bool
+    settable: false
+    listenable:
+    - add_muted_via_solo_listener
+    - remove_muted_via_solo_listener
+    - muted_via_solo_has_listener
+
+  - name: name
+    raw_doc: Read/write access to the name of the Track, as visible in the track header.
+    type: str
+    settable: true
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+
+  - name: solo
+    raw_doc: |-
+      Get/Set the solo status of the track. Note that this will not disable the
+      solo state of any other track. If you want exclusive solo, you have to
+      disable the solo state of the other Tracks manually.
+    type: bool
+    settable: true
+    listenable:
+    - add_solo_listener
+    - remove_solo_listener
+    - solo_has_listener
+
+  methods:
+  - name: delete_device
+    raw_doc: Delete a device identified by the index in the 'devices' list.
+    signature: 'delete_device( (Track)arg1, (int)arg2) -> None :'
+    cpp_signature: void delete_device(TTrackPyHandle,int)
+    args:
+    - name: self
+      type: Live.Track.DeviceContainer
+    - name: arg2
+      name_override:
+        value: index
+        source: |
+          arg2 rename — same situation as Chain.delete_device. The lone def-vote
+          came from Push2/device_navigation.py:151 (a module-level helper that
+          takes a Device convenience arg and converts to int before calling the
+          binding). The binding takes an int index.
+            - C++ signature: `void delete_device(TTrackPyHandle, int)` — int
+            - Docstring: "Delete a device identified by the index in the 'devices' list"
+            - M4L docs (track.md): `Parameter: index`
+      type: int
+    returns:
+      type: None
+
+  - name: duplicate_device
+    raw_doc: Duplicate a device at a given index in the 'devices' list.
+    signature: 'duplicate_device( (Track)arg1, (int)arg2) -> None :'
+    cpp_signature: void duplicate_device(TTrackPyHandle,int)
+    args:
+    - name: self
+      type: Live.Track.DeviceContainer
+    - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [docstring]: description mentions 'index in the devices list' — device position index
+      type: int
+    returns:
+      type: None
+
+  - name: insert_device
+    raw_doc: Add a device at a given index in the 'devices' list. At end if -1.
+    signature: 'insert_device( (Track)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :'
+    cpp_signature: TWeakPtr<TPyHandleBase> insert_device(TTrackPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])
+    args:
+    - name: self
+      type: Live.Track.DeviceContainer
+    - name: device_name
+      type: str
+    - name: device_index
+      type: int
+      optional: true
+      default: '-1'
+    returns:
+      type: Live.LomObject.LomObject
+      type_override:
+        value: Live.Device.Device
+        confidence: high
+        source: |
+          Same shape as Chain.insert_device. C++ returns `TWeakPtr<TPyHandleBase>`
+          (generic LomObject), but probe data shows `track.devices` element_repr
+          is `<class 'Device.Device'>` — the runtime returns Device instances when
+          iterated, matching the insert return. raw_doc + M4L confirm semantics.
+  _synthesized_from:
+  - Live.Track.Track
+  - Live.Chain.Chain
+  _synthesis_note: 'Members below are hoisted from the shared interface of Track and Chain (both Boost.Python-registered subclasses of this class via bases<TDeviceContainer>). The runtime binds these methods/props on Track and Chain individually rather than on this base, so dir() captures see them as duplicates. The hoist makes the type-system fact renderable and de-dupes declarations. Only members with structurally-identical shape across both subclasses are hoisted (or methods differing only in their self: type). Members that legitimately narrow on subclasses (e.g. Track.devices: Vector[Device]) stay on the subclasses as covariant overrides.'
 
 - name: RoutingChannel
   path: Live.Track.RoutingChannel

@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.ChainMixerDevice import ChainMixerDevice
-    from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
     from Live.Track import DeviceContainer
@@ -13,20 +12,6 @@ if TYPE_CHECKING:
 
 class Chain(DeviceContainer):
     """This class represents a group device chain in Live."""
-
-    def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "color_index" has changed.
-        """
-        ...
-
-    def add_color_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "color" has changed.
-        """
-        ...
 
     def add_devices_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -42,71 +27,9 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def add_mute_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "mute" has changed.
-        """
-        ...
-
-    def add_muted_via_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "muted_via_solo" has changed.
-        """
-        ...
-
-    def add_name_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "name" has changed.
-        """
-        ...
-
-    def add_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Add a listener function or method, which will be called as soon as the
-        property "solo" has changed.
-        """
-        ...
-
     @property
     def canonical_parent(self) -> RackDevice:
         """Get the canonical parent of the chain."""
-        ...
-
-    @property
-    def color(self) -> int:
-        """Access the color index of the Chain."""
-        ...
-
-    @color.setter
-    def color(self, value: int) -> None: ...
-
-    def color_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "color".
-        """
-        ...
-
-    @property
-    def color_index(self) -> int:
-        """Access the color index of the Chain."""
-        ...
-
-    @color_index.setter
-    def color_index(self, value: int) -> None: ...
-
-    def color_index_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "color_index".
-        """
-        ...
-
-    def delete_device(self, index: int, /) -> None:
-        """Remove a device identified by its index from the chain. Throws runtime error if bad index."""
         ...
 
     @property
@@ -119,10 +42,6 @@ class Chain(DeviceContainer):
         Returns true, if the given listener function or method is connected
         to the property "devices".
         """
-        ...
-
-    def duplicate_device(self, index: int, /) -> None:
-        """Duplicate the device at the given index in the chain."""
         ...
 
     @property
@@ -157,10 +76,6 @@ class Chain(DeviceContainer):
         """
         ...
 
-    def insert_device(self, device_name: str, device_index: int = -1, /) -> Device:
-        """Add a device at a given index in the chain. At end if -1."""
-        ...
-
     @property
     def is_auto_colored(self) -> bool:
         """
@@ -188,65 +103,6 @@ class Chain(DeviceContainer):
         """
         ...
 
-    @property
-    def mute(self) -> bool:
-        """Mute/unmute the chain."""
-        ...
-
-    @mute.setter
-    def mute(self, value: bool) -> None: ...
-
-    def mute_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "mute".
-        """
-        ...
-
-    @property
-    def muted_via_solo(self) -> bool:
-        """
-        Return const access to whether this chain is muted due to some other chain
-        being soloed.
-        """
-        ...
-
-    def muted_via_solo_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "muted_via_solo".
-        """
-        ...
-
-    @property
-    def name(self) -> str:
-        """Read/write access to the name of the Chain, as visible in the track header."""
-        ...
-
-    @name.setter
-    def name(self, value: str) -> None: ...
-
-    def name_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "name".
-        """
-        ...
-
-    def remove_color_index_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "color_index".
-        """
-        ...
-
-    def remove_color_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "color".
-        """
-        ...
-
     def remove_devices_listener(self, callback: Callable[[], None], /) -> None:
         """
         Remove a previously set listener function or method from
@@ -258,53 +114,6 @@ class Chain(DeviceContainer):
         """
         Remove a previously set listener function or method from
         property "is_auto_colored".
-        """
-        ...
-
-    def remove_mute_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "mute".
-        """
-        ...
-
-    def remove_muted_via_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "muted_via_solo".
-        """
-        ...
-
-    def remove_name_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "name".
-        """
-        ...
-
-    def remove_solo_listener(self, callback: Callable[[], None], /) -> None:
-        """
-        Remove a previously set listener function or method from
-        property "solo".
-        """
-        ...
-
-    @property
-    def solo(self) -> bool:
-        """
-        Get/Set the solo status of the chain. Note that this will not disable the
-        solo state of any other Chain in the same rack. If you want exclusive solo,
-        you have to disable the solo state of the other Chains manually.
-        """
-        ...
-
-    @solo.setter
-    def solo(self, value: bool) -> None: ...
-
-    def solo_has_listener(self, callback: Callable[[], None], /) -> bool:
-        """
-        Returns true, if the given listener function or method is connected
-        to the property "solo".
         """
         ...
 

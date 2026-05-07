@@ -138,11 +138,57 @@ the algorithmic decisions a human shouldn't have to make explicit:
 - Parametric-container flag (`Live.Base.Vector` → `parametric: true`; renders as `Generic[T]`)
 - Container detection (iterables exposing both `append` and `extend` → `container: true`; concrete subclasses
   inherit from `Vector[E]` and synthesize typed mutators at stub-render time)
-- Inherited-property cleanup (drop properties identical to an ancestor's declaration so pyright resolves the
-  annotation from the inherited declaration; keeps overrides intact)
+- Phantom-base interface synthesis (when a class is registered as a Python superclass via Boost.Python's
+  `bases<>` but has no own bound members, hoist the shared interface from its direct subclasses onto it —
+  see [Phantom-base hoist](#phantom-base-hoist) below)
+- Inherited-member cleanup (drop properties + methods identical to an ancestor's declaration so pyright
+  resolves the annotation via inheritance; runs before AND after the phantom-base hoist so the hoisted
+  members shed redundantly from subclasses)
 
 **Output:** [`stubs/<version>/reports/seed/<Module>.yaml`](../stubs/12.3.6/reports/seed/) —
 the algorithmic baseline. Regenerated freely; not hand-edited.
+
+### Phantom-base hoist
+
+Some Live classes have a C++ base class that Boost.Python registers as a real Python superclass — so
+`isinstance(track, DeviceContainer)` returns True at runtime, the `__mro__` includes DeviceContainer, and
+`Track.__bases__[0] is Live.Track.DeviceContainer` is True (verified directly via `__mro__` on Live's own
+Python interpreter). But Boost.Python binds the actual methods on the *concrete* subclasses (Track, Chain)
+rather than on the base class itself, so `dir(DeviceContainer)` is essentially empty. Without the hoist
+the rendered docs would show `class DeviceContainer(LomObject):` with no members and `class Track(DeviceContainer):`
+re-declaring everything `DeviceContainer` ought to own — accurate to `dir()` but losing the structural fact
+the C++ source encodes.
+
+The hoist detects "phantom bases" — classes that
+- are the **direct** parent (first entry in `ancestors:`) of 2+ subclasses, AND
+- have no own properties and no own methods after the inherited-cleanup pass.
+
+For each phantom base, the hoist computes the shared interface across its direct subclasses:
+- **Properties:** members with structurally-identical shape (same `name`/`type`/`settable`/`listenable`)
+  on every direct subclass are hoisted onto the base. Members that differ — including legitimate
+  type-narrowing overrides (`Track.devices: Vector[Device]` vs `Chain.devices: Vector[LomObject]`) and
+  cases where one subclass observed listeners and another didn't — stay on the subclasses.
+- **Methods:** members with identical signatures *after self-arg normalization* (subclass `self: Subclass`
+  and base `self: PhantomBase` are treated as equivalent). The hoisted method on the base gets `self:
+  PhantomBase`; subclasses lose the redundant declaration.
+
+The hoisted class is marked with two metadata fields:
+- `_synthesized_from:` — list of qualified subclass paths that contributed.
+- `_synthesis_note:` — a paragraph explaining why this class's members are derived rather than directly
+  observed.
+
+Today only one phantom qualifies: `Live.Track.DeviceContainer` (the shared base of Track and Chain). 6
+properties + 3 methods get hoisted — `color`, `color_index`, `mute`, `muted_via_solo`, `name`, `solo`,
+`delete_device`, `duplicate_device`, `insert_device`. Track and Chain shrink correspondingly via the
+inherited-cleanup pass.
+
+This is the one place in the pipeline where we synthesize members onto a class that the parser didn't
+directly observe them on. The synthesis is justified by:
+- The runtime fact that `isinstance(x, PhantomBase)` is True, so the type-system claim is accurate.
+- The corpus + M4L docs containing zero references to the phantom (Ableton's own engineers don't use it),
+  so we're not contradicting any documented usage pattern.
+- The synthesis being purely deduplication of identical shapes already present on the subclasses — no new
+  type information is invented.
 
 ---
 
