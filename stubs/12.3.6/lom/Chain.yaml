@@ -1,0 +1,179 @@
+module: Chain
+
+primary_class:
+- name: Chain
+  path: Live.Chain.Chain
+  raw_doc: This class represents a group device chain in Live.
+  ancestors:
+  - Live.Track.DeviceContainer
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: _live_ptr
+    type: int
+    settable: false
+
+  - name: canonical_parent
+    raw_doc: Get the canonical parent of the chain.
+    type: Live.RackDevice.RackDevice
+    settable: false
+
+  - name: color
+    raw_doc: Access the color index of the Chain.
+    type: int
+    settable: true
+    listenable:
+    - add_color_listener
+    - remove_color_listener
+    - color_has_listener
+
+  - name: color_index
+    raw_doc: Access the color index of the Chain.
+    type: int
+    settable: true
+    listenable:
+    - add_color_index_listener
+    - remove_color_index_listener
+    - color_index_has_listener
+
+  - name: devices
+    raw_doc: Return const access to all available Devices that are present in the chains
+    type: Live.Base.Vector[Live.LomObject.LomObject]
+    settable: false
+    listenable:
+    - add_devices_listener
+    - remove_devices_listener
+    - devices_has_listener
+
+  - name: has_audio_input
+    raw_doc: |-
+      return True, if this Chain can be feed with an Audio signal. This is
+      true for all Audio Chains.
+    type: bool
+    settable: false
+
+  - name: has_audio_output
+    raw_doc: |-
+      return True, if this Chain sends out an Audio signal. This is
+      true for all Audio Chains, and MIDI chains with an Instrument.
+    type: bool
+    settable: false
+
+  - name: has_midi_input
+    raw_doc: |-
+      return True, if this Chain can be feed with an Audio signal. This is
+      true for all MIDI Chains.
+    type: bool
+    settable: false
+
+  - name: has_midi_output
+    raw_doc: |-
+      return True, if this Chain sends out MIDI events. This is
+      true for all MIDI Chains with no Instruments.
+    type: bool
+    settable: false
+
+  - name: is_auto_colored
+    raw_doc: |-
+      Get/set access to the auto color flag of the Chain.
+      If True, the Chain will always have the same color as the containing
+      Track or Chain.
+    type: bool
+    settable: true
+    listenable:
+    - add_is_auto_colored_listener
+    - remove_is_auto_colored_listener
+    - is_auto_colored_has_listener
+
+  - name: mixer_device
+    raw_doc: |-
+      Return access to the mixer device that holds the chain's mixer parameters:
+      the Volume, Pan, and Sendamounts.
+    type: Live.ChainMixerDevice.ChainMixerDevice
+    settable: false
+
+  - name: mute
+    raw_doc: Mute/unmute the chain.
+    type: bool
+    settable: true
+    listenable:
+    - add_mute_listener
+    - remove_mute_listener
+    - mute_has_listener
+
+  - name: muted_via_solo
+    raw_doc: |-
+      Return const access to whether this chain is muted due to some other chain
+      being soloed.
+    type: bool
+    settable: false
+    listenable:
+    - add_muted_via_solo_listener
+    - remove_muted_via_solo_listener
+    - muted_via_solo_has_listener
+
+  - name: name
+    raw_doc: Read/write access to the name of the Chain, as visible in the track header.
+    type: str
+    settable: true
+    listenable:
+    - add_name_listener
+    - remove_name_listener
+    - name_has_listener
+
+  - name: solo
+    raw_doc: |-
+      Get/Set the solo status of the chain. Note that this will not disable the
+      solo state of any other Chain in the same rack. If you want exclusive solo,
+      you have to disable the solo state of the other Chains manually.
+    type: bool
+    settable: true
+    listenable:
+    - add_solo_listener
+    - remove_solo_listener
+    - solo_has_listener
+
+  methods:
+  - name: delete_device
+    raw_doc: Remove a device identified by its index from the chain. Throws runtime error if bad index.
+    signature: 'delete_device( (Chain)arg1, (int)arg2) -> None :'
+    cpp_signature: void delete_device(TChainPyHandle,int)
+    args:
+    - name: self
+      type: Live.Chain.Chain
+    - name: arg2
+      type: int
+    returns:
+      type: None
+
+  - name: duplicate_device
+    raw_doc: Duplicate the device at the given index in the chain.
+    signature: 'duplicate_device( (Chain)arg1, (int)arg2) -> None :'
+    cpp_signature: void duplicate_device(TChainPyHandle,int)
+    args:
+    - name: self
+      type: Live.Chain.Chain
+    - name: arg2
+      type: int
+    returns:
+      type: None
+
+  - name: insert_device
+    raw_doc: Add a device at a given index in the chain. At end if -1.
+    signature: 'insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :'
+    cpp_signature: TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>> [,int=-1])
+    args:
+    - name: self
+      type: Live.Chain.Chain
+    - name: device_name
+      type: str
+    - name: device_index
+      type: int
+      optional: true
+      default: '-1'
+    returns:
+      type: Live.LomObject.LomObject

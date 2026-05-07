@@ -1,0 +1,69 @@
+module: DeviceIO
+
+primary_class:
+- name: DeviceIO
+  path: Live.DeviceIO.DeviceIO
+  raw_doc: This class represents a specific input or output bus of a device.
+  ancestors:
+  - Live.LomObject.LomObject
+  init_doc: |-
+    Raises an exception
+    This class cannot be instantiated from Python
+  constructable: false
+
+  properties:
+  - name: _live_ptr
+    type: int
+    settable: false
+
+  - name: available_routing_channels
+    raw_doc: Return a list of channels for this IO endpoint.
+    type: Live.Track.RoutingChannelVector
+    settable: false
+    listenable:
+    - add_available_routing_channels_listener
+    - remove_available_routing_channels_listener
+    - available_routing_channels_has_listener
+
+  - name: available_routing_types
+    raw_doc: Return a list of available routing types for this IO endpoint.
+    type: Live.Track.RoutingTypeVector
+    settable: false
+    listenable:
+    - add_available_routing_types_listener
+    - remove_available_routing_types_listener
+    - available_routing_types_has_listener
+
+  - name: canonical_parent
+    raw_doc: Get the canonical parent of the device IO.
+    type: Live.MaxDevice.MaxDevice
+    settable: false
+
+  - name: default_external_routing_channel_is_none
+    raw_doc: Get and set whether the default routing channel for External routing types is none.
+    type: bool
+    settable: true
+
+  - name: routing_channel
+    raw_doc: |-
+      Get and set the current routing channel.
+      Raises ValueError if the channel isn't one of the current values in
+      available_routing_channels.
+    type: Live.Track.RoutingChannel
+    settable: true
+    listenable:
+    - add_routing_channel_listener
+    - remove_routing_channel_listener
+    - routing_channel_has_listener
+
+  - name: routing_type
+    raw_doc: |-
+      Get and set the current routing type.
+      Raises ValueError if the type isn't one of the current values in
+      available_routing_types.
+    type: Live.Track.RoutingType
+    settable: true
+    listenable:
+    - add_routing_type_listener
+    - remove_routing_type_listener
+    - routing_type_has_listener

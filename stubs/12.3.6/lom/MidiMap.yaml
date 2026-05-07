@@ -1,0 +1,307 @@
+module: MidiMap
+
+classes:
+- name: CCFeedbackRule
+  path: Live.MidiMap.CCFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+
+  properties:
+  - name: cc_no
+    type: int
+    settable: true
+
+  - name: cc_value_map
+    type: tuple
+    settable: true
+
+  - name: channel
+    type: int
+    settable: true
+
+  - name: delay_in_ms
+    type: float
+    settable: true
+
+  - name: enabled
+    type: bool
+    settable: true
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.CCFeedbackRule
+    returns:
+      type: None
+
+- name: NoteFeedbackRule
+  path: Live.MidiMap.NoteFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+
+  properties:
+  - name: channel
+    type: int
+    settable: true
+
+  - name: delay_in_ms
+    type: float
+    settable: true
+
+  - name: enabled
+    type: bool
+    settable: true
+
+  - name: note_no
+    type: int
+    settable: true
+
+  - name: vel_map
+    type: tuple
+    settable: true
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.NoteFeedbackRule
+    returns:
+      type: None
+
+- name: PitchBendFeedbackRule
+  path: Live.MidiMap.PitchBendFeedbackRule
+  raw_doc: Structure to define feedback properties of MIDI mappings.
+  ancestors: []
+  init_doc: |-
+    __init__( (object)arg1) -> None :
+
+        C++ signature :
+            void __init__(_object*)
+  constructable: true
+
+  properties:
+  - name: channel
+    type: int
+    settable: true
+
+  - name: delay_in_ms
+    type: float
+    settable: true
+
+  - name: enabled
+    type: bool
+    settable: true
+
+  - name: value_pair_map
+    type: tuple
+    settable: true
+
+  methods:
+  - name: __init__
+    args:
+    - name: self
+      type: Live.MidiMap.PitchBendFeedbackRule
+    returns:
+      type: None
+
+enums:
+- name: MapMode
+  members:
+    absolute: 0
+    relative_signed_bit: 1
+    relative_binary_offset: 2
+    relative_two_compliment: 3
+    relative_signed_bit2: 4
+    absolute_14_bit: 5
+    relative_smooth_signed_bit: 6
+    relative_smooth_binary_offset: 7
+    relative_smooth_two_compliment: 8
+    relative_smooth_signed_bit2: 9
+
+functions:
+- name: forward_midi_cc
+  signature: 'forward_midi_cc( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :'
+  cpp_signature: bool forward_midi_cc(unsigned int,unsigned int,int,int [,bool=True])
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: int
+  - name: arg3
+    type: int
+  - name: arg4
+    type: int
+  - name: should_consume_event
+    type: bool
+    optional: true
+    default: 'True'
+  returns:
+    type: bool
+
+- name: forward_midi_note
+  signature: 'forward_midi_note( (int)arg1, (int)arg2, (int)arg3, (int)arg4 [, (bool)ShouldConsumeEvent=True]) -> bool :'
+  cpp_signature: bool forward_midi_note(unsigned int,unsigned int,int,int [,bool=True])
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: int
+  - name: arg3
+    type: int
+  - name: arg4
+    type: int
+  - name: should_consume_event
+    type: bool
+    optional: true
+    default: 'True'
+  returns:
+    type: bool
+
+- name: forward_midi_pitchbend
+  signature: 'forward_midi_pitchbend( (int)arg1, (int)arg2, (int)arg3) -> bool :'
+  cpp_signature: bool forward_midi_pitchbend(unsigned int,unsigned int,int)
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: int
+  - name: arg3
+    type: int
+  returns:
+    type: bool
+
+- name: map_midi_cc
+  signature: 'map_midi_cc( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool :'
+  cpp_signature: bool map_midi_cc(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,bool [,float=1.0])
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: parameter
+    type: Live.DeviceParameter.DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: map_mode
+    type: Live.MidiMap.MapMode | int
+  - name: avoid_takeover
+    type: bool
+  - name: sensitivity
+    type: float
+    optional: true
+    default: '1.0'
+  returns:
+    type: bool
+
+- name: map_midi_cc_with_feedback_map
+  signature: 'map_midi_cc_with_feedback_map( (int)midi_map_handle, (DeviceParameter)parameter, (int)midi_channel, (int)controller_number, (MapMode)map_mode, (CCFeedbackRule)feedback_rule, (bool)avoid_takeover [, (float)sensitivity=1.0]) -> bool :'
+  cpp_signature: bool map_midi_cc_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NRemoteMapperTypes::TControllerMapMode,NPythonMidiMap::TCCFeedbackRule,bool [,float=1.0])
+  args:
+  - name: midi_map_handle
+    type: int
+  - name: parameter
+    type: Live.DeviceParameter.DeviceParameter
+  - name: midi_channel
+    type: int
+  - name: controller_number
+    type: int
+  - name: map_mode
+    type: Live.MidiMap.MapMode | int
+  - name: feedback_rule
+    type: Live.MidiMap.CCFeedbackRule
+  - name: avoid_takeover
+    type: bool
+  - name: sensitivity
+    type: float
+    optional: true
+    default: '1.0'
+  returns:
+    type: bool
+
+- name: map_midi_note
+  signature: 'map_midi_note( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4) -> bool :'
+  cpp_signature: bool map_midi_note(unsigned int,TPyHandle<ATimeableValue>,int,int)
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    type: int
+  - name: arg4
+    type: int
+  returns:
+    type: bool
+
+- name: map_midi_note_with_feedback_map
+  signature: 'map_midi_note_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (int)arg4, (NoteFeedbackRule)arg5) -> bool :'
+  cpp_signature: bool map_midi_note_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,int,NPythonMidiMap::TNoteFeedbackRule)
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    type: int
+  - name: arg4
+    type: int
+  - name: arg5
+    type: Live.MidiMap.NoteFeedbackRule
+  returns:
+    type: bool
+
+- name: map_midi_pitchbend
+  signature: 'map_midi_pitchbend( (int)arg1, (DeviceParameter)arg2, (int)arg3, (bool)arg4) -> bool :'
+  cpp_signature: bool map_midi_pitchbend(unsigned int,TPyHandle<ATimeableValue>,int,bool)
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    type: int
+  - name: arg4
+    type: bool
+  returns:
+    type: bool
+
+- name: map_midi_pitchbend_with_feedback_map
+  signature: 'map_midi_pitchbend_with_feedback_map( (int)arg1, (DeviceParameter)arg2, (int)arg3, (PitchBendFeedbackRule)arg4, (bool)arg5) -> bool :'
+  cpp_signature: bool map_midi_pitchbend_with_feedback_map(unsigned int,TPyHandle<ATimeableValue>,int,NPythonMidiMap::TPitchBendFeedbackRule,bool)
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: Live.DeviceParameter.DeviceParameter
+  - name: arg3
+    type: int
+  - name: arg4
+    type: Live.MidiMap.PitchBendFeedbackRule
+  - name: arg5
+    type: bool
+  returns:
+    type: bool
+
+- name: send_feedback_for_parameter
+  signature: 'send_feedback_for_parameter( (int)arg1, (DeviceParameter)arg2) -> None :'
+  cpp_signature: void send_feedback_for_parameter(unsigned int,TPyHandle<ATimeableValue>)
+  args:
+  - name: arg1
+    type: int
+  - name: arg2
+    type: Live.DeviceParameter.DeviceParameter
+  returns:
+    type: None
