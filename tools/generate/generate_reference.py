@@ -344,43 +344,19 @@ def function_signature_html(fn: dict, module_name: str) -> str:
     )
 
 
-def lom_member_chip_html() -> str:
-    """Small `LomObject` chip rendered next to a universal LOM member
-    (`_live_ptr`, `canonical_parent`) on a non-LomObject class page.
-    Same visual family as the class-signature LomObject badge but
-    smaller; ties the property to the foundation page wherever it
-    appears (own properties section, inherited section, ...).
-    """
-    return (
-        f'<a class="lom-member" href="{DOCS_URL_BASE}/lomobject/" '
-        f'title="Universal LomObject member — see LomObject for the canonical '
-        f'definition">LomObject</a>'
-    )
-
-
-def property_heading_html(
-    prop: dict,
-    registry: dict[str, str],
-    *,
-    lom_universal: bool = False,
-) -> str:
+def property_heading_html(prop: dict, registry: dict[str, str]) -> str:
     """Render a property name + Python-annotation-style type.
 
     H5 isn't in the right-side TOC (capped at H3) so the type can sit in
     the DOM text without polluting nav. Live types in the annotation
     become `<a>` links; non-Live tokens (`bool`, `None`, ...) stay literal.
-
-    `lom_universal=True` appends a small clickable LomObject chip after
-    the type — used to mark `_live_ptr` / `canonical_parent` as the
-    LOM-identity/navigation pair on every LomObject class page.
     """
     name = _resolve(prop, "name")
     type_str = _resolve(prop, "type")
-    chip = f" {lom_member_chip_html()}" if lom_universal else ""
     if not type_str:
-        return f"{name}{chip}"
+        return name
     rendered = linkify_type(display_type(type_str), registry)
-    return f'{name}<span class="prop-type">: {rendered}</span>{chip}'
+    return f'{name}<span class="prop-type">: {rendered}</span>'
 
 
 # --- Inheritance ------------------------------------------------------- #
@@ -706,10 +682,10 @@ def render_module_page(
                 # before the per-class properties begin.
                 lines.append(
                     f'<a class="lom-pinned-header" '
-                    f'href="{DOCS_URL_BASE}/lomobject/" '
+                    f'href="{DOCS_URL_BASE}/lomobject/#properties" '
                     f'title="LOM identity / navigation pair — universal '
-                    f'across every LomObject. Click for the foundation '
-                    f'model.">LomObject</a>'
+                    f'across every LomObject. Click for the canonical '
+                    f'declarations on LomObject.">LomObject</a>'
                 )
                 lines.append("")
                 for prop in pinned:

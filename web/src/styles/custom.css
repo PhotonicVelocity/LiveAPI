@@ -154,30 +154,6 @@
   text-decoration: underline;
 }
 
-/* LomObject member chip — smaller sibling of `.lom-badge`, sits next to
-   universal-LOM property names (`_live_ptr`, `canonical_parent`) in the
-   Properties + Inherited sections to mark them as the LOM identity /
-   navigation pair tied to the foundation page. Same color family as the
-   class-level badge so the two read as a metadata family. */
-.lom-member {
-  display: inline-block;
-  margin-left: 0.4rem;
-  padding: 0 0.35rem;
-  border-radius: 0.2rem;
-  font-family: var(--sl-font-system-mono);
-  font-size: 0.6em;
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  vertical-align: middle;
-  line-height: 1.5;
-  background: var(--sl-color-purple-low);
-  color: var(--sl-color-purple-high);
-  text-decoration: none;
-}
-.lom-member:hover {
-  text-decoration: underline;
-}
-
 /* Pinned-pair header — single small `LomObject` chip rendered above
    the pair of universal LOM members at the top of a class's Properties
    section. Acts as both the visual marker and the clickable link to
