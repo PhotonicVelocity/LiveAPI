@@ -18,11 +18,17 @@ This class represents a drum group device chain in Live.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### choke_group<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the chain's choke group setting.
 
@@ -36,9 +42,13 @@ Access the color index of the Chain.
 
 ##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice">RackDevice</a>]</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Return const access to all available Devices that are present in the chains
 
 ##### in_note<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the incoming MIDI note that will trigger this chain.
 
@@ -52,6 +62,8 @@ Mute/unmute the chain.
 
 ##### muted_via_solo<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Return const access to whether this chain is muted due to some other chain being soloed.
 
 ##### name<span class="prop-type">: str</span>
@@ -59,6 +71,8 @@ Return const access to whether this chain is muted due to some other chain being
 Read/write access to the name of the Chain, as visible in the track header.
 
 ##### out_note<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the MIDI note sent to the devices in the chain.
 

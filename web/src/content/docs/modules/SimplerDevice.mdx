@@ -18,23 +18,35 @@ This class represents a Simpler device.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### can_warp_as<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Returns true if warp_as is available.
 
 ##### can_warp_double<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Returns true if warp_double is available.
 
 ##### can_warp_half<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Returns true if warp_half is available.
 
 ##### is_active<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
@@ -44,13 +56,19 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns the latency of the device in ms.
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns the latency of the device in samples.
 
 ##### multi_sample_mode<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Returns whether Simpler is in mulit-sample mode.
 
@@ -60,49 +78,73 @@ Return access to the name of the device.
 
 ##### note_pitch_bend_range<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Access to the Note Pitch Bend Range in Simpler.
 
 ##### pad_slicing<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 When set to true, slices can be added in slicing mode by playing notes .that are not assigned to slices, yet.
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Const access to the list of available automatable parameters for this device.
 
 ##### pitch_bend_range<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the Pitch Bend Range in Simpler.
 
 ##### playback_mode<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#playbackmode">PlaybackMode</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Access to Simpler's playback mode.
 
 ##### playing_position<span class="prop-type">: float</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Constant access to the current playing position in the sample. The returned value is the normalized position between sample start and end.
 
 ##### playing_position_enabled<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Returns whether Simpler is showing the playing position. The returned value is True while the sample is played back
 
 ##### retrigger<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to Simpler's retrigger mode.
 
 ##### sample<span class="prop-type">: <a href="/LiveAPI/modules/sample/#sample">Sample</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get the loaded Sample.
 
 ##### slicing_playback_mode<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#slicingplaybackmode">SlicingPlaybackMode</a></span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to Simpler's slicing playback mode.
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#simplerdevice">SimplerDevice</a>.View</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Representing the view aspects of a device.
 
 ##### voices<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the number of voices in Simpler.
 
@@ -152,7 +194,11 @@ Representing the view aspects of a simpler device.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/simplerdevice/#simplerdevice">SimplerDevice</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
@@ -162,33 +208,49 @@ Get/Set/Listen if the device is shown collapsed in the device chain.
 
 ##### sample_end<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Access to the modulated samples end position in samples. Returns -1 in case there is no sample loaded.
 
 ##### sample_env_fade_in<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the envelope fade-in time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
 
 ##### sample_env_fade_out<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Access to the envelope fade-out time in samples. Returned value is only in use when Simpler is in one-shot mode. Returns -1 in case there is no sample loaded.
 
 ##### sample_loop_end<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the modulated samples loop end position in samples. Returns -1 in case there is no sample loaded.
 
 ##### sample_loop_fade<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Access to the modulated samples loop fade position in samples. Returns -1 in case there is no sample loaded.
 
 ##### sample_loop_start<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the modulated samples loop start position in samples. Returns -1 in case there is no sample loaded.
 
 ##### sample_start<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Access to the modulated samples start position in samples. Returns -1 in case there is no sample loaded.
 
 ##### selected_slice<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the selected slice.
 

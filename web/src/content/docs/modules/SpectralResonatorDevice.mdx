@@ -18,19 +18,29 @@ This class represents a Spectral Resonator device.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### frequency_dial_mode<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current frequency dial mode index
 
 ##### frequency_dial_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current frequency dial mode list
 
 ##### is_active<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
@@ -40,33 +50,49 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns the latency of the device in ms.
 
 ##### latency_in_samples<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Returns the latency of the device in samples.
 
 ##### midi_gate<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current midi gate index
 
 ##### midi_gate_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current midi gate list
 
 ##### mod_mode<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current mod mode index
 
 ##### mod_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current mod mode list
 
 ##### mono_poly<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current mono poly mode index
 
 ##### mono_poly_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current mono poly mode list
 
@@ -76,21 +102,31 @@ Return access to the name of the device.
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Const access to the list of available automatable parameters for this device.
 
 ##### pitch_bend_range<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current pitch bend range
 
 ##### pitch_mode<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current pitch mode index
 
 ##### pitch_mode_list<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current pitch mode list
 
 ##### polyphony<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current polyphony
 

@@ -19,87 +19,131 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### arm<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Arm the track for recording. Not available for Main- and Send Tracks.
 
 ##### arrangement_clips<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip">Clip</a>]</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks.
 
 ##### available_input_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector">RoutingChannelVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return a list of source channels for input routing.
 
 ##### available_input_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector">RoutingTypeVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return a list of source types for input routing.
 
 ##### available_output_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector">RoutingChannelVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return a list of destination channels for output routing.
 
 ##### available_output_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector">RoutingTypeVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return a list of destination types for output routing.
 
 ##### back_to_arranger<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Indicates if it's possible to go back to playing back the clips in the Arranger.Setting a value 0 will go back to the Arranger playback. Setting on grouptracks will go back to the Arranger on all grouped tracks.
 
 ##### can_be_armed<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 return True, if this Track has a valid arm property. Not all tracks can be armed (for example return Tracks or the Main Tracks).
 
 ##### can_be_frozen<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 return True, if this Track can be frozen.
 
 ##### can_show_chains<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 return True, if this Track contains a rack instrument device that is capable of showing its chains in session view.
 
 ##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot">ClipSlot</a>]</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 const access to the list of clipslots (see class AClipSlot) for this track. The list will be empty for the main and sendtracks.
 
 ##### color<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/set access to the color of the Track (RGB).
 
 ##### color_index<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set access to the color index of the track. Can be None for no color.
 
 ##### current_input_routing<span class="prop-type">: str</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set the name of the current active input routing. When setting a new routing, the new routing must be one of the available ones.
 
 ##### current_input_sub_routing<span class="prop-type">: str</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set the current active input sub routing. When setting a new routing, the new routing must be one of the available ones.
 
 ##### current_monitoring_state<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set the track's current monitoring state.
 
 ##### current_output_routing<span class="prop-type">: str</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set the current active output routing. When setting a new routing, the new routing must be one of the available ones.
 
 ##### current_output_sub_routing<span class="prop-type">: str</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set the current active output sub routing. When setting a new routing, the new routing must be one of the available ones.
 
 ##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/device/#device">Device</a>]</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return const access to all available Devices that are present in the Tracks Devicechain. This tuple will also include the 'mixer_device' that every Track always has.
 
 ##### fired_slot_index<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 const access to the index of the fired (and thus blinking) clipslot in this track. This index is -1 if no slot is fired and -2 if the track's stop button has been fired.
 
@@ -109,145 +153,217 @@ Get/Set whether the track is folded or not. Only available if is_foldable is Tru
 
 ##### group_track<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 return the group track if is_grouped.
 
 ##### has_audio_input<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 return True, if this Track can be feed with an Audio signal. This is true for all Audio Tracks.
 
 ##### has_audio_output<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 return True, if this Track sends out an Audio signal. This is true for all Audio Tracks, and MIDI tracks with an Instrument.
 
 ##### has_midi_input<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 return True, if this Track can be feed with an Audio signal. This is true for all MIDI Tracks.
 
 ##### has_midi_output<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 return True, if this Track sends out MIDI events. This is true for all MIDI Tracks with no Instruments.
 
 ##### implicit_arm<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Arm the track for recording. When The track is implicitly armed, it showsin a weaker color in the live GUI and is not saved in the set.
 
 ##### input_meter_left<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 ##### input_meter_level<span class="prop-type">: float</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the MIDI or Audio meter value of the Tracks input, depending on the type of the Track input. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
 
 ##### input_meter_right<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 ##### input_routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel">RoutingChannel</a></span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get and set the current source channel for input routing. Raises ValueError if the type isn't one of the current values in available_input_routing_channels.
 
 ##### input_routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype">RoutingType</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get and set the current source type for input routing. Raises ValueError if the type isn't one of the current values in available_input_routing_types.
 
 ##### input_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Const access to the list of available input routings.
 
 ##### input_sub_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return a list of all available input sub routings.
 
 ##### is_foldable<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 return True if the track can be (un)folded to hide/reveal contained tracks.
 
 ##### is_frozen<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 return True if this Track is currently frozen. No changes should be applied to the track's devices or clips while it is frozen.
 
 ##### is_grouped<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 return True if this Track is current part of a group track.
 
 ##### is_part_of_selection<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 return False if the track is not selected.
 
 ##### is_showing_chains<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set whether a track with a rack device is showing its chains in session view.
 
 ##### is_visible<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 return False if the track is hidden within a folded group track.
 
 ##### mixer_device<span class="prop-type">: <a href="/LiveAPI/modules/mixerdevice/#mixerdevice">MixerDevice</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Return access to the special Device that every Track has: This Device contains the Volume, Pan, Sendamounts, and Crossfade assignment parameters.
 
 ##### mute<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Mute/unmute the track.
 
 ##### muted_via_solo<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Returns true if the track is muted because another track is soloed.
 
 ##### name<span class="prop-type">: str</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Read/write access to the name of the Track, as visible in the track header.
 
 ##### output_meter_left<span class="prop-type">: float</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Momentary value of left output channel meter, 0.0 to 1.0. For tracks with audio output only.
 
 ##### output_meter_level<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the MIDI or Audio meter value of the Track output (behind the mixer_device), depending on the type of the Track input, this can be a MIDI or Audio meter. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
 
 ##### output_meter_right<span class="prop-type">: float</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Momentary value of right output channel meter, 0.0 to 1.0. For tracks with audio output only.
 
 ##### output_routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel">RoutingChannel</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get and set the current destination channel for output routing. Raises ValueError if the channel isn't one of the current values in available_output_routing_channels.
 
 ##### output_routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype">RoutingType</a></span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get and set the current destination type for output routing. Raises ValueError if the type isn't one of the current values in available_output_routing_types.
 
 ##### output_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Const access to the list of all available output routings.
 
 ##### output_sub_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return a list of all available output sub routings.
 
 ##### performance_impact<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Reports the performance impact of this track.
 
 ##### playing_slot_index<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 const access to the index of the currently playing clip in the track. Will be -1 when no clip is playing.
 
 ##### solo<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set the solo status of the track. Note that this will not disable the solo state of any other track. If you want exclusive solo, you have to disable the solo state of the other Tracks manually.
 
 ##### take_lanes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/takelane/#takelane">TakeLane</a>]</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 returns the take lanes.
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a>.View</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Representing the view aspects of a Track.
 
 ##### data
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
@@ -343,7 +459,11 @@ program against.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a> | None</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
@@ -355,9 +475,13 @@ This class represents a routing channel.
 
 ##### display_name<span class="prop-type">: str</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Display name of routing channel.
 
 ##### layout<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannellayout">RoutingChannelLayout</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 The routing channel's Layout, e.g., mono or stereo.
 
@@ -373,13 +497,19 @@ This class represents a routing type.
 
 ##### attached_object<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Live object associated with the routing type.
 
 ##### category<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypecategory">RoutingTypeCategory</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Category of the routing type.
 
 ##### display_name<span class="prop-type">: str</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Display name of routing type.
 
@@ -397,19 +527,29 @@ Representing the view aspects of a Track.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### device_insert_mode<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Listen the device insertion mode of the track.  By default, it will insert devices at the end, but it can be changed to make it relative to current selection.
 
 ##### is_collapsed<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set/Listen if the track is shown collapsed in the arranger view.
 
 ##### selected_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device">Device</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set/Listen the insertion mode of the device.  While in insertion mode, loading new devices from the browser will place devices at the selected position.
 

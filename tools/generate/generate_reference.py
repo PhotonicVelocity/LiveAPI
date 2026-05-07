@@ -455,6 +455,35 @@ def member_description_text(member: dict) -> str | None:
     return None
 
 
+def property_flags_html(prop: dict) -> str:
+    """Render small chip(s) for property modifiers — read-only,
+    listenable. Settable + not-listenable (the common default) returns
+    empty string so most properties render with no flags line at all,
+    keeping the rendered page quiet for the common case and reserving
+    visual weight for the deviations:
+
+      - `[RO]`     — `settable: false`
+      - `[listen]` — `listenable:` present (folded listener triplet)
+
+    Output is a div line that lives between the property heading and
+    the description, so the chips read as metadata attached to the
+    property without competing with the name + type on the heading.
+    """
+    chips: list[str] = []
+    if _resolve(prop, "settable") is False:
+        chips.append('<span class="prop-flag prop-flag-ro">read-only</span>')
+    if _resolve(prop, "listenable"):
+        chips.append(
+            f'<a class="prop-flag prop-flag-listen" '
+            f'href="{DOCS_URL_BASE}/listener/" '
+            f'title="This property is observable — see Listener for the '
+            f'subscription model.">listen</a>'
+        )
+    if not chips:
+        return ""
+    return f'<div class="prop-flags">{" ".join(chips)}</div>'
+
+
 def property_heading_html(prop: dict, registry: dict[str, str]) -> str:
     """Render a property name + Python-annotation-style type.
 
@@ -865,17 +894,27 @@ def render_module_page(
                 # subclass's `canonical_parent` raw_doc is just "Get the
                 # canonical parent of the X" — restates the name without
                 # adding signal. The canonical explanation lives on
-                # LomObject and the chip header links there.
+                # LomObject and the chip header links there. Flag chips
+                # (RO / listen) still render — they're per-class facts,
+                # not redundant with the foundation page.
                 for prop in pinned:
                     heading = property_heading_html(prop, registry)
                     lines.append(f"##### {heading}")
                     lines.append("")
+                    flags = property_flags_html(prop)
+                    if flags:
+                        lines.append(flags)
+                        lines.append("")
                 lines.append('<hr class="lom-pinned-separator" />')
                 lines.append("")
             for prop in properties:
                 heading = property_heading_html(prop, registry)
                 lines.append(f"##### {heading}")
                 lines.append("")
+                flags = property_flags_html(prop)
+                if flags:
+                    lines.append(flags)
+                    lines.append("")
                 desc = member_description_text(prop)
                 if desc:
                     lines.append(desc)

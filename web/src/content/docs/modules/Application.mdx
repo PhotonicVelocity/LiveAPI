@@ -19,47 +19,71 @@ This class represents the Live application.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: None</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### average_process_usage<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Reports Live's average CPU load.
 
 ##### browser<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browser">Browser</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Returns an interface to the browser.
 
 ##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[object]</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Const access to a list of the control surfaces selected in preferences, in the same order. The list contains None if no control surface is active at that index.
 
 ##### current_dialog_button_count<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Number of buttons on the current dialog.
 
 ##### current_dialog_message<span class="prop-type">: str</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Text of the last dialog that appeared; Empty if all dialogs just disappeared.
 
 ##### number_of_push_apps_running<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Returns the number of connected Push apps.
 
 ##### open_dialog_count<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 The number of open dialogs in Live. 0 if not dialog is open.
 
 ##### peak_process_usage<span class="prop-type">: float</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Reports Live's peak CPU load.
 
 ##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector">UnavailableFeatureVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 List of features that are unavailable due to limitations of the current Live edition.
 
 ##### view<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a>.View</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Returns the applications view component.
 
@@ -123,7 +147,11 @@ Describes a control present in a control surface proxy
 
 ##### id<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### name<span class="prop-type">: str</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
 
@@ -137,15 +165,25 @@ Represents a control surface running in a different process. For use by M4L
 
 ##### control_descriptions<span class="prop-type">: <a href="/LiveAPI/modules/application/#controldescriptionvector">ControlDescriptionVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### pad_layout<span class="prop-type">: str</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 The layout of pads on Push.
 
 ##### type_name<span class="prop-type">: str</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### control_values_arrived
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 ##### midi_received
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 
@@ -187,19 +225,29 @@ This class represents the view aspects of the Live application.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/application/#application">Application</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### browse_mode<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return true if HotSwap mode is active for any target.
 
 ##### focused_document_view<span class="prop-type">: str</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the name of the document view ('Session' or 'Arranger') shown in the currently selected window.
 
 ##### view_focus_changed
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Methods
 

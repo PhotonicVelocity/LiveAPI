@@ -18,15 +18,23 @@ This class represents a Wavetable device.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### filter_routing<span class="prop-type">: <a href="/LiveAPI/modules/wavetabledevice/#filterrouting">FilterRouting</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current filter routing.
 
 ##### is_active<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
 
@@ -36,13 +44,19 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 ##### latency_in_ms<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns the latency of the device in ms.
 
 ##### latency_in_samples<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns the latency of the device in samples.
 
 ##### mono_poly<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current voicing mode.
 
@@ -52,61 +66,91 @@ Return access to the name of the device.
 
 ##### oscillator_1_effect_mode<span class="prop-type">: <a href="/LiveAPI/modules/wavetabledevice/#effectmode">EffectMode</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current effect mode of the oscillator 1.
 
 ##### oscillator_1_wavetable_category<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current wavetable category of the oscillator 1.
 
 ##### oscillator_1_wavetable_index<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current wavetable index of the oscillator 1.
 
 ##### oscillator_1_wavetables<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get a vector of oscillator 1's wavetable names.
 
 ##### oscillator_2_effect_mode<span class="prop-type">: <a href="/LiveAPI/modules/wavetabledevice/#effectmode">EffectMode</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current effect mode of the oscillator 2.
 
 ##### oscillator_2_wavetable_category<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current wavetable category of the oscillator 2.
 
 ##### oscillator_2_wavetable_index<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current wavetable index of the oscillator 2.
 
 ##### oscillator_2_wavetables<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get a vector of oscillator 2's wavetable names.
 
 ##### oscillator_wavetable_categories<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Get a vector of the available wavetable categories.
 
 ##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector">ATimeableValueVector</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Const access to the list of available automatable parameters for this device.
 
 ##### poly_voices<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current number of polyphonic voices. Uses the VoiceCount enumeration.
 
 ##### unison_mode<span class="prop-type">: <a href="/LiveAPI/modules/wavetabledevice/#unisonmode">UnisonMode</a></span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Return the current unison mode.
 
 ##### unison_voice_count<span class="prop-type">: <a href="/LiveAPI/modules/wavetabledevice/#voicecount">VoiceCount</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Return the current number of unison voices.
 
 ##### visible_modulation_target_names<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector">StringVector</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get the names of all the visible modulation targets.
 
 ##### modulation_matrix_changed
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 #### Inherited
 

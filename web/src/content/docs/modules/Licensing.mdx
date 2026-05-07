@@ -31,19 +31,29 @@ Interface to the internal licensing services.
 
 ##### base_product_id<span class="prop-type">: str</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns Live's current base product ID.
 
 ##### in_sassafras_mode<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### license_must_match_variant<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
 
 ##### random_number_for_trial_authorization<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
 
 ##### set_has_unsaved_changes<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Returns true if the set has unsaved changes.
 
@@ -125,17 +135,31 @@ Returns relevant information after unlock
 
 ##### authorization_deactivated<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### authorization_expired<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ##### has_max_unlock_products<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### temp_demo_mode<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ##### time_limited<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### unlock_error<span class="prop-type">: bool</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### unlocked<span class="prop-type">: bool</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 ## Enums
 

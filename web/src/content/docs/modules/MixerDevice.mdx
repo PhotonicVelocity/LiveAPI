@@ -19,51 +19,77 @@ This class represents a Mixer Device in Live, which gives you access to the Volu
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track">Track</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### crossfade_assign<span class="prop-type">: int</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Player- and ReturnTracks only: Access to the Track's Crossfade Assign State.
 
 ##### crossfader<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 MainTrack only: Const access to the Crossfader.
 
 ##### cue_volume<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 MainTrack only: Const access to the Cue Volume Parameter.
 
 ##### left_split_stereo<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Const access to the Track's Left Split Stereo Panning Device Parameter.
 
 ##### panning<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Const access to the Tracks Panning Device Parameter.
 
 ##### panning_mode<span class="prop-type">: int</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Access to the Track's Panning Mode.
 
 ##### right_split_stereo<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Const access to the Track's Right Split Stereo Panning Device Parameter.
 
 ##### sends<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector">Vector</a>[<a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a>]</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Const access to the Tracks list of Send Amount Device Parameters.
 
 ##### song_tempo<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 MainTrack only: Const access to the Song's Tempo.
 
 ##### track_activator<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Const access to the Tracks Activator Device Parameter.
 
 ##### volume<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter">DeviceParameter</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 Const access to the Tracks Volume Device Parameter.
 

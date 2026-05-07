@@ -68,16 +68,50 @@
   margin-bottom: 0.25rem;
   padding-left: 1.5rem;
 }
-/* Property description — paragraph immediately following an H5 heading.
-   Indented to match the H5 column so the description visually attaches
-   to the property it describes rather than re-anchoring at the page
-   margin. Slightly muted color marks it as descriptive text adjacent
-   to a member identifier rather than body prose. */
-.sl-markdown-content .sl-heading-wrapper.level-h5 + p {
+/* Property description — paragraph immediately following an H5 heading
+   (with an optional `.prop-flags` flags line between). Indented to
+   match the H5 column so the description visually attaches to the
+   property it describes rather than re-anchoring at the page margin.
+   Slightly muted color marks it as descriptive text adjacent to a
+   member identifier rather than body prose. */
+.sl-markdown-content .sl-heading-wrapper.level-h5 + p,
+.sl-markdown-content .sl-heading-wrapper.level-h5 + .prop-flags + p {
   margin-top: 0;
   margin-bottom: 0.4rem;
   padding-left: 1.5rem;
   color: var(--sl-color-gray-2);
+}
+
+/* Property flags row — sits between the H5 heading and the description.
+   Indented to match the H5 column. Tight spacing above (pulls toward
+   the heading it modifies) and below (so the description still hugs
+   the heading-flags pair). */
+.sl-markdown-content .prop-flags {
+  margin: -0.1rem 0 0.2rem 1.5rem;
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.sl-markdown-content .prop-flag {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.sl-markdown-content .prop-flag-ro {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-2);
+}
+.sl-markdown-content .prop-flag-listen {
+  background: var(--sl-color-blue-low);
+  color: var(--sl-color-blue-high);
+  text-decoration: none;
+}
+.sl-markdown-content a.prop-flag-listen:hover {
+  text-decoration: underline;
 }
 /* Nested type headings (class / enum / future function) — semantically H5
    (kept out of the TOC, indented under their owning class), but visually

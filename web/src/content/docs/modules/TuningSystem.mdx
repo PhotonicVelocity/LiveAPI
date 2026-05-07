@@ -19,35 +19,53 @@ Represents a Tuning System and its properties.
 
 ##### _live_ptr<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 ##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song">Song</a></span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 <hr class="lom-pinned-separator" />
 
 ##### highest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave">PitchClassAndOctave</a></span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set the highest note of the current tuning system, where the first entry is the index within the pseudo octave and the second entry is the octave.
 
 ##### lowest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave">PitchClassAndOctave</a></span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set the lowest note of the current tuning system, where the first entry is the index within the pseudo octave and the second entry is the octave.
 
 ##### name<span class="prop-type">: str</span>
 
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
+
 Get/Set the name of the currently active tuning system.
 
 ##### note_tunings<span class="prop-type">: list[float]</span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament.
 
 ##### number_of_notes_in_pseudo_octave<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Get the number of notes in the pseudo octave.
 
 ##### pseudo_octave_in_cents<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 Get the pseudo octave in cents for the currently active tuning system.
 
 ##### reference_pitch<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#referencepitch">ReferencePitch</a></span>
+
+<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This property is observable — see Listener for the subscription model.">listen</a></div>
 
 Get/Set the reference pitch the currently active tuning system.
 
@@ -61,9 +79,13 @@ This class represents a PitchClassAndOctave type.
 
 ##### index_in_octave<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 A PitchClassAndOctave's index within the pseudo octave.
 
 ##### octave<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 A PitchClassAndOctave's octave.
 
@@ -75,12 +97,18 @@ This class represents a ReferencePitch type.
 
 ##### frequency<span class="prop-type">: float</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 A ReferencePitch's frequency in Hz.
 
 ##### index_in_octave<span class="prop-type">: int</span>
 
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+
 A ReferencePitch's index within the pseudo octave.
 
 ##### octave<span class="prop-type">: int</span>
+
+<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
 
 A ReferencePitch's octave.
