@@ -19,7 +19,9 @@ export default defineConfig({
         },
       ],
       sidebar: [
-        { label: "Overview", slug: "index" },
+        // Root index.mdx (splash hero page) is reachable via the site
+        // title at the top of the sidebar; no separate "Overview" entry
+        // needed.
         {
           label: "Modules",
           autogenerate: { directory: "modules" },

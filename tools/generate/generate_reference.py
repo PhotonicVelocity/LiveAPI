@@ -38,10 +38,13 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 # Ancestors that aren't worth showing in the displayed class signature.
-# `LomObject` is the universal LOM base — every Live document object has
-# it, so calling it out adds noise rather than information.
+# Boost.Python's implementation classes are noise (every Live class derives
+# from them); LomObject is intentionally NOT in this list — when it's the
+# first informative ancestor (e.g. Clip → LomObject directly), we want to
+# show it. Classes with a more-specific direct base (e.g. Track →
+# DeviceContainer) display that instead because `base_class_for` returns
+# the first non-boring ancestor.
 _BORING_ANCESTORS = {
-    "Live.LomObject.LomObject",
     "Boost.Python.instance",
     "instance",
     "object",
@@ -178,42 +181,56 @@ def _signature_html(
     kw: str,
     name: str,
     module_name: str,
-    base: str | None = None,
+    base_html: str | None = None,
     suffix: str = "",
 ) -> str:
     """Render a syntax-highlighted signature span.
 
-    Nested span structure so pseudo-elements can color the keyword, path,
-    and base distinctly:
+    Nested span structure so pseudo-elements can color the keyword and
+    path distinctly, while the base lives in the DOM as a real element
+    (so it can host a link to the base class's reference page):
 
-        <span class="sig" data-kw=... data-base=...>
+        <span class="sig" data-kw=...>
           <span class="sig-name" data-path=...>NAME</span>
+          <span class="sig-base">(BASE_HTML)</span>      # optional
         </span>
 
-    Only the innermost text node ("NAME") is in the DOM text content, so
-    Starlight's right-side TOC shows just the bare name — keyword, path,
-    and base render via CSS pseudo-elements and don't pollute the TOC.
+    The keyword and path are CSS pseudo-elements (not in DOM text), so
+    Starlight's right-side TOC picks up the name without extra fluff. The
+    base IS in DOM text — `base_html` may already contain an `<a>`
+    wrapping the base name for cross-page navigation.
 
     `suffix` is for visual additions kept in DOM text (e.g. empty `()` on
     function signatures — small enough that a parenthesized TOC reads fine).
     """
     outer_attrs = f' data-kw="{kw}"'
-    if base:
-        outer_attrs += f' data-base="({base})"'
     inner_attrs = f' data-path="Live.{module_name}."'
+    base_part = f'<span class="sig-base">({base_html})</span>' if base_html else ""
     return (
         f'<span class="sig"{outer_attrs}>'
         f'<span class="sig-name"{inner_attrs}>{name}</span>'
+        f'{base_part}'
         f"</span>{suffix}"
     )
 
 
-def class_signature_html(cls: dict, module_name: str) -> str:
+def class_signature_html(cls: dict, module_name: str, registry: dict[str, str]) -> str:
+    """Render `class Name(Base):` — Base linked to its anchor when known."""
+    base = base_class_for(cls)
+    base_html: str | None = None
+    if base:
+        target_module = registry.get(base)
+        if target_module:
+            base_html = (
+                f'<a href="{DOCS_URL_BASE}/{target_module.lower()}/#{base.lower()}">{base}</a>'
+            )
+        else:
+            base_html = base
     return _signature_html(
         kw="class",
         name=cls["name"],
         module_name=module_name,
-        base=base_class_for(cls),
+        base_html=base_html,
     )
 
 
@@ -299,7 +316,7 @@ def render_module_page(module_name: str, doc: dict, registry: dict[str, str]) ->
 
     def emit_class(cls: dict) -> None:
         """Append a class block — H3 signature, description, property list."""
-        lines.append(f"### {class_signature_html(cls, module_name)}")
+        lines.append(f"### {class_signature_html(cls, module_name, registry)}")
         lines.append("")
         doc_text = normalize_paragraph(cls.get("raw_doc"))
         if doc_text:

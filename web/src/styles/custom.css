@@ -69,19 +69,21 @@
 }
 
 /* Signature span — styled heading for class / enum / function identifiers.
-   Nested-span structure keeps the DOM text to just the bare name (so the
-   right-side TOC shows "BeatTime", not "class Live.Song.BeatTime"). The
-   keyword, path, and base are CSS pseudo-elements driven by data-attrs —
-   not in the DOM text, hence not in the TOC.
+   Nested-span structure keeps the DOM text minimal — keyword and path
+   are CSS pseudo-elements (not in the DOM text, hence not in the TOC).
+   The base, when present, IS in DOM text so it can host an `<a>` link
+   to the base class's reference page.
 
-       <span class="sig" data-kw="class" data-base="(LomObject)">
+       <span class="sig" data-kw="class">
          <span class="sig-name" data-path="Live.Song.">BeatTime</span>
+         <span class="sig-base">(<a href="...">LomObject</a>)</span>
        </span>
 
-   - .sig::before  →  the keyword (grey)
-   - .sig-name::before  →  the path (dim orange)
-   - .sig-name (text)  →  the name (bright white bold)
-   - .sig::after  →  the optional base (dim orange)
+   - .sig::before     →  the keyword (grey)
+   - .sig-name::before →  the path (dim orange)
+   - .sig-name (text) →  the name (bright white bold)
+   - .sig-base (DOM)  →  the optional base, parens included (dim purple).
+                          Inner <a> uses link styling.
 */
 .sig {
   font-family: var(--sl-font-system-mono);
@@ -90,15 +92,6 @@
   content: attr(data-kw) "  ";
   color: var(--sl-color-gray-3);
   font-weight: 400;
-}
-/* Inheritance base — distinct accent (purple) so it doesn't read as "more
-   path." Path locates the class in the namespace; base says what it
-   inherits from. Different roles, different colors. */
-.sig::after {
-  content: attr(data-base);
-  color: var(--sl-color-purple);
-  font-weight: 400;
-  opacity: 0.85;
 }
 .sig-name::before {
   content: attr(data-path);
@@ -109,6 +102,25 @@
 .sig-name {
   color: var(--sl-color-white);
   font-weight: 700;
+}
+/* Inheritance base — distinct accent (purple) so it doesn't read as "more
+   path." Path locates the class in the namespace; base says what it
+   inherits from. Different roles, different colors. The inner <a> picks
+   up the link color naturally; we just keep the parens themselves at the
+   base's accent color. */
+.sig-base {
+  color: var(--sl-color-purple);
+  font-weight: 400;
+  opacity: 0.85;
+}
+.sig-base a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.sig-base a:hover {
+  text-decoration-thickness: 2px;
 }
 
 /* H2 sets section breaks — give it breathing room above, weight, and a
