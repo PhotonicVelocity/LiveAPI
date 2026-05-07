@@ -334,13 +334,19 @@ def is_lom_object(
 def lom_badge_html() -> str:
     """The `[LomObject]` chip rendered next to a LOM class's signature.
 
-    Compact monospace pill, muted color, links to the LomObject page where
-    the universal lifetime / identity / construction model is documented.
+    Wrapped in a `<div class="lom-badge-row">` so MDX treats it as a
+    block (the bare `<a>` is inline and got folded onto the previous
+    paragraph's last line). The wrapper floats right; CSS positions
+    it onto the H3's row visually. Compact monospace pill, muted
+    color, links to the LomObject page where the universal lifetime
+    / identity / construction model is documented.
     """
     return (
+        f'<div class="lom-badge-row">'
         f'<a class="lom-badge" href="{DOCS_URL_BASE}/lomobject/" '
         f'title="This is a LomObject — see the LomObject page for the universal '
         f'identity / lifetime model">LomObject</a>'
+        f'</div>'
     )
 
 
@@ -349,7 +355,6 @@ def class_signature_html(
     module_name: str,
     registry: dict[str, str],
     display_name: str | None = None,
-    class_index: dict[str, tuple[str, dict]] | None = None,
 ) -> str:
     """Render `class Name(Base):` — Base linked to its anchor when known.
 
@@ -357,10 +362,9 @@ def class_signature_html(
     used to display dotted nested-class names (e.g. `Track.View` instead of
     just `View`) when a nested class is rendered at the top level.
 
-    `class_index` enables the LomObject badge — any class whose ancestor
-    chain reaches `Live.LomObject.LomObject` gets a chip after the
-    signature (suppressed on `LomObject` itself, which would point at its
-    own page). Pass `None` to disable the badge.
+    The LomObject chip is emitted SEPARATELY (`lom_badge_for_class`)
+    as a sibling of the H3 — keeping it out of the heading so its text
+    doesn't pollute Starlight's right-side TOC.
     """
     base = base_class_for(cls)
     base_html: str | None = None
@@ -372,20 +376,32 @@ def class_signature_html(
             )
         else:
             base_html = base
-    sig = _signature_html(
+    return _signature_html(
         name=display_name or cls["name"],
         module_name=module_name,
         base_html=base_html,
     )
-    # Skip the badge on LomObject itself — pointing at its own page would
-    # be a no-op link, and the page IS the explainer the badge advertises.
+
+
+def lom_badge_for_class(
+    cls: dict,
+    class_index: dict[str, tuple[str, dict]] | None,
+) -> str:
+    """Return the LomObject chip HTML for a LOM class, or empty string.
+
+    Emitted as a SIBLING of the H3 heading (not inside it) so the
+    chip text doesn't pollute Starlight's right-side TOC. CSS floats
+    it right onto the heading row visually. Skipped on LomObject
+    itself (the page IS the chip's explainer; self-link redundant)
+    and on non-LOM classes (`Live.Base.Vector`, `Live.Base.Timer`).
+    """
     if (
         class_index is not None
         and cls.get("path") != _LOM_OBJECT_PATH
         and is_lom_object(cls, class_index)
     ):
-        sig = f"{sig} {lom_badge_html()}"
-    return sig
+        return lom_badge_html()
+    return ""
 
 
 def enum_signature_html(
@@ -924,9 +940,15 @@ def render_module_page(
         `Track.View` for a nested class hoisted to the top level).
         """
         sig = class_signature_html(
-            cls, module_name, registry,
-            display_name=display_name, class_index=class_index,
+            cls, module_name, registry, display_name=display_name,
         )
+        # LomObject chip emitted as a sibling BEFORE the H3 (so its
+        # text stays out of the heading and Starlight's TOC). CSS
+        # floats it right onto the H3's row visually.
+        badge = lom_badge_for_class(cls, class_index)
+        if badge:
+            lines.append(badge)
+            lines.append("")
         lines.append(f"### {sig}")
         lines.append("")
         doc_text = normalize_paragraph(cls.get("raw_doc"))
