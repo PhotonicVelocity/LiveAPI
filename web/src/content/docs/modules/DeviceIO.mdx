@@ -8,9 +8,7 @@ type used by `MaxDevice.audio_inputs` and `MaxDevice.audio_outputs` to
 expose the bus's available routing targets and current selection.
 
 
-<div class="lom-badge-row"><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a></div>
-
-### <span class="sig"><span class="sig-name" data-path="Live.DeviceIO.">DeviceIO</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.DeviceIO.">DeviceIO</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 This class represents a specific input or output bus of a device.
 
@@ -18,19 +16,13 @@ This class represents a specific input or output bus of a device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### _live_ptr<span class="prop-type">: int</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/maxdevice/#maxdevice" title="MaxDevice">MaxDevice</a></span>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/maxdevice/#maxdevice" title="MaxDevice">MaxDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <hr class="lom-pinned-separator" />
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### available_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span>
+##### available_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -38,9 +30,7 @@ Return a list of channels for this IO endpoint.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### available_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span>
+##### available_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -56,9 +46,7 @@ Get and set whether the default routing channel for External routing types is no
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span>
+##### routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -66,9 +54,7 @@ Get and set the current routing channel. Raises ValueError if the channel isn't 
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span>
+##### routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

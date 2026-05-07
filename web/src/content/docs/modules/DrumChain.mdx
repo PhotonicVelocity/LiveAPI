@@ -8,9 +8,7 @@ pad. The `DrumChain` class extends `Chain` with the inbound MIDI note,
 outbound choke group, and other drum-rack-specific routing.
 
 
-<div class="lom-badge-row"><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a></div>
-
-### <span class="sig"><span class="sig-name" data-path="Live.DrumChain.">DrumChain</span><span class="sig-base">(<a href="/LiveAPI/modules/chain/#chain">Chain</a>)</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.DrumChain.">DrumChain</span><span class="sig-base">(<a href="/LiveAPI/modules/chain/#chain">Chain</a>)</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 This class represents a drum group device chain in Live.
 
@@ -18,19 +16,13 @@ This class represents a drum group device chain in Live.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### _live_ptr<span class="prop-type">: int</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <hr class="lom-pinned-separator" />
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### choke_group<span class="prop-type">: int</span>
+##### choke_group<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -54,9 +46,7 @@ Access the color index of the Chain.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a>]</span>
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -64,9 +54,7 @@ Return const access to all available Devices that are present in the chains
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### in_note<span class="prop-type">: int</span>
+##### in_note<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -90,9 +78,7 @@ Mute/unmute the chain.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### muted_via_solo<span class="prop-type">: bool</span>
+##### muted_via_solo<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -108,9 +94,7 @@ Read/write access to the name of the Chain, as visible in the track header.
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### out_note<span class="prop-type">: int</span>
+##### out_note<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

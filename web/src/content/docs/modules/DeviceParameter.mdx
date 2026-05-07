@@ -8,9 +8,7 @@ Represents a single automatable parameter on a device or mixer in Live. The
 display string, automation state, and MIDI/key mapping target.
 
 
-<div class="lom-badge-row"><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a></div>
-
-### <span class="sig"><span class="sig-name" data-path="Live.DeviceParameter.">DeviceParameter</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.DeviceParameter.">DeviceParameter</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 This class represents a (automatable) parameter within a MIDI or Audio DSP-Device.
 
@@ -18,19 +16,13 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### _live_ptr<span class="prop-type">: int</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <hr class="lom-pinned-separator" />
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a></span>
+##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -38,9 +30,7 @@ Returns state of type AutomationState.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### default_value<span class="prop-type">: float</span>
+##### default_value<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -48,9 +38,7 @@ Return the default value for this parameter.  A Default value is only available 
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### display_value<span class="prop-type">: float</span>
+##### display_value<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -58,9 +46,7 @@ Get/Set the current value (as visible in the GUI) this parameter. The value must
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### is_enabled<span class="prop-type">: bool</span>
+##### is_enabled<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -68,9 +54,7 @@ Returns false if the parameter has been macro mapped or disabled by Max.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### is_quantized<span class="prop-type">: bool</span>
+##### is_quantized<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -78,9 +62,7 @@ Returns True, if this value is a boolean or integer like switch. Non quantized v
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### max<span class="prop-type">: float</span>
+##### max<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -88,9 +70,7 @@ Returns const access to the upper value of the allowed range for this parameter
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### min<span class="prop-type">: float</span>
+##### min<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -98,9 +78,7 @@ Returns const access to the lower value of the allowed range for this parameter
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### name<span class="prop-type">: str</span>
+##### name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -108,9 +86,7 @@ Returns const access the name of this parameter, as visible in Lives automation 
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### original_name<span class="prop-type">: str</span>
+##### original_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -118,9 +94,7 @@ Returns const access the original name of this parameter, unaffected of any rena
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### short_value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
+##### short_value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -128,9 +102,7 @@ Return the list of possible values for this parameter. Like value_items, but pre
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a></span>
+##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -138,9 +110,7 @@ Returns the state of the parameter: - enabled - the parameter's value can be cha
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### value<span class="prop-type">: float</span>
+##### value<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -148,9 +118,7 @@ Get/Set the current internal value of this parameter. The value must be inside t
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
+##### value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 

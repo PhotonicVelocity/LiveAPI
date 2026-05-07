@@ -29,9 +29,7 @@ Interface to the internal licensing services.
 
 #### Properties
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### base_product_id<span class="prop-type">: str</span>
+##### base_product_id<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -39,13 +37,9 @@ Returns Live's current base product ID.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### in_sassafras_mode<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### in_sassafras_mode<span class="prop-type">: bool</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### license_must_match_variant<span class="prop-type">: bool</span>
+##### license_must_match_variant<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -53,9 +47,7 @@ Returns a bool indicating if we require the license information returned by the 
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### random_number_for_trial_authorization<span class="prop-type">: int</span>
+##### random_number_for_trial_authorization<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -63,9 +55,7 @@ Returns the integer to send along with the Trial authorization request. This sam
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### set_has_unsaved_changes<span class="prop-type">: bool</span>
+##### set_has_unsaved_changes<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -201,33 +191,19 @@ Returns relevant information after unlock
 
 #### Properties
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### authorization_deactivated<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### authorization_deactivated<span class="prop-type">: bool</span>
+##### authorization_expired<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### has_max_unlock_products<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### authorization_expired<span class="prop-type">: bool</span>
+##### temp_demo_mode<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### time_limited<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### has_max_unlock_products<span class="prop-type">: bool</span>
+##### unlock_error<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### temp_demo_mode<span class="prop-type">: bool</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### time_limited<span class="prop-type">: bool</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### unlock_error<span class="prop-type">: bool</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### unlocked<span class="prop-type">: bool</span>
+##### unlocked<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 ## Enums
 

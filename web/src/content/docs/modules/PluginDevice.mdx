@@ -9,9 +9,7 @@ ability to step through factory presets, and the larger parameter surface
 exposed by external plug-ins.
 
 
-<div class="lom-badge-row"><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a></div>
-
-### <span class="sig"><span class="sig-name" data-path="Live.PluginDevice.">PluginDevice</span><span class="sig-base">(<a href="/LiveAPI/modules/device/#device">Device</a>)</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.PluginDevice.">PluginDevice</span><span class="sig-base">(<a href="/LiveAPI/modules/device/#device">Device</a>)</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 This class represents a plugin device.
 
@@ -19,19 +17,13 @@ This class represents a plugin device.
 
 <a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### _live_ptr<span class="prop-type">: int</span>
-
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <hr class="lom-pinned-separator" />
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### is_active<span class="prop-type">: bool</span>
+##### is_active<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -39,9 +31,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### latency_in_ms<span class="prop-type">: float</span>
+##### latency_in_ms<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -49,9 +39,7 @@ Returns the latency of the device in ms.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### latency_in_samples<span class="prop-type">: int</span>
+##### latency_in_samples<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -67,9 +55,7 @@ Return access to the name of the device.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span></div>
-
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span>
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -77,9 +63,7 @@ Const access to the list of available automatable parameters for this device.
 
 </div>
 
-<div class="prop-flags"><span class="prop-flag prop-flag-ro">read-only</span> <a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### presets<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
+##### presets<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -87,9 +71,7 @@ Get the list of presets the plugin offers.
 
 </div>
 
-<div class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model.">listen</a></div>
-
-##### selected_preset_index<span class="prop-type">: int</span>
+##### selected_preset_index<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

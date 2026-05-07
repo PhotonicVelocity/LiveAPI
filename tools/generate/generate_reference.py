@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# vibe-coded: substantial AI-assisted authoring. Review before relying on.
 """Generate Starlight (Astro) MDX reference pages from stubs/<v>/lom/*.yaml.
 
 Phase 1 of the documentation roadmap (`doc/reference-roadmap.md`): mechanical
@@ -332,21 +333,20 @@ def is_lom_object(
 
 
 def lom_badge_html() -> str:
-    """The `[LomObject]` chip rendered next to a LOM class's signature.
+    """The `[LomObject]` chip rendered inside a LOM class's H3 signature.
 
-    Wrapped in a `<div class="lom-badge-row">` so MDX treats it as a
-    block (the bare `<a>` is inline and got folded onto the previous
-    paragraph's last line). The wrapper floats right; CSS positions
-    it onto the H3's row visually. Compact monospace pill, muted
-    color, links to the LomObject page where the universal lifetime
-    / identity / construction model is documented.
+    The `<a>` deliberately has no text content — its visible
+    "LomObject" label comes from a CSS `::before` pseudo-element so
+    that Starlight's right-side TOC (which reads heading
+    `textContent`) doesn't pick up the chip's text. The `<a>` box
+    stays clickable because the pseudo-element renders inside it.
+    Float-right via CSS pulls the chip to the right edge of the H3's
+    row.
     """
     return (
-        f'<div class="lom-badge-row">'
         f'<a class="lom-badge" href="{DOCS_URL_BASE}/lomobject/" '
         f'title="This is a LomObject — see the LomObject page for the universal '
-        f'identity / lifetime model">LomObject</a>'
-        f'</div>'
+        f'identity / lifetime model" aria-label="LomObject"></a>'
     )
 
 
@@ -355,6 +355,7 @@ def class_signature_html(
     module_name: str,
     registry: dict[str, str],
     display_name: str | None = None,
+    class_index: dict[str, tuple[str, dict]] | None = None,
 ) -> str:
     """Render `class Name(Base):` — Base linked to its anchor when known.
 
@@ -362,9 +363,10 @@ def class_signature_html(
     used to display dotted nested-class names (e.g. `Track.View` instead of
     just `View`) when a nested class is rendered at the top level.
 
-    The LomObject chip is emitted SEPARATELY (`lom_badge_for_class`)
-    as a sibling of the H3 — keeping it out of the heading so its text
-    doesn't pollute Starlight's right-side TOC.
+    `class_index` enables the LomObject chip — appended INSIDE the H3
+    sig HTML so CSS float-right reliably positions it on the H3's row.
+    The chip element has no DOM text content (its visible label comes
+    from `::before`), so Starlight's TOC stays clean.
     """
     base = base_class_for(cls)
     base_html: str | None = None
@@ -376,32 +378,24 @@ def class_signature_html(
             )
         else:
             base_html = base
-    return _signature_html(
+    sig = _signature_html(
         name=display_name or cls["name"],
         module_name=module_name,
         base_html=base_html,
     )
-
-
-def lom_badge_for_class(
-    cls: dict,
-    class_index: dict[str, tuple[str, dict]] | None,
-) -> str:
-    """Return the LomObject chip HTML for a LOM class, or empty string.
-
-    Emitted as a SIBLING of the H3 heading (not inside it) so the
-    chip text doesn't pollute Starlight's right-side TOC. CSS floats
-    it right onto the heading row visually. Skipped on LomObject
-    itself (the page IS the chip's explainer; self-link redundant)
-    and on non-LOM classes (`Live.Base.Vector`, `Live.Base.Timer`).
-    """
+    # Append the LomObject chip INSIDE the sig HTML (so it goes inside
+    # the H3 element when emitted as `### {sig}`). The chip's `<a>`
+    # has no DOM text content (visible label is a CSS pseudo-element),
+    # so the H3's textContent is unaffected and Starlight's TOC stays
+    # clean. Skip on LomObject itself (self-link) and on non-LOM
+    # classes (Live.Base.Vector, Live.Base.Timer).
     if (
         class_index is not None
         and cls.get("path") != _LOM_OBJECT_PATH
         and is_lom_object(cls, class_index)
     ):
-        return lom_badge_html()
-    return ""
+        sig = f"{sig}{lom_badge_html()}"
+    return sig
 
 
 def enum_signature_html(
@@ -547,35 +541,37 @@ def member_flags_html(member: dict) -> str:
     """Render small chip(s) for member modifiers — read-only,
     listenable. The default case (settable, not listenable for
     properties; not listenable for methods) returns empty string so
-    most members render with no flags line at all, keeping the page
-    quiet for the common case and reserving visual weight for the
-    deviations:
+    most members render with no chips at all, keeping the page quiet
+    for the common case and reserving visual weight for the deviations:
 
       - `[read-only]` — `settable: false` (properties only)
       - `[listen]`    — `listenable:` present (folded listener triplet)
 
-    Methods don't use `settable:`; they only ever pick up the
-    `listen` chip — currently `Application.View.is_view_visible` is
-    the only such method (a parameterized observable whose triplet
-    takes a view-name identifier alongside the callback).
+    Output is inline HTML — `<span>` / `<a>` chips with no DOM text
+    content. The visible labels come from CSS `::before`
+    pseudo-elements on each `prop-flag-*` class; same `::before`
+    trick used for the LomObject chip. This keeps the chip text out
+    of the H5's `textContent`, so the auto-slug (and inherited-block
+    link computation) sees only the property name + type.
 
-    Output is a div line that lives between the member heading and
-    the description, so the chips read as metadata attached to the
-    member without competing with the name + type on the heading.
+    Returned HTML is appended INSIDE the H5 heading line; CSS
+    floats it right onto the H5 row.
     """
     chips: list[str] = []
     if _resolve(member, "settable") is False:
-        chips.append('<span class="prop-flag prop-flag-ro">read-only</span>')
+        chips.append(
+            '<span class="prop-flag prop-flag-ro" aria-label="read-only"></span>'
+        )
     if _resolve(member, "listenable"):
         chips.append(
             f'<a class="prop-flag prop-flag-listen" '
             f'href="{DOCS_URL_BASE}/listener/" '
             f'title="This member is observable — see Listener for the '
-            f'subscription model.">listen</a>'
+            f'subscription model." aria-label="listen"></a>'
         )
     if not chips:
         return ""
-    return f'<div class="prop-flags">{" ".join(chips)}</div>'
+    return f'<span class="prop-flags">{"".join(chips)}</span>'
 
 
 def property_heading_html(
@@ -939,16 +935,14 @@ def render_module_page(
         `display_name` overrides the rendered class name (used to show
         `Track.View` for a nested class hoisted to the top level).
         """
+        # LomObject chip is appended INSIDE the H3 sig HTML by
+        # `class_signature_html` (its `<a>` has no DOM text content;
+        # the visible label comes from CSS `::before` so the H3's
+        # textContent stays clean for Starlight's TOC).
         sig = class_signature_html(
-            cls, module_name, registry, display_name=display_name,
+            cls, module_name, registry,
+            display_name=display_name, class_index=class_index,
         )
-        # LomObject chip emitted as a sibling BEFORE the H3 (so its
-        # text stays out of the heading and Starlight's TOC). CSS
-        # floats it right onto the H3's row visually.
-        badge = lom_badge_for_class(cls, class_index)
-        if badge:
-            lines.append(badge)
-            lines.append("")
         lines.append(f"### {sig}")
         lines.append("")
         doc_text = normalize_paragraph(cls.get("raw_doc"))
@@ -1027,25 +1021,20 @@ def render_module_page(
                 # (RO / listen) still render — they're per-class facts,
                 # not redundant with the foundation page.
                 for prop in pinned:
-                    # Chips emitted BEFORE the H5 — CSS floats them
-                    # right so they visually appear on the same line
-                    # as the heading at the right edge of the column.
-                    flags = member_flags_html(prop)
-                    if flags:
-                        lines.append(flags)
-                        lines.append("")
+                    # Chip HTML appended INSIDE the H5 line — `<span>`
+                    # / `<a>` chips with no DOM text content; visible
+                    # labels rendered via CSS `::before`. CSS floats
+                    # the chips right within the H5.
                     heading = property_heading_html(prop, registry, current_module=module_name)
-                    lines.append(f"##### {heading}")
+                    flags = member_flags_html(prop)
+                    lines.append(f"##### {heading}{flags}")
                     lines.append("")
                 lines.append('<hr class="lom-pinned-separator" />')
                 lines.append("")
             for prop in properties:
-                flags = member_flags_html(prop)
-                if flags:
-                    lines.append(flags)
-                    lines.append("")
                 heading = property_heading_html(prop, registry, current_module=module_name)
-                lines.append(f"##### {heading}")
+                flags = member_flags_html(prop)
+                lines.append(f"##### {heading}{flags}")
                 lines.append("")
                 desc = member_description_text(prop)
                 if desc:
@@ -1066,12 +1055,9 @@ def render_module_page(
             lines.append("#### Signals")
             lines.append("")
             for prop in signals:
-                flags = member_flags_html(prop)
-                if flags:
-                    lines.append(flags)
-                    lines.append("")
                 heading = property_heading_html(prop, registry, current_module=module_name)
-                lines.append(f"##### {heading}")
+                flags = member_flags_html(prop)
+                lines.append(f"##### {heading}{flags}")
                 lines.append("")
                 desc = member_description_text(prop)
                 if desc:
@@ -1100,16 +1086,13 @@ def render_module_page(
             lines.append("#### Methods")
             lines.append("")
             for method in methods:
-                flags = member_flags_html(method)
-                if flags:
-                    lines.append(flags)
-                    lines.append("")
                 heading = method_signature_html(
                     method, registry,
                     owning_class_name=cls.get("name"),
                     current_module=module_name,
                 )
-                lines.append(f"##### {heading}")
+                flags = member_flags_html(method)
+                lines.append(f"##### {heading}{flags}")
                 lines.append("")
                 desc = member_description_text(method)
                 if desc:

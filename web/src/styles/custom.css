@@ -1,4 +1,5 @@
 /* LiveAPI custom styles. */
+/* vibe-coded: substantial AI-assisted authoring. Review before relying on. */
 
 /* Tighten the heading hierarchy — Starlight's defaults run too large at
    every level, so H1 / H2 / H3 all read as similarly-prominent. Step them
@@ -92,20 +93,18 @@
   margin-bottom: 0;
 }
 
-/* Property flags row — emitted BEFORE the H5 heading in DOM order so
-   `float: right` pulls the chips onto the heading's row at the right
-   edge of the column. The H5 wraps text on the left if it's long;
-   the chips stay right-aligned. `.member-desc` below clears the
-   float so the description doesn't wrap around the chip box. */
-.sl-markdown-content .prop-flags {
+/* Property flags — chips appended INSIDE the H5 heading, with no
+   DOM text content (visible labels come from CSS `::before`). Same
+   trick as `.lom-badge` so the H5's `textContent` stays clean for
+   the auto-slug + inherited-link computation. The wrapper span
+   floats right within the H5 to push chips to the heading's right
+   edge. */
+.sl-markdown-content h5 .prop-flags {
   float: right;
-  margin: 0 0 0 0.4rem;
-  display: flex;
+  margin-left: 0.4rem;
+  display: inline-flex;
   gap: 0.4rem;
   flex-wrap: wrap;
-}
-.sl-markdown-content .member-desc {
-  clear: right;
 }
 .sl-markdown-content .prop-flag {
   display: inline-block;
@@ -120,10 +119,16 @@
   background: var(--sl-color-gray-6);
   color: var(--sl-color-gray-2);
 }
+.sl-markdown-content .prop-flag-ro::before {
+  content: "read-only";
+}
 .sl-markdown-content .prop-flag-listen {
   background: var(--sl-color-blue-low);
   color: var(--sl-color-blue-high);
   text-decoration: none;
+}
+.sl-markdown-content .prop-flag-listen::before {
+  content: "listen";
 }
 .sl-markdown-content a.prop-flag-listen:hover {
   text-decoration: underline;
@@ -230,12 +235,15 @@
    LomObject module page where the universal identity / lifetime model
    is documented. Sized + styled like the confidence pill so the two
    read as a metadata family rather than competing visual elements. */
-.lom-badge-row {
+/* LomObject chip — appended inside the class H3 signature. The `<a>`
+   has no DOM text (Starlight's TOC reads `textContent` and would
+   otherwise pick up "LomObject"); the visible label comes from a
+   `::before` pseudo-element. Float-right pulls the chip to the H3's
+   right edge so the signature dominates and the chip reads as
+   metadata. */
+.lom-badge {
   float: right;
   margin: 0 0 0 0.5rem;
-}
-.lom-badge {
-  display: inline-block;
   padding: 0.1rem 0.5rem;
   border-radius: 0.25rem;
   font-family: var(--sl-font-system-mono);
@@ -245,6 +253,9 @@
   background: var(--sl-color-purple-low);
   color: var(--sl-color-purple-high);
   text-decoration: none;
+}
+.lom-badge::before {
+  content: "LomObject";
 }
 .lom-badge:hover {
   text-decoration: underline;

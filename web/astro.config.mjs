@@ -1,4 +1,5 @@
 // @ts-check
+// vibe-coded: substantial AI-assisted authoring. Review before relying on.
 import { defineConfig } from "astro/config";
 import starlight from "@astrojs/starlight";
 
