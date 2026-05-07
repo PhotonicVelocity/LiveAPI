@@ -9,7 +9,7 @@ exposes transport state, session and arrangement editing, undo history,
 and the `Song.View` used to drive Live's UI selection.
 
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">Song</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">Song</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
 
 This class represents a Live set.
 
@@ -411,7 +411,7 @@ Undo the last action that was made.
 
 ## Other classes
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">BeatTime</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">BeatTime</span></span>
 
 Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
@@ -425,7 +425,7 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 
 ##### ticks<span class="prop-type">: int</span>
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
 
 Represents a 'Marker' in the arrangement.
 
@@ -453,7 +453,7 @@ Get/Listen to the CuePoint's time in beats.
 
 When the Song is playing, set the playing-position quantized to this Cuepoint's time. When not playing, simply move the start playing position.
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
 
 Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type must be specified when calling a function that returns a SmptTime.
 
@@ -467,7 +467,7 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 
 ##### seconds<span class="prop-type">: int</span>
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">Song.View</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">Song.View</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
 
 Representing the view aspects of a Live document: The Session and Arrangerview.
 
@@ -521,7 +521,7 @@ Select the given device.
 
 ## Enums
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">CaptureDestination</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">CaptureDestination</span></span>
 
 The destination for MIDI capture.
 
@@ -533,7 +533,7 @@ The destination for MIDI capture.
 <tr><td><code>arrangement</code></td><td>2</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">CaptureMode</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">CaptureMode</span></span>
 
 The capture mode that is used for capture and insert scene.
 
@@ -544,7 +544,7 @@ The capture mode that is used for capture and insert scene.
 <tr><td><code>all_except_selected</code></td><td>1</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">Quantization</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">Quantization</span></span>
 
 #### Members
 
@@ -565,7 +565,7 @@ The capture mode that is used for capture and insert scene.
 <tr><td><code>q_thirtytwoth</code></td><td>13</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">RecordingQuantization</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">RecordingQuantization</span></span>
 
 #### Members
 
@@ -581,7 +581,7 @@ The capture mode that is used for capture and insert scene.
 <tr><td><code>rec_q_thirtysecond</code></td><td>8</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">SessionRecordStatus</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">SessionRecordStatus</span></span>
 
 #### Members
 
@@ -591,7 +591,7 @@ The capture mode that is used for capture and insert scene.
 <tr><td><code>on</code></td><td>1</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Song.">TimeFormat</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">TimeFormat</span></span>
 
 #### Members
 
@@ -606,6 +606,6 @@ The capture mode that is used for capture and insert scene.
 
 ## Functions
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Song.">get_all_scales_ordered</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[tuple[str, tuple[int, ...]], ...]</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Song.">get_all_scales_ordered</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[tuple[str, tuple[int, ...]], ...]</span>
 
 Get an ordered tuple of tuples of all available scale names to intervals.

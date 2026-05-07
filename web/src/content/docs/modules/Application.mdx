@@ -9,7 +9,7 @@ class exposes Live's version, the browser, the control-surface registry,
 and the `Application.View` for navigating Live's windows and panels.
 
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">Application</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
 
 This class represents the Live application.
 
@@ -115,7 +115,7 @@ Same as show_message, but for when there is no predefined Text object.
 
 ## Other classes
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlDescription</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">ControlDescription</span></span>
 
 Describes a control present in a control surface proxy
 
@@ -125,11 +125,11 @@ Describes a control present in a control surface proxy
 
 ##### name<span class="prop-type">: str</span>
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">ControlDescriptionVector</span></span>
 
 A container for returning control descriptions.
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">ControlSurfaceProxy</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">ControlSurfaceProxy</span></span>
 
 Represents a control surface running in a different process. For use by M4L
 
@@ -167,17 +167,17 @@ The layout of pads on Push.
 
 ##### unsubscribe_from_control<span class="meth-sig">(<span class="meth-arg">control_id</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
 
 A container for returning unavailable features.
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">Variants</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">Variants</span></span>
 
 Holds strings representing what type of Live is running.
 
 #### Constants
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Application.">Application.View</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application.View</span></span> <a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model">LomObject</a>
 
 This class represents the view aspects of the Live application.
 
@@ -253,7 +253,7 @@ Zoom through the identifier string specified view into the given direction, if p
 
 ## Enums
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Application.">MessageButtons</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">MessageButtons</span></span>
 
 Specifies the characteristics of the message box, e.g. which buttons to show.
 
@@ -268,7 +268,7 @@ Specifies the characteristics of the message box, e.g. which buttons to show.
 <tr><td><code>OK_PURCHASE_BUTTON</code></td><td>5</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Application.">PushDialogType</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">PushDialogType</span></span>
 
 Specifies the dialog type for Push.
 
@@ -280,7 +280,7 @@ Specifies the dialog type for Push.
 <tr><td><code>RENT_TO_OWN_LICENSE_EXPIRED_DIALOG</code></td><td>7</td></tr>
 </table>
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Application.">UnavailableFeature</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">UnavailableFeature</span></span>
 
 #### Members
 
@@ -290,22 +290,22 @@ Specifies the dialog type for Push.
 
 ## Functions
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
 
 Returns true if multiple APCs should be combined.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span><span class="meth-sig">(<span class="meth-arg">dongle1</span>: int, <span class="meth-arg">dongle2</span>: int, <span class="meth-arg">key_index</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> tuple[int, ...]</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span><span class="meth-sig">(<span class="meth-arg">dongle1</span>: int, <span class="meth-arg">dongle2</span>: int, <span class="meth-arg">key_index</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> tuple[int, ...]</span>
 
 Returns an encrypted challenge based on the TEA algortithm
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span><span class="meth-sig">(<span class="meth-arg">challenge</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span><span class="meth-sig">(<span class="meth-arg">challenge</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
 Returns the UMAC hash for the given challenge.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_application</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/application/#application">Application</a></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_application</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/application/#application">Application</a></span>
 
 Returns the application instance.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span><span class="meth-sig">(<span class="meth-arg">min_value</span>: int, <span class="meth-arg">max_value</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span><span class="meth-sig">(<span class="meth-arg">min_value</span>: int, <span class="meth-arg">max_value</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
 
 Returns a random integer from the given range.

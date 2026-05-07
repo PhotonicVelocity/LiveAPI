@@ -11,7 +11,7 @@ authorization activity.
 
 ## Classes
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">ProgressDialog</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">ProgressDialog</span></span>
 
 A modal dialog showing a message and a progress animation.
 
@@ -23,7 +23,7 @@ A modal dialog showing a message and a progress animation.
 
 ##### set_status_message<span class="meth-sig">(<span class="meth-arg">msg</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">PythonLicensingBridge</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">PythonLicensingBridge</span></span>
 
 Interface to the internal licensing services.
 
@@ -105,7 +105,7 @@ Starts or stops a timer meant for driving network operations. Pass None as callb
 
 Securely stores the user's session ID (aka cookie, aka credentials).
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">StartupDialog</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">StartupDialog</span></span>
 
 Serves as an entry point for the user to authorize Live on first launch.
 
@@ -117,7 +117,7 @@ Serves as an entry point for the user to authorize Live on first launch.
 
 ##### set_notification_message<span class="meth-sig">(<span class="meth-arg">notification_text</span>: str, <span class="meth-arg">show_progress_bar</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
 
-### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Licensing.">UnlockStatus</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">UnlockStatus</span></span>
 
 Returns relevant information after unlock
 
@@ -139,7 +139,7 @@ Returns relevant information after unlock
 
 ## Enums
 
-### <span class="sig" data-kw="enum"><span class="sig-name" data-path="Live.Licensing.">TrialContext</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">TrialContext</span></span>
 
 #### Members
 
@@ -151,26 +151,26 @@ Returns relevant information after unlock
 
 ## Functions
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
 
 Advances the current date by the number of days specified by _AuthClockDaysAhead
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span><span class="meth-sig">(<span class="meth-arg">reauthorize</span>: bool, <span class="meth-arg">is_trial</span>: bool) <span class="meth-arrow">-&gt;</span> str</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span><span class="meth-sig">(<span class="meth-arg">reauthorize</span>: bool, <span class="meth-arg">is_trial</span>: bool) <span class="meth-arrow">-&gt;</span> str</span>
 
 Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
 Returns the environment-aware purchase URL for purchasing Live licenses
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
 
 Returns the URL against which service calls (e.g. for authorization) can be performed.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[str, bool]</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[str, bool]</span>
 
 Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.
 
-### <span class="sig" data-kw="def"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span><span class="meth-sig">(<span class="meth-arg">url</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span><span class="meth-sig">(<span class="meth-arg">url</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
 
 Opens a web browser at the specified URL on the user's computer.

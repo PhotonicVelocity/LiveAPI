@@ -135,29 +135,28 @@
 }
 
 /* Signature span — styled heading for class / enum / function identifiers.
-   Nested-span structure keeps the DOM text minimal — keyword and path
-   are CSS pseudo-elements (not in the DOM text, hence not in the TOC).
-   The base, when present, IS in DOM text so it can host an `<a>` link
-   to the base class's reference page.
+   Nested-span structure keeps the DOM text minimal — the path is a CSS
+   pseudo-element (not in the DOM text, hence not in the TOC). The base,
+   when present, IS in DOM text so it can host an `<a>` link to the base
+   class's reference page.
 
-       <span class="sig" data-kw="class">
+       <span class="sig">
          <span class="sig-name" data-path="Live.Song.">BeatTime</span>
          <span class="sig-base">(<a href="...">LomObject</a>)</span>
        </span>
 
-   - .sig::before     →  the keyword (grey)
    - .sig-name::before →  the path (dim orange)
    - .sig-name (text) →  the name (bright white bold)
-   - .sig-base (DOM)  →  the optional base, parens included (dim purple).
+   - .sig-base (DOM)  →  the optional base, parens included.
                           Inner <a> uses link styling.
+
+   No leading keyword (`class` / `enum` / `def`). The page section
+   header already labels the kind, and the structural shape of the
+   signature (inheritance parens vs args + return) communicates it
+   visually. Repeating the keyword on every entry was redundant.
 */
 .sig {
   font-family: var(--sl-font-system-mono);
-}
-.sig::before {
-  content: attr(data-kw) "  ";
-  color: var(--sl-color-gray-3);
-  font-weight: 400;
 }
 .sig-name::before {
   content: attr(data-path);

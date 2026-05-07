@@ -196,36 +196,40 @@ def escape_yaml_scalar(text: str) -> str:
 
 def _signature_html(
     *,
-    kw: str,
     name: str,
     module_name: str,
     base_html: str | None = None,
     suffix: str = "",
 ) -> str:
-    """Render a syntax-highlighted signature span.
+    """Render a path-prefixed signature span.
 
-    Nested span structure so pseudo-elements can color the keyword and
-    path distinctly, while the base lives in the DOM as a real element
-    (so it can host a link to the base class's reference page):
+    Nested span structure so the path can be a CSS pseudo-element (kept
+    out of DOM text, so the right-side TOC sees the bare name), while
+    the base lives in the DOM as a real element (so it can host a link
+    to the base class's reference page):
 
-        <span class="sig" data-kw=...>
+        <span class="sig">
           <span class="sig-name" data-path=...>NAME</span>
           <span class="sig-base">(BASE_HTML)</span>      # optional
         </span>
 
-    The keyword and path are CSS pseudo-elements (not in DOM text), so
-    Starlight's right-side TOC picks up the name without extra fluff. The
-    base IS in DOM text — `base_html` may already contain an `<a>`
-    wrapping the base name for cross-page navigation.
+    No leading keyword (`class` / `enum` / `def`). The page's section
+    header (`## Other classes` / `## Enums` / `## Functions`) already
+    labels the kind, and the structural shape of the signature
+    (inheritance parens vs args + return vs neither) communicates the
+    member type. Repeating the keyword on every entry was redundant —
+    and `enum` was anyway a Sphinx-doc convention rather than literal
+    Python (Live's enums are int-subclass `class`es bound by
+    Boost.Python).
 
-    `suffix` is for visual additions kept in DOM text (e.g. empty `()` on
-    function signatures — small enough that a parenthesized TOC reads fine).
+    `suffix` is for visual additions kept in DOM text — primarily the
+    `(args) -> R` portion on function / method signatures, hung off
+    the suffix slot via `_callable_args_returns_html`.
     """
-    outer_attrs = f' data-kw="{kw}"'
     inner_attrs = f' data-path="Live.{module_name}."'
     base_part = f'<span class="sig-base">({base_html})</span>' if base_html else ""
     return (
-        f'<span class="sig"{outer_attrs}>'
+        f'<span class="sig">'
         f'<span class="sig-name"{inner_attrs}>{name}</span>'
         f'{base_part}'
         f"</span>{suffix}"
@@ -300,7 +304,6 @@ def class_signature_html(
         else:
             base_html = base
     sig = _signature_html(
-        kw="class",
         name=display_name or cls["name"],
         module_name=module_name,
         base_html=base_html,
@@ -328,7 +331,6 @@ def enum_signature_html(
     when a nested enum is rendered at the top level alongside module enums.
     """
     return _signature_html(
-        kw="enum",
         name=display_name or enum["name"],
         module_name=module_name,
     )
@@ -407,7 +409,6 @@ def function_signature_html(
     slot of `_signature_html`.
     """
     return _signature_html(
-        kw="def",
         name=fn["name"],
         module_name=module_name,
         suffix=_callable_args_returns_html(fn, registry),
