@@ -25,7 +25,7 @@ primary_class:
     raw_doc: Return const access to the list of chains in this drum pad.
     type: Live.Base.Vector
     element_type_override:
-      value: <class 'Chain'>
+      value: Live.Chain.Chain
       confidence: high
       source: |
         raw_doc: "Return const access to the list of chains in this drum pad."

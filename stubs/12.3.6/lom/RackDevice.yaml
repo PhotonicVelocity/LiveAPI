@@ -51,7 +51,7 @@ primary_class:
     raw_doc: Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.
     type: Live.Base.Vector
     element_type_override:
-      value: <class 'Chain'>
+      value: Live.Chain.Chain
       confidence: high
       source: |
         M4L docs (rackdevice.md): `chains list of Chain read-only observe`.
@@ -148,7 +148,7 @@ primary_class:
     raw_doc: Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.
     type: Live.Base.Vector
     element_type_override:
-      value: <class 'Chain'>
+      value: Live.Chain.Chain
       confidence: high
       source: |
         M4L docs (rackdevice.md): `return_chains list of Chain read-only observe`.

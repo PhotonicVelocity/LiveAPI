@@ -236,7 +236,7 @@ classes:
     raw_doc: Const iterable access to the descendants of this browser item.
     type: Live.Browser.BrowserItemIterator
     element_type_override:
-      value: <class 'BrowserItem'>
+      value: Live.Browser.BrowserItem
       confidence: high
       source: |
         Corpus Push2/browser_component.py:676 iterates browser items via this
@@ -268,7 +268,7 @@ classes:
   constructable: false
   iterable: true
   element_type_override:
-    value: <class 'BrowserItem'>
+    value: Live.Browser.BrowserItem
     confidence: high
     source: |
       raw_doc confirms; corpus Push2/browser_list.py:63 isinstance check against

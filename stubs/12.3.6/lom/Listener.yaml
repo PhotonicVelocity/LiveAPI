@@ -64,7 +64,7 @@ classes:
   constructable: false
   iterable: true
   element_type_override:
-    value: <class 'ListenerHandle'>
+    value: Live.Listener.ListenerHandle
     confidence: high
     source: |
       raw_doc says "container for accessing a list of listeners" — contains

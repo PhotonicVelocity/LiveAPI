@@ -11,7 +11,7 @@ classes:
   constructable: false
   iterable: true
   element_type_override:
-    value: <class 'float'>
+    value: float
     confidence: high
     source: raw_doc says "container for returning floats from Live".
 
@@ -48,7 +48,7 @@ classes:
   constructable: false
   iterable: true
   element_type_override:
-    value: <class 'int'>
+    value: int
     confidence: high
     source: raw_doc says "container for returning unsigned long integers".
 

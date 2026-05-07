@@ -87,7 +87,7 @@ primary_class:
     raw_doc: List of features that are unavailable due to limitations of the current Live edition.
     type: Live.Application.UnavailableFeatureVector
     element_type_override:
-      value: <class 'UnavailableFeature'>
+      value: Live.Application.UnavailableFeature
       confidence: high
       source: |
         Property's probed_type is UnavailableFeatureVector; element type is the
@@ -598,7 +598,7 @@ classes:
   constructable: false
   iterable: true
   element_type_override:
-    value: <class 'ControlDescription'>
+    value: Live.Application.ControlDescription
     confidence: high
     source: |
       raw_doc: "A container for returning control descriptions." —
@@ -928,7 +928,7 @@ classes:
   constructable: false
   iterable: true
   element_type_override:
-    value: <class 'UnavailableFeature'>
+    value: Live.Application.UnavailableFeature
     confidence: high
     source: |
       raw_doc: "A container for returning unavailable features." Corpus check:

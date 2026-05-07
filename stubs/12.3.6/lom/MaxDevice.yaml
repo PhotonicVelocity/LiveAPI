@@ -84,7 +84,7 @@ primary_class:
     raw_doc: Const access to a list of all midi outputs of the device.
     type: Live.Base.Vector
     element_type_override:
-      value: <class 'DeviceIO'>
+      value: Live.DeviceIO.DeviceIO
       confidence: high
       source: |
         raw_doc: "Const access to a list of all midi outputs of the device."
@@ -99,7 +99,7 @@ primary_class:
     raw_doc: Const access to a list of all midi outputs of the device.
     type: Live.Base.Vector
     element_type_override:
-      value: <class 'DeviceIO'>
+      value: Live.DeviceIO.DeviceIO
       confidence: high
       source: |
         Same shape as midi_inputs. M4L docs (maxdevice.md): `midi_outputs list of

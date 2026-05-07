@@ -20,7 +20,7 @@ classes:
   - name: cc_value_map
     type: tuple
     element_type_override:
-      value: <class 'int'>
+      value: int
       confidence: high
       source: |
         Corpus assigns int tuples directly: LV2_LX2_LC2_LD2/ParamMap.py:69,
@@ -78,7 +78,7 @@ classes:
   - name: vel_map
     type: tuple
     element_type_override:
-      value: <class 'int'>
+      value: int
       confidence: high
       source: |
         Corpus assigns int tuples directly: Axiom_AIR_25_49_61.py:594,
@@ -120,7 +120,7 @@ classes:
   - name: value_pair_map
     type: tuple
     element_type_override:
-      value: <class 'tuple'>
+      value: tuple
       confidence: low
       source: |
         Field name + context suggests tuples of value pairs, but element type is

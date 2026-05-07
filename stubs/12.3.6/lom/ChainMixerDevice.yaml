@@ -37,7 +37,7 @@ primary_class:
     raw_doc: Const access to the Chain's list of Send Amount Device Parameters.
     type: Live.Base.Vector
     element_type_override:
-      value: <class 'DeviceParameter'>
+      value: Live.DeviceParameter.DeviceParameter
       confidence: high
       source: |
         raw_doc: "Const access to the Chain's list of Send Amount Device Parameters."

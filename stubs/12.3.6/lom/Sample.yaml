@@ -113,7 +113,7 @@ primary_class:
     raw_doc: Access to the list of slice points in sample time in the sample.
     type: tuple
     element_type_override:
-      value: <class 'int'>
+      value: int
       confidence: high
       source: |
         M4L docs (sample.md:68) say "list of int read-only" + "positions of all
