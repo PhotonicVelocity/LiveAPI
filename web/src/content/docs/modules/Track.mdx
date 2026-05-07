@@ -28,6 +28,29 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 This class is a common super class of Track and Chain
 
+Phantom base in the LOM type system. `Track` and `Chain` both
+register `DeviceContainer` as their direct Python superclass via
+Boost.Python's `bases<>` mechanism — `Track.__mro__` includes it,
+`isinstance(track, DeviceContainer)` is True — but Boost binds the
+shared methods and properties on each concrete subclass rather
+than on the base. Result: real Python inheritance, structurally
+empty class.
+
+**Members are redefined on each subclass.** The shared surface
+(`color`, `color_index`, `mute`, `muted_via_solo`, `name`, `solo`,
+`delete_device`, `duplicate_device`, `insert_device`) is declared
+independently on `Track` and `Chain`, each carrying its own
+runtime docstring. The declarations live on the subclasses; this
+class is the structural parent that holds them together for
+`isinstance` purposes only.
+
+**Idiomatic code ignores it.** Ableton's own corpus and the M4L
+docs contain zero references to `DeviceContainer` — the
+convention is `isinstance(c, (Live.Track.Track, Live.Chain.Chain))`
+rather than testing against the common base. Treat it as an
+implementation detail of the LOM type system, not a class to
+program against.
+
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Track.">RoutingChannel</span></span>
 
 This class represents a routing channel.

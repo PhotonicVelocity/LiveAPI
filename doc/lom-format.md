@@ -84,6 +84,8 @@ Real source: `Live.Song.Song`.
 - name: Song
   path: Live.Song.Song           # parser — fully qualified
   raw_doc: This class represents a Live set.
+  description: |                 # hand-authored prose, optional
+    Class-level prose…
   ancestors:                     # parser — Boost.Python boilerplate stripped
   - Live.LomObject.LomObject
   init_doc: |-                   # parser — raw __init__ docstring
@@ -106,6 +108,16 @@ Real source: `Live.Song.Song`.
 
 `init_doc:` is rarely useful — preserved verbatim but the renderer can
 suppress the boilerplate "cannot be instantiated" form.
+
+`description:` is hand-authored markdown prose (multi-paragraph,
+telegraphic per `doc/reference-design.md` §8). Rendered below the
+class's runtime `raw_doc` on the reference page. Use when the runtime
+docstring is too terse to convey what the class actually means in the
+LOM — phantom-base explanations (e.g. `Live.Track.DeviceContainer`),
+idiom notes, cross-class context that belongs adjacent to the class
+heading rather than buried in member descriptions. The module-top-level
+`description:` covers what's true of the module as a whole; class-level
+`description:` covers what's true of one class.
 
 ## Property — basic
 

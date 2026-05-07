@@ -566,6 +566,16 @@ def render_module_page(
         if doc_text:
             lines.append(doc_text)
             lines.append("")
+        # Hand-authored, multi-paragraph class description (markdown).
+        # Lives on the class node as `description:` (see lom-format.md
+        # — analogous to the module-top-level `description:`, but
+        # scoped to one class). Renders below the runtime docstring so
+        # both are visible: parser-derived terse line first, authored
+        # context after.
+        class_description = cls.get("description")
+        if class_description:
+            lines.append(class_description.strip())
+            lines.append("")
         rendered_name = display_name or cls["name"]
         properties = [
             p for p in (cls.get("properties") or [])
