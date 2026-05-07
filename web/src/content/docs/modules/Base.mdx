@@ -61,6 +61,30 @@ A timer that will trigger a callback after a certain inverval. The timer can be 
 
 A simple read only container for returning objects from Live.
 
+Parametric base class — Live registers a single `Live.Base.Vector`
+on the Boost.Python side and reuses it for every LOM list-valued
+property whose elements are LomObjects. `Vector[Track]`,
+`Vector[Clip]`, `Vector[Scene]`, `Vector[Device]`, ... all return
+the **same** Python class; the element type varies per call site.
+
+LomObject elements get the parametric form. Non-LomObject element
+types get their own concrete container class (`IntVector`,
+`StringVector`, `RoutingChannelVector`, `MidiNoteVector`,
+`WarpMarkerVector`, ...), each declared on the module that owns
+the element type and registered separately on the Boost.Python
+side. One observed exception:
+`Device.ATimeableValueVector` holds `DeviceParameter` (a
+LomObject) but is its own concrete class — Live's naming suggests
+"automatable value" is the relevant identity, not just "container
+of parameters."
+
+Behavior is identical across both patterns: read-only, iterable,
+indexable. The structural distinction only matters for
+`isinstance` checks and type annotations. Whether the concrete
+`XVector` classes derive from `Vector` at the runtime level is
+unverified — the parser doesn't currently expose `__bases__` for
+these classes.
+
 ## Functions
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">get_text</span></span>

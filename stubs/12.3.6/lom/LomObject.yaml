@@ -66,6 +66,24 @@ description: |
   with different `id(...)` but matching `_live_ptr` are the same
   Live object.
 
+  ## Collections
+
+  LOM properties that return a list of objects use one of two
+  container patterns:
+
+  - **Parametric `Vector[T]`** — a single `Live.Base.Vector` class
+    reused for collections of LomObjects. `Vector[Track]`,
+    `Vector[Clip]`, `Vector[Scene]`, ... all return the same Python
+    class; the element type varies per call site.
+  - **Concrete `XVector`** — distinct named classes for collections
+    of non-LomObject elements (primitives, Boost.Python value
+    classes): `IntVector`, `RoutingChannelVector`, `MidiNoteVector`,
+    `WarpMarkerVector`, ...
+
+  Both behave identically at the Python level — read-only, iterable,
+  indexable. See [`Live.Base.Vector`](/LiveAPI/modules/base/#vector)
+  for the specific rule and one observed exception.
+
 primary_class:
 - name: LomObject
   path: Live.LomObject.LomObject
