@@ -47,6 +47,9 @@ and reference page generation will consume.
 
 ```yaml
 module: Song
+description: |              # hand-authored prose (markdown). Renders as the
+  Top-level Live set: tracks, transport, scenes, history. The Song is the
+  root of the LOM document tree.
 
 primary_class:
 - name: Song
@@ -66,7 +69,12 @@ constants:
 - name: ...
 ```
 
-A module may omit any group when empty.
+A module may omit any group when empty. The `description:` field is the
+hand-authored module-level prose; the reference generator uses it as the
+intro paragraph below the page H1 and as the `<meta>` description tag.
+Live's runtime exposes no module-level docstrings, so this field is
+always hand-authored. When absent, the reference renders a visible
+`_No module description._` placeholder so the gap is editorially obvious.
 
 ## Class — primary
 

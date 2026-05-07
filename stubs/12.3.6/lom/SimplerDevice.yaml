@@ -1,4 +1,8 @@
 module: SimplerDevice
+description: |
+  Represents an instance of Simpler, Live's single-sample instrument. The
+  `SimplerDevice` class extends `Device` with the loaded `Sample`, slicing
+  controls, and Classic/One-Shot/Slicing playback-mode state.
 
 primary_class:
 - name: SimplerDevice

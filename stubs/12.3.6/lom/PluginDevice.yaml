@@ -1,4 +1,9 @@
 module: PluginDevice
+description: |
+  Represents a third-party VST, AU, or CLAP plug-in hosted by Live. The
+  `PluginDevice` class extends `Device` with the plug-in's program list, the
+  ability to step through factory presets, and the larger parameter surface
+  exposed by external plug-ins.
 
 primary_class:
 - name: PluginDevice

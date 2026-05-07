@@ -1,4 +1,8 @@
 module: HybridReverbDevice
+description: |
+  Represents an instance of Hybrid Reverb, Live's convolution-and-algorithm
+  reverb. The `HybridReverbDevice` class extends `Device` with the impulse-
+  response selection and reverb-mode state unique to the device.
 
 primary_class:
 - name: HybridReverbDevice

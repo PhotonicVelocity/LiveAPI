@@ -1,4 +1,8 @@
 module: Clip
+description: |
+  Represents a clip in Live, either an audio or MIDI clip living in an
+  Arrangement track or a Session view slot. The `Clip` class drives clip
+  playback, looping, warp markers, MIDI note editing, and automation envelopes.
 
 primary_class:
 - name: Clip

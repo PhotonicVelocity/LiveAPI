@@ -1,4 +1,8 @@
 module: ChainMixerDevice
+description: |
+  Represents the mixer attached to a single rack `Chain`. The
+  `ChainMixerDevice` class exposes the chain's volume, pan, mute, solo, and
+  per-chain sends as `DeviceParameter` objects.
 
 primary_class:
 - name: ChainMixerDevice

@@ -1,4 +1,9 @@
 module: RackDevice
+description: |
+  Represents a Rack — Instrument, Drum, Audio Effect, or MIDI Effect — as a
+  `Device` whose chains and macro controls are exposed to the LOM. The
+  `RackDevice` class extends `Device` with the chain list, macro mappings, and
+  variation/preset state unique to racks.
 
 primary_class:
 - name: RackDevice

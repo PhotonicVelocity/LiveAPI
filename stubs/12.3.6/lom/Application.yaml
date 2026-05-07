@@ -1,4 +1,9 @@
 module: Application
+description: |
+  Represents the running Live application — the entry point to the LOM,
+  returned by the module-level `get_application()` function. The `Application`
+  class exposes Live's version, the browser, the control-surface registry,
+  and the `Application.View` for navigating Live's windows and panels.
 
 primary_class:
 - name: Application

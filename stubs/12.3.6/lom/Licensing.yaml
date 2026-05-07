@@ -1,4 +1,9 @@
 module: Licensing
+description: |
+  Internal licensing and authorization plumbing used by Live's startup and
+  trial flows. The `PythonLicensingBridge` class drives session and product
+  identification, and `ProgressDialog` provides the modal UI shown during
+  authorization activity.
 
 classes:
 - name: ProgressDialog

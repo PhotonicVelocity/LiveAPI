@@ -103,24 +103,12 @@
   color: var(--sl-color-white);
   font-weight: 700;
 }
-/* Inheritance base — distinct accent (purple) so it doesn't read as "more
-   path." Path locates the class in the namespace; base says what it
-   inherits from. Different roles, different colors. The inner <a> picks
-   up the link color naturally; we just keep the parens themselves at the
-   base's accent color. */
+/* Inheritance base — parens stay at default body color so they don't
+   compete with the linked class name. The inner <a> uses Starlight's
+   default link color, matching property-type links elsewhere on the
+   page (consistent type-link treatment regardless of position). */
 .sig-base {
-  color: var(--sl-color-purple);
   font-weight: 400;
-  opacity: 0.85;
-}
-.sig-base a {
-  color: inherit;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
-}
-.sig-base a:hover {
-  text-decoration-thickness: 2px;
 }
 
 /* H2 sets section breaks — give it breathing room above, weight, and a

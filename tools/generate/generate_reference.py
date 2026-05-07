@@ -292,8 +292,12 @@ def render_module_page(module_name: str, doc: dict, registry: dict[str, str]) ->
       - Module Enums section
       - Module Functions section
     """
-    raw_doc = doc.get("raw_doc")
-    description = first_sentence(raw_doc) or f"The Live.{module_name} module."
+    # Hand-authored module description (per doc/lom-format.md). Falls back
+    # to a visible placeholder so empty modules are obvious to writers.
+    description = doc.get("description") or "_No module description._"
+    # SEO frontmatter — strip markdown emphasis from the placeholder so the
+    # `<meta>` snippet reads naturally.
+    seo_description = first_sentence(doc.get("description")) or f"Reference for Live.{module_name}."
 
     primary_classes = doc.get("primary_class") or []
     other_classes = doc.get("classes") or []
@@ -308,7 +312,7 @@ def render_module_page(module_name: str, doc: dict, registry: dict[str, str]) ->
     lines: list[str] = []
     lines.append("---")
     lines.append(f"title: {module_name}")
-    lines.append(f'description: "{escape_yaml_scalar(description)}"')
+    lines.append(f'description: "{escape_yaml_scalar(seo_description)}"')
     lines.append("---")
     lines.append("")
     lines.append(description)

@@ -1,9 +1,13 @@
 ---
 title: Song
-description: "The Live.Song module."
+description: "Represents the current Live Set — the root of the open document, reached via `Application.get_document()` from the running app."
 ---
 
-The Live.Song module.
+Represents the current Live Set — the root of the open document, reached
+via `Application.get_document()` from the running app. The `Song` class
+exposes transport state, session and arrangement editing, undo history,
+and the `Song.View` used to drive Live's UI selection.
+
 
 ### <span class="sig" data-kw="class"><span class="sig-name" data-path="Live.Song.">Song</span><span class="sig-base">(<a href="/LiveAPI/modules/lomobject/#lomobject">LomObject</a>)</span></span>
 

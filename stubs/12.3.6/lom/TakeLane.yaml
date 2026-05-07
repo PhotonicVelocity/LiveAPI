@@ -1,4 +1,8 @@
 module: TakeLane
+description: |
+  Represents a take lane on an Arrangement-view track — the comping lane that
+  collects alternate recorded passes. The `TakeLane` class exposes the lane's
+  clips, mute state, and selection used to assemble a comp.
 
 primary_class:
 - name: TakeLane

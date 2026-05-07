@@ -1,4 +1,8 @@
 module: Scene
+description: |
+  Represents a row of clip slots across the tracks of Live's Session view
+  matrix. The `Scene` class controls scene firing, naming, color, and the
+  per-scene tempo and time-signature overrides.
 
 primary_class:
 - name: Scene

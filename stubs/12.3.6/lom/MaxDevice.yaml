@@ -1,4 +1,8 @@
 module: MaxDevice
+description: |
+  Represents a Max for Live device hosted on a track or rack chain. The
+  `MaxDevice` class extends `Device` with hooks specific to M4L — patcher
+  loading, parameter exposure, and inter-device messaging.
 
 primary_class:
 - name: MaxDevice

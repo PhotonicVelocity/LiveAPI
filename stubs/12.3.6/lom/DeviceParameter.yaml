@@ -1,4 +1,8 @@
 module: DeviceParameter
+description: |
+  Represents a single automatable parameter on a device or mixer in Live. The
+  `DeviceParameter` class exposes the parameter's current value, range,
+  display string, automation state, and MIDI/key mapping target.
 
 primary_class:
 - name: DeviceParameter

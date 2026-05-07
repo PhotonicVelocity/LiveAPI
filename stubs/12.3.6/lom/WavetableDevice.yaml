@@ -1,4 +1,8 @@
 module: WavetableDevice
+description: |
+  Represents an instance of Wavetable, Live's wavetable synthesizer. The
+  `WavetableDevice` class extends `Device` with the per-oscillator wavetable
+  selection and modulation-matrix state unique to the instrument.
 
 primary_class:
 - name: WavetableDevice

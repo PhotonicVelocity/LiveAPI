@@ -1,4 +1,8 @@
 module: SpectralResonatorDevice
+description: |
+  Represents an instance of Spectral Resonator, Live's pitched spectral
+  effect. The `SpectralResonatorDevice` class extends `Device` with the
+  MIDI-driven and external-sidechain mode state unique to the resonator.
 
 primary_class:
 - name: SpectralResonatorDevice

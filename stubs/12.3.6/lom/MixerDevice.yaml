@@ -1,4 +1,9 @@
 module: MixerDevice
+description: |
+  Represents the per-track mixer in Live. The `MixerDevice` class exposes
+  volume, panning, sends, cue volume, crossfader assignment, and track
+  activator as `DeviceParameter` objects ready for automation or remote
+  control.
 
 primary_class:
 - name: MixerDevice

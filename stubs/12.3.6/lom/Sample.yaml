@@ -1,4 +1,8 @@
 module: Sample
+description: |
+  Represents a sample file loaded into a Simpler instance. The `Sample` class
+  exposes the sample's file path, length, sample rate, slicing markers, and
+  the warp markers that drive Simpler's playback engine.
 
 primary_class:
 - name: Sample

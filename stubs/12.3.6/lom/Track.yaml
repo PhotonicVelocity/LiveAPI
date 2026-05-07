@@ -1,4 +1,9 @@
 module: Track
+description: |
+  Represents an audio, MIDI, return, or main track in a Live Set. The `Track`
+  class hosts the track's clip slots, devices, mixer, and routing — not all
+  properties are supported by every track type, and individual members are
+  marked accordingly.
 
 primary_class:
 - name: Track

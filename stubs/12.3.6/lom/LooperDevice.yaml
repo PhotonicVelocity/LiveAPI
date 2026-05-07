@@ -1,4 +1,8 @@
 module: LooperDevice
+description: |
+  Represents an instance of Live's Looper audio effect. The `LooperDevice`
+  class extends `Device` with the recording/overdub/playback transport state
+  and loop length information unique to Looper.
 
 primary_class:
 - name: LooperDevice

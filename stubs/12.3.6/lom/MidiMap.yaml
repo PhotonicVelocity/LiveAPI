@@ -1,4 +1,10 @@
 module: MidiMap
+description: |
+  Defines the binding surface that control surface scripts use to map physical
+  MIDI controls to Live parameters. Module-level `forward_*` and `map_*`
+  functions install CC, note, and pitch-bend mappings, while `CCFeedbackRule`,
+  `NoteFeedbackRule`, and `PitchBendFeedbackRule` describe the feedback values
+  Live should send back to the controller.
 
 classes:
 - name: CCFeedbackRule

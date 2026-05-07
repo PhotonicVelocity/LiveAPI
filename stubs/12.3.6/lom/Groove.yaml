@@ -1,4 +1,8 @@
 module: Groove
+description: |
+  Represents a single groove template stored in the Live Set's groove pool.
+  The `Groove` class exposes the groove's name and shaping parameters, which
+  any clip can adopt to bend its timing, velocity, and timing-random feel.
 
 primary_class:
 - name: Groove

@@ -1,4 +1,8 @@
 module: Chain
+description: |
+  Represents a single device chain inside an Instrument, Drum, Audio Effect, or
+  MIDI Effect Rack. The `Chain` class hosts the chain's nested devices,
+  per-chain `ChainMixerDevice`, and key/velocity/chain-selector zones.
 
 primary_class:
 - name: Chain

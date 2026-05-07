@@ -1,4 +1,8 @@
 module: RoarDevice
+description: |
+  Represents an instance of Roar, Live's multi-stage saturation and
+  distortion effect. The `RoarDevice` class extends `Device` with the
+  routing-mode and stage-arrangement state unique to Roar.
 
 primary_class:
 - name: RoarDevice

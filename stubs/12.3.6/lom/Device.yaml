@@ -1,4 +1,9 @@
 module: Device
+description: |
+  Represents a MIDI or audio device on a track or in a rack chain. The `Device`
+  class is the base for every Live and third-party device — its automatable
+  parameters, on/off state, and preset-loading behavior are shared by all
+  device subclasses.
 
 primary_class:
 - name: Device

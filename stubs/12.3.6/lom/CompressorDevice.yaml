@@ -1,4 +1,8 @@
 module: CompressorDevice
+description: |
+  Represents an instance of Live's Compressor audio effect. The
+  `CompressorDevice` class extends `Device` with the metering and
+  visualization values unique to Compressor's UI.
 
 primary_class:
 - name: CompressorDevice

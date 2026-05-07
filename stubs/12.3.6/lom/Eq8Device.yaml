@@ -1,4 +1,8 @@
 module: Eq8Device
+description: |
+  Represents an instance of EQ Eight, Live's eight-band parametric equalizer.
+  The `Eq8Device` class extends `Device` with the per-band frequency, gain,
+  and Q controls plus EQ Eight's analyzer state.
 
 primary_class:
 - name: Eq8Device

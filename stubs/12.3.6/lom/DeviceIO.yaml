@@ -1,4 +1,8 @@
 module: DeviceIO
+description: |
+  Represents an audio input or output bus on a Max for Live device — the
+  type used by `MaxDevice.audio_inputs` and `MaxDevice.audio_outputs` to
+  expose the bus's available routing targets and current selection.
 
 primary_class:
 - name: DeviceIO

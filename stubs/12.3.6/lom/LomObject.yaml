@@ -1,4 +1,9 @@
 module: LomObject
+description: |
+  Defines the structural base class shared by every object reachable through
+  Live's Object Model. The `LomObject` class supplies the common identity and
+  observation machinery that every concrete LOM type (Song, Track, Clip,
+  Device, ...) inherits.
 
 primary_class:
 - name: LomObject

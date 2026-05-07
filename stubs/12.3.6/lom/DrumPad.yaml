@@ -1,4 +1,8 @@
 module: DrumPad
+description: |
+  Represents a single pad in a Drum Rack — the per-note address that maps an
+  incoming MIDI note to a `DrumChain`. The `DrumPad` class exposes the pad's
+  note, name, mute/solo state, and the chains routed to it.
 
 primary_class:
 - name: DrumPad

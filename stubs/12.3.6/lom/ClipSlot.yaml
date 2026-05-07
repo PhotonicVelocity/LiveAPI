@@ -1,4 +1,9 @@
 module: ClipSlot
+description: |
+  Represents a single cell of Live's Session view matrix — the intersection of
+  a track and a scene. The `ClipSlot` class owns the slot's `Clip` (if any),
+  its launch and stop buttons, and, for group-track slots, the aggregated
+  playing state of clips inside the group.
 
 primary_class:
 - name: ClipSlot

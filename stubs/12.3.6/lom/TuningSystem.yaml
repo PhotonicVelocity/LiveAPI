@@ -1,4 +1,9 @@
 module: TuningSystem
+description: |
+  Represents the tuning system applied to a Live Set — the per-note pitch
+  table loaded from a Scala or MTS source. The `TuningSystem` class exposes
+  the tuning's name, source file, root note, and the pitch offsets it
+  contributes for each MIDI key.
 
 primary_class:
 - name: TuningSystem

@@ -1,4 +1,9 @@
 module: Browser
+description: |
+  Represents Live's content browser as a tree of `BrowserItem` nodes covering
+  sounds, drums, instruments, audio and MIDI effects, samples, plug-ins, user
+  libraries, and the current project. The `Browser` class lets scripts walk
+  these libraries and load any browsable item into a track or device chain.
 
 primary_class:
 - name: Browser

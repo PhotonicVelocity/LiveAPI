@@ -1,4 +1,9 @@
 module: Base
+description: |
+  The LOM's foundational layer. The `Vector` family — the generic base plus
+  its concrete subclasses — is what every collection-valued LOM property
+  returns; `Text` carries Live's translatable strings, and `Timer` schedules
+  callbacks.
 
 classes:
 - name: FloatVector

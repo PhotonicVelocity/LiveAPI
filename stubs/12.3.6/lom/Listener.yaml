@@ -1,4 +1,9 @@
 module: Listener
+description: |
+  Holds the bookkeeping types behind Live's listener callbacks. The
+  `ListenerHandle` class wraps an active subscription on an observable LOM
+  property; the `ListenerVector` collects multiple handles for bulk lifetime
+  management.
 
 classes:
 - name: ListenerHandle
