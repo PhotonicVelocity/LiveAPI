@@ -479,22 +479,33 @@ def _callable_args_returns_html(
 def function_signature_html(
     fn: dict,
     module_name: str,
-    registry: dict[str, str],
 ) -> str:
-    """Module-level function signature: `def name(args) -> return`.
+    """Module-level function H3: `def Live.Module.name`.
 
-    Same kw/path/name framing as classes (rendered as H3 with the
-    keyword as a CSS pseudo-element); the args + return portion is the
-    same `.meth-sig` span machinery as methods, hung off the suffix
-    slot of `_signature_html`.
+    Just the kw/path/name framing — args + return are rendered
+    separately on the next line by the caller, NOT in the H3, so
+    Starlight's right-side TOC sees only the bare function name
+    instead of the full signature blob.
     """
     return _signature_html(
         name=fn["name"],
         module_name=module_name,
-        suffix=_callable_args_returns_html(
-            fn, registry, current_module=module_name,
-        ),
     )
+
+
+def function_args_return_html(
+    fn: dict,
+    module_name: str,
+    registry: dict[str, str],
+) -> str:
+    """The `(args) -> R` portion of a function signature, wrapped in
+    a `.fn-sig-row` block. Rendered as a sibling of the function H3
+    so its text stays out of the heading's `textContent`.
+    """
+    inner = _callable_args_returns_html(
+        fn, registry, current_module=module_name,
+    )
+    return f'<div class="fn-sig-row">{inner}</div>'
 
 
 def method_signature_html(
@@ -1138,18 +1149,6 @@ def render_module_page(
             lines.append("#### Constants")
             lines.append("")
 
-    def emit_member(heading_html: str, doc_text: str | None) -> None:
-        """Append an H3 heading + an optional description paragraph below.
-
-        Used for non-class members (enums, module functions) where there's
-        no nested member structure to render at this step.
-        """
-        lines.append(f"### {heading_html}")
-        lines.append("")
-        if doc_text:
-            lines.append(doc_text)
-            lines.append("")
-
     if main_class is not None:
         emit_class(main_class)
 
@@ -1226,10 +1225,14 @@ def render_module_page(
         lines.append("## Functions")
         lines.append("")
         for fn in functions:
-            emit_member(
-                function_signature_html(fn, module_name, registry),
-                member_description_text(fn),
-            )
+            lines.append(f"### {function_signature_html(fn, module_name)}")
+            lines.append("")
+            lines.append(function_args_return_html(fn, module_name, registry))
+            lines.append("")
+            desc = member_description_text(fn)
+            if desc:
+                lines.append(desc)
+                lines.append("")
 
     return "\n".join(lines)
 
