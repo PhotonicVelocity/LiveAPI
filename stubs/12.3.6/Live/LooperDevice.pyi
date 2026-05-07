@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import StringVector
-    from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import ATimeableValueVector, Device, DeviceType
     from Live.Track import Track

@@ -7,7 +7,7 @@ if TYPE_CHECKING:
     from Live.Device import Device
     from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
-    from Live.Track import DeviceContainer, Track
+    from Live.Track import DeviceContainer
 
 
 

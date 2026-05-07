@@ -8,7 +8,6 @@ if TYPE_CHECKING:
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
-    from Live.Envelope import Envelope
     from Live.GroovePool import GroovePool
     from Live.LomObject import LomObject
     from Live.Scene import Scene
@@ -699,14 +698,14 @@ class Song(LomObject):
         """Get the canonical parent of the song."""
         ...
 
-    def capture_and_insert_scene(self, capture_mode: CaptureMode | int = 0, /) -> None:
+    def capture_and_insert_scene(self, capture_mode: int = Song.CaptureMode.all, /) -> None:
         """
         Capture currently playing clips and insert them as a new scene after
         the selected scene. Raises a runtime error if creating a new scene would exceed the limitations.
         """
         ...
 
-    def capture_midi(self, destination: CaptureDestination | int = 0, /) -> None:
+    def capture_midi(self, destination: int = Song.CaptureDestination.auto, /) -> None:
         """
         Capture recently played MIDI material from audible tracks.
         If no Destination is given or Destination is set to CaptureDestination.auto, the captured material is inserted into the Session or Arrangement depending on which is visible.

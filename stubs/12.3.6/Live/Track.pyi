@@ -5,7 +5,6 @@ T = TypeVar('T', covariant=True)
 
 if TYPE_CHECKING:
     from Live.Base import StringVector, Vector
-    from Live.Chain import Chain
     from Live.Clip import Clip
     from Live.ClipSlot import ClipSlot
     from Live.Device import Device

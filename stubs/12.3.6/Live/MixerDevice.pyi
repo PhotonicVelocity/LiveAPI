@@ -3,10 +3,8 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
-    from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
     from Live.LomObject import LomObject
-    from Live.Song import Song
     from Live.Track import Track
 
 

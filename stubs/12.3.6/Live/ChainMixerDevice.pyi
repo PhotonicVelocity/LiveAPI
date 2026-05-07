@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Chain import Chain
-    from Live.Device import Device
     from Live.DeviceParameter import DeviceParameter
     from Live.LomObject import LomObject
 

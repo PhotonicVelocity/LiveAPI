@@ -6,7 +6,6 @@ if TYPE_CHECKING:
     from Live.Chain import Chain
     from Live.ChainMixerDevice import ChainMixerDevice
     from Live.RackDevice import RackDevice
-    from Live.Track import Track
 
 
 

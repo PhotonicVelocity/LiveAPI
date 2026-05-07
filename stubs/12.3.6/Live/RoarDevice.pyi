@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import StringVector
     from Live.Device import ATimeableValueVector, Device, DeviceType
-    from Live.Envelope import Envelope
     from Live.Track import Track
 
 

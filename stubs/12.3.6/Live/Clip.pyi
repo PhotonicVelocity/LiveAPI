@@ -10,7 +10,6 @@ if TYPE_CHECKING:
     from Live.Envelope import Envelope
     from Live.Groove import Groove
     from Live.LomObject import LomObject
-    from Live.Track import Track
 
 
 
