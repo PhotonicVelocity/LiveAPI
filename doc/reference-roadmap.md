@@ -69,10 +69,10 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 5 + 7 + 8 complete plus nested-type hoisting
-(Step 11 structural piece); module descriptions hand-authored across
-all 43 modules; LomObject foundation page + LOM badge / pinned-pair
-treatment across every LOM class.
+Status: Steps 1 through 5 + 7 + 8 + 9 complete plus nested-type
+hoisting (Step 11 structural piece); module descriptions hand-authored
+across all 43 modules; LomObject foundation page + LOM badge /
+pinned-pair treatment across every LOM class.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -136,9 +136,14 @@ treatment across every LOM class.
   hand-authored `description:`, fall back to `raw_doc`). `__init__`
   filtered via `SKIP_MEMBERS` — constructor coverage handled
   separately when constructor records land.
-- **Step 9 — Module-level enums.** Currently rendered as headings only.
-  Add member tables (`Member | Value` listing) under each enum heading,
-  using the enum's `members` field from the lom YAML.
+- **Step 9 — Module-level enums.** ✅ Done. Each enum on the page's
+  `## Enums` section renders the H3 signature, description (uses
+  the `member_description_text` fallback chain — hand-authored
+  `description:` first, `raw_doc` second), then a `Member | Value`
+  markdown table from the enum's `members` field. Member names are
+  rendered in backticks; integer values bare. Same machinery handles
+  hoisted nested enums (`Track.monitoring_states`, ...) since they
+  share the flat top-level rendering path.
 - **Step 10 — Module-level functions.** Currently rendered as headings only.
   Add full signature with args + return type, the `description` field as
   prose, and `**Parameters:**` / `**Returns:**` labeled sections.

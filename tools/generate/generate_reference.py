@@ -909,10 +909,30 @@ def render_module_page(
         lines.append("")
         for parent, enum in enums_flat:
             display = f"{parent['name']}.{enum['name']}" if parent else None
-            emit_member(
-                enum_signature_html(enum, module_name, display_name=display),
-                normalize_paragraph(enum.get("raw_doc")),
-            )
+            sig = enum_signature_html(enum, module_name, display_name=display)
+            lines.append(f"### {sig}")
+            lines.append("")
+            desc = member_description_text(enum)
+            if desc:
+                lines.append(desc)
+                lines.append("")
+            members = enum.get("members") or {}
+            if members:
+                # `#### Members` heading parallels `#### Properties` /
+                # `#### Methods` on classes — same structural role on
+                # an enum. Member listing rendered as a raw HTML table
+                # (no markdown header row needed); names in monospace,
+                # values right-aligned and muted.
+                lines.append("#### Members")
+                lines.append("")
+                lines.append('<table class="enum-members">')
+                for member_name, member_value in members.items():
+                    lines.append(
+                        f'<tr><td><code>{member_name}</code></td>'
+                        f'<td>{member_value}</td></tr>'
+                    )
+                lines.append('</table>')
+                lines.append("")
 
     if functions:
         lines.append("## Functions")

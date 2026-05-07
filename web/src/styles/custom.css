@@ -8,7 +8,7 @@
   --sl-text-h1: 2.5rem;
   --sl-text-h2: 2rem;
   --sl-text-h3: 1.3rem;
-  --sl-text-h4: 1.1rem;
+  --sl-text-h4: 1.0rem;
   --sl-text-h5: 1.0rem;
 }
 
@@ -96,6 +96,24 @@
 .sl-markdown-content h5 .meth-sig {
   font-weight: 400;
   color: var(--sl-color-gray-3);
+}
+
+/* Enum member table — compact two-column listing under `#### Members`.
+   No header row (it's all the same shape: identifier, integer value).
+   Indented to match the H5 column on properties / methods so members
+   read as nested under the enum signature. */
+.sl-markdown-content table.enum-members {
+  border-collapse: collapse;
+  margin: 0.25rem 0 0.5rem 1.5rem;
+  font-size: var(--sl-text-sm);
+}
+.sl-markdown-content table.enum-members td {
+  padding: 0.1rem 1rem 0.1rem 0;
+  border: none;
+}
+.sl-markdown-content table.enum-members td:last-child {
+  color: var(--sl-color-gray-3);
+  text-align: right;
 }
 
 /* Method-signature syntax flavor — light coloring on the parts that
