@@ -15,10 +15,6 @@ class MixerDevice(LomObject):
     access to the Volume and Panning properties of a Track.
     """
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_crossfade_assign_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

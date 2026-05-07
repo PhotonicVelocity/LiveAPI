@@ -12,10 +12,6 @@ if TYPE_CHECKING:
 class DrumPad(LomObject):
     """This class represents a drum group device pad in Live."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_chains_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

@@ -3,19 +3,14 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import Vector
-    from Live.Device import ATimeableValueVector, Device, DeviceType
+    from Live.Device import ATimeableValueVector, Device
     from Live.DeviceIO import DeviceIO
     from Live.DeviceParameter import DeviceParameter
-    from Live.Track import Track
 
 
 
 class MaxDevice(Device):
     """This class represents a Max for Live device."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_audio_inputs_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -81,36 +76,6 @@ class MaxDevice(Device):
         Returns true, if the given listener function or method is connected
         to the property "bank_parameters_changed".
         """
-        ...
-
-    @property
-    def can_compare_ab(self) -> bool:
-        """Returns true if the Device has the capability to AB compare."""
-        ...
-
-    @property
-    def can_have_chains(self) -> bool:
-        """Returns true if the device is a rack."""
-        ...
-
-    @property
-    def can_have_drum_pads(self) -> bool:
-        """Returns true if the device is a drum rack."""
-        ...
-
-    @property
-    def canonical_parent(self) -> Track:
-        """Get the canonical parent of the Device."""
-        ...
-
-    @property
-    def class_display_name(self) -> str:
-        """Return const access to the name of the device's class name as displayed in Live's browser and device chain"""
-        ...
-
-    @property
-    def class_name(self) -> str:
-        """Return const access to the name of the device's class."""
         ...
 
     def get_bank_count(self) -> int:
@@ -214,16 +179,6 @@ class MaxDevice(Device):
         Remove a previously set listener function or method from
         property "midi_outputs".
         """
-        ...
-
-    @property
-    def type(self) -> DeviceType:
-        """Return the type of the device."""
-        ...
-
-    @property
-    def view(self) -> Device.View:
-        """Representing the view aspects of a device."""
         ...
 
 __all__ = ['MaxDevice']

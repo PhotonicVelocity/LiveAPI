@@ -13,10 +13,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: custom_bool_target
     raw_doc: Return the custom bool target
     type: int

@@ -11,10 +11,6 @@ if TYPE_CHECKING:
 class Sample(LomObject):
     """This class represents a sample file loaded into a Simpler instance."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_beats_granulation_resolution_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

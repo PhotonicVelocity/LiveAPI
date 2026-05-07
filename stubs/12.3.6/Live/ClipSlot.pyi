@@ -11,10 +11,6 @@ if TYPE_CHECKING:
 class ClipSlot(LomObject):
     """This class represents an entry in Lives Session view matrix."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

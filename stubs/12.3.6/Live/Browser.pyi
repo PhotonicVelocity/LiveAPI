@@ -11,10 +11,6 @@ if TYPE_CHECKING:
 class Browser(LomObject):
     """This class represents the live browser data base."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_filter_type_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

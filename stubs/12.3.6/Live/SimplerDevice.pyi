@@ -3,9 +3,8 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 if TYPE_CHECKING:
     from Live.Base import IntVector
-    from Live.Device import ATimeableValueVector, Device, DeviceType
+    from Live.Device import ATimeableValueVector, Device
     from Live.Sample import Sample
-    from Live.Track import Track
 
 
 
@@ -14,10 +13,6 @@ class SimplerDevice(Device):
 
     class View(Device.View):
         """Representing the view aspects of a simpler device."""
-
-        @property
-        def _live_ptr(self) -> int:
-            ...
 
         def add_sample_end_listener(self, callback: Callable[[], None], /) -> None:
             """
@@ -243,10 +238,6 @@ class SimplerDevice(Device):
             """
             ...
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_can_warp_as_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the
@@ -346,21 +337,6 @@ class SimplerDevice(Device):
         ...
 
     @property
-    def can_compare_ab(self) -> bool:
-        """Returns true if the Device has the capability to AB compare."""
-        ...
-
-    @property
-    def can_have_chains(self) -> bool:
-        """Returns true if the device is a rack."""
-        ...
-
-    @property
-    def can_have_drum_pads(self) -> bool:
-        """Returns true if the device is a drum rack."""
-        ...
-
-    @property
     def can_warp_as(self) -> bool:
         """Returns true if warp_as is available."""
         ...
@@ -394,21 +370,6 @@ class SimplerDevice(Device):
         Returns true, if the given listener function or method is connected
         to the property "can_warp_half".
         """
-        ...
-
-    @property
-    def canonical_parent(self) -> Track:
-        """Get the canonical parent of the Device."""
-        ...
-
-    @property
-    def class_display_name(self) -> str:
-        """Return const access to the name of the device's class name as displayed in Live's browser and device chain"""
-        ...
-
-    @property
-    def class_name(self) -> str:
-        """Return const access to the name of the device's class."""
         ...
 
     def crop(self) -> None:
@@ -711,11 +672,6 @@ class SimplerDevice(Device):
         Returns true, if the given listener function or method is connected
         to the property "slicing_playback_mode".
         """
-        ...
-
-    @property
-    def type(self) -> DeviceType:
-        """Return the type of the device."""
         ...
 
     @property

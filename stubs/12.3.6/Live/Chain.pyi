@@ -14,10 +14,6 @@ if TYPE_CHECKING:
 class Chain(DeviceContainer):
     """This class represents a group device chain in Live."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

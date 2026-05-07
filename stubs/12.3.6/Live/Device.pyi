@@ -15,10 +15,6 @@ class Device(LomObject):
     class View(LomObject):
         """Representing the view aspects of a device."""
 
-        @property
-        def _live_ptr(self) -> int:
-            ...
-
         def add_is_collapsed_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
@@ -52,10 +48,6 @@ class Device(LomObject):
             property "is_collapsed".
             """
             ...
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_is_active_listener(self, callback: Callable[[], None], /) -> None:
         """

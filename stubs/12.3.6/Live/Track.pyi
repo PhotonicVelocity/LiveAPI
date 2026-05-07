@@ -24,10 +24,6 @@ class Track(DeviceContainer):
     class View(LomObject):
         """Representing the view aspects of a Track."""
 
-        @property
-        def _live_ptr(self) -> int:
-            ...
-
         def add_device_insert_mode_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
@@ -120,10 +116,6 @@ class Track(DeviceContainer):
             to the property "selected_device".
             """
             ...
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_arm_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -1588,10 +1580,6 @@ class Track(DeviceContainer):
 
 class DeviceContainer(LomObject):
     """This class is a common super class of Track and Chain"""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
 class DeviceInsertMode(int):
     default: int = 0

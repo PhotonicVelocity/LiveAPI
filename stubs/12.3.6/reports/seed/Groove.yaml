@@ -12,10 +12,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: base
     raw_doc: Get/set the groove's base grid.
     type: Live.Groove.Base

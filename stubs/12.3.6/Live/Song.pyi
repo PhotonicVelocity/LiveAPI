@@ -22,10 +22,6 @@ class Song(LomObject):
     class View(LomObject):
         """Representing the view aspects of a Live document: The Session and Arrangerview."""
 
-        @property
-        def _live_ptr(self) -> int:
-            ...
-
         def add_detail_clip_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the
@@ -242,10 +238,6 @@ class Song(LomObject):
             to the property "selected_track".
             """
             ...
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_appointed_device_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -1984,10 +1976,6 @@ class CaptureMode(int):
 
 class CuePoint(LomObject):
     """Represents a 'Marker' in the arrangement."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_name_listener(self, callback: Callable[[], None], /) -> None:
         """

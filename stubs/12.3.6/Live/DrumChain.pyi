@@ -4,17 +4,12 @@ from typing import TYPE_CHECKING, Any, Callable, Iterable
 if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.Chain import Chain
-    from Live.ChainMixerDevice import ChainMixerDevice
     from Live.RackDevice import RackDevice
 
 
 
 class DrumChain(Chain):
     """This class represents a drum group device chain in Live."""
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_choke_group_listener(self, callback: Callable[[], None], /) -> None:
         """
@@ -35,11 +30,6 @@ class DrumChain(Chain):
         Add a listener function or method, which will be called as soon as the
         property "out_note" has changed.
         """
-        ...
-
-    @property
-    def canonical_parent(self) -> RackDevice:
-        """Get the canonical parent of the chain."""
         ...
 
     @property
@@ -79,38 +69,6 @@ class DrumChain(Chain):
         ...
 
     @property
-    def has_audio_input(self) -> bool:
-        """
-        return True, if this Chain can be feed with an Audio signal. This is
-        true for all Audio Chains.
-        """
-        ...
-
-    @property
-    def has_audio_output(self) -> bool:
-        """
-        return True, if this Chain sends out an Audio signal. This is
-        true for all Audio Chains, and MIDI chains with an Instrument.
-        """
-        ...
-
-    @property
-    def has_midi_input(self) -> bool:
-        """
-        return True, if this Chain can be feed with an Audio signal. This is
-        true for all MIDI Chains.
-        """
-        ...
-
-    @property
-    def has_midi_output(self) -> bool:
-        """
-        return True, if this Chain sends out MIDI events. This is
-        true for all MIDI Chains with no Instruments.
-        """
-        ...
-
-    @property
     def in_note(self) -> int:
         """Access to the incoming MIDI note that will trigger this chain."""
         ...
@@ -136,14 +94,6 @@ class DrumChain(Chain):
 
     @is_auto_colored.setter
     def is_auto_colored(self, value: bool) -> None: ...
-
-    @property
-    def mixer_device(self) -> ChainMixerDevice:
-        """
-        Return access to the mixer device that holds the chain's mixer parameters:
-        the Volume, Pan, and Sendamounts.
-        """
-        ...
 
     @property
     def mute(self) -> bool:

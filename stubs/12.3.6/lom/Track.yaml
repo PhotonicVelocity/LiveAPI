@@ -17,10 +17,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: arm
     raw_doc: Arm the track for recording. Not available for Main- and Send Tracks.
     type: bool
@@ -838,10 +834,6 @@ primary_class:
     constructable: false
 
     properties:
-    - name: _live_ptr
-      type: int
-      settable: false
-
     - name: canonical_parent
       raw_doc: Get the canonical parent of the track view.
       type: Live.Track.Track
@@ -902,11 +894,6 @@ classes:
     Raises an exception
     This class cannot be instantiated from Python
   constructable: false
-
-  properties:
-  - name: _live_ptr
-    type: int
-    settable: false
 
 - name: RoutingChannel
   path: Live.Track.RoutingChannel

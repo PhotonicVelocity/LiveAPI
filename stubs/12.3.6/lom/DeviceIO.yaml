@@ -12,10 +12,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: available_routing_channels
     raw_doc: Return a list of channels for this IO endpoint.
     type: Live.Track.RoutingChannelVector

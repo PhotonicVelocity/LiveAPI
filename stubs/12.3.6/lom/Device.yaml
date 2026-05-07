@@ -12,10 +12,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: can_compare_ab
     raw_doc: Returns true if the Device has the capability to AB compare.
     type: bool
@@ -159,10 +155,6 @@ primary_class:
     constructable: false
 
     properties:
-    - name: _live_ptr
-      type: int
-      settable: false
-
     - name: canonical_parent
       raw_doc: Get the canonical parent of the View.
       type: Live.Device.Device

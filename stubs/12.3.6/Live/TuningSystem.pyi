@@ -10,10 +10,6 @@ if TYPE_CHECKING:
 class TuningSystem(LomObject):
     """Represents a Tuning System and its properties."""
 
-    @property
-    def _live_ptr(self) -> int:
-        ...
-
     def add_highest_note_listener(self, callback: Callable[[], None], /) -> None:
         """
         Add a listener function or method, which will be called as soon as the

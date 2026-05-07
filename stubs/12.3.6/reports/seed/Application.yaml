@@ -248,10 +248,6 @@ primary_class:
     constructable: false
 
     properties:
-    - name: _live_ptr
-      type: int
-      settable: false
-
     - name: browse_mode
       raw_doc: Return true if HotSwap mode is active for any target.
       type: bool

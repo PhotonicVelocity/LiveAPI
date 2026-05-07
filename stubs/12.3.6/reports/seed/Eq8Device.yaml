@@ -13,40 +13,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
-  - name: can_compare_ab
-    raw_doc: Returns true if the Device has the capability to AB compare.
-    type: bool
-    settable: false
-
-  - name: can_have_chains
-    raw_doc: Returns true if the device is a rack.
-    type: bool
-    settable: false
-
-  - name: can_have_drum_pads
-    raw_doc: Returns true if the device is a drum rack.
-    type: bool
-    settable: false
-
-  - name: canonical_parent
-    raw_doc: Get the canonical parent of the Device.
-    type: Live.Track.Track
-    settable: false
-
-  - name: class_display_name
-    raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
-    type: str
-    settable: false
-
-  - name: class_name
-    raw_doc: Return const access to the name of the device's class.
-    type: str
-    settable: false
-
   - name: edit_mode
     raw_doc: Access to Eq8's edit mode.
     type: bool
@@ -104,11 +70,6 @@ primary_class:
     type: Live.Device.ATimeableValueVector
     settable: false
 
-  - name: type
-    raw_doc: Return the type of the device.
-    type: Live.Device.DeviceType
-    settable: false
-
   - name: view
     raw_doc: Representing the view aspects of a device.
     type: Live.Eq8Device.Eq8Device.View
@@ -127,10 +88,6 @@ primary_class:
     constructable: false
 
     properties:
-    - name: _live_ptr
-      type: int
-      settable: false
-
     - name: canonical_parent
       raw_doc: Get the canonical parent of the View.
       type: Live.Eq8Device.Eq8Device

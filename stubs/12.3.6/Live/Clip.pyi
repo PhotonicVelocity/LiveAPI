@@ -22,10 +22,6 @@ class Clip(LomObject):
         """Representing the view aspects of a Clip."""
 
         @property
-        def _live_ptr(self) -> int:
-            ...
-
-        @property
         def canonical_parent(self) -> Clip:
             """Get the canonical parent of the clip view."""
             ...
@@ -61,10 +57,6 @@ class Clip(LomObject):
         def show_loop(self) -> None:
             """Show the entire loop in the detail view."""
             ...
-
-    @property
-    def _live_ptr(self) -> int:
-        ...
 
     def add_color_index_listener(self, callback: Callable[[], None], /) -> None:
         """

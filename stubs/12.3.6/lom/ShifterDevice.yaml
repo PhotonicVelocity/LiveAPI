@@ -13,40 +13,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
-  - name: can_compare_ab
-    raw_doc: Returns true if the Device has the capability to AB compare.
-    type: bool
-    settable: false
-
-  - name: can_have_chains
-    raw_doc: Returns true if the device is a rack.
-    type: bool
-    settable: false
-
-  - name: can_have_drum_pads
-    raw_doc: Returns true if the device is a drum rack.
-    type: bool
-    settable: false
-
-  - name: canonical_parent
-    raw_doc: Get the canonical parent of the Device.
-    type: Live.Track.Track
-    settable: false
-
-  - name: class_display_name
-    raw_doc: Return const access to the name of the device's class name as displayed in Live's browser and device chain
-    type: str
-    settable: false
-
-  - name: class_name
-    raw_doc: Return const access to the name of the device's class.
-    type: str
-    settable: false
-
   - name: is_active
     raw_doc: Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
     type: bool
@@ -98,14 +64,4 @@ primary_class:
   - name: pitch_mode_list
     raw_doc: Return the current pitch mode list
     type: Live.Base.StringVector
-    settable: false
-
-  - name: type
-    raw_doc: Return the type of the device.
-    type: Live.Device.DeviceType
-    settable: false
-
-  - name: view
-    raw_doc: Representing the view aspects of a device.
-    type: Live.Device.Device.View
     settable: false

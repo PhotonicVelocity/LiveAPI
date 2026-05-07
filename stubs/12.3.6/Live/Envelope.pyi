@@ -12,10 +12,6 @@ class Envelope(LomObject):
     """This class represents an automation or modulation envelope in Live."""
 
     @property
-    def _live_ptr(self) -> int:
-        ...
-
-    @property
     def canonical_parent(self) -> Clip:
         """Get the canonical parent of the envelope."""
         ...

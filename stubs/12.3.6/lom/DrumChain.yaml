@@ -14,15 +14,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
-  - name: canonical_parent
-    raw_doc: Get the canonical parent of the chain.
-    type: Live.RackDevice.RackDevice
-    settable: false
-
   - name: choke_group
     raw_doc: Access to the chain's choke group setting.
     type: int
@@ -47,34 +38,6 @@ primary_class:
     type: Live.Base.Vector[Live.RackDevice.RackDevice]
     settable: false
 
-  - name: has_audio_input
-    raw_doc: |-
-      return True, if this Chain can be feed with an Audio signal. This is
-      true for all Audio Chains.
-    type: bool
-    settable: false
-
-  - name: has_audio_output
-    raw_doc: |-
-      return True, if this Chain sends out an Audio signal. This is
-      true for all Audio Chains, and MIDI chains with an Instrument.
-    type: bool
-    settable: false
-
-  - name: has_midi_input
-    raw_doc: |-
-      return True, if this Chain can be feed with an Audio signal. This is
-      true for all MIDI Chains.
-    type: bool
-    settable: false
-
-  - name: has_midi_output
-    raw_doc: |-
-      return True, if this Chain sends out MIDI events. This is
-      true for all MIDI Chains with no Instruments.
-    type: bool
-    settable: false
-
   - name: in_note
     raw_doc: Access to the incoming MIDI note that will trigger this chain.
     type: int
@@ -91,13 +54,6 @@ primary_class:
       Track or Chain.
     type: bool
     settable: true
-
-  - name: mixer_device
-    raw_doc: |-
-      Return access to the mixer device that holds the chain's mixer parameters:
-      the Volume, Pan, and Sendamounts.
-    type: Live.ChainMixerDevice.ChainMixerDevice
-    settable: false
 
   - name: mute
     raw_doc: Mute/unmute the chain.

@@ -12,10 +12,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: audio_effects
     raw_doc: Returns a browser item with access to all the Audio Effects content.
     type: Live.Browser.BrowserItem

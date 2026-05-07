@@ -12,10 +12,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: arrangement_clips
     raw_doc: Read-only access to the arrangement clips in the take lane.
     type: Live.Base.Vector[Live.Clip.Clip]

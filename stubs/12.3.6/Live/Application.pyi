@@ -21,10 +21,6 @@ class Application(LomObject):
             left: int = 2
             right: int = 3
 
-        @property
-        def _live_ptr(self) -> int:
-            ...
-
         def add_browse_mode_listener(self, callback: Callable[[], None], /) -> None:
             """
             Add a listener function or method, which will be called as soon as the

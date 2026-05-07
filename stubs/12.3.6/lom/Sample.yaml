@@ -12,10 +12,6 @@ primary_class:
   constructable: false
 
   properties:
-  - name: _live_ptr
-    type: int
-    settable: false
-
   - name: beats_granulation_resolution
     raw_doc: Access to the Granulation Resolution parameter in Beats Warp Mode.
     type: int

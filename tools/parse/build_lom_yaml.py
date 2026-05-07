@@ -1288,18 +1288,110 @@ def main() -> int:
               "type/element_type fields will be omitted", file=sys.stderr)
     registry = build_class_registry(tree, probe)
 
-    written = 0
+    # Build every module YAML in memory first so the post-build cleanup
+    # has cross-module ancestor visibility.
+    modules: dict[str, dict[str, Any]] = {}
     for module_node in tree.get("children", []):
         if module_node.get("type") != "module":
             continue
         name = module_node.get("name")
         if not name:
             continue
-        emit_yaml(build_module_yaml(module_node, registry), out_dir / f"{name}.yaml")
-        written += 1
+        modules[name] = build_module_yaml(module_node, registry)
 
-    print(f"Wrote {written} module YAMLs to {out_dir.relative_to(REPO_ROOT)}/")
+    dropped = _drop_ancestor_inherited_properties(modules)
+    for name, doc in modules.items():
+        emit_yaml(doc, out_dir / f"{name}.yaml")
+
+    print(f"Wrote {len(modules)} module YAMLs to {out_dir.relative_to(REPO_ROOT)}/")
+    if dropped:
+        print(f"  (skipped {dropped} property declarations identical to an ancestor's)")
     return 0
+
+
+def _drop_ancestor_inherited_properties(modules: dict[str, dict[str, Any]]) -> int:
+    """Post-build cleanup: drop properties whose shape matches an ancestor's
+    declaration. Keeps the YAML small (no `_live_ptr: int` repeated on every
+    LomObject subclass; no `Device` properties redeclared on every device
+    subclass) and lets pyright resolve inherited annotations naturally.
+
+    A property is dropped only when it has no `*_override:` blocks and an
+    ancestor declares the same `name`/`type`/`settable`/`listenable` shape
+    (also without overrides).
+    """
+    classes_by_path: dict[str, dict[str, Any]] = {}
+
+    def _index(cls: dict[str, Any], parent_qpath: str) -> None:
+        if not isinstance(cls, dict) or not cls.get("name"):
+            return
+        path = cls.get("path") or f"{parent_qpath}.{cls['name']}"
+        classes_by_path[path] = cls
+        for nested in cls.get("classes") or []:
+            _index(nested, path)
+
+    for module_name, doc in modules.items():
+        base = f"Live.{module_name}"
+        for top in doc.get("primary_class") or []:
+            _index(top, base)
+        for top in doc.get("classes") or []:
+            _index(top, base)
+
+    def _shape(prop: dict[str, Any]) -> tuple[Any, ...]:
+        return (prop.get("type"), prop.get("settable"), tuple(prop.get("listenable") or ()))
+
+    def _has_overrides(prop: dict[str, Any]) -> bool:
+        return any(k.endswith("_override") for k in prop)
+
+    def _ancestor_props(cls_path: str) -> list[tuple[str, dict[str, Any]]]:
+        out: list[tuple[str, dict[str, Any]]] = []
+        seen: set[str] = set()
+        cls = classes_by_path.get(cls_path)
+        if not cls:
+            return out
+        stack = list(cls.get("ancestors") or [])
+        while stack:
+            anc_path = stack.pop()
+            if anc_path in seen:
+                continue
+            seen.add(anc_path)
+            anc = classes_by_path.get(anc_path)
+            if not anc:
+                continue
+            for prop in anc.get("properties") or []:
+                out.append((anc_path, prop))
+            stack.extend(anc.get("ancestors") or [])
+        return out
+
+    dropped = 0
+    for cls_path, cls in classes_by_path.items():
+        props = cls.get("properties")
+        if not props:
+            continue
+        keep: list[dict[str, Any]] = []
+        for prop in props:
+            if _has_overrides(prop):
+                keep.append(prop)
+                continue
+            my_shape = _shape(prop)
+            redundant = False
+            for _, anc_prop in _ancestor_props(cls_path):
+                if anc_prop.get("name") != prop.get("name"):
+                    continue
+                if _has_overrides(anc_prop):
+                    continue
+                if _shape(anc_prop) == my_shape:
+                    redundant = True
+                    break
+            if redundant:
+                dropped += 1
+            else:
+                keep.append(prop)
+        if len(keep) != len(props):
+            if keep:
+                cls["properties"] = keep
+            else:
+                del cls["properties"]
+    return dropped
 
 
 if __name__ == "__main__":
