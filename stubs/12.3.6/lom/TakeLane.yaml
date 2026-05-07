@@ -50,8 +50,20 @@ primary_class:
     - name: self
       type: Live.TakeLane.TakeLane
     - name: arg2
+      name_override:
+        value: file_path
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
       type: str
     - name: arg3
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
       type: float
     returns:
       type: Live.Clip.Clip
@@ -66,8 +78,20 @@ primary_class:
     - name: self
       type: Live.TakeLane.TakeLane
     - name: arg2
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
       type: float
     - name: arg3
+      name_override:
+        value: length
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
       type: float
     returns:
       type: Live.Clip.Clip

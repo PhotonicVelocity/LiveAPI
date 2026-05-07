@@ -83,6 +83,12 @@ primary_class:
   - name: midi_inputs
     raw_doc: Const access to a list of all midi outputs of the device.
     type: Live.Base.Vector
+    element_type_override:
+      value: <class 'DeviceIO'>
+      confidence: high
+      source: |
+        raw_doc: "Const access to a list of all midi outputs of the device."
+        M4L docs (maxdevice.md): `midi_inputs list of DeviceIO read-only observe`.
     settable: false
     listenable:
     - add_midi_inputs_listener
@@ -92,6 +98,12 @@ primary_class:
   - name: midi_outputs
     raw_doc: Const access to a list of all midi outputs of the device.
     type: Live.Base.Vector
+    element_type_override:
+      value: <class 'DeviceIO'>
+      confidence: high
+      source: |
+        Same shape as midi_inputs. M4L docs (maxdevice.md): `midi_outputs list of
+        DeviceIO read-only observe`.
     settable: false
     listenable:
     - add_midi_outputs_listener
@@ -143,6 +155,11 @@ primary_class:
     - name: self
       type: Live.MaxDevice.MaxDevice
     - name: arg2
+      name_override:
+        value: bank_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/maxdevice.md
       type: int
     returns:
       type: str
@@ -155,9 +172,22 @@ primary_class:
     - name: self
       type: Live.MaxDevice.MaxDevice
     - name: arg2
+      name_override:
+        value: bank_index
+        source: |
+          arg2 rename — M4L docs explicitly name the parameter 'bank_index'.
+          return — M4L docs confirm `list[int]`.
+          Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
       type: int
     returns:
       type: list
+      type_override:
+        value: list[int]
+        confidence: high
+        source: |
+          arg2 rename — M4L docs explicitly name the parameter 'bank_index'.
+          return — M4L docs confirm `list[int]`.
+          Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
 
   - name: get_value_item_icons
     raw_doc: Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.
@@ -167,6 +197,17 @@ primary_class:
     - name: self
       type: Live.MaxDevice.MaxDevice
     - name: arg2
+      name_override:
+        value: device_parameter
+        source: |
+          arg2 rename — inferred from C++ signature type DeviceParameter; method operates on parameter values.
+          return — description says "list of icon identifier strings".
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: list
+      type_override:
+        value: list[str]
+        confidence: high
+        source: |
+          arg2 rename — inferred from C++ signature type DeviceParameter; method operates on parameter values.
+          return — description says "list of icon identifier strings".

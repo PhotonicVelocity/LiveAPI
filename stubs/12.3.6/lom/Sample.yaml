@@ -37,6 +37,12 @@ primary_class:
   - name: beats_transient_loop_mode
     raw_doc: Access to the Transient Loop Mode parameter in Beats Warp Mode.
     type: int
+    type_override:
+      value: TransientLoopMode
+      confidence: high
+      source: |
+        `TransientLoopMode` enum in same module (Sample). Property name is a
+        direct snake-case match.
     settable: true
     listenable:
     - add_beats_transient_loop_mode_listener
@@ -106,6 +112,13 @@ primary_class:
   - name: slices
     raw_doc: Access to the list of slice points in sample time in the sample.
     type: tuple
+    element_type_override:
+      value: <class 'int'>
+      confidence: high
+      source: |
+        M4L docs (sample.md:68) say "list of int read-only" + "positions of all
+        playable slices in sample frames". Corpus: Push2/timeline_navigation.py
+        iterates and accesses positions.
     settable: false
     listenable:
     - add_slices_listener
@@ -115,6 +128,12 @@ primary_class:
   - name: slicing_beat_division
     raw_doc: Access to sample's slicing step size.
     type: int
+    type_override:
+      value: SlicingBeatDivision
+      confidence: high
+      source: |
+        `SlicingBeatDivision` enum in same module (Sample). Property name is a
+        direct snake-case match.
     settable: true
     listenable:
     - add_slicing_beat_division_listener
@@ -144,6 +163,12 @@ primary_class:
   - name: slicing_style
     raw_doc: Access to sample's slicing style.
     type: int
+    type_override:
+      value: SlicingStyle
+      confidence: high
+      source: |
+        `SlicingStyle` enum in same module (Sample). Property name is a direct
+        snake-case match.
     settable: true
     listenable:
     - add_slicing_style_listener
@@ -198,6 +223,13 @@ primary_class:
   - name: warp_mode
     raw_doc: Access to the sample's warp mode.
     type: int
+    type_override:
+      value: WarpMode
+      confidence: high
+      source: |
+        `WarpMode` enum lives in Clip but drives both `Clip.warp_mode` and
+        `Sample.warp_mode` (the sample inside an audio clip). Cross-module but
+        unambiguous — only one `WarpMode` enum exists across the LOM.
     settable: true
     listenable:
     - add_warp_mode_listener

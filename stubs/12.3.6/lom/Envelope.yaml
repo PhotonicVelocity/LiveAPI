@@ -30,8 +30,20 @@ primary_class:
     - name: self
       type: Live.Envelope.Envelope
     - name: arg2
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [inferred]: function deletes events in time range - first arg is start
+            - arg3 -> end_time  [inferred]: function deletes events in time range - second arg is end
       type: float
     - name: arg3
+      name_override:
+        value: end_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [inferred]: function deletes events in time range - first arg is start
+            - arg3 -> end_time  [inferred]: function deletes events in time range - second arg is end
       type: float
     returns:
       type: None
@@ -44,8 +56,20 @@ primary_class:
     - name: self
       type: Live.Envelope.Envelope
     - name: arg2
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [inferred]: function returns events in time range - first arg is start
+            - arg3 -> end_time  [inferred]: function returns events in time range - second arg is end
       type: float
     - name: arg3
+      name_override:
+        value: end_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [inferred]: function returns events in time range - first arg is start
+            - arg3 -> end_time  [inferred]: function returns events in time range - second arg is end
       type: float
     returns:
       type: Live.Envelope.EnvelopeEventVector
@@ -58,10 +82,31 @@ primary_class:
     - name: self
       type: Live.Envelope.Envelope
     - name: arg2
+      name_override:
+        value: start_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
+            - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
+            - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
       type: float
     - name: arg3
+      name_override:
+        value: length
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
+            - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
+            - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
       type: float
     - name: arg4
+      name_override:
+        value: value
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
+            - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
+            - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
       type: float
     returns:
       type: None
@@ -74,6 +119,11 @@ primary_class:
     - name: self
       type: Live.Envelope.Envelope
     - name: arg2
+      name_override:
+        value: time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> time  [docstring]: description says 'parameter value at the specified time' - argument is the time
       type: float
     returns:
       type: float

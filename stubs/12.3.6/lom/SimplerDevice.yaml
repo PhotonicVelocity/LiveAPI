@@ -145,6 +145,14 @@ primary_class:
   - name: playback_mode
     raw_doc: Access to Simpler's playback mode.
     type: int
+    type_override:
+      value: PlaybackMode
+      confidence: high
+      source: |
+        `PlaybackMode` enum in same module with members classic / one_shot /
+        slicing — matches Simpler's three top-level playback modes. Distinct
+        from `SlicingPlaybackMode` (mono / poly / thru), which scopes to slicing
+        sub-mode.
     settable: true
     listenable:
     - add_playback_mode_listener
@@ -194,6 +202,13 @@ primary_class:
   - name: slicing_playback_mode
     raw_doc: Access to Simpler's slicing playback mode.
     type: int
+    type_override:
+      value: SlicingPlaybackMode
+      confidence: high
+      source: |
+        `SlicingPlaybackMode` enum in same module. Property name is a direct
+        snake-case match; raw_doc "Access to Simpler's slicing playback mode"
+        confirms the slicing-scoped sub-mode.
     settable: true
     listenable:
     - add_slicing_playback_mode_listener

@@ -167,6 +167,11 @@ primary_class:
     - name: self
       type: Live.LooperDevice.LooperDevice
     - name: arg2
+      name_override:
+        value: clip_slot
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> clip_slot  [M4L docs]: external/max-for-live-docs/9.0/looperdevice.md
       type: Live.ClipSlot.ClipSlot
     returns:
       type: None

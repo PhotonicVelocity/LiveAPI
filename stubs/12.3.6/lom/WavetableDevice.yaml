@@ -50,6 +50,12 @@ primary_class:
   - name: filter_routing
     raw_doc: Return the current filter routing.
     type: int
+    type_override:
+      value: FilterRouting
+      confidence: high
+      source: |
+        `FilterRouting` enum in same module (WavetableDevice). Property name is
+        a direct snake-case match.
     settable: true
     listenable:
     - add_filter_routing_listener
@@ -93,6 +99,12 @@ primary_class:
   - name: oscillator_1_effect_mode
     raw_doc: Return the current effect mode of the oscillator 1.
     type: int
+    type_override:
+      value: EffectMode
+      confidence: high
+      source: |
+        `EffectMode` enum in same module (WavetableDevice). Property name ends
+        in `effect_mode`; the enum is the only one matching that suffix.
     settable: true
     listenable:
     - add_oscillator_1_effect_mode_listener
@@ -129,6 +141,11 @@ primary_class:
   - name: oscillator_2_effect_mode
     raw_doc: Return the current effect mode of the oscillator 2.
     type: int
+    type_override:
+      value: EffectMode
+      confidence: high
+      source: |
+        Same as oscillator_1_effect_mode — sister property, same enum.
     settable: true
     listenable:
     - add_oscillator_2_effect_mode_listener
@@ -189,6 +206,12 @@ primary_class:
   - name: unison_mode
     raw_doc: Return the current unison mode.
     type: int
+    type_override:
+      value: UnisonMode
+      confidence: high
+      source: |
+        `UnisonMode` enum in same module (WavetableDevice). Property name is a
+        direct snake-case match.
     settable: true
     listenable:
     - add_unison_mode_listener
@@ -198,6 +221,12 @@ primary_class:
   - name: unison_voice_count
     raw_doc: Return the current number of unison voices.
     type: int
+    type_override:
+      value: VoiceCount
+      confidence: high
+      source: |
+        `VoiceCount` enum in same module (WavetableDevice). Property name ends
+        in `voice_count`; `VoiceCount` is the only enum matching that suffix.
     settable: true
     listenable:
     - add_unison_voice_count_listener

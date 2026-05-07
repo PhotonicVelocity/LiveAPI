@@ -21,6 +21,13 @@ primary_class:
   - name: automation_state
     raw_doc: Returns state of type AutomationState.
     type: int
+    type_override:
+      value: AutomationState
+      confidence: high
+      source: |
+        `AutomationState` enum in same module. Property name matches the enum
+        snake-case; raw_doc describes automation states (none / playing /
+        overridden) which match `AutomationState` members.
     settable: false
     listenable:
     - add_automation_state_listener
@@ -106,6 +113,16 @@ primary_class:
       - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled,
       - disabled - the parameter's value cannot be changed.
     type: int
+    type_override:
+      value: ParameterState
+      confidence: high
+      source: |
+        Two enums in same module overlap on the name `state`: `AutomationState`
+        and `ParameterState`. Disambiguated by raw_doc: "Returns the state of the
+        parameter: enabled, irrelevant, ..." — those are exactly
+        `ParameterState` member names (enabled / irrelevant / disabled).
+        `AutomationState`'s members (none / playing / overridden) describe a
+        different concept.
     settable: false
     listenable:
     - add_state_listener
@@ -170,6 +187,11 @@ primary_class:
     - name: self
       type: Live.DeviceParameter.DeviceParameter
     - name: arg2
+      name_override:
+        value: value
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> value  [M4L docs]: external/max-for-live-docs/9.0/deviceparameter.md
       type: float
     returns:
       type: str

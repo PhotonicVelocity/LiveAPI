@@ -53,21 +53,48 @@ classes:
   - name: base_product_id
     raw_doc: Returns Live's current base product ID.
     settable: false
+    type_override:
+      value: str
+      confidence: high
+      source: |
+        raw_doc: "Returns Live's current base product ID" — product IDs are string identifiers.
 
   - name: in_sassafras_mode
     settable: false
+    type_override:
+      value: bool
+      confidence: low
+      source: |
+        Property name pattern "in X mode" suggests boolean. No raw_doc, no usage
+        snippets, no M4L doc — pure naming inference. Watch for drift if a probe
+        ever reaches this property.
 
   - name: license_must_match_variant
     raw_doc: Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
     settable: false
+    type_override:
+      value: bool
+      confidence: high
+      source: |
+        raw_doc: "Returns a bool indicating if we require..." — explicitly typed bool.
 
   - name: random_number_for_trial_authorization
     raw_doc: Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
     settable: false
+    type_override:
+      value: int
+      confidence: high
+      source: |
+        raw_doc: "Returns the integer to send along with the Trial authorization request".
 
   - name: set_has_unsaved_changes
     raw_doc: Returns true if the set has unsaved changes.
     settable: false
+    type_override:
+      value: bool
+      confidence: high
+      source: |
+        raw_doc: "Returns true if the set has unsaved changes" — explicitly bool.
 
   methods:
   - name: authorize_with_sassafras
@@ -128,8 +155,18 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     - name: authorize_callable
       type: object
+      type_override:
+        value: Callable
+        confidence: high
+        source: |
+          raw_doc: "callables connected to its buttons" — both args are callback functions.
     - name: authorize_later_callable
       type: object
+      type_override:
+        value: Callable
+        confidence: high
+        source: |
+          raw_doc: "callables connected to its buttons" — both args are callback functions.
     returns:
       type: Live.Licensing.StartupDialog
 
@@ -162,6 +199,15 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     returns:
       type: dict
+      type_override:
+        value: dict[str, Any]
+        confidence: high
+        source: |
+          raw_doc: "Loads the Unlock.cfg file and returns either an empty dict or
+          one that can be converted to an UnlockData object." C++ signature
+          explicitly returns `boost::python::dict`. The dict's keys/values aren't
+          enumerated in the docs (varies with the legacy cfg format), so
+          `dict[str, Any]` is the honest parameterization.
 
   - name: process_license_response
     raw_doc: Processes a list of strings, each representing a server response to a product authorization.
@@ -172,6 +218,10 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     - name: license_response_lines
       type: list
+      type_override:
+        value: list[str]
+        confidence: high
+        source: raw_doc explicitly says "list of strings, each representing a server response".
     returns:
       type: Live.Licensing.UnlockStatus
 
@@ -219,6 +269,10 @@ classes:
       type: Live.Licensing.PythonLicensingBridge
     - name: callback
       type: object
+      type_override:
+        value: Callable | None
+        confidence: high
+        source: raw_doc says "Pass None as callback to stop the timer".
     - name: interval_in_ms
       type: int
     returns:
@@ -374,6 +428,14 @@ functions:
   cpp_signature: boost::python::tuple get_unlock_dir()
   returns:
     type: tuple[object, ...]
+    type_override:
+      value: tuple[str, bool]
+      confidence: high
+      source: |
+        raw_doc explicit: "Returns a tuple containing the unlock file directory
+        and a flag" — directory is str, flag is bool. Probe-verified at runtime:
+        the probe stamps `tuple` with element_reprs `[str, bool]`; this refinement
+        narrows to the fixed-position tuple shape.
 
 - name: launch_web_browser
   raw_doc: Opens a web browser at the specified URL on the user's computer.

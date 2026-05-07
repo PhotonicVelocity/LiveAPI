@@ -101,6 +101,12 @@ primary_class:
   - name: groove
     raw_doc: Get the groove associated with this clip.
     type: None
+    type_override:
+      value: Groove | None
+      confidence: high
+      source: |
+        Docstring: "Get the groove associated with this clip." M4L confirms `Groove`
+        return type and nullability when no groove is assigned.
     settable: true
     listenable:
     - add_groove_listener
@@ -190,6 +196,12 @@ primary_class:
   - name: launch_mode
     raw_doc: Get/Set access to the launch mode setting of the Clip.
     type: int
+    type_override:
+      value: LaunchMode
+      confidence: high
+      source: |
+        `LaunchMode` enum in same module (Clip). Property name is a direct
+        snake-case match.
     settable: true
     listenable:
     - add_launch_mode_listener
@@ -199,6 +211,14 @@ primary_class:
   - name: launch_quantization
     raw_doc: Get/Set access to the launch quantization setting of the Clip.
     type: int
+    type_override:
+      value: ClipLaunchQuantization
+      confidence: high
+      source: |
+        Two enums match the name "launch quantization": `ClipLaunchQuantization`
+        in Clip and `Quantization` in Song. The Clip-specific one is the right
+        fit — its members include `q_global` (defer to song-level) and
+        clip-specific values; `Song.Quantization` is the global setting.
     settable: true
     listenable:
     - add_launch_quantization_listener
@@ -402,6 +422,12 @@ primary_class:
       Available for AudioClips only.
       Get/Set the warp mode for this audio clip.
     type: int
+    type_override:
+      value: WarpMode
+      confidence: high
+      source: |
+        `WarpMode` enum in same module (Clip). Property name is a direct
+        snake-case match.
     settable: true
     listenable:
     - add_warp_mode_listener
@@ -453,7 +479,32 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: notes
+        source: |
+          arg2 rename — [M4L docs]: external/max-for-live-docs/9.0/clip.md.
+          type — C++ signature is `boost::python::api::object` (generic), so the
+          binding doesn't enforce a specific vector class at the C++ level (unlike
+          sister `apply_note_modifications` which strictly takes
+          `vector<NClipApi::TNoteInfo>`). raw_doc explicit: "Expects a Python
+          iterable holding a number of Live.Clip.MidiNoteSpecification objects."
+          Corpus confirms: tuples (`(note,)` at pushbase/note_editor_component.py:611,
+          ableton/v3/control_surface/components/note_editor.py:367), and lists
+          (`note_specifications` at _MxDCore/MxDCore.py:820+) both work.
       type: object
+      type_override:
+        value: Iterable[MidiNoteSpecification]
+        confidence: high
+        source: |
+          arg2 rename — [M4L docs]: external/max-for-live-docs/9.0/clip.md.
+          type — C++ signature is `boost::python::api::object` (generic), so the
+          binding doesn't enforce a specific vector class at the C++ level (unlike
+          sister `apply_note_modifications` which strictly takes
+          `vector<NClipApi::TNoteInfo>`). raw_doc explicit: "Expects a Python
+          iterable holding a number of Live.Clip.MidiNoteSpecification objects."
+          Corpus confirms: tuples (`(note,)` at pushbase/note_editor_component.py:611,
+          ableton/v3/control_surface/components/note_editor.py:367), and lists
+          (`note_specifications` at _MxDCore/MxDCore.py:820+) both work.
     returns:
       type: Live.Base.IntU64Vector
 
@@ -468,6 +519,16 @@ primary_class:
       type: Live.Clip.Clip
     - name: warp_marker
       type: object
+      type_override:
+        value: WarpMarker
+        confidence: high
+        source: |
+          M4L docs (clip.md): "Adds the specified warp marker, if possible." The
+          C++ binding signature is `add_warp_marker(..., boost::python::api::object)`
+          — generic at the C++ level — but the runtime expects a `WarpMarker`
+          instance (the only constructible class in `Live.Clip` matching the
+          "warp marker" semantics; `Clip.warp_markers` returns a `WarpMarkerVector`
+          of these).
     returns:
       type: None
 
@@ -488,6 +549,11 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: notes
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> notes  [docstring]: description says 'list of notes as returned from get_notes_extended'
       type: Live.Clip.MidiNoteVector
     returns:
       type: None
@@ -500,6 +566,11 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: device_parameter
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> device_parameter  [docstring]: description says 'return the envelope for the given parameter'
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: Live.Envelope.Envelope
@@ -536,6 +607,11 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: device_parameter
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> device_parameter  [M4L docs]: external/max-for-live-docs/9.0/clip.md
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: None
@@ -548,6 +624,11 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: device_parameter
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> device_parameter  [docstring]: description says 'creates an envelope for a given parameter'
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: Live.Envelope.Envelope
@@ -603,8 +684,32 @@ primary_class:
       type: Live.Clip.Clip
     - name: note_ids
       type: object
+      type_override:
+        value: Iterable[int]
+        confidence: high
+        source: |
+          note_ids — C++ takes `boost::python::api::object` (generic). Same shape as
+          sister `*_notes_by_id` methods; corpus confirms iterables work
+          (_MxDCore/MxDCore.py:874+ duplicates note IDs from a JSON dict via
+          keyword call). raw_doc says "list of note IDs".
+          destination_time — M4L docs (clip.md) say `destination_time (optional)
+          [float/int]`; None is the default ("if not provided, new notes will be
+          inserted after the last selected note"). `float | None` covers the common
+          case (Python's int → float conversion handles the int form).
     - name: destination_time
       type: object | None
+      type_override:
+        value: float | None
+        confidence: high
+        source: |
+          note_ids — C++ takes `boost::python::api::object` (generic). Same shape as
+          sister `*_notes_by_id` methods; corpus confirms iterables work
+          (_MxDCore/MxDCore.py:874+ duplicates note IDs from a JSON dict via
+          keyword call). raw_doc says "list of note IDs".
+          destination_time — M4L docs (clip.md) say `destination_time (optional)
+          [float/int]`; None is the default ("if not provided, new notes will be
+          inserted after the last selected note"). `float | None` covers the common
+          case (Python's int → float conversion handles the int form).
       optional: true
       default: None
     - name: transposition_amount
@@ -687,6 +792,12 @@ primary_class:
       type: int
     returns:
       type: tuple
+      type_override:
+        value: tuple[tuple[int, float, float, float, bool], ...]
+        confidence: high
+        source: |
+          Format mirror of `get_selected_notes` (same shape) per docstring; M4L
+          docs (clip.md) describe the tuple-of-tuples shape.
 
   - name: get_notes_by_id
     raw_doc: Return a list of MIDI notes matching the given note IDs.
@@ -697,6 +808,15 @@ primary_class:
       type: Live.Clip.Clip
     - name: note_ids
       type: object
+      type_override:
+        value: Iterable[int]
+        confidence: high
+        source: |
+          type — C++ signature is `boost::python::api::object` (generic, runtime-
+          checked). Direct corpus call: _MxDCore/MxDCore.py:864 invokes
+          `lom_object.get_notes_by_id(id_to_note_mapping.keys())` — passes a
+          `dict_keys` view (Iterable[int]). raw_doc: "Return a list of MIDI notes
+          matching the given note IDs."
     returns:
       type: Live.Clip.MidiNoteVector
 
@@ -734,6 +854,12 @@ primary_class:
       type: Live.Clip.Clip
     returns:
       type: tuple
+      type_override:
+        value: tuple[tuple[int, float, float, float, bool], ...]
+        confidence: high
+        source: |
+          Corpus _MxDCore handler unpacks the same tuple-of-tuples format as
+          `get_notes`; docstring confirms the mirror.
 
   - name: get_selected_notes_extended
     raw_doc: |-
@@ -759,6 +885,11 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: beats
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/clip.md
       type: float
     returns:
       type: None
@@ -802,8 +933,33 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: quantization_grid
+        source: |
+          Arg names from M4L docs (clip.md). arg2 type — applied per the enum-arg
+          convention (see schema header): the M4L name `quantization_grid` and the
+          sister `Clip.View.grid_quantization` property (typed `GridQuantization`)
+          establish the enum context. Sister `Clip.quantize_pitch` uses the same
+          annotation.
       type: int
+      type_override:
+        value: GridQuantization | int
+        confidence: high
+        source: |
+          Arg names from M4L docs (clip.md). arg2 type — applied per the enum-arg
+          convention (see schema header): the M4L name `quantization_grid` and the
+          sister `Clip.View.grid_quantization` property (typed `GridQuantization`)
+          establish the enum context. Sister `Clip.quantize_pitch` uses the same
+          annotation.
     - name: arg3
+      name_override:
+        value: amount
+        source: |
+          Arg names from M4L docs (clip.md). arg2 type — applied per the enum-arg
+          convention (see schema header): the M4L name `quantization_grid` and the
+          sister `Clip.View.grid_quantization` property (typed `GridQuantization`)
+          establish the enum context. Sister `Clip.quantize_pitch` uses the same
+          annotation.
       type: float
     returns:
       type: None
@@ -816,10 +972,95 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: note
+        source: |
+          arg2 rename — callsite, 6/7 defs use 'note' across drum_group_component
+          wrappers (drum_group_component.py:88, _Framework/DrumGroupComponent.py:331,
+          etc.). M4L docs use `pitch` instead — the corpus def-vote dominates here,
+          but if drift surfaces, `pitch` is the documented form.
+          arg3 rename — the previous `source` rename was WRONG. The single def-vote
+          came from pushbase/quantization_component.py:125 `def quantize_pitch(self,
+          note, source=None)`, but that is a wrapper whose `source` is a UI tag
+          string (e.g. "slice", "pad") used only in show_notification at line 129;
+          the wrapper does NOT pass `source` to the binding. The actual direct
+          binding call at line 128 passes `self.settings.quantize_to` as arg3 — a
+          GridQuantization enum int. M4L docs (clip.md) names arg3 `quantization_grid`.
+          arg3 type — C++ signature is `void quantize_pitch(TPyHandle<AClip>, int,
+          int, float)` — int. Applied per the enum-arg convention (see schema
+          header): M4L (clip.md) names the arg `quantization_grid`, indicating the
+          GridQuantization context; sister `Clip.quantize` uses the same
+          `GridQuantization | int` annotation.
+          arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
+          'amount'; sister method `quantize(quantization_grid, amount)` confirms.
       type: int
     - name: arg3
+      name_override:
+        value: quantization_grid
+        source: |
+          arg2 rename — callsite, 6/7 defs use 'note' across drum_group_component
+          wrappers (drum_group_component.py:88, _Framework/DrumGroupComponent.py:331,
+          etc.). M4L docs use `pitch` instead — the corpus def-vote dominates here,
+          but if drift surfaces, `pitch` is the documented form.
+          arg3 rename — the previous `source` rename was WRONG. The single def-vote
+          came from pushbase/quantization_component.py:125 `def quantize_pitch(self,
+          note, source=None)`, but that is a wrapper whose `source` is a UI tag
+          string (e.g. "slice", "pad") used only in show_notification at line 129;
+          the wrapper does NOT pass `source` to the binding. The actual direct
+          binding call at line 128 passes `self.settings.quantize_to` as arg3 — a
+          GridQuantization enum int. M4L docs (clip.md) names arg3 `quantization_grid`.
+          arg3 type — C++ signature is `void quantize_pitch(TPyHandle<AClip>, int,
+          int, float)` — int. Applied per the enum-arg convention (see schema
+          header): M4L (clip.md) names the arg `quantization_grid`, indicating the
+          GridQuantization context; sister `Clip.quantize` uses the same
+          `GridQuantization | int` annotation.
+          arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
+          'amount'; sister method `quantize(quantization_grid, amount)` confirms.
       type: int
+      type_override:
+        value: GridQuantization | int
+        confidence: high
+        source: |
+          arg2 rename — callsite, 6/7 defs use 'note' across drum_group_component
+          wrappers (drum_group_component.py:88, _Framework/DrumGroupComponent.py:331,
+          etc.). M4L docs use `pitch` instead — the corpus def-vote dominates here,
+          but if drift surfaces, `pitch` is the documented form.
+          arg3 rename — the previous `source` rename was WRONG. The single def-vote
+          came from pushbase/quantization_component.py:125 `def quantize_pitch(self,
+          note, source=None)`, but that is a wrapper whose `source` is a UI tag
+          string (e.g. "slice", "pad") used only in show_notification at line 129;
+          the wrapper does NOT pass `source` to the binding. The actual direct
+          binding call at line 128 passes `self.settings.quantize_to` as arg3 — a
+          GridQuantization enum int. M4L docs (clip.md) names arg3 `quantization_grid`.
+          arg3 type — C++ signature is `void quantize_pitch(TPyHandle<AClip>, int,
+          int, float)` — int. Applied per the enum-arg convention (see schema
+          header): M4L (clip.md) names the arg `quantization_grid`, indicating the
+          GridQuantization context; sister `Clip.quantize` uses the same
+          `GridQuantization | int` annotation.
+          arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
+          'amount'; sister method `quantize(quantization_grid, amount)` confirms.
     - name: arg4
+      name_override:
+        value: amount
+        source: |
+          arg2 rename — callsite, 6/7 defs use 'note' across drum_group_component
+          wrappers (drum_group_component.py:88, _Framework/DrumGroupComponent.py:331,
+          etc.). M4L docs use `pitch` instead — the corpus def-vote dominates here,
+          but if drift surfaces, `pitch` is the documented form.
+          arg3 rename — the previous `source` rename was WRONG. The single def-vote
+          came from pushbase/quantization_component.py:125 `def quantize_pitch(self,
+          note, source=None)`, but that is a wrapper whose `source` is a UI tag
+          string (e.g. "slice", "pad") used only in show_notification at line 129;
+          the wrapper does NOT pass `source` to the binding. The actual direct
+          binding call at line 128 passes `self.settings.quantize_to` as arg3 — a
+          GridQuantization enum int. M4L docs (clip.md) names arg3 `quantization_grid`.
+          arg3 type — C++ signature is `void quantize_pitch(TPyHandle<AClip>, int,
+          int, float)` — int. Applied per the enum-arg convention (see schema
+          header): M4L (clip.md) names the arg `quantization_grid`, indicating the
+          GridQuantization context; sister `Clip.quantize` uses the same
+          `GridQuantization | int` annotation.
+          arg4 -> amount [M4L docs]: external/max-for-live-docs/9.0/clip.md names it
+          'amount'; sister method `quantize(quantization_grid, amount)` confirms.
       type: float
     returns:
       type: None
@@ -832,12 +1073,44 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: from_time
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> from_time  [C++ signature]: pattern with get_notes signature suggests time range parameters
+            - arg3 -> from_pitch  [C++ signature]: pattern with get_notes signature suggests pitch range parameters
+            - arg4 -> time_span  [C++ signature]: pattern with get_notes signature suggests time range span
+            - arg5 -> pitch_span  [C++ signature]: pattern with get_notes signature suggests pitch range span
       type: float
     - name: arg3
+      name_override:
+        value: from_pitch
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> from_time  [C++ signature]: pattern with get_notes signature suggests time range parameters
+            - arg3 -> from_pitch  [C++ signature]: pattern with get_notes signature suggests pitch range parameters
+            - arg4 -> time_span  [C++ signature]: pattern with get_notes signature suggests time range span
+            - arg5 -> pitch_span  [C++ signature]: pattern with get_notes signature suggests pitch range span
       type: int
     - name: arg4
+      name_override:
+        value: time_span
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> from_time  [C++ signature]: pattern with get_notes signature suggests time range parameters
+            - arg3 -> from_pitch  [C++ signature]: pattern with get_notes signature suggests pitch range parameters
+            - arg4 -> time_span  [C++ signature]: pattern with get_notes signature suggests time range span
+            - arg5 -> pitch_span  [C++ signature]: pattern with get_notes signature suggests pitch range span
       type: float
     - name: arg5
+      name_override:
+        value: pitch_span
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> from_time  [C++ signature]: pattern with get_notes signature suggests time range parameters
+            - arg3 -> from_pitch  [C++ signature]: pattern with get_notes signature suggests pitch range parameters
+            - arg4 -> time_span  [C++ signature]: pattern with get_notes signature suggests time range span
+            - arg5 -> pitch_span  [C++ signature]: pattern with get_notes signature suggests pitch range span
       type: int
     returns:
       type: None
@@ -855,7 +1128,26 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: note_ids
+        source: |
+          arg2 rename — M4L (clip.md) describes it as "list of note IDs"; rendered
+          as `note_ids` to match the description and the sister `select_notes_by_id`.
+          type — C++ signature is `boost::python::api::object` (generic, runtime-
+          checked). Corpus confirms iterables work via _MxDCore/MxDCore.py
+          `_object_perform_operation_on_notes_by_id_handler`, which passes the
+          `function_parameters` tuple straight through to the binding.
       type: object
+      type_override:
+        value: Iterable[int]
+        confidence: high
+        source: |
+          arg2 rename — M4L (clip.md) describes it as "list of note IDs"; rendered
+          as `note_ids` to match the description and the sister `select_notes_by_id`.
+          type — C++ signature is `boost::python::api::object` (generic, runtime-
+          checked). Corpus confirms iterables work via _MxDCore/MxDCore.py
+          `_object_perform_operation_on_notes_by_id_handler`, which passes the
+          `function_parameters` tuple straight through to the binding.
     returns:
       type: None
 
@@ -907,7 +1199,20 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: notes
+        source: |
+          arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
+          type — M4L docs (clip.md:345) confirm tuple-of-tuples format matching
+          `get_selected_notes`: (pitch, time, duration, velocity, mute) per note.
       type: tuple
+      type_override:
+        value: tuple[tuple[int, float, float, float, bool], ...]
+        confidence: high
+        source: |
+          arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
+          type — M4L docs (clip.md:345) confirm tuple-of-tuples format matching
+          `get_selected_notes`: (pitch, time, duration, velocity, mute) per note.
     returns:
       type: None
 
@@ -973,7 +1278,24 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: note_ids
+        source: |
+          arg2 rename — M4L (clip.md) describes it as "list of note IDs"; rendered
+          as `note_ids` to match the description and the sister `remove_notes_by_id`.
+          type — same shape as `remove_notes_by_id`; C++ takes
+          `boost::python::api::object` (generic), corpus confirms iterables work
+          via the shared _MxDCore handler.
       type: object
+      type_override:
+        value: Iterable[int]
+        confidence: high
+        source: |
+          arg2 rename — M4L (clip.md) describes it as "list of note IDs"; rendered
+          as `note_ids` to match the description and the sister `remove_notes_by_id`.
+          type — same shape as `remove_notes_by_id`; C++ takes
+          `boost::python::api::object` (generic), corpus confirms iterables work
+          via the shared _MxDCore handler.
     returns:
       type: None
 
@@ -985,6 +1307,11 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: state
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/clip.md
       type: bool
     returns:
       type: None
@@ -1000,7 +1327,20 @@ primary_class:
     - name: self
       type: Live.Clip.Clip
     - name: arg2
+      name_override:
+        value: notes
+        source: |
+          arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
+          type — M4L docs (clip.md:327) confirm tuple-of-tuples format matching
+          `get_notes`: (pitch, time, duration, velocity, mute) per note.
       type: tuple
+      type_override:
+        value: tuple[tuple[int, float, float, float, bool], ...]
+        confidence: high
+        source: |
+          arg2 rename — docstring: "tuple of tuples where each inner tuple represents a note".
+          type — M4L docs (clip.md:327) confirm tuple-of-tuples format matching
+          `get_notes`: (pitch, time, duration, velocity, mute) per note.
     returns:
       type: None
 
@@ -1074,6 +1414,13 @@ primary_class:
       - name: self
         type: Live.Clip.Clip.View
       - name: arg2
+        name_override:
+          value: device_parameter
+          source: |
+            arg2 rename — M4L (clip_view.md) documents type only (`Parameter:
+            [DeviceParameter]`) without naming the arg. Renamed to `device_parameter`
+            for clarity (the type is `DeviceParameter`). Names are positional-only and
+            decorative — clarity over doc-conformance.
         type: Live.DeviceParameter.DeviceParameter
       returns:
         type: None

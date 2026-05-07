@@ -42,6 +42,12 @@ primary_class:
   - name: color_index
     raw_doc: Get/set access to the color index of the scene. Can be None for no color.
     type: None
+    type_override:
+      value: int | None
+      confidence: high
+      source: |
+        Docstring: "Get/set access to the color index of the scene. Can be None for
+        no color." Explicit nullability documented in raw_doc.
     settable: true
     listenable:
     - add_color_index_listener
@@ -174,6 +180,11 @@ primary_class:
     - name: self
       type: Live.Scene.Scene
     - name: arg2
+      name_override:
+        value: state
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/scene.md
       type: bool
     returns:
       type: None

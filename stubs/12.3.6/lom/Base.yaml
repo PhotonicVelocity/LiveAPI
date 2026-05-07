@@ -10,6 +10,10 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
+  element_type_override:
+    value: <class 'float'>
+    confidence: high
+    source: raw_doc says "container for returning floats from Live".
 
   methods:
   - name: append
@@ -43,6 +47,10 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
+  element_type_override:
+    value: <class 'int'>
+    confidence: high
+    source: raw_doc says "container for returning unsigned long integers".
 
   methods:
   - name: append
@@ -127,6 +135,13 @@ classes:
       type: Live.Base.ObjectVector
     - name: value
       type: object
+      type_override:
+        value: Any
+        confidence: high
+        source: |
+          C++ signature: `void append(vector<boost::python::api::object>, object)`.
+          ObjectVector holds arbitrary Python objects — Any matches the binding
+          contract directly.
     returns:
       type: None
 
@@ -187,6 +202,13 @@ classes:
   properties:
   - name: text
     settable: false
+    type_override:
+      value: str
+      confidence: high
+      source: |
+        Corpus assigns/reads as string: pushbase/message_box_component.py:159
+        `self._message_box.text = message`; Push2/model/repr.py:726 reads.
+        Baseline + M4L docs confirm string content.
 
 - name: Timer
   path: Live.Base.Timer
@@ -303,6 +325,11 @@ functions:
   cpp_signature: void log(std::__1::basic_string<char, std::__1::char_traits<char>, std::__1::allocator<char>>)
   args:
   - name: arg1
+    name_override:
+      value: string
+      source: |
+        Arg names verified against corpus / M4L docs:
+          - arg1 -> string  [callsite, 3/3 defs]: corpus def: external/corpus/LV2_LX2_LC2_LD2/FaderfoxComponent.py:24 (+2 more)
     type: str
   returns:
     type: None

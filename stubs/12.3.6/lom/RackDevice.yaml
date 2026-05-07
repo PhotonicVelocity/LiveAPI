@@ -50,6 +50,14 @@ primary_class:
   - name: chains
     raw_doc: Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.
     type: Live.Base.Vector
+    element_type_override:
+      value: <class 'Chain'>
+      confidence: high
+      source: |
+        M4L docs (rackdevice.md): `chains list of Chain read-only observe`.
+        Corpus: Push2/convert.py:28 reads `drum_pad.chains[0]` (DrumPad shares the
+        Chain element type via the rack chain hierarchy); pushbase widely
+        iterates rack chains.
     settable: false
     listenable:
     - add_chains_listener
@@ -139,6 +147,12 @@ primary_class:
   - name: return_chains
     raw_doc: Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.
     type: Live.Base.Vector
+    element_type_override:
+      value: <class 'Chain'>
+      confidence: high
+      source: |
+        M4L docs (rackdevice.md): `return_chains list of Chain read-only observe`.
+        Same shape as chains; the rack's return_chains hold Chain instances.
     settable: false
     listenable:
     - add_return_chains_listener
@@ -206,8 +220,20 @@ primary_class:
     - name: self
       type: Live.RackDevice.RackDevice
     - name: arg2
+      name_override:
+        value: source_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+            - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
       type: int
     - name: arg3
+      name_override:
+        value: destination_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+            - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
       type: int
     returns:
       type: None
@@ -235,6 +261,12 @@ primary_class:
       default: '-1'
     returns:
       type: Live.LomObject.LomObject
+      type_override:
+        value: Chain
+        confidence: high
+        source: |
+          M4L docs (rackdevice.md) name the return as `Chain`; raw_doc: "Insert a
+          new empty chain at the given index".
 
   - name: randomize_macros
     raw_doc: Randomizes the values for all macro controls not excluded from randomization.
@@ -334,6 +366,12 @@ primary_class:
     - name: selected_chain
       raw_doc: Return access to the currently selected chain.
       type: None
+      type_override:
+        value: Chain | None
+        confidence: high
+        source: |
+          Docstring: "Return access to the currently selected chain." Corpus-verified —
+          Ableton's pushbase / Push2 read and assign Chain values to this property.
       settable: true
       listenable:
       - add_selected_chain_listener

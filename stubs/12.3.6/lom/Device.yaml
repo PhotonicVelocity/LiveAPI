@@ -129,8 +129,20 @@ primary_class:
     - name: self
       type: Live.Device.Device
     - name: arg2
+      name_override:
+        value: script_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> script_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
+            - arg3 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
       type: int
     - name: arg3
+      name_override:
+        value: bank_index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> script_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
+            - arg3 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
       type: int
     returns:
       type: None

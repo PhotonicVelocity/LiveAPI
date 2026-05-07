@@ -44,6 +44,12 @@ primary_class:
   - name: filter_type
     raw_doc: Bang triggered when the hotswap target has changed.
     type: int
+    type_override:
+      value: FilterType
+      confidence: high
+      source: |
+        `FilterType` enum in same module (Browser). Property name is a direct
+        snake-case match.
     settable: true
     listenable:
     - add_filter_type_listener
@@ -53,6 +59,16 @@ primary_class:
   - name: hotswap_target
     raw_doc: Bang triggered when the hotswap target has changed.
     type: None
+    type_override:
+      value: Device | None
+      confidence: high
+      source: |
+        Corpus reads `hotswap_target` as a `Device`: Push2/browser_component.py:538
+        does `self._browser.hotswap_target.selected_preset_index = ...`, where
+        `selected_preset_index` is a Device-side attribute. The C++ signature on
+        sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`,
+        which would suggest BrowserItem, but the corpus pattern contradicts that
+        for the property's runtime type. `None` when no hotswap is active.
     settable: true
     listenable:
     - add_hotswap_target_listener
@@ -124,6 +140,13 @@ primary_class:
     - name: self
       type: Live.Browser.Browser
     - name: arg2
+      name_override:
+        value: item
+        source: |
+          Arg names verified against corpus / docstring:
+            - arg2 -> item  [docstring]: "Loads the provided browser item." Browser
+              is not in the M4L docs surface, so this is the strongest evidence.
+              C++ signature confirms the parameter type is BrowserItem.
       type: Live.Browser.BrowserItem
     returns:
       type: None
@@ -136,6 +159,12 @@ primary_class:
     - name: self
       type: Live.Browser.Browser
     - name: arg2
+      name_override:
+        value: item
+        source: |
+          Arg names verified against corpus / docstring:
+            - arg2 -> item  [docstring]: "Previews the provided browser item." Same
+              situation as load_item — Browser is not in the M4L docs surface.
       type: Live.Browser.BrowserItem
     returns:
       type: None
@@ -148,6 +177,11 @@ primary_class:
     - name: self
       type: Live.Browser.Browser
     - name: arg2
+      name_override:
+        value: item
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> item  [docstring]: description says 'relation between the given browser item' - parameter is the item
       type: Live.Browser.BrowserItem
     returns:
       type: Live.Browser.Relation
@@ -201,6 +235,12 @@ classes:
   - name: iter_children
     raw_doc: Const iterable access to the descendants of this browser item.
     type: Live.Browser.BrowserItemIterator
+    element_type_override:
+      value: <class 'BrowserItem'>
+      confidence: high
+      source: |
+        Corpus Push2/browser_component.py:676 iterates browser items via this
+        property — confirms `BrowserItem` element type.
     settable: false
 
   - name: name
@@ -227,6 +267,12 @@ classes:
     This class cannot be instantiated from Python
   constructable: false
   iterable: true
+  element_type_override:
+    value: <class 'BrowserItem'>
+    confidence: high
+    source: |
+      raw_doc confirms; corpus Push2/browser_list.py:63 isinstance check against
+      this class.
 
 - name: BrowserItemVector
   path: Live.Browser.BrowserItemVector

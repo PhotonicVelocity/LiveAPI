@@ -36,6 +36,14 @@ primary_class:
   - name: sends
     raw_doc: Const access to the Chain's list of Send Amount Device Parameters.
     type: Live.Base.Vector
+    element_type_override:
+      value: <class 'DeviceParameter'>
+      confidence: high
+      source: |
+        raw_doc: "Const access to the Chain's list of Send Amount Device Parameters."
+        M4L docs (chainmixerdevice.md): `sends list of DeviceParameter read-only observe`.
+        Corpus pushbase/selected_track_parameter_provider.py:44 does
+        `params += list(mixer.sends)` — params is a list of DeviceParameter.
     settable: false
     listenable:
     - add_sends_listener

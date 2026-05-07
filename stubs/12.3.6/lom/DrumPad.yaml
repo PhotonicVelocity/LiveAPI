@@ -24,6 +24,13 @@ primary_class:
   - name: chains
     raw_doc: Return const access to the list of chains in this drum pad.
     type: Live.Base.Vector
+    element_type_override:
+      value: <class 'Chain'>
+      confidence: high
+      source: |
+        raw_doc: "Return const access to the list of chains in this drum pad."
+        M4L docs (drumpad.md): `chains [Chain] read-only observe`. Corpus
+        pushbase/device_chain_utils.py:14 reads `drum_pad.chains[0].devices`.
     settable: false
     listenable:
     - add_chains_listener

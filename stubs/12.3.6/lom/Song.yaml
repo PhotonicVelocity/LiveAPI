@@ -19,6 +19,13 @@ primary_class:
   - name: appointed_device
     raw_doc: Read, write, and listen access to the appointed Device
     type: None
+    type_override:
+      value: Device | None
+      confidence: high
+      source: |
+        Docstring: "Read, write, and listen access to the appointed Device." Corpus-
+        verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
+        values here.
     settable: true
     listenable:
     - add_appointed_device_listener
@@ -89,6 +96,14 @@ primary_class:
   - name: canonical_parent
     raw_doc: Get the canonical parent of the song.
     type: None
+    type_override:
+      value: None
+      confidence: high
+      source: |
+        Song is the LOM root for the document tree. The probe observes None
+        because Song has no parent (`Application.song` returns the Song; there's
+        no inverse). Same structural reasoning as
+        `Application.canonical_parent`.
     settable: false
 
   - name: clip_trigger_quantization
@@ -427,6 +442,12 @@ primary_class:
   - name: session_record_status
     raw_doc: Get the session slot-recording state.
     type: int
+    type_override:
+      value: SessionRecordStatus
+      confidence: high
+      source: |
+        `SessionRecordStatus` enum in same module (Song). Property name is a
+        direct snake-case match.
     settable: false
     listenable:
     - add_session_record_status_listener
@@ -618,6 +639,13 @@ primary_class:
       type: Live.Song.Song
     - name: index
       type: object | None
+      type_override:
+        value: int | None
+        confidence: medium
+        source: |
+          M4L docs say optional index parameter; usage shows the function called with
+          no args (default = None means "append at end"). Type pinned by sister-method
+          convention; not corpus-verified.
       optional: true
       default: None
     returns:
@@ -635,6 +663,10 @@ primary_class:
       type: Live.Song.Song
     - name: index
       type: object | None
+      type_override:
+        value: int | None
+        confidence: medium
+        source: Same pattern as create_audio_track — M4L docs explicit.
       optional: true
       default: None
     returns:
@@ -664,6 +696,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: int
     returns:
       type: Live.Scene.Scene
@@ -678,6 +715,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: int
     returns:
       type: None
@@ -692,6 +734,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: int
     returns:
       type: None
@@ -706,6 +753,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: int
     returns:
       type: None
@@ -720,6 +772,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: int
     returns:
       type: None
@@ -735,6 +792,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: index
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: int
     returns:
       type: None
@@ -825,6 +887,13 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: smpte_format
+        source: |
+          arg2 rename — M4L (song.md) names it `format`. Renamed to `smpte_format`
+          for clarity (avoids shadowing the builtin `format()` and explicitly
+          indicates SMPTE time-code format). Names are positional-only and decorative
+          — clarity over doc-conformance.
       type: int
     returns:
       type: Live.Song.SmptTime
@@ -840,8 +909,22 @@ primary_class:
       type: str
     - name: default_value
       type: object
+      type_override:
+        value: Any
+        confidence: high
+        source: |
+          Corpus passes int (3, 5), bool (True), str defaults across pushbase /
+          ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data,
+          so `Any` is the honest parameterization for both arg and return.
     returns:
       type: object
+      type_override:
+        value: Any
+        confidence: high
+        source: |
+          Corpus passes int (3, 5), bool (True), str defaults across pushbase /
+          ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data,
+          so `Any` is the honest parameterization for both arg and return.
 
   - name: is_cue_point_selected
     raw_doc: Return true if the global playing pos is currently on a cue point.
@@ -861,6 +944,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: beats
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: float
     returns:
       type: None
@@ -941,6 +1029,11 @@ primary_class:
     - name: self
       type: Live.Song.Song
     - name: arg2
+      name_override:
+        value: beats
+        source: |
+          Arg names verified against corpus / M4L docs:
+            - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/song.md
       type: float
     returns:
       type: None
@@ -956,6 +1049,12 @@ primary_class:
       type: str
     - name: value
       type: object
+      type_override:
+        value: Any
+        confidence: high
+        source: |
+          Corpus passes int (interval), bool (is_horizontal), arbitrary persistent
+          data — pushbase/instrument_component.py:88-110 shows the pattern. Any matches.
     returns:
       type: None
 
@@ -1063,6 +1162,12 @@ primary_class:
     - name: detail_clip
       raw_doc: Get/Set the Clip that is currently visible in Lives Detailview.
       type: None
+      type_override:
+        value: Clip | None
+        confidence: high
+        source: |
+          Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
+          Corpus-verified — Push and Push2 both read and assign Clip values here.
       settable: true
       listenable:
       - add_detail_clip_listener
@@ -1095,6 +1200,13 @@ primary_class:
     - name: selected_chain
       raw_doc: Get the highlighted chain if available.
       type: None
+      type_override:
+        value: Chain | None
+        confidence: high
+        source: |
+          Docstring: "Get the highlighted chain if available." Corpus-verified —
+          Push2/track_selection.py:95 and pushbase/selection.py:54 both assign Chain
+          values to this property.
       settable: true
       listenable:
       - add_selected_chain_listener
@@ -1104,6 +1216,12 @@ primary_class:
     - name: selected_parameter
       raw_doc: Get the currently selected device parameter.
       type: None
+      type_override:
+        value: DeviceParameter | None
+        confidence: high
+        source: |
+          Docstring confirms `DeviceParameter` return type. M4L docs explicit:
+          "selected_parameter [DeviceParameter] read-only observe". Read-only nullable.
       settable: false
       listenable:
       - add_selected_parameter_listener
@@ -1137,6 +1255,11 @@ primary_class:
       - name: self
         type: Live.Song.Song.View
       - name: arg2
+        name_override:
+          value: device
+          source: |
+            Arg names verified against corpus / M4L docs:
+              - arg2 -> device  [M4L docs]: external/max-for-live-docs/9.0/song_view.md
         type: Live.Device.Device
       - name: should_appoint_device
         type: bool
@@ -1338,3 +1461,10 @@ functions:
   cpp_signature: boost::python::tuple get_all_scales_ordered()
   returns:
     type: tuple[tuple, ...]
+    type_override:
+      value: tuple[tuple[str, tuple[int, ...]], ...]
+      confidence: high
+      source: |
+        Corpus pushbase/melodic_pattern.py:52 unpacks
+        `Scale(name=x[0], notes=x[1]) for x in Live.Song.get_all_scales_ordered()`
+        — confirms `tuple[tuple[str, tuple[int, ...]], ...]`.
