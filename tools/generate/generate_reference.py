@@ -622,6 +622,32 @@ def member_flags_html(member: dict) -> str:
             f'href="{href}" '
             f'title="{tooltip}" aria-label="listen"></a>'
         )
+    # Deprecated members carry a `deprecated:` field on their YAML
+    # node — usually `deprecated: { replaced_by: <method_name> }`,
+    # which produces a clickable chip jumping to the replacement
+    # method's anchor on the same page. Bare `deprecated: true` (or
+    # an empty dict) emits a non-link chip when no clean single
+    # replacement exists; the method's `description:` carries any
+    # migration prose in that case.
+    deprecated = _resolve(member, "deprecated")
+    if deprecated:
+        replaced_by = (
+            deprecated.get("replaced_by")
+            if isinstance(deprecated, dict)
+            else None
+        )
+        if replaced_by:
+            chips.append(
+                f'<a class="prop-flag prop-flag-deprecated" '
+                f'href="#{replaced_by}" '
+                f'title="Deprecated — use {replaced_by} instead." '
+                f'aria-label="deprecated"></a>'
+            )
+        else:
+            chips.append(
+                '<span class="prop-flag prop-flag-deprecated" '
+                'aria-label="deprecated"></span>'
+            )
     if not chips:
         return ""
     return f'<span class="prop-flags">{"".join(chips)}</span>'
@@ -1045,6 +1071,11 @@ def render_module_page(
                 p for p in properties
                 if _resolve(p, "name") not in pinned_names
             ]
+        # Partition properties into active vs deprecated. Deprecated
+        # properties join the deprecated methods in the collapsed
+        # `<details>` block at the bottom of the class.
+        deprecated_properties = [p for p in properties if _resolve(p, "deprecated")]
+        properties = [p for p in properties if not _resolve(p, "deprecated")]
         if pinned or properties:
             lines.append("#### Properties")
             lines.append("")
@@ -1186,25 +1217,54 @@ def render_module_page(
                     },
                 ]
         methods = synth_methods + methods
-        if methods:
+        # Partition active vs deprecated. Deprecated methods get
+        # surfaced in a collapsed `<details>` block at the bottom
+        # of the class so they don't crowd the main Methods list
+        # but stay reachable for readers maintaining older code.
+        active_methods = [m for m in methods if not _resolve(m, "deprecated")]
+        deprecated_methods = [m for m in methods if _resolve(m, "deprecated")]
+
+        def _render_method(method: dict) -> None:
+            heading = method_signature_html(method)
+            flags = member_flags_html(method)
+            lines.append(f"##### {heading}{flags}")
+            lines.append("")
+            sig_block = callable_signature_block_html(
+                method, module_name, registry,
+                owning_class_name=cls.get("name"),
+            )
+            if sig_block:
+                lines.append(sig_block)
+                lines.append("")
+            desc = member_description_text(method)
+            if desc:
+                lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
+                lines.append("")
+
+        if active_methods:
             lines.append("#### Methods")
             lines.append("")
-            for method in methods:
-                heading = method_signature_html(method)
-                flags = member_flags_html(method)
+            for method in active_methods:
+                _render_method(method)
+
+        if deprecated_properties or deprecated_methods:
+            lines.append('<details class="deprecated-section">')
+            lines.append('<summary>Deprecated</summary>')
+            lines.append("")
+            for prop in deprecated_properties:
+                heading = property_heading_html(prop, registry, current_module=module_name)
+                flags = member_flags_html(prop)
                 lines.append(f"##### {heading}{flags}")
                 lines.append("")
-                sig_block = callable_signature_block_html(
-                    method, module_name, registry,
-                    owning_class_name=cls.get("name"),
-                )
-                if sig_block:
-                    lines.append(sig_block)
-                    lines.append("")
-                desc = member_description_text(method)
+                desc = member_description_text(prop)
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                     lines.append("")
+            for method in deprecated_methods:
+                _render_method(method)
+            lines.append('</details>')
+            lines.append("")
+
         # Nested types — classes and enums declared inside this class.
         # Surfaced as a unified link list pointing into the page's flat
         # top-level `## Other classes` / `## Enums` sections, where they're

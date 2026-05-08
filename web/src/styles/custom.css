@@ -133,6 +133,53 @@
 .sl-markdown-content a.prop-flag-listen:hover {
   text-decoration: underline;
 }
+/* Deprecated members section — collapsed `<details>` block at the
+   bottom of a class, holding methods (and eventually properties)
+   marked with the YAML's `deprecated:` field. Stays out of the
+   main Methods list so the supported API reads cleanly; remains
+   reachable for readers maintaining older code that calls these. */
+.sl-markdown-content details.deprecated-section {
+  margin: 1.5rem 0 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  background: var(--sl-color-bg-sidebar);
+}
+.sl-markdown-content details.deprecated-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-orange-high);
+  font-size: var(--sl-text-sm);
+  list-style: none;
+  user-select: none;
+}
+.sl-markdown-content details.deprecated-section > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.deprecated-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* Deprecated chip — amber warning style. Marks a member that's been
+   superseded by a newer one. When a `replaced_by:` value is set on
+   the YAML's `deprecated:` field, the chip is an `<a>` linking to
+   the replacement member's anchor on the same page. */
+.sl-markdown-content .prop-flag-deprecated {
+  background: var(--sl-color-orange-low);
+  color: var(--sl-color-orange-high);
+  text-decoration: none;
+}
+.sl-markdown-content .prop-flag-deprecated::before {
+  content: "deprecated";
+}
+.sl-markdown-content a.prop-flag-deprecated:hover {
+  text-decoration: underline;
+}
 /* Nested type headings (class / enum / future function) — semantically H5
    (kept out of the TOC, indented under their owning class), but visually
    the same size as a top-level class signature. The indent preserves

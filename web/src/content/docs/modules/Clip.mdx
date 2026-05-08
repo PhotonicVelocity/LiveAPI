@@ -584,16 +584,6 @@ Returns a list of all MIDI notes from the clip, regardless of their position rel
 
 </div>
 
-##### get_notes()
-
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]</div></div></div>
-
-<div class="member-desc">
-
-Returns a tuple of tuples where each inner tuple represents a note starting in the given pitch- and time range. The inner tuple contains pitch, time, duration, velocity, and mute state.
-
-</div>
-
 ##### get_notes_by_id()
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
@@ -611,16 +601,6 @@ Return a list of MIDI notes matching the given note IDs.
 <div class="member-desc">
 
 Returns a list of MIDI notes from the given pitch and time range. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
-
-</div>
-
-##### get_selected_notes()
-
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]</div></div></div>
-
-<div class="member-desc">
-
-Returns a tuple of tuples where each inner tuple represents a selected note. The inner tuple contains pitch, time, duration, velocity, and mute state.
 
 </div>
 
@@ -684,16 +664,6 @@ Quantize all the notes of a given pitch. Raises an error on audio clips.
 
 </div>
 
-##### remove_notes()
-
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
-
-<div class="member-desc">
-
-Delete all notes starting in the given pitch- and time range.
-
-</div>
-
 ##### remove_notes_by_id()
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]</span></li></ul></div></div>
@@ -721,16 +691,6 @@ Delete all notes starting in the given pitch and time range. This function shoul
 <div class="member-desc">
 
 Available for AudioClips only. Removes the specified warp marker, if possible.
-
-</div>
-
-##### replace_selected_notes()
-
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]</span></li></ul></div></div>
-
-<div class="member-desc">
-
-Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_selected_notes. The notes described that way will then be used to replace the old selection.
 
 </div>
 
@@ -792,16 +752,6 @@ Set the clip's fire button state directly. Supports all launch modes.
 
 </div>
 
-##### set_notes()
-
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]</span></li></ul></div></div>
-
-<div class="member-desc">
-
-Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_notes. The notes described that way will then be added to the clip.
-
-</div>
-
 ##### stop()
 
 <div class="member-desc">
@@ -817,6 +767,61 @@ Stop playing this Clip.
 Stops the current scrub.
 
 </div>
+
+<details class="deprecated-section">
+<summary>Deprecated</summary>
+
+##### get_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#get_notes_extended" title="Deprecated — use get_notes_extended instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]</div></div></div>
+
+<div class="member-desc">
+
+Returns a tuple of tuples where each inner tuple represents a note starting in the given pitch- and time range. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+</div>
+
+##### get_selected_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#get_selected_notes_extended" title="Deprecated — use get_selected_notes_extended instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]</div></div></div>
+
+<div class="member-desc">
+
+Returns a tuple of tuples where each inner tuple represents a selected note. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+</div>
+
+##### remove_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#remove_notes_extended" title="Deprecated — use remove_notes_extended instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+Delete all notes starting in the given pitch- and time range.
+
+</div>
+
+##### replace_selected_notes()<span class="prop-flags"><span class="prop-flag prop-flag-deprecated" aria-label="deprecated"></span></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]</span></li></ul></div></div>
+
+<div class="member-desc">
+
+Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_selected_notes. The notes described that way will then be used to replace the old selection.
+
+</div>
+
+##### set_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#add_new_notes" title="Deprecated — use add_new_notes instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]</span></li></ul></div></div>
+
+<div class="member-desc">
+
+Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_notes. The notes described that way will then be added to the clip.
+
+</div>
+
+</details>
 
 #### Nested types
 

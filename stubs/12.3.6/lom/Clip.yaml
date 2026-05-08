@@ -796,6 +796,8 @@ primary_class:
       Returns a tuple of tuples where each inner tuple represents
       a note starting in the given pitch- and time range.
       The inner tuple contains pitch, time, duration, velocity, and mute state.
+    deprecated:
+      replaced_by: get_notes_extended
     signature: 'get_notes( (Clip)self, (float)from_time, (int)from_pitch, (float)time_span, (int)pitch_span) -> tuple :'
     cpp_signature: boost::python::tuple get_notes(TPyHandle<AClip>,double,int,double,int)
     args:
@@ -866,6 +868,8 @@ primary_class:
       Returns a tuple of tuples where each inner tuple
       represents a selected note. The inner tuple contains
       pitch, time, duration, velocity, and mute state.
+    deprecated:
+      replaced_by: get_selected_notes_extended
     signature: 'get_selected_notes( (Clip)arg1) -> tuple :'
     cpp_signature: boost::python::tuple get_selected_notes(TPyHandle<AClip>)
     args:
@@ -1086,6 +1090,8 @@ primary_class:
 
   - name: remove_notes
     raw_doc: Delete all notes starting in the given pitch- and time range.
+    deprecated:
+      replaced_by: remove_notes_extended
     signature: 'remove_notes( (Clip)arg1, (float)arg2, (int)arg3, (float)arg4, (int)arg5) -> None :'
     cpp_signature: void remove_notes(TPyHandle<AClip>,double,int,double,int)
     args:
@@ -1212,6 +1218,7 @@ primary_class:
       Called with a tuple of tuples where each inner tuple represents
       a note in the same format as returned by get_selected_notes. The
       notes described that way will then be used to replace the old selection.
+    deprecated: true
     signature: 'replace_selected_notes( (Clip)arg1, (tuple)arg2) -> None :'
     cpp_signature: void replace_selected_notes(TPyHandle<AClip>,boost::python::tuple)
     args:
@@ -1340,6 +1347,8 @@ primary_class:
       Called with a tuple of tuples where each inner tuple represents
       a note in the same format as returned by get_notes. The
       notes described that way will then be added to the clip.
+    deprecated:
+      replaced_by: add_new_notes
     signature: 'set_notes( (Clip)arg1, (tuple)arg2) -> None :'
     cpp_signature: void set_notes(TPyHandle<AClip>,boost::python::tuple)
     args:
