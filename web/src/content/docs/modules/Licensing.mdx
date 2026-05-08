@@ -219,38 +219,38 @@ Returns relevant information after unlock
 
 ## Functions
 
-### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 Advances the current date by the number of days specified by _AuthClockDaysAhead
 
-### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">(<span class="meth-arg">reauthorize</span>: bool, <span class="meth-arg">is_trial</span>: bool) <span class="meth-arrow">-&gt;</span> str</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">reauthorize</span>: <span class="fn-arg-type">bool</span></li><li><span class="fn-arg-name">is_trial</span>: <span class="fn-arg-type">bool</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 Returns the environment-aware purchase URL for purchasing Live licenses
 
-### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 Returns the URL against which service calls (e.g. for authorization) can be performed.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[str, bool]</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[str, bool]</div></div></div>
 
 Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">(<span class="meth-arg">url</span>: str) <span class="meth-arrow">-&gt;</span> None</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">url</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">None</div></div></div>
 
 Opens a web browser at the specified URL on the user's computer.

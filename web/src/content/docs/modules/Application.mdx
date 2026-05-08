@@ -447,32 +447,32 @@ Specifies the dialog type for Push.
 
 ## Functions
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">combine_apcs</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 Returns true if multiple APCs should be combined.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">(<span class="meth-arg">dongle1</span>: int, <span class="meth-arg">dongle2</span>: int, <span class="meth-arg">key_index</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> tuple[int, ...]</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">dongle1</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">dongle2</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">key_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[int, ...]</div></div></div>
 
 Returns an encrypted challenge based on the TEA algortithm
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">(<span class="meth-arg">challenge</span>: int) <span class="meth-arrow">-&gt;</span> int</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">challenge</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 Returns the UMAC hash for the given challenge.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_application</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_application</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/application/#application" title="Application">Application</a></span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/application/#application" title="Application">Application</a></div></div></div>
 
 Returns the application instance.
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span>()
 
-<div class="fn-sig-row"><span class="meth-sig">(<span class="meth-arg">min_value</span>: int, <span class="meth-arg">max_value</span>: int) <span class="meth-arrow">-&gt;</span> int</span></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">min_value</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">max_value</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 Returns a random integer from the given range.

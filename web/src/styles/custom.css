@@ -249,15 +249,60 @@
    LomObject module page where the universal identity / lifetime model
    is documented. Sized + styled like the confidence pill so the two
    read as a metadata family rather than competing visual elements. */
-/* Function signature row — the `(args) -> R` portion of a module
-   function, rendered as a sibling block immediately below the H3
-   heading rather than inside it. Keeps the function H3's textContent
-   to just `def Live.Module.name` so Starlight's right-side TOC reads
-   the bare name instead of the full signature blob. Pulled tight to
-   the heading above so they read as one logical unit. */
-.sl-markdown-content .fn-sig-row {
-  margin-top: -0.25rem;
-  margin-bottom: 0.5rem;
+/* Function signature block — Sphinx-style labeled sections rendered
+   as a sibling block below the function H3. Keeps the H3's
+   textContent to just `Live.Module.name()` (a function-shaped
+   identifier for the right-side TOC) and lets the rich signature
+   detail live below in a structured form: `Parameters` lists each
+   arg one per line, `Returns` shows the return type. Empty sections
+   skipped per function. Indented to align under the function name
+   in the H3 above. */
+.sl-markdown-content .fn-sig-block {
+  margin: 0.25rem 0 0.75rem 1.5rem;
+}
+.sl-markdown-content .fn-sig-section {
+  margin-bottom: 0.4rem;
+}
+/* Override Starlight's default sibling margins inside the sig block —
+   we want a tight `LABEL → content` rhythm. The .fn-sig-args UL
+   already gets it for free (its rule sets margin: 0); the
+   .fn-sig-return div needs the same explicit reset. */
+.sl-markdown-content .fn-sig-section > * {
+  margin-top: 0;
+}
+.sl-markdown-content .fn-sig-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  margin-bottom: 0.1rem;
+}
+.sl-markdown-content .fn-sig-args {
+  list-style: none;
+  margin: 0;
+  padding-left: 1rem;
+}
+.sl-markdown-content .fn-sig-args li {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  margin: 0.05rem 0;
+}
+.sl-markdown-content .fn-sig-return {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  padding-left: 1rem;
+  margin-top: 0;
+}
+.sl-markdown-content .fn-arg-name {
+  font-weight: 500;
+  color: var(--sl-color-text);
+}
+.sl-markdown-content .fn-arg-type {
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .fn-arg-default {
+  color: var(--sl-color-orange-high);
 }
 
 /* LomObject chip — appended inside the class H3 signature. The `<a>`

@@ -499,32 +499,87 @@ def function_signature_html(
     fn: dict,
     module_name: str,
 ) -> str:
-    """Module-level function H3: `def Live.Module.name`.
+    """Module-level function H3: `Live.Module.name()`.
 
-    Just the kw/path/name framing — args + return are rendered
-    separately on the next line by the caller, NOT in the H3, so
-    Starlight's right-side TOC sees only the bare function name
-    instead of the full signature blob.
+    Path prefix + name (matching the class/enum convention) + empty
+    `()` to mark the entry as callable. The full `(args) -> R` body
+    is rendered separately on the next line by the caller — keeping
+    Starlight's right-side TOC to a short `name()` instead of the
+    full signature blob.
     """
     return _signature_html(
         name=fn["name"],
         module_name=module_name,
+        suffix="()",
     )
 
 
-def function_args_return_html(
+def function_signature_block_html(
     fn: dict,
     module_name: str,
     registry: dict[str, str],
 ) -> str:
-    """The `(args) -> R` portion of a function signature, wrapped in
-    a `.fn-sig-row` block. Rendered as a sibling of the function H3
-    so its text stays out of the heading's `textContent`.
+    """Render the Parameters / Returns block below a function H3.
+
+    Sphinx-style labeled sections — `Parameters` and `Returns` —
+    rendered as a sibling block so their text stays out of the
+    heading's `textContent`. One arg per line; empty sections are
+    skipped (no-arg functions show only `Returns`; `None`-returning
+    functions show only `Parameters`).
     """
-    inner = _callable_args_returns_html(
-        fn, registry, current_module=module_name,
-    )
-    return f'<div class="fn-sig-row">{inner}</div>'
+    arg_items: list[str] = []
+    for arg in fn.get("args") or []:
+        arg_name = _resolve(arg, "name")
+        if arg_name == "self":
+            continue
+        arg_type = _resolve(arg, "type")
+        type_part = ""
+        if arg_type:
+            linked = linkify_type(
+                display_type(arg_type), registry, current_module=module_name,
+            )
+            type_part = f': <span class="fn-arg-type">{linked}</span>'
+        default = arg.get("default")
+        default_part = ""
+        if default is not None:
+            default_part = (
+                f' = <span class="fn-arg-default">{default}</span>'
+            )
+        arg_items.append(
+            f'<li>'
+            f'<span class="fn-arg-name">{arg_name}</span>'
+            f'{type_part}{default_part}'
+            f'</li>'
+        )
+
+    return_html = ""
+    returns = fn.get("returns") or {}
+    if isinstance(returns, dict):
+        return_type = _resolve(returns, "type")
+        if return_type:
+            return_html = linkify_type(
+                display_type(return_type), registry,
+                current_module=module_name,
+            )
+
+    parts: list[str] = []
+    if arg_items:
+        parts.append(
+            f'<div class="fn-sig-section">'
+            f'<div class="fn-sig-label">Parameters</div>'
+            f'<ul class="fn-sig-args">{"".join(arg_items)}</ul>'
+            f'</div>'
+        )
+    if return_html:
+        parts.append(
+            f'<div class="fn-sig-section">'
+            f'<div class="fn-sig-label">Returns</div>'
+            f'<div class="fn-sig-return">{return_html}</div>'
+            f'</div>'
+        )
+    if not parts:
+        return ""
+    return f'<div class="fn-sig-block">{"".join(parts)}</div>'
 
 
 def method_signature_html(
@@ -1283,8 +1338,10 @@ def render_module_page(
         for fn in functions:
             lines.append(f"### {function_signature_html(fn, module_name)}")
             lines.append("")
-            lines.append(function_args_return_html(fn, module_name, registry))
-            lines.append("")
+            sig_block = function_signature_block_html(fn, module_name, registry)
+            if sig_block:
+                lines.append(sig_block)
+                lines.append("")
             desc = member_description_text(fn)
             if desc:
                 lines.append(desc)
