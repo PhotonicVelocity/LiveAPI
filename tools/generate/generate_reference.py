@@ -521,9 +521,21 @@ def callable_signature_block_html(
 
     parts: list[str] = []
     if arg_items:
+        # `Parameters` label deep-links to the Calling conventions
+        # foundation page — every method / function takes positional
+        # args only (no kwargs). The chip-style link explains the
+        # binding's positional-only constraint and the `/` PEP 570
+        # marker that surfaces in the generated `.pyi` stubs.
+        params_href = f"{DOCS_URL_BASE}/callingconventions/"
+        params_tooltip = (
+            "All LOM methods / functions take positional arguments "
+            "only. See Calling conventions for details."
+        )
         parts.append(
             f'<div class="fn-sig-section">'
-            f'<div class="fn-sig-label">Parameters</div>'
+            f'<div class="fn-sig-label">'
+            f'<a href="{params_href}" title="{params_tooltip}">'
+            f'Parameters</a></div>'
             f'<ul class="fn-sig-args">{"".join(arg_items)}</ul>'
             f'</div>'
         )

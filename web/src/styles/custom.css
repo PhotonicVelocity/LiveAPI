@@ -448,6 +448,18 @@
   font-size: var(--sl-text-sm);
   margin-bottom: 0.1rem;
 }
+/* `Parameters` label is a deep link to the Calling conventions
+   foundation page. Inherits the label's color/weight; hover surfaces
+   an underline so the affordance is discoverable without dominating
+   the section. */
+.sl-markdown-content .fn-sig-label > a {
+  color: inherit;
+  text-decoration: none;
+  cursor: help;
+}
+.sl-markdown-content .fn-sig-label > a:hover {
+  text-decoration: underline;
+}
 .sl-markdown-content .fn-sig-args {
   list-style: none;
   margin: 0;
