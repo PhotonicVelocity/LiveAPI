@@ -8,6 +8,7 @@ primary_class:
     access to the Volume and Panning properties of a Track.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

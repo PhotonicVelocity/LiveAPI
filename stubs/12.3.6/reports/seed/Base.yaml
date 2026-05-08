@@ -4,7 +4,8 @@ classes:
 - name: FloatVector
   path: Live.Base.FloatVector
   raw_doc: A simple container for returning floats from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -15,7 +16,8 @@ classes:
 - name: IntU64Vector
   path: Live.Base.IntU64Vector
   raw_doc: A simple container for returning unsigned long integers from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -26,7 +28,8 @@ classes:
 - name: IntVector
   path: Live.Base.IntVector
   raw_doc: A simple container for returning integers from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -44,7 +47,8 @@ classes:
 - name: ObjectVector
   path: Live.Base.ObjectVector
   raw_doc: A simple read only container for returning python objects.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -56,7 +60,8 @@ classes:
 - name: StringVector
   path: Live.Base.StringVector
   raw_doc: A simple container for returning strings from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -68,7 +73,8 @@ classes:
 - name: Text
   path: Live.Base.Text
   raw_doc: A translatable, immutable string.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -81,7 +87,8 @@ classes:
 - name: Timer
   path: Live.Base.Timer
   raw_doc: A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (object)callback, (int)interval [, (bool)repeat=False [, (bool)start=False]]) -> None :
 
@@ -144,7 +151,8 @@ classes:
 - name: Vector
   path: Live.Base.Vector
   raw_doc: A simple read only container for returning objects from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

@@ -11,6 +11,7 @@ primary_class:
   raw_doc: This class represents an automation or modulation envelope in Live.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -133,7 +134,8 @@ classes:
 - name: EnvelopeEvent
   path: Live.Envelope.EnvelopeEvent
   raw_doc: This is a class that represents an envelope event.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (float)time, (float)value, (EnvelopeEventControlCoefficients)control_coefficients) -> None :
         Create a new envelope event.
@@ -172,7 +174,8 @@ classes:
 - name: EnvelopeEventControlCoefficients
   path: Live.Envelope.EnvelopeEventControlCoefficients
   raw_doc: This class represents the control coefficients of an envelope event.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (float)x1, (float)y1, (float)x2, (float)y2) -> None :
         Create new envelope event control coefficients.
@@ -217,7 +220,8 @@ classes:
 - name: EnvelopeEventVector
   path: Live.Envelope.EnvelopeEventVector
   raw_doc: A container for holding envelope events.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

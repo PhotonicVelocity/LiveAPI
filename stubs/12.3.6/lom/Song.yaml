@@ -11,6 +11,7 @@ primary_class:
   raw_doc: This class represents a Live set.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1145,6 +1146,7 @@ primary_class:
     raw_doc: 'Representing the view aspects of a Live document: The Session and Arrangerview.'
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -1269,7 +1271,8 @@ classes:
 - name: BeatTime
   path: Live.Song.BeatTime
   raw_doc: Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -1307,6 +1310,7 @@ classes:
   raw_doc: Represents a 'Marker' in the arrangement.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1356,7 +1360,8 @@ classes:
     Represents a Time, split into Hours, Minutes, Seconds and Frames.
     The frame type must be specified when calling a function that returns
     a SmptTime.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 

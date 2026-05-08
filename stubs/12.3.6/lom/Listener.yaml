@@ -133,7 +133,8 @@ classes:
 - name: ListenerHandle
   path: Live.Listener.ListenerHandle
   raw_doc: This class represents a Python listener when connected to a Live property.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -186,7 +187,8 @@ classes:
 - name: ListenerVector
   path: Live.Listener.ListenerVector
   raw_doc: A read only container for accessing a list of listeners.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

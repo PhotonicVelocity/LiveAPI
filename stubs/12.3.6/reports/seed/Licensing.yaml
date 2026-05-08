@@ -4,7 +4,8 @@ classes:
 - name: ProgressDialog
   path: Live.Licensing.ProgressDialog
   raw_doc: A modal dialog showing a message and a progress animation.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -43,7 +44,8 @@ classes:
 - name: PythonLicensingBridge
   path: Live.Licensing.PythonLicensingBridge
   raw_doc: Interface to the internal licensing services.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -239,7 +241,8 @@ classes:
 - name: StartupDialog
   path: Live.Licensing.StartupDialog
   raw_doc: Serves as an entry point for the user to authorize Live on first launch.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -282,7 +285,8 @@ classes:
 - name: UnlockStatus
   path: Live.Licensing.UnlockStatus
   raw_doc: Returns relevant information after unlock
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 

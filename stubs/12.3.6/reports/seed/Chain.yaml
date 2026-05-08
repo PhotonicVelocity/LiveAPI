@@ -7,6 +7,7 @@ primary_class:
   ancestors:
   - Live.Track.DeviceContainer
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

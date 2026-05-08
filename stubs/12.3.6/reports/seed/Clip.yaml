@@ -9,6 +9,7 @@ primary_class:
     on the Track (Slot) it lives in.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1026,6 +1027,7 @@ primary_class:
     raw_doc: Representing the view aspects of a Clip.
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -1094,7 +1096,8 @@ classes:
 - name: MidiNote
   path: Live.Clip.MidiNote
   raw_doc: An object representing a MIDI Note
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1145,7 +1148,8 @@ classes:
   raw_doc: |-
     An object specifying the data for creating a MIDI note. To be used with the
     add_new_notes function.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (int)pitch, (float)start_time, (float)duration [, (float)velocity=100.0 [, (bool)mute=False [, (float)probability=1.0 [, (float)velocity_deviation=0.0 [, (float)release_velocity=64.0]]]]]) -> None :
         Create a new note specification. Only pitch, start_time and duration are
@@ -1192,7 +1196,8 @@ classes:
 - name: MidiNoteVector
   path: Live.Clip.MidiNoteVector
   raw_doc: A container for holding MIDI notes from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1204,7 +1209,8 @@ classes:
 - name: WarpMarker
   path: Live.Clip.WarpMarker
   raw_doc: This class represents a WarpMarker type.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (float)sample_time, (float)beat_time) -> None :
         Create a new warp marker specification.
@@ -1239,7 +1245,8 @@ classes:
 - name: WarpMarkerVector
   path: Live.Clip.WarpMarkerVector
   raw_doc: A container for returning warp markers from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

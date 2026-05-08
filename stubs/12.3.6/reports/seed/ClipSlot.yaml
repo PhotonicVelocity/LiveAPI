@@ -6,6 +6,7 @@ primary_class:
   raw_doc: This class represents an entry in Lives Session view matrix.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

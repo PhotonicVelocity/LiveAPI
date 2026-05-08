@@ -4,7 +4,8 @@ classes:
 - name: CCFeedbackRule
   path: Live.MidiMap.CCFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -44,7 +45,8 @@ classes:
 - name: NoteFeedbackRule
   path: Live.MidiMap.NoteFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -84,7 +86,8 @@ classes:
 - name: PitchBendFeedbackRule
   path: Live.MidiMap.PitchBendFeedbackRule
   raw_doc: Structure to define feedback properties of MIDI mappings.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 

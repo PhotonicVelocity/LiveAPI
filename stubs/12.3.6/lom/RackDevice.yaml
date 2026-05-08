@@ -12,6 +12,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -291,6 +292,7 @@ primary_class:
     ancestors:
     - Live.Device.Device.View
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python

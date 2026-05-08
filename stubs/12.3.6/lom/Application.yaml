@@ -11,6 +11,7 @@ primary_class:
   raw_doc: This class represents the Live application.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -273,6 +274,7 @@ primary_class:
     raw_doc: This class represents the view aspects of the Live application.
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -602,7 +604,8 @@ classes:
 - name: ControlDescription
   path: Live.Application.ControlDescription
   raw_doc: Describes a control present in a control surface proxy
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -630,7 +633,8 @@ classes:
 - name: ControlDescriptionVector
   path: Live.Application.ControlDescriptionVector
   raw_doc: A container for returning control descriptions.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -650,7 +654,8 @@ classes:
 - name: ControlSurfaceProxy
   path: Live.Application.ControlSurfaceProxy
   raw_doc: Represents a control surface running in a different process. For use by M4L
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -938,7 +943,8 @@ classes:
 - name: UnavailableFeatureVector
   path: Live.Application.UnavailableFeatureVector
   raw_doc: A container for returning unavailable features.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -958,7 +964,8 @@ classes:
 - name: Variants
   path: Live.Application.Variants
   raw_doc: Holds strings representing what type of Live is running.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

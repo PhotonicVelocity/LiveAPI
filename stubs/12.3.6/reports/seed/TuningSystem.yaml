@@ -6,6 +6,7 @@ primary_class:
   raw_doc: Represents a Tuning System and its properties.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -80,7 +81,8 @@ classes:
 - name: PitchClassAndOctave
   path: Live.TuningSystem.PitchClassAndOctave
   raw_doc: This class represents a PitchClassAndOctave type.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (int)index_in_octave, (int)octave) -> None :
         Create a new pitch class and octave specification.
@@ -115,7 +117,8 @@ classes:
 - name: ReferencePitch
   path: Live.TuningSystem.ReferencePitch
   raw_doc: This class represents a ReferencePitch type.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (int)index_in_octave, (int)octave, (float)frequency) -> None :
         Create a new reference pitch specification.

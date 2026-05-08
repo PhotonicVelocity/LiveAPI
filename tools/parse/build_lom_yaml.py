@@ -122,16 +122,17 @@ SKIP_MEMBERS = {
     "__class__",
 }
 
-# Pattern + filter for the parser's repr-encoded ancestors list. We strip
-# the Boost.Python machinery from the chain — `Boost.Python.instance`,
-# `instance`, and `object` appear on essentially every class and don't
-# carry useful info for the docs surface.
+# Pattern for the parser's repr-encoded ancestors list. The lom YAML
+# preserves the full chain — including `Boost.Python.instance`,
+# `instance`, and `object` — so the structural truth is in the SOT.
+# Downstream consumers (the doc generator) filter what they consider
+# "interesting" for display; the YAML doesn't pre-decide. The full
+# chain matters for questions like "is this class a direct
+# Boost.Python sibling, or a deeper subclass?" — `Live.Base.Vector`
+# and every `XVector` (e.g. `RoutingChannelVector`) all have
+# `Boost.Python.instance` as their sole direct ancestor, telling us
+# they're siblings rather than a parent/child hierarchy.
 _ANCESTOR_RE = re.compile(r"<class '([^']+)'>")
-_BORING_BASES = {
-    "Boost.Python.instance",
-    "instance",
-    "object",
-}
 
 
 def build_class_registry(
@@ -486,13 +487,17 @@ def _qualify_type_string(
 
 
 def _qualify_ancestors(class_node: dict[str, Any], by_repr: dict[str, str]) -> list[str]:
-    """Strip Boost.Python boilerplate; resolve remaining ancestor reprs to
-    qualified tree paths via `registry["by_repr"]`.
+    """Resolve ancestor reprs to qualified tree paths via
+    `registry["by_repr"]`. Boost.Python machinery
+    (`Boost.Python.instance`, `instance`, `object`) is preserved in
+    the chain so the SOT carries the full structural truth — display-
+    side filtering happens in the doc generator.
 
     `["<class 'LomObject.LomObject'>", "<class 'Boost.Python.instance'>"]`
-    becomes `["Live.LomObject.LomObject"]`. Reprs that don't match any
-    class in the registry fall back to the parser's `Module.Class` form
-    (rare — covers external bases like `Exception`).
+    becomes `["Live.LomObject.LomObject", "Boost.Python.instance"]`.
+    Reprs that don't match any class in the registry fall back to the
+    parser's `Module.Class` form (covers external bases like
+    `Boost.Python.instance` and `Exception`).
     """
     out: list[str] = []
     for ancestor_repr in class_node.get("ancestors", []) or []:
@@ -500,8 +505,6 @@ def _qualify_ancestors(class_node: dict[str, Any], by_repr: dict[str, str]) -> l
         if not m:
             continue
         full = m.group(1)
-        if full in _BORING_BASES:
-            continue
         out.append(by_repr.get(ancestor_repr, full))
     return out
 
@@ -1259,7 +1262,7 @@ def main() -> int:
     in_path = (
         Path(args.input)
         if args.input
-        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.v2.json"
+        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.json"
     )
     probe_path = (
         Path(args.probe)

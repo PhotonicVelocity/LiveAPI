@@ -88,7 +88,8 @@ primary_class:
 - name: LomObject
   path: Live.LomObject.LomObject
   raw_doc: this is the base class for an object that is accessible via the LOM
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

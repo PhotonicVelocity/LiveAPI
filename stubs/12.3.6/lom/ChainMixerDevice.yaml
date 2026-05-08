@@ -12,6 +12,7 @@ primary_class:
     access to the Volume, Panning, and Send properties of a Chain.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
