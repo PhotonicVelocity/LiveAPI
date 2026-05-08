@@ -1,4 +1,8 @@
 module: WavetableDevice
+description: |
+  Represents an instance of Wavetable, Live's wavetable synthesizer. The
+  `WavetableDevice` class extends `Device` with the per-oscillator wavetable
+  selection and modulation-matrix state unique to the instrument.
 
 primary_class:
 - name: WavetableDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -20,8 +25,8 @@ primary_class:
       value: Live.WavetableDevice.FilterRouting
       confidence: high
       source: |
-        `FilterRouting` enum in same module (WavetableDevice). Property name is
-        a direct snake-case match.
+        [sister method] `FilterRouting` enum in same module (WavetableDevice).
+        Property name is a direct snake-case match.
     settable: true
     listenable:
     - add_filter_routing_listener
@@ -69,8 +74,8 @@ primary_class:
       value: Live.WavetableDevice.EffectMode
       confidence: high
       source: |
-        `EffectMode` enum in same module (WavetableDevice). Property name ends
-        in `effect_mode`; the enum is the only one matching that suffix.
+        [sister method] `EffectMode` enum in same module (WavetableDevice). Property
+        name ends in `effect_mode`; the enum is the only one matching that suffix.
     settable: true
     listenable:
     - add_oscillator_1_effect_mode_listener
@@ -111,7 +116,8 @@ primary_class:
       value: Live.WavetableDevice.EffectMode
       confidence: high
       source: |
-        Same as oscillator_1_effect_mode — sister property, same enum.
+        [sister method] same as oscillator_1_effect_mode — sister property, same
+        enum.
     settable: true
     listenable:
     - add_oscillator_2_effect_mode_listener
@@ -171,8 +177,8 @@ primary_class:
       value: Live.WavetableDevice.UnisonMode
       confidence: high
       source: |
-        `UnisonMode` enum in same module (WavetableDevice). Property name is a
-        direct snake-case match.
+        [sister method] `UnisonMode` enum in same module (WavetableDevice).
+        Property name is a direct snake-case match.
     settable: true
     listenable:
     - add_unison_mode_listener
@@ -186,8 +192,9 @@ primary_class:
       value: Live.WavetableDevice.VoiceCount
       confidence: high
       source: |
-        `VoiceCount` enum in same module (WavetableDevice). Property name ends
-        in `voice_count`; `VoiceCount` is the only enum matching that suffix.
+        [sister method] `VoiceCount` enum in same module (WavetableDevice). Property
+        name ends in `voice_count`; `VoiceCount` is the only enum matching that
+        suffix.
     settable: true
     listenable:
     - add_unison_voice_count_listener
@@ -204,6 +211,15 @@ primary_class:
     - visible_modulation_target_names_has_listener
 
   - name: modulation_matrix_changed
+    description: |
+      Fires when the Wavetable device's modulation matrix is
+      reconfigured — modulation source / destination wiring
+      changes. Programmatic triggers include
+      `add_parameter_to_modulation_matrix` and
+      `set_modulation_value`. Read the matrix via
+      `get_modulation_value`,
+      `get_modulation_target_parameter_name`, and
+      `is_parameter_modulatable`.
     listenable:
     - add_modulation_matrix_changed_listener
     - remove_modulation_matrix_changed_listener

@@ -33,10 +33,70 @@ and reference page generation will consume.
   - `confidence:` — `high` / `medium` / `low`. Required for typed/structural
     facts (`type`, `args`, `returns`, `element_type`); omitted for
     name-only renames where the rename is positional-decorative under
-    PEP 570 (`, /`).
-  - `source:` — required: corpus def-site, M4L doc citation, raw_doc text.
+    PEP 570 (`, /`). Renders as a colored chip in the rendered docs
+    tooltip (high=green, medium=yellow, low=red).
+  - `source:` — required. See "Source format" below.
   - `from:` — optional: the parser-derived value the override expects to
     find. Validated during port/audit; mismatch is a drift warning.
+
+### Source format
+
+`source:` accepts either a single YAML block scalar (one piece of
+evidence) or a YAML list of strings (multiple independent evidence
+points, rendered as a bulleted list in the docs tooltip).
+
+Each source item — whether the standalone string or each list bullet —
+should start with a bracketed **evidence-type tag** identifying where
+the evidence comes from. The generator parses the leading `[tag]` and
+renders it as a styled chip on the bullet. Single-concern sources keep
+each `<field>_override.source` focused on its own concern; if a
+rename and a retype both need rationale, each goes on its own override
+block, not bundled into one.
+
+| Tag | When to use |
+|---|---|
+| `[corpus]` | Evidence from Ableton-shipped Remote Scripts (`external/corpus/...` paths). Push2, pushbase, _Framework, ableton.v2/v3, _MxDCore, etc. |
+| `[docstring]` | Evidence from the field's own `raw_doc` (Live's runtime docstring). Quoted text from raw_doc → use this tag. |
+| `[M4L]` | Evidence from Max for Live documentation (`external/max-for-live-docs/...`). |
+| `[C++ signature]` | Evidence from the C++ binding signature — `cpp_signature:` field, things like `boost::python::api::object`, `TWeakPtr<...>`, `std::vector<T>`, type-derived inference. |
+| `[sister method]` | Comparison to a similar/related method or property on the same or a related class. |
+| `[probe]` | Runtime introspection observation — probe data, element_repr observations, structural inference like "this is a LOM root so canonical_parent is None." |
+| `[schema]` | Applied per a documented YAML schema convention (e.g., the enum-arg convention). |
+
+**Single-string form** (one piece of evidence):
+
+```yaml
+type_override:
+  value: Live.Conversions.AudioToMidiType | int
+  confidence: high
+  source: |
+    [schema] applied per the enum-arg convention; `AudioToMidiType` enum
+    lives in the same module and the arg name is its direct snake-case.
+```
+
+**List form** (multiple independent points, rendered as bullets):
+
+```yaml
+type_override:
+  value: Iterable[Live.Clip.MidiNoteSpecification]
+  confidence: high
+  source:
+  - |
+    [C++ signature] `boost::python::api::object` (generic) — the binding
+    doesn't enforce a specific vector class.
+  - |
+    [docstring] "Expects a Python iterable holding MidiNoteSpecification
+    objects."
+  - |
+    [corpus] both tuples and lists work — tuples (`(note,)` at
+    pushbase/note_editor_component.py:611) and lists
+    (`note_specifications` at _MxDCore/MxDCore.py:820+).
+```
+
+Drop redundant lead-in prose that the tag already expresses (after
+`[M4L]`, drop "M4L docs say"; after `[corpus]`, drop "Corpus
+confirms"). Backtick-delimited spans inside a source item are
+preserved verbatim — MDX renders them as inline code in the tooltip.
 - **Inherited properties are dropped.** When an ancestor class declares
   the same `name`/`type`/`settable`/`listenable` shape (and neither side
   has overrides), the property is omitted from the subclass — pyright
@@ -47,6 +107,9 @@ and reference page generation will consume.
 
 ```yaml
 module: Song
+description: |              # hand-authored prose (markdown). Renders as the
+  Top-level Live set: tracks, transport, scenes, history. The Song is the
+  root of the LOM document tree.
 
 primary_class:
 - name: Song
@@ -66,7 +129,12 @@ constants:
 - name: ...
 ```
 
-A module may omit any group when empty.
+A module may omit any group when empty. The `description:` field is the
+hand-authored module-level prose; the reference generator uses it as the
+intro paragraph below the page H1 and as the `<meta>` description tag.
+Live's runtime exposes no module-level docstrings, so this field is
+always hand-authored. When absent, the reference renders a visible
+`_No module description._` placeholder so the gap is editorially obvious.
 
 ## Class — primary
 
@@ -76,6 +144,8 @@ Real source: `Live.Song.Song`.
 - name: Song
   path: Live.Song.Song           # parser — fully qualified
   raw_doc: This class represents a Live set.
+  description: |                 # hand-authored prose, optional
+    Class-level prose…
   ancestors:                     # parser — Boost.Python boilerplate stripped
   - Live.LomObject.LomObject
   init_doc: |-                   # parser — raw __init__ docstring
@@ -99,6 +169,16 @@ Real source: `Live.Song.Song`.
 `init_doc:` is rarely useful — preserved verbatim but the renderer can
 suppress the boilerplate "cannot be instantiated" form.
 
+`description:` is hand-authored markdown prose (multi-paragraph,
+telegraphic per `doc/reference-design.md` §8). Rendered below the
+class's runtime `raw_doc` on the reference page. Use when the runtime
+docstring is too terse to convey what the class actually means in the
+LOM — phantom-base explanations (e.g. `Live.Track.DeviceContainer`),
+idiom notes, cross-class context that belongs adjacent to the class
+heading rather than buried in member descriptions. The module-top-level
+`description:` covers what's true of the module as a whole; class-level
+`description:` covers what's true of one class.
+
 ## Property — basic
 
 Real source: `Live.Song.Song.arrangement_overdub`.
@@ -106,6 +186,8 @@ Real source: `Live.Song.Song.arrangement_overdub`.
 ```yaml
 - name: arrangement_overdub
   raw_doc: Get/Set the global arrangement overdub state.
+  description: |                                   # hand — optional, takes
+    Authored prose, may be multi-paragraph.        # precedence over raw_doc
   type: bool                                       # parser
   settable: true                                   # parser
   listenable:                                      # parser — listener triplet folded under the property
@@ -113,6 +195,12 @@ Real source: `Live.Song.Song.arrangement_overdub`.
   - remove_arrangement_overdub_listener
   - arrangement_overdub_has_listener
 ```
+
+`description:` on a property is the same idea as on a class: hand-
+authored markdown prose, rendered below the property heading. Falls
+back to `raw_doc` when absent, so most properties currently render
+their runtime docstring; switch to `description` when prose needs
+more space than the runtime line affords.
 
 Override example (`Live.Song.Song.appointed_device`):
 
@@ -144,7 +232,11 @@ Iterability is encoded by two flags:
   `extend` bound by the parser, in addition to iteration). Distinguishes
   vector-style classes from plain iterators. The stub generator inherits
   the iterator protocol from `Vector[E]` for containers and uses
-  `Iterable[E]` for plain iterators.
+  `Iterable[E]` for plain iterators. The reference generator also
+  synthesizes `append(value: E)` and `extend(values: Iterable[E])`
+  methods on container pages from this flag + element type — the
+  YAML build itself filters those methods out, since both downstream
+  consumers (.pyi stubs, reference site) re-synthesize them locally.
 - **`parametric: true`** — only on `Live.Base.Vector`. The class is the
   generic base; the renderer emits `class Vector(Generic[T])` plus a
   module-scope `T = TypeVar('T', covariant=True)`. Concrete container

@@ -1,0 +1,848 @@
+---
+title: RackDevice
+description: "Represents a Rack — Instrument, Drum, Audio Effect, or MIDI Effect — as a `Device` whose chains and macro controls are exposed to the LOM."
+---
+
+Represents a Rack — Instrument, Drum, Audio Effect, or MIDI Effect — as a
+`Device` whose chains and macro controls are exposed to the LOM. The
+`RackDevice` class extends `Device` with the chain list, macro mappings, and
+variation/preset state unique to racks.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.RackDevice.">RackDevice</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/device/#device" data-base="Device" aria-label="Device"></a></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a Rack device.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the Device.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/device/#device"><code>Device</code></a></summary>
+
+##### can_compare_ab<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if the Device has the capability to AB compare.
+
+</div>
+
+</details>
+
+</div>
+
+##### can_have_chains<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if the device is a rack.
+
+</div>
+
+</details>
+
+</div>
+
+##### can_have_drum_pads<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if the device is a drum rack.
+
+</div>
+
+</details>
+
+</div>
+
+##### class_display_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+</div>
+
+</details>
+
+</div>
+
+##### class_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to the name of the device's class.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_using_compare_preset_b<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns whether the Device has loaded the preset in compare slot B. Only relevant if can_compare_ab, otherwise errors.
+
+</div>
+
+</details>
+
+</div>
+
+##### type<span class="prop-type">: <a href="/LiveAPI/modules/device/#devicetype" title="DeviceType">DeviceType</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return the type of the device.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### can_show_chains<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return True, if this Rack contains a rack instrument device that is capable of showing its chains in session view.
+
+</div>
+
+</details>
+
+</div>
+
+##### chain_selector<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the chain selector parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to the list of chains in this device. Throws an exception if can_have_chains is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad" title="DrumPad">DrumPad</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to the list of drum pads in this device. Throws an exception if can_have_drum_pads is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_drum_pads<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if the device is a drum rack which has drum pads. Throws an exception if can_have_drum_pads is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_macro_mappings<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if any of the rack's macros are mapped to a parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_active<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to whether this device is active. This will be false bothwhen the device is off and when it's inside a rack device which is off.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_showing_chains<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns True, if it is showing chains.
+
+</div>
+
+</details>
+
+</div>
+
+##### latency_in_ms<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the latency of the device in ms.
+
+</div>
+
+</details>
+
+</div>
+
+##### latency_in_samples<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the latency of the device in samples.
+
+</div>
+
+</details>
+
+</div>
+
+##### macros_mapped<span class="prop-type">: tuple[bool, ...]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A list of booleans, one for each macro parameter, which is True iffthat macro is mapped to something
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return access to the name of the device.
+
+</div>
+
+</details>
+
+</div>
+
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the list of available automatable parameters for this device.
+
+</div>
+
+</details>
+
+</div>
+
+##### return_chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to the list of return chains in this device. Throws an exception if can_have_chains is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### selected_variation_index<span class="prop-type">: int</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the index of the currently selected macro variation.Throws an exception if the index is out of range.
+
+</div>
+
+</details>
+
+</div>
+
+##### variation_count<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the number of macro variations currently stored.
+
+</div>
+
+</details>
+
+</div>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdeviceview" title="RackDevice.View">View</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Representing the view aspects of a device.
+
+</div>
+
+</details>
+
+</div>
+
+##### visible_drum_pads<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/drumpad/#drumpad" title="DrumPad">DrumPad</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to the list of visible drum pads in this device. Throws an exception if can_have_drum_pads is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### visible_macro_count<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the number of macros that are currently visible.
+
+</div>
+
+</details>
+
+</div>
+
+#### Methods
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/device/#device"><code>Device</code></a></summary>
+
+##### save_preset_to_compare_ab_slot()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws.
+
+</div>
+
+</details>
+
+</div>
+
+##### store_chosen_bank()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Set the selected bank in the device for persistency.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### add_macro()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Increases the number of visible macro controls in the rack. Throws an exception if the maximum number of macro controls is reached.
+
+</div>
+
+</details>
+
+</div>
+
+##### copy_pad()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">source_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">destination_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Copies all contents of a drum pad from a source pad into a destination pad. copy_pad(source_index, destination_index) where source_index and destination_index correspond to the note number/index of the drum pad in a drum rack. Throws an exception when the source pad is empty, or when the source or destination indices are not between 0 - 127.
+
+</div>
+
+</details>
+
+</div>
+
+##### delete_selected_variation()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Deletes the currently selected macro variation.Does nothing if there is no selected variation.
+
+</div>
+
+</details>
+
+</div>
+
+##### insert_chain()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> rackdevice.md names the return as `Chain`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Insert a new empty chain at the given index".</li></ul></span></sup></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Inserts a new chain, either at the specified index or, if not index was specified, at the end of the chain sequence.
+
+</div>
+
+</details>
+
+</div>
+
+##### randomize_macros()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Randomizes the values for all macro controls not excluded from randomization.
+
+</div>
+
+</details>
+
+</div>
+
+##### recall_last_used_variation()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Recalls the macro variation that was recalled most recently.Does nothing if no variation has been recalled yet.
+
+</div>
+
+</details>
+
+</div>
+
+##### recall_selected_variation()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Recalls the currently selected macro variation.Does nothing if there are no variations.
+
+</div>
+
+</details>
+
+</div>
+
+##### remove_macro()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Decreases the number of visible macro controls in the rack. Throws an exception if the minimum number of macro controls is reached.
+
+</div>
+
+</details>
+
+</div>
+
+##### store_variation()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Stores a new variation of the values of all currently mapped macros
+
+</div>
+
+</details>
+
+</div>
+
+#### Nested types
+
+- [`RackDevice.View`](#rackdeviceviewview) — Representing the view aspects of a rack device.
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/drumchain/#drumchain"><code>DrumChain</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/drumchain/#devices-vectorrackdevice"><span class="ref-member-name">devices</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a>]</span></li>
+</ul>
+</div>
+</details>
+
+## Other classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.RackDevice.">RackDevice.View</span><span class="sig-base"><span class="sig-base-text" data-base="View" aria-label="View"></span></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Representing the view aspects of a rack device.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the View.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### drum_pads_scroll_position<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the index of the lowest visible row of pads. Throws an exception if can_have_drum_pads is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_collapsed<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set/Listen if the device is shown collapsed in the device chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_showing_chain_devices<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return whether the devices in the currently selected chain are visible. Throws an exception if can_have_chains is false.
+
+</div>
+
+</details>
+
+</div>
+
+##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Return access to the currently selected chain."</li><li><span class="ot-tag ot-tag-corpus">corpus</span> Ableton's pushbase / Push2 read and assign Chain values to this property.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return access to the currently selected chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### selected_drum_pad<span class="prop-type">: <a href="/LiveAPI/modules/drumpad/#drumpad" title="DrumPad">DrumPad</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return access to the currently selected drum pad. Throws an exception if can_have_drum_pads is false.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/rackdevice/#rackdevice"><code>RackDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/rackdevice/#view-view"><span class="ref-member-name">view</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/rackdevice/#rackdeviceview" title="RackDevice.View">View</a></span></li>
+</ul>
+</div>
+</details>

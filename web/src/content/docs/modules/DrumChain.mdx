@@ -1,0 +1,389 @@
+---
+title: DrumChain
+description: "Represents a chain inside a Drum Rack — the chain triggered by a single drum pad."
+---
+
+Represents a chain inside a Drum Rack — the chain triggered by a single drum
+pad. The `DrumChain` class extends `Chain` with the inbound MIDI note,
+outbound choke group, and other drum-rack-specific routing.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.DrumChain.">DrumChain</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/chain/#chain" data-base="Chain" aria-label="Chain"></a></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a drum group device chain in Live.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the chain.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/chain/#chain"><code>Chain</code></a></summary>
+
+##### has_audio_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return True, if this Chain can be feed with an Audio signal. This is true for all Audio Chains.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_audio_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return True, if this Chain sends out an Audio signal. This is true for all Audio Chains, and MIDI chains with an Instrument.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_midi_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return True, if this Chain can be feed with an Audio signal. This is true for all MIDI Chains.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_midi_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return True, if this Chain sends out MIDI events. This is true for all MIDI Chains with no Instruments.
+
+</div>
+
+</details>
+
+</div>
+
+##### mixer_device<span class="prop-type">: <a href="/LiveAPI/modules/chainmixerdevice/#chainmixerdevice" title="ChainMixerDevice">ChainMixerDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return access to the mixer device that holds the chain's mixer parameters: the Volume, Pan, and Sendamounts.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### choke_group<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the chain's choke group setting.
+
+</div>
+
+</details>
+
+</div>
+
+##### color<span class="prop-type">: int</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access the color index of the Chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### color_index<span class="prop-type">: int</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access the color index of the Chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/rackdevice/#rackdevice" title="RackDevice">RackDevice</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to all available Devices that are present in the chains
+
+</div>
+
+</details>
+
+</div>
+
+##### in_note<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the incoming MIDI note that will trigger this chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_auto_colored<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/set access to the auto color flag of the Chain. If True, the Chain will always have the same color as the containing Track or Chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### mute<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Mute/unmute the chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### muted_via_solo<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return const access to whether this chain is muted due to some other chain being soloed.
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write access to the name of the Chain, as visible in the track header.
+
+</div>
+
+</details>
+
+</div>
+
+##### out_note<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the MIDI note sent to the devices in the chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### solo<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the solo status of the chain. Note that this will not disable the solo state of any other Chain in the same rack. If you want exclusive solo, you have to disable the solo state of the other Chains manually.
+
+</div>
+
+</details>
+
+</div>
+
+#### Methods
+
+<details class="inherited-section" open>
+<summary>Inherited from <a href="/LiveAPI/modules/chain/#chain"><code>Chain</code></a></summary>
+
+##### delete_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Remove a device identified by its index from the chain. Throws runtime error if bad index.
+
+</div>
+
+</details>
+
+</div>
+
+##### duplicate_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Duplicate the device at the given index in the chain.
+
+</div>
+
+</details>
+
+</div>
+
+##### insert_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> returns `TWeakPtr<TPyHandleBase>` (the generic LomObject handle) — no specific type enforced.</li><li><span class="ot-tag ot-tag-probe">probe</span> `chain.devices` element_reprs are `<class 'Device.Device'>` (plus the `WavetableDevice` subclass) — the runtime returns properly-typed Device instances when iterated, so `insert_device` returning `Device` matches the observed instance type.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> + [M4L] confirm semantics ("Add a device at a given index").</li></ul></span></sup></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Add a device at a given index in the chain. At end if -1.
+
+</div>
+
+</details>
+
+</div>
+
+</details>

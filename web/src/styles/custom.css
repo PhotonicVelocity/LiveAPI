@@ -1,0 +1,944 @@
+/* LiveAPI custom styles. */
+/* vibe-coded: substantial AI-assisted authoring. Review before relying on. */
+
+/* Tighten the heading hierarchy — Starlight's defaults run too large at
+   every level, so H1 / H2 / H3 all read as similarly-prominent. Step them
+   down more aggressively. The intent: H1 is the page, H2 is a section
+   divider, H3 is a member identifier (small but distinct from body text). */
+:root {
+  --sl-text-h1: 2.5rem;
+  --sl-text-h2: 2rem;
+  --sl-text-h3: 1.3rem;
+  --sl-text-h4: 1.0rem;
+  --sl-text-h5: 1.0rem;
+}
+
+/* H3 sits at body text size — distinguish it via monospace + weight rather
+   than scale, so class/enum/function names read as Python identifiers. */
+.sl-markdown-content h3 {
+  font-family: var(--sl-font-system-mono);
+  font-weight: 600;
+}
+/* Each H3 starts a new member block. Big gap above (signals "new member"),
+   tight gap below (so the description hugs the heading it belongs to). The
+   description's own margin-bottom (default p spacing) provides separation
+   from the next heading's gap. */
+.sl-markdown-content .sl-heading-wrapper.level-h3 {
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h3 + p {
+  margin-top: 0.25rem;
+}
+
+/* H4 — sub-section label within a class (e.g. "Properties", "Methods").
+   Reads as a section divider but at a more subdued level than the class
+   signature itself. Uppercase + tracking is the convention for "this is a
+   section label, not a member identifier."  */
+.sl-markdown-content h4,
+.sl-markdown-content h6 {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h4 {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+/* H6 — nested-class subsection label (Properties, Methods, ... inside a
+   nested class's body). Same styling as H4 but indented to sit under the
+   nested-class signature, parallel to how nested classes themselves are
+   indented under their owning class. */
+.sl-markdown-content .sl-heading-wrapper.level-h6 {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+  padding-left: 1.5rem;
+}
+
+/* H5 — member identifier (property name, eventually method name).
+   Monospace + bold like H3 but at a smaller size. Indented so members read
+   as visually nested under their owning class. */
+.sl-markdown-content h5 {
+  font-family: var(--sl-font-system-mono);
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+.sl-markdown-content .sl-heading-wrapper.level-h5 {
+  margin-top: 0.4rem;
+  margin-bottom: 0.15rem;
+  padding-left: 1.5rem;
+}
+/* Member description — wraps the prose paragraph(s) below a property /
+   method / signal H5 heading. Generator emits `<div class="member-desc">`
+   around the description so multi-paragraph blocks stay indented
+   together (the previous adjacent-sibling chain only caught the first
+   paragraph). Indented to match the H5 column so the description
+   visually attaches to the member it describes rather than
+   re-anchoring at the page margin; slightly muted color marks it as
+   descriptive text adjacent to a member identifier. Class / enum /
+   function H3 descriptions are NOT wrapped — they sit at page margin
+   alongside the signature. */
+.sl-markdown-content .member-desc {
+  padding-left: 1.5rem;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--sl-color-gray-2);
+}
+.sl-markdown-content .member-desc p {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+}
+.sl-markdown-content .member-desc p:last-child {
+  margin-bottom: 0;
+}
+
+/* `[runtime docstring]` chip — clickable `<summary>` of a `<details>`
+   that wraps the verbatim runtime docstring. Click to toggle the body
+   open / closed. Default state: open when the raw_doc is the only
+   prose on the node (it IS the description), closed when an authored
+   description sits above it (the chip is then a hover-style affordance
+   to "see the original"). */
+/* Top margin uses `!important` to beat Starlight's built-in
+   prose-flow spacing (`:not() + :not()` rule on `.sl-markdown-content`)
+   so the chip is deliberately offset from whatever sits above it. */
+/* Strip Starlight's default `<details>` chrome (left accent border,
+   padding, background) — our chip is the entire affordance, no
+   surrounding box. */
+.sl-markdown-content details.raw-doc-toggle {
+  border: none;
+  padding: 0;
+  background: none;
+  margin: 0;
+}
+.sl-markdown-content details.raw-doc-toggle > summary {
+  margin: 1rem 0 0.25rem 0 !important;
+  padding: 0;
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+/* Suppress browser-native + Starlight-injected disclosure markers —
+   leaves only our chip-internal caret. */
+.sl-markdown-content details.raw-doc-toggle > summary::-webkit-details-marker {
+  display: none;
+}
+.sl-markdown-content details.raw-doc-toggle > summary::before,
+.sl-markdown-content details.raw-doc-toggle > summary::marker {
+  content: none;
+  display: none;
+}
+/* Disclosure indicator inside the chip — small caret to the right of
+   the label that rotates on `[open]`. Keeping it inside the chip's
+   pill keeps the affordance visually tied to the chip itself. */
+.sl-markdown-content details.raw-doc-toggle > summary .desc-source-chip::after {
+  content: "▸";
+  display: inline-block;
+  margin-left: 0.3rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.raw-doc-toggle[open] > summary .desc-source-chip::after {
+  transform: rotate(90deg);
+}
+.sl-markdown-content .desc-source-chip {
+  display: inline-block;
+  padding: 0.02rem 0.4rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.65em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+  background: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+/* Verbatim runtime docstring rendered under the `[runtime docstring]`
+   chip. Always de-emphasized — smaller and muted — so the chip + body
+   read together as the runtime text, distinct from any authored prose
+   above. */
+.sl-markdown-content .raw-doc {
+  margin-top: 0;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .raw-doc p {
+  margin: 0;
+}
+
+/* Property flags — chips appended INSIDE the H5 heading, with no
+   DOM text content (visible labels come from CSS `::before`). Same
+   trick as `.lom-badge` so the H5's `textContent` stays clean for
+   the auto-slug + inherited-link computation. The wrapper span
+   floats right within the H5 to push chips to the heading's right
+   edge. */
+.sl-markdown-content h5 .prop-flags {
+  float: right;
+  margin-left: 0.4rem;
+  display: inline-flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.sl-markdown-content .prop-flag {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+.sl-markdown-content .prop-flag-ro {
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-2);
+}
+.sl-markdown-content .prop-flag-ro::before {
+  content: "read-only";
+}
+.sl-markdown-content .prop-flag-listen {
+  background: var(--sl-color-blue-low);
+  color: var(--sl-color-blue-high);
+  text-decoration: none;
+}
+.sl-markdown-content .prop-flag-listen::before {
+  content: "listen";
+}
+.sl-markdown-content a.prop-flag-listen:hover {
+  text-decoration: underline;
+}
+/* Inherited members from non-LomObject ancestors (DeviceContainer,
+   Device, ...) — same `<details>` collapsed-box pattern as the
+   LomObject inherited section but in a neutral gray color family
+   so LomObject's purple frame stays the visual standout. */
+.sl-markdown-content details.inherited-section {
+  margin: 1rem 0 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  background: var(--sl-color-bg-sidebar);
+}
+.sl-markdown-content details.inherited-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  list-style: none;
+  user-select: none;
+}
+.sl-markdown-content details.inherited-section > summary > a {
+  color: inherit;
+  text-decoration: none;
+}
+.sl-markdown-content details.inherited-section > summary > a:hover {
+  text-decoration: underline;
+}
+/* Class name in the summary stays as-is (no uppercase / letterspacing
+   from the summary's general styling) and reads as monospace,
+   matching how identifiers render elsewhere on the page. */
+.sl-markdown-content details.inherited-section > summary > a > code {
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--sl-font-system-mono);
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: var(--sl-color-text);
+}
+.sl-markdown-content details.inherited-section > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.inherited-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* Deprecated members section — collapsed `<details>` block at the
+   bottom of a class, holding methods (and eventually properties)
+   marked with the YAML's `deprecated:` field. Stays out of the
+   main Methods list so the supported API reads cleanly; remains
+   reachable for readers maintaining older code that calls these. */
+.sl-markdown-content details.deprecated-section {
+  margin: 1.5rem 0 0.5rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  background: var(--sl-color-bg-sidebar);
+}
+.sl-markdown-content details.deprecated-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-orange-high);
+  font-size: var(--sl-text-sm);
+  list-style: none;
+  user-select: none;
+}
+.sl-markdown-content details.deprecated-section > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.deprecated-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* References section — collapsed `<details>` block at the very bottom
+   of a class. Lists every member elsewhere in the LOM whose type or
+   return is this class, grouped by owner. Same chrome as the
+   inherited-section block (neutral gray) so it reads as a structural
+   navigation aid, not a primary content section. */
+.sl-markdown-content details.references-section {
+  margin: 1rem 0 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  background: var(--sl-color-bg-sidebar);
+}
+.sl-markdown-content details.references-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  list-style: none;
+  user-select: none;
+}
+.sl-markdown-content details.references-section > summary::-webkit-details-marker {
+  display: none;
+}
+.sl-markdown-content details.references-section > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.references-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+.sl-markdown-content details.references-section .ref-group {
+  margin-top: 0.75rem;
+}
+.sl-markdown-content details.references-section .ref-owner {
+  display: inline-block;
+  font-family: var(--sl-font-system-mono);
+  text-decoration: none;
+  color: var(--sl-color-text);
+}
+.sl-markdown-content details.references-section .ref-owner > code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+}
+.sl-markdown-content details.references-section .ref-owner:hover {
+  text-decoration: underline;
+}
+.sl-markdown-content details.references-section .ref-members {
+  list-style: none;
+  margin: 0.15rem 0 0 0;
+  padding-left: 1.5rem;
+}
+.sl-markdown-content details.references-section .ref-members li {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  margin: 0.1rem 0;
+}
+.sl-markdown-content details.references-section .ref-member-link {
+  text-decoration: none;
+  color: inherit;
+}
+.sl-markdown-content details.references-section .ref-member-link:hover {
+  text-decoration: underline;
+}
+.sl-markdown-content details.references-section .ref-arrow,
+.sl-markdown-content details.references-section .ref-sep {
+  color: var(--sl-color-gray-3);
+}
+
+/* Override marker — small superscript asterisk after a value that
+   was manually refined away from the parser-derived default
+   (`<field>_override:` block in the lom YAML). The marker carries a
+   structured tooltip child (hidden by default, revealed on hover or
+   keyboard focus) with the probed → refined values on separate
+   lines, a confidence chip, and the override's evidence as a tagged
+   bullet list. */
+.sl-markdown-content sup.override-marker {
+  position: relative;
+  display: inline-block;
+  /* Padding expands the hit target around the small glyph — easier
+     to mouse over when the marker sits sandwiched between a type
+     link and the H5 anchor button. The `::before` glyph sits in the
+     center; the padding is invisible but clickable. */
+  margin-left: 0.1em;
+  padding: 0.15rem 0.3rem;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--sl-color-blue-high);
+  cursor: help;
+  user-select: none;
+  outline: none;
+  border-radius: 0.2rem;
+  transition: background-color 0.1s ease;
+}
+/* Visible asterisk is a pseudo-element — MDX would parse a bare `*`
+   inside the `<sup>` body as markdown emphasis. */
+.sl-markdown-content sup.override-marker::before {
+  content: "*";
+}
+.sl-markdown-content sup.override-marker:hover,
+.sl-markdown-content sup.override-marker:focus {
+  color: var(--sl-color-text);
+  background: var(--sl-color-gray-6);
+}
+
+/* Tooltip child — hidden by default, shown on hover/focus of the
+   parent marker. Centered on the marker so the box doesn't bias
+   into either of Starlight's sidebars. Long content word-wraps at
+   the tooltip's max-width. */
+.sl-markdown-content sup.override-marker > .override-marker-tooltip {
+  display: none;
+}
+.sl-markdown-content sup.override-marker:hover > .override-marker-tooltip,
+.sl-markdown-content sup.override-marker:focus > .override-marker-tooltip {
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  min-width: 22rem;
+  max-width: 30rem;
+  width: max-content;
+  background: var(--sl-color-bg-nav);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  font-size: var(--sl-text-sm);
+  font-family: var(--sl-font), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 400;
+  color: var(--sl-color-text);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-align: left;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* `Probed as <type>` row — label on the left, value beside it in a
+   monospace code style so the type identifier stands out. Single
+   row layout (the rendered page already shows the refined type;
+   the tooltip only needs to surface what was probed). */
+.sl-markdown-content .override-marker-tooltip .ot-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.sl-markdown-content .override-marker-tooltip .ot-label {
+  color: var(--sl-color-gray-3);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.sl-markdown-content .override-marker-tooltip code.ot-value {
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.95em;
+  background: none;
+  padding: 0;
+  color: var(--sl-color-text);
+  word-break: break-word;
+}
+
+/* Confidence chip — colored by level. high=green, medium=yellow,
+   low=red. Sits at the top of the tooltip — sets the trust signal
+   the reader needs before the rationale below. */
+.sl-markdown-content .override-marker-tooltip .ot-confidence {
+  display: inline-block;
+  margin: 0 0 0.4rem 0;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.sl-markdown-content .override-marker-tooltip .ot-confidence-high {
+  background: var(--sl-color-green-low);
+  color: var(--sl-color-green-high);
+}
+.sl-markdown-content .override-marker-tooltip .ot-confidence-medium {
+  background: var(--sl-color-yellow-low, var(--sl-color-orange-low));
+  color: var(--sl-color-yellow-high, var(--sl-color-orange-high));
+}
+.sl-markdown-content .override-marker-tooltip .ot-confidence-low {
+  background: var(--sl-color-red-low);
+  color: var(--sl-color-red-high);
+}
+
+/* Source list — bulleted evidence items, each with a leading
+   evidence-type chip ([corpus], [docstring], [M4L], etc). */
+.sl-markdown-content .override-marker-tooltip ul.ot-sources {
+  margin: 0;
+  padding-left: 1rem;
+  list-style: disc;
+}
+.sl-markdown-content .override-marker-tooltip ul.ot-sources li {
+  margin: 0.15rem 0;
+  font-size: 0.95em;
+}
+.sl-markdown-content .override-marker-tooltip .ot-tag {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  margin-right: 0.3rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-3);
+  border: 1px solid var(--sl-color-gray-5);
+  vertical-align: middle;
+}
+
+/* Deprecated chip — amber warning style. Marks a member that's been
+   superseded by a newer one. When a `replaced_by:` value is set on
+   the YAML's `deprecated:` field, the chip is an `<a>` linking to
+   the replacement member's anchor on the same page. */
+.sl-markdown-content .prop-flag-deprecated {
+  background: var(--sl-color-orange-low);
+  color: var(--sl-color-orange-high);
+  text-decoration: none;
+}
+.sl-markdown-content .prop-flag-deprecated::before {
+  content: "deprecated";
+}
+.sl-markdown-content a.prop-flag-deprecated:hover {
+  text-decoration: underline;
+}
+/* Nested type headings (class / enum / future function) — semantically H5
+   (kept out of the TOC, indented under their owning class), but visually
+   the same size as a top-level class signature. The indent preserves
+   structural nesting; the size matches because a nested type is the same
+   kind of thing as a top-level type (just owned by another class). */
+.sl-markdown-content h5:has(.sig) {
+  font-size: var(--sl-text-h3);
+}
+
+/* Listener-only entry sub-line — renders the three triplet methods
+   (`add_X_listener`, `remove_X_listener`, `X_has_listener`)
+   beneath the H5, dot-separated, in the muted scaffolding color.
+   The H5 itself carries just the bare event name (clean slug);
+   this sub-line surfaces the actual runtime methods so the entry
+   reads as a listener triplet rather than as a phantom property. */
+.sl-markdown-content .listener-only-triplet {
+  margin: -0.1rem 0 0.4rem 1.5rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .listener-only-method {
+  font-family: var(--sl-font-system-mono);
+}
+
+/* Property type annotation — `: Type` after the property name.
+   Default color is muted gray, used for the `:` separator and unlinked
+   builtin/unrecognized types (`bool`, `None`, `int`) so they fade into
+   scaffolding. Linked Live types override via their own anchor styling. */
+.sl-markdown-content h5 .prop-type {
+  font-weight: 400;
+  color: var(--sl-color-gray-3);
+}
+
+/* Enum member table — compact two-column listing under `#### Members`.
+   No header row (it's all the same shape: identifier, integer value).
+   Indented to match the H5 column on properties / methods so members
+   read as nested under the enum signature. */
+.sl-markdown-content table.enum-members {
+  border-collapse: collapse;
+  margin: 0.25rem 0 0.5rem 1.5rem;
+  font-size: var(--sl-text-sm);
+}
+.sl-markdown-content table.enum-members td {
+  padding: 0.1rem 1rem 0.1rem 0;
+  border: none;
+}
+.sl-markdown-content table.enum-members td:last-child {
+  color: var(--sl-color-gray-3);
+  text-align: right;
+}
+
+/* Signature span — styled heading for class / enum / function identifiers.
+   Nested-span structure keeps the DOM text minimal — the path is a CSS
+   pseudo-element (not in the DOM text, hence not in the TOC). The base,
+   when present, IS in DOM text so it can host an `<a>` link to the base
+   class's reference page.
+
+       <span class="sig">
+         <span class="sig-name" data-path="Live.Song.">BeatTime</span>
+         <span class="sig-base">(<a href="...">LomObject</a>)</span>
+       </span>
+
+   - .sig-name::before →  the path (dim orange)
+   - .sig-name (text) →  the name (bright white bold)
+   - .sig-base (DOM)  →  the optional base, parens included.
+                          Inner <a> uses link styling.
+
+   No leading keyword (`class` / `enum` / `def`). The page section
+   header already labels the kind, and the structural shape of the
+   signature (inheritance parens vs args + return) communicates it
+   visually. Repeating the keyword on every entry was redundant.
+*/
+.sig {
+  font-family: var(--sl-font-system-mono);
+}
+.sig-name::before {
+  content: attr(data-path);
+  color: var(--sl-color-orange);
+  font-weight: 400;
+  opacity: 0.85;
+}
+.sig-name {
+  color: var(--sl-color-white);
+  font-weight: 700;
+}
+/* Inheritance base — rendered entirely via CSS pseudo-elements so the
+   base text doesn't bleed into the H3's `textContent` (Starlight's
+   right-side TOC reads textContent, and we want it to show only the
+   class name). The parens are pseudo-elements on `.sig-base`; the
+   base name is a pseudo-element on the empty `.sig-base-link` /
+   `.sig-base-text` element (text comes from `data-base`). The link
+   stays clickable — clicks on the rendered text hit the underlying
+   `<a>`. */
+.sig-base {
+  font-weight: 400;
+}
+.sig-base::before {
+  content: "(";
+}
+.sig-base::after {
+  content: ")";
+}
+.sig-base-link::before,
+.sig-base-text::before {
+  content: attr(data-base);
+}
+
+/* LomObject badge — small pill rendered after a LOM class's signature
+   (Track, Clip, Song, ..., and every nested view class). Links to the
+   LomObject module page where the universal identity / lifetime model
+   is documented. Sized + styled like the confidence pill so the two
+   read as a metadata family rather than competing visual elements. */
+/* Function signature block — Sphinx-style labeled sections rendered
+   as a sibling block below the function H3. Keeps the H3's
+   textContent to just `Live.Module.name()` (a function-shaped
+   identifier for the right-side TOC) and lets the rich signature
+   detail live below in a structured form: `Parameters` lists each
+   arg one per line, `Returns` shows the return type. Empty sections
+   skipped per function. Indented to align under the function name
+   in the H3 above. */
+.sl-markdown-content .fn-sig-block {
+  margin: 0.25rem 0 0.75rem 1.5rem;
+}
+.sl-markdown-content .fn-sig-section {
+  margin-bottom: 0.4rem;
+}
+/* Override Starlight's default sibling margins inside the sig block —
+   we want a tight `LABEL → content` rhythm. The .fn-sig-args UL
+   already gets it for free (its rule sets margin: 0); the
+   .fn-sig-return div needs the same explicit reset. */
+.sl-markdown-content .fn-sig-section > * {
+  margin-top: 0;
+}
+.sl-markdown-content .fn-sig-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  margin-bottom: 0.1rem;
+}
+/* `Parameters` label is a deep link to the Calling conventions
+   foundation page. Inherits the label's color/weight; hover surfaces
+   an underline so the affordance is discoverable without dominating
+   the section. */
+.sl-markdown-content .fn-sig-label > a {
+  color: inherit;
+  text-decoration: none;
+  cursor: help;
+}
+.sl-markdown-content .fn-sig-label > a:hover {
+  text-decoration: underline;
+}
+.sl-markdown-content .fn-sig-args {
+  list-style: none;
+  margin: 0;
+  padding-left: 1rem;
+}
+.sl-markdown-content .fn-sig-args li {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  margin: 0.05rem 0;
+}
+.sl-markdown-content .fn-sig-return {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  padding-left: 1rem;
+  margin-top: 0;
+}
+.sl-markdown-content .fn-arg-name {
+  font-weight: 500;
+  color: var(--sl-color-text);
+}
+.sl-markdown-content .fn-arg-type {
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .fn-arg-default {
+  color: var(--sl-color-orange-high);
+}
+
+/* LomObject chip — appended inside the class H3 signature. The `<a>`
+   has no DOM text (Starlight's TOC reads `textContent` and would
+   otherwise pick up "LomObject"); the visible label comes from a
+   `::before` pseudo-element. Float-right pulls the chip to the H3's
+   right edge so the signature dominates and the chip reads as
+   metadata. */
+.lom-badge {
+  float: right;
+  margin: 0 0 0 0.5rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 0.25rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--sl-color-purple-low);
+  color: var(--sl-color-purple-high);
+  text-decoration: none;
+}
+.lom-badge::before {
+  content: "LomObject";
+}
+.lom-badge:hover {
+  text-decoration: underline;
+}
+
+/* Pinned-pair header — single small `LomObject` chip rendered above
+   the pair of universal LOM members at the top of a class's Properties
+   section. Acts as both the visual marker and the clickable link to
+   the foundation page; per-property chips are suppressed in favor of
+   this group-level treatment. Aligned with the H5 indent below so the
+   chip sits visually attached to the members it labels. */
+.lom-pinned-header {
+  display: inline-block;
+  margin-left: 1.5rem;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.25rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  background: var(--sl-color-purple-low);
+  color: var(--sl-color-purple-high);
+  text-decoration: none;
+}
+.lom-pinned-header:hover {
+  text-decoration: underline;
+}
+/* Separator between the pinned pair and the per-class properties. Thin
+   muted rule indented to match the H5 column. Width pulled in so the
+   separator sits inside the property gutter rather than spanning the
+   page. */
+hr.lom-pinned-separator {
+  border: none;
+  border-top: 1px solid var(--sl-color-gray-6);
+  margin: 0.5rem 0 0.5rem 1.5rem;
+  width: calc(100% - 1.5rem);
+  opacity: 0.5;
+}
+
+/* H2 sets section breaks — give it breathing room above, weight, and a
+   full-width underline so its role as a divider is visually unmistakable.
+   Tight margin-bottom so the H2 hugs its content rather than floating
+   between equal-sized gaps above and below. */
+.sl-markdown-content h2 {
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--sl-color-gray-3);
+}
+
+/* Spacing lives on the heading-wrapper div (Starlight wraps every heading
+   in <div class="sl-heading-wrapper level-hN">). Putting margins on the
+   bare h2/h3 has no effect — the wrapper's default spacing dominates. */
+.sl-markdown-content .sl-heading-wrapper.level-h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+}
+.sl-markdown-content .sl-heading-wrapper.level-h2 + * {
+  margin-top: 0.4rem;
+}
+
+
+/* Class line under page H1 — `class Live.Song.Song(LomObject)`.
+   Sphinx/Blender-style typographic header that locates the page in the
+   namespace tree and shows the base class. */
+.class-line {
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-size: var(--sl-text-body);
+  color: var(--sl-color-text);
+}
+.class-line .kw {
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
+  margin-right: 0.4rem;
+}
+.class-line code {
+  font-weight: 600;
+}
+
+/* Confidence-level pill. Color-coded for the evidence ladder. */
+.confidence-badge {
+  display: inline-block;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.25rem;
+  font-size: 0.75em;
+  font-weight: 500;
+  font-family: var(--sl-font-system-mono);
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  vertical-align: baseline;
+  line-height: 1.4;
+}
+.confidence-verified,
+.confidence-verified-with-null-control {
+  background: var(--sl-color-green-low);
+  color: var(--sl-color-green-high);
+}
+.confidence-high {
+  background: var(--sl-color-blue-low);
+  color: var(--sl-color-blue-high);
+}
+.confidence-medium {
+  background: var(--sl-color-yellow-low);
+  color: var(--sl-color-yellow-high);
+}
+.confidence-low,
+.confidence-intermittent,
+.confidence-state-dependent {
+  background: var(--sl-color-orange-low);
+  color: var(--sl-color-orange-high);
+}
+.confidence-unprobed,
+.confidence-unprobed-precondition,
+.confidence-mismatch {
+  background: var(--sl-color-gray-5);
+  color: var(--sl-color-gray-2);
+}
+
+/* Compact behavior cluster — only renders non-default aspects.
+   Each badge is a key:value pair on a colored chip. */
+.behavior-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0 1rem;
+}
+.behavior-chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  padding: 0.15rem 0.6rem;
+  border-radius: 0.3rem;
+  background: var(--sl-color-gray-7);
+  border: 1px solid var(--sl-color-gray-6);
+  font-size: var(--sl-text-sm);
+}
+.behavior-chip .chip-key {
+  font-weight: 500;
+  color: var(--sl-color-gray-3);
+}
+.behavior-chip .chip-value {
+  color: var(--sl-color-text);
+}
+
+/* Provenance footer — small italic line at the bottom of a member section. */
+.provenance {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+  font-style: italic;
+  margin-top: 1rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--sl-color-gray-6);
+}
+
+/* Access-via collapsible — small unobtrusive disclosure at the bottom. */
+.access-via {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-size: var(--sl-text-sm);
+}
+.access-via summary {
+  cursor: pointer;
+  color: var(--sl-color-gray-3);
+  padding: 0.3rem 0;
+  user-select: none;
+}
+.access-via summary:hover {
+  color: var(--sl-color-text);
+}
+.access-via ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+  padding-left: 1.5rem;
+}
+.access-via li {
+  margin: 0.2rem 0;
+}
+
+/* Invariant card — boxed predicate + description with protected-by links. */
+.invariant-card {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: var(--sl-color-bg-sidebar);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+}
+.invariant-card .invariant-id {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-text-accent);
+  font-weight: 600;
+}
+.invariant-card .invariant-predicate {
+  margin: 0.4rem 0;
+  padding: 0.3rem 0.6rem;
+  background: var(--sl-color-gray-6);
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  white-space: pre-wrap;
+}
+.invariant-card .invariant-protected-by {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+  margin-top: 0.5rem;
+}

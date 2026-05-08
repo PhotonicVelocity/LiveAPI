@@ -6,6 +6,7 @@ primary_class:
   raw_doc: This class represents the live browser data base.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -162,7 +163,8 @@ classes:
 - name: BrowserItem
   path: Live.Browser.BrowserItem
   raw_doc: This class represents an item of the browser hierarchy.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -217,7 +219,8 @@ classes:
 - name: BrowserItemIterator
   path: Live.Browser.BrowserItemIterator
   raw_doc: This class iterates over children of another BrowserItem.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -227,7 +230,8 @@ classes:
 - name: BrowserItemVector
   path: Live.Browser.BrowserItemVector
   raw_doc: A container for returning browser items from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

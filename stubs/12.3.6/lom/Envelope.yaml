@@ -1,4 +1,9 @@
 module: Envelope
+description: |
+  Represents an automation or modulation envelope attached to a clip — a
+  per-parameter timeline of breakpoints applied during playback. The
+  `Envelope` class exposes editing primitives for inserting, moving, and
+  removing events over a time range.
 
 primary_class:
 - name: Envelope
@@ -6,6 +11,7 @@ primary_class:
   raw_doc: This class represents an automation or modulation envelope in Live.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -29,17 +35,15 @@ primary_class:
       name_override:
         value: start_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [inferred]: function deletes events in time range - first arg is start
-            - arg3 -> end_time  [inferred]: function deletes events in time range - second arg is end
+          [docstring] "Deletes the events in the specified time range" — first arg
+          is the start.
       type: float
     - name: arg3
       name_override:
         value: end_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [inferred]: function deletes events in time range - first arg is start
-            - arg3 -> end_time  [inferred]: function deletes events in time range - second arg is end
+          [docstring] "Deletes the events in the specified time range" — second arg
+          is the end.
       type: float
     returns:
       type: None
@@ -55,17 +59,15 @@ primary_class:
       name_override:
         value: start_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [inferred]: function returns events in time range - first arg is start
-            - arg3 -> end_time  [inferred]: function returns events in time range - second arg is end
+          [docstring] "Returns the events in the specified time range" — first arg
+          is the start.
       type: float
     - name: arg3
       name_override:
         value: end_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [inferred]: function returns events in time range - first arg is start
-            - arg3 -> end_time  [inferred]: function returns events in time range - second arg is end
+          [docstring] "Returns the events in the specified time range" — second arg
+          is the end.
       type: float
     returns:
       type: Live.Envelope.EnvelopeEventVector
@@ -81,28 +83,19 @@ primary_class:
       name_override:
         value: start_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
-            - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
-            - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
+          [docstring] "given a start time" — first parameter is the start time.
       type: float
     - name: arg3
       name_override:
         value: length
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
-            - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
-            - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
+          [docstring] "a step length" — second parameter is the length.
       type: float
     - name: arg4
       name_override:
         value: value
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [docstring]: description says 'given a start time' - first parameter is start time
-            - arg3 -> length  [docstring]: description says 'a step length' - second parameter is the length
-            - arg4 -> value  [docstring]: description says 'and a value' - third parameter is the envelope value
+          [docstring] "and a value" — third parameter is the envelope value.
       type: float
     returns:
       type: None
@@ -118,8 +111,8 @@ primary_class:
       name_override:
         value: time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> time  [docstring]: description says 'parameter value at the specified time' - argument is the time
+          [docstring] "parameter value at the specified time" — argument is the
+          time.
       type: float
     returns:
       type: float
@@ -128,7 +121,8 @@ classes:
 - name: EnvelopeEvent
   path: Live.Envelope.EnvelopeEvent
   raw_doc: This is a class that represents an envelope event.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (float)time, (float)value, (EnvelopeEventControlCoefficients)control_coefficients) -> None :
         Create a new envelope event.
@@ -167,7 +161,8 @@ classes:
 - name: EnvelopeEventControlCoefficients
   path: Live.Envelope.EnvelopeEventControlCoefficients
   raw_doc: This class represents the control coefficients of an envelope event.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1, (float)x1, (float)y1, (float)x2, (float)y2) -> None :
         Create new envelope event control coefficients.
@@ -212,7 +207,8 @@ classes:
 - name: EnvelopeEventVector
   path: Live.Envelope.EnvelopeEventVector
   raw_doc: A container for holding envelope events.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

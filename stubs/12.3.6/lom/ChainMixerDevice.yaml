@@ -1,4 +1,8 @@
 module: ChainMixerDevice
+description: |
+  Represents the mixer attached to a single rack `Chain`. The
+  `ChainMixerDevice` class exposes the chain's volume, pan, mute, solo, and
+  per-chain sends as `DeviceParameter` objects.
 
 primary_class:
 - name: ChainMixerDevice
@@ -8,6 +12,7 @@ primary_class:
     access to the Volume, Panning, and Send properties of a Chain.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -35,10 +40,15 @@ primary_class:
     element_type_override:
       value: Live.DeviceParameter.DeviceParameter
       confidence: high
-      source: |
-        raw_doc: "Const access to the Chain's list of Send Amount Device Parameters."
-        M4L docs (chainmixerdevice.md): `sends list of DeviceParameter read-only observe`.
-        Corpus pushbase/selected_track_parameter_provider.py:44 does
+      source:
+      - |
+        [docstring] "Const access to the Chain's list of Send Amount Device
+        Parameters."
+      - |
+        [M4L] chainmixerdevice.md: `sends list of DeviceParameter read-only
+        observe`.
+      - |
+        [corpus] pushbase/selected_track_parameter_provider.py:44 does
         `params += list(mixer.sends)` — params is a list of DeviceParameter.
     settable: false
     listenable:

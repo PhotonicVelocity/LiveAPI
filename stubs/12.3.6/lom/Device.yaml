@@ -1,4 +1,9 @@
 module: Device
+description: |
+  Represents a MIDI or audio device on a track or in a rack chain. The `Device`
+  class is the base for every Live and third-party device — its automatable
+  parameters, on/off state, and preset-loading behavior are shared by all
+  device subclasses.
 
 primary_class:
 - name: Device
@@ -6,6 +11,7 @@ primary_class:
   raw_doc: This class represents a MIDI or Audio DSP-Device in Live.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -128,17 +134,15 @@ primary_class:
       name_override:
         value: script_index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> script_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
-            - arg3 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
+          [M4L] external/max-for-live-docs/9.0/device.md names the parameter
+          `script_index`.
       type: int
     - name: arg3
       name_override:
         value: bank_index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> script_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
-            - arg3 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/device.md
+          [M4L] external/max-for-live-docs/9.0/device.md names the parameter
+          `bank_index`.
       type: int
     returns:
       type: None
@@ -149,6 +153,7 @@ primary_class:
     raw_doc: Representing the view aspects of a device.
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python

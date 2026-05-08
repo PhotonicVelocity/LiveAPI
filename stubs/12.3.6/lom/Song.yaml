@@ -1,4 +1,9 @@
 module: Song
+description: |
+  Represents the current Live Set — the root of the open document, reached
+  via `Application.get_document()` from the running app. The `Song` class
+  exposes transport state, session and arrangement editing, undo history,
+  and the `Song.View` used to drive Live's UI selection.
 
 primary_class:
 - name: Song
@@ -6,6 +11,7 @@ primary_class:
   raw_doc: This class represents a Live set.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -18,10 +24,13 @@ primary_class:
     type_override:
       value: Live.Device.Device | None
       confidence: high
-      source: |
-        Docstring: "Read, write, and listen access to the appointed Device." Corpus-
-        verified — pushbase / ableton.v2 / ableton.v3 all read and assign Device
-        values here.
+      source:
+      - |
+        [docstring] "Read, write, and listen access to the appointed
+        Device."
+      - |
+        [corpus] pushbase / ableton.v2 / ableton.v3 all read and assign
+        Device values here.
     settable: true
     listenable:
     - add_appointed_device_listener
@@ -96,10 +105,10 @@ primary_class:
       value: None
       confidence: high
       source: |
-        Song is the LOM root for the document tree. The probe observes None
-        because Song has no parent (`Application.song` returns the Song; there's
-        no inverse). Same structural reasoning as
-        `Application.canonical_parent`.
+        [probe] Song is the LOM root for the document tree. The probe
+        observes None because Song has no parent (`Application.song`
+        returns the Song; there's no inverse). Same structural reasoning
+        as `Application.canonical_parent`.
     settable: false
 
   - name: clip_trigger_quantization
@@ -442,8 +451,8 @@ primary_class:
       value: Live.Song.SessionRecordStatus
       confidence: high
       source: |
-        `SessionRecordStatus` enum in same module (Song). Property name is a
-        direct snake-case match.
+        [schema] `SessionRecordStatus` enum in the same module (Song);
+        property name is a direct snake-case match.
     settable: false
     listenable:
     - add_session_record_status_listener
@@ -558,12 +567,23 @@ primary_class:
     - visible_tracks_has_listener
 
   - name: data
+    description: |
+      Fires when the song's underlying data store is modified —
+      the generic state-change signal for the Set's persistent
+      state. The programmatic trigger is `set_data` (read via
+      `get_data`); whether other Set-level mutations also fire it
+      is **unverified**.
     listenable:
     - add_data_listener
     - remove_data_listener
     - data_has_listener
 
   - name: scale_information
+    description: |
+      Fires when Live 12's scale settings change — root note, scale
+      mode, or scale-aware playback toggle. Triggered by writes to
+      the corresponding `Song` properties (`scale_name`,
+      `root_note`, `scale_intervals`, `scale_mode`).
     listenable:
     - add_scale_information_listener
     - remove_scale_information_listener
@@ -638,10 +658,14 @@ primary_class:
       type_override:
         value: int | None
         confidence: medium
-        source: |
-          M4L docs say optional index parameter; usage shows the function called with
-          no args (default = None means "append at end"). Type pinned by sister-method
-          convention; not corpus-verified.
+        source:
+        - |
+          [M4L] external/max-for-live-docs/9.0/song.md describes an
+          optional index parameter; usage shows the function called with
+          no args (default = None means "append at end").
+        - |
+          [sister method] type pinned by convention across other create_*
+          methods; not corpus-verified.
       optional: true
       default: None
     returns:
@@ -662,7 +686,7 @@ primary_class:
       type_override:
         value: int | None
         confidence: medium
-        source: Same pattern as create_audio_track — M4L docs explicit.
+        source: '[sister method] same pattern as create_audio_track — M4L docs explicit.'
       optional: true
       default: None
     returns:
@@ -695,8 +719,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `index`.
       type: int
     returns:
       type: Live.Scene.Scene
@@ -714,8 +738,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `index`.
       type: int
     returns:
       type: None
@@ -733,8 +757,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `index`.
       type: int
     returns:
       type: None
@@ -752,8 +776,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `index`.
       type: int
     returns:
       type: None
@@ -771,8 +795,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `index`.
       type: int
     returns:
       type: None
@@ -791,8 +815,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `index`.
       type: int
     returns:
       type: None
@@ -820,6 +844,22 @@ primary_class:
       type: Live.Device.Device
     - name: target
       type: Live.LomObject.LomObject
+      type_override:
+        value: Live.Track.Track | Live.Chain.Chain
+        confidence: high
+        source:
+        - |
+          [C++ signature] binding declares `target` as `LomObject` — wider
+          than what the method actually accepts.
+        - |
+          [docstring] "where the device can be inserted" (a
+          device-containing container).
+        - |
+          [corpus] Push2 (`device_navigation.py:247,257,264,269`) passes
+          only `device.canonical_parent` (a Track or Chain) or a Chain
+          obtained via `rack.view.selected_chain` — never any other
+          LomObject. Track and Chain are the only LOM classes that contain
+          devices.
     - name: target_position
       type: int
     returns:
@@ -886,10 +926,11 @@ primary_class:
       name_override:
         value: smpte_format
         source: |
-          arg2 rename — M4L (song.md) names it `format`. Renamed to `smpte_format`
-          for clarity (avoids shadowing the builtin `format()` and explicitly
-          indicates SMPTE time-code format). Names are positional-only and decorative
-          — clarity over doc-conformance.
+          [M4L] external/max-for-live-docs/9.0/song.md names it `format`.
+          Renamed to `smpte_format` for clarity (avoids shadowing the
+          builtin `format()` and explicitly indicates SMPTE time-code
+          format) — clarity over doc-conformance since the names are
+          positional-only.
       type: int
     returns:
       type: Live.Song.SmptTime
@@ -909,18 +950,20 @@ primary_class:
         value: Any
         confidence: high
         source: |
-          Corpus passes int (3, 5), bool (True), str defaults across pushbase /
-          ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data,
-          so `Any` is the honest parameterization for both arg and return.
+          [corpus] passes int (3, 5), bool (True), str defaults across
+          pushbase / ableton.v2 / ableton.v3 — the binding accepts
+          arbitrary persistent data, so `Any` is the honest
+          parameterization for both arg and return.
     returns:
       type: object
       type_override:
         value: Any
         confidence: high
         source: |
-          Corpus passes int (3, 5), bool (True), str defaults across pushbase /
-          ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data,
-          so `Any` is the honest parameterization for both arg and return.
+          [corpus] passes int (3, 5), bool (True), str defaults across
+          pushbase / ableton.v2 / ableton.v3 — the binding accepts
+          arbitrary persistent data, so `Any` is the honest
+          parameterization for both arg and return.
 
   - name: is_cue_point_selected
     raw_doc: Return true if the global playing pos is currently on a cue point.
@@ -943,8 +986,8 @@ primary_class:
       name_override:
         value: beats
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `beats`.
       type: float
     returns:
       type: None
@@ -980,6 +1023,21 @@ primary_class:
       type: Live.Device.Device
     - name: target
       type: Live.LomObject.LomObject
+      type_override:
+        value: Live.Track.Track | Live.Chain.Chain
+        confidence: high
+        source:
+        - |
+          [sister method] same situation as `find_device_position`.
+        - |
+          [C++ signature] binding declares `LomObject`.
+        - |
+          [docstring] "Move a device into the target" (a device-containing
+          container).
+        - |
+          [corpus] Push2 (`device_navigation.py:247,257,264,269`) only
+          passes Track or Chain. Narrowed to the two LOM classes that
+          actually contain devices.
     - name: target_position
       type: int
     returns:
@@ -1028,8 +1086,8 @@ primary_class:
       name_override:
         value: beats
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/song.md
+          [M4L] external/max-for-live-docs/9.0/song.md names the parameter
+          `beats`.
       type: float
     returns:
       type: None
@@ -1049,8 +1107,9 @@ primary_class:
         value: Any
         confidence: high
         source: |
-          Corpus passes int (interval), bool (is_horizontal), arbitrary persistent
-          data — pushbase/instrument_component.py:88-110 shows the pattern. Any matches.
+          [corpus] passes int (interval), bool (is_horizontal), arbitrary
+          persistent data — pushbase/instrument_component.py:88-110 shows the
+          pattern. Any matches.
     returns:
       type: None
 
@@ -1140,6 +1199,7 @@ primary_class:
     raw_doc: 'Representing the view aspects of a Live document: The Session and Arrangerview.'
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -1157,9 +1217,12 @@ primary_class:
       type_override:
         value: Live.Clip.Clip | None
         confidence: high
-        source: |
-          Docstring: "Get/Set the Clip that is currently visible in Lives Detailview."
-          Corpus-verified — Push and Push2 both read and assign Clip values here.
+        source:
+        - |
+          [docstring] "Get/Set the Clip that is currently visible in Lives
+          Detailview."
+        - |
+          [corpus] Push and Push2 both read and assign Clip values here.
       settable: true
       listenable:
       - add_detail_clip_listener
@@ -1195,10 +1258,12 @@ primary_class:
       type_override:
         value: Live.Chain.Chain | None
         confidence: high
-        source: |
-          Docstring: "Get the highlighted chain if available." Corpus-verified —
-          Push2/track_selection.py:95 and pushbase/selection.py:54 both assign Chain
-          values to this property.
+        source:
+        - |
+          [docstring] "Get the highlighted chain if available."
+        - |
+          [corpus] Push2/track_selection.py:95 and pushbase/selection.py:54
+          both assign Chain values to this property.
       settable: true
       listenable:
       - add_selected_chain_listener
@@ -1211,9 +1276,12 @@ primary_class:
       type_override:
         value: Live.DeviceParameter.DeviceParameter | None
         confidence: high
-        source: |
-          Docstring confirms `DeviceParameter` return type. M4L docs explicit:
-          "selected_parameter [DeviceParameter] read-only observe". Read-only nullable.
+        source:
+        - |
+          [docstring] confirms `DeviceParameter` return type.
+        - |
+          [M4L] explicit: "selected_parameter [DeviceParameter] read-only observe".
+          Read-only nullable.
       settable: false
       listenable:
       - add_selected_parameter_listener
@@ -1250,8 +1318,8 @@ primary_class:
         name_override:
           value: device
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> device  [M4L docs]: external/max-for-live-docs/9.0/song_view.md
+            [M4L] external/max-for-live-docs/9.0/song_view.md names the
+            parameter `device`.
         type: Live.Device.Device
       - name: should_appoint_device
         type: bool
@@ -1264,7 +1332,8 @@ classes:
 - name: BeatTime
   path: Live.Song.BeatTime
   raw_doc: Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -1302,6 +1371,7 @@ classes:
   raw_doc: Represents a 'Marker' in the arrangement.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -1351,7 +1421,8 @@ classes:
     Represents a Time, split into Hours, Minutes, Seconds and Frames.
     The frame type must be specified when calling a function that returns
     a SmptTime.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -1453,6 +1524,6 @@ functions:
       value: tuple[tuple[str, tuple[int, ...]], ...]
       confidence: high
       source: |
-        Corpus pushbase/melodic_pattern.py:52 unpacks
+        [corpus] pushbase/melodic_pattern.py:52 unpacks
         `Scale(name=x[0], notes=x[1]) for x in Live.Song.get_all_scales_ordered()`
         — confirms `tuple[tuple[str, tuple[int, ...]], ...]`.

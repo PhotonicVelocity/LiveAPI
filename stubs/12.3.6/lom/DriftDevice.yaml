@@ -1,4 +1,8 @@
 module: DriftDevice
+description: |
+  Represents an instance of Drift, Live's monosynth instrument. The
+  `DriftDevice` class extends `Device` with Drift-specific state alongside
+  the inherited parameter and preset surface.
 
 primary_class:
 - name: DriftDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

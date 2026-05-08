@@ -1,0 +1,558 @@
+---
+title: Licensing
+description: "Internal licensing and authorization plumbing used by Live's startup and trial flows."
+---
+
+Internal licensing and authorization plumbing used by Live's startup and
+trial flows. The `PythonLicensingBridge` class drives session and product
+identification, and `ProgressDialog` provides the modal UI shown during
+authorization activity.
+
+
+## Classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">ProgressDialog</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A modal dialog showing a message and a progress animation.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### end_modal_loop()
+
+##### run_in_modal_loop()
+
+##### set_status_message()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">msg</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/licensing/#pythonlicensingbridge"><code>PythonLicensingBridge</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/licensing/#get_progress_dialog"><span class="ref-member-name">get_progress_dialog()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/licensing/#progressdialog" title="ProgressDialog">ProgressDialog</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">PythonLicensingBridge</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Interface to the internal licensing services.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### base_product_id<span class="prop-type">: str<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns Live's current base product ID" — product IDs are string identifiers.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns Live's current base product ID.
+
+</div>
+
+</details>
+
+</div>
+
+##### in_sassafras_mode<span class="prop-type">: bool<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-low">low confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-probe">probe</span> property name pattern "in X mode" suggests boolean. No raw_doc, no usage snippets, no M4L doc — pure naming inference. Watch for drift if a probe ever reaches this property.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### license_must_match_variant<span class="prop-type">: bool<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns a bool indicating if we require..." — explicitly typed bool.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a bool indicating if we require the license information returned by the server to match the variant of Live.
+
+</div>
+
+</details>
+
+</div>
+
+##### random_number_for_trial_authorization<span class="prop-type">: int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the integer to send along with the Trial authorization request".</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the integer to send along with the Trial authorization request. This same integer will be checked for in `process_trial_response` (and then changed).
+
+</div>
+
+</details>
+
+</div>
+
+##### set_has_unsaved_changes<span class="prop-type">: bool<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns true if the set has unsaved changes" — explicitly bool.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if the set has unsaved changes.
+
+</div>
+
+</details>
+
+</div>
+
+#### Methods
+
+##### authorize_with_sassafras()
+
+##### create_new_live_set()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Creates a new live set and discards unsaved changes.
+
+</div>
+
+</details>
+
+</div>
+
+##### deauthenticate_user()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Deletes the current session ID.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_progress_dialog()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#progressdialog" title="ProgressDialog">ProgressDialog</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Retrieves an instance of ProgressDialog.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_session_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Retrieve stored session ID.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_startup_dialog()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">authorize_callable</span>: <span class="fn-arg-type">Callable<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "callables connected to its buttons" — both args are callback functions.</li></ul></span></sup></span></li><li><span class="fn-arg-name">authorize_later_callable</span>: <span class="fn-arg-type">Callable<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "callables connected to its buttons" — both args are callback functions.</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Retrieves an instance of the startup dialog with the passed callables connected to its buttons.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_trial_time_left()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns remaining time on a trial as a formatted string.
+
+</div>
+
+</details>
+
+</div>
+
+##### invoke_pack_installation_callback()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Call package installation callback.
+
+</div>
+
+</details>
+
+</div>
+
+##### load_and_convert_legacy_unlock_cfg()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">dict[str, Any]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">dict</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object."</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> explicitly returns `boost::python::dict`.</li><li><span class="ot-tag ot-tag-probe">probe</span> the dict's keys/values aren't enumerated in the docs (varies with the legacy cfg format), so `dict[str, Any]` is the honest parameterization.</li></ul></span></sup></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object.
+
+</div>
+
+</details>
+
+</div>
+
+##### process_license_response()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">license_response_lines</span>: <span class="fn-arg-type">list[str]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">list</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "list of strings, each representing a server response".</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Processes a list of strings, each representing a server response to a product authorization.
+
+</div>
+
+</details>
+
+</div>
+
+##### process_trial_response()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">trial_response_line</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Process the server's response to a Trial authorization.
+
+</div>
+
+</details>
+
+</div>
+
+##### request_exit()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">exit_code</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div></div>
+
+##### save_current_set()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Saves the current Live session.
+
+</div>
+
+</details>
+
+</div>
+
+##### set_network_timer()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">callback</span>: <span class="fn-arg-type">Callable | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Pass None as callback to stop the timer".</li></ul></span></sup></span></li><li><span class="fn-arg-name">interval_in_ms</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Starts or stops a timer meant for driving network operations. Pass None as callback to stop the timer. If any callback invocation raises an exception, the timer is stopped.
+
+</div>
+
+</details>
+
+</div>
+
+##### store_session_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">session_id</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Securely stores the user's session ID (aka cookie, aka credentials).
+
+</div>
+
+</details>
+
+</div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">StartupDialog</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Serves as an entry point for the user to authorize Live on first launch.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### end_modal_loop()
+
+##### run_in_modal_loop()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">show_only_offline_auth_instructions</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+
+##### set_notification_message()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">notification_text</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">show_progress_bar</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/licensing/#pythonlicensingbridge"><code>PythonLicensingBridge</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/licensing/#get_startup_dialog"><span class="ref-member-name">get_startup_dialog()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">UnlockStatus</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns relevant information after unlock
+
+</div>
+
+</details>
+
+#### Properties
+
+##### authorization_deactivated<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### authorization_expired<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### has_max_unlock_products<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### temp_demo_mode<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### time_limited<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### unlock_error<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### unlocked<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/licensing/#pythonlicensingbridge"><code>PythonLicensingBridge</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/licensing/#process_license_response"><span class="ref-member-name">process_license_response()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></span></li>
+</ul>
+</div>
+</details>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">TrialContext</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>SAVE</code></td><td>0</td></tr>
+<tr><td><code>FORCE_UPDATE</code></td><td>2</td></tr>
+<tr><td><code>STARTUP</code></td><td>3</td></tr>
+</table>
+
+## Functions
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">authorization_clock_days_ahead</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Advances the current date by the number of days specified by _AuthClockDaysAhead
+
+</div>
+
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_authorization_page_url</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">reauthorize</span>: <span class="fn-arg-type">bool</span></li><li><span class="fn-arg-name">is_trial</span>: <span class="fn-arg-type">bool</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Retrieves the appopriate URL on ableton.com where the unser can initiate the authorization.
+
+</div>
+
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_purchase_live_url</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the environment-aware purchase URL for purchasing Live licenses
+
+</div>
+
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_services_url</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the URL against which service calls (e.g. for authorization) can be performed.
+
+</div>
+
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[str, bool]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple[object, ...]</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns a tuple containing the unlock file directory and a flag" — directory is str, flag is bool.</li><li><span class="ot-tag ot-tag-probe">probe</span> probe stamps `tuple` with element_reprs `[str, bool]`; this refinement narrows to the fixed-position tuple shape.</li></ul></span></sup></div></div></div>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a tuple containing the unlock file directory and a flag indicating if the unlock file is in the system domain.
+
+</div>
+
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">url</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Opens a web browser at the specified URL on the user's computer.
+
+</div>
+
+</details>

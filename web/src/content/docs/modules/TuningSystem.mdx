@@ -1,0 +1,319 @@
+---
+title: TuningSystem
+description: "Represents the tuning system applied to a Live Set — the per-note pitch table loaded from a Scala or MTS source."
+---
+
+Represents the tuning system applied to a Live Set — the per-note pitch
+table loaded from a Scala or MTS source. The `TuningSystem` class exposes
+the tuning's name, source file, root note, and the pitch offsets it
+contributes for each MIDI key.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.TuningSystem.">TuningSystem</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Represents a Tuning System and its properties.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/song/#song" title="Song">Song</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the TuningSystem.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### highest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave" title="PitchClassAndOctave">PitchClassAndOctave</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the highest note of the current tuning system, where the first entry is the index within the pseudo octave and the second entry is the octave.
+
+</div>
+
+</details>
+
+</div>
+
+##### lowest_note<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave" title="PitchClassAndOctave">PitchClassAndOctave</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the lowest note of the current tuning system, where the first entry is the index within the pseudo octave and the second entry is the octave.
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the name of the currently active tuning system.
+
+</div>
+
+</details>
+
+</div>
+
+##### note_tunings<span class="prop-type">: list[float]</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the currently active tuning system's note tunings, specified in Cents, where 100 Cents is one semi-tone in equal temperament.
+
+</div>
+
+</details>
+
+</div>
+
+##### number_of_notes_in_pseudo_octave<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the number of notes in the pseudo octave.
+
+</div>
+
+</details>
+
+</div>
+
+##### pseudo_octave_in_cents<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the pseudo octave in cents for the currently active tuning system.
+
+</div>
+
+</details>
+
+</div>
+
+##### reference_pitch<span class="prop-type">: <a href="/LiveAPI/modules/tuningsystem/#referencepitch" title="ReferencePitch">ReferencePitch</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the reference pitch the currently active tuning system.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#tuning_system-tuningsystem"><span class="ref-member-name">tuning_system</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/tuningsystem/#tuningsystem" title="TuningSystem">TuningSystem</a></span></li>
+</ul>
+</div>
+</details>
+
+## Other classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.TuningSystem.">PitchClassAndOctave</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a PitchClassAndOctave type.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### index_in_octave<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A PitchClassAndOctave's index within the pseudo octave.
+
+</div>
+
+</details>
+
+</div>
+
+##### octave<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A PitchClassAndOctave's octave.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 2 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/tuningsystem/#tuningsystem"><code>TuningSystem</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/tuningsystem/#highest_note-pitchclassandoctave"><span class="ref-member-name">highest_note</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave" title="PitchClassAndOctave">PitchClassAndOctave</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/tuningsystem/#lowest_note-pitchclassandoctave"><span class="ref-member-name">lowest_note</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/tuningsystem/#pitchclassandoctave" title="PitchClassAndOctave">PitchClassAndOctave</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.TuningSystem.">ReferencePitch</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a ReferencePitch type.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### frequency<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A ReferencePitch's frequency in Hz.
+
+</div>
+
+</details>
+
+</div>
+
+##### index_in_octave<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A ReferencePitch's index within the pseudo octave.
+
+</div>
+
+</details>
+
+</div>
+
+##### octave<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A ReferencePitch's octave.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/tuningsystem/#tuningsystem"><code>TuningSystem</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/tuningsystem/#reference_pitch-referencepitch"><span class="ref-member-name">reference_pitch</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/tuningsystem/#referencepitch" title="ReferencePitch">ReferencePitch</a></span></li>
+</ul>
+</div>
+</details>

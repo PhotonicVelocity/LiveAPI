@@ -1,0 +1,145 @@
+---
+title: DeviceIO
+description: "Represents an audio input or output bus on a Max for Live device — the type used by `MaxDevice.audio_inputs` and `MaxDevice.audio_outputs` to expose the bus's available routing targets and current selection."
+---
+
+Represents an audio input or output bus on a Max for Live device — the
+type used by `MaxDevice.audio_inputs` and `MaxDevice.audio_outputs` to
+expose the bus's available routing targets and current selection.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.DeviceIO.">DeviceIO</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a specific input or output bus of a device.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/maxdevice/#maxdevice" title="MaxDevice">MaxDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the device IO.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### available_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return a list of channels for this IO endpoint.
+
+</div>
+
+</details>
+
+</div>
+
+##### available_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return a list of available routing types for this IO endpoint.
+
+</div>
+
+</details>
+
+</div>
+
+##### default_external_routing_channel_is_none<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get and set whether the default routing channel for External routing types is none.
+
+</div>
+
+</details>
+
+</div>
+
+##### routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get and set the current routing channel. Raises ValueError if the channel isn't one of the current values in available_routing_channels.
+
+</div>
+
+</details>
+
+</div>
+
+##### routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get and set the current routing type. Raises ValueError if the type isn't one of the current values in available_routing_types.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 2 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/maxdevice/#maxdevice"><code>MaxDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/maxdevice/#audio_inputs-vectordeviceio"><span class="ref-member-name">audio_inputs</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio" title="DeviceIO">DeviceIO</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/maxdevice/#audio_outputs-vectordeviceio"><span class="ref-member-name">audio_outputs</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/deviceio/#deviceio" title="DeviceIO">DeviceIO</a>]</span></li>
+</ul>
+</div>
+</details>

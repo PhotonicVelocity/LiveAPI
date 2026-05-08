@@ -1,4 +1,8 @@
 module: DeviceParameter
+description: |
+  Represents a single automatable parameter on a device or mixer in Live. The
+  `DeviceParameter` class exposes the parameter's current value, range,
+  display string, automation state, and MIDI/key mapping target.
 
 primary_class:
 - name: DeviceParameter
@@ -8,6 +12,7 @@ primary_class:
     Audio DSP-Device.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -21,9 +26,9 @@ primary_class:
       value: Live.DeviceParameter.AutomationState
       confidence: high
       source: |
-        `AutomationState` enum in same module. Property name matches the enum
-        snake-case; raw_doc describes automation states (none / playing /
-        overridden) which match `AutomationState` members.
+        [sister method] `AutomationState` enum in same module. Property name
+        matches the enum snake-case; raw_doc describes automation states (none /
+        playing / overridden) which match `AutomationState` members.
     settable: false
     listenable:
     - add_automation_state_listener
@@ -112,13 +117,15 @@ primary_class:
     type_override:
       value: Live.DeviceParameter.ParameterState
       confidence: high
-      source: |
-        Two enums in same module overlap on the name `state`: `AutomationState`
-        and `ParameterState`. Disambiguated by raw_doc: "Returns the state of the
-        parameter: enabled, irrelevant, ..." — those are exactly
-        `ParameterState` member names (enabled / irrelevant / disabled).
-        `AutomationState`'s members (none / playing / overridden) describe a
-        different concept.
+      source:
+      - |
+        [sister method] two enums in same module overlap on the name `state`:
+        `AutomationState` and `ParameterState`.
+      - |
+        [docstring] "Returns the state of the parameter: enabled, irrelevant, ..."
+        — those are exactly `ParameterState` member names (enabled / irrelevant /
+        disabled). `AutomationState`'s members (none / playing / overridden)
+        describe a different concept.
     settable: false
     listenable:
     - add_state_listener
@@ -186,8 +193,8 @@ primary_class:
       name_override:
         value: value
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> value  [M4L docs]: external/max-for-live-docs/9.0/deviceparameter.md
+          [M4L] external/max-for-live-docs/9.0/deviceparameter.md names the
+          parameter `value`.
       type: float
     returns:
       type: str

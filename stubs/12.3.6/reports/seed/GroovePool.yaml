@@ -6,6 +6,7 @@ primary_class:
   raw_doc: This class represents the groove pool in Live.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

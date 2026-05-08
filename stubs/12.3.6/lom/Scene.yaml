@@ -1,4 +1,8 @@
 module: Scene
+description: |
+  Represents a row of clip slots across the tracks of Live's Session view
+  matrix. The `Scene` class controls scene firing, naming, color, and the
+  per-scene tempo and time-signature overrides.
 
 primary_class:
 - name: Scene
@@ -6,6 +10,7 @@ primary_class:
   raw_doc: This class represents an series of ClipSlots in Lives Sessionview matrix.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -42,8 +47,8 @@ primary_class:
       value: int | None
       confidence: high
       source: |
-        Docstring: "Get/set access to the color index of the scene. Can be None for
-        no color." Explicit nullability documented in raw_doc.
+        [docstring] "Get/set access to the color index of the scene. Can be None
+        for no color." Explicit nullability documented in raw_doc.
     settable: true
     listenable:
     - add_color_index_listener
@@ -179,8 +184,8 @@ primary_class:
       name_override:
         value: state
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/scene.md
+          [M4L] external/max-for-live-docs/9.0/scene.md names the parameter
+          `state`.
       type: bool
     returns:
       type: None

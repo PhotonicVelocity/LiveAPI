@@ -1,0 +1,402 @@
+---
+title: DeviceParameter
+description: "Represents a single automatable parameter on a device or mixer in Live."
+---
+
+Represents a single automatable parameter on a device or mixer in Live. The
+`DeviceParameter` class exposes the parameter's current value, range,
+display string, automation state, and MIDI/key mapping target.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.DeviceParameter.">DeviceParameter</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a (automatable) parameter within a MIDI or Audio DSP-Device.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the device parameter.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> `AutomationState` enum in same module. Property name matches the enum snake-case; raw_doc describes automation states (none / playing / overridden) which match `AutomationState` members.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns state of type AutomationState.
+
+</div>
+
+</details>
+
+</div>
+
+##### default_value<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return the default value for this parameter.  A Default value is only available for non-quantized parameter types (see 'is_quantized').
+
+</div>
+
+</details>
+
+</div>
+
+##### display_value<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the current value (as visible in the GUI) this parameter. The value must be inside the min/max properties of this device.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_enabled<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns false if the parameter has been macro mapped or disabled by Max.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_quantized<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns True, if this value is a boolean or integer like switch. Non quantized values are continues float values.
+
+</div>
+
+</details>
+
+</div>
+
+##### max<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns const access to the upper value of the allowed range for this parameter
+
+</div>
+
+</details>
+
+</div>
+
+##### min<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns const access to the lower value of the allowed range for this parameter
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns const access the name of this parameter, as visible in Lives automation choosers.
+
+</div>
+
+</details>
+
+</div>
+
+##### original_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns const access the original name of this parameter, unaffected of any renamings.
+
+</div>
+
+</details>
+
+</div>
+
+##### short_value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
+
+</div>
+
+</details>
+
+</div>
+
+##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> two enums in same module overlap on the name `state`: `AutomationState` and `ParameterState`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the state of the parameter: enabled, irrelevant, ..." — those are exactly `ParameterState` member names (enabled / irrelevant / disabled). `AutomationState`'s members (none / playing / overridden) describe a different concept.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the state of the parameter: - enabled - the parameter's value can be changed, - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled, - disabled - the parameter's value cannot be changed.
+
+</div>
+
+</details>
+
+</div>
+
+##### value<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the current internal value of this parameter. The value must be inside the min/max properties of this device.
+
+</div>
+
+</details>
+
+</div>
+
+##### value_items<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
+
+</div>
+
+</details>
+
+</div>
+
+#### Methods
+
+##### begin_gesture()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Notify the begin of a modification of the parameter, when a sequence of modifications have to be consider a consistent group -- for Sexample, when recording automation.
+
+</div>
+
+</details>
+
+</div>
+
+##### end_gesture()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Notify the end of a modification of the parameter. See begin_gesture.
+
+</div>
+
+</details>
+
+</div>
+
+##### re_enable_automation()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Reenable automation for this parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### str_for_value()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return a string representation of the given value. To be used for display purposes only. This value can include characters like 'db' or 'hz', depending on the type of the parameter.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 14 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/chainmixerdevice/#chainmixerdevice"><code>ChainMixerDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/chainmixerdevice/#chain_activator-deviceparameter"><span class="ref-member-name">chain_activator</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/chainmixerdevice/#panning-deviceparameter"><span class="ref-member-name">panning</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/chainmixerdevice/#volume-deviceparameter"><span class="ref-member-name">volume</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/mixerdevice/#mixerdevice"><code>MixerDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#crossfader-deviceparameter"><span class="ref-member-name">crossfader</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#cue_volume-deviceparameter"><span class="ref-member-name">cue_volume</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#left_split_stereo-deviceparameter"><span class="ref-member-name">left_split_stereo</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#panning-deviceparameter"><span class="ref-member-name">panning</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#right_split_stereo-deviceparameter"><span class="ref-member-name">right_split_stereo</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#sends-vectordeviceparameter"><span class="ref-member-name">sends</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#song_tempo-deviceparameter"><span class="ref-member-name">song_tempo</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#track_activator-deviceparameter"><span class="ref-member-name">track_activator</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/mixerdevice/#volume-deviceparameter"><span class="ref-member-name">volume</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/rackdevice/#rackdevice"><code>RackDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/rackdevice/#chain_selector-deviceparameter"><span class="ref-member-name">chain_selector</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#songview"><code>Song.View</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#selected_parameter-deviceparameter-nonehigh-confidenceprobed-asnonedocstring-confirms-deviceparameter-return-typem4l-explicit-selected_parameter-deviceparameter-read-only-observe-read-only-nullable"><span class="ref-member-name">selected_parameter</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a> | None</span></li>
+</ul>
+</div>
+</details>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.DeviceParameter.">AutomationState</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>none</code></td><td>0</td></tr>
+<tr><td><code>playing</code></td><td>1</td></tr>
+<tr><td><code>overridden</code></td><td>2</td></tr>
+</table>
+
+### <span class="sig"><span class="sig-name" data-path="Live.DeviceParameter.">ParameterState</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>enabled</code></td><td>0</td></tr>
+<tr><td><code>irrelevant</code></td><td>1</td></tr>
+<tr><td><code>disabled</code></td><td>2</td></tr>
+</table>

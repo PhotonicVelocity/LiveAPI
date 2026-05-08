@@ -1,4 +1,9 @@
 module: Application
+description: |
+  Represents the running Live application — the entry point to the LOM,
+  returned by the module-level `get_application()` function. The `Application`
+  class exposes Live's version, the browser, the control-surface registry,
+  and the `Application.View` for navigating Live's windows and panels.
 
 primary_class:
 - name: Application
@@ -6,6 +11,7 @@ primary_class:
   raw_doc: This class represents the Live application.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -33,10 +39,11 @@ primary_class:
       value: None
       confidence: high
       source: |
-        Application is the LOM root. It has no parent — the probe's None
-        observation reflects the structural shape, not an instance-specific
-        nullability. Every other class's `canonical_parent` probes as a concrete
-        parent type; only this and `Song.canonical_parent` probe as None.
+        [probe] Application is the LOM root. It has no parent — the
+        probe's None observation reflects the structural shape, not an
+        instance-specific nullability. Every other class's
+        `canonical_parent` probes as a concrete parent type; only this and
+        `Song.canonical_parent` probe as None.
     settable: false
 
   - name: control_surfaces
@@ -89,9 +96,12 @@ primary_class:
     element_type_override:
       value: Live.Application.UnavailableFeature
       confidence: high
-      source: |
-        Property's probed_type is UnavailableFeatureVector; element type is the
-        UnavailableFeature enum. Corpus checks
+      source:
+      - |
+        [probe] property's probed_type is UnavailableFeatureVector; element
+        type is the UnavailableFeature enum.
+      - |
+        [corpus] checks of the form
         `Live.Application.UnavailableFeature.X not in
         Live.Application.get_application().unavailable_features`.
     settable: false
@@ -187,8 +197,8 @@ primary_class:
       name_override:
         value: option_name
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> option_name  [docstring]: description says 'given entry exists in Options.txt' - the entry is an option name
+          [docstring] "given entry exists in Options.txt" — the entry is
+          an option name.
       type: str
     returns:
       type: bool
@@ -204,8 +214,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/application.md
+          [M4L] external/max-for-live-docs/9.0/application.md names the
+          parameter `index`.
       type: int
     returns:
       type: None
@@ -268,6 +278,7 @@ primary_class:
     raw_doc: This class represents the view aspects of the Live application.
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -300,6 +311,12 @@ primary_class:
       - focused_document_view_has_listener
 
     - name: view_focus_changed
+      description: |
+        Fires when the focused view changes (Session/Arrangement
+        switch, popup open/close, primary/secondary window focus
+        shifts). Programmatic triggers include `focus_view`,
+        `show_view`, `hide_view`, and `toggle_browse`; user
+        interaction with Live's UI also fires it.
       listenable:
       - add_view_focus_changed_listener
       - remove_view_focus_changed_listener
@@ -319,8 +336,7 @@ primary_class:
         name_override:
           value: view_name
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> view_name  [C++ signature]: C++ signature shows TString parameter for view identifier
+            [C++ signature] TString parameter for view identifier.
         type: str
       - name: callback
         type: Callable[[], None]
@@ -352,8 +368,9 @@ primary_class:
         name_override:
           value: view
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> view  [callsite, 2/2 defs]: corpus def: external/corpus/ableton/v2/control_surface/components/view_control.py:168 (+1 more)
+            [corpus] 2/2 callsite defs use `view` (
+            external/corpus/ableton/v2/control_surface/components/view_control.py:168
+            and one more).
         type: str
       returns:
         type: None
@@ -369,8 +386,8 @@ primary_class:
         name_override:
           value: view_name
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `view_name`.
         type: str
       returns:
         type: None
@@ -380,12 +397,32 @@ primary_class:
         Return true if the through the identifier string specified view is currently
         visible. If main_window_only is set to False, this will also check in second
         window. Notifications from the second window are not yet supported.
+      description: |
+        Returns whether the view named by `view_name` is currently
+        visible. With `main_window_only=False`, also checks the
+        second window — note that notifications from the second
+        window are not yet supported.
+
+        Parameterized observable — the LOM's only one (as of 12.3.6).
+        Read by calling `is_view_visible(view_name)`. Subscribe via
+        the matching listener triplet, which takes view_name as its
+        first parameter:
+
+        ```
+        add_is_view_visible_listener(view_name, callback)
+        remove_is_view_visible_listener(view_name, callback)
+        is_view_visible_has_listener(view_name, callback)
+        ```
+      listenable:
+      - add_is_view_visible_listener
+      - remove_is_view_visible_listener
+      - is_view_visible_has_listener
       signature: 'is_view_visible( (View)arg1, (object)identifier [, (bool)main_window_only=True]) -> bool :'
       cpp_signature: bool is_view_visible(TPyViewData<ASongApp>,TString [,bool=True])
       args:
       - name: self
         type: Live.Application.Application.View
-      - name: identifier
+      - name: view_name
         type: str
       - name: main_window_only
         type: bool
@@ -407,8 +444,7 @@ primary_class:
         name_override:
           value: view_name
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> view_name  [C++ signature]: C++ signature shows TString parameter for view identifier
+            [C++ signature] TString parameter for view identifier.
         type: str
       - name: callback
         type: Callable[[], None]
@@ -428,8 +464,7 @@ primary_class:
         name_override:
           value: view_name
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> view_name  [C++ signature]: C++ signature shows TString parameter for view identifier
+            [C++ signature] TString parameter for view identifier.
         type: str
       - name: callback
         type: Callable[[], None]
@@ -450,28 +485,33 @@ primary_class:
         name_override:
           value: direction
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `direction`.
         type: int
+        type_override:
+          value: Live.Application.Application.View.NavDirection | int
+          confidence: high
+          source:
+          - |
+            [docstring] "into the given direction".
+          - |
+            [schema] Application.View nests a single enum (`NavDirection`)
+            with members up/down/left/right — direct semantic match.
+            Boost.Python emits the enum class as an int subclass, hence
+            `NavDirection | int` (standard enum-widening pattern).
       - name: arg3
         name_override:
           value: view_name
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `view_name`.
         type: str
       - name: arg4
         name_override:
           value: modifier_pressed
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `modifier_pressed`.
         type: bool
       returns:
         type: None
@@ -489,8 +529,9 @@ primary_class:
         name_override:
           value: view
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> view  [callsite, 3/3 defs]: corpus def: external/corpus/ableton/v2/control_surface/components/view_control.py:158 (+2 more)
+            [corpus] 3/3 callsite defs use `view`
+            (external/corpus/ableton/v2/control_surface/components/view_control.py:158
+            and 2 more).
         type: str
       returns:
         type: None
@@ -521,28 +562,33 @@ primary_class:
         name_override:
           value: direction
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `direction`.
         type: int
+        type_override:
+          value: Live.Application.Application.View.NavDirection | int
+          confidence: high
+          source:
+          - |
+            [docstring] "into the given direction".
+          - |
+            [schema] Application.View nests a single enum (`NavDirection`)
+            with members up/down/left/right — direct semantic match.
+            Boost.Python emits the enum class as an int subclass, hence
+            `NavDirection | int` (standard enum-widening pattern).
       - name: arg3
         name_override:
           value: view_name
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `view_name`.
         type: str
       - name: arg4
         name_override:
           value: modifier_pressed
           source: |
-            Arg names verified against corpus / M4L docs:
-              - arg2 -> direction  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg3 -> view_name  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
-              - arg4 -> modifier_pressed  [M4L docs]: external/max-for-live-docs/9.0/application_view.md
+            [M4L] external/max-for-live-docs/9.0/application_view.md names
+            the parameter `modifier_pressed`.
         type: bool
       returns:
         type: None
@@ -559,7 +605,8 @@ classes:
 - name: ControlDescription
   path: Live.Application.ControlDescription
   raw_doc: Describes a control present in a control surface proxy
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     __init__( (object)arg1) -> None :
 
@@ -587,7 +634,8 @@ classes:
 - name: ControlDescriptionVector
   path: Live.Application.ControlDescriptionVector
   raw_doc: A container for returning control descriptions.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -596,18 +644,21 @@ classes:
   element_type_override:
     value: Live.Application.ControlDescription
     confidence: high
-    source: |
-      raw_doc: "A container for returning control descriptions." —
-      ControlDescription class exists with raw_doc "Describes a control present
-      in a control surface proxy." Direct corpus iteration:
-      _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c in
-      self._proxy.control_descriptions`.
+    source:
+    - |
+      [docstring] "A container for returning control descriptions." —
+      ControlDescription class exists with raw_doc "Describes a control
+      present in a control surface proxy."
+    - |
+      [corpus] _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c
+      in self._proxy.control_descriptions`.
   container: true
 
 - name: ControlSurfaceProxy
   path: Live.Application.ControlSurfaceProxy
   raw_doc: Represents a control surface running in a different process. For use by M4L
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -619,13 +670,17 @@ classes:
     type_override:
       value: Live.Application.ControlDescriptionVector
       confidence: high
-      source: |
-        Probe couldn't reach this class (ControlSurfaceProxy is M4L-only). Direct
-        binding access in corpus: _MxDCore/ControlSurfaceWrapper.py:238 iterates
-        `c.name for c in self._proxy.control_descriptions` — confirms it's a
-        container of ControlDescription objects (each with a .name property).
-        Type ControlDescriptionVector exists in the parsed tree with element_repr
-        fixed below to ControlDescription.
+      source:
+      - |
+        [probe] couldn't reach this class — ControlSurfaceProxy is
+        M4L-only.
+      - |
+        [corpus] _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for
+        c in self._proxy.control_descriptions` — confirms it's a container
+        of ControlDescription objects (each with a `.name` property).
+      - |
+        [schema] ControlDescriptionVector exists in the parsed tree with
+        element_repr fixed below to ControlDescription.
 
   - name: pad_layout
     raw_doc: The layout of pads on Push.
@@ -637,10 +692,14 @@ classes:
     type_override:
       value: str
       confidence: high
-      source: |
-        M4L docs (controlsurface.md:18): `pad_layout symbol read-only observe` —
-        `symbol` is M4L parlance for a string (string-valued layout names like
-        'session', 'note.drums.64_pads'). raw_doc: "The layout of pads on Push."
+      source:
+      - |
+        [M4L] external/max-for-live-docs/9.0/controlsurface.md:18:
+        `pad_layout symbol read-only observe` — `symbol` is M4L parlance
+        for a string (string-valued layout names like 'session',
+        'note.drums.64_pads').
+      - |
+        [docstring] "The layout of pads on Push."
 
   - name: type_name
     settable: false
@@ -648,18 +707,28 @@ classes:
       value: str
       confidence: medium
       source: |
-        No raw_doc, no M4L doc entry. Direct binding access in corpus:
-        _MxDCore/ControlSurfaceWrapper.py:234 returns `self._proxy.type_name`
-        from a wrapper property; the value is used in tuple/string contexts.
-        `str` is the strongest reading — promote via probe.
+        [corpus] no raw_doc, no M4L doc entry; binding access at
+        _MxDCore/ControlSurfaceWrapper.py:234 returns
+        `self._proxy.type_name` from a wrapper property and uses the value
+        in tuple/string contexts. `str` is the strongest reading — promote
+        via probe.
 
   - name: control_values_arrived
+    description: |
+      Fires when control values arrive from the connected hardware
+      after a `subscribe_to_control` registration. Notification
+      only — read the values via `fetch_received_values` after the
+      callback.
     listenable:
     - add_control_values_arrived_listener
     - remove_control_values_arrived_listener
     - control_values_arrived_has_listener
 
   - name: midi_received
+    description: |
+      Fires when MIDI input arrives at the control surface proxy
+      after `enable_receive_midi(True)`. Notification only — read
+      the messages via `fetch_received_midi_messages`.
     listenable:
     - add_midi_received_listener
     - remove_midi_received_listener
@@ -676,8 +745,8 @@ classes:
       name_override:
         value: enabled
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> enabled  [inferred]: boolean parameter controlling whether MIDI receive is enabled
+          [docstring] method name is `enable_receive_midi` — boolean
+          parameter controls whether MIDI receive is enabled.
       type: bool
     returns:
       type: None
@@ -693,13 +762,16 @@ classes:
       type_override:
         value: tuple[tuple[int, ...], ...]
         confidence: medium
-        source: |
-          raw_doc: `-> tuple` confirms the outer return is a tuple. Direct binding
-          call: _MxDCore/ControlSurfaceWrapper.py:251 iterates
-          `for message in self._proxy.fetch_received_midi_messages():` and passes
-          each message to `handle_message(message)`. The corpus doesn't unpack the
-          inner tuple, so the inner shape `tuple[int, ...]` is inferred from MIDI
-          semantics (MIDI messages are tuples of status + data bytes, all ints).
+        source:
+        - |
+          [docstring] `-> tuple` confirms the outer return is a tuple.
+        - |
+          [corpus] _MxDCore/ControlSurfaceWrapper.py:251 iterates `for
+          message in self._proxy.fetch_received_midi_messages():` and
+          passes each message to `handle_message(message)`. The corpus
+          doesn't unpack the inner tuple, so the inner shape
+          `tuple[int, ...]` is inferred from MIDI semantics (MIDI messages
+          are tuples of status + data bytes, all ints).
 
   - name: fetch_received_values
     signature: 'fetch_received_values( (ControlSurfaceProxy)arg1) -> tuple :'
@@ -712,14 +784,16 @@ classes:
       type_override:
         value: tuple[tuple[int, Any], ...]
         confidence: high
-        source: |
-          raw_doc: `-> tuple` confirms the outer return is a tuple. Direct binding
-          call at _MxDCore/ControlSurfaceWrapper.py:244 explicitly unpacks the
-          inner 2-tuple: `for control_id, value in self._proxy.fetch_received_values():`.
-          The first element is then used as a dict key
-          (`self._control_proxies_by_id[control_id]`) confirming int; the second
-          element is passed to `receive_value(value)` — value type depends on
-          control, so Any.
+        source:
+        - |
+          [docstring] `-> tuple` confirms the outer return is a tuple.
+        - |
+          [corpus] _MxDCore/ControlSurfaceWrapper.py:244 explicitly unpacks
+          the inner 2-tuple: `for control_id, value in
+          self._proxy.fetch_received_values():`. The first element is then
+          used as a dict key (`self._control_proxies_by_id[control_id]`)
+          confirming int; the second element is passed to
+          `receive_value(value)` — value type depends on control, so Any.
 
   - name: grab_control
     signature: 'grab_control( (ControlSurfaceProxy)arg1, (int)arg2) -> None :'
@@ -730,11 +804,16 @@ classes:
     - name: arg2
       name_override:
         value: control_id
-        source: |
-          arg2 rename — same shape as release_control. M4L docs name it `control`,
-          but the binding takes the int ID. Direct binding call:
-          _MxDCore/ControlSurfaceWrapper.py:262 (`self._proxy.grab_control(control.id)`).
-          Renamed to `control_id` for clarity over doc-conformance.
+        source:
+        - |
+          [sister method] same shape as `release_control`.
+        - |
+          [M4L] external/max-for-live-docs/9.0/controlsurface.md names it
+          `control`, but the binding takes the int ID — renamed to
+          `control_id` here for clarity over doc-conformance.
+        - |
+          [corpus] _MxDCore/ControlSurfaceWrapper.py:262
+          (`self._proxy.grab_control(control.id)`).
       type: int
     returns:
       type: None
@@ -748,16 +827,17 @@ classes:
     - name: arg2
       name_override:
         value: control_id
-        source: |
-          arg2 rename — the binding takes the control's int ID. M4L docs
-          (controlsurface.md) name the parameter `control` (matching the M4L
-          abstraction where scripts pass a control object), but Live's binding is
-          one layer below: it takes the int. Direct binding call at
-          _MxDCore/ControlSurfaceWrapper.py:266 confirms:
+        source:
+        - |
+          [C++ signature] binding takes the control's int ID.
+        - |
+          [M4L] external/max-for-live-docs/9.0/controlsurface.md names the
+          parameter `control` (the M4L abstraction passes a control
+          object), but Live's binding is one layer below — it takes the
+          int. Renamed to `control_id` for clarity over doc-conformance.
+        - |
+          [corpus] _MxDCore/ControlSurfaceWrapper.py:266 confirms:
           `self._proxy.release_control(control.id)` — passes `.id`, an int.
-          Renamed to `control_id` for clarity (matches the type, avoids implying
-          callers should pass a control object). Names are positional-only and
-          decorative — clarity over doc-conformance.
       type: int
     returns:
       type: None
@@ -772,43 +852,30 @@ classes:
       name_override:
         value: midi_event_bytes
         source: |
-          arg2 rename — callsite, 10/20 defs use 'midi_event_bytes' across Python
+          [corpus] 10/20 callsite defs use `midi_event_bytes` across Python
           wrapper classes (FaderfoxComponent.py:41, FaderfoxScript.py:110,
           Axiom_49_61_Classic/Axiom.py:69, etc.).
-          type — C++ signature in raw_doc: `void send_midi(APythonControlSurfaceProxy
-          {lvalue}, boost::python::tuple)`. The binding takes an untyped tuple at the
-          C++ level; narrowed to `tuple[int, ...]` based on function semantics (MIDI
-          bytes are 0–255 ints by definition) and corpus evidence:
-            - Direct binding calls pass int tuples: FaderfoxScript.py:111
-              (`self.c_instance.send_midi(midi_event_bytes)`) and
-              Axiom_49_61_Classic/Axiom.py:70
-              (`self._Axiom__c_instance.send_midi(midi_event_bytes)`).
-            - Wrapper composers also pass int tuples:
-              LV2_LX2_LC2_LD2/LV2TransportController.py:69-71
-              (`(NOTEON_STATUS + channel, note, 127)`),
-              LV2_LX2_LC2_LD2/FaderfoxMixerController.py:142
-              (`(175, 16, 16)`).
       type: tuple
       type_override:
         value: tuple[int, ...]
         confidence: high
-        source: |
-          arg2 rename — callsite, 10/20 defs use 'midi_event_bytes' across Python
-          wrapper classes (FaderfoxComponent.py:41, FaderfoxScript.py:110,
-          Axiom_49_61_Classic/Axiom.py:69, etc.).
-          type — C++ signature in raw_doc: `void send_midi(APythonControlSurfaceProxy
-          {lvalue}, boost::python::tuple)`. The binding takes an untyped tuple at the
-          C++ level; narrowed to `tuple[int, ...]` based on function semantics (MIDI
-          bytes are 0–255 ints by definition) and corpus evidence:
-            - Direct binding calls pass int tuples: FaderfoxScript.py:111
-              (`self.c_instance.send_midi(midi_event_bytes)`) and
-              Axiom_49_61_Classic/Axiom.py:70
-              (`self._Axiom__c_instance.send_midi(midi_event_bytes)`).
-            - Wrapper composers also pass int tuples:
-              LV2_LX2_LC2_LD2/LV2TransportController.py:69-71
-              (`(NOTEON_STATUS + channel, note, 127)`),
-              LV2_LX2_LC2_LD2/FaderfoxMixerController.py:142
-              (`(175, 16, 16)`).
+        source:
+        - |
+          [C++ signature] `void send_midi(APythonControlSurfaceProxy
+          {lvalue}, boost::python::tuple)` — the binding takes an untyped
+          tuple at the C++ level.
+        - |
+          [schema] narrowed to `tuple[int, ...]` per function semantics —
+          MIDI bytes are 0–255 ints by definition.
+        - |
+          [corpus] binding calls pass int tuples: FaderfoxScript.py:111
+          (`self.c_instance.send_midi(midi_event_bytes)`),
+          Axiom_49_61_Classic/Axiom.py:70
+          (`self._Axiom__c_instance.send_midi(midi_event_bytes)`); wrapper
+          composers also produce int tuples
+          (LV2_LX2_LC2_LD2/LV2TransportController.py:69-71
+          `(NOTEON_STATUS + channel, note, 127)`,
+          LV2_LX2_LC2_LD2/FaderfoxMixerController.py:142 `(175, 16, 16)`).
     returns:
       type: None
 
@@ -822,37 +889,30 @@ classes:
       name_override:
         value: value
         source: |
-          arg2 rename — callsite, 16/19 defs use 'value' across Python wrapper classes
-          (_Framework/InputControlElement.py:324, ableton/v2/control_surface/elements/
-          button.py:102, etc.).
-          type — C++ signature in raw_doc explicitly: `void send_value(
-          APythonControlSurfaceProxy {lvalue}, boost::python::tuple)`. The binding
-          strictly accepts a tuple. `tuple[Any, ...]` matches the untyped Boost.Python
-          tuple — the binding itself doesn't constrain element type at the C++ level.
-          Corpus calls like `interface.send_value(0)` or `button.send_value(value)`
-          don't contradict this — those go to Python wrappers (SysexElement.send_value
-          at sysex_element.py:25, InputControlElement.send_value at
-          InputControlElement.py:324) which compose a tuple internally before the
-          binding call. Zero direct `Live.Application.ControlSurfaceProxy.send_value`
-          call sites exist in the corpus.
+          [corpus] 16/19 callsite defs use `value` across Python wrapper
+          classes (_Framework/InputControlElement.py:324,
+          ableton/v2/control_surface/elements/button.py:102, etc.).
       type: tuple
       type_override:
         value: tuple[Any, ...]
         confidence: high
-        source: |
-          arg2 rename — callsite, 16/19 defs use 'value' across Python wrapper classes
-          (_Framework/InputControlElement.py:324, ableton/v2/control_surface/elements/
-          button.py:102, etc.).
-          type — C++ signature in raw_doc explicitly: `void send_value(
-          APythonControlSurfaceProxy {lvalue}, boost::python::tuple)`. The binding
-          strictly accepts a tuple. `tuple[Any, ...]` matches the untyped Boost.Python
-          tuple — the binding itself doesn't constrain element type at the C++ level.
-          Corpus calls like `interface.send_value(0)` or `button.send_value(value)`
-          don't contradict this — those go to Python wrappers (SysexElement.send_value
-          at sysex_element.py:25, InputControlElement.send_value at
-          InputControlElement.py:324) which compose a tuple internally before the
-          binding call. Zero direct `Live.Application.ControlSurfaceProxy.send_value`
-          call sites exist in the corpus.
+        source:
+        - |
+          [C++ signature] `void send_value(APythonControlSurfaceProxy
+          {lvalue}, boost::python::tuple)` — the binding strictly accepts
+          a tuple.
+        - |
+          [schema] `tuple[Any, ...]` matches the untyped Boost.Python
+          tuple — the binding itself doesn't constrain element type at the
+          C++ level.
+        - |
+          [corpus] calls like `interface.send_value(0)` or
+          `button.send_value(value)` don't contradict this — those go to
+          Python wrappers (SysexElement.send_value at sysex_element.py:25,
+          InputControlElement.send_value at InputControlElement.py:324)
+          which compose a tuple internally before the binding call. Zero
+          direct `Live.Application.ControlSurfaceProxy.send_value`
+          callsites exist in the corpus.
     returns:
       type: None
 
@@ -865,10 +925,14 @@ classes:
     - name: arg2
       name_override:
         value: control_id
-        source: |
-          arg2 rename — same shape as grab_control / release_control.
-          C++ signature: `void subscribe_to_control(..., int)` — int control ID.
-          Direct binding call: _MxDCore/ControlSurfaceWrapper.py:201
+        source:
+        - |
+          [sister method] same shape as `grab_control` / `release_control`.
+        - |
+          [C++ signature] `void subscribe_to_control(..., int)` — int
+          control ID.
+        - |
+          [corpus] _MxDCore/ControlSurfaceWrapper.py:201
           (`self._proxy.subscribe_to_control(self._id)` — passes int).
       type: int
     returns:
@@ -883,10 +947,14 @@ classes:
     - name: arg2
       name_override:
         value: control_id
-        source: |
-          arg2 rename — same shape as subscribe_to_control.
-          C++ signature: `void unsubscribe_from_control(..., int)` — int control ID.
-          Direct binding call: _MxDCore/ControlSurfaceWrapper.py:209
+        source:
+        - |
+          [sister method] same shape as `subscribe_to_control`.
+        - |
+          [C++ signature] `void unsubscribe_from_control(..., int)` — int
+          control ID.
+        - |
+          [corpus] _MxDCore/ControlSurfaceWrapper.py:209
           (`self._proxy.unsubscribe_from_control(self._id)` — passes int).
       type: int
     returns:
@@ -895,7 +963,8 @@ classes:
 - name: UnavailableFeatureVector
   path: Live.Application.UnavailableFeatureVector
   raw_doc: A container for returning unavailable features.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -904,9 +973,11 @@ classes:
   element_type_override:
     value: Live.Application.UnavailableFeature
     confidence: high
-    source: |
-      raw_doc: "A container for returning unavailable features." Corpus check:
-      pushbase/note_settings_component.py:236 reads
+    source:
+    - |
+      [docstring] "A container for returning unavailable features."
+    - |
+      [corpus] pushbase/note_settings_component.py:236 reads
       `Live.Application.UnavailableFeature.X not in
       Live.Application.get_application().unavailable_features` — confirms
       elements are UnavailableFeature enum values.
@@ -915,7 +986,8 @@ classes:
 - name: Variants
   path: Live.Application.Variants
   raw_doc: Holds strings representing what type of Live is running.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -994,10 +1066,13 @@ functions:
     type_override:
       value: tuple[int, ...]
       confidence: high
-      source: |
-        Corpus uses: Push/handshake_component.py:53 wraps it for encryption,
-        _APC/APC.py:79 compares the return to a dongle challenge tuple. Baseline
-        Application.md:38 lists it as a module-level static.
+      source:
+      - |
+        [corpus] Push/handshake_component.py:53 wraps it for encryption;
+        _APC/APC.py:79 compares the return to a dongle challenge tuple.
+      - |
+        [docstring] baseline Application.md:38 lists it as a module-level
+        static.
 
 - name: encrypt_challenge2
   raw_doc: Returns the UMAC hash for the given challenge.
@@ -1008,8 +1083,8 @@ functions:
     name_override:
       value: challenge
       source: |
-        Arg names verified against corpus / M4L docs:
-          - arg1 -> challenge  [docstring]: description says 'UMAC hash for the given challenge' - parameter is the challenge
+        [docstring] "UMAC hash for the given challenge" — parameter is the
+        challenge.
     type: int
   returns:
     type: int
@@ -1030,17 +1105,15 @@ functions:
     name_override:
       value: min_value
       source: |
-        Arg names verified against corpus / M4L docs:
-          - arg1 -> min_value  [inferred]: function returns random int from range - first arg is minimum
-          - arg2 -> max_value  [inferred]: function returns random int from range - second arg is maximum
+        [docstring] "random integer from the given range" — first arg is
+        the minimum.
     type: int
   - name: arg2
     name_override:
       value: max_value
       source: |
-        Arg names verified against corpus / M4L docs:
-          - arg1 -> min_value  [inferred]: function returns random int from range - first arg is minimum
-          - arg2 -> max_value  [inferred]: function returns random int from range - second arg is maximum
+        [docstring] "random integer from the given range" — second arg is
+        the maximum.
     type: int
   returns:
     type: int

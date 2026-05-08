@@ -69,8 +69,15 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status as of context reset (mid-Step 2, Blender-styled signatures landed
-across class / enum / function headings, main class promoted):
+Status: **Phase 1 complete.** All 14 steps shipped — every field in
+`stubs/<v>/lom/*.yaml` flows through to the rendered page.
+Foundation pages for the LOM, Listeners, Calling conventions, and
+Remote scripts hoisted above the alphabetical Modules group in the
+sidebar. Per-class cross-reference ("Returned by") sections render
+at the bottom of each class block. Override markers with structured
+hover tooltips surface `<field>_override:` provenance — confidence
+chip, probed value, and tagged evidence bullets — wherever a value
+was hand-refined away from the parser-derived default.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -83,63 +90,142 @@ across class / enum / function headings, main class promoted):
   `def Live.Module.name()`) with span-level coloring (kw / path / name /
   base) and white-bold class name dominating dim-orange path. Custom CSS
   in `web/src/styles/custom.css` covers heading hierarchy + signature spans.
+  Base class is rendered as a clickable `<a>` (linked to its anchor on its
+  module page) when the base resolves in the registry.
 - **Step 1.75 — Main class promotion.** ✅ Done. The class whose name
   matches the module name (the conventional Live.X.X pairing) renders as
   a prominent signature line at the top of the page. Remaining classes
   move under `## Other classes`. When properties / methods land, they
   attach directly under the main class as `## Properties`, `## Methods`,
   etc., making the main-vs-auxiliary structure explicit.
-- **Step 2 — Class descriptions.** Pending. Each class heading gets its
+- **Step 2 — Class descriptions.** ✅ Done. Each class heading gets its
   `raw_doc` rendered below as a paragraph. Same for enums and module
-  functions when those have raw_doc set.
-- **Step 3 — Properties listed.** For each class (starting with the main
-  class), render a `## Properties` section with each property name as an
-  H3 (signature shape: just the property name in monospace bold). No types
-  or descriptions yet.
-- **Step 4 — Property types.** Add each property's `type` (resolved through
-  `<field>_override:` if present) to its heading or as a labeled field
-  below it (`**Type:** float` style).
-- **Step 5 — Property settable / listenable.** Annotate with `(get/set,
-listenable)` derived from the `settable` flag and the existence of
-  `add_X_listener` siblings. Goes inline with the type line.
-- **Step 6 — Property descriptions.** Each property's `raw_doc` (which is
-  already the cleaned description for properties — no signature header
-  to strip, unlike methods) renders as a paragraph below the type metadata.
-- **Step 7 — Methods listed.** Same ladder as properties: `## Methods`
-  section with method names as H3 headings (signature shape:
-  `name(args) -> return`). Use the parser's `description` field rather
-  than `raw_doc` so the Boost.Python signature header and `C++ signature:`
-  footer don't dump into the doc.
-- **Step 8 — Module-level enums.** Currently rendered as headings only.
-  Add member tables (`Member | Value` listing) under each enum heading,
-  using the enum's `members` field from the lom YAML.
-- **Step 9 — Module-level functions.** Currently rendered as headings only.
-  Add full signature with args + return type, the `description` field as
-  prose, and `**Parameters:**` / `**Returns:**` labeled sections.
-- **Step 10 — Nested classes.** Classes defined inside other classes
-  (e.g., `Clip.View`, `Track.View`, `Song.View`). Render as their own
-  section on the parent class's page, with the nested class's properties
-  / methods rendered inline.
-- **Step 11 — References / Access via.** Cross-reference pass — for each
-  class T, list every member elsewhere in the LOM whose type / return
-  is T. Implemented as a single tree-walk at generator startup that
-  builds a `class_name → [(owner, member, kind)]` map. Renders as a
-  collapsible `<details>` at the bottom of each class section, or a
-  `## References` section near the page bottom (decide by looking at
-  layout density once the data lands).
-- **Step 12 — Refinement metadata surfacing.** When a field has a sibling
-  `<field>_override:` block in `stubs/<v>/lom/*.yaml`, render the `source:`
-  and `confidence:` inline with the member (small italic note under the
-  type line, or a callout block — design when the data lands).
-- **Step 13 — Inherited members.** For classes with parents in the LOM
-  (mostly just `LomObject` for Live document objects, but some richer
-  hierarchies exist), show inherited properties / methods in their own
-  section with bullet links to the base class's documentation.
+  functions when those have raw_doc set. Module-level pages additionally
+  carry hand-authored `description:` prose at the page top (lom YAML's
+  module-top-level `description:` field; see lom-format.md).
+- **Step 3 — Properties listed.** ✅ Done. For each class (starting with
+  the main class), `#### Properties` section emits each property name as
+  an H5 in monospace bold, indented under the class. Filters
+  `_live_ptr` and `__init__` from the listing.
+- **Step 4 — Property types.** ✅ Done. Each property's resolved type
+  (`<field>_override.value` if present, else parser-derived) is rendered
+  inline next to the name as a Python annotation: `arm: bool`,
+  `arrangement_clips: Vector[Clip]`. Live-class tokens are linked to their
+  anchors on their module pages; primitive/typing tokens (`bool`, `None`,
+  `int`, `Iterable`) stay plain.
+- **Step 5 — Inherited properties.** ✅ Done. After each class's
+  `#### Properties` section, an `#### Inherited` block lists members
+  declared on the class's transitive ancestors, grouped by ancestor with
+  inline links to the declaration's anchor on the ancestor's module page.
+  `_live_ptr` removed from the renderer's skip-list so the universal
+  LomObject base is demonstrably present on every class. Layout is
+  comma-separated per-ancestor (one line each); revisit visual treatment
+  later if the density becomes a problem on Device subclasses.
+- **Step 6 — Property settable / listenable.** ✅ Done. Each property
+  in the rendered Properties section gets a chip row between the H5
+  heading and the description, surfacing the modifiers the type
+  annotation alone doesn't carry: `read-only` chip when
+  `settable: false`, `listen` chip when the property has a folded
+  listener triplet. Settable + not-listenable (the common default)
+  renders no chip — only deviations carry visual weight. The `listen`
+  chip links to `/LiveAPI/modules/listener/` (the foundation page
+  describing the subscription model — see Step 11.5 / sidebar hoist).
+- **Step 7 — Property descriptions.** ✅ Done. Each property's
+  description renders below the H5 heading. Resolution prefers a
+  hand-authored property-level `description:` field; falls back to the
+  parser-derived `raw_doc` (collapsed to a single paragraph) when no
+  authored prose exists. Property-level `description:` documented in
+  `doc/lom-format.md` alongside the class-level field.
+- **Step 8 — Methods listed.** ✅ Done. `#### Methods` section per
+  class, each method as an H5 heading with a Python-style signature:
+  `name(arg: T, kw: T2 = D) -> Return`. Implicit `self` dropped;
+  `name_override` honored (corpus / M4L names supplant Boost.Python's
+  `arg1` / `arg2`). Args + return rendered in a `.meth-sig` muted span
+  so the method name visually dominates — same idea as the
+  `prop-type` annotation on properties. Description below uses the
+  same `member_description_text` helper as properties (prefer
+  hand-authored `description:`, fall back to `raw_doc`). `__init__`
+  filtered via `SKIP_MEMBERS` — constructor coverage handled
+  separately when constructor records land.
+- **Step 9 — Module-level enums.** ✅ Done. Each enum on the page's
+  `## Enums` section renders the H3 signature, description (uses
+  the `member_description_text` fallback chain — hand-authored
+  `description:` first, `raw_doc` second), then a `Member | Value`
+  markdown table from the enum's `members` field. Member names are
+  rendered in backticks; integer values bare. Same machinery handles
+  hoisted nested enums (`Track.monitoring_states`, ...) since they
+  share the flat top-level rendering path.
+- **Step 10 — Module-level functions.** ✅ Done (signature only).
+  Each function on the page's `## Functions` section renders the
+  H3 keyword/path signature followed by a Python-style `(args) -> R`
+  portion using the same `.meth-sig` machinery as class methods —
+  factored into `_callable_args_returns_html` shared by both. Args
+  honor `name_override`, types linkified, defaults colorized.
+  Description below uses `member_description_text` (hand-authored
+  `description:` first, runtime `raw_doc` second). Deferred from
+  the original step: explicit `**Parameters:**` / `**Returns:**`
+  labeled sections — the inline annotation reads cleanly enough that
+  the labeled-section treatment may not be needed; revisit if the
+  page becomes harder to scan once more functions land.
+- **Step 11 — Nested classes + enums.** ✅ Done. Classes
+  and enums declared inside other classes (e.g., `Clip.View`, `Track.View`,
+  `Track.monitoring_states`) are **hoisted** to top-level rendering on
+  the same page rather than rendered inline-indented under the parent.
+  Decision: chose Approach B (hoist) over Approach A (inline) to avoid
+  heading-level exhaustion — a nested class with its own properties /
+  methods would have run out of distinct heading levels before the
+  member-section pass even started. The parent class shows a single
+  `#### Nested types` subsection that lists the nested classes and enums
+  as a link list pointing to their hoisted anchors. Hoisted nested classes
+  render via the same `emit_class` machinery as top-level classes (with
+  a dotted display name, `Track.View`, for qualified identity); hoisted
+  nested enums fold into the page's `## Enums` section likewise. This
+  also collapsed the previous `## Other classes` / `## Nested classes`
+  split into one section, and `## Module Enums` / `## Module Functions`
+  shed the now-redundant "Module" qualifier.
+- **Step 12 — References / Access via.** ✅ Done. Cross-reference
+  pass: for each class T, lists every member elsewhere in the LOM
+  whose property type or method return type is T. Single tree-walk at
+  generator startup builds a `qualified_path → [reference, ...]` map
+  (`build_references_index`). Renders as a collapsed `<details
+  class="references-section">` at the bottom of each class block,
+  grouped by owner with linked owner / member / type cells. Section
+  is gated on non-empty (most leaf classes have no incoming
+  references). Filters: self-references skipped (already on the
+  class's page); LOM-universal members (`_live_ptr`,
+  `canonical_parent`) skipped as members; `Live.Base.Vector` skipped
+  as a target (parametric base, every list-returning member would
+  credit it); deprecated members skipped.
+- **Step 13 — Refinement metadata surfacing.** ✅ Done. When a field
+  has a sibling `<field>_override:` block, the rendered value gets a
+  small superscript marker (`<sup class="override-marker">*</sup>`).
+  Hover or keyboard-focus the marker to reveal a structured tooltip:
+  a colored confidence chip (high=green, medium=yellow, low=red),
+  the parser-derived "Probed as" value, and a bulleted source list
+  with each bullet prefixed by an evidence-type chip (`[corpus]`,
+  `[docstring]`, `[M4L]`, `[C++ signature]`, `[sister method]`,
+  `[probe]`, `[schema]`). YAML schema extended to accept
+  `source:` as a single string OR a list of strings (one bullet per
+  independent evidence point); see `doc/lom-format.md`. Coverage:
+  property type, callable arg type, callable return type. Name
+  overrides on args intentionally not flagged (most non-trivial
+  methods have them — too common to warrant per-arg visual weight).
+- **Step 14 — Inherited methods.** ✅ Done. Inherited methods render
+  in the same `#### Inherited` block as inherited properties — one
+  line per ancestor, members comma-separated. Methods get a `()`
+  suffix on the link text so the eye picks up the kind without
+  needing to click into the signature. Same dedup machinery as
+  properties (BFS by ancestor, first occurrence wins, own-class
+  members shadow inherited copies, `__init__` filtered via
+  `SKIP_MEMBERS`). `inherited_properties_block` widened + renamed to
+  `inherited_block`. `starlight_slug` now decodes HTML entities first
+  so method anchors (`-&gt;` in source) match the rendered-page slug
+  Starlight generates from `->`.
 
-After Step 13, every field in `stubs/<v>/lom/*.yaml` (parser-derived
-fields plus override blocks) is rendered. Phase 1 is structurally complete.
-Phase 2's authored prose / hypothesis records is the next layer of
-content, not infrastructure.
+**Phase 1 is complete.** Every field in `stubs/<v>/lom/*.yaml`
+(parser-derived fields plus override blocks) flows through to the
+rendered page. Phase 2's authored prose / hypothesis records is the
+next layer — content, not infrastructure.
 
 ### Phase 1 layout decisions (locked during execution)
 
@@ -274,7 +360,11 @@ verifying via cold path.
 - A coverage tracker (probably auto-generated): which members have records,
   which records have verified hypotheses, which are still `unprobed`.
   Renders as a page on the reference site so it's visible to readers.
-- Investigation backlog: a markdown file listing members worth investigating,
+- Investigation backlog: see `doc/probe-backlog.md` (started early in
+  Phase 1 — claims authored into module/class prose ahead of the
+  probe driver are logged there for later verification). Phase 5
+  expands the file to a proper priority-ordered list of members worth
+  investigating,
   ordered by impact (Song / Track / Clip before edge cases).
 - Per-class records, one class at a time, working down a priority list.
 

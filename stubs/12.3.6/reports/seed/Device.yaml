@@ -6,6 +6,7 @@ primary_class:
   raw_doc: This class represents a MIDI or Audio DSP-Device in Live.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -137,6 +138,7 @@ primary_class:
     raw_doc: Representing the view aspects of a device.
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -160,7 +162,8 @@ primary_class:
 classes:
 - name: ATimeableValueVector
   path: Live.Device.ATimeableValueVector
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

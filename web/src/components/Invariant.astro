@@ -1,0 +1,75 @@
+---
+// vibe-coded: substantial AI-assisted authoring. Review before relying on.
+// Renders an invariant card — a predicate that always holds over a class's
+// state, displayed as a boxed unit so it stands out from prose.
+//
+// Children render as the invariant's prose description.
+//
+// Usage:
+//   <Invariant
+//     id="warp_markers_slope_in_range"
+//     predicate="all(5 <= 60 * (b.beat_time - a.beat_time) / (b.sample_time - a.sample_time) <= 999 for a, b in pairs(value))"
+//     protectedBy={[
+//       { label: "add_warp_marker.bpm_out_of_range", href: "#add_warp_marker" },
+//       { label: "move_warp_marker.bpm_out_of_range", href: "#move_warp_marker" },
+//     ]}
+//   >
+//     Every adjacent segment's local BPM must lie in `[5, 999]`.
+//   </Invariant>
+import ConfidenceBadge from "./ConfidenceBadge.astro";
+
+type Level =
+  | "verified"
+  | "verified-with-null-control"
+  | "high"
+  | "medium"
+  | "low"
+  | "intermittent"
+  | "state-dependent"
+  | "unprobed"
+  | "unprobed-precondition"
+  | "mismatch";
+
+interface Link {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  id: string;
+  predicate: string;
+  confidence?: Level;
+  protectedBy?: Link[];
+}
+
+const { id, predicate, confidence, protectedBy = [] } = Astro.props;
+---
+
+<div class="invariant-card" id={id}>
+  <div>
+    <span class="invariant-id">{id}</span>
+    {confidence && (
+      <>
+        {" "}
+        <ConfidenceBadge level={confidence} />
+      </>
+    )}
+  </div>
+  <div class="invariant-predicate">{predicate}</div>
+  <slot />
+  {
+    protectedBy.length > 0 && (
+      <div class="invariant-protected-by">
+        Protected by:{" "}
+        {protectedBy.map((link, i) => (
+          <>
+            <a href={link.href}>
+              <code>{link.label}</code>
+            </a>
+            {i < protectedBy.length - 1 && ", "}
+          </>
+        ))}
+      </div>
+    )
+  }
+</div>

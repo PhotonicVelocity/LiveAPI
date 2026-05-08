@@ -1,4 +1,8 @@
 module: Conversions
+description: |
+  Module-level functions that turn Live content from one form into another —
+  audio clips into MIDI, audio clips into a Drum Rack, drum pads into a new
+  MIDI track, and audio clips into Simpler-backed MIDI tracks.
 
 enums:
 - name: AudioToMidiType
@@ -26,10 +30,13 @@ functions:
     type_override:
       value: Live.Conversions.AudioToMidiType | int
       confidence: high
-      source: |
-        Applied per the enum-arg convention (see schema header). `AudioToMidiType`
-        enum lives in the same module; the arg name `audio_to_midi_type` is the
-        direct snake-case of the enum class name.
+      source:
+      - |
+        [schema] applied per the enum-arg convention (see schema header).
+      - |
+        [sister method] `AudioToMidiType` enum lives in the same module; the arg
+        name `audio_to_midi_type` is the direct snake-case of the enum class
+        name.
   returns:
     type: None
 
@@ -103,7 +110,7 @@ functions:
       value: Live.DrumPad.DrumPad | None
       confidence: high
       source: |
-        M4L docs list the return as `DrumPad / None`. The function moves devices
+        [M4L] docs list the return as `DrumPad / None`. The function moves devices
         INTO a drum rack pad and returns that pad; the `None` half of the union
         covers the no-op path that the M4L doc names.
 

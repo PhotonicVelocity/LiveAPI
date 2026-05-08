@@ -11,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Track.DeviceContainer
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -733,6 +734,7 @@ primary_class:
     raw_doc: Representing the view aspects of a Track.
     ancestors:
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -795,6 +797,7 @@ classes:
   raw_doc: This class is a common super class of Track and Chain
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -803,7 +806,8 @@ classes:
 - name: RoutingChannel
   path: Live.Track.RoutingChannel
   raw_doc: This class represents a routing channel.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -823,7 +827,8 @@ classes:
 - name: RoutingChannelVector
   path: Live.Track.RoutingChannelVector
   raw_doc: A container for returning routing channels from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -835,7 +840,8 @@ classes:
 - name: RoutingType
   path: Live.Track.RoutingType
   raw_doc: This class represents a routing type.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -860,7 +866,8 @@ classes:
 - name: RoutingTypeVector
   path: Live.Track.RoutingTypeVector
   raw_doc: A container for returning routing types from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

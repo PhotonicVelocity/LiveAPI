@@ -1,4 +1,8 @@
 module: ShifterDevice
+description: |
+  Represents an instance of Shifter, Live's pitch-shifter, frequency-shifter,
+  and ring-modulator audio effect. The `ShifterDevice` class extends `Device`
+  with the shifting-mode and modulation-target state unique to Shifter.
 
 primary_class:
 - name: ShifterDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

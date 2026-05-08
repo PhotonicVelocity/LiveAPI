@@ -1,0 +1,114 @@
+---
+title: LiveAPI Reference
+description: Reference documentation for Ableton Live's Python API — Live Object Model and Remote Scripts.
+template: splash
+hero:
+  title: LiveAPI
+  tagline: Reference for the Live Object Model and Remote Scripts.
+  actions:
+    - text: Start with the LOM
+      link: /LiveAPI/modules/lomobject/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/PhotonicVelocity/LiveAPI
+      icon: external
+---
+
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+> Independent reference site. Not affiliated with, endorsed by, or
+> sponsored by Ableton AG.
+
+Reference for Ableton Live's in-process Python runtime. Two concerns
+covered: the **Live Object Model** (the object hierarchy any in-Live
+script can read, mutate, and listen to) and **Remote Scripts** (the
+runtime shell — how Live loads a script, the tick cycle, the threading
+rules).
+
+The structural surface (types, listenability, settability, signatures)
+comes from runtime introspection. The behavioral surface (when a
+mutation becomes visible, what fires a listener, what raises) is being
+built up incrementally — see the [documentation
+roadmap](https://github.com/PhotonicVelocity/LiveAPI/blob/reference-doc-generator/doc/reference-roadmap.md)
+for the path.
+
+## Start here
+
+<CardGrid>
+  <LinkCard
+    title="Remote scripts"
+    href="/LiveAPI/modules/remotescripts/"
+    description="How Live loads a Python script, the 100ms tick, and the threading rules every callback obeys."
+  />
+  <LinkCard
+    title="Live Object Model"
+    href="/LiveAPI/modules/lomobject/"
+    description="Universal identity, lifetime, canonical_parent — the model every LOM class inherits."
+  />
+  <LinkCard
+    title="Listeners"
+    href="/LiveAPI/modules/listener/"
+    description="Property subscription model. add / remove / has triplets, callback lifetime, threading."
+  />
+  <LinkCard
+    title="Calling conventions"
+    href="/LiveAPI/modules/callingconventions/"
+    description="Methods and functions take positional arguments only — kwargs raise."
+  />
+</CardGrid>
+
+## How this is built
+
+Live's Python API has no published reference, so the content here is
+assembled from sources that observe the binding directly:
+
+- **Runtime introspection of a Live install.** Names, types,
+  signatures, listenability, settability, enum members, and the class
+  hierarchy come from interrogating the live binding inside a running
+  Live process. This is the structural backbone — what the API
+  *looks like*.
+- **Decompiled Ableton-shipped Remote Scripts.** Live ships ~140
+  control-surface scripts written by Ableton; their bytecode is
+  decompiled and cross-referenced as evidence of how the API is
+  *actually used* — argument names, idiomatic call sites, expected
+  types.
+- **Max for Live documentation.** The M4L proxy describes a
+  related-but-distinct API; the prose informs hover docs but is never
+  used in signatures (M4L type claims and parameter names describe
+  the proxy, not the binding).
+- **Hand-authored behavioral prose.** The introspection can tell you
+  what's there; it can't tell you *when a mutation becomes visible*,
+  *what raises*, or *what fires a listener*. That layer is
+  hand-written, marked authored where it sits alongside the runtime
+  docstring.
+
+For pipeline details, source-code structure, contributing, and
+open issues, see the [GitHub
+repository](https://github.com/PhotonicVelocity/LiveAPI).
+
+## Typed Python Stubs
+
+This site is the deeper reference behind the typed `.pyi` stubs
+shipped from the same repository. Install for autocomplete and
+static type checking — pyright and mypy auto-discover via PEP 561,
+no configuration needed:
+
+```bash
+pip install ableton-live-stubs
+```
+
+Each release pins a specific Live version.
+[Setup, usage, and bleeding-edge install instructions on GitHub.](https://github.com/PhotonicVelocity/LiveAPI#typed-python-stubs)
+
+## About
+
+<CardGrid>
+  <Card title="Live 12.3.6" icon="puzzle">
+    Tracks the latest published Live version.
+  </Card>
+  <Card title="In progress" icon="open-book">
+    Coverage grows incrementally. Members without authored prose
+    render with their structural skeleton.
+  </Card>
+</CardGrid>

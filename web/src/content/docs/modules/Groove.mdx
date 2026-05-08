@@ -1,0 +1,183 @@
+---
+title: Groove
+description: "Represents a single groove template stored in the Live Set's groove pool."
+---
+
+Represents a single groove template stored in the Live Set's groove pool.
+The `Groove` class exposes the groove's name and shaping parameters, which
+any clip can adopt to bend its timing, velocity, and timing-random feel.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.Groove.">Groove</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a groove in Live.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/groovepool/#groovepool" title="GroovePool">GroovePool</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the groove.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### base<span class="prop-type">: <a href="/LiveAPI/modules/groove/#base" title="Base">Base</a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/set the groove's base grid.
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write/listen access to the groove's name
+
+</div>
+
+</details>
+
+</div>
+
+##### quantization_amount<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write/listen access to the groove's quantization amount.
+
+</div>
+
+</details>
+
+</div>
+
+##### random_amount<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write/listen access to the groove's random amount.
+
+</div>
+
+</details>
+
+</div>
+
+##### timing_amount<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write/listen access to the groove's timing amount.
+
+</div>
+
+</details>
+
+</div>
+
+##### velocity_amount<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write/listen access to the groove's velocity amount.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 2 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#groove-groove-nonehigh-confidenceprobed-asnonedocstring-get-the-groove-associated-with-this-clipm4l-confirms-groove-return-type-and-nullability-when-no-groove-is-assigned"><span class="ref-member-name">groove</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/groove/#groove" title="Groove">Groove</a> | None</span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/groovepool/#groovepool"><code>GroovePool</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/groovepool/#grooves-vectorgroove"><span class="ref-member-name">grooves</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/groove/#groove" title="Groove">Groove</a>]</span></li>
+</ul>
+</div>
+</details>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.Groove.">Base</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>gb_four</code></td><td>0</td></tr>
+<tr><td><code>gb_eight</code></td><td>1</td></tr>
+<tr><td><code>gb_eight_triplet</code></td><td>2</td></tr>
+<tr><td><code>gb_sixteen</code></td><td>3</td></tr>
+<tr><td><code>gb_sixteen_triplet</code></td><td>4</td></tr>
+<tr><td><code>gb_thirtytwo</code></td><td>5</td></tr>
+<tr><td><code>count</code></td><td>6</td></tr>
+</table>

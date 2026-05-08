@@ -1,4 +1,8 @@
 module: DrumCellDevice
+description: |
+  Represents a Drum Sampler cell — the per-pad sampler used inside Live's
+  Drum Rack. The `DrumCellDevice` class extends `Device` with the
+  sample-loading and pad-specific controls that drive a single drum voice.
 
 primary_class:
 - name: DrumCellDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

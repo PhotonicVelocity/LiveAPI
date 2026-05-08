@@ -139,7 +139,37 @@ deep dive. URLs need to be **stable per member**, not just per class:
 Once a URL is published it doesn't move. Renames go through a redirect; deleted
 members leave a tombstone for one Live version cycle.
 
-## 8. Out of scope (v1)
+## 8. Prose style: telegraphic
+
+Authored prose throughout the LOM reference (module descriptions,
+class/member descriptions, hypothesis records, behavioral notes) is
+written telegraphically: drop articles, second-person pronouns,
+copulas, and other connective filler that doesn't load-bear meaning.
+
+Why: reference docs are scanned, not read. Each paragraph is competing
+for the reader's attention with the surrounding signature, type table,
+and metadata; padding loses to skimming. Telegraphic prose also reads
+as authoritative — closer to the runtime's terse `__doc__` strings —
+which matches the role this content plays in the artifact.
+
+Practical rules:
+
+- No "you". "Obtain instances by walking down from `Application`," not
+  "you obtain instances by walking down from `Application`."
+- Drop "the" / "a" where the noun is unambiguous. "C++ side owns
+  lifetime," not "the C++ side owns the lifetime."
+- Prefer noun phrases as section leads to full sentences when stating a
+  fact. "**Lifetime is C++-side.**" then explanatory body.
+- Keep verbs. Telegraphic prose drops articles and pronouns, not the
+  predicate — "Object holds C++ pointer" reads as a stub, not an
+  authoritative claim.
+- Imperative voice is fine in instructions; declarative voice is fine
+  in descriptions. Both stay terse.
+
+Counter-rule: if dropping a word makes a sentence ambiguous or
+introduces a garden-path reading, keep the word. Telegraphic ≠ cryptic.
+
+## 9. Out of scope (v1)
 
 - **Code examples.** The record format leaves room; rendering deferred.
 - **Multi-version side-by-side.** Docs build for the latest tracked Live
@@ -147,7 +177,7 @@ members leave a tombstone for one Live version cycle.
 - **Cross-version diff.** Useful but separate.
 - **Search-result tuning.** Default site-framework search is acceptable.
 
-## 9. Open structural questions
+## 10. Open structural questions
 
 This doc deliberately doesn't decide:
 

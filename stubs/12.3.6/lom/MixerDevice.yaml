@@ -1,4 +1,9 @@
 module: MixerDevice
+description: |
+  Represents the per-track mixer in Live. The `MixerDevice` class exposes
+  volume, panning, sends, cue volume, crossfader assignment, and track
+  activator as `DeviceParameter` objects ready for automation or remote
+  control.
 
 primary_class:
 - name: MixerDevice
@@ -8,6 +13,7 @@ primary_class:
     access to the Volume and Panning properties of a Track.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -51,6 +57,16 @@ primary_class:
   - name: panning_mode
     raw_doc: Access to the Track's Panning Mode.
     type: int
+    type_override:
+      value: Live.MixerDevice.MixerDevice.panning_modes | int
+      confidence: high
+      source:
+      - |
+        [schema] applied per the enum-arg convention (see schema header).
+      - |
+        [sister method] `panning_modes` enum lives nested inside `MixerDevice`
+        (members `stereo: 0`, `stereo_split: 1`); the property name
+        `panning_mode` is the direct snake-case of the enum.
     settable: true
     listenable:
     - add_panning_mode_listener

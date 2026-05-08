@@ -1,0 +1,2076 @@
+---
+title: Clip
+description: "Represents a clip in Live, either an audio or MIDI clip living in an Arrangement track or a Session view slot."
+---
+
+Represents a clip in Live, either an audio or MIDI clip living in an
+Arrangement track or a Session view slot. The `Clip` class drives clip
+playback, looping, warp markers, MIDI note editing, and automation envelopes.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">Clip</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a Clip in Live. It can be either an Audio Clip or a MIDI Clip, in an Arrangement or the Session, depending on the Track (Slot) it lives in.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### automation_envelopes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to a list of all automation envelopes for this clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### available_warp_modes<span class="prop-type">: <a href="/LiveAPI/modules/base/#intvector" title="IntVector">IntVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Get/Set the available warp modes, that can be used.
+
+</div>
+
+</details>
+
+</div>
+
+##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/set access to the color of the Clip (RGB).
+
+</div>
+
+</details>
+
+</div>
+
+##### color_index<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/set access to the color index of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### end_marker<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the Clips end marker pos in beats/seconds (unit depends on warping).
+
+</div>
+
+</details>
+
+</div>
+
+##### end_time<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the clip's end time.
+
+</div>
+
+</details>
+
+</div>
+
+##### file_path<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the path of the file represented by the Audio Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### gain<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Read/write access to the gain setting of the Audio Clip
+
+</div>
+
+</details>
+
+</div>
+
+##### gain_display_string<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return a string with the gain as dB value
+
+</div>
+
+</details>
+
+</div>
+
+##### groove<span class="prop-type">: <a href="/LiveAPI/modules/groove/#groove" title="Groove">Groove</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Get the groove associated with this clip."</li><li><span class="ot-tag ot-tag-m4l">M4L</span> confirms `Groove` return type and nullability when no groove is assigned.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the groove associated with this clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_envelopes<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Will notify if the clip gets his first envelope or the last envelope is removed.
+
+</div>
+
+</details>
+
+</div>
+
+##### has_groove<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns true if a groove is associated with this clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_arrangement_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return true if this Clip is an Arrangement Clip. A Clip can be either a Session or Arrangement Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_audio_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return true if this Clip is an Audio Clip. A Clip can be either an Audioclip or a MIDI Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_midi_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return true if this Clip is a MIDI Clip. A Clip can be either an Audioclip or a MIDI Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_overdubbing<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+returns true if the Clip is recording overdubs
+
+</div>
+
+</details>
+
+</div>
+
+##### is_playing<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set if this Clip is currently playing. If the Clips trigger mode is set to a quantization value, the Clip will not start playing immediately. If you need to know wether the Clip was triggered, use the is_triggered property.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_recording<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+returns true if the Clip was triggered to record or is recording.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_session_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return true if this Clip is a Session Clip. A Clip can be either a Session or Arrangement Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_take_lane_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+return true if this Clip is a Take Lane Clip. A Take Lane Clip is also always an Arrangement Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_triggered<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+returns true if the Clip was triggered or is playing.
+
+</div>
+
+</details>
+
+</div>
+
+##### launch_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#launchmode" title="LaunchMode">LaunchMode</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `LaunchMode` enum in the same module (Clip); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set access to the launch mode setting of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### launch_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#cliplaunchquantization" title="ClipLaunchQuantization">ClipLaunchQuantization</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> two enums match "launch quantization": `ClipLaunchQuantization` in Clip and `Quantization` in Song. The Clip-specific one is the right fit — its members include `q_global` (defer to song-level) and clip-specific values; `Song.Quantization` is the global setting.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set access to the launch quantization setting of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### legato<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set access to the legato setting of the Clip
+
+</div>
+
+</details>
+
+</div>
+
+##### length<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get to the Clips length in beats/seconds (unit depends on warping).
+
+</div>
+
+</details>
+
+</div>
+
+##### loop_end<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the loop end pos of this Clip in beats/seconds (unit depends on warping).
+
+</div>
+
+</details>
+
+</div>
+
+##### loop_start<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the Clips loopstart pos in beats/seconds (unit depends on warping).
+
+</div>
+
+</details>
+
+</div>
+
+##### looping<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the Clips 'loop is enabled' flag .Only Warped Audio Clips or MIDI Clip can be looped.
+
+</div>
+
+</details>
+
+</div>
+
+##### muted<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write access to the mute state of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Read/write access to the name of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### pitch_coarse<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Read/write access to the pitch (in halftones) setting of the Audio Clip, ranging from -48 to 48
+
+</div>
+
+</details>
+
+</div>
+
+##### pitch_fine<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Read/write access to the pitch fine setting of the Audio Clip, ranging from -500 to 500
+
+</div>
+
+</details>
+
+</div>
+
+##### playing_position<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Constant access to the current playing position of the clip. The returned value is the position in beats for midi and warped audio clips, or in seconds for unwarped audio clips. Stopped clips will return 0.
+
+</div>
+
+</details>
+
+</div>
+
+##### position<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the loop position of this Clip in beats/seconds (unit depends on warping).
+
+</div>
+
+</details>
+
+</div>
+
+##### ram_mode<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Read/write access to the Ram mode setting of the Audio Clip
+
+</div>
+
+</details>
+
+</div>
+
+##### sample_length<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Get the sample length in sample time or -1 if there is no sample available.
+
+</div>
+
+</details>
+
+</div>
+
+##### sample_rate<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Read-only access to the Clip's sampling rate.
+
+</div>
+
+</details>
+
+</div>
+
+##### signature_denominator<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set access to the global signature denominator of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### signature_numerator<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set access to the global signature numerator of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### start_marker<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set the Clips start marker pos in beats/seconds (unit depends on warping).
+
+</div>
+
+</details>
+
+</div>
+
+##### start_time<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the clip's start time offset. For Session View clips, this is the time the clip was started. For Arrangement View clips, this is the offset within the arrangement.
+
+</div>
+
+</details>
+
+</div>
+
+##### velocity_amount<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/Set access to the velocity to volume amount of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### view<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clipview" title="Clip.View">View</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the view of the Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### warp_markers<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmarkervector" title="WarpMarkerVector">WarpMarkerVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Get the warp markers for this audio clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### warp_mode<span class="prop-type">: <a href="/LiveAPI/modules/clip/#warpmode" title="WarpMode">WarpMode</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `WarpMode` enum in the same module (Clip); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Get/Set the warp mode for this audio clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### warping<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Get/Set if this Clip is timestreched.
+
+</div>
+
+</details>
+
+</div>
+
+##### will_record_on_start<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+returns true if the Clip will record on being started.
+
+</div>
+
+</details>
+
+</div>
+
+#### Listener Only
+
+##### loop_jump<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_loop_jump_listener</span>  ·  <span class="listener-only-method">remove_loop_jump_listener</span>  ·  <span class="listener-only-method">loop_jump_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when playback jumps at a loop boundary (loop end → loop
+start).
+
+</div>
+
+##### notes<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_notes_listener</span>  ·  <span class="listener-only-method">remove_notes_listener</span>  ·  <span class="listener-only-method">notes_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the clip's MIDI notes change. Programmatic
+triggers include `add_new_notes`, `apply_note_modifications`,
+`replace_selected_notes`, `set_notes`, `remove_notes`,
+`remove_notes_extended`, `remove_notes_by_id`, `quantize`,
+`quantize_pitch`, `crop`, `duplicate_loop`,
+`duplicate_notes_by_id`, and `duplicate_region`. Notification
+only — read the new notes via `get_notes_extended` /
+`get_all_notes_extended` after the callback.
+
+</div>
+
+##### playing_status<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_playing_status_listener</span>  ·  <span class="listener-only-method">remove_playing_status_listener</span>  ·  <span class="listener-only-method">playing_status_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the clip's transport state changes (triggered,
+playing, recording, stopped). Programmatic triggers include
+`fire` and `stop`; the Session-View clip-launch action also
+fires it. Notification only — read the new state via
+`Clip.is_playing` / `is_recording` / `is_triggered`.
+
+</div>
+
+#### Methods
+
+##### add_new_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#midinotespecification" title="MidiNoteSpecification">MidiNoteSpecification</a>]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `boost::python::api::object` (generic) — the binding doesn't enforce a specific vector class at the C++ level.</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> `apply_note_modifications` strictly takes `vector<NClipApi::TNoteInfo>`; this one is looser.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification objects."</li><li><span class="ot-tag ot-tag-corpus">corpus</span> both tuples and lists work — tuples (`(note,)` at pushbase/note_editor_component.py:611, ableton/v3/control_surface/components/note_editor.py:367) and lists (`note_specifications` at _MxDCore/MxDCore.py:820+).</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/base/#intu64vector" title="IntU64Vector">IntU64Vector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification objects. The objects will be used to construct new notes in the clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### add_warp_marker()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">warp_marker</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/clip.md: "Adds the specified warp marker, if possible."</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `add_warp_marker(..., boost::python::api::object)` — generic at the C++ level.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> runtime expects a `WarpMarker` instance — the only constructible class in `Live.Clip` matching the "warp marker" semantics; `Clip.warp_markers` returns a `WarpMarkerVector` of these.</li></ul></span></sup></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Adds the specified warp marker, if possible.
+
+</div>
+
+</details>
+
+</div>
+
+##### apply_note_modifications()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Expects a list of notes as returned from get_notes_extended. The content of the list will be used to modify existing notes in the clip, based on matching note IDs. This function should be used when modifying existing notes, e.g. changing the velocity or start time. The function ensures that per-note events attached to the modified notes are preserved. This is NOT the case when replacing notes via a combination of remove_notes_extended and add_new_notes. The given list can be a subset of the notes in the clip, but it must not contain any notes that are not present in the clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### automation_envelope()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return the envelope for the given parameter.Returns None if the envelope doesn't exist.Returns None for Arrangement clips.Returns None for parameters from a different track.
+
+</div>
+
+</details>
+
+</div>
+
+##### beat_to_sample_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">beat_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Converts the given beat time to sample time. Raises an error if the sample is not warped.
+
+</div>
+
+</details>
+
+</div>
+
+##### clear_all_envelopes()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Clears all envelopes for this clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### clear_envelope()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Clears the envelope of this clips given parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### create_automation_envelope()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Creates an envelope for a given parameter and returns it.This should only be used if the envelope doesn't exist.Raises an error if the envelope can't be created.
+
+</div>
+
+</details>
+
+</div>
+
+##### crop()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Crops the clip. The region that is cropped depends on whether the clip is looped or not. If looped, the region outside of the loop is removed. If not looped, the region outside the start and end markers is removed.
+
+</div>
+
+</details>
+
+</div>
+
+##### deselect_all_notes()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+De-selects all notes present in the clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### duplicate_loop()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Make the loop two times longer and duplicates notes and envelopes. Duplicates the clip start/end range if the clip is not looped.
+
+</div>
+
+</details>
+
+</div>
+
+##### duplicate_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `boost::python::api::object` (generic).</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> same shape as the other `*_notes_by_id` methods.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "list of note IDs".</li><li><span class="ot-tag ot-tag-corpus">corpus</span> iterables work (_MxDCore/MxDCore.py:874+ duplicates note IDs from a JSON dict via keyword call).</li></ul></span></sup></span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object | None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/clip.md says `destination_time (optional) [float/int]`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> None is the default ("if not provided, new notes will be inserted after the last selected note").</li><li><span class="ot-tag ot-tag-schema">schema</span> `float | None` covers the common case — Python's int → float conversion handles the int form.</li></ul></span></sup></span> = <span class="fn-arg-default">None</span></li><li><span class="fn-arg-name">transposition_amount</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/base/#intu64vector" title="IntU64Vector">IntU64Vector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Duplicate all notes matching the given note IDs. If the optional destination_time is not provided, new notes will be inserted after the last selected note. This behavior can be observed when duplicating notes in the Live GUI. If the transposition_amount is specified, the notes in the region will be transposed by the number of semitones. Raises an error on audio clips.
+
+</div>
+
+</details>
+
+</div>
+
+##### duplicate_region()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">region_start</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">region_length</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li><li><span class="fn-arg-name">transposition_amount</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Duplicate the notes in the specified region to the destination_time. Only notes of the specified pitch are duplicated or all if pitch is -1. If the transposition_amount is not 0, the notes in the region will be transposed by the transpose_amount of semitones.Raises an error on audio clips.
+
+</div>
+
+</details>
+
+</div>
+
+##### fire()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+(Re)Start playing this Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_all_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a list of all MIDI notes from the clip, regardless of their position relative to the start and end markers/loop start and loop end. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `boost::python::api::object` (generic, runtime-checked).</li><li><span class="ot-tag ot-tag-corpus">corpus</span> _MxDCore/MxDCore.py:864 invokes `lom_object.get_notes_by_id(id_to_note_mapping.keys())` — passes a `dict_keys` view (Iterable[int]).</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Return a list of MIDI notes matching the given note IDs."</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return a list of MIDI notes matching the given note IDs.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a list of MIDI notes from the given pitch and time range. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_selected_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a list of all MIDI notes from the clip that are currently selected. Each note is represented by a Live.Clip.MidiNote object. The returned list can be modified freely, but modifications will not be reflected in the MIDI clip until apply_note_modifications is called.
+
+</div>
+
+</details>
+
+</div>
+
+##### move_playing_pos()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Jump forward or backward by the specified relative amount in beats. Will do nothing, if the Clip is not playing.
+
+</div>
+
+</details>
+
+</div>
+
+##### move_warp_marker()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">marker_beat_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">beat_time_distance</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Moves the specified warp marker by the specified beat time amount, if possible.
+
+</div>
+
+</details>
+
+</div>
+
+##### note_number_to_name()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_pitch</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Return a human-readable name for the given MIDI note number. Takes into account the scale and tonal spelling settings of the clip, as well as the current tuning system (if any)
+
+</div>
+
+</details>
+
+</div>
+
+##### quantize()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">quantization_grid</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> enum-arg convention: the M4L name `quantization_grid` establishes the GridQuantization context.</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> `Clip.View.grid_quantization` property (typed `GridQuantization`) confirms the enum context, and `Clip.quantize_pitch` uses the same `GridQuantization | int` annotation.</li></ul></span></sup></span></li><li><span class="fn-arg-name">amount</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Quantize all notes in a clip or align warp markers.
+
+</div>
+
+</details>
+
+</div>
+
+##### quantize_pitch()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">note</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">quantization_grid</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `void quantize_pitch(TPyHandle<AClip>, int, int, float)` — int at the binding level.</li><li><span class="ot-tag ot-tag-schema">schema</span> enum-arg convention: M4L names the arg `quantization_grid`, indicating the GridQuantization context.</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> `Clip.quantize` uses the same `GridQuantization | int` annotation.</li></ul></span></sup></span></li><li><span class="fn-arg-name">amount</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Quantize all the notes of a given pitch. Raises an error on audio clips.
+
+</div>
+
+</details>
+
+</div>
+
+##### remove_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `boost::python::api::object` (generic, runtime-checked).</li><li><span class="ot-tag ot-tag-corpus">corpus</span> iterables work via _MxDCore/MxDCore.py `_object_perform_operation_on_notes_by_id_handler`, which passes the `function_parameters` tuple straight through to the binding.</li></ul></span></sup></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Delete all notes matching the given note IDs. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
+
+</div>
+
+</details>
+
+</div>
+
+##### remove_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Delete all notes starting in the given pitch and time range. This function should NOT be used to implement modification of existing notes (i.e. in combination with add_new_notes), as that leads to loss of per-note events. apply_note_modifications must be used instead for modifying existing notes.
+
+</div>
+
+</details>
+
+</div>
+
+##### remove_warp_marker()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">beat_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Removes the specified warp marker, if possible.
+
+</div>
+
+</details>
+
+</div>
+
+##### sample_to_beat_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">sample_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Converts the given sample time to beat time. Raises an error if the sample is not warped.
+
+</div>
+
+</details>
+
+</div>
+
+##### scrub()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">scrub_position</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Scrubs inside a clip. scrub_position defines the position in beats that the scrub will start from. The scrub will continue until stop_scrub is called. Global quantization applies to the scrub's position and length.
+
+</div>
+
+</details>
+
+</div>
+
+##### seconds_to_sample_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">seconds</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Available for AudioClips only. Converts the given seconds to sample time. Raises an error if the sample is warped.
+
+</div>
+
+</details>
+
+</div>
+
+##### select_all_notes()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Selects all notes present in the clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### select_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same shape as `remove_notes_by_id` (Iterable of note IDs).</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `boost::python::api::object` (generic) — binding doesn't enforce a specific container.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> iterables work via the shared `_MxDCore` handler.</li></ul></span></sup></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Selects all notes matching the given note IDs.
+
+</div>
+
+</details>
+
+</div>
+
+##### set_fire_button_state()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Set the clip's fire button state directly. Supports all launch modes.
+
+</div>
+
+</details>
+
+</div>
+
+##### stop()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Stop playing this Clip.
+
+</div>
+
+</details>
+
+</div>
+
+##### stop_scrub()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Stops the current scrub.
+
+</div>
+
+</details>
+
+</div>
+
+#### Nested types
+
+- [`Clip.View`](#clipview) — Representing the view aspects of a Clip.
+
+<details class="deprecated-section">
+<summary>Deprecated</summary>
+
+##### get_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#get_notes_extended" title="Deprecated — use get_notes_extended instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> format mirror of `get_selected_notes` (same shape) per docstring.</li><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/clip.md describes the tuple-of-tuples shape.</li></ul></span></sup></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a tuple of tuples where each inner tuple represents a note starting in the given pitch- and time range. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+</div>
+
+</details>
+
+</div>
+
+##### get_selected_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#get_selected_notes_extended" title="Deprecated — use get_selected_notes_extended instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> _MxDCore handler unpacks the same tuple-of-tuples format as `get_notes`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> confirms the mirror with `get_notes`.</li></ul></span></sup></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a tuple of tuples where each inner tuple represents a selected note. The inner tuple contains pitch, time, duration, velocity, and mute state.
+
+</div>
+
+</details>
+
+</div>
+
+##### remove_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#remove_notes_extended" title="Deprecated — use remove_notes_extended instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Delete all notes starting in the given pitch- and time range.
+
+</div>
+
+</details>
+
+</div>
+
+##### replace_selected_notes()<span class="prop-flags"><span class="prop-flag prop-flag-deprecated" aria-label="deprecated"></span></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/clip.md:345 confirms tuple-of-tuples format matching `get_selected_notes`: (pitch, time, duration, velocity, mute) per note.</li></ul></span></sup></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_selected_notes. The notes described that way will then be used to replace the old selection.
+
+</div>
+
+</details>
+
+</div>
+
+##### set_notes()<span class="prop-flags"><a class="prop-flag prop-flag-deprecated" href="#add_new_notes" title="Deprecated — use add_new_notes instead." aria-label="deprecated"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "tuple of tuples where each inner tuple represents a note".</li><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/clip.md:327 confirms tuple-of-tuples format matching `get_notes`: (pitch, time, duration, velocity, mute) per note.</li></ul></span></sup></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Called with a tuple of tuples where each inner tuple represents a note in the same format as returned by get_notes. The notes described that way will then be added to the clip.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+<details class="references-section">
+<summary>Returned by 11 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clipslot/#clipslot"><code>ClipSlot</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clipslot/#clip-clip"><span class="ref-member-name">clip</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clipslot/#create_audio_clip"><span class="ref-member-name">create_audio_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clipslot/#create_clip"><span class="ref-member-name">create_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#songview"><code>Song.View</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#detail_clip-clip-nonehigh-confidenceprobed-asnonedocstring-getset-the-clip-that-is-currently-visible-in-lives-detailviewcorpus-push-and-push2-both-read-and-assign-clip-values-here"><span class="ref-member-name">detail_clip</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a> | None</span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/takelane/#takelane"><code>TakeLane</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/takelane/#arrangement_clips-vectorclip"><span class="ref-member-name">arrangement_clips</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/takelane/#create_audio_clip"><span class="ref-member-name">create_audio_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/takelane/#create_midi_clip"><span class="ref-member-name">create_midi_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#arrangement_clips-vectorclip"><span class="ref-member-name">arrangement_clips</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#create_audio_clip"><span class="ref-member-name">create_audio_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#create_midi_clip"><span class="ref-member-name">create_midi_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#duplicate_clip_to_arrangement"><span class="ref-member-name">duplicate_clip_to_arrangement()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+</ul>
+</div>
+</details>
+
+## Other classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">MidiNote</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+An object representing a MIDI Note
+
+</div>
+
+</details>
+
+#### Properties
+
+##### duration<span class="prop-type">: float</span>
+
+##### mute<span class="prop-type">: bool</span>
+
+##### note_id<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A numerical ID that's unique within the originating clip of the note. Not to be used directly, but important for other API calls, namely apply_note_modifications.
+
+</div>
+
+</details>
+
+</div>
+
+##### pitch<span class="prop-type">: int</span>
+
+##### probability<span class="prop-type">: float</span>
+
+##### release_velocity<span class="prop-type">: float</span>
+
+##### start_time<span class="prop-type">: float</span>
+
+##### velocity<span class="prop-type">: float</span>
+
+##### velocity_deviation<span class="prop-type">: float</span>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">MidiNoteSpecification</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+An object specifying the data for creating a MIDI note. To be used with the add_new_notes function.
+
+</div>
+
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">MidiNoteVector</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A container for holding MIDI notes from Live.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### append()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 4 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_all_notes_extended"><span class="ref-member-name">get_all_notes_extended()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_notes_by_id"><span class="ref-member-name">get_notes_by_id()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_notes_extended"><span class="ref-member-name">get_notes_extended()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_selected_notes_extended"><span class="ref-member-name">get_selected_notes_extended()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">WarpMarker</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a WarpMarker type.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### beat_time<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A WarpMarker's beat time.
+
+</div>
+
+</details>
+
+</div>
+
+##### sample_time<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A WarpMarker's sample time.
+
+</div>
+
+</details>
+
+</div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">WarpMarkerVector</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A container for returning warp markers from Live.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### append()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 2 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#warp_markers-warpmarkervector"><span class="ref-member-name">warp_markers</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#warpmarkervector" title="WarpMarkerVector">WarpMarkerVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/sample/#sample"><code>Sample</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/sample/#warp_markers-warpmarkervector"><span class="ref-member-name">warp_markers</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#warpmarkervector" title="WarpMarkerVector">WarpMarkerVector</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">Clip.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Representing the view aspects of a Clip.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the clip view.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### grid_is_triplet<span class="prop-type">: bool</span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/set wether the grid is showing in triplet mode.
+
+</div>
+
+</details>
+
+</div>
+
+##### grid_quantization<span class="prop-type">: <a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get/set clip grid quantization resolution.
+
+</div>
+
+</details>
+
+</div>
+
+#### Methods
+
+##### hide_envelope()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Hide the envelope view.
+
+</div>
+
+</details>
+
+</div>
+
+##### select_envelope_parameter()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Select the given device parameter in the envelope view.
+
+</div>
+
+</details>
+
+</div>
+
+##### show_envelope()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Show the envelope view.
+
+</div>
+
+</details>
+
+</div>
+
+##### show_loop()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Show the entire loop in the detail view.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#view-view"><span class="ref-member-name">view</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clipview" title="Clip.View">View</a></span></li>
+</ul>
+</div>
+</details>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">ClipLaunchQuantization</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>q_global</code></td><td>0</td></tr>
+<tr><td><code>q_none</code></td><td>1</td></tr>
+<tr><td><code>q_8_bars</code></td><td>2</td></tr>
+<tr><td><code>q_4_bars</code></td><td>3</td></tr>
+<tr><td><code>q_2_bars</code></td><td>4</td></tr>
+<tr><td><code>q_bar</code></td><td>5</td></tr>
+<tr><td><code>q_half</code></td><td>6</td></tr>
+<tr><td><code>q_half_triplet</code></td><td>7</td></tr>
+<tr><td><code>q_quarter</code></td><td>8</td></tr>
+<tr><td><code>q_quarter_triplet</code></td><td>9</td></tr>
+<tr><td><code>q_eighth</code></td><td>10</td></tr>
+<tr><td><code>q_eighth_triplet</code></td><td>11</td></tr>
+<tr><td><code>q_sixteenth</code></td><td>12</td></tr>
+<tr><td><code>q_sixteenth_triplet</code></td><td>13</td></tr>
+<tr><td><code>q_thirtysecond</code></td><td>14</td></tr>
+</table>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">GridQuantization</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>no_grid</code></td><td>0</td></tr>
+<tr><td><code>g_8_bars</code></td><td>1</td></tr>
+<tr><td><code>g_4_bars</code></td><td>2</td></tr>
+<tr><td><code>g_2_bars</code></td><td>3</td></tr>
+<tr><td><code>g_bar</code></td><td>4</td></tr>
+<tr><td><code>g_half</code></td><td>5</td></tr>
+<tr><td><code>g_quarter</code></td><td>6</td></tr>
+<tr><td><code>g_eighth</code></td><td>7</td></tr>
+<tr><td><code>g_sixteenth</code></td><td>8</td></tr>
+<tr><td><code>g_thirtysecond</code></td><td>9</td></tr>
+<tr><td><code>count</code></td><td>10</td></tr>
+</table>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">LaunchMode</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>trigger</code></td><td>0</td></tr>
+<tr><td><code>gate</code></td><td>1</td></tr>
+<tr><td><code>toggle</code></td><td>2</td></tr>
+<tr><td><code>repeat</code></td><td>3</td></tr>
+</table>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Clip.">WarpMode</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>beats</code></td><td>0</td></tr>
+<tr><td><code>complex</code></td><td>4</td></tr>
+<tr><td><code>complex_pro</code></td><td>6</td></tr>
+<tr><td><code>repitch</code></td><td>3</td></tr>
+<tr><td><code>rex</code></td><td>5</td></tr>
+<tr><td><code>texture</code></td><td>2</td></tr>
+<tr><td><code>tones</code></td><td>1</td></tr>
+<tr><td><code>count</code></td><td>7</td></tr>
+</table>

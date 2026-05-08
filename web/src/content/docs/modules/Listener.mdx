@@ -1,0 +1,239 @@
+---
+title: Listeners
+description: "Live's observable properties expose a callback-based subscription model."
+sidebar:
+  hidden: true
+---
+
+Live's observable properties expose a callback-based subscription
+model. To listen for changes on a property, call the listener
+methods bound on its owning class — three are bound per
+observable property, derived from the property name:
+
+```
+add_<prop>_listener(callback)
+remove_<prop>_listener(callback)
+<prop>_has_listener(callback)
+```
+
+The shape is uniform across the LOM — every observable property
+exposes the same three methods, with the same callback semantics
+(covered in detail below).
+
+## Subscribing
+
+Register a callback with `add_<prop>_listener(callback)`. Live fires
+the callback when the property's value changes. The callback is
+invoked with **no arguments** — it's a notification that a change
+occurred, not a delivery of the new value. Read the current value
+by accessing the property on the owning object:
+
+```python
+def on_tempo_change():
+    print(song.transport.tempo)
+
+song.transport.add_tempo_listener(on_tempo_change)
+```
+
+Deregister via `remove_<prop>_listener(callback)`. Removal matches
+by object identity — the same function reference must be passed to
+both `add` and `remove`. Inspect via `<prop>_has_listener(callback)`,
+returning bool.
+
+## Lifetime: keep callbacks alive
+
+Live holds the registered callback for as long as the subscription
+is active, but Python's garbage collector doesn't know about that
+reference. If the only Python-side handle on the callback is the
+one inside the `add_..._listener(callback)` call itself, the
+function may be reclaimed when its surrounding scope exits — and
+the subscription becomes silently inert.
+
+Stash callbacks somewhere with a stable lifetime: a module-level
+variable, an attribute on a long-lived object, or a `ListenerVector`
+(the bookkeeping container documented below — collects multiple
+handles for bulk lifetime management).
+
+Bound methods are particularly fragile. `self.on_tempo_change`
+creates a fresh bound-method instance on every attribute access:
+
+```python
+song.transport.add_tempo_listener(self.on_tempo_change)
+...
+song.transport.remove_tempo_listener(self.on_tempo_change)
+# ↑ different bound-method instance — does not match the registration
+```
+
+Bind once, store the reference, pass that reference to both `add`
+and `remove`:
+
+```python
+self._on_tempo_change = self.on_tempo_change
+song.transport.add_tempo_listener(self._on_tempo_change)
+...
+song.transport.remove_tempo_listener(self._on_tempo_change)
+```
+
+## Threading
+
+Listener attachment runs on Live's main thread. Callback invocation
+fires synchronously when Live decides the property has changed,
+presumed (but unverified) to also run on Live's main thread. Don't
+block inside a callback — long-running work in a synchronous
+handler stalls the message pump that delivers the next event.
+Compute, queue for a worker, and return.
+
+## When the underlying object is destroyed
+
+Listeners are bound to a `LomObject` instance. When the C++ side
+destroys the underlying object — track deleted, clip removed, Set
+closed — Live **does not call the listener** to notify of the
+destruction. Subsequent attribute reads on the
+destroyed-but-still-Python-referenced LomObject typically raise;
+the subscription is simply silently inert.
+
+Code that needs to unwind subscriptions on destruction has to
+detect it by other means — typically by listening on a parent
+collection (e.g. `Song.tracks`'s listener fires on track deletion,
+with the deleted track no longer in the returned list).
+
+## Listener-only triplets
+
+Not every listener triplet has a readable attribute behind it.
+`Clip` binds `add_playing_status_listener` /
+`remove_playing_status_listener` / `playing_status_has_listener`
+to fire when a clip's transport state changes — triggered,
+playing, recording, stopped — but `clip.playing_status` itself
+isn't a Python attribute. The state is read through related
+properties (`Clip.is_playing` / `is_recording` / `is_triggered`)
+and changes through methods (`fire`, `stop`); the listener fires
+on those changes. The "playing_status" in the triplet name is
+the conceptual thing being observed, not a property to read.
+
+Same shape on `Clip.notes`, `Clip.loop_jump`, `Track.data`,
+`Song.data`, and a handful of others. Each owning class surfaces
+these in a dedicated `#### Listener Only` section on its
+reference page — separate from the regular Properties list so
+the missing type annotation isn't read as missing data. The
+subscription mechanism is identical to value-bearing observable
+properties; the difference is in how you read state, not in how
+you listen.
+
+## Bookkeeping types
+
+`ListenerHandle` and `ListenerVector` are the runtime classes
+Live's binding exposes for managing subscriptions in aggregate.
+Documented below; relevant when a long-lived component manages
+many subscriptions and wants a single container for their
+lifetimes.
+
+
+## Classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.Listener.">ListenerHandle</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a Python listener when connected to a Live property.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### listener_func<span class="prop-type">: Callable<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the original function" — functions are Callable.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the original function
+
+</div>
+
+</details>
+
+</div>
+
+##### listener_self<span class="prop-type">: Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-medium">medium confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "weak reference to original self, if it was a bound method" — can be any object instance (or None for non-bound functions). `Any` is appropriately broad but could be `Any | None` if probed.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the weak reference to original self, if it was a bound method
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-medium">medium confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Prints the name of the property that this listener is connected to" — boost.python doc-style "Prints" implies a printable string return on a property access (returns the property name as a string). ListenerHandle is internal-only (zero corpus references); raw_doc is the strongest evidence available.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Prints the name of the property that this listener is connected to
+
+</div>
+
+</details>
+
+</div>
+
+#### Methods
+
+##### disconnect()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Disconnects the listener from its property
+
+</div>
+
+</details>
+
+</div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Listener.">ListenerVector</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A read only container for accessing a list of listeners.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### append()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/listener/#listenerhandle" title="ListenerHandle">ListenerHandle</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/listener/#listenerhandle" title="ListenerHandle">ListenerHandle</a>]</span></li></ul></div></div>

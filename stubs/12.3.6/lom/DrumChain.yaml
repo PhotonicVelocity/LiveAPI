@@ -1,4 +1,8 @@
 module: DrumChain
+description: |
+  Represents a chain inside a Drum Rack — the chain triggered by a single drum
+  pad. The `DrumChain` class extends `Chain` with the inbound MIDI note,
+  outbound choke group, and other drum-rack-specific routing.
 
 primary_class:
 - name: DrumChain
@@ -8,6 +12,7 @@ primary_class:
   - Live.Chain.Chain
   - Live.Track.DeviceContainer
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

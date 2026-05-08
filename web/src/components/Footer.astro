@@ -1,0 +1,31 @@
+---
+// vibe-coded: substantial AI-assisted authoring. Review before relying on.
+// Footer override — adds a disclaimer that this site is not affiliated
+// with Ableton AG. Renders below Starlight's default footer content
+// (last-updated timestamp, prev/next links) on every page.
+import Default from "@astrojs/starlight/components/Footer.astro";
+---
+
+<Default><slot /></Default>
+
+<p class="site-disclaimer">
+  This is an independent reference site. Not affiliated with, endorsed by, or
+  sponsored by <a href="https://www.ableton.com/">Ableton AG</a>.
+  &ldquo;Ableton&rdquo;, &ldquo;Live&rdquo;, &ldquo;Push&rdquo;, and related
+  marks are trademarks of Ableton AG.
+</p>
+
+<style>
+  .site-disclaimer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--sl-color-gray-5);
+    font-size: var(--sl-text-xs);
+    color: var(--sl-color-gray-3);
+    line-height: 1.5;
+  }
+  .site-disclaimer a {
+    color: inherit;
+    text-decoration: underline;
+  }
+</style>

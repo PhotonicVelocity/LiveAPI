@@ -1,0 +1,147 @@
+---
+title: MidiMap
+description: "Defines the binding surface that control surface scripts use to map physical MIDI controls to Live parameters."
+---
+
+Defines the binding surface that control surface scripts use to map physical
+MIDI controls to Live parameters. Module-level `forward_*` and `map_*`
+functions install CC, note, and pitch-bend mappings, while `CCFeedbackRule`,
+`NoteFeedbackRule`, and `PitchBendFeedbackRule` describe the feedback values
+Live should send back to the controller.
+
+
+## Classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">CCFeedbackRule</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Structure to define feedback properties of MIDI mappings.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### cc_no<span class="prop-type">: int</span>
+
+##### cc_value_map<span class="prop-type">: tuple</span>
+
+##### channel<span class="prop-type">: int</span>
+
+##### delay_in_ms<span class="prop-type">: float</span>
+
+##### enabled<span class="prop-type">: bool</span>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">NoteFeedbackRule</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Structure to define feedback properties of MIDI mappings.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### channel<span class="prop-type">: int</span>
+
+##### delay_in_ms<span class="prop-type">: float</span>
+
+##### enabled<span class="prop-type">: bool</span>
+
+##### note_no<span class="prop-type">: int</span>
+
+##### vel_map<span class="prop-type">: tuple</span>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">PitchBendFeedbackRule</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Structure to define feedback properties of MIDI mappings.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### channel<span class="prop-type">: int</span>
+
+##### delay_in_ms<span class="prop-type">: float</span>
+
+##### enabled<span class="prop-type">: bool</span>
+
+##### value_pair_map<span class="prop-type">: tuple</span>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">MapMode</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>absolute</code></td><td>0</td></tr>
+<tr><td><code>relative_signed_bit</code></td><td>1</td></tr>
+<tr><td><code>relative_binary_offset</code></td><td>2</td></tr>
+<tr><td><code>relative_two_compliment</code></td><td>3</td></tr>
+<tr><td><code>relative_signed_bit2</code></td><td>4</td></tr>
+<tr><td><code>absolute_14_bit</code></td><td>5</td></tr>
+<tr><td><code>relative_smooth_signed_bit</code></td><td>6</td></tr>
+<tr><td><code>relative_smooth_binary_offset</code></td><td>7</td></tr>
+<tr><td><code>relative_smooth_two_compliment</code></td><td>8</td></tr>
+<tr><td><code>relative_smooth_signed_bit2</code></td><td>9</td></tr>
+</table>
+
+## Functions
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">forward_midi_cc</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">controller_number</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">should_consume_event</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">forward_midi_note</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">note</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">should_consume_event</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">forward_midi_pitchbend</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">map_midi_cc</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">controller_number</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">map_mode</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/midimap/#mapmode" title="MapMode">MapMode</a> | int</span></li><li><span class="fn-arg-name">avoid_takeover</span>: <span class="fn-arg-type">bool</span></li><li><span class="fn-arg-name">sensitivity</span>: <span class="fn-arg-type">float</span> = <span class="fn-arg-default">1.0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">map_midi_cc_with_feedback_map</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">controller_number</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">map_mode</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/midimap/#mapmode" title="MapMode">MapMode</a> | int</span></li><li><span class="fn-arg-name">feedback_rule</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/midimap/#ccfeedbackrule" title="CCFeedbackRule">CCFeedbackRule</a></span></li><li><span class="fn-arg-name">avoid_takeover</span>: <span class="fn-arg-type">bool</span></li><li><span class="fn-arg-name">sensitivity</span>: <span class="fn-arg-type">float</span> = <span class="fn-arg-default">1.0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">map_midi_note</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">note</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">map_midi_note_with_feedback_map</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">note</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">feedback_rule</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/midimap/#notefeedbackrule" title="NoteFeedbackRule">NoteFeedbackRule</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">map_midi_pitchbend</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">needs_takeover</span>: <span class="fn-arg-type">bool</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">map_midi_pitchbend_with_feedback_map</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li><li><span class="fn-arg-name">midi_channel</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">feedback_rule</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/midimap/#pitchbendfeedbackrule" title="PitchBendFeedbackRule">PitchBendFeedbackRule</a></span></li><li><span class="fn-arg-name">needs_takeover</span>: <span class="fn-arg-type">bool</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MidiMap.">send_feedback_for_parameter</span></span>()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_map_handle</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>

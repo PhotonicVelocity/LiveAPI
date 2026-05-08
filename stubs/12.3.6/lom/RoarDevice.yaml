@@ -1,4 +1,8 @@
 module: RoarDevice
+description: |
+  Represents an instance of Roar, Live's multi-stage saturation and
+  distortion effect. The `RoarDevice` class extends `Device` with the
+  routing-mode and stage-arrangement state unique to Roar.
 
 primary_class:
 - name: RoarDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

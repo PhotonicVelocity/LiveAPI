@@ -1,4 +1,8 @@
 module: MeldDevice
+description: |
+  Represents an instance of Meld, Live's bi-oscillator macro-driven
+  synthesizer. The `MeldDevice` class extends `Device` with Meld-specific
+  state on top of the inherited parameter and preset surface.
 
 primary_class:
 - name: MeldDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

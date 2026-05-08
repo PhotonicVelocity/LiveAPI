@@ -1,4 +1,8 @@
 module: TakeLane
+description: |
+  Represents a take lane on an Arrangement-view track — the comping lane that
+  collects alternate recorded passes. The `TakeLane` class exposes the lane's
+  clips, mute state, and selection used to assemble a comp.
 
 primary_class:
 - name: TakeLane
@@ -6,6 +10,7 @@ primary_class:
   raw_doc: This class represents a take lane in Live.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -49,17 +54,15 @@ primary_class:
       name_override:
         value: file_path
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
-            - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+          [M4L] external/max-for-live-docs/9.0/takelane.md names the parameter
+          `file_path`.
       type: str
     - name: arg3
       name_override:
         value: start_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
-            - arg3 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+          [M4L] external/max-for-live-docs/9.0/takelane.md names the parameter
+          `start_time`.
       type: float
     returns:
       type: Live.Clip.Clip
@@ -77,17 +80,15 @@ primary_class:
       name_override:
         value: start_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
-            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+          [M4L] external/max-for-live-docs/9.0/takelane.md names the parameter
+          `start_time`.
       type: float
     - name: arg3
       name_override:
         value: length
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
-            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/takelane.md
+          [M4L] external/max-for-live-docs/9.0/takelane.md names the parameter
+          `length`.
       type: float
     returns:
       type: Live.Clip.Clip

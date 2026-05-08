@@ -1,4 +1,8 @@
 module: MaxDevice
+description: |
+  Represents a Max for Live device hosted on a track or rack chain. The
+  `MaxDevice` class extends `Device` with hooks specific to M4L — patcher
+  loading, parameter exposure, and inter-device messaging.
 
 primary_class:
 - name: MaxDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -52,9 +57,11 @@ primary_class:
     element_type_override:
       value: Live.DeviceIO.DeviceIO
       confidence: high
-      source: |
-        raw_doc: "Const access to a list of all midi outputs of the device."
-        M4L docs (maxdevice.md): `midi_inputs list of DeviceIO read-only observe`.
+      source:
+      - |
+        [docstring] "Const access to a list of all midi outputs of the device."
+      - |
+        [M4L] maxdevice.md: `midi_inputs list of DeviceIO read-only observe`.
     settable: false
     listenable:
     - add_midi_inputs_listener
@@ -67,9 +74,11 @@ primary_class:
     element_type_override:
       value: Live.DeviceIO.DeviceIO
       confidence: high
-      source: |
-        Same shape as midi_inputs. M4L docs (maxdevice.md): `midi_outputs list of
-        DeviceIO read-only observe`.
+      source:
+      - |
+        [sister method] same shape as midi_inputs.
+      - |
+        [M4L] maxdevice.md: `midi_outputs list of DeviceIO read-only observe`.
     settable: false
     listenable:
     - add_midi_outputs_listener
@@ -87,6 +96,12 @@ primary_class:
     settable: false
 
   - name: bank_parameters_changed
+    description: |
+      Fires when the Max for Live device's bank-parameter mapping
+      reconfigures — parameter rebinding to a different bank slot
+      or a structural change to the bank set. Read the new state
+      via `get_bank_count`, `get_bank_name`, and
+      `get_bank_parameters`.
     listenable:
     - add_bank_parameters_changed_listener
     - remove_bank_parameters_changed_listener
@@ -114,8 +129,8 @@ primary_class:
       name_override:
         value: bank_index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> bank_index  [M4L docs]: external/max-for-live-docs/9.0/maxdevice.md
+          [M4L] external/max-for-live-docs/9.0/maxdevice.md names the parameter
+          `bank_index`.
       type: int
     returns:
       type: str
@@ -131,19 +146,19 @@ primary_class:
       name_override:
         value: bank_index
         source: |
-          arg2 rename — M4L docs explicitly name the parameter 'bank_index'.
-          return — M4L docs confirm `list[int]`.
-          Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
+          [M4L] external/max-for-live-docs/9.0/maxdevice.md names the parameter
+          `bank_index`.
       type: int
     returns:
       type: list
       type_override:
         value: list[int]
         confidence: high
-        source: |
-          arg2 rename — M4L docs explicitly name the parameter 'bank_index'.
-          return — M4L docs confirm `list[int]`.
-          Corpus uses: `parameter_indices = device.get_bank_parameters(bank_index)`.
+        source:
+        - |
+          [M4L] maxdevice.md confirms `list[int]`.
+        - |
+          [corpus] uses `parameter_indices = device.get_bank_parameters(bank_index)`.
 
   - name: get_value_item_icons
     raw_doc: Get a list of icon identifier strings for a list parameter's values.An empty string is given where no icon should be displayed.An empty list is given when no icons should be displayed.This is related to hardware control surfaces.
@@ -156,8 +171,8 @@ primary_class:
       name_override:
         value: device_parameter
         source: |
-          arg2 rename — inferred from C++ signature type DeviceParameter; method operates on parameter values.
-          return — description says "list of icon identifier strings".
+          [C++ signature] type `DeviceParameter`; method operates on parameter
+          values.
       type: Live.DeviceParameter.DeviceParameter
     returns:
       type: list
@@ -165,5 +180,4 @@ primary_class:
         value: list[str]
         confidence: high
         source: |
-          arg2 rename — inferred from C++ signature type DeviceParameter; method operates on parameter values.
-          return — description says "list of icon identifier strings".
+          [docstring] "list of icon identifier strings".

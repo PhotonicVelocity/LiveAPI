@@ -1,0 +1,231 @@
+---
+title: Envelope
+description: "Represents an automation or modulation envelope attached to a clip — a per-parameter timeline of breakpoints applied during playback."
+---
+
+Represents an automation or modulation envelope attached to a clip — a
+per-parameter timeline of breakpoints applied during playback. The
+`Envelope` class exposes editing primitives for inserting, moving, and
+removing events over a time range.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.Envelope.">Envelope</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents an automation or modulation envelope in Live.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section" open>
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the envelope.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+#### Methods
+
+##### delete_events_in_range()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Deletes the events in the specified time range.
+
+</div>
+
+</details>
+
+</div>
+
+##### events_in_range()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelopeeventvector" title="EnvelopeEventVector">EnvelopeEventVector</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the events in the specified time range.
+
+</div>
+
+</details>
+
+</div>
+
+##### insert_step()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Given a start time, a step length and a value, creates a step in the envelope.
+
+</div>
+
+</details>
+
+</div>
+
+##### value_at_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the parameter value at the specified time.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 3 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#automation_envelope"><span class="ref-member-name">automation_envelope()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#automation_envelopes-vectorenvelope"><span class="ref-member-name">automation_envelopes</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#create_automation_envelope"><span class="ref-member-name">create_automation_envelope()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></span></li>
+</ul>
+</div>
+</details>
+
+## Other classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.Envelope.">EnvelopeEvent</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This is a class that represents an envelope event.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### control_coefficients<span class="prop-type">: <a href="/LiveAPI/modules/envelope/#envelopeeventcontrolcoefficients" title="EnvelopeEventControlCoefficients">EnvelopeEventControlCoefficients</a></span>
+
+##### time<span class="prop-type">: float</span>
+
+##### value<span class="prop-type">: float</span>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Envelope.">EnvelopeEventControlCoefficients</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents the control coefficients of an envelope event.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### x1<span class="prop-type">: float</span>
+
+##### x2<span class="prop-type">: float</span>
+
+##### y1<span class="prop-type">: float</span>
+
+##### y2<span class="prop-type">: float</span>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/envelope/#envelopeevent"><code>EnvelopeEvent</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/envelope/#control_coefficients-envelopeeventcontrolcoefficients"><span class="ref-member-name">control_coefficients</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/envelope/#envelopeeventcontrolcoefficients" title="EnvelopeEventControlCoefficients">EnvelopeEventControlCoefficients</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Envelope.">EnvelopeEventVector</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A container for holding envelope events.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### append()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/envelope/#envelope"><code>Envelope</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/envelope/#events_in_range"><span class="ref-member-name">events_in_range()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/envelope/#envelopeeventvector" title="EnvelopeEventVector">EnvelopeEventVector</a></span></li>
+</ul>
+</div>
+</details>

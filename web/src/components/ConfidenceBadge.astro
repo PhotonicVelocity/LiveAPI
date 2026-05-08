@@ -1,0 +1,33 @@
+---
+// vibe-coded: substantial AI-assisted authoring. Review before relying on.
+// Renders a confidence-level pill. Used to flag refinement and hypothesis
+// confidence at a glance. Colors map to evidence strength:
+//   verified / verified-with-null-control → green
+//   high                                   → blue
+//   medium                                 → yellow
+//   low / intermittent / state-dependent   → orange
+//   unprobed / mismatch                    → grey
+//
+// Usage:
+//   <ConfidenceBadge level="verified" />
+//   <ConfidenceBadge level="high" />
+type Level =
+  | "verified"
+  | "verified-with-null-control"
+  | "high"
+  | "medium"
+  | "low"
+  | "intermittent"
+  | "state-dependent"
+  | "unprobed"
+  | "unprobed-precondition"
+  | "mismatch";
+
+interface Props {
+  level: Level;
+}
+
+const { level } = Astro.props;
+---
+
+<span class={`confidence-badge confidence-${level}`}>{level}</span>

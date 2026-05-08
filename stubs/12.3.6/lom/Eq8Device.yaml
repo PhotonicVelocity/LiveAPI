@@ -1,4 +1,8 @@
 module: Eq8Device
+description: |
+  Represents an instance of EQ Eight, Live's eight-band parametric equalizer.
+  The `Eq8Device` class extends `Device` with the per-band frequency, gain,
+  and Q controls plus EQ Eight's analyzer state.
 
 primary_class:
 - name: Eq8Device
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -29,8 +34,8 @@ primary_class:
       value: Live.Eq8Device.GlobalMode
       confidence: high
       source: |
-        `GlobalMode` enum in same module (Eq8Device). Property name is a direct
-        snake-case match.
+        [sister method] `GlobalMode` enum in same module (Eq8Device). Property
+        name is a direct snake-case match.
     settable: true
     listenable:
     - add_global_mode_listener
@@ -88,6 +93,7 @@ primary_class:
     ancestors:
     - Live.Device.Device.View
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python

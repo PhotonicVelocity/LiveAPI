@@ -1,0 +1,273 @@
+---
+title: MixerDevice
+description: "Represents the per-track mixer in Live."
+---
+
+Represents the per-track mixer in Live. The `MixerDevice` class exposes
+volume, panning, sends, cue volume, crossfader assignment, and track
+activator as `DeviceParameter` objects ready for automation or remote
+control.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.MixerDevice.">MixerDevice</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents a Mixer Device in Live, which gives you access to the Volume and Panning properties of a Track.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent of the mixer device.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### crossfade_assign<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Player- and ReturnTracks only: Access to the Track's Crossfade Assign State.
+
+</div>
+
+</details>
+
+</div>
+
+##### crossfader<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+MainTrack only: Const access to the Crossfader.
+
+</div>
+
+</details>
+
+</div>
+
+##### cue_volume<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+MainTrack only: Const access to the Cue Volume Parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### left_split_stereo<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the Track's Left Split Stereo Panning Device Parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### panning<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the Tracks Panning Device Parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### panning_mode<span class="prop-type">: <a href="/LiveAPI/modules/mixerdevice/#mixerdevicepanning_modes" title="MixerDevice.panning_modes">panning_modes</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> applied per the enum-arg convention (see schema header).</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> `panning_modes` enum lives nested inside `MixerDevice` (members `stereo: 0`, `stereo_split: 1`); the property name `panning_mode` is the direct snake-case of the enum.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Access to the Track's Panning Mode.
+
+</div>
+
+</details>
+
+</div>
+
+##### right_split_stereo<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the Track's Right Split Stereo Panning Device Parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### sends<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the Tracks list of Send Amount Device Parameters.
+
+</div>
+
+</details>
+
+</div>
+
+##### song_tempo<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+MainTrack only: Const access to the Song's Tempo.
+
+</div>
+
+</details>
+
+</div>
+
+##### track_activator<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the Tracks Activator Device Parameter.
+
+</div>
+
+</details>
+
+</div>
+
+##### volume<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the Tracks Volume Device Parameter.
+
+</div>
+
+</details>
+
+</div>
+
+#### Nested types
+
+- [`MixerDevice.crossfade_assignments`](#mixerdevicecrossfade_assignments)
+- [`MixerDevice.panning_modes`](#mixerdevicepanning_modes)
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#mixer_device-mixerdevice"><span class="ref-member-name">mixer_device</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/mixerdevice/#mixerdevice" title="MixerDevice">MixerDevice</a></span></li>
+</ul>
+</div>
+</details>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.MixerDevice.">MixerDevice.crossfade_assignments</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>A</code></td><td>0</td></tr>
+<tr><td><code>NONE</code></td><td>1</td></tr>
+<tr><td><code>B</code></td><td>2</td></tr>
+</table>
+
+### <span class="sig"><span class="sig-name" data-path="Live.MixerDevice.">MixerDevice.panning_modes</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>stereo</code></td><td>0</td></tr>
+<tr><td><code>stereo_split</code></td><td>1</td></tr>
+</table>

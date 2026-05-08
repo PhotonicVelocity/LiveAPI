@@ -1,4 +1,8 @@
 module: LooperDevice
+description: |
+  Represents an instance of Live's Looper audio effect. The `LooperDevice`
+  class extends `Device` with the recording/overdub/playback transport state
+  and loop length information unique to Looper.
 
 primary_class:
 - name: LooperDevice
@@ -7,6 +11,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -126,8 +131,8 @@ primary_class:
       name_override:
         value: clip_slot
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> clip_slot  [M4L docs]: external/max-for-live-docs/9.0/looperdevice.md
+          [M4L] external/max-for-live-docs/9.0/looperdevice.md names the parameter
+          `clip_slot`.
       type: Live.ClipSlot.ClipSlot
     returns:
       type: None

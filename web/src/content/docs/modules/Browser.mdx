@@ -1,0 +1,729 @@
+---
+title: Browser
+description: "Represents Live's content browser as a tree of `BrowserItem` nodes covering sounds, drums, instruments, audio and MIDI effects, samples, plug-ins, user libraries, and the current project."
+---
+
+Represents Live's content browser as a tree of `BrowserItem` nodes covering
+sounds, drums, instruments, audio and MIDI effects, samples, plug-ins, user
+libraries, and the current project. The `Browser` class lets scripts walk
+these libraries and load any browsable item into a track or device chain.
+
+
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">Browser</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents the live browser data base.
+
+</div>
+
+</details>
+
+#### Properties
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
+
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a> | None</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Get the canonical parent — the structural owner one step up the LOM tree.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+##### audio_effects<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Audio Effects content.
+
+</div>
+
+</details>
+
+</div>
+
+##### clips<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Clips content.
+
+</div>
+
+</details>
+
+</div>
+
+##### colors<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a list of browser items containing the configured colors.
+
+</div>
+
+</details>
+
+</div>
+
+##### current_project<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Current Project content.
+
+</div>
+
+</details>
+
+</div>
+
+##### drums<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Drums content.
+
+</div>
+
+</details>
+
+</div>
+
+##### filter_type<span class="prop-type">: <a href="/LiveAPI/modules/browser/#filtertype" title="FilterType">FilterType</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `FilterType` enum in the same module (Browser); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Bang triggered when the hotswap target has changed.
+
+</div>
+
+</details>
+
+</div>
+
+##### hotswap_target<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> reads `hotswap_target` as a `Device`: Push2/browser_component.py:538 does `self._browser.hotswap_target.selected_preset_index = ...`, where `selected_preset_index` is a Device-side attribute. `None` when no hotswap is active.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`, which would suggest BrowserItem; corpus pattern contradicts that for the property's runtime type.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Bang triggered when the hotswap target has changed.
+
+</div>
+
+</details>
+
+</div>
+
+##### instruments<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Instruments content.
+
+</div>
+
+</details>
+
+</div>
+
+##### max_for_live<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Max For Live content.
+
+</div>
+
+</details>
+
+</div>
+
+##### midi_effects<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Midi Effects content.
+
+</div>
+
+</details>
+
+</div>
+
+##### packs<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Packs content.
+
+</div>
+
+</details>
+
+</div>
+
+##### plugins<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Plugins content.
+
+</div>
+
+</details>
+
+</div>
+
+##### samples<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Samples content.
+
+</div>
+
+</details>
+
+</div>
+
+##### sounds<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the Sounds content.
+
+</div>
+
+</details>
+
+</div>
+
+##### user_folders<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a list of browser items containing all the user folders.
+
+</div>
+
+</details>
+
+</div>
+
+##### user_library<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a browser item with access to all the User Library content.
+
+</div>
+
+</details>
+
+</div>
+
+#### Listener Only
+
+##### full_refresh<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_full_refresh_listener</span>  ·  <span class="listener-only-method">remove_full_refresh_listener</span>  ·  <span class="listener-only-method">full_refresh_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the browser performs a full content-tree rebuild —
+typically after a library scan or plugin rescan.
+
+</div>
+
+#### Methods
+
+##### load_item()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Loads the provided browser item.
+
+</div>
+
+</details>
+
+</div>
+
+##### preview_item()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Previews the provided browser item.
+
+</div>
+
+</details>
+
+</div>
+
+##### relation_to_hotswap_target()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/browser/#relation" title="Relation">Relation</a></div></div></div>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns the relation between the given browser item and the current hotswap target
+
+</div>
+
+</details>
+
+</div>
+
+##### stop_preview()
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Stop the current preview.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="deprecated-section">
+<summary>Deprecated</summary>
+
+##### legacy_libraries<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><span class="prop-flag prop-flag-deprecated" aria-label="deprecated"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed.
+
+</div>
+
+</details>
+
+</div>
+
+</details>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/application/#application"><code>Application</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/application/#browser-browser"><span class="ref-member-name">browser</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browser" title="Browser">Browser</a></span></li>
+</ul>
+</div>
+</details>
+
+## Other classes
+
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">BrowserItem</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class represents an item of the browser hierarchy.
+
+</div>
+
+</details>
+
+#### Properties
+
+##### children<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the descendants of this browser item.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_device<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Indicates if the browser item represents a device.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_folder<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Indicates if the browser item represents folder.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_loadable<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+True if item can be loaded via the Browser's 'load_item' method.
+
+</div>
+
+</details>
+
+</div>
+
+##### is_selected<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+True if the item is ancestor of or the actual selection.
+
+</div>
+
+</details>
+
+</div>
+
+##### iter_children<span class="prop-type">: <a href="/LiveAPI/modules/browser/#browseritemiterator" title="BrowserItemIterator">BrowserItemIterator</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const iterable access to the descendants of this browser item.
+
+</div>
+
+</details>
+
+</div>
+
+##### name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Const access to the canonical display name of this browser item.
+
+</div>
+
+</details>
+
+</div>
+
+##### source<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+Specifies where does item come from -- i.e. Live pack, user library...
+
+</div>
+
+</details>
+
+</div>
+
+##### uri<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+The uri describes a unique identifier for a browser item.
+
+</div>
+
+</details>
+
+</div>
+
+<details class="references-section">
+<summary>Returned by 12 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/browser/#browser"><code>Browser</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#audio_effects-browseritem"><span class="ref-member-name">audio_effects</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#clips-browseritem"><span class="ref-member-name">clips</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#current_project-browseritem"><span class="ref-member-name">current_project</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#drums-browseritem"><span class="ref-member-name">drums</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#instruments-browseritem"><span class="ref-member-name">instruments</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#max_for_live-browseritem"><span class="ref-member-name">max_for_live</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#midi_effects-browseritem"><span class="ref-member-name">midi_effects</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#packs-browseritem"><span class="ref-member-name">packs</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#plugins-browseritem"><span class="ref-member-name">plugins</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#samples-browseritem"><span class="ref-member-name">samples</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#sounds-browseritem"><span class="ref-member-name">sounds</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#user_library-browseritem"><span class="ref-member-name">user_library</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">BrowserItemIterator</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class iterates over children of another BrowserItem.
+
+</div>
+
+</details>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/browser/#browseritem"><code>BrowserItem</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#iter_children-browseritemiterator"><span class="ref-member-name">iter_children</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritemiterator" title="BrowserItemIterator">BrowserItemIterator</a></span></li>
+</ul>
+</div>
+</details>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">BrowserItemVector</span></span>
+
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A container for returning browser items from Live.
+
+</div>
+
+</details>
+
+#### Methods
+
+##### append()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 3 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/browser/#browser"><code>Browser</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#colors-browseritemvector"><span class="ref-member-name">colors</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#user_folders-browseritemvector"><span class="ref-member-name">user_folders</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/browser/#browseritem"><code>BrowserItem</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#children-browseritemvector"><span class="ref-member-name">children</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/browser/#browseritemvector" title="BrowserItemVector">BrowserItemVector</a></span></li>
+</ul>
+</div>
+</details>
+
+## Enums
+
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">FilterType</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>disabled</code></td><td>-1</td></tr>
+<tr><td><code>hotswap_off</code></td><td>0</td></tr>
+<tr><td><code>instrument_hotswap</code></td><td>1</td></tr>
+<tr><td><code>audio_effect_hotswap</code></td><td>2</td></tr>
+<tr><td><code>midi_effect_hotswap</code></td><td>3</td></tr>
+<tr><td><code>drum_pad_hotswap</code></td><td>4</td></tr>
+<tr><td><code>midi_track_devices</code></td><td>5</td></tr>
+<tr><td><code>samples</code></td><td>6</td></tr>
+<tr><td><code>count</code></td><td>7</td></tr>
+</table>
+
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">Relation</span></span>
+
+#### Members
+
+<table class="enum-members">
+<tr><td><code>ancestor</code></td><td>0</td></tr>
+<tr><td><code>equal</code></td><td>1</td></tr>
+<tr><td><code>descendant</code></td><td>2</td></tr>
+<tr><td><code>none</code></td><td>3</td></tr>
+</table>

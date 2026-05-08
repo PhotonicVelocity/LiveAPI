@@ -1,4 +1,9 @@
 module: Browser
+description: |
+  Represents Live's content browser as a tree of `BrowserItem` nodes covering
+  sounds, drums, instruments, audio and MIDI effects, samples, plug-ins, user
+  libraries, and the current project. The `Browser` class lets scripts walk
+  these libraries and load any browsable item into a track or device chain.
 
 primary_class:
 - name: Browser
@@ -6,6 +11,7 @@ primary_class:
   raw_doc: This class represents the live browser data base.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -44,8 +50,8 @@ primary_class:
       value: Live.Browser.FilterType
       confidence: high
       source: |
-        `FilterType` enum in same module (Browser). Property name is a direct
-        snake-case match.
+        [schema] `FilterType` enum in the same module (Browser); property
+        name is a direct snake-case match.
     settable: true
     listenable:
     - add_filter_type_listener
@@ -58,13 +64,18 @@ primary_class:
     type_override:
       value: Live.Device.Device | None
       confidence: high
-      source: |
-        Corpus reads `hotswap_target` as a `Device`: Push2/browser_component.py:538
-        does `self._browser.hotswap_target.selected_preset_index = ...`, where
-        `selected_preset_index` is a Device-side attribute. The C++ signature on
-        sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`,
-        which would suggest BrowserItem, but the corpus pattern contradicts that
-        for the property's runtime type. `None` when no hotswap is active.
+      source:
+      - |
+        [corpus] reads `hotswap_target` as a `Device`:
+        Push2/browser_component.py:538 does
+        `self._browser.hotswap_target.selected_preset_index = ...`, where
+        `selected_preset_index` is a Device-side attribute. `None` when no
+        hotswap is active.
+      - |
+        [C++ signature] sister `relation_to_hotswap_target` takes
+        `NPythonBrowser::TPythonBrowserItem`, which would suggest
+        BrowserItem; corpus pattern contradicts that for the property's
+        runtime type.
     settable: true
     listenable:
     - add_hotswap_target_listener
@@ -78,6 +89,7 @@ primary_class:
 
   - name: legacy_libraries
     raw_doc: Returns a list of browser items containing the installed legacy libraries. The list is always empty as legacy library handling has been removed.
+    deprecated: true
     type: Live.Browser.BrowserItemVector
     settable: false
 
@@ -122,6 +134,9 @@ primary_class:
     settable: false
 
   - name: full_refresh
+    description: |
+      Fires when the browser performs a full content-tree rebuild —
+      typically after a library scan or plugin rescan.
     listenable:
     - add_full_refresh_listener
     - remove_full_refresh_listener
@@ -138,11 +153,11 @@ primary_class:
     - name: arg2
       name_override:
         value: item
-        source: |
-          Arg names verified against corpus / docstring:
-            - arg2 -> item  [docstring]: "Loads the provided browser item." Browser
-              is not in the M4L docs surface, so this is the strongest evidence.
-              C++ signature confirms the parameter type is BrowserItem.
+        source:
+        - |
+          [docstring] "Loads the provided browser item."
+        - |
+          [C++ signature] confirms the parameter type is BrowserItem.
       type: Live.Browser.BrowserItem
     returns:
       type: None
@@ -158,9 +173,7 @@ primary_class:
       name_override:
         value: item
         source: |
-          Arg names verified against corpus / docstring:
-            - arg2 -> item  [docstring]: "Previews the provided browser item." Same
-              situation as load_item — Browser is not in the M4L docs surface.
+          [docstring] "Previews the provided browser item."
       type: Live.Browser.BrowserItem
     returns:
       type: None
@@ -176,8 +189,8 @@ primary_class:
       name_override:
         value: item
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> item  [docstring]: description says 'relation between the given browser item' - parameter is the item
+          [docstring] "relation between the given browser item" — parameter
+          is the item.
       type: Live.Browser.BrowserItem
     returns:
       type: Live.Browser.Relation
@@ -196,7 +209,8 @@ classes:
 - name: BrowserItem
   path: Live.Browser.BrowserItem
   raw_doc: This class represents an item of the browser hierarchy.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -235,8 +249,8 @@ classes:
       value: Live.Browser.BrowserItem
       confidence: high
       source: |
-        Corpus Push2/browser_component.py:676 iterates browser items via this
-        property — confirms `BrowserItem` element type.
+        [corpus] Push2/browser_component.py:676 iterates browser items via
+        this property — confirms `BrowserItem` element type.
     settable: false
 
   - name: name
@@ -257,7 +271,8 @@ classes:
 - name: BrowserItemIterator
   path: Live.Browser.BrowserItemIterator
   raw_doc: This class iterates over children of another BrowserItem.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -266,14 +281,18 @@ classes:
   element_type_override:
     value: Live.Browser.BrowserItem
     confidence: high
-    source: |
-      raw_doc confirms; corpus Push2/browser_list.py:63 isinstance check against
-      this class.
+    source:
+    - |
+      [docstring] confirms.
+    - |
+      [corpus] Push2/browser_list.py:63 isinstance check against this
+      class.
 
 - name: BrowserItemVector
   path: Live.Browser.BrowserItemVector
   raw_doc: A container for returning browser items from Live.
-  ancestors: []
+  ancestors:
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

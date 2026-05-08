@@ -1,4 +1,8 @@
 module: DeviceIO
+description: |
+  Represents an audio input or output bus on a Max for Live device — the
+  type used by `MaxDevice.audio_inputs` and `MaxDevice.audio_outputs` to
+  expose the bus's available routing targets and current selection.
 
 primary_class:
 - name: DeviceIO
@@ -6,6 +10,7 @@ primary_class:
   raw_doc: This class represents a specific input or output bus of a device.
   ancestors:
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python

@@ -1,4 +1,9 @@
 module: RackDevice
+description: |
+  Represents a Rack — Instrument, Drum, Audio Effect, or MIDI Effect — as a
+  `Device` whose chains and macro controls are exposed to the LOM. The
+  `RackDevice` class extends `Device` with the chain list, macro mappings, and
+  variation/preset state unique to racks.
 
 primary_class:
 - name: RackDevice
@@ -7,6 +12,7 @@ primary_class:
   ancestors:
   - Live.Device.Device
   - Live.LomObject.LomObject
+  - Boost.Python.instance
   init_doc: |-
     Raises an exception
     This class cannot be instantiated from Python
@@ -29,11 +35,13 @@ primary_class:
     element_type_override:
       value: Live.Chain.Chain
       confidence: high
-      source: |
-        M4L docs (rackdevice.md): `chains list of Chain read-only observe`.
-        Corpus: Push2/convert.py:28 reads `drum_pad.chains[0]` (DrumPad shares the
-        Chain element type via the rack chain hierarchy); pushbase widely
-        iterates rack chains.
+      source:
+      - |
+        [M4L] rackdevice.md: `chains list of Chain read-only observe`.
+      - |
+        [corpus] Push2/convert.py:28 reads `drum_pad.chains[0]` (DrumPad
+        shares the Chain element type via the rack chain hierarchy);
+        pushbase widely iterates rack chains.
     settable: false
     listenable:
     - add_chains_listener
@@ -116,9 +124,12 @@ primary_class:
     element_type_override:
       value: Live.Chain.Chain
       confidence: high
-      source: |
-        M4L docs (rackdevice.md): `return_chains list of Chain read-only observe`.
-        Same shape as chains; the rack's return_chains hold Chain instances.
+      source:
+      - |
+        [M4L] rackdevice.md: `return_chains list of Chain read-only observe`.
+      - |
+        [sister method] same shape as chains; the rack's return_chains hold Chain
+        instances.
     settable: false
     listenable:
     - add_return_chains_listener
@@ -184,17 +195,15 @@ primary_class:
       name_override:
         value: source_index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
-            - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+          [M4L] external/max-for-live-docs/9.0/rackdevice.md names the parameter
+          `source_index`.
       type: int
     - name: arg3
       name_override:
         value: destination_index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> source_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
-            - arg3 -> destination_index  [M4L docs]: external/max-for-live-docs/9.0/rackdevice.md
+          [M4L] external/max-for-live-docs/9.0/rackdevice.md names the parameter
+          `destination_index`.
       type: int
     returns:
       type: None
@@ -225,9 +234,11 @@ primary_class:
       type_override:
         value: Live.Chain.Chain
         confidence: high
-        source: |
-          M4L docs (rackdevice.md) name the return as `Chain`; raw_doc: "Insert a
-          new empty chain at the given index".
+        source:
+        - |
+          [M4L] rackdevice.md names the return as `Chain`.
+        - |
+          [docstring] "Insert a new empty chain at the given index".
 
   - name: randomize_macros
     raw_doc: Randomizes the values for all macro controls not excluded from randomization.
@@ -286,6 +297,7 @@ primary_class:
     ancestors:
     - Live.Device.Device.View
     - Live.LomObject.LomObject
+    - Boost.Python.instance
     init_doc: |-
       Raises an exception
       This class cannot be instantiated from Python
@@ -326,9 +338,12 @@ primary_class:
       type_override:
         value: Live.Chain.Chain | None
         confidence: high
-        source: |
-          Docstring: "Return access to the currently selected chain." Corpus-verified —
-          Ableton's pushbase / Push2 read and assign Chain values to this property.
+        source:
+        - |
+          [docstring] "Return access to the currently selected chain."
+        - |
+          [corpus] Ableton's pushbase / Push2 read and assign Chain values to this
+          property.
       settable: true
       listenable:
       - add_selected_chain_listener
