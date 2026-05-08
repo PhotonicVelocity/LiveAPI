@@ -1626,6 +1626,42 @@ Called with a tuple of tuples where each inner tuple represents a note in the sa
 
 </details>
 
+<details class="references-section">
+<summary>Returned by 11 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clipslot/#clipslot"><code>ClipSlot</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clipslot/#clip-clip"><span class="ref-member-name">clip</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clipslot/#create_audio_clip"><span class="ref-member-name">create_audio_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clipslot/#create_clip"><span class="ref-member-name">create_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#songview"><code>Song.View</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#detail_clip-clip-none"><span class="ref-member-name">detail_clip</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a> | None</span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/takelane/#takelane"><code>TakeLane</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/takelane/#arrangement_clips-vectorclip"><span class="ref-member-name">arrangement_clips</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/takelane/#create_audio_clip"><span class="ref-member-name">create_audio_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/takelane/#create_midi_clip"><span class="ref-member-name">create_midi_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#arrangement_clips-vectorclip"><span class="ref-member-name">arrangement_clips</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#create_audio_clip"><span class="ref-member-name">create_audio_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#create_midi_clip"><span class="ref-member-name">create_midi_clip()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#duplicate_clip_to_arrangement"><span class="ref-member-name">duplicate_clip_to_arrangement()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li>
+</ul>
+</div>
+</details>
+
 ## Other classes
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Clip.">MidiNote</span></span>
@@ -1712,6 +1748,20 @@ A container for holding MIDI notes from Live.
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a>]</span></li></ul></div></div>
 
+<details class="references-section">
+<summary>Returned by 4 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_all_notes_extended"><span class="ref-member-name">get_all_notes_extended()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_notes_by_id"><span class="ref-member-name">get_notes_by_id()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_notes_extended"><span class="ref-member-name">get_notes_extended()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#get_selected_notes_extended"><span class="ref-member-name">get_selected_notes_extended()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li>
+</ul>
+</div>
+</details>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Clip.">WarpMarker</span></span>
 
 <details class="raw-doc-toggle" open>
@@ -1783,6 +1833,23 @@ A container for returning warp markers from Live.
 ##### extend()
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 2 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#warp_markers-warpmarkervector"><span class="ref-member-name">warp_markers</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#warpmarkervector" title="WarpMarkerVector">WarpMarkerVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/sample/#sample"><code>Sample</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/sample/#warp_markers-warpmarkervector"><span class="ref-member-name">warp_markers</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#warpmarkervector" title="WarpMarkerVector">WarpMarkerVector</a></span></li>
+</ul>
+</div>
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Clip.">Clip.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -1928,6 +1995,17 @@ Show the entire loop in the detail view.
 </details>
 
 </div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/clip/#clip"><code>Clip</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/clip/#view-view"><span class="ref-member-name">view</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/clip/#clipview" title="Clip.View">View</a></span></li>
+</ul>
+</div>
+</details>
 
 ## Enums
 

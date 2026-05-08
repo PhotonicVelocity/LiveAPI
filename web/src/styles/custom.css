@@ -292,6 +292,80 @@
   transform: rotate(90deg);
 }
 
+/* References section — collapsed `<details>` block at the very bottom
+   of a class. Lists every member elsewhere in the LOM whose type or
+   return is this class, grouped by owner. Same chrome as the
+   inherited-section block (neutral gray) so it reads as a structural
+   navigation aid, not a primary content section. */
+.sl-markdown-content details.references-section {
+  margin: 1rem 0 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  background: var(--sl-color-bg-sidebar);
+}
+.sl-markdown-content details.references-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-gray-3);
+  font-size: var(--sl-text-sm);
+  list-style: none;
+  user-select: none;
+}
+.sl-markdown-content details.references-section > summary::-webkit-details-marker {
+  display: none;
+}
+.sl-markdown-content details.references-section > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.references-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+.sl-markdown-content details.references-section .ref-group {
+  margin-top: 0.75rem;
+}
+.sl-markdown-content details.references-section .ref-owner {
+  display: inline-block;
+  font-family: var(--sl-font-system-mono);
+  text-decoration: none;
+  color: var(--sl-color-text);
+}
+.sl-markdown-content details.references-section .ref-owner > code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+}
+.sl-markdown-content details.references-section .ref-owner:hover {
+  text-decoration: underline;
+}
+.sl-markdown-content details.references-section .ref-members {
+  list-style: none;
+  margin: 0.15rem 0 0 0;
+  padding-left: 1.5rem;
+}
+.sl-markdown-content details.references-section .ref-members li {
+  font-family: var(--sl-font-system-mono);
+  font-size: var(--sl-text-sm);
+  margin: 0.1rem 0;
+}
+.sl-markdown-content details.references-section .ref-member-link {
+  text-decoration: none;
+  color: inherit;
+}
+.sl-markdown-content details.references-section .ref-member-link:hover {
+  text-decoration: underline;
+}
+.sl-markdown-content details.references-section .ref-arrow,
+.sl-markdown-content details.references-section .ref-sep {
+  color: var(--sl-color-gray-3);
+}
+
 /* Deprecated chip — amber warning style. Marks a member that's been
    superseded by a newer one. When a `replaced_by:` value is set on
    the YAML's `deprecated:` field, the chip is an `<a>` linking to

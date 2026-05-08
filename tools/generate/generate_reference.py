@@ -98,6 +98,13 @@ _TYPE_TOKEN_RE = re.compile(
 # `Live.Base.Vector[Live.Clip.Clip] | None` → `Vector[Clip] | None`.
 _LIVE_PREFIX_RE = re.compile(r"\bLive\.\w+\.")
 
+# Match every fully-qualified Live class identifier in a type string.
+# Used by the references-index builder to pull out cross-reference
+# targets from property `type:` and method `returns.type:` fields.
+# `Live.Base.Vector[Live.Clip.Clip] | None` matches both
+# `Live.Base.Vector` and `Live.Clip.Clip`.
+_LIVE_CLASS_RE = re.compile(r"\bLive(?:\.[A-Z][A-Za-z0-9_]*)+\b")
+
 
 # --- Override-aware field access --------------------------------------- #
 
@@ -779,6 +786,131 @@ def build_class_index(modules: dict[str, dict]) -> dict[str, tuple[str, dict]]:
     return index
 
 
+def build_references_index(
+    modules: dict[str, dict],
+    registry: dict[str, str],
+) -> dict[str, list[dict]]:
+    """Return `{qualified_target_path: [reference, ...]}` capturing every
+    property `type:` and method `returns.type:` reference to a Live class.
+
+    Drives the per-class "Referenced by" section. Each reference record:
+
+        {
+          "owner_module":   str,
+          "owner_display":  str,   # `Track`, `Application.View`, ...
+          "owner_anchor":   str,   # owner class's H3 anchor on its page
+          "member_name":    str,
+          "member_anchor":  str,   # member's H5 anchor on owner's page
+          "kind":           "property" | "return",
+          "type_str":       str,   # the original qualified type annotation
+        }
+
+    Filtering rules:
+      - Self-references (a class's member that references the class
+        itself, e.g. `Track.group_track: Track | None`) are skipped —
+        the reader is already on the class's page.
+      - LOM-universal members (`_live_ptr`, `canonical_parent`) are
+        skipped — they declare on every LomObject class and would
+        dominate every target's reference list with the same noise.
+      - `Live.Base.Vector` is skipped as a target — the parametric
+        base is referenced by every list-returning member in the LOM
+        and is structural, not a navigable destination. Concrete
+        XVector classes still register references.
+      - Deprecated members are skipped — surfacing a class as
+        "referenced by `set_notes` (deprecated)" misleads readers
+        toward an API they shouldn't call.
+    """
+    index: dict[str, list[dict]] = {}
+    universal = {"_live_ptr", "canonical_parent"}
+    skip_targets = {"Live.Base.Vector"}
+
+    def emit(target: str, record: dict) -> None:
+        if target in skip_targets:
+            return
+        index.setdefault(target, []).append(record)
+
+    def extract_targets(type_str: object) -> list[str]:
+        if not isinstance(type_str, str):
+            return []
+        return _LIVE_CLASS_RE.findall(type_str)
+
+    def walk_class(cls: dict, owner_module: str, prefix: str = "") -> None:
+        if not isinstance(cls, dict):
+            return
+        name = cls.get("name")
+        if not name:
+            return
+        owner_display = f"{prefix}.{name}" if prefix else name
+        owner_path = cls.get("path") or ""
+        owner_anchor = owner_display.lower().replace(".", "")
+
+        for prop in cls.get("properties") or []:
+            if _resolve(prop, "deprecated"):
+                continue
+            mname = _resolve(prop, "name")
+            if not mname or mname in universal:
+                continue
+            type_str = _resolve(prop, "type")
+            targets = extract_targets(type_str)
+            if not targets:
+                continue
+            heading = property_heading_html(prop, registry, current_module=owner_module)
+            member_anchor = starlight_slug(heading)
+            for target in targets:
+                if target == owner_path:
+                    continue
+                emit(target, {
+                    "owner_module": owner_module,
+                    "owner_display": owner_display,
+                    "owner_anchor": owner_anchor,
+                    "member_name": mname,
+                    "member_anchor": member_anchor,
+                    "kind": "property",
+                    "type_str": type_str,
+                })
+
+        for method in cls.get("methods") or []:
+            if _resolve(method, "deprecated"):
+                continue
+            mname = _resolve(method, "name")
+            if not mname:
+                continue
+            returns = method.get("returns") or {}
+            ret_type = (
+                _resolve(returns, "type") if isinstance(returns, dict) else None
+            )
+            if not ret_type or ret_type == "None":
+                continue
+            targets = extract_targets(ret_type)
+            if not targets:
+                continue
+            heading = method_signature_html(method)
+            member_anchor = starlight_slug(heading)
+            for target in targets:
+                if target == owner_path:
+                    continue
+                emit(target, {
+                    "owner_module": owner_module,
+                    "owner_display": owner_display,
+                    "owner_anchor": owner_anchor,
+                    "member_name": mname,
+                    "member_anchor": member_anchor,
+                    "kind": "return",
+                    "type_str": ret_type,
+                })
+
+        for nested in cls.get("classes") or []:
+            walk_class(nested, owner_module, owner_display)
+
+    for module_name, doc in modules.items():
+        for top in doc.get("primary_class") or []:
+            walk_class(top, module_name)
+        for top in doc.get("classes") or []:
+            walk_class(top, module_name)
+
+    return index
+
+
 def resolve_lom_universal(
     cls: dict,
     class_index: dict[str, tuple[str, dict]],
@@ -1009,6 +1141,7 @@ def render_module_page(
     doc: dict,
     registry: dict[str, str],
     class_index: dict[str, tuple[str, dict]] | None = None,
+    references_index: dict[str, list[dict]] | None = None,
 ) -> str:
     """Render one module's MDX page (Step 5: properties + inherited).
 
@@ -1022,6 +1155,8 @@ def render_module_page(
     """
     if class_index is None:
         class_index = {}
+    if references_index is None:
+        references_index = {}
     # Hand-authored module description (per doc/lom-format.md). Falls back
     # to a visible placeholder so empty modules are obvious to writers.
     description = doc.get("description") or "_No module description._"
@@ -1431,6 +1566,82 @@ def render_module_page(
             lines.append('</details>')
             lines.append("")
 
+        # References — every member elsewhere in the LOM whose type or
+        # return is this class. Collapsed by default; gated on
+        # non-empty (most non-data-bearing classes have nothing here).
+        # Sits at the very bottom of the class block so the class's
+        # own structural surface (Properties, Methods, Nested types,
+        # Deprecated) reads first.
+        class_path = cls.get("path")
+        refs = references_index.get(class_path, []) if class_path else []
+        if refs:
+            refs_sorted = sorted(
+                refs,
+                key=lambda r: (
+                    r["owner_module"], r["owner_display"], r["member_name"],
+                ),
+            )
+            count = len(refs_sorted)
+            label = (
+                f"Returned by {count} member"
+                f"{'s' if count != 1 else ''} elsewhere in the LOM"
+            )
+            lines.append('<details class="references-section">')
+            lines.append(f'<summary>{label}</summary>')
+            lines.append("")
+            current_owner: str | None = None
+            current_anchor = ""
+            current_module = ""
+            for ref in refs_sorted:
+                owner_display = ref["owner_display"]
+                if owner_display != current_owner:
+                    if current_owner is not None:
+                        lines.append('</ul>')
+                        lines.append('</div>')
+                    current_owner = owner_display
+                    current_anchor = ref["owner_anchor"]
+                    current_module = ref["owner_module"]
+                    href = (
+                        f'{DOCS_URL_BASE}/{current_module.lower()}/'
+                        f'#{current_anchor}'
+                    )
+                    lines.append('<div class="ref-group">')
+                    lines.append(
+                        f'<a class="ref-owner" href="{href}">'
+                        f'<code>{owner_display}</code></a>'
+                    )
+                    lines.append('<ul class="ref-members">')
+                type_html = linkify_type(
+                    display_type(ref["type_str"]), registry,
+                    current_module=module_name,
+                )
+                member_href = (
+                    f'{DOCS_URL_BASE}/{ref["owner_module"].lower()}/'
+                    f'#{ref["member_anchor"]}'
+                )
+                if ref["kind"] == "return":
+                    inner = (
+                        f'<a class="ref-member-link" href="{member_href}">'
+                        f'<span class="ref-member-name">'
+                        f'{ref["member_name"]}()</span></a>'
+                        f'<span class="ref-arrow"> → </span>'
+                        f'<span class="ref-type">{type_html}</span>'
+                    )
+                else:
+                    inner = (
+                        f'<a class="ref-member-link" href="{member_href}">'
+                        f'<span class="ref-member-name">'
+                        f'{ref["member_name"]}</span></a>'
+                        f'<span class="ref-sep">: </span>'
+                        f'<span class="ref-type">{type_html}</span>'
+                    )
+                lines.append(f'<li>{inner}</li>')
+            if current_owner is not None:
+                lines.append('</ul>')
+                lines.append('</div>')
+            lines.append('</details>')
+            lines.append("")
+
     if main_class is not None:
         emit_class(main_class)
 
@@ -1549,12 +1760,15 @@ def main() -> int:
 
     registry = build_class_registry(modules)
     class_index = build_class_index(modules)
+    references_index = build_references_index(modules, registry)
 
     written = 0
     for module_name, doc in modules.items():
         out_file = out_dir / relpath_for(module_name)
         out_file.parent.mkdir(parents=True, exist_ok=True)
-        out_file.write_text(render_module_page(module_name, doc, registry, class_index))
+        out_file.write_text(render_module_page(
+            module_name, doc, registry, class_index, references_index,
+        ))
         written += 1
 
     print(f"Wrote {written} module pages to {out_dir.relative_to(REPO_ROOT)}/")

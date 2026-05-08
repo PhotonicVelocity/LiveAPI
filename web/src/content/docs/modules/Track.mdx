@@ -1270,6 +1270,35 @@ Stop running and triggered clip and slots on this track.
 - [`Track.View`](#trackview) — Representing the view aspects of a Track.
 - [`Track.monitoring_states`](#trackmonitoring_states)
 
+<details class="references-section">
+<summary>Returned by 9 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#create_audio_track"><span class="ref-member-name">create_audio_track()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#create_midi_track"><span class="ref-member-name">create_midi_track()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#create_return_track"><span class="ref-member-name">create_return_track()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#master_track-track"><span class="ref-member-name">master_track</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#return_tracks-vectortrack"><span class="ref-member-name">return_tracks</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/track/#track" title="Track">Track</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#tracks-vectortrack"><span class="ref-member-name">tracks</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/track/#track" title="Track">Track</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#visible_tracks-vectortrack"><span class="ref-member-name">visible_tracks</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/track/#track" title="Track">Track</a>]</span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#songview"><code>Song.View</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#selected_track-track"><span class="ref-member-name">selected_track</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#routingtype"><code>RoutingType</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#attached_object-track"><span class="ref-member-name">attached_object</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span></li>
+</ul>
+</div>
+</details>
+
 ## Other classes
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">DeviceContainer</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
@@ -1383,6 +1412,30 @@ The routing channel's Layout, e.g., mono or stereo.
 
 </div>
 
+<details class="references-section">
+<summary>Returned by 4 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/compressordevice/#compressordevice"><code>CompressorDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/compressordevice/#input_routing_channel-routingchannel"><span class="ref-member-name">input_routing_channel</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/deviceio/#deviceio"><code>DeviceIO</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/deviceio/#routing_channel-routingchannel"><span class="ref-member-name">routing_channel</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#input_routing_channel-routingchannel"><span class="ref-member-name">input_routing_channel</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#output_routing_channel-routingchannel"><span class="ref-member-name">output_routing_channel</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li>
+</ul>
+</div>
+</details>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingChannelVector</span></span>
 
 <details class="raw-doc-toggle" open>
@@ -1405,6 +1458,30 @@ A container for returning routing channels from Live.
 ##### extend()
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 4 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/compressordevice/#compressordevice"><code>CompressorDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/compressordevice/#available_input_routing_channels-routingchannelvector"><span class="ref-member-name">available_input_routing_channels</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/deviceio/#deviceio"><code>DeviceIO</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/deviceio/#available_routing_channels-routingchannelvector"><span class="ref-member-name">available_routing_channels</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#available_input_routing_channels-routingchannelvector"><span class="ref-member-name">available_input_routing_channels</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#available_output_routing_channels-routingchannelvector"><span class="ref-member-name">available_output_routing_channels</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span></li>
+</ul>
+</div>
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingType</span></span>
 
@@ -1472,6 +1549,30 @@ Display name of routing type.
 
 </div>
 
+<details class="references-section">
+<summary>Returned by 4 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/compressordevice/#compressordevice"><code>CompressorDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/compressordevice/#input_routing_type-routingtype"><span class="ref-member-name">input_routing_type</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/deviceio/#deviceio"><code>DeviceIO</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/deviceio/#routing_type-routingtype"><span class="ref-member-name">routing_type</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#input_routing_type-routingtype"><span class="ref-member-name">input_routing_type</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#output_routing_type-routingtype"><span class="ref-member-name">output_routing_type</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li>
+</ul>
+</div>
+</details>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingTypeVector</span></span>
 
 <details class="raw-doc-toggle" open>
@@ -1494,6 +1595,30 @@ A container for returning routing types from Live.
 ##### extend()
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 4 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/compressordevice/#compressordevice"><code>CompressorDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/compressordevice/#available_input_routing_types-routingtypevector"><span class="ref-member-name">available_input_routing_types</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/deviceio/#deviceio"><code>DeviceIO</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/deviceio/#available_routing_types-routingtypevector"><span class="ref-member-name">available_routing_types</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#available_input_routing_types-routingtypevector"><span class="ref-member-name">available_input_routing_types</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#available_output_routing_types-routingtypevector"><span class="ref-member-name">available_output_routing_types</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span></li>
+</ul>
+</div>
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -1605,6 +1730,17 @@ Selects the track's instrument if it has one.
 </details>
 
 </div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#view-view"><span class="ref-member-name">view</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/track/#trackview" title="Track.View">View</a></span></li>
+</ul>
+</div>
+</details>
 
 ## Enums
 

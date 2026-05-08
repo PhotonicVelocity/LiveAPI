@@ -1720,6 +1720,17 @@ Undo the last action that was made.
 
 - [`Song.View`](#songview) — Representing the view aspects of a Live document: The Session and Arrangerview.
 
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/application/#application"><code>Application</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/application/#get_document"><span class="ref-member-name">get_document()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/song/#song" title="Song">Song</a></span></li>
+</ul>
+</div>
+</details>
+
 ## Other classes
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Song.">BeatTime</span></span>
@@ -1744,6 +1755,19 @@ Represents a Time, splitted into Bars, Beats, SubDivision and Ticks.
 ##### sub_division<span class="prop-type">: int</span>
 
 ##### ticks<span class="prop-type">: int</span>
+
+<details class="references-section">
+<summary>Returned by 3 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#get_beats_loop_length"><span class="ref-member-name">get_beats_loop_length()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#get_beats_loop_start"><span class="ref-member-name">get_beats_loop_start()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#get_current_beats_song_time"><span class="ref-member-name">get_current_beats_song_time()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></span></li>
+</ul>
+</div>
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Song.">CuePoint</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -1837,6 +1861,17 @@ When the Song is playing, set the playing-position quantized to this Cuepoint's 
 
 </div>
 
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#cue_points-vectorcuepoint"><span class="ref-member-name">cue_points</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/song/#cuepoint" title="CuePoint">CuePoint</a>]</span></li>
+</ul>
+</div>
+</details>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Song.">SmptTime</span></span>
 
 <details class="raw-doc-toggle" open>
@@ -1859,6 +1894,17 @@ Represents a Time, split into Hours, Minutes, Seconds and Frames. The frame type
 ##### minutes<span class="prop-type">: int</span>
 
 ##### seconds<span class="prop-type">: int</span>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#get_current_smpte_song_time"><span class="ref-member-name">get_current_smpte_song_time()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/song/#smpttime" title="SmptTime">SmptTime</a></span></li>
+</ul>
+</div>
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Song.">Song.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -2055,6 +2101,17 @@ Select the given device.
 </details>
 
 </div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#view-view"><span class="ref-member-name">view</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/song/#songview" title="Song.View">View</a></span></li>
+</ul>
+</div>
+</details>
 
 ## Enums
 

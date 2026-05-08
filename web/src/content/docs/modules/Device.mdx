@@ -311,6 +311,42 @@ Set the selected bank in the device for persistency.
 
 - [`Device.View`](#deviceview) — Representing the view aspects of a device.
 
+<details class="references-section">
+<summary>Returned by 6 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/browser/#browser"><code>Browser</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/browser/#hotswap_target-device-none"><span class="ref-member-name">hotswap_target</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None</span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/chain/#chain"><code>Chain</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/chain/#insert_device"><span class="ref-member-name">insert_device()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/song/#song"><code>Song</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#appointed_device-device-none"><span class="ref-member-name">appointed_device</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None</span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#track"><code>Track</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#devices-vectordevice"><span class="ref-member-name">devices</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/device/#device" title="Device">Device</a>]</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#insert_device"><span class="ref-member-name">insert_device()</span></a><span class="ref-arrow"> → </span><span class="ref-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/track/#trackview"><code>Track.View</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/track/#selected_device-device"><span class="ref-member-name">selected_device</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li>
+</ul>
+</div>
+</details>
+
 ## Other classes
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Device.">ATimeableValueVector</span></span>
@@ -324,6 +360,107 @@ Set the selected bank in the device for persistency.
 ##### extend()
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>]</span></li></ul></div></div>
+
+<details class="references-section">
+<summary>Returned by 16 members elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/compressordevice/#compressordevice"><code>CompressorDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/compressordevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/device/#device"><code>Device</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/device/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/driftdevice/#driftdevice"><code>DriftDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/driftdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/drumcelldevice/#drumcelldevice"><code>DrumCellDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/drumcelldevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/eq8device/#eq8device"><code>Eq8Device</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/eq8device/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/hybridreverbdevice/#hybridreverbdevice"><code>HybridReverbDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/hybridreverbdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/looperdevice/#looperdevice"><code>LooperDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/looperdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/maxdevice/#maxdevice"><code>MaxDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/maxdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/melddevice/#melddevice"><code>MeldDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/melddevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/plugindevice/#plugindevice"><code>PluginDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/plugindevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/rackdevice/#rackdevice"><code>RackDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/rackdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/roardevice/#roardevice"><code>RoarDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/roardevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/shifterdevice/#shifterdevice"><code>ShifterDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/shifterdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/simplerdevice/#simplerdevice"><code>SimplerDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/simplerdevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/spectralresonatordevice/#spectralresonatordevice"><code>SpectralResonatorDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/spectralresonatordevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/wavetabledevice/#wavetabledevice"><code>WavetableDevice</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/wavetabledevice/#parameters-atimeablevaluevector"><span class="ref-member-name">parameters</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span></li>
+</ul>
+</div>
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Device.">Device.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -380,6 +517,17 @@ Get/Set/Listen if the device is shown collapsed in the device chain.
 </details>
 
 </div>
+
+<details class="references-section">
+<summary>Returned by 1 member elsewhere in the LOM</summary>
+
+<div class="ref-group">
+<a class="ref-owner" href="/LiveAPI/modules/device/#device"><code>Device</code></a>
+<ul class="ref-members">
+<li><a class="ref-member-link" href="/LiveAPI/modules/device/#view-view"><span class="ref-member-name">view</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/device/#deviceview" title="Device.View">View</a></span></li>
+</ul>
+</div>
+</details>
 
 ## Enums
 
