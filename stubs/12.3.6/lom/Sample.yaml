@@ -42,8 +42,8 @@ primary_class:
       value: Live.Sample.TransientLoopMode
       confidence: high
       source: |
-        `TransientLoopMode` enum in same module (Sample). Property name is a
-        direct snake-case match.
+        [sister method] `TransientLoopMode` enum in same module (Sample). Property
+        name is a direct snake-case match.
     settable: true
     listenable:
     - add_beats_transient_loop_mode_listener
@@ -116,10 +116,12 @@ primary_class:
     element_type_override:
       value: int
       confidence: high
-      source: |
-        M4L docs (sample.md:68) say "list of int read-only" + "positions of all
-        playable slices in sample frames". Corpus: Push2/timeline_navigation.py
-        iterates and accesses positions.
+      source:
+      - |
+        [M4L] sample.md:68 says "list of int read-only" + "positions of all
+        playable slices in sample frames".
+      - |
+        [corpus] Push2/timeline_navigation.py iterates and accesses positions.
     settable: false
     listenable:
     - add_slices_listener
@@ -133,8 +135,8 @@ primary_class:
       value: Live.Sample.SlicingBeatDivision
       confidence: high
       source: |
-        `SlicingBeatDivision` enum in same module (Sample). Property name is a
-        direct snake-case match.
+        [sister method] `SlicingBeatDivision` enum in same module (Sample).
+        Property name is a direct snake-case match.
     settable: true
     listenable:
     - add_slicing_beat_division_listener
@@ -168,8 +170,8 @@ primary_class:
       value: Live.Sample.SlicingStyle
       confidence: high
       source: |
-        `SlicingStyle` enum in same module (Sample). Property name is a direct
-        snake-case match.
+        [sister method] `SlicingStyle` enum in same module (Sample). Property name
+        is a direct snake-case match.
     settable: true
     listenable:
     - add_slicing_style_listener
@@ -228,9 +230,10 @@ primary_class:
       value: Live.Clip.WarpMode
       confidence: high
       source: |
-        `WarpMode` enum lives in Clip but drives both `Clip.warp_mode` and
-        `Sample.warp_mode` (the sample inside an audio clip). Cross-module but
-        unambiguous — only one `WarpMode` enum exists across the LOM.
+        [sister method] `WarpMode` enum lives in Clip but drives both
+        `Clip.warp_mode` and `Sample.warp_mode` (the sample inside an audio clip).
+        Cross-module but unambiguous — only one `WarpMode` enum exists across the
+        LOM.
     settable: true
     listenable:
     - add_warp_mode_listener

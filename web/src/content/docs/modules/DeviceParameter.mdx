@@ -47,7 +47,7 @@ Get the canonical parent of the device parameter.
 
 </details>
 
-##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> `AutomationState` enum in same module. Property name matches the enum snake-case; raw_doc describes automation states (none / playing / overridden) which match `AutomationState` members.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -217,7 +217,7 @@ Return the list of possible values for this parameter. Like value_items, but pre
 
 </div>
 
-##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> two enums in same module overlap on the name `state`: `AutomationState` and `ParameterState`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the state of the parameter: enabled, irrelevant, ..." — those are exactly `ParameterState` member names (enabled / irrelevant / disabled). `AutomationState`'s members (none / playing / overridden) describe a different concept.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -374,7 +374,7 @@ Return a string representation of the given value. To be used for display purpos
 <div class="ref-group">
 <a class="ref-owner" href="/LiveAPI/modules/song/#songview"><code>Song.View</code></a>
 <ul class="ref-members">
-<li><a class="ref-member-link" href="/LiveAPI/modules/song/#selected_parameter-deviceparameter-none"><span class="ref-member-name">selected_parameter</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a> | None</span></li>
+<li><a class="ref-member-link" href="/LiveAPI/modules/song/#selected_parameter-deviceparameter-nonehigh-confidenceprobed-asnonedocstring-confirms-deviceparameter-return-typem4l-explicit-selected_parameter-deviceparameter-read-only-observe-read-only-nullable"><span class="ref-member-name">selected_parameter</span></a><span class="ref-sep">: </span><span class="ref-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a> | None</span></li>
 </ul>
 </div>
 </details>

@@ -22,3 +22,7 @@ Icon?
 Backup/
 Cache.cfg
 *.asd
+
+# Local-only reference snapshot — pre-MS40 markdown reference docs,
+# kept on disk for context but not tracked in this repo.
+doc/live-api/

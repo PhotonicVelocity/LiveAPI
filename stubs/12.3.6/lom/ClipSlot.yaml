@@ -131,10 +131,10 @@ primary_class:
       name_override:
         value: file_path
         source: |
-          arg2 rename — M4L (clipslot.md) uses `path`. Renamed to `file_path` for
-          clarity (avoids conflation with the dotted-path concept; explicitly
-          indicates a file system path). Names are positional-only and decorative —
-          clarity over doc-conformance.
+          [M4L] clipslot.md uses `path`. Renamed to `file_path` for clarity (avoids
+          conflation with the dotted-path concept; explicitly indicates a file
+          system path). Names are positional-only and decorative — clarity over
+          doc-conformance.
       type: str
     returns:
       type: Live.Clip.Clip
@@ -151,25 +151,30 @@ primary_class:
     - name: arg2
       name_override:
         value: length
-        source: |
-          arg2 rename — the previous `pages` rename was WRONG. The single def-vote
-          came from pushbase/loop_selector_component.py:390 `def create_clip(pages)`,
-          but that is a nested local closure inside `_on_press_loop_selector_matrix`
-          that takes a page count and converts it to a length before calling a
-          different helper — no connection to the binding.
-          Authoritative sources all agree on `length`:
-            - C++ signature: `create_clip(TPyHandle<AGroupAndClipSlotBase>, double)`
-              — single float, semantically a length.
-            - Docstring: "Creates an empty clip with the given length in the slot."
-            - M4L docs (clipslot.md): "Parameter: `length` — Length is given in
-              beats and must be a greater value than 0.0."
-          Direct binding call sites all pass a variable named `length` (or
-          `_clip_length`):
-            - _Framework/ClipCreator.py:20 (`slot.create_clip(length)`)
-            - ableton/v2/control_surface/clip_creator.py:21
-            - ableton/v3/control_surface/components/step_sequence.py:17
-            - novation/print_to_clip.py:133
-            - APC64/render_to_clip.py:141 (`slot.create_clip(self._clip_length)`)
+        source:
+        - |
+          [C++ signature] `create_clip(TPyHandle<AGroupAndClipSlotBase>,
+          double)` — single float, semantically a length.
+        - |
+          [docstring] "Creates an empty clip with the given length in the
+          slot."
+        - |
+          [M4L] clipslot.md: "Parameter: `length` — Length is given
+          in beats and must be a greater value than 0.0."
+        - |
+          [corpus] binding callsites all pass a variable named `length` (or
+          `_clip_length`): _Framework/ClipCreator.py:20,
+          ableton/v2/control_surface/clip_creator.py:21,
+          ableton/v3/control_surface/components/step_sequence.py:17,
+          novation/print_to_clip.py:133,
+          APC64/render_to_clip.py:141.
+        - |
+          [corpus] the previous `pages` rename was wrong: its single def-vote came
+          from pushbase/loop_selector_component.py:390 `def
+          create_clip(pages)`, a nested local closure inside
+          `_on_press_loop_selector_matrix` that takes a page count and
+          converts it to a length before calling a different helper — no
+          connection to the binding.
       type: float
     returns:
       type: Live.Clip.Clip
@@ -202,8 +207,8 @@ primary_class:
       name_override:
         value: target_clip_slot
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> target_clip_slot  [M4L docs]: external/max-for-live-docs/9.0/clipslot.md
+          [M4L] external/max-for-live-docs/9.0/clipslot.md names the parameter
+          `target_clip_slot`.
       type: Live.ClipSlot.ClipSlot
     returns:
       type: None
@@ -231,8 +236,8 @@ primary_class:
       name_override:
         value: state
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> state  [M4L docs]: external/max-for-live-docs/9.0/clipslot.md
+          [M4L] external/max-for-live-docs/9.0/clipslot.md names the parameter
+          `state`.
       type: bool
     returns:
       type: None

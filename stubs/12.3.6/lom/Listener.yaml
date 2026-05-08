@@ -150,7 +150,7 @@ classes:
     type_override:
       value: Callable
       confidence: high
-      source: raw_doc says "Returns the original function" — functions are Callable.
+      source: '[docstring] "Returns the original function" — functions are Callable.'
 
   - name: listener_self
     raw_doc: Returns the weak reference to original self, if it was a bound method
@@ -159,7 +159,7 @@ classes:
       value: Any
       confidence: medium
       source: |
-        raw_doc says "weak reference to original self, if it was a bound method" —
+        [docstring] "weak reference to original self, if it was a bound method" —
         can be any object instance (or None for non-bound functions). `Any` is
         appropriately broad but could be `Any | None` if probed.
 
@@ -170,11 +170,11 @@ classes:
       value: str
       confidence: medium
       source: |
-        raw_doc: "Prints the name of the property that this listener is connected
-        to" — boost.python doc-style "Prints" implies a printable string return on
-        a property access (returns the property name as a string). ListenerHandle
-        is internal-only (zero corpus references); raw_doc is the strongest
-        evidence available.
+        [docstring] "Prints the name of the property that this listener is
+        connected to" — boost.python doc-style "Prints" implies a printable string
+        return on a property access (returns the property name as a string).
+        ListenerHandle is internal-only (zero corpus references); raw_doc is the
+        strongest evidence available.
 
   methods:
   - name: disconnect
@@ -201,6 +201,6 @@ classes:
     value: Live.Listener.ListenerHandle
     confidence: high
     source: |
-      raw_doc says "container for accessing a list of listeners" — contains
+      [docstring] "container for accessing a list of listeners" — contains
       ListenerHandle instances.
   container: true

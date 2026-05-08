@@ -366,6 +366,158 @@
   color: var(--sl-color-gray-3);
 }
 
+/* Override marker — small superscript asterisk after a value that
+   was manually refined away from the parser-derived default
+   (`<field>_override:` block in the lom YAML). The marker carries a
+   structured tooltip child (hidden by default, revealed on hover or
+   keyboard focus) with the probed → refined values on separate
+   lines, a confidence chip, and the override's evidence as a tagged
+   bullet list. */
+.sl-markdown-content sup.override-marker {
+  position: relative;
+  display: inline-block;
+  /* Padding expands the hit target around the small glyph — easier
+     to mouse over when the marker sits sandwiched between a type
+     link and the H5 anchor button. The `::before` glyph sits in the
+     center; the padding is invisible but clickable. */
+  margin-left: 0.1em;
+  padding: 0.15rem 0.3rem;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--sl-color-blue-high);
+  cursor: help;
+  user-select: none;
+  outline: none;
+  border-radius: 0.2rem;
+  transition: background-color 0.1s ease;
+}
+/* Visible asterisk is a pseudo-element — MDX would parse a bare `*`
+   inside the `<sup>` body as markdown emphasis. */
+.sl-markdown-content sup.override-marker::before {
+  content: "*";
+}
+.sl-markdown-content sup.override-marker:hover,
+.sl-markdown-content sup.override-marker:focus {
+  color: var(--sl-color-text);
+  background: var(--sl-color-gray-6);
+}
+
+/* Tooltip child — hidden by default, shown on hover/focus of the
+   parent marker. Centered on the marker so the box doesn't bias
+   into either of Starlight's sidebars. Long content word-wraps at
+   the tooltip's max-width. */
+.sl-markdown-content sup.override-marker > .override-marker-tooltip {
+  display: none;
+}
+.sl-markdown-content sup.override-marker:hover > .override-marker-tooltip,
+.sl-markdown-content sup.override-marker:focus > .override-marker-tooltip {
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  min-width: 22rem;
+  max-width: 30rem;
+  width: max-content;
+  background: var(--sl-color-bg-nav);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  font-size: var(--sl-text-sm);
+  font-family: var(--sl-font), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 400;
+  color: var(--sl-color-text);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-align: left;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+/* `Probed as <type>` row — label on the left, value beside it in a
+   monospace code style so the type identifier stands out. Single
+   row layout (the rendered page already shows the refined type;
+   the tooltip only needs to surface what was probed). */
+.sl-markdown-content .override-marker-tooltip .ot-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.sl-markdown-content .override-marker-tooltip .ot-label {
+  color: var(--sl-color-gray-3);
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  flex-shrink: 0;
+}
+.sl-markdown-content .override-marker-tooltip code.ot-value {
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.95em;
+  background: none;
+  padding: 0;
+  color: var(--sl-color-text);
+  word-break: break-word;
+}
+
+/* Confidence chip — colored by level. high=green, medium=yellow,
+   low=red. Sits at the top of the tooltip — sets the trust signal
+   the reader needs before the rationale below. */
+.sl-markdown-content .override-marker-tooltip .ot-confidence {
+  display: inline-block;
+  margin: 0 0 0.4rem 0;
+  padding: 0.05rem 0.45rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.sl-markdown-content .override-marker-tooltip .ot-confidence-high {
+  background: var(--sl-color-green-low);
+  color: var(--sl-color-green-high);
+}
+.sl-markdown-content .override-marker-tooltip .ot-confidence-medium {
+  background: var(--sl-color-yellow-low, var(--sl-color-orange-low));
+  color: var(--sl-color-yellow-high, var(--sl-color-orange-high));
+}
+.sl-markdown-content .override-marker-tooltip .ot-confidence-low {
+  background: var(--sl-color-red-low);
+  color: var(--sl-color-red-high);
+}
+
+/* Source list — bulleted evidence items, each with a leading
+   evidence-type chip ([corpus], [docstring], [M4L], etc). */
+.sl-markdown-content .override-marker-tooltip ul.ot-sources {
+  margin: 0;
+  padding-left: 1rem;
+  list-style: disc;
+}
+.sl-markdown-content .override-marker-tooltip ul.ot-sources li {
+  margin: 0.15rem 0;
+  font-size: 0.95em;
+}
+.sl-markdown-content .override-marker-tooltip .ot-tag {
+  display: inline-block;
+  padding: 0.05rem 0.4rem;
+  margin-right: 0.3rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: var(--sl-color-gray-6);
+  color: var(--sl-color-gray-3);
+  border: 1px solid var(--sl-color-gray-5);
+  vertical-align: middle;
+}
+
 /* Deprecated chip — amber warning style. Marks a member that's been
    superseded by a newer one. When a `replaced_by:` value is set on
    the YAML's `deprecated:` field, the chip is an `<a>` linking to

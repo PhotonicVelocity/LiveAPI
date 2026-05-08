@@ -126,6 +126,135 @@ def _resolve(node: dict, key: str) -> Any:
     return node.get(key)
 
 
+def override_marker_html(node: dict, key: str) -> str:
+    """Small superscript marker rendered after a value that came from a
+    manual override block. The marker carries a structured tooltip child
+    (hidden by default, revealed on hover/focus) with the probed →
+    refined values on separate lines, a confidence chip, and the
+    override's `source:` evidence as a tagged bullet list. The visible
+    asterisk is a CSS `::before` pseudo-element on `.override-marker`
+    so MDX doesn't see a bare `*` as markdown emphasis."""
+    override = node.get(f"{key}_override")
+    if not isinstance(override, dict) or "value" not in override:
+        return ""
+
+    original = node.get(key)
+    confidence = override.get("confidence", "")
+    raw_source = override.get("source", "")
+
+    def _flat(s: object) -> str:
+        return re.sub(r"\s+", " ", str(s)).strip() if s else ""
+
+    def _esc(s: str) -> str:
+        return html.escape(s, quote=True)
+
+    def _mdx_text(s: str) -> str:
+        """Escape MDX-significant characters in inline element-child
+        text while leaving backtick-delimited code spans untouched.
+
+        MDX honors backslash-escapes for `<` `>` `{` `}` outside code
+        spans — they decode to literal characters at render time. But
+        inside backtick code spans MDX treats the content as opaque
+        and DOESN'T decode the backslashes, so we'd emit visible
+        backslash-angle-bracket literals if we ran the escape blindly.
+        """
+        out: list[str] = []
+        i = 0
+        n = len(s)
+        while i < n:
+            ch = s[i]
+            if ch == "`":
+                j = s.find("`", i + 1)
+                if j == -1:
+                    # Unmatched backtick — drop the special meaning,
+                    # keep as literal.
+                    out.append("\\`")
+                    i += 1
+                else:
+                    # Pass code span verbatim, including delimiters.
+                    out.append(s[i : j + 1])
+                    i = j + 1
+            elif ch == "\\":
+                out.append("\\\\")
+                i += 1
+            elif ch in "<>{}":
+                out.append("\\" + ch)
+                i += 1
+            else:
+                out.append(ch)
+                i += 1
+        return "".join(out)
+
+    def _fmt_type(v: object) -> str:
+        return display_type(v) if isinstance(v, str) else str(v)
+
+    parts: list[str] = []
+
+    # Confidence chip first — sets the trust signal the reader needs
+    # before the rationale below. The refined value is visible in the
+    # page text the marker is attached to, so we don't repeat it; we
+    # only show what was probed (the parser-derived original) so the
+    # reader can see what changed.
+    if confidence:
+        conf_slug = re.sub(r"[^a-z0-9]+", "-", confidence.lower()).strip("-")
+        parts.append(
+            f'<span class="ot-confidence ot-confidence-{_esc(conf_slug)}">'
+            f'{_esc(confidence)} confidence</span>'
+        )
+    if original is not None:
+        parts.append(
+            f'<span class="ot-row">'
+            f'<span class="ot-label">Probed as</span>'
+            f'<code class="ot-value">{_mdx_text(_fmt_type(original))}</code>'
+            f'</span>'
+        )
+
+    # `source:` accepts a single string or a YAML list of independent
+    # evidence points. Each list item may carry a leading `[tag]`
+    # prefix marking the evidence type — extracted and rendered as a
+    # styled chip on the bullet so readers can scan provenance at a
+    # glance.
+    if isinstance(raw_source, list):
+        items = [_flat(item) for item in raw_source if item]
+    elif raw_source:
+        items = [_flat(raw_source)]
+    else:
+        items = []
+
+    if items:
+        bullet_html: list[str] = []
+        tag_re = re.compile(r"^\[([^\]]+)\]\s*(.*)$")
+        for item in items:
+            m = tag_re.match(item)
+            if m:
+                tag = m.group(1)
+                body = m.group(2)
+                tag_slug = re.sub(r"[^a-z0-9]+", "-", tag.lower()).strip("-")
+                bullet_html.append(
+                    f'<li>'
+                    f'<span class="ot-tag ot-tag-{_esc(tag_slug)}">'
+                    f'{_esc(tag)}</span>'
+                    f' {_mdx_text(body)}'
+                    f'</li>'
+                )
+            else:
+                bullet_html.append(f'<li>{_mdx_text(item)}</li>')
+        parts.append(
+            f'<ul class="ot-sources">{"".join(bullet_html)}</ul>'
+        )
+
+    if not parts:
+        parts.append('<span class="ot-row">Manually refined.</span>')
+
+    inner = "".join(parts)
+    return (
+        f'<sup class="override-marker" tabindex="0" '
+        f'aria-label="manually refined">'
+        f'<span class="override-marker-tooltip" role="tooltip">'
+        f'{inner}</span></sup>'
+    )
+
+
 # --- Class registry + type linking ------------------------------------- #
 
 
@@ -494,7 +623,8 @@ def callable_signature_block_html(
             linked = linkify_type(
                 display_type(arg_type), registry, current_module=module_name,
             )
-            type_part = f': <span class="fn-arg-type">{linked}</span>'
+            marker = override_marker_html(arg, "type")
+            type_part = f': <span class="fn-arg-type">{linked}{marker}</span>'
         default = arg.get("default")
         if (
             prefix is not None
@@ -529,6 +659,7 @@ def callable_signature_block_html(
                 display_type(return_type), registry,
                 current_module=module_name,
             )
+            return_html += override_marker_html(returns, "type")
 
     parts: list[str] = []
     if arg_items:
@@ -732,7 +863,8 @@ def property_heading_html(
     rendered = linkify_type(
         display_type(type_str), registry, current_module=current_module,
     )
-    return f'{name}<span class="prop-type">: {rendered}</span>'
+    marker = override_marker_html(prop, "type")
+    return f'{name}<span class="prop-type">: {rendered}{marker}</span>'
 
 
 # --- Inheritance ------------------------------------------------------- #

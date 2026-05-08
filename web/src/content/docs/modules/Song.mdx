@@ -29,7 +29,7 @@ This class represents a Live set.
 
 ##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### canonical_parent<span class="prop-type">: None</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+##### canonical_parent<span class="prop-type">: None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-probe">probe</span> Song is the LOM root for the document tree. The probe observes None because Song has no parent (`Application.song` returns the Song; there's no inverse). Same structural reasoning as `Application.canonical_parent`.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -48,7 +48,7 @@ Get the canonical parent of the song.
 
 </details>
 
-##### appointed_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### appointed_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Read, write, and listen access to the appointed Device."</li><li><span class="ot-tag ot-tag-corpus">corpus</span> pushbase / ableton.v2 / ableton.v3 all read and assign Device values here.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -813,7 +813,7 @@ Get/Set the session record state.
 
 </div>
 
-##### session_record_status<span class="prop-type">: <a href="/LiveAPI/modules/song/#sessionrecordstatus" title="SessionRecordStatus">SessionRecordStatus</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### session_record_status<span class="prop-type">: <a href="/LiveAPI/modules/song/#sessionrecordstatus" title="SessionRecordStatus">SessionRecordStatus</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `SessionRecordStatus` enum in the same module (Song); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -1107,7 +1107,7 @@ Continue playing the song from the current position
 
 ##### create_audio_track()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int | None</span> = <span class="fn-arg-default">None</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-medium">medium confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object | None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/song.md describes an optional index parameter; usage shows the function called with no args (default = None means "append at end").</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> type pinned by convention across other create_* methods; not corpus-verified.</li></ul></span></sup></span> = <span class="fn-arg-default">None</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
 
 <div class="member-desc">
 
@@ -1126,7 +1126,7 @@ Create a new audio track at the optional given index and return it.If the index 
 
 ##### create_midi_track()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int | None</span> = <span class="fn-arg-default">None</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-medium">medium confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object | None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as create_audio_track — M4L docs explicit.</li></ul></span></sup></span> = <span class="fn-arg-default">None</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
 
 <div class="member-desc">
 
@@ -1280,7 +1280,7 @@ Duplicates a track and selects the new one. If the track is inside a folded grou
 
 ##### find_device_position()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">target</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a> | <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a></span></li><li><span class="fn-arg-name">target_position</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">target</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a> | <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> binding declares `target` as `LomObject` — wider than what the method actually accepts.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "where the device can be inserted" (a device-containing container).</li><li><span class="ot-tag ot-tag-corpus">corpus</span> Push2 (`device_navigation.py:247,257,264,269`) passes only `device.canonical_parent` (a Track or Chain) or a Chain obtained via `rack.view.selected_chain` — never any other LomObject. Track and Chain are the only LOM classes that contain devices.</li></ul></span></sup></span></li><li><span class="fn-arg-name">target_position</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -1392,7 +1392,7 @@ Get const access to the songs current playing position, by specifying the SMPTE 
 
 ##### get_data()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">default_value</span>: <span class="fn-arg-type">Any</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">Any</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">default_value</span>: <span class="fn-arg-type">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> passes int (3, 5), bool (True), str defaults across pushbase / ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data, so `Any` is the honest parameterization for both arg and return.</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> passes int (3, 5), bool (True), str defaults across pushbase / ableton.v2 / ableton.v3 — the binding accepts arbitrary persistent data, so `Any` is the honest parameterization for both arg and return.</li></ul></span></sup></div></div></div>
 
 <div class="member-desc">
 
@@ -1483,7 +1483,7 @@ Jump to the prior cue (marker) if possible.
 
 ##### move_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">target</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a> | <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a></span></li><li><span class="fn-arg-name">target_position</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">target</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a> | <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same situation as `find_device_position`.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> binding declares `LomObject`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Move a device into the target" (a device-containing container).</li><li><span class="ot-tag ot-tag-corpus">corpus</span> Push2 (`device_navigation.py:247,257,264,269`) only passes Track or Chain. Narrowed to the two LOM classes that actually contain devices.</li></ul></span></sup></span></li><li><span class="fn-arg-name">target_position</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -1574,7 +1574,7 @@ Same as jump_by, but does not stop playback.
 
 ##### set_data()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">Any</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> passes int (interval), bool (is_horizontal), arbitrary persistent data — pushbase/instrument_component.py:88-110 shows the pattern. Any matches.</li></ul></span></sup></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1945,7 +1945,7 @@ Get the canonical parent of the song view.
 
 </details>
 
-##### detail_clip<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a> | None</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### detail_clip<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Get/Set the Clip that is currently visible in Lives Detailview."</li><li><span class="ot-tag ot-tag-corpus">corpus</span> Push and Push2 both read and assign Clip values here.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -2013,7 +2013,7 @@ Get/Set the clip slot, defined via the selected track and scene in the Session.W
 
 </div>
 
-##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a> | None</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### selected_chain<span class="prop-type">: <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Get the highlighted chain if available."</li><li><span class="ot-tag ot-tag-corpus">corpus</span> Push2/track_selection.py:95 and pushbase/selection.py:54 both assign Chain values to this property.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -2030,7 +2030,7 @@ Get the highlighted chain if available.
 
 </div>
 
-##### selected_parameter<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a> | None</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### selected_parameter<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> confirms `DeviceParameter` return type.</li><li><span class="ot-tag ot-tag-m4l">M4L</span> explicit: "selected_parameter [DeviceParameter] read-only observe". Read-only nullable.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -2220,7 +2220,7 @@ The capture mode that is used for capture and insert scene.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Song.">get_all_scales_ordered</span></span>()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[str, tuple[int, ...]], ...]</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[str, tuple[int, ...]], ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple[tuple, ...]</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> pushbase/melodic_pattern.py:52 unpacks `Scale(name=x[0], notes=x[1]) for x in Live.Song.get_all_scales_ordered()` — confirms `tuple[tuple[str, tuple[int, ...]], ...]`.</li></ul></span></sup></div></div></div>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>

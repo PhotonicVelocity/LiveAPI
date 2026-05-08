@@ -34,8 +34,8 @@ primary_class:
       value: Live.Eq8Device.GlobalMode
       confidence: high
       source: |
-        `GlobalMode` enum in same module (Eq8Device). Property name is a direct
-        snake-case match.
+        [sister method] `GlobalMode` enum in same module (Eq8Device). Property
+        name is a direct snake-case match.
     settable: true
     listenable:
     - add_global_mode_listener

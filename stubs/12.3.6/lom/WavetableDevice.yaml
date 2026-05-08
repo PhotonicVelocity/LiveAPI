@@ -25,8 +25,8 @@ primary_class:
       value: Live.WavetableDevice.FilterRouting
       confidence: high
       source: |
-        `FilterRouting` enum in same module (WavetableDevice). Property name is
-        a direct snake-case match.
+        [sister method] `FilterRouting` enum in same module (WavetableDevice).
+        Property name is a direct snake-case match.
     settable: true
     listenable:
     - add_filter_routing_listener
@@ -74,8 +74,8 @@ primary_class:
       value: Live.WavetableDevice.EffectMode
       confidence: high
       source: |
-        `EffectMode` enum in same module (WavetableDevice). Property name ends
-        in `effect_mode`; the enum is the only one matching that suffix.
+        [sister method] `EffectMode` enum in same module (WavetableDevice). Property
+        name ends in `effect_mode`; the enum is the only one matching that suffix.
     settable: true
     listenable:
     - add_oscillator_1_effect_mode_listener
@@ -116,7 +116,8 @@ primary_class:
       value: Live.WavetableDevice.EffectMode
       confidence: high
       source: |
-        Same as oscillator_1_effect_mode — sister property, same enum.
+        [sister method] same as oscillator_1_effect_mode — sister property, same
+        enum.
     settable: true
     listenable:
     - add_oscillator_2_effect_mode_listener
@@ -176,8 +177,8 @@ primary_class:
       value: Live.WavetableDevice.UnisonMode
       confidence: high
       source: |
-        `UnisonMode` enum in same module (WavetableDevice). Property name is a
-        direct snake-case match.
+        [sister method] `UnisonMode` enum in same module (WavetableDevice).
+        Property name is a direct snake-case match.
     settable: true
     listenable:
     - add_unison_mode_listener
@@ -191,8 +192,9 @@ primary_class:
       value: Live.WavetableDevice.VoiceCount
       confidence: high
       source: |
-        `VoiceCount` enum in same module (WavetableDevice). Property name ends
-        in `voice_count`; `VoiceCount` is the only enum matching that suffix.
+        [sister method] `VoiceCount` enum in same module (WavetableDevice). Property
+        name ends in `voice_count`; `VoiceCount` is the only enum matching that
+        suffix.
     settable: true
     listenable:
     - add_unison_voice_count_listener

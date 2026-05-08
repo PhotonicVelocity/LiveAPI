@@ -60,7 +60,7 @@ Interface to the internal licensing services.
 
 #### Properties
 
-##### base_product_id<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+##### base_product_id<span class="prop-type">: str<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns Live's current base product ID" — product IDs are string identifiers.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -77,9 +77,9 @@ Returns Live's current base product ID.
 
 </div>
 
-##### in_sassafras_mode<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+##### in_sassafras_mode<span class="prop-type">: bool<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-low">low confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-probe">probe</span> property name pattern "in X mode" suggests boolean. No raw_doc, no usage snippets, no M4L doc — pure naming inference. Watch for drift if a probe ever reaches this property.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### license_must_match_variant<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+##### license_must_match_variant<span class="prop-type">: bool<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns a bool indicating if we require..." — explicitly typed bool.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -96,7 +96,7 @@ Returns a bool indicating if we require the license information returned by the 
 
 </div>
 
-##### random_number_for_trial_authorization<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+##### random_number_for_trial_authorization<span class="prop-type">: int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the integer to send along with the Trial authorization request".</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -113,7 +113,7 @@ Returns the integer to send along with the Trial authorization request. This sam
 
 </div>
 
-##### set_has_unsaved_changes<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+##### set_has_unsaved_changes<span class="prop-type">: bool<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns true if the set has unsaved changes" — explicitly bool.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
 <div class="member-desc">
 
@@ -208,7 +208,7 @@ Retrieve stored session ID.
 
 ##### get_startup_dialog()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">authorize_callable</span>: <span class="fn-arg-type">Callable</span></li><li><span class="fn-arg-name">authorize_later_callable</span>: <span class="fn-arg-type">Callable</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">authorize_callable</span>: <span class="fn-arg-type">Callable<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "callables connected to its buttons" — both args are callback functions.</li></ul></span></sup></span></li><li><span class="fn-arg-name">authorize_later_callable</span>: <span class="fn-arg-type">Callable<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "callables connected to its buttons" — both args are callback functions.</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></div></div></div>
 
 <div class="member-desc">
 
@@ -263,7 +263,7 @@ Call package installation callback.
 
 ##### load_and_convert_legacy_unlock_cfg()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">dict[str, Any]</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">dict[str, Any]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">dict</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Loads the Unlock.cfg file and returns either an empty dict or one that can be converted to an UnlockData object."</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> explicitly returns `boost::python::dict`.</li><li><span class="ot-tag ot-tag-probe">probe</span> the dict's keys/values aren't enumerated in the docs (varies with the legacy cfg format), so `dict[str, Any]` is the honest parameterization.</li></ul></span></sup></div></div></div>
 
 <div class="member-desc">
 
@@ -282,7 +282,7 @@ Loads the Unlock.cfg file and returns either an empty dict or one that can be co
 
 ##### process_license_response()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">license_response_lines</span>: <span class="fn-arg-type">list[str]</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">license_response_lines</span>: <span class="fn-arg-type">list[str]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">list</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "list of strings, each representing a server response".</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></div></div></div>
 
 <div class="member-desc">
 
@@ -341,7 +341,7 @@ Saves the current Live session.
 
 ##### set_network_timer()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">callback</span>: <span class="fn-arg-type">Callable | None</span></li><li><span class="fn-arg-name">interval_in_ms</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">callback</span>: <span class="fn-arg-type">Callable | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Pass None as callback to stop the timer".</li></ul></span></sup></span></li><li><span class="fn-arg-name">interval_in_ms</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -529,7 +529,7 @@ Returns the URL against which service calls (e.g. for authorization) can be perf
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">get_unlock_dir</span></span>()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[str, bool]</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[str, bool]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple[object, ...]</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns a tuple containing the unlock file directory and a flag" — directory is str, flag is bool.</li><li><span class="ot-tag ot-tag-probe">probe</span> probe stamps `tuple` with element_reprs `[str, bool]`; this refinement narrows to the fixed-position tuple shape.</li></ul></span></sup></div></div></div>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>

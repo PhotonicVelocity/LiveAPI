@@ -28,10 +28,14 @@ primary_class:
     element_type_override:
       value: Live.Chain.Chain
       confidence: high
-      source: |
-        raw_doc: "Return const access to the list of chains in this drum pad."
-        M4L docs (drumpad.md): `chains [Chain] read-only observe`. Corpus
-        pushbase/device_chain_utils.py:14 reads `drum_pad.chains[0].devices`.
+      source:
+      - |
+        [docstring] "Return const access to the list of chains in this drum pad."
+      - |
+        [M4L] drumpad.md: `chains [Chain] read-only observe`.
+      - |
+        [corpus] pushbase/device_chain_utils.py:14 reads
+        `drum_pad.chains[0].devices`.
     settable: false
     listenable:
     - add_chains_listener

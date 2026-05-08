@@ -133,7 +133,7 @@ Returns a browser item with access to all the Drums content.
 
 </div>
 
-##### filter_type<span class="prop-type">: <a href="/LiveAPI/modules/browser/#filtertype" title="FilterType">FilterType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### filter_type<span class="prop-type">: <a href="/LiveAPI/modules/browser/#filtertype" title="FilterType">FilterType</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `FilterType` enum in the same module (Browser); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -150,7 +150,7 @@ Bang triggered when the hotswap target has changed.
 
 </div>
 
-##### hotswap_target<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### hotswap_target<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> reads `hotswap_target` as a `Device`: Push2/browser_component.py:538 does `self._browser.hotswap_target.selected_preset_index = ...`, where `selected_preset_index` is a Device-side attribute. `None` when no hotswap is active.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`, which would suggest BrowserItem; corpus pattern contradicts that for the property's runtime type.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

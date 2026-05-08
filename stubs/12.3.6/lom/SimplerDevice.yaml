@@ -120,10 +120,10 @@ primary_class:
       value: Live.SimplerDevice.PlaybackMode
       confidence: high
       source: |
-        `PlaybackMode` enum in same module with members classic / one_shot /
-        slicing — matches Simpler's three top-level playback modes. Distinct
-        from `SlicingPlaybackMode` (mono / poly / thru), which scopes to slicing
-        sub-mode.
+        [sister method] `PlaybackMode` enum in same module with members classic /
+        one_shot / slicing — matches Simpler's three top-level playback modes.
+        Distinct from `SlicingPlaybackMode` (mono / poly / thru), which scopes to
+        slicing sub-mode.
     settable: true
     listenable:
     - add_playback_mode_listener
@@ -176,10 +176,13 @@ primary_class:
     type_override:
       value: Live.SimplerDevice.SlicingPlaybackMode
       confidence: high
-      source: |
-        `SlicingPlaybackMode` enum in same module. Property name is a direct
-        snake-case match; raw_doc "Access to Simpler's slicing playback mode"
-        confirms the slicing-scoped sub-mode.
+      source:
+      - |
+        [sister method] `SlicingPlaybackMode` enum in same module. Property name
+        is a direct snake-case match.
+      - |
+        [docstring] "Access to Simpler's slicing playback mode" confirms the
+        slicing-scoped sub-mode.
     settable: true
     listenable:
     - add_slicing_playback_mode_listener

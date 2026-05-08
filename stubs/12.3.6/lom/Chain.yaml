@@ -47,21 +47,22 @@ primary_class:
     type_override:
       value: Live.Base.Vector[Live.Device.Device]
       confidence: high
-      source: |
-        Binding declares the element type as `LomObject` — wider than
-        what the container actually holds. Sister property `Track.devices`
-        is declared `Vector[Device]` and the corpus treats both
-        interchangeably:
-          - Launchpad_Pro/DrumGroupFinderComponent.py:65,74 filters
-            `track_or_chain.devices` on `d.type == DeviceType.instrument`
-            (Device.type is a DeviceType enum; only Devices carry it).
-          - Push2/device_navigation.py:134,269,511 uses
-            `track_or_chain.devices` as a single signature; indexes
-            `chain.devices[i]` as Device.
-          - pushbase/browser_modes.py:84-92 indexes `chain.devices` as
-            Device.
-        raw_doc itself reads "all available Devices" — matches the
-        narrower runtime type.
+      source:
+      - |
+        [C++ signature] binding declares the element type as `LomObject` — wider
+        than what the container actually holds.
+      - |
+        [sister method] `Track.devices` is declared `Vector[Device]`.
+      - |
+        [docstring] "all available Devices" — matches the narrower runtime type.
+      - |
+        [corpus] treats `track.devices` and `chain.devices` interchangeably as
+        Device sequences: Launchpad_Pro/DrumGroupFinderComponent.py:65,74 filters
+        `track_or_chain.devices` on `d.type == DeviceType.instrument`
+        (Device.type is a DeviceType enum; only Devices carry it);
+        Push2/device_navigation.py:134,269,511 indexes `chain.devices[i]`
+        as Device; pushbase/browser_modes.py:84-92 indexes `chain.devices`
+        as Device.
     settable: false
     listenable:
     - add_devices_listener
@@ -167,16 +168,21 @@ primary_class:
     - name: arg2
       name_override:
         value: index
-        source: |
-          arg2 rename — the previous `device` rename was WRONG. The lone def-vote
-          came from Push2/device_navigation.py:151 `def delete_device(device)`, but
-          that is a module-level helper (not a wrapper method) that takes a Device
-          object as a convenience and converts to an int index before calling the
-          binding: `device_parent.delete_device(device_index)` (line 154).
-          The binding actually takes an int index. All sources agree:
-            - C++ signature: `void delete_device(TChainPyHandle, int)` — int
-            - Docstring: "Remove a device identified by its index from the chain"
-            - M4L docs (chain.md): `Parameter: index [int]`
+        source:
+        - |
+          [C++ signature] `void delete_device(TChainPyHandle, int)` — int.
+        - |
+          [docstring] "Remove a device identified by its index from the
+          chain".
+        - |
+          [M4L] chain.md: `Parameter: index [int]`.
+        - |
+          [corpus] the previous `device` rename was wrong: its lone def-vote came
+          from Push2/device_navigation.py:151 `def delete_device(device)`,
+          a module-level helper that takes a Device object as a
+          convenience and converts to an int index before calling the
+          binding (`device_parent.delete_device(device_index)` at line
+          154).
       type: int
     returns:
       type: None
@@ -192,8 +198,7 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [docstring]: description says 'duplicate the device at the given index'
+          [docstring] "Duplicate the device at the given index in the chain".
       type: int
     returns:
       type: None
@@ -216,10 +221,14 @@ primary_class:
       type_override:
         value: Live.Device.Device
         confidence: high
-        source: |
-          C++ signature returns `TWeakPtr<TPyHandleBase>` (the generic LomObject
-          handle), but probe data shows `chain.devices` element_reprs are
-          `<class 'Device.Device'>` (plus the `WavetableDevice` subclass) — the
-          runtime returns properly-typed Device instances when iterated, so
-          `insert_device` returning `Device` matches the observed instance type.
-          raw_doc + M4L docs confirm semantics ("Add a device at a given index").
+        source:
+        - |
+          [C++ signature] returns `TWeakPtr<TPyHandleBase>` (the generic LomObject
+          handle) — no specific type enforced.
+        - |
+          [probe] `chain.devices` element_reprs are `<class 'Device.Device'>`
+          (plus the `WavetableDevice` subclass) — the runtime returns
+          properly-typed Device instances when iterated, so `insert_device`
+          returning `Device` matches the observed instance type.
+        - |
+          [docstring] + [M4L] confirm semantics ("Add a device at a given index").

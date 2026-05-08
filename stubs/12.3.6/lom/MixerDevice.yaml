@@ -60,9 +60,11 @@ primary_class:
     type_override:
       value: Live.MixerDevice.MixerDevice.panning_modes | int
       confidence: high
-      source: |
-        Applied per the enum-arg convention (see schema header).
-        `panning_modes` enum lives nested inside `MixerDevice`
+      source:
+      - |
+        [schema] applied per the enum-arg convention (see schema header).
+      - |
+        [sister method] `panning_modes` enum lives nested inside `MixerDevice`
         (members `stereo: 0`, `stereo_split: 1`); the property name
         `panning_mode` is the direct snake-case of the enum.
     settable: true

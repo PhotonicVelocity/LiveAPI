@@ -568,17 +568,15 @@ primary_class:
       name_override:
         value: file_path
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/track.md
-            - arg3 -> position  [M4L docs]: external/max-for-live-docs/9.0/track.md
+          [M4L] external/max-for-live-docs/9.0/track.md names the parameter
+          `file_path`.
       type: str
     - name: arg3
       name_override:
         value: position
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/track.md
-            - arg3 -> position  [M4L docs]: external/max-for-live-docs/9.0/track.md
+          [M4L] external/max-for-live-docs/9.0/track.md names the parameter
+          `position`.
       type: float
     returns:
       type: Live.Clip.Clip
@@ -596,17 +594,15 @@ primary_class:
       name_override:
         value: start_time
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/track.md
-            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/track.md
+          [M4L] external/max-for-live-docs/9.0/track.md names the parameter
+          `start_time`.
       type: float
     - name: arg3
       name_override:
         value: length
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> start_time  [M4L docs]: external/max-for-live-docs/9.0/track.md
-            - arg3 -> length  [M4L docs]: external/max-for-live-docs/9.0/track.md
+          [M4L] external/max-for-live-docs/9.0/track.md names the parameter
+          `length`.
       type: float
     returns:
       type: Live.Clip.Clip
@@ -623,12 +619,16 @@ primary_class:
       type_override:
         value: Live.TakeLane.TakeLane
         confidence: high
-        source: |
-          C++ signature returns `TWeakPtr<TPyHandleBase>` (generic LomObject), but
-          raw_doc names the type ("Create a new TakeLane for this track") and probe
-          data shows `track.take_lanes` element_repr is `<class 'TakeLane.TakeLane'>`
-          — the runtime returns TakeLane instances when iterated, matching the
-          create return.
+        source:
+        - |
+          [C++ signature] returns `TWeakPtr<TPyHandleBase>` (generic LomObject) — no
+          specific type enforced.
+        - |
+          [docstring] "Create a new TakeLane for this track" names the type.
+        - |
+          [probe] `track.take_lanes` element_repr is `<class 'TakeLane.TakeLane'>` —
+          the runtime returns TakeLane instances when iterated, matching the create
+          return.
 
   - name: delete_clip
     raw_doc: Delete the given clip. Raises a runtime error when the clip belongs to another track.
@@ -640,21 +640,26 @@ primary_class:
     - name: arg2
       name_override:
         value: clip
-        source: |
-          arg2 rename — the previous `slot` rename was WRONG. The lone def-vote came
-          from Blackstar_Live_Logic/clip_util.py:29 `def delete_clip(slot)`, but
-          that helper calls `slot.delete_clip()` — i.e. a different binding entirely
-          (`Live.ClipSlot.ClipSlot.delete_clip` which takes no args), not
+        source:
+        - |
+          [C++ signature] `void delete_clip(TTrackPyHandle,
+          TPyHandle<AClip>)` — takes a Clip.
+        - |
+          [docstring] "Delete the given clip. Raises a runtime error when
+          the clip belongs to another track."
+        - |
+          [M4L] track.md: `Parameter: clip` — "Delete the given clip".
+        - |
+          [corpus] binding callsites pass a Clip variable:
+          pushbase/actions.py:131 (`selected_track.delete_clip(clip)`),
+          ableton/v3/live/action.py:75
+          (`deletable.canonical_parent.delete_clip(deletable)`).
+        - |
+          [corpus] the previous `slot` rename was wrong: its lone def-vote came
+          from Blackstar_Live_Logic/clip_util.py:29 `def delete_clip(slot)`,
+          a helper that calls `slot.delete_clip()` — a different binding
+          entirely (`Live.ClipSlot.ClipSlot.delete_clip`, no args), not
           `Track.delete_clip(clip)`.
-          The actual binding takes a Clip:
-            - C++ signature: `void delete_clip(TTrackPyHandle, TPyHandle<AClip>)`
-            - Docstring: "Delete the given clip. Raises a runtime error when the
-              clip belongs to another track."
-            - M4L docs (track.md): `Parameter: clip` — "Delete the given clip"
-          Direct binding call sites pass a Clip variable:
-            - pushbase/actions.py:131 (`selected_track.delete_clip(clip)`)
-            - ableton/v3/live/action.py:75
-              (`deletable.canonical_parent.delete_clip(deletable)`).
       type: Live.Clip.Clip
     returns:
       type: None
@@ -669,14 +674,19 @@ primary_class:
     - name: arg2
       name_override:
         value: index
-        source: |
-          arg2 rename — same situation as Chain.delete_device. The lone def-vote
-          came from Push2/device_navigation.py:151 (a module-level helper that
-          takes a Device convenience arg and converts to int before calling the
-          binding). The binding takes an int index.
-            - C++ signature: `void delete_device(TTrackPyHandle, int)` — int
-            - Docstring: "Delete a device identified by the index in the 'devices' list"
-            - M4L docs (track.md): `Parameter: index`
+        source:
+        - |
+          [C++ signature] `void delete_device(TTrackPyHandle, int)` — int.
+        - |
+          [docstring] "Delete a device identified by the index in the
+          'devices' list".
+        - |
+          [M4L] track.md: `Parameter: index`.
+        - |
+          [sister method] same situation as Chain.delete_device. The lone def-vote
+          came from Push2/device_navigation.py:151 — a module-level helper that
+          takes a Device convenience arg and converts to int before
+          calling the binding.
       type: int
     returns:
       type: None
@@ -696,8 +706,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [M4L docs]: external/max-for-live-docs/9.0/track.md
+          [M4L] external/max-for-live-docs/9.0/track.md names the parameter
+          `index`.
       type: int
     returns:
       type: int
@@ -730,8 +740,8 @@ primary_class:
       name_override:
         value: index
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> index  [docstring]: description mentions 'index in the devices list' — device position index
+          [docstring] description mentions 'index in the devices list' — device
+          position index.
       type: int
     returns:
       type: None
@@ -750,13 +760,13 @@ primary_class:
       type_override:
         value: Any
         confidence: high
-        source: Same pattern as Song.get_data — corpus-confirmed.
+        source: '[sister method] same pattern as Song.get_data — corpus-confirmed.'
     returns:
       type: object
       type_override:
         value: Any
         confidence: high
-        source: Same pattern as Song.get_data — corpus-confirmed.
+        source: '[sister method] same pattern as Song.get_data — corpus-confirmed.'
 
   - name: insert_device
     raw_doc: Add a device at a given index in the 'devices' list. At end if -1.
@@ -776,11 +786,19 @@ primary_class:
       type_override:
         value: Live.Device.Device
         confidence: high
-        source: |
-          Same shape as Chain.insert_device. C++ returns `TWeakPtr<TPyHandleBase>`
-          (generic LomObject), but probe data shows `track.devices` element_repr
-          is `<class 'Device.Device'>` — the runtime returns Device instances when
-          iterated, matching the insert return. raw_doc + M4L confirm semantics.
+        source:
+        - |
+          [sister method] same shape as Chain.insert_device.
+        - |
+          [C++ signature] returns `TWeakPtr<TPyHandleBase>` (generic LomObject) —
+          no specific type enforced.
+        - |
+          [probe] `track.devices` element_repr is `<class 'Device.Device'>` — the
+          runtime returns Device instances when iterated, matching the insert
+          return.
+        - |
+          [docstring] + [M4L] confirm semantics ("Add a device at a given index
+          in the 'devices' list").
 
   - name: jump_in_running_session_clip
     raw_doc: |-
@@ -796,8 +814,8 @@ primary_class:
       name_override:
         value: beats
         source: |
-          Arg names verified against corpus / M4L docs:
-            - arg2 -> beats  [M4L docs]: external/max-for-live-docs/9.0/track.md
+          [M4L] external/max-for-live-docs/9.0/track.md names the parameter
+          `beats`.
       type: float
     returns:
       type: None
@@ -816,7 +834,7 @@ primary_class:
       type_override:
         value: Any
         confidence: high
-        source: Same pattern as Song.set_data — corpus-confirmed.
+        source: '[sister method] same pattern as Song.set_data — corpus-confirmed.'
     returns:
       type: None
 
@@ -989,8 +1007,9 @@ classes:
       value: Live.Track.RoutingTypeCategory
       confidence: high
       source: |
-        `RoutingTypeCategory` enum in same module (Track). Property is a member
-        of `RoutingType` and names a category of routing — direct semantic match.
+        [sister method] `RoutingTypeCategory` enum in same module (Track). Property
+        is a member of `RoutingType` and names a category of routing — direct
+        semantic match.
     settable: false
 
   - name: display_name

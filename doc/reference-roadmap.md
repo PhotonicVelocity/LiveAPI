@@ -180,17 +180,30 @@ sidebar; LOM badge / pinned-pair treatment + property flag chips
   also collapsed the previous `## Other classes` / `## Nested classes`
   split into one section, and `## Module Enums` / `## Module Functions`
   shed the now-redundant "Module" qualifier.
-- **Step 12 — References / Access via.** Cross-reference pass — for each
-  class T, list every member elsewhere in the LOM whose type / return
-  is T. Implemented as a single tree-walk at generator startup that
-  builds a `class_name → [(owner, member, kind)]` map. Renders as a
-  collapsible `<details>` at the bottom of each class section, or a
-  `## References` section near the page bottom (decide by looking at
-  layout density once the data lands).
-- **Step 13 — Refinement metadata surfacing.** When a field has a sibling
-  `<field>_override:` block in `stubs/<v>/lom/*.yaml`, render the `source:`
-  and `confidence:` inline with the member (small italic note under the
-  type line, or a callout block — design when the data lands).
+- **Step 12 — References / Access via.** ✅ Done. Cross-reference
+  pass: for each class T, lists every member elsewhere in the LOM
+  whose property type or method return type is T. Single tree-walk at
+  generator startup builds a `qualified_path → [reference, ...]` map
+  (`build_references_index`). Renders as a collapsed `<details
+  class="references-section">` at the bottom of each class block,
+  grouped by owner with linked owner / member / type cells. Section
+  is gated on non-empty (most leaf classes have no incoming
+  references). Filters: self-references skipped (already on the
+  class's page); LOM-universal members (`_live_ptr`,
+  `canonical_parent`) skipped as members; `Live.Base.Vector` skipped
+  as a target (parametric base, every list-returning member would
+  credit it); deprecated members skipped.
+- **Step 13 — Refinement metadata surfacing.** ✅ Done. When a field
+  has a sibling `<field>_override:` block, the rendered value gets a
+  small superscript marker (`<sup class="override-marker">*</sup>`)
+  with a `title=` attribute carrying the override's `confidence:` and
+  `source:` fields. Coverage: property type, callable arg type,
+  callable return type. Name overrides on args intentionally not
+  flagged (most non-trivial methods have them — too common to
+  warrant per-arg visual weight). Native browser tooltip is
+  acceptable here because the marker is a power-user affordance, not
+  primary content; the typical reader scans past it, the curious
+  reader hovers for the rationale.
 - **Step 14 — Inherited methods.** ✅ Done. Inherited methods render
   in the same `#### Inherited` block as inherited properties — one
   line per ancestor, members comma-separated. Methods get a `()`
