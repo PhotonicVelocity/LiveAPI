@@ -837,6 +837,18 @@ primary_class:
       type: Live.Device.Device
     - name: target
       type: Live.LomObject.LomObject
+      type_override:
+        value: Live.Track.Track | Live.Chain.Chain
+        confidence: high
+        source: |
+          Binding declares `target` as `LomObject` — wider than what
+          the method actually accepts. raw_doc: "where the device can
+          be inserted" (a device-containing container). Push2 corpus
+          (`device_navigation.py:247,257,264,269`) passes only
+          `device.canonical_parent` (a Track or Chain) or a Chain
+          obtained via `rack.view.selected_chain` — never any other
+          LomObject. Track and Chain are the only LOM classes that
+          contain devices.
     - name: target_position
       type: int
     returns:
@@ -997,6 +1009,16 @@ primary_class:
       type: Live.Device.Device
     - name: target
       type: Live.LomObject.LomObject
+      type_override:
+        value: Live.Track.Track | Live.Chain.Chain
+        confidence: high
+        source: |
+          Same situation as the sister method `find_device_position`:
+          binding declares `LomObject`; raw_doc says "Move a device
+          into the target" (a device-containing container); Push2
+          corpus (`device_navigation.py:247,257,264,269`) only passes
+          Track or Chain. Narrowed to the two LOM classes that
+          actually contain devices.
     - name: target_position
       type: int
     returns:

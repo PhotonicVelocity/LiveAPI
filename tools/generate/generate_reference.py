@@ -89,8 +89,12 @@ DOCS_URL_BASE = "/LiveAPI/modules"
 # look up nested types under their full qualified name in the registry
 # and link the whole chain to the correct anchor rather than partial-
 # matching the leading top-level class.
+# First segment must start uppercase (so plain `foo.bar` lowercase
+# chains aren't matched as type tokens); inner segments accept either
+# case so nested snake_case enums like `MixerDevice.panning_modes`
+# match. Registry lookup gates which tokens actually become links.
 _TYPE_TOKEN_RE = re.compile(
-    r"\b[A-Z][A-Za-z0-9_]*(?:\.[A-Z][A-Za-z0-9_]*)+\b"
+    r"\b[A-Z][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)+\b"
     r"|\b[A-Za-z_][A-Za-z0-9_]*\b"
 )
 
