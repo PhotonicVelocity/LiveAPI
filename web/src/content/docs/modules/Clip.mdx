@@ -408,7 +408,9 @@ returns true if the Clip will record on being started.
 
 #### Methods
 
-##### add_new_notes<span class="meth-sig">(<span class="meth-arg">notes</span>: Iterable[<a href="/LiveAPI/modules/clip/#midinotespecification" title="MidiNoteSpecification">MidiNoteSpecification</a>]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#intu64vector" title="IntU64Vector">IntU64Vector</a></span>
+##### add_new_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#midinotespecification" title="MidiNoteSpecification">MidiNoteSpecification</a>]</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/base/#intu64vector" title="IntU64Vector">IntU64Vector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -416,7 +418,9 @@ Expects a Python iterable holding a number of Live.Clip.MidiNoteSpecification ob
 
 </div>
 
-##### add_warp_marker<span class="meth-sig">(<span class="meth-arg">warp_marker</span>: <a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### add_warp_marker()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">warp_marker</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -424,7 +428,9 @@ Available for AudioClips only. Adds the specified warp marker, if possible.
 
 </div>
 
-##### apply_note_modifications<span class="meth-sig">(<span class="meth-arg">notes</span>: <a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### apply_note_modifications()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -432,7 +438,9 @@ Expects a list of notes as returned from get_notes_extended. The content of the 
 
 </div>
 
-##### automation_envelope<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></span>
+##### automation_envelope()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></div></div></div>
 
 <div class="member-desc">
 
@@ -440,7 +448,9 @@ Return the envelope for the given parameter.Returns None if the envelope doesn't
 
 </div>
 
-##### beat_to_sample_time<span class="meth-sig">(<span class="meth-arg">beat_time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
+##### beat_to_sample_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beat_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -448,7 +458,7 @@ Available for AudioClips only. Converts the given beat time to sample time. Rais
 
 </div>
 
-##### clear_all_envelopes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### clear_all_envelopes()
 
 <div class="member-desc">
 
@@ -456,7 +466,9 @@ Clears all envelopes for this clip.
 
 </div>
 
-##### clear_envelope<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### clear_envelope()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -464,7 +476,9 @@ Clears the envelope of this clips given parameter.
 
 </div>
 
-##### create_automation_envelope<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></span>
+##### create_automation_envelope()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a></div></div></div>
 
 <div class="member-desc">
 
@@ -472,7 +486,7 @@ Creates an envelope for a given parameter and returns it.This should only be use
 
 </div>
 
-##### crop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### crop()
 
 <div class="member-desc">
 
@@ -480,7 +494,7 @@ Crops the clip. The region that is cropped depends on whether the clip is looped
 
 </div>
 
-##### deselect_all_notes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### deselect_all_notes()
 
 <div class="member-desc">
 
@@ -488,7 +502,7 @@ De-selects all notes present in the clip.
 
 </div>
 
-##### duplicate_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### duplicate_loop()
 
 <div class="member-desc">
 
@@ -496,7 +510,9 @@ Make the loop two times longer and duplicates notes and envelopes. Duplicates th
 
 </div>
 
-##### duplicate_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int], <span class="meth-arg">destination_time</span>: float | None = <span class="meth-default">None</span>, <span class="meth-arg">transposition_amount</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#intu64vector" title="IntU64Vector">IntU64Vector</a></span>
+##### duplicate_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]</span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float | None</span> = <span class="fn-arg-default">None</span></li><li><span class="fn-arg-name">transposition_amount</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/base/#intu64vector" title="IntU64Vector">IntU64Vector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -504,7 +520,9 @@ Duplicate all notes matching the given note IDs. If the optional destination_tim
 
 </div>
 
-##### duplicate_region<span class="meth-sig">(<span class="meth-arg">region_start</span>: float, <span class="meth-arg">region_length</span>: float, <span class="meth-arg">destination_time</span>: float, <span class="meth-arg">pitch</span>: int = <span class="meth-default">-1</span>, <span class="meth-arg">transposition_amount</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### duplicate_region()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">region_start</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">region_length</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li><li><span class="fn-arg-name">transposition_amount</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -512,7 +530,7 @@ Duplicate the notes in the specified region to the destination_time. Only notes 
 
 </div>
 
-##### fire<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### fire()
 
 <div class="member-desc">
 
@@ -520,7 +538,9 @@ Duplicate the notes in the specified region to the destination_time. Only notes 
 
 </div>
 
-##### get_all_notes_extended<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span>
+##### get_all_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -528,7 +548,9 @@ Returns a list of all MIDI notes from the clip, regardless of their position rel
 
 </div>
 
-##### get_notes<span class="meth-sig">(<span class="meth-arg">from_time</span>: float, <span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">time_span</span>: float, <span class="meth-arg">pitch_span</span>: int) <span class="meth-arrow">-&gt;</span> tuple[tuple[int, float, float, float, bool], ...]</span>
+##### get_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]</div></div></div>
 
 <div class="member-desc">
 
@@ -536,7 +558,9 @@ Returns a tuple of tuples where each inner tuple represents a note starting in t
 
 </div>
 
-##### get_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span>
+##### get_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -544,7 +568,9 @@ Return a list of MIDI notes matching the given note IDs.
 
 </div>
 
-##### get_notes_extended<span class="meth-sig">(<span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">pitch_span</span>: int, <span class="meth-arg">from_time</span>: float, <span class="meth-arg">time_span</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span>
+##### get_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -552,7 +578,9 @@ Returns a list of MIDI notes from the given pitch and time range. Each note is r
 
 </div>
 
-##### get_selected_notes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[tuple[int, float, float, float, bool], ...]</span>
+##### get_selected_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, float, float, float, bool], ...]</div></div></div>
 
 <div class="member-desc">
 
@@ -560,7 +588,9 @@ Returns a tuple of tuples where each inner tuple represents a selected note. The
 
 </div>
 
-##### get_selected_notes_extended<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></span>
+##### get_selected_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#midinotevector" title="MidiNoteVector">MidiNoteVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -568,7 +598,9 @@ Returns a list of all MIDI notes from the clip that are currently selected. Each
 
 </div>
 
-##### move_playing_pos<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### move_playing_pos()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -576,7 +608,9 @@ Jump forward or backward by the specified relative amount in beats. Will do noth
 
 </div>
 
-##### move_warp_marker<span class="meth-sig">(<span class="meth-arg">marker_beat_time</span>: float, <span class="meth-arg">beat_time_distance</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### move_warp_marker()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">marker_beat_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">beat_time_distance</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -584,7 +618,9 @@ Available for AudioClips only. Moves the specified warp marker by the specified 
 
 </div>
 
-##### note_number_to_name<span class="meth-sig">(<span class="meth-arg">midi_pitch</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
+##### note_number_to_name()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_pitch</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -592,7 +628,9 @@ Return a human-readable name for the given MIDI note number. Takes into account 
 
 </div>
 
-##### quantize<span class="meth-sig">(<span class="meth-arg">quantization_grid</span>: <a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a> | int, <span class="meth-arg">amount</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### quantize()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">quantization_grid</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a> | int</span></li><li><span class="fn-arg-name">amount</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -600,7 +638,9 @@ Quantize all notes in a clip or align warp markers.
 
 </div>
 
-##### quantize_pitch<span class="meth-sig">(<span class="meth-arg">note</span>: int, <span class="meth-arg">quantization_grid</span>: <a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a> | int, <span class="meth-arg">amount</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### quantize_pitch()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">quantization_grid</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#gridquantization" title="GridQuantization">GridQuantization</a> | int</span></li><li><span class="fn-arg-name">amount</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -608,7 +648,9 @@ Quantize all the notes of a given pitch. Raises an error on audio clips.
 
 </div>
 
-##### remove_notes<span class="meth-sig">(<span class="meth-arg">from_time</span>: float, <span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">time_span</span>: float, <span class="meth-arg">pitch_span</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### remove_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -616,7 +658,9 @@ Delete all notes starting in the given pitch- and time range.
 
 </div>
 
-##### remove_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> None</span>
+##### remove_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -624,7 +668,9 @@ Delete all notes matching the given note IDs. This function should NOT be used t
 
 </div>
 
-##### remove_notes_extended<span class="meth-sig">(<span class="meth-arg">from_pitch</span>: int, <span class="meth-arg">pitch_span</span>: int, <span class="meth-arg">from_time</span>: float, <span class="meth-arg">time_span</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### remove_notes_extended()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">from_pitch</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">pitch_span</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">from_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">time_span</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -632,7 +678,9 @@ Delete all notes starting in the given pitch and time range. This function shoul
 
 </div>
 
-##### remove_warp_marker<span class="meth-sig">(<span class="meth-arg">beat_time</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### remove_warp_marker()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beat_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -640,7 +688,9 @@ Available for AudioClips only. Removes the specified warp marker, if possible.
 
 </div>
 
-##### replace_selected_notes<span class="meth-sig">(<span class="meth-arg">notes</span>: tuple[tuple[int, float, float, float, bool], ...]) <span class="meth-arrow">-&gt;</span> None</span>
+##### replace_selected_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -648,7 +698,9 @@ Called with a tuple of tuples where each inner tuple represents a note in the sa
 
 </div>
 
-##### sample_to_beat_time<span class="meth-sig">(<span class="meth-arg">sample_time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
+##### sample_to_beat_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">sample_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -656,7 +708,9 @@ Available for AudioClips only. Converts the given sample time to beat time. Rais
 
 </div>
 
-##### scrub<span class="meth-sig">(<span class="meth-arg">scrub_position</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### scrub()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">scrub_position</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -664,7 +718,9 @@ Scrubs inside a clip. scrub_position defines the position in beats that the scru
 
 </div>
 
-##### seconds_to_sample_time<span class="meth-sig">(<span class="meth-arg">seconds</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
+##### seconds_to_sample_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">seconds</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -672,7 +728,7 @@ Available for AudioClips only. Converts the given seconds to sample time. Raises
 
 </div>
 
-##### select_all_notes<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### select_all_notes()
 
 <div class="member-desc">
 
@@ -680,7 +736,9 @@ Selects all notes present in the clip.
 
 </div>
 
-##### select_notes_by_id<span class="meth-sig">(<span class="meth-arg">note_ids</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> None</span>
+##### select_notes_by_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">note_ids</span>: <span class="fn-arg-type">Iterable[int]</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -688,7 +746,9 @@ Selects all notes matching the given note IDs.
 
 </div>
 
-##### set_fire_button_state<span class="meth-sig">(<span class="meth-arg">state</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_fire_button_state()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -696,7 +756,9 @@ Set the clip's fire button state directly. Supports all launch modes.
 
 </div>
 
-##### set_notes<span class="meth-sig">(<span class="meth-arg">notes</span>: tuple[tuple[int, float, float, float, bool], ...]) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_notes()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notes</span>: <span class="fn-arg-type">tuple[tuple[int, float, float, float, bool], ...]</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -704,7 +766,7 @@ Called with a tuple of tuples where each inner tuple represents a note in the sa
 
 </div>
 
-##### stop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### stop()
 
 <div class="member-desc">
 
@@ -712,7 +774,7 @@ Stop playing this Clip.
 
 </div>
 
-##### stop_scrub<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### stop_scrub()
 
 <div class="member-desc">
 
@@ -766,9 +828,13 @@ A container for holding MIDI notes from Live.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#midinote" title="MidiNote">MidiNote</a>]</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Clip.">WarpMarker</span></span>
 
@@ -798,9 +864,13 @@ A container for returning warp markers from Live.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/clip/#warpmarker" title="WarpMarker">WarpMarker</a>]</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Clip.">Clip.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -834,7 +904,7 @@ Get/set clip grid quantization resolution.
 
 #### Methods
 
-##### hide_envelope<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### hide_envelope()
 
 <div class="member-desc">
 
@@ -842,7 +912,9 @@ Hide the envelope view.
 
 </div>
 
-##### select_envelope_parameter<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### select_envelope_parameter()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -850,7 +922,7 @@ Select the given device parameter in the envelope view.
 
 </div>
 
-##### show_envelope<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### show_envelope()
 
 <div class="member-desc">
 
@@ -858,7 +930,7 @@ Show the envelope view.
 
 </div>
 
-##### show_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### show_loop()
 
 <div class="member-desc">
 

@@ -112,11 +112,11 @@ The tempo of Looper's buffer.
 
 #### Inherited
 
-From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot---none), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bankscript_index-int-bank_index-int---none)
+From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
 #### Methods
 
-##### clear<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### clear()
 
 <div class="member-desc">
 
@@ -124,7 +124,7 @@ Erase Looper's recorded content.
 
 </div>
 
-##### double_length<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### double_length()
 
 <div class="member-desc">
 
@@ -132,7 +132,7 @@ Double the length of Looper's buffer.
 
 </div>
 
-##### double_speed<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### double_speed()
 
 <div class="member-desc">
 
@@ -140,7 +140,9 @@ Double the speed of Looper's playback.
 
 </div>
 
-##### export_to_clip_slot<span class="meth-sig">(<span class="meth-arg">clip_slot</span>: <a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### export_to_clip_slot()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip_slot</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -148,7 +150,7 @@ Export Looper's content to a Session Clip Slot.
 
 </div>
 
-##### half_length<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### half_length()
 
 <div class="member-desc">
 
@@ -156,7 +158,7 @@ Halve the length of Looper's buffer.
 
 </div>
 
-##### half_speed<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### half_speed()
 
 <div class="member-desc">
 
@@ -164,7 +166,7 @@ Halve the speed of Looper's playback.
 
 </div>
 
-##### overdub<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### overdub()
 
 <div class="member-desc">
 
@@ -172,7 +174,7 @@ Play back while adding additional layers of incoming audio.
 
 </div>
 
-##### play<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### play()
 
 <div class="member-desc">
 
@@ -180,7 +182,7 @@ Play back without overdubbing.
 
 </div>
 
-##### record<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### record()
 
 <div class="member-desc">
 
@@ -188,7 +190,7 @@ Record incoming audio.
 
 </div>
 
-##### stop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### stop()
 
 <div class="member-desc">
 
@@ -196,7 +198,7 @@ Stop Looper's playback.
 
 </div>
 
-##### undo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### undo()
 
 <div class="member-desc">
 

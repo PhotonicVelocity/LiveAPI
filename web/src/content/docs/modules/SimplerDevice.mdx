@@ -192,11 +192,11 @@ Access to the number of voices in Simpler.
 
 #### Inherited
 
-From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot---none), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bankscript_index-int-bank_index-int---none)
+From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
 #### Methods
 
-##### crop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### crop()
 
 <div class="member-desc">
 
@@ -204,7 +204,9 @@ Crop the loaded sample to the active area between start- and end marker. Calling
 
 </div>
 
-##### guess_playback_length<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> float</span>
+##### guess_playback_length()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -212,7 +214,7 @@ Return an estimated beat time for the playback length between start- and end-mar
 
 </div>
 
-##### reverse<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### reverse()
 
 <div class="member-desc">
 
@@ -220,7 +222,9 @@ Reverse the loaded sample. Calling this method on an empty simpler raises an err
 
 </div>
 
-##### warp_as<span class="meth-sig">(<span class="meth-arg">beat_time</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### warp_as()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beat_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -228,7 +232,7 @@ Warp the playback region between start- and end-marker as the given length. Call
 
 </div>
 
-##### warp_double<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### warp_double()
 
 <div class="member-desc">
 
@@ -236,7 +240,7 @@ Doubles the tempo for region between start- and end-marker.
 
 </div>
 
-##### warp_half<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### warp_half()
 
 <div class="member-desc">
 

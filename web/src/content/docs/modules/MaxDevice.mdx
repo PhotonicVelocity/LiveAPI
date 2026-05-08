@@ -96,7 +96,7 @@ Const access to the list of available automatable parameters for this device.
 
 #### Inherited
 
-From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [is_using_compare_preset_b](/LiveAPI/modules/device/#is_using_compare_preset_b-bool), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot---none), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bankscript_index-int-bank_index-int---none)
+From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [is_using_compare_preset_b](/LiveAPI/modules/device/#is_using_compare_preset_b-bool), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
 #### Signals
 
@@ -104,7 +104,9 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 #### Methods
 
-##### get_bank_count<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
+##### get_bank_count()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -112,7 +114,9 @@ Get the number of parameter banks. This is related to hardware control surfaces.
 
 </div>
 
-##### get_bank_name<span class="meth-sig">(<span class="meth-arg">bank_index</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
+##### get_bank_name()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -120,7 +124,9 @@ Get the name of a parameter bank given by index. This is related to hardware con
 
 </div>
 
-##### get_bank_parameters<span class="meth-sig">(<span class="meth-arg">bank_index</span>: int) <span class="meth-arrow">-&gt;</span> list[int]</span>
+##### get_bank_parameters()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">list[int]</div></div></div>
 
 <div class="member-desc">
 
@@ -128,7 +134,9 @@ Get the indices of parameters of the given bank index. Empty slots are marked as
 
 </div>
 
-##### get_value_item_icons<span class="meth-sig">(<span class="meth-arg">device_parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> list[str]</span>
+##### get_value_item_icons()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">list[str]</div></div></div>
 
 <div class="member-desc">
 

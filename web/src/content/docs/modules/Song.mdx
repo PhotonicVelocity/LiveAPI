@@ -487,9 +487,11 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 
 #### Methods
 
-##### begin_undo_step<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### begin_undo_step()
 
-##### capture_and_insert_scene<span class="meth-sig">(<span class="meth-arg">capture_mode</span>: <a href="/LiveAPI/modules/song/#capturemode" title="CaptureMode">CaptureMode</a> | int = <span class="meth-default">CaptureMode.all</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### capture_and_insert_scene()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">capture_mode</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/song/#capturemode" title="CaptureMode">CaptureMode</a> | int</span> = <span class="fn-arg-default">CaptureMode.all</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -497,7 +499,9 @@ Capture currently playing clips and insert them as a new scene after the selecte
 
 </div>
 
-##### capture_midi<span class="meth-sig">(<span class="meth-arg">destination</span>: <a href="/LiveAPI/modules/song/#capturedestination" title="CaptureDestination">CaptureDestination</a> | int = <span class="meth-default">CaptureDestination.auto</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### capture_midi()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">destination</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/song/#capturedestination" title="CaptureDestination">CaptureDestination</a> | int</span> = <span class="fn-arg-default">CaptureDestination.auto</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -505,7 +509,7 @@ Capture recently played MIDI material from audible tracks. If no Destination is 
 
 </div>
 
-##### continue_playing<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### continue_playing()
 
 <div class="member-desc">
 
@@ -513,7 +517,9 @@ Continue playing the song from the current position
 
 </div>
 
-##### create_audio_track<span class="meth-sig">(<span class="meth-arg">index</span>: int | None = <span class="meth-default">None</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
+##### create_audio_track()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int | None</span> = <span class="fn-arg-default">None</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
 
 <div class="member-desc">
 
@@ -521,7 +527,9 @@ Create a new audio track at the optional given index and return it.If the index 
 
 </div>
 
-##### create_midi_track<span class="meth-sig">(<span class="meth-arg">index</span>: int | None = <span class="meth-default">None</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
+##### create_midi_track()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int | None</span> = <span class="fn-arg-default">None</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
 
 <div class="member-desc">
 
@@ -529,7 +537,9 @@ Create a new midi track at the optional given index and return it.If the index i
 
 </div>
 
-##### create_return_track<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/track/#track" title="Track">Track</a></span>
+##### create_return_track()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/track/#track" title="Track">Track</a></div></div></div>
 
 <div class="member-desc">
 
@@ -537,7 +547,9 @@ Create a new return track at the end and return it. If the new track would excee
 
 </div>
 
-##### create_scene<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/scene/#scene" title="Scene">Scene</a></span>
+##### create_scene()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/scene/#scene" title="Scene">Scene</a></div></div></div>
 
 <div class="member-desc">
 
@@ -545,7 +557,9 @@ Create a new scene at the given index. If the index is -1, the new scene is adde
 
 </div>
 
-##### delete_return_track<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_return_track()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -553,7 +567,9 @@ Delete the return track with the given index. If no track with this index exists
 
 </div>
 
-##### delete_scene<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_scene()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -561,7 +577,9 @@ Delete the scene with the given index. If no scene with this index exists, an ex
 
 </div>
 
-##### delete_track<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_track()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -569,7 +587,9 @@ Delete the track with the given index. If no track with this index exists, an ex
 
 </div>
 
-##### duplicate_scene<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### duplicate_scene()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -577,7 +597,9 @@ Duplicates a scene and selects the new one. Raises a limitation error if creatin
 
 </div>
 
-##### duplicate_track<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### duplicate_track()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -585,9 +607,11 @@ Duplicates a track and selects the new one. If the track is inside a folded grou
 
 </div>
 
-##### end_undo_step<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### end_undo_step()
 
-##### find_device_position<span class="meth-sig">(<span class="meth-arg">device</span>: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a>, <span class="meth-arg">target</span>: <a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a>, <span class="meth-arg">target_position</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
+##### find_device_position()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">target</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a></span></li><li><span class="fn-arg-name">target_position</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -595,7 +619,7 @@ Returns the closest possible position to the given target, where the device can 
 
 </div>
 
-##### force_link_beat_time<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### force_link_beat_time()
 
 <div class="member-desc">
 
@@ -603,7 +627,9 @@ Force the Link timeline to jump to Lives current beat time. Danger: This can cau
 
 </div>
 
-##### get_beats_loop_length<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></span>
+##### get_beats_loop_length()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></div></div></div>
 
 <div class="member-desc">
 
@@ -611,7 +637,9 @@ Get const access to the songs loop length, using a BeatTime class with the curre
 
 </div>
 
-##### get_beats_loop_start<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></span>
+##### get_beats_loop_start()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></div></div></div>
 
 <div class="member-desc">
 
@@ -619,7 +647,9 @@ Get const access to the songs loop start, using a BeatTime class with the curren
 
 </div>
 
-##### get_current_beats_song_time<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></span>
+##### get_current_beats_song_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/song/#beattime" title="BeatTime">BeatTime</a></div></div></div>
 
 <div class="member-desc">
 
@@ -627,7 +657,9 @@ Get const access to the songs current playing position, using a BeatTime class w
 
 </div>
 
-##### get_current_smpte_song_time<span class="meth-sig">(<span class="meth-arg">smpte_format</span>: int) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#smpttime" title="SmptTime">SmptTime</a></span>
+##### get_current_smpte_song_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">smpte_format</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/song/#smpttime" title="SmptTime">SmptTime</a></div></div></div>
 
 <div class="member-desc">
 
@@ -635,7 +667,9 @@ Get const access to the songs current playing position, by specifying the SMPTE 
 
 </div>
 
-##### get_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">default_value</span>: Any) <span class="meth-arrow">-&gt;</span> Any</span>
+##### get_data()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">default_value</span>: <span class="fn-arg-type">Any</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">Any</div></div></div>
 
 <div class="member-desc">
 
@@ -643,7 +677,9 @@ Get data for the given key, that was previously stored using set_data.
 
 </div>
 
-##### is_cue_point_selected<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
+##### is_cue_point_selected()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -651,7 +687,9 @@ Return true if the global playing pos is currently on a cue point.
 
 </div>
 
-##### jump_by<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### jump_by()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -659,7 +697,7 @@ Set a new playing pos, relative to the current one.
 
 </div>
 
-##### jump_to_next_cue<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### jump_to_next_cue()
 
 <div class="member-desc">
 
@@ -667,7 +705,7 @@ Jump to the next cue (marker) if possible.
 
 </div>
 
-##### jump_to_prev_cue<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### jump_to_prev_cue()
 
 <div class="member-desc">
 
@@ -675,7 +713,9 @@ Jump to the prior cue (marker) if possible.
 
 </div>
 
-##### move_device<span class="meth-sig">(<span class="meth-arg">device</span>: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a>, <span class="meth-arg">target</span>: <a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a>, <span class="meth-arg">target_position</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
+##### move_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">target</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a></span></li><li><span class="fn-arg-name">target_position</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -683,7 +723,7 @@ Move a device into the target at the given position, where 0 moves it before the
 
 </div>
 
-##### play_selection<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### play_selection()
 
 <div class="member-desc">
 
@@ -691,7 +731,7 @@ Start playing the current set selection, or do nothing if no selection is set.
 
 </div>
 
-##### re_enable_automation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### re_enable_automation()
 
 <div class="member-desc">
 
@@ -699,7 +739,9 @@ Discards overrides of automated parameters.
 
 </div>
 
-##### redo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### redo()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -707,7 +749,9 @@ Redo the last action that was undone.
 
 </div>
 
-##### scrub_by<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### scrub_by()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -715,7 +759,9 @@ Same as jump_by, but does not stop playback.
 
 </div>
 
-##### set_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">value</span>: Any) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_data()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">Any</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -723,7 +769,7 @@ Store data for the given key in this object. The data is persistent and will be 
 
 </div>
 
-##### set_or_delete_cue<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### set_or_delete_cue()
 
 <div class="member-desc">
 
@@ -731,7 +777,7 @@ When a cue is selected, it gets deleted. If no cue is selected, a new cue is cre
 
 </div>
 
-##### start_playing<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### start_playing()
 
 <div class="member-desc">
 
@@ -739,7 +785,9 @@ Start playing from the startmarker
 
 </div>
 
-##### stop_all_clips<span class="meth-sig">(<span class="meth-arg">quantized</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### stop_all_clips()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">quantized</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -747,7 +795,7 @@ Stop all playing Clips (if any) but continue playing the Song.
 
 </div>
 
-##### stop_playing<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### stop_playing()
 
 <div class="member-desc">
 
@@ -755,7 +803,7 @@ Stop playing the Song.
 
 </div>
 
-##### tap_tempo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### tap_tempo()
 
 <div class="member-desc">
 
@@ -763,7 +811,9 @@ Trigger the tap tempo function.
 
 </div>
 
-##### trigger_session_record<span class="meth-sig">(<span class="meth-arg">record_length</span>: float = <span class="meth-default">1.7976931348623157e+308</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### trigger_session_record()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">record_length</span>: <span class="fn-arg-type">float</span> = <span class="fn-arg-default">1.7976931348623157e+308</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -771,7 +821,9 @@ Triggers a new session recording.
 
 </div>
 
-##### undo<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### undo()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -831,7 +883,7 @@ Get/Listen to the CuePoint's time in beats.
 
 #### Methods
 
-##### jump<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### jump()
 
 <div class="member-desc">
 
@@ -933,7 +985,9 @@ Get/Set the current selected Track in Lives Session or Arrangerview.
 
 #### Methods
 
-##### select_device<span class="meth-sig">(<span class="meth-arg">device</span>: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a>, <span class="meth-arg">should_appoint_device</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### select_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span></li><li><span class="fn-arg-name">should_appoint_device</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
 
 <div class="member-desc">
 

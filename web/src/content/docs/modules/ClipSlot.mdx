@@ -121,7 +121,9 @@ returns true if the clip slot will record on being fired.
 
 #### Methods
 
-##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
+##### create_audio_clip()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">file_path</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -129,7 +131,9 @@ Creates an audio clip referencing the file at the given absolute path in the slo
 
 </div>
 
-##### create_clip<span class="meth-sig">(<span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
+##### create_clip()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -137,7 +141,7 @@ Creates an empty clip with the given length in the slot. Throws an error when ca
 
 </div>
 
-##### delete_clip<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_clip()
 
 <div class="member-desc">
 
@@ -145,7 +149,9 @@ Removes the clip contained in the slot. Raises an exception if the slot was empt
 
 </div>
 
-##### duplicate_clip_to<span class="meth-sig">(<span class="meth-arg">target_clip_slot</span>: <a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### duplicate_clip_to()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">target_clip_slot</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -153,7 +159,7 @@ Duplicates the slot's clip to the passed in target slot. Overrides the target's 
 
 </div>
 
-##### fire<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### fire()
 
 <div class="member-desc">
 
@@ -161,7 +167,9 @@ Fire a Clip if this Clipslot owns one, else trigger the stop button, if we have 
 
 </div>
 
-##### set_fire_button_state<span class="meth-sig">(<span class="meth-arg">state</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_fire_button_state()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -169,7 +177,7 @@ Set the clipslot's fire button state directly. Supports all launch modes.
 
 </div>
 
-##### stop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### stop()
 
 <div class="member-desc">
 

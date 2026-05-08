@@ -477,7 +477,9 @@ Representing the view aspects of a Track.
 
 #### Methods
 
-##### create_audio_clip<span class="meth-sig">(<span class="meth-arg">file_path</span>: str, <span class="meth-arg">position</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
+##### create_audio_clip()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">file_path</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">position</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -485,7 +487,9 @@ Creates an audio clip referencing the file at the given path and inserts it into
 
 </div>
 
-##### create_midi_clip<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
+##### create_midi_clip()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -493,7 +497,9 @@ Creates an empty MIDI clip and inserts it into the arrangement at the specified 
 
 </div>
 
-##### create_take_lane<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/takelane/#takelane" title="TakeLane">TakeLane</a></span>
+##### create_take_lane()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/takelane/#takelane" title="TakeLane">TakeLane</a></div></div></div>
 
 <div class="member-desc">
 
@@ -501,7 +507,9 @@ Create a new TakeLane for this track.
 
 </div>
 
-##### delete_clip<span class="meth-sig">(<span class="meth-arg">clip</span>: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_clip()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -509,7 +517,9 @@ Delete the given clip. Raises a runtime error when the clip belongs to another t
 
 </div>
 
-##### delete_device<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -517,7 +527,9 @@ Delete a device identified by the index in the 'devices' list.
 
 </div>
 
-##### duplicate_clip_slot<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> int</span>
+##### duplicate_clip_slot()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -525,7 +537,9 @@ Duplicate a clip and put it into the next free slot and return the index of the 
 
 </div>
 
-##### duplicate_clip_to_arrangement<span class="meth-sig">(<span class="meth-arg">clip</span>: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>, <span class="meth-arg">destination_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
+##### duplicate_clip_to_arrangement()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -533,7 +547,9 @@ Duplicate the given clip into the arrangement of this track at the provided dest
 
 </div>
 
-##### duplicate_device<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### duplicate_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -541,7 +557,9 @@ Duplicate a device at a given index in the 'devices' list.
 
 </div>
 
-##### get_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">default_value</span>: Any) <span class="meth-arrow">-&gt;</span> Any</span>
+##### get_data()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">default_value</span>: <span class="fn-arg-type">Any</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">Any</div></div></div>
 
 <div class="member-desc">
 
@@ -549,7 +567,9 @@ Get data for the given key, that was previously stored using set_data.
 
 </div>
 
-##### insert_device<span class="meth-sig">(<span class="meth-arg">device_name</span>: str, <span class="meth-arg">device_index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span>
+##### insert_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></div></div></div>
 
 <div class="member-desc">
 
@@ -557,7 +577,9 @@ Add a device at a given index in the 'devices' list. At end if -1.
 
 </div>
 
-##### jump_in_running_session_clip<span class="meth-sig">(<span class="meth-arg">beats</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### jump_in_running_session_clip()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -565,7 +587,9 @@ Jump forward or backward in the currently running Sessionclip (if any) by the sp
 
 </div>
 
-##### set_data<span class="meth-sig">(<span class="meth-arg">key</span>: str, <span class="meth-arg">value</span>: Any) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_data()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">Any</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -573,7 +597,9 @@ Store data for the given key in this object. The data is persistent and will be 
 
 </div>
 
-##### stop_all_clips<span class="meth-sig">(<span class="meth-arg">quantized</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### stop_all_clips()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">quantized</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -653,9 +679,13 @@ A container for returning routing channels from Live.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a>]</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingType</span></span>
 
@@ -693,9 +723,13 @@ A container for returning routing types from Live.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a>]</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
@@ -737,7 +771,9 @@ Get/Set/Listen the insertion mode of the device.  While in insertion mode, loadi
 
 #### Methods
 
-##### select_instrument<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> bool</span>
+##### select_instrument()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 

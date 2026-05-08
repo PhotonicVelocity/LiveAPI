@@ -25,7 +25,9 @@ This class represents an automation or modulation envelope in Live.
 
 #### Methods
 
-##### delete_events_in_range<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">end_time</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_events_in_range()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -33,7 +35,9 @@ Deletes the events in the specified time range.
 
 </div>
 
-##### events_in_range<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">end_time</span>: float) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/envelope/#envelopeeventvector" title="EnvelopeEventVector">EnvelopeEventVector</a></span>
+##### events_in_range()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelopeeventvector" title="EnvelopeEventVector">EnvelopeEventVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -41,7 +45,9 @@ Returns the events in the specified time range.
 
 </div>
 
-##### insert_step<span class="meth-sig">(<span class="meth-arg">start_time</span>: float, <span class="meth-arg">length</span>: float, <span class="meth-arg">value</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### insert_step()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -49,7 +55,9 @@ Given a start time, a step length and a value, creates a step in the envelope.
 
 </div>
 
-##### value_at_time<span class="meth-sig">(<span class="meth-arg">time</span>: float) <span class="meth-arrow">-&gt;</span> float</span>
+##### value_at_time()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -91,6 +99,10 @@ A container for holding envelope events.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a>]</span></li></ul></div></div>

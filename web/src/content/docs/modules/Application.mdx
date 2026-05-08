@@ -105,7 +105,9 @@ Returns the applications view component.
 
 #### Methods
 
-##### get_bugfix_version<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
+##### get_bugfix_version()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -113,7 +115,9 @@ Returns an integer representing the bugfix version of Live.
 
 </div>
 
-##### get_build_id<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### get_build_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -121,7 +125,9 @@ Returns a string identifying the build.
 
 </div>
 
-##### get_document<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/song/#song" title="Song">Song</a></span>
+##### get_document()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/song/#song" title="Song">Song</a></div></div></div>
 
 <div class="member-desc">
 
@@ -129,7 +135,9 @@ Returns the current Live Set.
 
 </div>
 
-##### get_major_version<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
+##### get_major_version()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -137,7 +145,9 @@ Returns an integer representing the major version of Live.
 
 </div>
 
-##### get_minor_version<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> int</span>
+##### get_minor_version()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -145,7 +155,9 @@ Returns an integer representing the minor version of Live.
 
 </div>
 
-##### get_variant<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### get_variant()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -153,7 +165,9 @@ Returns one of the strings in Live.Application.Variants.
 
 </div>
 
-##### get_version_string<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### get_version_string()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -161,7 +175,9 @@ Returns the full version string of Live.
 
 </div>
 
-##### has_option<span class="meth-sig">(<span class="meth-arg">option_name</span>: str) <span class="meth-arrow">-&gt;</span> bool</span>
+##### has_option()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">option_name</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -169,7 +185,9 @@ Returns True if the given entry exists in Options.txt, False otherwise.
 
 </div>
 
-##### press_current_dialog_button<span class="meth-sig">(<span class="meth-arg">index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### press_current_dialog_button()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -177,7 +195,9 @@ Press a button, by index, on the current message box.
 
 </div>
 
-##### show_message<span class="meth-sig">(<span class="meth-arg">text</span>: <a href="/LiveAPI/modules/base/#text" title="Text">Text</a>, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>) <span class="meth-arrow">-&gt;</span> int</span>
+##### show_message()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">text</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/base/#text" title="Text">Text</a></span></li><li><span class="fn-arg-name">buttons</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int</span> = <span class="fn-arg-default">MessageButtons.OK_BUTTON</span></li><li><span class="fn-arg-name">enable_markup</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">show_success_icon</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -185,7 +205,9 @@ Shows a message box, returning the position of the pressed button.
 
 </div>
 
-##### show_on_the_fly_message<span class="meth-sig">(<span class="meth-arg">message</span>: str, <span class="meth-arg">buttons</span>: <a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int = <span class="meth-default">MessageButtons.OK_BUTTON</span>, <span class="meth-arg">enable_markup</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">show_success_icon</span>: bool = <span class="meth-default">False</span>, <span class="meth-arg">push_dialog_type</span>: <a href="/LiveAPI/modules/application/#pushdialogtype" title="PushDialogType">PushDialogType</a> | int = <span class="meth-default">PushDialogType.MESSAGE_BOX</span>) <span class="meth-arrow">-&gt;</span> int</span>
+##### show_on_the_fly_message()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">message</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">buttons</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int</span> = <span class="fn-arg-default">MessageButtons.OK_BUTTON</span></li><li><span class="fn-arg-name">enable_markup</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">show_success_icon</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">push_dialog_type</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#pushdialogtype" title="PushDialogType">PushDialogType</a> | int</span> = <span class="fn-arg-default">PushDialogType.MESSAGE_BOX</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -215,9 +237,13 @@ A container for returning control descriptions.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a>]</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">ControlSurfaceProxy</span></span>
 
@@ -245,23 +271,41 @@ The layout of pads on Push.
 
 #### Methods
 
-##### enable_receive_midi<span class="meth-sig">(<span class="meth-arg">enabled</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### enable_receive_midi()
 
-##### fetch_received_midi_messages<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[tuple[int, ...], ...]</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">enabled</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
-##### fetch_received_values<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> tuple[tuple[int, Any], ...]</span>
+##### fetch_received_midi_messages()
 
-##### grab_control<span class="meth-sig">(<span class="meth-arg">control_id</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, ...], ...]</div></div></div>
 
-##### release_control<span class="meth-sig">(<span class="meth-arg">control_id</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### fetch_received_values()
 
-##### send_midi<span class="meth-sig">(<span class="meth-arg">midi_event_bytes</span>: tuple[int, ...]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[tuple[int, Any], ...]</div></div></div>
 
-##### send_value<span class="meth-sig">(<span class="meth-arg">value</span>: tuple[Any, ...]) <span class="meth-arrow">-&gt;</span> None</span>
+##### grab_control()
 
-##### subscribe_to_control<span class="meth-sig">(<span class="meth-arg">control_id</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
-##### unsubscribe_from_control<span class="meth-sig">(<span class="meth-arg">control_id</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### release_control()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+##### send_midi()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_event_bytes</span>: <span class="fn-arg-type">tuple[int, ...]</span></li></ul></div></div>
+
+##### send_value()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">tuple[Any, ...]</span></li></ul></div></div>
+
+##### subscribe_to_control()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+##### unsubscribe_from_control()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
 
@@ -269,9 +313,13 @@ A container for returning unavailable features.
 
 #### Methods
 
-##### append<span class="meth-sig">(<span class="meth-arg">value</span>: <a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a>) <span class="meth-arrow">-&gt;</span> None</span>
+##### append()
 
-##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[<a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a>]) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a></span></li></ul></div></div>
+
+##### extend()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a>]</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">Variants</span></span>
 
@@ -315,7 +363,9 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 #### Methods
 
-##### available_main_views<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span>
+##### available_main_views()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -323,7 +373,9 @@ Return a list of strings with the available subcomponent views, which is to be s
 
 </div>
 
-##### focus_view<span class="meth-sig">(<span class="meth-arg">view</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+##### focus_view()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">view</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -331,7 +383,9 @@ Show and focus one through the identifier string specified view.
 
 </div>
 
-##### hide_view<span class="meth-sig">(<span class="meth-arg">view_name</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+##### hide_view()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -339,7 +393,9 @@ Hide one through the identifier string specified view.
 
 </div>
 
-##### is_view_visible<span class="meth-sig">(<span class="meth-arg">view_name</span>: str, <span class="meth-arg">main_window_only</span>: bool = <span class="meth-default">True</span>) <span class="meth-arrow">-&gt;</span> bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_view_visible()<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">main_window_only</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -361,7 +417,9 @@ is_view_visible_has_listener(view_name, callback)
 
 </div>
 
-##### scroll_view<span class="meth-sig">(<span class="meth-arg">direction</span>: <a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### scroll_view()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">direction</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int</span></li><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">modifier_pressed</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -369,7 +427,9 @@ Scroll through the identifier string specified view into the given direction, if
 
 </div>
 
-##### show_view<span class="meth-sig">(<span class="meth-arg">view</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+##### show_view()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">view</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -377,7 +437,7 @@ Show one through the identifier string specified view. Will throw a runtime erro
 
 </div>
 
-##### toggle_browse<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### toggle_browse()
 
 <div class="member-desc">
 
@@ -385,7 +445,9 @@ Reveals the device chain, the browser and starts hot swap for the selected devic
 
 </div>
 
-##### zoom_view<span class="meth-sig">(<span class="meth-arg">direction</span>: <a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int, <span class="meth-arg">view_name</span>: str, <span class="meth-arg">modifier_pressed</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### zoom_view()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">direction</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int</span></li><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">modifier_pressed</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 

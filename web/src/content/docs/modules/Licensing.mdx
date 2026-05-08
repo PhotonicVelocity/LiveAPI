@@ -17,11 +17,13 @@ A modal dialog showing a message and a progress animation.
 
 #### Methods
 
-##### end_modal_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### end_modal_loop()
 
-##### run_in_modal_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### run_in_modal_loop()
 
-##### set_status_message<span class="meth-sig">(<span class="meth-arg">msg</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_status_message()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">msg</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">PythonLicensingBridge</span></span>
 
@@ -65,9 +67,9 @@ Returns true if the set has unsaved changes.
 
 #### Methods
 
-##### authorize_with_sassafras<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### authorize_with_sassafras()
 
-##### create_new_live_set<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### create_new_live_set()
 
 <div class="member-desc">
 
@@ -75,7 +77,7 @@ Creates a new live set and discards unsaved changes.
 
 </div>
 
-##### deauthenticate_user<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### deauthenticate_user()
 
 <div class="member-desc">
 
@@ -83,7 +85,9 @@ Deletes the current session ID.
 
 </div>
 
-##### get_progress_dialog<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#progressdialog" title="ProgressDialog">ProgressDialog</a></span>
+##### get_progress_dialog()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#progressdialog" title="ProgressDialog">ProgressDialog</a></div></div></div>
 
 <div class="member-desc">
 
@@ -91,7 +95,9 @@ Retrieves an instance of ProgressDialog.
 
 </div>
 
-##### get_session_id<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### get_session_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -99,7 +105,9 @@ Retrieve stored session ID.
 
 </div>
 
-##### get_startup_dialog<span class="meth-sig">(<span class="meth-arg">authorize_callable</span>: Callable, <span class="meth-arg">authorize_later_callable</span>: Callable) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></span>
+##### get_startup_dialog()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">authorize_callable</span>: <span class="fn-arg-type">Callable</span></li><li><span class="fn-arg-name">authorize_later_callable</span>: <span class="fn-arg-type">Callable</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#startupdialog" title="StartupDialog">StartupDialog</a></div></div></div>
 
 <div class="member-desc">
 
@@ -107,7 +115,9 @@ Retrieves an instance of the startup dialog with the passed callables connected 
 
 </div>
 
-##### get_trial_time_left<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> str</span>
+##### get_trial_time_left()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -115,7 +125,7 @@ Returns remaining time on a trial as a formatted string.
 
 </div>
 
-##### invoke_pack_installation_callback<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### invoke_pack_installation_callback()
 
 <div class="member-desc">
 
@@ -123,7 +133,9 @@ Call package installation callback.
 
 </div>
 
-##### load_and_convert_legacy_unlock_cfg<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> dict[str, Any]</span>
+##### load_and_convert_legacy_unlock_cfg()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">dict[str, Any]</div></div></div>
 
 <div class="member-desc">
 
@@ -131,7 +143,9 @@ Loads the Unlock.cfg file and returns either an empty dict or one that can be co
 
 </div>
 
-##### process_license_response<span class="meth-sig">(<span class="meth-arg">license_response_lines</span>: list[str]) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></span>
+##### process_license_response()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">license_response_lines</span>: <span class="fn-arg-type">list[str]</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/licensing/#unlockstatus" title="UnlockStatus">UnlockStatus</a></div></div></div>
 
 <div class="member-desc">
 
@@ -139,7 +153,9 @@ Processes a list of strings, each representing a server response to a product au
 
 </div>
 
-##### process_trial_response<span class="meth-sig">(<span class="meth-arg">trial_response_line</span>: str) <span class="meth-arrow">-&gt;</span> bool</span>
+##### process_trial_response()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">trial_response_line</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -147,9 +163,11 @@ Process the server's response to a Trial authorization.
 
 </div>
 
-##### request_exit<span class="meth-sig">(<span class="meth-arg">exit_code</span>: int = <span class="meth-default">0</span>) <span class="meth-arrow">-&gt;</span> None</span>
+##### request_exit()
 
-##### save_current_set<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">exit_code</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div></div>
+
+##### save_current_set()
 
 <div class="member-desc">
 
@@ -157,7 +175,9 @@ Saves the current Live session.
 
 </div>
 
-##### set_network_timer<span class="meth-sig">(<span class="meth-arg">callback</span>: Callable | None, <span class="meth-arg">interval_in_ms</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_network_timer()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">callback</span>: <span class="fn-arg-type">Callable | None</span></li><li><span class="fn-arg-name">interval_in_ms</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -165,7 +185,9 @@ Starts or stops a timer meant for driving network operations. Pass None as callb
 
 </div>
 
-##### store_session_id<span class="meth-sig">(<span class="meth-arg">session_id</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+##### store_session_id()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">session_id</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -179,11 +201,15 @@ Serves as an entry point for the user to authorize Live on first launch.
 
 #### Methods
 
-##### end_modal_loop<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### end_modal_loop()
 
-##### run_in_modal_loop<span class="meth-sig">(<span class="meth-arg">show_only_offline_auth_instructions</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+##### run_in_modal_loop()
 
-##### set_notification_message<span class="meth-sig">(<span class="meth-arg">notification_text</span>: str, <span class="meth-arg">show_progress_bar</span>: bool) <span class="meth-arrow">-&gt;</span> None</span>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">show_only_offline_auth_instructions</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+
+##### set_notification_message()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">notification_text</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">show_progress_bar</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">UnlockStatus</span></span>
 
@@ -251,6 +277,6 @@ Returns a tuple containing the unlock file directory and a flag indicating if th
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Licensing.">launch_web_browser</span></span>()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">url</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">None</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">url</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 Opens a web browser at the specified URL on the user's computer.

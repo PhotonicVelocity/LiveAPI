@@ -434,67 +434,6 @@ def enum_signature_html(
     )
 
 
-def _callable_args_returns_html(
-    callable_node: dict,
-    registry: dict[str, str],
-    *,
-    owning_class_name: str | None = None,
-    current_module: str | None = None,
-) -> str:
-    """Render the `(args) -> return` portion of a callable signature.
-
-    Shared between class methods and module-level functions. Returns
-    the inner HTML for a `.meth-sig` span:
-
-        <span class="meth-sig">(<span class="meth-arg">x</span>: T,
-          <span class="meth-arg">k</span>: T2 = <span class="meth-default">D</span>)
-          <span class="meth-arrow">-&gt;</span> R</span>
-
-    Drops `self` (methods only). Honors `name_override` on args
-    (Boost.Python's `arg1` / `arg2` placeholders supplanted by corpus +
-    M4L docs). When `owning_class_name` is supplied, defaults of the
-    form `<owning_class_name>.X.Y` drop the redundant class-name prefix
-    on the class's own page.
-    """
-    prefix = f"{owning_class_name}." if owning_class_name else None
-    arg_parts: list[str] = []
-    for arg in callable_node.get("args") or []:
-        arg_name = _resolve(arg, "name")
-        if arg_name == "self":
-            continue
-        arg_type = _resolve(arg, "type")
-        type_part = ""
-        if arg_type:
-            type_part = f": {linkify_type(display_type(arg_type), registry, current_module=current_module)}"
-        default = arg.get("default")
-        if (
-            prefix is not None
-            and isinstance(default, str)
-            and default.startswith(prefix)
-        ):
-            default = default[len(prefix):]
-        default_part = (
-            f' = <span class="meth-default">{default}</span>'
-            if default is not None
-            else ""
-        )
-        arg_parts.append(
-            f'<span class="meth-arg">{arg_name}</span>'
-            f'{type_part}{default_part}'
-        )
-    args_html = ", ".join(arg_parts)
-    returns = callable_node.get("returns") or {}
-    return_part = ""
-    if isinstance(returns, dict):
-        return_type = _resolve(returns, "type")
-        if return_type:
-            return_part = (
-                f' <span class="meth-arrow">-&gt;</span> '
-                f'{linkify_type(display_type(return_type), registry, current_module=current_module)}'
-            )
-    return f'<span class="meth-sig">({args_html}){return_part}</span>'
-
-
 def function_signature_html(
     fn: dict,
     module_name: str,
@@ -514,21 +453,27 @@ def function_signature_html(
     )
 
 
-def function_signature_block_html(
-    fn: dict,
+def callable_signature_block_html(
+    callable_node: dict,
     module_name: str,
     registry: dict[str, str],
+    *,
+    owning_class_name: str | None = None,
 ) -> str:
-    """Render the Parameters / Returns block below a function H3.
+    """Render the Parameters / Returns block below a function H3 or
+    method H5. Sphinx-style labeled sections, rendered as a sibling
+    of the heading so the text stays out of `textContent`. One arg
+    per line; empty sections are skipped (no-arg callables show only
+    `Returns`; `None`-returning ones show only `Parameters`).
 
-    Sphinx-style labeled sections — `Parameters` and `Returns` —
-    rendered as a sibling block so their text stays out of the
-    heading's `textContent`. One arg per line; empty sections are
-    skipped (no-arg functions show only `Returns`; `None`-returning
-    functions show only `Parameters`).
+    `owning_class_name` (methods only): drops the `<class_name>.`
+    prefix from default values matching the class — same trim that
+    inline method signatures used to apply (e.g.
+    `Song.CaptureMode.all` → `CaptureMode.all` on the Song page).
     """
+    prefix = f"{owning_class_name}." if owning_class_name else None
     arg_items: list[str] = []
-    for arg in fn.get("args") or []:
+    for arg in callable_node.get("args") or []:
         arg_name = _resolve(arg, "name")
         if arg_name == "self":
             continue
@@ -540,6 +485,12 @@ def function_signature_block_html(
             )
             type_part = f': <span class="fn-arg-type">{linked}</span>'
         default = arg.get("default")
+        if (
+            prefix is not None
+            and isinstance(default, str)
+            and default.startswith(prefix)
+        ):
+            default = default[len(prefix):]
         default_part = ""
         if default is not None:
             default_part = (
@@ -553,10 +504,16 @@ def function_signature_block_html(
         )
 
     return_html = ""
-    returns = fn.get("returns") or {}
+    returns = callable_node.get("returns") or {}
     if isinstance(returns, dict):
         return_type = _resolve(returns, "type")
-        if return_type:
+        # Skip `None` returns — they're the void-method default and
+        # showing `Returns: None` for every mutator (delete_*, set_*,
+        # ...) is noise. The convention becomes "no Returns section =
+        # nothing meaningful to return," matching standard Python doc
+        # convention. Genuinely-missing return types render the same
+        # way (also no Returns section).
+        if return_type and return_type != "None":
             return_html = linkify_type(
                 display_type(return_type), registry,
                 current_module=module_name,
@@ -582,22 +539,17 @@ def function_signature_block_html(
     return f'<div class="fn-sig-block">{"".join(parts)}</div>'
 
 
-def method_signature_html(
-    method: dict,
-    registry: dict[str, str],
-    *,
-    owning_class_name: str | None = None,
-    current_module: str | None = None,
-) -> str:
-    """Render a Python-style method signature: `name(arg: T, k: T2 = D) -> R`.
+def method_signature_html(method: dict) -> str:
+    """Method H5 heading: `name()`.
 
-    Method name in monospace bold (inherits from H5); args + return in
-    the `.meth-sig` muted scaffolding span — same machinery as
-    module-level functions, just without the surrounding kw/path
-    signature wrapper since methods sit inside their class's page.
+    Bare method name + empty parens. The full `(args) -> R` body
+    renders in a structured Parameters / Returns block below the
+    H5, via `callable_signature_block_html` — same treatment as
+    module functions. Keeps the H5 short and consistent with the
+    function H3 convention.
     """
     name = _resolve(method, "name")
-    return f'{name}{_callable_args_returns_html(method, registry, owning_class_name=owning_class_name, current_module=current_module)}'
+    return f"{name}()"
 
 
 def member_description_text(member: dict) -> str | None:
@@ -922,11 +874,7 @@ def inherited_block(
             )
         for method in methods:
             mname = _resolve(method, "name")
-            slug = starlight_slug(
-                method_signature_html(
-                    method, registry, owning_class_name=anc_name,
-                )
-            )
+            slug = starlight_slug(method_signature_html(method))
             links.append(
                 f'[{mname}()]({DOCS_URL_BASE}/{anc_module.lower()}/#{slug})'
             )
@@ -1208,14 +1156,17 @@ def render_module_page(
             lines.append("#### Methods")
             lines.append("")
             for method in methods:
-                heading = method_signature_html(
-                    method, registry,
-                    owning_class_name=cls.get("name"),
-                    current_module=module_name,
-                )
+                heading = method_signature_html(method)
                 flags = member_flags_html(method)
                 lines.append(f"##### {heading}{flags}")
                 lines.append("")
+                sig_block = callable_signature_block_html(
+                    method, module_name, registry,
+                    owning_class_name=cls.get("name"),
+                )
+                if sig_block:
+                    lines.append(sig_block)
+                    lines.append("")
                 desc = member_description_text(method)
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
@@ -1338,7 +1289,7 @@ def render_module_page(
         for fn in functions:
             lines.append(f"### {function_signature_html(fn, module_name)}")
             lines.append("")
-            sig_block = function_signature_block_html(fn, module_name, registry)
+            sig_block = callable_signature_block_html(fn, module_name, registry)
             if sig_block:
                 lines.append(sig_block)
                 lines.append("")

@@ -177,11 +177,11 @@ Access to the number of macros that are currently visible.
 
 #### Inherited
 
-From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [is_using_compare_preset_b](/LiveAPI/modules/device/#is_using_compare_preset_b-bool), [type](/LiveAPI/modules/device/#type-devicetype), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot---none), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bankscript_index-int-bank_index-int---none)
+From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [is_using_compare_preset_b](/LiveAPI/modules/device/#is_using_compare_preset_b-bool), [type](/LiveAPI/modules/device/#type-devicetype), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
 #### Methods
 
-##### add_macro<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### add_macro()
 
 <div class="member-desc">
 
@@ -189,7 +189,9 @@ Increases the number of visible macro controls in the rack. Throws an exception 
 
 </div>
 
-##### copy_pad<span class="meth-sig">(<span class="meth-arg">source_index</span>: int, <span class="meth-arg">destination_index</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+##### copy_pad()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">source_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">destination_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -197,7 +199,7 @@ Copies all contents of a drum pad from a source pad into a destination pad. copy
 
 </div>
 
-##### delete_selected_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### delete_selected_variation()
 
 <div class="member-desc">
 
@@ -205,7 +207,9 @@ Deletes the currently selected macro variation.Does nothing if there is no selec
 
 </div>
 
-##### insert_chain<span class="meth-sig">(<span class="meth-arg">index</span>: int = <span class="meth-default">-1</span>) <span class="meth-arrow">-&gt;</span> <a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a></span>
+##### insert_chain()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/chain/#chain" title="Chain">Chain</a></div></div></div>
 
 <div class="member-desc">
 
@@ -213,7 +217,7 @@ Inserts a new chain, either at the specified index or, if not index was specifie
 
 </div>
 
-##### randomize_macros<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### randomize_macros()
 
 <div class="member-desc">
 
@@ -221,7 +225,7 @@ Randomizes the values for all macro controls not excluded from randomization.
 
 </div>
 
-##### recall_last_used_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### recall_last_used_variation()
 
 <div class="member-desc">
 
@@ -229,7 +233,7 @@ Recalls the macro variation that was recalled most recently.Does nothing if no v
 
 </div>
 
-##### recall_selected_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### recall_selected_variation()
 
 <div class="member-desc">
 
@@ -237,7 +241,7 @@ Recalls the currently selected macro variation.Does nothing if there are no vari
 
 </div>
 
-##### remove_macro<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### remove_macro()
 
 <div class="member-desc">
 
@@ -245,7 +249,7 @@ Decreases the number of visible macro controls in the rack. Throws an exception 
 
 </div>
 
-##### store_variation<span class="meth-sig">() <span class="meth-arrow">-&gt;</span> None</span>
+##### store_variation()
 
 <div class="member-desc">
 

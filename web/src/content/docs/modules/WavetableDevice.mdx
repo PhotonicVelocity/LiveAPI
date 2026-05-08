@@ -192,7 +192,7 @@ Get the names of all the visible modulation targets.
 
 #### Inherited
 
-From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot---none), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bankscript_index-int-bank_index-int---none)
+From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
 #### Signals
 
@@ -200,7 +200,9 @@ From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [
 
 #### Methods
 
-##### add_parameter_to_modulation_matrix<span class="meth-sig">(<span class="meth-arg">parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> int</span>
+##### add_parameter_to_modulation_matrix()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -208,7 +210,9 @@ Add a non-pitch parameter to the modulation matrix.
 
 </div>
 
-##### get_modulation_target_parameter_name<span class="meth-sig">(<span class="meth-arg">target_index</span>: int) <span class="meth-arrow">-&gt;</span> str</span>
+##### get_modulation_target_parameter_name()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">target_index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">str</div></div></div>
 
 <div class="member-desc">
 
@@ -216,7 +220,9 @@ Get the parameter name of the modulation target at the given index.
 
 </div>
 
-##### get_modulation_value<span class="meth-sig">(<span class="meth-arg">target_index</span>: int, <span class="meth-arg">source</span>: int) <span class="meth-arrow">-&gt;</span> float</span>
+##### get_modulation_value()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">target_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">source</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -224,7 +230,9 @@ Get the value of a modulation amount for the given target-source connection.
 
 </div>
 
-##### is_parameter_modulatable<span class="meth-sig">(<span class="meth-arg">parameter</span>: <a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>) <span class="meth-arrow">-&gt;</span> bool</span>
+##### is_parameter_modulatable()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">parameter</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -232,7 +240,9 @@ Indicate whether the parameter is modulatable. Note that pitch parameters only e
 
 </div>
 
-##### set_modulation_value<span class="meth-sig">(<span class="meth-arg">target_index</span>: int, <span class="meth-arg">source</span>: int, <span class="meth-arg">value</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+##### set_modulation_value()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">target_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">source</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
