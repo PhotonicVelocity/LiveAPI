@@ -14,8 +14,8 @@ This class represents an Eq8 device.
 
 #### Properties
 
-<details class="lom-inherited-section">
-<summary>From <a href="/LiveAPI/modules/lomobject/#properties">LomObject</a></summary>
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
 
 ##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
@@ -24,6 +24,59 @@ This class represents an Eq8 device.
 <div class="member-desc">
 
 Get the canonical parent of the Device.
+
+</div>
+
+</details>
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/device/#device"><code>Device</code></a></summary>
+
+##### can_compare_ab<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Returns true if the Device has the capability to AB compare.
+
+</div>
+
+##### can_have_chains<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Returns true if the device is a rack.
+
+</div>
+
+##### can_have_drum_pads<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Returns true if the device is a drum rack.
+
+</div>
+
+##### class_display_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Return const access to the name of the device's class name as displayed in Live's browser and device chain
+
+</div>
+
+##### class_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Return const access to the name of the device's class.
+
+</div>
+
+##### type<span class="prop-type">: <a href="/LiveAPI/modules/device/#devicetype" title="DeviceType">DeviceType</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Return the type of the device.
 
 </div>
 
@@ -109,9 +162,30 @@ Representing the view aspects of a device.
 
 </div>
 
-#### Inherited
+#### Methods
 
-From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
+<details class="inherited-section" open>
+<summary>Inherited from <a href="/LiveAPI/modules/device/#device"><code>Device</code></a></summary>
+
+##### save_preset_to_compare_ab_slot()
+
+<div class="member-desc">
+
+Saves the current state of the device to the compare AB slot. Only relevant if can_compare_ab, otherwise throws.
+
+</div>
+
+##### store_chosen_bank()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+Set the selected bank in the device for persistency.
+
+</div>
+
+</details>
 
 #### Nested types
 
@@ -125,8 +199,8 @@ Representing the view aspects of an Eq8 device.
 
 #### Properties
 
-<details class="lom-inherited-section">
-<summary>From <a href="/LiveAPI/modules/lomobject/#properties">LomObject</a></summary>
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
 
 ##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 

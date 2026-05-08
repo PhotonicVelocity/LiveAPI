@@ -82,3 +82,27 @@ without letting users type them as kwargs"; it stays.
    [`tools/verify/README.md`](../tools/verify/README.md)): `ast.parse` (syntax), pyright self-check on
    the stubs (internal consistency), pyright `--verifytypes` (PEP 561 completeness, tracking-only), and
    pyright on hand-picked usage patterns from Ableton-shipped Remote Scripts (Tier 4 — hard gate).
+
+## Reference Site Rendering
+
+### `canonical_parent` rendered as inherited from `LomObject`
+
+The reference site shows `canonical_parent` inside an "Inherited from `LomObject`" box on every LOM-tree
+class, even though the runtime declares it per-class via Boost's `bases<>` registration (each class has
+its own declaration with a narrowed return type — `DriftDevice.canonical_parent → Track`,
+`Device.canonical_parent → Track | RackDevice | Chain`, etc.).
+
+The probe data is faithful: every declaring class keeps its own entry in `LiveClasses.json` and in the
+parsed YAML. The fiction is in the generator. `tools/generate/generate_reference.py:resolve_lom_universal`
+walks the MRO from the leaf up, picks the closest declaration, hides every other declaration in the
+ancestor chain, and pins the chosen one inside the `LomObject` inherited-box.
+
+**Why this is the right lie.** The runtime semantics are universal — every LOM-tree node has a
+`canonical_parent` — and Boost just happens to register it per-class to express narrowed return types.
+Rendering the truth would mean either a redundant entry on every class's own properties list, or 30
+ancestor boxes each repeating "this class also redeclares canonical_parent." Both are technically
+truthful and conceptually misleading. Pinning to `LomObject` matches how readers actually think about
+the property.
+
+The lie is render-time only. The YAML and the parsed JSON keep every declaration intact, so anything
+downstream of the YAML (stubs, type checking, override authoring) sees the binding as it actually is.

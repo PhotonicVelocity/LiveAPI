@@ -858,6 +858,23 @@ def inherited_properties(
     return out
 
 
+def group_inherited_by_ancestor(
+    items: list[tuple[str, str, dict]],
+) -> list[tuple[str, str, list[dict]]]:
+    """Group `[(anc_path, anc_module, item), ...]` by ancestor,
+    preserving first-encountered order. Returns
+    `[(anc_path, anc_module, [items]), ...]`.
+    """
+    by_ancestor: list[list] = []
+    seen: dict[str, int] = {}
+    for anc_path, anc_module, item in items:
+        if anc_path not in seen:
+            seen[anc_path] = len(by_ancestor)
+            by_ancestor.append([anc_path, anc_module, []])
+        by_ancestor[seen[anc_path]][2].append(item)
+    return [(p, m, items) for p, m, items in by_ancestor]
+
+
 def inherited_block(
     cls: dict,
     class_index: dict[str, tuple[str, dict]],
@@ -1059,6 +1076,36 @@ def render_module_page(
         # `Track.canonical_parent: Song`) takes precedence, otherwise
         # walks ancestors. The Inherited section filters the same names
         # so nothing renders twice.
+        # Partition properties into active vs deprecated. Deprecated
+        # properties join the deprecated methods in the collapsed
+        # `<details>` block at the bottom of the class.
+        deprecated_properties = [p for p in properties if _resolve(p, "deprecated")]
+        properties = [p for p in properties if not _resolve(p, "deprecated")]
+
+        # Group inherited members by ancestor — properties go at the
+        # top of the Properties section, methods at the top of the
+        # Methods section. One collapsed `<details class="...-inherited-section">`
+        # per ancestor that contributes; LomObject gets its own
+        # purple-tinted CSS class to read as a foundation cue, other
+        # ancestors use a neutral gray box.
+        inherited_props_by_anc = (
+            group_inherited_by_ancestor(inherited_properties(cls, class_index))
+            if class_index is not None else []
+        )
+        inherited_methods_by_anc = (
+            group_inherited_by_ancestor(inherited_methods(cls, class_index))
+            if class_index is not None else []
+        )
+
+        # LOM-universal pair (`_live_ptr`, `canonical_parent`) belongs
+        # in the LomObject box conceptually, even when the closest
+        # MRO declaration is on an intermediate ancestor (e.g.
+        # DriftDevice inherits `canonical_parent` from Device with the
+        # narrower `Track` type — but the reader expects to see it
+        # alongside `_live_ptr` under "From LomObject"). Resolve the
+        # pair from the closest declaration; filter the same names
+        # out of the regular Properties + the other ancestor boxes;
+        # rebuild the LomObject ancestor entry with the resolved pair.
         pinned: list[dict] = []
         if (
             class_index is not None
@@ -1066,46 +1113,102 @@ def render_module_page(
             and cls.get("path") != _LOM_OBJECT_PATH
         ):
             pinned = resolve_lom_universal(cls, class_index)
-            pinned_names = {_resolve(p, "name") for p in pinned}
+        pinned_names = {_resolve(p, "name") for p in pinned}
+        if pinned_names:
             properties = [
                 p for p in properties
                 if _resolve(p, "name") not in pinned_names
             ]
-        # Partition properties into active vs deprecated. Deprecated
-        # properties join the deprecated methods in the collapsed
-        # `<details>` block at the bottom of the class.
-        deprecated_properties = [p for p in properties if _resolve(p, "deprecated")]
-        properties = [p for p in properties if not _resolve(p, "deprecated")]
-        if pinned or properties:
-            lines.append("#### Properties")
+            inherited_props_by_anc = [
+                (a, m, [p for p in props if _resolve(p, "name") not in pinned_names])
+                for a, m, props in inherited_props_by_anc
+                if a != _LOM_OBJECT_PATH
+            ]
+            inherited_props_by_anc = [
+                (a, m, props) for a, m, props in inherited_props_by_anc if props
+            ]
+            inherited_props_by_anc.append(
+                (_LOM_OBJECT_PATH, "LomObject", pinned)
+            )
+
+        # Reverse both lists so the foundational ancestor (LomObject)
+        # leads, working down toward the most-specific. BFS gave us
+        # closest-first; foundational-first reads more naturally
+        # ("here are the LOM basics, then what Device adds, then ...")
+        # — and gives the LomObject box stable top-of-section
+        # placement matching how class signatures advertise the
+        # LomObject badge first too.
+        inherited_props_by_anc = list(reversed(inherited_props_by_anc))
+        inherited_methods_by_anc = list(reversed(inherited_methods_by_anc))
+
+        def _emit_inherited_box(
+            anc_path: str,
+            anc_module: str,
+            members: list[dict],
+            kind: str,
+            open_by_default: bool = False,
+        ) -> None:
+            """Emit one collapsed `<details>` per ancestor, with full
+            renders of the inherited members inside. `kind` is
+            'property' or 'method'. `open_by_default` expands the box
+            on page load — used when the section has no own members,
+            so the reader isn't left staring at an empty section."""
+            anc_name = anc_path.rsplit(".", 1)[-1]
+            is_lom = anc_path == _LOM_OBJECT_PATH
+            anc_anchor_section = (
+                "properties" if kind == "property" else "methods"
+            )
+            href = (
+                f"{DOCS_URL_BASE}/{anc_module.lower()}/#{anc_anchor_section}"
+                if is_lom else
+                f"{DOCS_URL_BASE}/{anc_module.lower()}/#{anc_name.lower()}"
+            )
+            open_attr = " open" if open_by_default else ""
+            lines.append(f'<details class="inherited-section"{open_attr}>')
+            lines.append(
+                f'<summary>Inherited from '
+                f'<a href="{href}"><code>{anc_name}</code></a>'
+                f'</summary>'
+            )
             lines.append("")
-            # LOM-universal pair (`_live_ptr`, `canonical_parent`)
-            # leads the Properties section in a collapsed `<details>`
-            # block — the section name ("From LomObject") frames
-            # them as the LOM identity / navigation surface; the
-            # per-class flag chips (RO / listen) and per-class
-            # descriptions are suppressed because the canonical
-            # explanation lives on the LomObject foundation page
-            # (linked from the summary).
-            if pinned:
-                lines.append('<details class="lom-inherited-section">')
-                lines.append(
-                    '<summary>From '
-                    f'<a href="{DOCS_URL_BASE}/lomobject/#properties">LomObject</a>'
-                    '</summary>'
-                )
-                lines.append("")
-                for prop in pinned:
-                    heading = property_heading_html(prop, registry, current_module=module_name)
-                    flags = member_flags_html(prop)
+            for m in members:
+                if kind == "property":
+                    heading = property_heading_html(m, registry, current_module=anc_module)
+                    flags = member_flags_html(m)
                     lines.append(f"##### {heading}{flags}")
                     lines.append("")
-                    desc = member_description_text(prop)
+                    desc = member_description_text(m)
                     if desc:
                         lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                         lines.append("")
-                lines.append('</details>')
-                lines.append("")
+                else:  # method
+                    heading = method_signature_html(m)
+                    flags = member_flags_html(m)
+                    lines.append(f"##### {heading}{flags}")
+                    lines.append("")
+                    sig_block = callable_signature_block_html(
+                        m, anc_module, registry,
+                        owning_class_name=anc_name,
+                    )
+                    if sig_block:
+                        lines.append(sig_block)
+                        lines.append("")
+                    desc = member_description_text(m)
+                    if desc:
+                        lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
+                        lines.append("")
+            lines.append('</details>')
+            lines.append("")
+
+        if inherited_props_by_anc or properties:
+            lines.append("#### Properties")
+            lines.append("")
+            inherited_props_open = not properties
+            for anc_path, anc_module, props in inherited_props_by_anc:
+                _emit_inherited_box(
+                    anc_path, anc_module, props, "property",
+                    open_by_default=inherited_props_open,
+                )
             for prop in properties:
                 heading = property_heading_html(prop, registry, current_module=module_name)
                 flags = member_flags_html(prop)
@@ -1115,11 +1218,6 @@ def render_module_page(
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                     lines.append("")
-        # Inherited members from transitive ancestors — rendered as a
-        # single H4 block under the class so what's available via the
-        # MRO is visible without re-declaring every type / listener.
-        for line in inherited_block(cls, class_index, registry):
-            lines.append(line)
         # Signal-only listener triplets — `notes`, `loop_jump`, etc.
         # Surfaced in their own section so the reader doesn't read
         # them as untyped properties; the section header is the
@@ -1235,9 +1333,15 @@ def render_module_page(
                 lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
                 lines.append("")
 
-        if active_methods:
+        if inherited_methods_by_anc or active_methods:
             lines.append("#### Methods")
             lines.append("")
+            inherited_methods_open = not active_methods
+            for anc_path, anc_module, methods_from_anc in inherited_methods_by_anc:
+                _emit_inherited_box(
+                    anc_path, anc_module, methods_from_anc, "method",
+                    open_by_default=inherited_methods_open,
+                )
             for method in active_methods:
                 _render_method(method)
 

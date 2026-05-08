@@ -14,8 +14,8 @@ This class represents a drum group device chain in Live.
 
 #### Properties
 
-<details class="lom-inherited-section">
-<summary>From <a href="/LiveAPI/modules/lomobject/#properties">LomObject</a></summary>
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/lomobject/#properties"><code>LomObject</code></a></summary>
 
 ##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
@@ -24,6 +24,51 @@ This class represents a drum group device chain in Live.
 <div class="member-desc">
 
 Get the canonical parent of the chain.
+
+</div>
+
+</details>
+
+<details class="inherited-section">
+<summary>Inherited from <a href="/LiveAPI/modules/chain/#chain"><code>Chain</code></a></summary>
+
+##### has_audio_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+return True, if this Chain can be feed with an Audio signal. This is true for all Audio Chains.
+
+</div>
+
+##### has_audio_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+return True, if this Chain sends out an Audio signal. This is true for all Audio Chains, and MIDI chains with an Instrument.
+
+</div>
+
+##### has_midi_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+return True, if this Chain can be feed with an Audio signal. This is true for all MIDI Chains.
+
+</div>
+
+##### has_midi_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+return True, if this Chain sends out MIDI events. This is true for all MIDI Chains with no Instruments.
+
+</div>
+
+##### mixer_device<span class="prop-type">: <a href="/LiveAPI/modules/chainmixerdevice/#chainmixerdevice" title="ChainMixerDevice">ChainMixerDevice</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
+
+<div class="member-desc">
+
+Return access to the mixer device that holds the chain's mixer parameters: the Volume, Pan, and Sendamounts.
 
 </div>
 
@@ -117,6 +162,39 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 </div>
 
-#### Inherited
+#### Methods
 
-From `Chain`: [has_audio_input](/LiveAPI/modules/chain/#has_audio_input-bool), [has_audio_output](/LiveAPI/modules/chain/#has_audio_output-bool), [has_midi_input](/LiveAPI/modules/chain/#has_midi_input-bool), [has_midi_output](/LiveAPI/modules/chain/#has_midi_output-bool), [mixer_device](/LiveAPI/modules/chain/#mixer_device-chainmixerdevice), [delete_device()](/LiveAPI/modules/chain/#delete_device), [duplicate_device()](/LiveAPI/modules/chain/#duplicate_device), [insert_device()](/LiveAPI/modules/chain/#insert_device)
+<details class="inherited-section" open>
+<summary>Inherited from <a href="/LiveAPI/modules/chain/#chain"><code>Chain</code></a></summary>
+
+##### delete_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+Remove a device identified by its index from the chain. Throws runtime error if bad index.
+
+</div>
+
+##### duplicate_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+
+<div class="member-desc">
+
+Duplicate the device at the given index in the chain.
+
+</div>
+
+##### insert_device()
+
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a></div></div></div>
+
+<div class="member-desc">
+
+Add a device at a given index in the chain. At end if -1.
+
+</div>
+
+</details>
