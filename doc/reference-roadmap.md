@@ -69,11 +69,15 @@ just the structural surface from the lom YAML; later steps add detail until
 everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
 blocks) flows through to the rendered page.
 
-Status: Steps 1 through 10 + 14 complete plus nested-type hoisting
-(Step 11 structural piece); module descriptions hand-authored across
-all 43 modules; LomObject + Listener foundation pages hoisted in the
-sidebar; LOM badge / pinned-pair treatment + property flag chips
-(`read-only` / `listen`) on every applicable property.
+Status: **Phase 1 complete.** All 14 steps shipped — every field in
+`stubs/<v>/lom/*.yaml` flows through to the rendered page.
+Foundation pages for the LOM, Listeners, Calling conventions, and
+Remote scripts hoisted above the alphabetical Modules group in the
+sidebar. Per-class cross-reference ("Returned by") sections render
+at the bottom of each class block. Override markers with structured
+hover tooltips surface `<field>_override:` provenance — confidence
+chip, probed value, and tagged evidence bullets — wherever a value
+was hand-refined away from the parser-derived default.
 
 - **Step 1 — Module page skeleton.** ✅ Done. One MDX page per module under
   `web/src/content/docs/modules/`. Page has title, one-line module
@@ -163,8 +167,7 @@ sidebar; LOM badge / pinned-pair treatment + property flag chips
   labeled sections — the inline annotation reads cleanly enough that
   the labeled-section treatment may not be needed; revisit if the
   page becomes harder to scan once more functions land.
-- **Step 11 — Nested classes + enums.** ✅ Structural piece done
-  (member rendering inherits from Steps 6–8 once those land). Classes
+- **Step 11 — Nested classes + enums.** ✅ Done. Classes
   and enums declared inside other classes (e.g., `Clip.View`, `Track.View`,
   `Track.monitoring_states`) are **hoisted** to top-level rendering on
   the same page rather than rendered inline-indented under the parent.
@@ -195,15 +198,18 @@ sidebar; LOM badge / pinned-pair treatment + property flag chips
   credit it); deprecated members skipped.
 - **Step 13 — Refinement metadata surfacing.** ✅ Done. When a field
   has a sibling `<field>_override:` block, the rendered value gets a
-  small superscript marker (`<sup class="override-marker">*</sup>`)
-  with a `title=` attribute carrying the override's `confidence:` and
-  `source:` fields. Coverage: property type, callable arg type,
-  callable return type. Name overrides on args intentionally not
-  flagged (most non-trivial methods have them — too common to
-  warrant per-arg visual weight). Native browser tooltip is
-  acceptable here because the marker is a power-user affordance, not
-  primary content; the typical reader scans past it, the curious
-  reader hovers for the rationale.
+  small superscript marker (`<sup class="override-marker">*</sup>`).
+  Hover or keyboard-focus the marker to reveal a structured tooltip:
+  a colored confidence chip (high=green, medium=yellow, low=red),
+  the parser-derived "Probed as" value, and a bulleted source list
+  with each bullet prefixed by an evidence-type chip (`[corpus]`,
+  `[docstring]`, `[M4L]`, `[C++ signature]`, `[sister method]`,
+  `[probe]`, `[schema]`). YAML schema extended to accept
+  `source:` as a single string OR a list of strings (one bullet per
+  independent evidence point); see `doc/lom-format.md`. Coverage:
+  property type, callable arg type, callable return type. Name
+  overrides on args intentionally not flagged (most non-trivial
+  methods have them — too common to warrant per-arg visual weight).
 - **Step 14 — Inherited methods.** ✅ Done. Inherited methods render
   in the same `#### Inherited` block as inherited properties — one
   line per ancestor, members comma-separated. Methods get a `()`
@@ -216,10 +222,10 @@ sidebar; LOM badge / pinned-pair treatment + property flag chips
   so method anchors (`-&gt;` in source) match the rendered-page slug
   Starlight generates from `->`.
 
-After Step 13, every field in `stubs/<v>/lom/*.yaml` (parser-derived
-fields plus override blocks) is rendered. Phase 1 is structurally complete.
-Phase 2's authored prose / hypothesis records is the next layer of
-content, not infrastructure.
+**Phase 1 is complete.** Every field in `stubs/<v>/lom/*.yaml`
+(parser-derived fields plus override blocks) flows through to the
+rendered page. Phase 2's authored prose / hypothesis records is the
+next layer — content, not infrastructure.
 
 ### Phase 1 layout decisions (locked during execution)
 

@@ -33,10 +33,70 @@ and reference page generation will consume.
   - `confidence:` — `high` / `medium` / `low`. Required for typed/structural
     facts (`type`, `args`, `returns`, `element_type`); omitted for
     name-only renames where the rename is positional-decorative under
-    PEP 570 (`, /`).
-  - `source:` — required: corpus def-site, M4L doc citation, raw_doc text.
+    PEP 570 (`, /`). Renders as a colored chip in the rendered docs
+    tooltip (high=green, medium=yellow, low=red).
+  - `source:` — required. See "Source format" below.
   - `from:` — optional: the parser-derived value the override expects to
     find. Validated during port/audit; mismatch is a drift warning.
+
+### Source format
+
+`source:` accepts either a single YAML block scalar (one piece of
+evidence) or a YAML list of strings (multiple independent evidence
+points, rendered as a bulleted list in the docs tooltip).
+
+Each source item — whether the standalone string or each list bullet —
+should start with a bracketed **evidence-type tag** identifying where
+the evidence comes from. The generator parses the leading `[tag]` and
+renders it as a styled chip on the bullet. Single-concern sources keep
+each `<field>_override.source` focused on its own concern; if a
+rename and a retype both need rationale, each goes on its own override
+block, not bundled into one.
+
+| Tag | When to use |
+|---|---|
+| `[corpus]` | Evidence from Ableton-shipped Remote Scripts (`external/corpus/...` paths). Push2, pushbase, _Framework, ableton.v2/v3, _MxDCore, etc. |
+| `[docstring]` | Evidence from the field's own `raw_doc` (Live's runtime docstring). Quoted text from raw_doc → use this tag. |
+| `[M4L]` | Evidence from Max for Live documentation (`external/max-for-live-docs/...`). |
+| `[C++ signature]` | Evidence from the C++ binding signature — `cpp_signature:` field, things like `boost::python::api::object`, `TWeakPtr<...>`, `std::vector<T>`, type-derived inference. |
+| `[sister method]` | Comparison to a similar/related method or property on the same or a related class. |
+| `[probe]` | Runtime introspection observation — probe data, element_repr observations, structural inference like "this is a LOM root so canonical_parent is None." |
+| `[schema]` | Applied per a documented YAML schema convention (e.g., the enum-arg convention). |
+
+**Single-string form** (one piece of evidence):
+
+```yaml
+type_override:
+  value: Live.Conversions.AudioToMidiType | int
+  confidence: high
+  source: |
+    [schema] applied per the enum-arg convention; `AudioToMidiType` enum
+    lives in the same module and the arg name is its direct snake-case.
+```
+
+**List form** (multiple independent points, rendered as bullets):
+
+```yaml
+type_override:
+  value: Iterable[Live.Clip.MidiNoteSpecification]
+  confidence: high
+  source:
+  - |
+    [C++ signature] `boost::python::api::object` (generic) — the binding
+    doesn't enforce a specific vector class.
+  - |
+    [docstring] "Expects a Python iterable holding MidiNoteSpecification
+    objects."
+  - |
+    [corpus] both tuples and lists work — tuples (`(note,)` at
+    pushbase/note_editor_component.py:611) and lists
+    (`note_specifications` at _MxDCore/MxDCore.py:820+).
+```
+
+Drop redundant lead-in prose that the tag already expresses (after
+`[M4L]`, drop "M4L docs say"; after `[corpus]`, drop "Corpus
+confirms"). Backtick-delimited spans inside a source item are
+preserved verbatim — MDX renders them as inline code in the tooltip.
 - **Inherited properties are dropped.** When an ancestor class declares
   the same `name`/`type`/`settable`/`listenable` shape (and neither side
   has overrides), the property is omitted from the subclass — pyright
