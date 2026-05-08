@@ -3,10 +3,12 @@
 Comprehensive reference for the Ableton Live Python API — classes, properties, methods, enums, and behavioral notes
 that Ableton doesn't publicly document.
 
-This branch ships the **typed Python stubs**. A browsable HTML reference site (the second planned product) is in
-work on the [`reference-doc-generator-wip`](https://github.com/PhotonicVelocity/LiveAPI/tree/reference-doc-generator-wip)
-branch — generator architecture is being reworked to consume the parsed/refined tree directly instead of
-re-parsing the stubs, and is not currently published.
+Two products live in this repo:
+
+- **[Reference site](https://photonicvelocity.github.io/LiveAPI/)** — browsable HTML docs covering the Live Object
+  Model, the Remote Script runtime model, and the per-class member surface.
+- **Typed Python stubs** — pre-built `.pyi` files installable via `pip install ableton-live-stubs`. Setup and usage
+  details below.
 
 ## Typed Python Stubs
 
