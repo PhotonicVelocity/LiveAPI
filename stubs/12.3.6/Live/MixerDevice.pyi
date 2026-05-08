@@ -82,12 +82,12 @@ class MixerDevice(LomObject):
         ...
 
     @property
-    def panning_mode(self) -> int:
+    def panning_mode(self) -> panning_modes | int:
         """Access to the Track's Panning Mode."""
         ...
 
     @panning_mode.setter
-    def panning_mode(self, value: int) -> None: ...
+    def panning_mode(self, value: panning_modes | int) -> None: ...
 
     def panning_mode_has_listener(self, callback: Callable[[], None], /) -> bool:
         """

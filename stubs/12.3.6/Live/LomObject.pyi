@@ -9,4 +9,9 @@ class LomObject:
     def _live_ptr(self) -> int:
         ...
 
+    @property
+    def canonical_parent(self) -> LomObject | None:
+        """Get the canonical parent — the structural owner one step up the LOM tree."""
+        ...
+
 __all__ = ['LomObject']

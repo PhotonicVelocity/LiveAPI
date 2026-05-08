@@ -5,7 +5,6 @@ if TYPE_CHECKING:
     from Live.Base import Vector
     from Live.ChainMixerDevice import ChainMixerDevice
     from Live.Device import Device
-    from Live.LomObject import LomObject
     from Live.RackDevice import RackDevice
     from Live.Track import DeviceContainer
 
@@ -110,7 +109,7 @@ class Chain(DeviceContainer):
         ...
 
     @property
-    def devices(self) -> Vector[LomObject]:
+    def devices(self) -> Vector[Device]:
         """Return const access to all available Devices that are present in the chains"""
         ...
 

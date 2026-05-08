@@ -870,7 +870,7 @@ class Song(LomObject):
         """Get the current Live Set's path on disk."""
         ...
 
-    def find_device_position(self, device: Device, target: LomObject, target_position: int, /) -> int:
+    def find_device_position(self, device: Device, target: Track | Chain, target_position: int, /) -> int:
         """
         Returns the closest possible position to the given target, where the
         device can be inserted. If inserting is not possible at all (i.e. if
@@ -1108,7 +1108,7 @@ class Song(LomObject):
         """
         ...
 
-    def move_device(self, device: Device, target: LomObject, target_position: int, /) -> int:
+    def move_device(self, device: Device, target: Track | Chain, target_position: int, /) -> int:
         """Move a device into the target at the given position, where 0 moves it before the first device and len(devices) moves it to the end of the device chain.If the device cannot be moved to this position, the nearest possible position is chosen. If the device type is not valid, a runtime error is raised.Returns the index, where the device was moved to."""
         ...
 

@@ -473,7 +473,15 @@ def _build_class_block(cls: dict[str, Any], current_module: str,
             typing_extras = registry["_module_typing_extras"]
             typing_extras.add("Iterable")
     else:
-        ancestors = cls.get("ancestors") or []
+        # `Boost.Python.instance` is a binding artifact — every Live
+        # class has it somewhere in the ancestor chain, but it isn't
+        # a useful base in stub form (it has no methods worth
+        # surfacing and pyright treats it as opaque). Filter so the
+        # stub picks the closest semantically meaningful ancestor.
+        ancestors = [
+            a for a in (cls.get("ancestors") or [])
+            if a != "Boost.Python.instance"
+        ]
         if ancestors:
             bases = [render_type(a, current_module, imports) for a in ancestors[:1]]
             base_str = f"({', '.join(bases)})"
@@ -668,6 +676,20 @@ def main() -> int:
     all_module_names: list[str] = []
     for path in sorted(seed_dir.glob("*.yaml")):
         module = yaml.safe_load(path.read_text())
+        # Foundation pages (e.g. `CallingConventions.yaml`,
+        # `RemoteScripts.yaml`) are docs-only lom YAMLs — pure prose,
+        # no `primary_class:` / `classes:` / `enums:` / `functions:` /
+        # `constants:` content. Skip so the stub package doesn't ship
+        # empty `Live.<Foundation>` modules that would pollute
+        # downstream pyright namespaces. `LomObject` and `Listener`
+        # are sidebar-hidden but DO have real class content, so they
+        # still ship.
+        has_content = any(
+            module.get(k) for k in
+            ("primary_class", "classes", "enums", "functions", "constants")
+        )
+        if not has_content:
+            continue
         text = emit_module(module, registry)
         out_path = out_dir / f"{module['module']}.pyi"
         out_path.write_text(text)

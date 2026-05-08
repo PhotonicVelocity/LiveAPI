@@ -98,7 +98,7 @@ class Application(LomObject):
             """Hide one through the identifier string specified view."""
             ...
 
-        def is_view_visible(self, identifier: str, main_window_only: bool = True, /) -> bool:
+        def is_view_visible(self, view_name: str, main_window_only: bool = True, /) -> bool:
             """
             Return true if the through the identifier string specified view is currently
             visible. If main_window_only is set to False, this will also check in second
@@ -141,7 +141,7 @@ class Application(LomObject):
             """
             ...
 
-        def scroll_view(self, direction: int, view_name: str, modifier_pressed: bool, /) -> None:
+        def scroll_view(self, direction: NavDirection | int, view_name: str, modifier_pressed: bool, /) -> None:
             """
             Scroll through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
@@ -170,7 +170,7 @@ class Application(LomObject):
             """
             ...
 
-        def zoom_view(self, direction: int, view_name: str, modifier_pressed: bool, /) -> None:
+        def zoom_view(self, direction: NavDirection | int, view_name: str, modifier_pressed: bool, /) -> None:
             """
             Zoom through the identifier string specified view into the given
             direction, if possible. Will silently return if the specified view
