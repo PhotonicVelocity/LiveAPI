@@ -14,13 +14,20 @@ This class represents a Clip in Live. It can be either an Audio Clip or a MIDI C
 
 #### Properties
 
-<a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
+<details class="lom-inherited-section">
+<summary>From <a href="/LiveAPI/modules/lomobject/#properties">LomObject</a></summary>
 
-##### _live_ptr<span class="prop-type">: int</span>
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-<hr class="lom-pinned-separator" />
+<div class="member-desc">
+
+Get the canonical parent of the Clip.
+
+</div>
+
+</details>
 
 ##### automation_envelopes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/envelope/#envelope" title="Envelope">Envelope</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
@@ -768,6 +775,10 @@ Stops the current scrub.
 
 </div>
 
+#### Nested types
+
+- [`Clip.View`](#clipview) — Representing the view aspects of a Clip.
+
 <details class="deprecated-section">
 <summary>Deprecated</summary>
 
@@ -822,10 +833,6 @@ Called with a tuple of tuples where each inner tuple represents a note in the sa
 </div>
 
 </details>
-
-#### Nested types
-
-- [`Clip.View`](#clipview) — Representing the view aspects of a Clip.
 
 ## Other classes
 
@@ -919,13 +926,20 @@ Representing the view aspects of a Clip.
 
 #### Properties
 
-<a class="lom-pinned-header" href="/LiveAPI/modules/lomobject/#properties" title="LOM identity / navigation pair — universal across every LomObject. Click for the canonical declarations on LomObject.">LomObject</a>
+<details class="lom-inherited-section">
+<summary>From <a href="/LiveAPI/modules/lomobject/#properties">LomObject</a></summary>
 
-##### _live_ptr<span class="prop-type">: int</span>
+##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span>
+##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-<hr class="lom-pinned-separator" />
+<div class="member-desc">
+
+Get the canonical parent of the clip view.
+
+</div>
+
+</details>
 
 ##### grid_is_triplet<span class="prop-type">: bool</span>
 

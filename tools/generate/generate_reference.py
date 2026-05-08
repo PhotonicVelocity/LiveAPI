@@ -1079,38 +1079,32 @@ def render_module_page(
         if pinned or properties:
             lines.append("#### Properties")
             lines.append("")
+            # LOM-universal pair (`_live_ptr`, `canonical_parent`)
+            # leads the Properties section in a collapsed `<details>`
+            # block — the section name ("From LomObject") frames
+            # them as the LOM identity / navigation surface; the
+            # per-class flag chips (RO / listen) and per-class
+            # descriptions are suppressed because the canonical
+            # explanation lives on the LomObject foundation page
+            # (linked from the summary).
             if pinned:
-                # Single LomObject chip acts as the sub-header for the
-                # pinned LOM-universal pair (`_live_ptr`, `canonical_parent`).
-                # Per-property chips suppressed — the header carries the
-                # link, and the separator below creates the visual break
-                # before the per-class properties begin.
+                lines.append('<details class="lom-inherited-section">')
                 lines.append(
-                    f'<a class="lom-pinned-header" '
-                    f'href="{DOCS_URL_BASE}/lomobject/#properties" '
-                    f'title="LOM identity / navigation pair — universal '
-                    f'across every LomObject. Click for the canonical '
-                    f'declarations on LomObject.">LomObject</a>'
+                    '<summary>From '
+                    f'<a href="{DOCS_URL_BASE}/lomobject/#properties">LomObject</a>'
+                    '</summary>'
                 )
                 lines.append("")
-                # Descriptions on the pinned pair are suppressed: each
-                # subclass's `canonical_parent` raw_doc is just "Get the
-                # canonical parent of the X" — restates the name without
-                # adding signal. The canonical explanation lives on
-                # LomObject and the chip header links there. Flag chips
-                # (RO / listen) still render — they're per-class facts,
-                # not redundant with the foundation page.
                 for prop in pinned:
-                    # Chips suppressed on the pinned LOM-universal pair.
-                    # `_live_ptr` and `canonical_parent` are inherently
-                    # read-only and the pinned-pair section header
-                    # already frames them as the LOM identity /
-                    # navigation surface — adding `[read-only]` chips
-                    # to each is noise the section already conveys.
                     heading = property_heading_html(prop, registry, current_module=module_name)
-                    lines.append(f"##### {heading}")
+                    flags = member_flags_html(prop)
+                    lines.append(f"##### {heading}{flags}")
                     lines.append("")
-                lines.append('<hr class="lom-pinned-separator" />')
+                    desc = member_description_text(prop)
+                    if desc:
+                        lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
+                        lines.append("")
+                lines.append('</details>')
                 lines.append("")
             for prop in properties:
                 heading = property_heading_html(prop, registry, current_module=module_name)
@@ -1247,24 +1241,6 @@ def render_module_page(
             for method in active_methods:
                 _render_method(method)
 
-        if deprecated_properties or deprecated_methods:
-            lines.append('<details class="deprecated-section">')
-            lines.append('<summary>Deprecated</summary>')
-            lines.append("")
-            for prop in deprecated_properties:
-                heading = property_heading_html(prop, registry, current_module=module_name)
-                flags = member_flags_html(prop)
-                lines.append(f"##### {heading}{flags}")
-                lines.append("")
-                desc = member_description_text(prop)
-                if desc:
-                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                    lines.append("")
-            for method in deprecated_methods:
-                _render_method(method)
-            lines.append('</details>')
-            lines.append("")
-
         # Nested types — classes and enums declared inside this class.
         # Surfaced as a unified link list pointing into the page's flat
         # top-level `## Other classes` / `## Enums` sections, where they're
@@ -1303,6 +1279,28 @@ def render_module_page(
             lines.append("")
         if cls.get("constants"):
             lines.append("#### Constants")
+            lines.append("")
+
+        # Deprecated section — last in the class block. Holds members
+        # the YAML's `deprecated:` field flagged. Collapsed by default
+        # so the supported API reads cleanly; deprecated members stay
+        # reachable for readers maintaining older code.
+        if deprecated_properties or deprecated_methods:
+            lines.append('<details class="deprecated-section">')
+            lines.append('<summary>Deprecated</summary>')
+            lines.append("")
+            for prop in deprecated_properties:
+                heading = property_heading_html(prop, registry, current_module=module_name)
+                flags = member_flags_html(prop)
+                lines.append(f"##### {heading}{flags}")
+                lines.append("")
+                desc = member_description_text(prop)
+                if desc:
+                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
+                    lines.append("")
+            for method in deprecated_methods:
+                _render_method(method)
+            lines.append('</details>')
             lines.append("")
 
     if main_class is not None:

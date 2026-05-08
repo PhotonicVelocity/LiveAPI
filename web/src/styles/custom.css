@@ -133,6 +133,48 @@
 .sl-markdown-content a.prop-flag-listen:hover {
   text-decoration: underline;
 }
+/* LOM-universal pair section — collapsed `<details>` block holding
+   `_live_ptr` and `canonical_parent` (or whichever pair pins for
+   the class). The summary links to the LomObject foundation page's
+   Properties section for the canonical explanation; the entries
+   inside are the per-class realizations (with covariant return
+   types on `canonical_parent`, when applicable). Same visual
+   treatment as the deprecated `<details>` block but in the
+   LomObject purple color family. */
+.sl-markdown-content details.lom-inherited-section {
+  margin: 1rem 0 1rem 0;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--sl-color-purple-low);
+  border-radius: 0.4rem;
+  background: var(--sl-color-bg-sidebar);
+}
+.sl-markdown-content details.lom-inherited-section > summary {
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sl-color-purple-high);
+  font-size: var(--sl-text-sm);
+  list-style: none;
+  user-select: none;
+}
+.sl-markdown-content details.lom-inherited-section > summary > a {
+  color: inherit;
+  text-decoration: none;
+}
+.sl-markdown-content details.lom-inherited-section > summary > a:hover {
+  text-decoration: underline;
+}
+.sl-markdown-content details.lom-inherited-section > summary::before {
+  content: "▸";
+  display: inline-block;
+  margin-right: 0.4rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.lom-inherited-section[open] > summary::before {
+  transform: rotate(90deg);
+}
+
 /* Deprecated members section — collapsed `<details>` block at the
    bottom of a class, holding methods (and eventually properties)
    marked with the YAML's `deprecated:` field. Stays out of the
