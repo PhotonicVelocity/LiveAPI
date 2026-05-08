@@ -600,11 +600,27 @@ def member_flags_html(member: dict) -> str:
             '<span class="prop-flag prop-flag-ro" aria-label="read-only"></span>'
         )
     if _resolve(member, "listenable"):
+        # Listener-only triplets (`listenable` present but no `type:` —
+        # `Clip.notes`, `Track.data`, ...) deep-link the chip to the
+        # Listener-only-triplets section of the foundation page;
+        # value-bearing observable properties land at the page top.
+        is_listener_only = not _resolve(member, "type")
+        if is_listener_only:
+            href = f"{DOCS_URL_BASE}/listener/#listener-only-triplets"
+            tooltip = (
+                "Listener-only triplet — see Listener for what makes "
+                "these distinct from value-bearing observables."
+            )
+        else:
+            href = f"{DOCS_URL_BASE}/listener/"
+            tooltip = (
+                "This member is observable — see Listener for the "
+                "subscription model."
+            )
         chips.append(
             f'<a class="prop-flag prop-flag-listen" '
-            f'href="{DOCS_URL_BASE}/listener/" '
-            f'title="This member is observable — see Listener for the '
-            f'subscription model." aria-label="listen"></a>'
+            f'href="{href}" '
+            f'title="{tooltip}" aria-label="listen"></a>'
         )
     if not chips:
         return ""
@@ -1086,13 +1102,31 @@ def render_module_page(
         # The `[listen]` chip stays on each entry as the link to the
         # Listener foundation page.
         if signals:
-            lines.append("#### Signals")
+            lines.append("#### Listener Only")
             lines.append("")
             for prop in signals:
+                # H5 is the bare event name (`notes`, `loop_jump`,
+                # ...) — clean for slug + TOC. The actual three
+                # triplet methods (`add_X_listener`,
+                # `remove_X_listener`, `X_has_listener`) render in a
+                # sub-line below the heading, dot-separated, in
+                # muted scaffolding color. Reader gets the full
+                # triplet without the H5 needing to disambiguate
+                # alternation.
                 heading = property_heading_html(prop, registry, current_module=module_name)
                 flags = member_flags_html(prop)
                 lines.append(f"##### {heading}{flags}")
                 lines.append("")
+                triplet = _resolve(prop, "listenable") or []
+                if triplet:
+                    methods_html = "  ·  ".join(
+                        f'<span class="listener-only-method">{m}</span>'
+                        for m in triplet
+                    )
+                    lines.append(
+                        f'<div class="listener-only-triplet">{methods_html}</div>'
+                    )
+                    lines.append("")
                 desc = member_description_text(prop)
                 if desc:
                     lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")

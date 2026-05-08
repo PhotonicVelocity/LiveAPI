@@ -543,6 +543,12 @@ primary_class:
     settable: false
 
   - name: data
+    description: |
+      Fires when the track's underlying data store is modified —
+      the generic state-change signal for the track's persistent
+      state. The programmatic trigger is `set_data` (read via
+      `get_data`); whether other track-level mutations also fire
+      it is **unverified**.
     listenable:
     - add_data_listener
     - remove_data_listener

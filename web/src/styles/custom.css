@@ -142,6 +142,21 @@
   font-size: var(--sl-text-h3);
 }
 
+/* Listener-only entry sub-line — renders the three triplet methods
+   (`add_X_listener`, `remove_X_listener`, `X_has_listener`)
+   beneath the H5, dot-separated, in the muted scaffolding color.
+   The H5 itself carries just the bare event name (clean slug);
+   this sub-line surfaces the actual runtime methods so the entry
+   reads as a listener triplet rather than as a phantom property. */
+.sl-markdown-content .listener-only-triplet {
+  margin: -0.1rem 0 0.4rem 1.5rem;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .listener-only-method {
+  font-family: var(--sl-font-system-mono);
+}
+
 /* Property type annotation — `: Type` after the property name.
    Default color is muted gray, used for the `:` separator and unlinked
    builtin/unrecognized types (`bool`, `None`, `int`) so they fade into

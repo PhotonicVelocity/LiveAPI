@@ -194,9 +194,24 @@ Get the names of all the visible modulation targets.
 
 From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
-#### Signals
+#### Listener Only
 
-##### modulation_matrix_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### modulation_matrix_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_modulation_matrix_changed_listener</span>  ·  <span class="listener-only-method">remove_modulation_matrix_changed_listener</span>  ·  <span class="listener-only-method">modulation_matrix_changed_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the Wavetable device's modulation matrix is
+reconfigured — modulation source / destination wiring
+changes. Programmatic triggers include
+`add_parameter_to_modulation_matrix` and
+`set_modulation_value`. Read the matrix via
+`get_modulation_value`,
+`get_modulation_target_parameter_name`, and
+`is_parameter_modulatable`.
+
+</div>
 
 #### Methods
 

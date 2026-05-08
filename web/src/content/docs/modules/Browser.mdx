@@ -159,9 +159,18 @@ Returns a browser item with access to all the User Library content.
 
 </div>
 
-#### Signals
+#### Listener Only
 
-##### full_refresh<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### full_refresh<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_full_refresh_listener</span>  ·  <span class="listener-only-method">remove_full_refresh_listener</span>  ·  <span class="listener-only-method">full_refresh_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the browser performs a full content-tree rebuild —
+typically after a library scan or plugin rescan.
+
+</div>
 
 #### Methods
 

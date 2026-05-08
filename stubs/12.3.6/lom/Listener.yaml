@@ -10,10 +10,10 @@ _note: |
   page describing the LOM subscription model, not just a class
   reference for `ListenerHandle` / `ListenerVector`.
 description: |
-  Live's observable properties — those marked `[listen]` on reference
-  pages — expose a callback-based subscription model. Three methods
-  bind onto the property's owning class for each observable property,
-  derived mechanically from the property name:
+  Live's observable properties expose a callback-based subscription
+  model. To listen for changes on a property, call the listener
+  methods bound on its owning class — three are bound per
+  observable property, derived from the property name:
 
   ```
   add_<prop>_listener(callback)
@@ -21,10 +21,9 @@ description: |
   <prop>_has_listener(callback)
   ```
 
-  These triplets aren't shown in their own right on class pages —
-  they fold under the property they belong to, with the `[listen]`
-  chip as the surface signal. The shape is uniform: every observable
-  property in the LOM exposes the same three methods.
+  The shape is uniform across the LOM — every observable property
+  exposes the same three methods, with the same callback semantics
+  (covered in detail below).
 
   ## Subscribing
 
@@ -103,23 +102,27 @@ description: |
   collection (e.g. `Song.tracks`'s listener fires on track deletion,
   with the deleted track no longer in the returned list).
 
-  ## Signal-only triplets
+  ## Listener-only triplets
 
-  Not every listener triplet has a readable property behind it. `Clip`
-  exposes `add_notes_listener` / `remove_notes_listener` /
-  `notes_has_listener` for being notified when a clip's notes change,
-  but `clip.notes` itself isn't an attribute — there's no property to
-  read, only the signal that something happened. Same shape on
-  `Clip.loop_jump` and a handful of others. The triplet exists as a
-  pure event subscription; the would-be property is a YAML organizing
-  fiction we use to give the triplet a name.
+  Not every listener triplet has a readable attribute behind it.
+  `Clip` binds `add_playing_status_listener` /
+  `remove_playing_status_listener` / `playing_status_has_listener`
+  to fire when a clip's transport state changes — triggered,
+  playing, recording, stopped — but `clip.playing_status` itself
+  isn't a Python attribute. The state is read through related
+  properties (`Clip.is_playing` / `is_recording` / `is_triggered`)
+  and changes through methods (`fire`, `stop`); the listener fires
+  on those changes. The "playing_status" in the triplet name is
+  the conceptual thing being observed, not a property to read.
 
-  Reference pages surface these as named entries under the class's
-  Properties section (`notes`, `loop_jump`, ...) carrying the same
-  `[listen]` chip as value-bearing observable properties — the
-  subscription mechanism is identical, so the navigation surface is
-  uniform. The visible difference: signal-only entries have no type
-  annotation, because there's no value to type.
+  Same shape on `Clip.notes`, `Clip.loop_jump`, `Track.data`,
+  `Song.data`, and a handful of others. Each owning class surfaces
+  these in a dedicated `#### Listener Only` section on its
+  reference page — separate from the regular Properties list so
+  the missing type annotation isn't read as missing data. The
+  subscription mechanism is identical to value-bearing observable
+  properties; the difference is in how you read state, not in how
+  you listen.
 
   ## Bookkeeping types
 

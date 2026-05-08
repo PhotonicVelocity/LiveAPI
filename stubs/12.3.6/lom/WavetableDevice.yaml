@@ -209,6 +209,15 @@ primary_class:
     - visible_modulation_target_names_has_listener
 
   - name: modulation_matrix_changed
+    description: |
+      Fires when the Wavetable device's modulation matrix is
+      reconfigured — modulation source / destination wiring
+      changes. Programmatic triggers include
+      `add_parameter_to_modulation_matrix` and
+      `set_modulation_value`. Read the matrix via
+      `get_modulation_value`,
+      `get_modulation_target_parameter_name`, and
+      `is_parameter_modulatable`.
     listenable:
     - add_modulation_matrix_changed_listener
     - remove_modulation_matrix_changed_listener

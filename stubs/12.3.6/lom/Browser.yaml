@@ -128,6 +128,9 @@ primary_class:
     settable: false
 
   - name: full_refresh
+    description: |
+      Fires when the browser performs a full content-tree rebuild —
+      typically after a library scan or plugin rescan.
     listenable:
     - add_full_refresh_listener
     - remove_full_refresh_listener

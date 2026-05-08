@@ -479,11 +479,34 @@ Const access to a list of all visible Player Tracks in the Live Song, excluding 
 
 </div>
 
-#### Signals
+#### Listener Only
 
-##### data<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### data<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
-##### scale_information<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+<div class="listener-only-triplet"><span class="listener-only-method">add_data_listener</span>  ·  <span class="listener-only-method">remove_data_listener</span>  ·  <span class="listener-only-method">data_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the song's underlying data store is modified —
+the generic state-change signal for the Set's persistent
+state. The programmatic trigger is `set_data` (read via
+`get_data`); whether other Set-level mutations also fire it
+is **unverified**.
+
+</div>
+
+##### scale_information<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_scale_information_listener</span>  ·  <span class="listener-only-method">remove_scale_information_listener</span>  ·  <span class="listener-only-method">scale_information_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when Live 12's scale settings change — root note, scale
+mode, or scale-aware playback toggle. Triggered by writes to
+the corresponding `Song` properties (`scale_name`,
+`root_note`, `scale_intervals`, `scale_mode`).
+
+</div>
 
 #### Methods
 

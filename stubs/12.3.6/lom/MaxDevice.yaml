@@ -92,6 +92,12 @@ primary_class:
     settable: false
 
   - name: bank_parameters_changed
+    description: |
+      Fires when the Max for Live device's bank-parameter mapping
+      reconfigures — parameter rebinding to a different bank slot
+      or a structural change to the bank set. Read the new state
+      via `get_bank_count`, `get_bank_name`, and
+      `get_bank_parameters`.
     listenable:
     - add_bank_parameters_changed_listener
     - remove_bank_parameters_changed_listener

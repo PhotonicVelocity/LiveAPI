@@ -307,6 +307,12 @@ primary_class:
       - focused_document_view_has_listener
 
     - name: view_focus_changed
+      description: |
+        Fires when the focused view changes (Session/Arrangement
+        switch, popup open/close, primary/secondary window focus
+        shifts). Programmatic triggers include `focus_view`,
+        `show_view`, `hide_view`, and `toggle_browse`; user
+        interaction with Live's UI also fires it.
       listenable:
       - add_view_focus_changed_listener
       - remove_view_focus_changed_listener
@@ -702,12 +708,21 @@ classes:
         `str` is the strongest reading — promote via probe.
 
   - name: control_values_arrived
+    description: |
+      Fires when control values arrive from the connected hardware
+      after a `subscribe_to_control` registration. Notification
+      only — read the values via `fetch_received_values` after the
+      callback.
     listenable:
     - add_control_values_arrived_listener
     - remove_control_values_arrived_listener
     - control_values_arrived_has_listener
 
   - name: midi_received
+    description: |
+      Fires when MIDI input arrives at the control surface proxy
+      after `enable_receive_midi(True)`. Notification only — read
+      the messages via `fetch_received_midi_messages`.
     listenable:
     - add_midi_received_listener
     - remove_midi_received_listener

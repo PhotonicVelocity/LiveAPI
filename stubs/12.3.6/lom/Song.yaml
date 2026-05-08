@@ -564,12 +564,23 @@ primary_class:
     - visible_tracks_has_listener
 
   - name: data
+    description: |
+      Fires when the song's underlying data store is modified —
+      the generic state-change signal for the Set's persistent
+      state. The programmatic trigger is `set_data` (read via
+      `get_data`); whether other Set-level mutations also fire it
+      is **unverified**.
     listenable:
     - add_data_listener
     - remove_data_listener
     - data_has_listener
 
   - name: scale_information
+    description: |
+      Fires when Live 12's scale settings change — root note, scale
+      mode, or scale-aware playback toggle. Triggered by writes to
+      the corresponding `Song` properties (`scale_name`,
+      `root_note`, `scale_intervals`, `scale_mode`).
     listenable:
     - add_scale_information_listener
     - remove_scale_information_listener

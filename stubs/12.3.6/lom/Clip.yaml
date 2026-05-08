@@ -452,18 +452,36 @@ primary_class:
     settable: false
 
   - name: loop_jump
+    description: |
+      Fires when playback jumps at a loop boundary (loop end → loop
+      start).
     listenable:
     - add_loop_jump_listener
     - remove_loop_jump_listener
     - loop_jump_has_listener
 
   - name: notes
+    description: |
+      Fires when the clip's MIDI notes change. Programmatic
+      triggers include `add_new_notes`, `apply_note_modifications`,
+      `replace_selected_notes`, `set_notes`, `remove_notes`,
+      `remove_notes_extended`, `remove_notes_by_id`, `quantize`,
+      `quantize_pitch`, `crop`, `duplicate_loop`,
+      `duplicate_notes_by_id`, and `duplicate_region`. Notification
+      only — read the new notes via `get_notes_extended` /
+      `get_all_notes_extended` after the callback.
     listenable:
     - add_notes_listener
     - remove_notes_listener
     - notes_has_listener
 
   - name: playing_status
+    description: |
+      Fires when the clip's transport state changes (triggered,
+      playing, recording, stopped). Programmatic triggers include
+      `fire` and `stop`; the Session-View clip-launch action also
+      fires it. Notification only — read the new state via
+      `Clip.is_playing` / `is_recording` / `is_triggered`.
     listenable:
     - add_playing_status_listener
     - remove_playing_status_listener

@@ -263,11 +263,32 @@ The layout of pads on Push.
 
 ##### type_name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-#### Signals
+#### Listener Only
 
-##### control_values_arrived<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### control_values_arrived<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
-##### midi_received<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+<div class="listener-only-triplet"><span class="listener-only-method">add_control_values_arrived_listener</span>  ·  <span class="listener-only-method">remove_control_values_arrived_listener</span>  ·  <span class="listener-only-method">control_values_arrived_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when control values arrive from the connected hardware
+after a `subscribe_to_control` registration. Notification
+only — read the values via `fetch_received_values` after the
+callback.
+
+</div>
+
+##### midi_received<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_midi_received_listener</span>  ·  <span class="listener-only-method">remove_midi_received_listener</span>  ·  <span class="listener-only-method">midi_received_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when MIDI input arrives at the control surface proxy
+after `enable_receive_midi(True)`. Notification only — read
+the messages via `fetch_received_midi_messages`.
+
+</div>
 
 #### Methods
 
@@ -357,9 +378,21 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 </div>
 
-#### Signals
+#### Listener Only
 
-##### view_focus_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### view_focus_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_view_focus_changed_listener</span>  ·  <span class="listener-only-method">remove_view_focus_changed_listener</span>  ·  <span class="listener-only-method">view_focus_changed_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the focused view changes (Session/Arrangement
+switch, popup open/close, primary/secondary window focus
+shifts). Programmatic triggers include `focus_view`,
+`show_view`, `hide_view`, and `toggle_browse`; user
+interaction with Live's UI also fires it.
+
+</div>
 
 #### Methods
 
@@ -393,7 +426,7 @@ Hide one through the identifier string specified view.
 
 </div>
 
-##### is_view_visible()<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_view_visible()<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">main_window_only</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 

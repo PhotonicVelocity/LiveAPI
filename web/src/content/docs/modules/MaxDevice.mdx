@@ -98,9 +98,21 @@ Const access to the list of available automatable parameters for this device.
 
 From `Device`: [can_compare_ab](/LiveAPI/modules/device/#can_compare_ab-bool), [can_have_chains](/LiveAPI/modules/device/#can_have_chains-bool), [can_have_drum_pads](/LiveAPI/modules/device/#can_have_drum_pads-bool), [class_display_name](/LiveAPI/modules/device/#class_display_name-str), [class_name](/LiveAPI/modules/device/#class_name-str), [is_using_compare_preset_b](/LiveAPI/modules/device/#is_using_compare_preset_b-bool), [type](/LiveAPI/modules/device/#type-devicetype), [view](/LiveAPI/modules/device/#view-deviceview), [save_preset_to_compare_ab_slot()](/LiveAPI/modules/device/#save_preset_to_compare_ab_slot), [store_chosen_bank()](/LiveAPI/modules/device/#store_chosen_bank)
 
-#### Signals
+#### Listener Only
 
-##### bank_parameters_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### bank_parameters_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_bank_parameters_changed_listener</span>  ·  <span class="listener-only-method">remove_bank_parameters_changed_listener</span>  ·  <span class="listener-only-method">bank_parameters_changed_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the Max for Live device's bank-parameter mapping
+reconfigures — parameter rebinding to a different bank slot
+or a structural change to the bank set. Read the new state
+via `get_bank_count`, `get_bank_name`, and
+`get_bank_parameters`.
+
+</div>
 
 #### Methods
 

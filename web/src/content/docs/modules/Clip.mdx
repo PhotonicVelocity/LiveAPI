@@ -398,13 +398,49 @@ returns true if the Clip will record on being started.
 
 </div>
 
-#### Signals
+#### Listener Only
 
-##### loop_jump<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### loop_jump<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
-##### notes<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+<div class="listener-only-triplet"><span class="listener-only-method">add_loop_jump_listener</span>  ·  <span class="listener-only-method">remove_loop_jump_listener</span>  ·  <span class="listener-only-method">loop_jump_has_listener</span></div>
 
-##### playing_status<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+<div class="member-desc">
+
+Fires when playback jumps at a loop boundary (loop end → loop
+start).
+
+</div>
+
+##### notes<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_notes_listener</span>  ·  <span class="listener-only-method">remove_notes_listener</span>  ·  <span class="listener-only-method">notes_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the clip's MIDI notes change. Programmatic
+triggers include `add_new_notes`, `apply_note_modifications`,
+`replace_selected_notes`, `set_notes`, `remove_notes`,
+`remove_notes_extended`, `remove_notes_by_id`, `quantize`,
+`quantize_pitch`, `crop`, `duplicate_loop`,
+`duplicate_notes_by_id`, and `duplicate_region`. Notification
+only — read the new notes via `get_notes_extended` /
+`get_all_notes_extended` after the callback.
+
+</div>
+
+##### playing_status<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+
+<div class="listener-only-triplet"><span class="listener-only-method">add_playing_status_listener</span>  ·  <span class="listener-only-method">remove_playing_status_listener</span>  ·  <span class="listener-only-method">playing_status_has_listener</span></div>
+
+<div class="member-desc">
+
+Fires when the clip's transport state changes (triggered,
+playing, recording, stopped). Programmatic triggers include
+`fire` and `stop`; the Session-View clip-launch action also
+fires it. Notification only — read the new state via
+`Clip.is_playing` / `is_recording` / `is_triggered`.
+
+</div>
 
 #### Methods
 
