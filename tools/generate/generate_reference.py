@@ -552,26 +552,63 @@ def method_signature_html(method: dict) -> str:
     return f"{name}()"
 
 
-def member_description_text(member: dict) -> str | None:
-    """Resolve the displayable description for a property or method.
+def emit_description_block(lines: list[str], member: dict, *, wrapped: bool) -> None:
+    """Emit description prose for `member`.
 
-    Hand-authored `description:` takes precedence over parser-derived
-    `raw_doc:` — same convention as the class-level pair (terse runtime
-    docstring vs. authored prose). Both honor sibling `<field>_override:`
-    blocks via `_resolve`.
+    Layouts:
+      - Has authored `description:` AND `raw_doc:`:
+            <description prose>
+            [runtime docstring]
+            <raw_doc text>
+      - Has only `description:`: the authored prose alone, no chip.
+      - Has only `raw_doc:`: chip + raw_doc text.
+      - Has neither: emits nothing.
 
-    Description is preserved as-is (may be multi-paragraph markdown);
-    raw_doc fallback is collapsed to a single paragraph (runtime
-    docstrings are line-wrapped at the binding source and the wrap
-    points carry no semantic meaning).
+    The raw_doc block always renders de-emphasized so the chip + the
+    smaller / muted text read as a single unit — the verbatim runtime
+    docstring, distinct from any authored prose above it.
+
+    `wrapped=True` puts the whole block inside `<div class="member-desc">`
+    — used for properties / methods / signal-only nested under a class
+    (indented gutter, muted color). `wrapped=False` emits at page margin
+    — for class / enum / function H3 entities whose prose sits flush
+    with the signature.
+
+    Both fields honor sibling `<field>_override:` blocks via `_resolve`.
     """
     desc = _resolve(member, "description")
-    if isinstance(desc, str) and desc.strip():
-        return desc.strip()
     raw = _resolve(member, "raw_doc")
-    if isinstance(raw, str) and raw.strip():
-        return normalize_paragraph(raw)
-    return None
+    has_desc = isinstance(desc, str) and bool(desc.strip())
+    has_raw = isinstance(raw, str) and bool(raw.strip())
+    if not has_desc and not has_raw:
+        return
+
+    parts: list[str] = []
+    if has_desc:
+        parts.append(desc.strip())
+    if has_raw:
+        # Open by default when the raw_doc is the only prose on the
+        # node (it IS the description — collapsing it hides the only
+        # info). Collapsed by default when an authored description
+        # sits above it, so the editorial prose reads as primary and
+        # the runtime text is reachable via click.
+        open_attr = "" if has_desc else " open"
+        details_block = (
+            f'<details class="raw-doc-toggle"{open_attr}>\n'
+            f'<summary class="desc-source">'
+            f'<span class="desc-source-chip desc-source-runtime">'
+            f'runtime docstring</span></summary>\n\n'
+            f'<div class="raw-doc">\n\n{normalize_paragraph(raw)}\n\n</div>\n\n'
+            f'</details>'
+        )
+        parts.append(details_block)
+
+    body = "\n\n".join(parts)
+    if wrapped:
+        lines.append(f'<div class="member-desc">\n\n{body}\n\n</div>')
+    else:
+        lines.append(body)
+    lines.append("")
 
 
 def member_flags_html(member: dict) -> str:
@@ -1037,20 +1074,13 @@ def render_module_page(
         )
         lines.append(f"### {sig}")
         lines.append("")
-        doc_text = normalize_paragraph(cls.get("raw_doc"))
-        if doc_text:
-            lines.append(doc_text)
-            lines.append("")
-        # Hand-authored, multi-paragraph class description (markdown).
-        # Lives on the class node as `description:` (see lom-format.md
-        # — analogous to the module-top-level `description:`, but
-        # scoped to one class). Renders below the runtime docstring so
-        # both are visible: parser-derived terse line first, authored
-        # context after.
-        class_description = cls.get("description")
-        if class_description:
-            lines.append(class_description.strip())
-            lines.append("")
+        # Hand-authored, multi-paragraph class description (markdown)
+        # lives on the class node as `description:` (see lom-format.md —
+        # analogous to the module-top-level `description:`, but scoped
+        # to one class) and overrides parser-derived `raw_doc`. The
+        # original raw_doc remains accessible via the chip-line tooltip
+        # rendered above the prose by `emit_description_block`.
+        emit_description_block(lines, cls, wrapped=False)
         rendered_name = display_name or cls["name"]
         # Partition the YAML's `properties:` list into real properties
         # (anything with a type) and signal-only triplets (`listenable:`
@@ -1177,10 +1207,7 @@ def render_module_page(
                     flags = member_flags_html(m)
                     lines.append(f"##### {heading}{flags}")
                     lines.append("")
-                    desc = member_description_text(m)
-                    if desc:
-                        lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                        lines.append("")
+                    emit_description_block(lines, m, wrapped=True)
                 else:  # method
                     heading = method_signature_html(m)
                     flags = member_flags_html(m)
@@ -1193,10 +1220,7 @@ def render_module_page(
                     if sig_block:
                         lines.append(sig_block)
                         lines.append("")
-                    desc = member_description_text(m)
-                    if desc:
-                        lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                        lines.append("")
+                    emit_description_block(lines, m, wrapped=True)
             lines.append('</details>')
             lines.append("")
 
@@ -1214,10 +1238,7 @@ def render_module_page(
                 flags = member_flags_html(prop)
                 lines.append(f"##### {heading}{flags}")
                 lines.append("")
-                desc = member_description_text(prop)
-                if desc:
-                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                    lines.append("")
+                emit_description_block(lines, prop, wrapped=True)
         # Signal-only listener triplets — `notes`, `loop_jump`, etc.
         # Surfaced in their own section so the reader doesn't read
         # them as untyped properties; the section header is the
@@ -1250,10 +1271,7 @@ def render_module_page(
                         f'<div class="listener-only-triplet">{methods_html}</div>'
                     )
                     lines.append("")
-                desc = member_description_text(prop)
-                if desc:
-                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                    lines.append("")
+                emit_description_block(lines, prop, wrapped=True)
         # Filter listener-triplet methods folded into a parent method's
         # `listenable:` field — the parameterized-observable case (the
         # only current example: `Application.View.is_view_visible` and
@@ -1328,10 +1346,7 @@ def render_module_page(
             if sig_block:
                 lines.append(sig_block)
                 lines.append("")
-            desc = member_description_text(method)
-            if desc:
-                lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                lines.append("")
+            emit_description_block(lines, method, wrapped=True)
 
         if inherited_methods_by_anc or active_methods:
             lines.append("#### Methods")
@@ -1398,10 +1413,7 @@ def render_module_page(
                 flags = member_flags_html(prop)
                 lines.append(f"##### {heading}{flags}")
                 lines.append("")
-                desc = member_description_text(prop)
-                if desc:
-                    lines.append(f"<div class=\"member-desc\">\n\n{desc}\n\n</div>")
-                    lines.append("")
+                emit_description_block(lines, prop, wrapped=True)
             for method in deprecated_methods:
                 _render_method(method)
             lines.append('</details>')
@@ -1453,14 +1465,11 @@ def render_module_page(
             sig = enum_signature_html(enum, module_name, display_name=display)
             lines.append(f"### {sig}")
             lines.append("")
-            desc = member_description_text(enum)
-            if desc:
-                # Enum description — top-level H3 entity, sits at page
-                # margin like a class description. NOT wrapped in
-                # `.member-desc` (that's for property / method
-                # descriptions nested under a class's H4 sections).
-                lines.append(desc)
-                lines.append("")
+            # Enum description — top-level H3 entity, sits at page
+            # margin like a class description. NOT wrapped in
+            # `.member-desc` (that's for property / method descriptions
+            # nested under a class's H4 sections).
+            emit_description_block(lines, enum, wrapped=False)
             members = enum.get("members") or {}
             if members:
                 # `#### Members` heading parallels `#### Properties` /
@@ -1489,10 +1498,7 @@ def render_module_page(
             if sig_block:
                 lines.append(sig_block)
                 lines.append("")
-            desc = member_description_text(fn)
-            if desc:
-                lines.append(desc)
-                lines.append("")
+            emit_description_block(lines, fn, wrapped=False)
 
     return "\n".join(lines)
 

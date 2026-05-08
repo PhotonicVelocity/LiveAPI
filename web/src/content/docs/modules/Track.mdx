@@ -11,7 +11,16 @@ marked accordingly.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/track/#devicecontainer" data-base="DeviceContainer" aria-label="DeviceContainer"></a></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 This class represents a track in Live. It can be either an Audio track, a MIDI Track, a Return Track or the Main track. The Main Track and at least one Audio or MIDI track will be always present. Return Tracks are optional.
+
+</div>
+
+</details>
 
 #### Properties
 
@@ -24,7 +33,16 @@ This class represents a track in Live. It can be either an Audio track, a MIDI T
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get the canonical parent of the track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -34,7 +52,16 @@ Get the canonical parent of the track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Arm the track for recording. Not available for Main- and Send Tracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -42,7 +69,16 @@ Arm the track for recording. Not available for Main- and Send Tracks.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 const access to the list of clips in arrangement viewThe list will be empty for the main, send and group tracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -50,7 +86,16 @@ const access to the list of clips in arrangement viewThe list will be empty for 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return a list of source channels for input routing.
+
+</div>
+
+</details>
 
 </div>
 
@@ -58,7 +103,16 @@ Return a list of source channels for input routing.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return a list of source types for input routing.
+
+</div>
+
+</details>
 
 </div>
 
@@ -66,7 +120,16 @@ Return a list of source types for input routing.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return a list of destination channels for output routing.
+
+</div>
+
+</details>
 
 </div>
 
@@ -74,7 +137,16 @@ Return a list of destination channels for output routing.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return a list of destination types for output routing.
+
+</div>
+
+</details>
 
 </div>
 
@@ -82,7 +154,16 @@ Return a list of destination types for output routing.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Indicates if it's possible to go back to playing back the clips in the Arranger.Setting a value 0 will go back to the Arranger playback. Setting on grouptracks will go back to the Arranger on all grouped tracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -90,7 +171,16 @@ Indicates if it's possible to go back to playing back the clips in the Arranger.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track has a valid arm property. Not all tracks can be armed (for example return Tracks or the Main Tracks).
+
+</div>
+
+</details>
 
 </div>
 
@@ -98,7 +188,16 @@ return True, if this Track has a valid arm property. Not all tracks can be armed
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track can be frozen.
+
+</div>
+
+</details>
 
 </div>
 
@@ -106,7 +205,16 @@ return True, if this Track can be frozen.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track contains a rack instrument device that is capable of showing its chains in session view.
+
+</div>
+
+</details>
 
 </div>
 
@@ -114,7 +222,16 @@ return True, if this Track contains a rack instrument device that is capable of 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 const access to the list of clipslots (see class AClipSlot) for this track. The list will be empty for the main and sendtracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -122,7 +239,16 @@ const access to the list of clipslots (see class AClipSlot) for this track. The 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/set access to the color of the Track (RGB).
+
+</div>
+
+</details>
 
 </div>
 
@@ -130,7 +256,16 @@ Get/set access to the color of the Track (RGB).
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set access to the color index of the track. Can be None for no color.
+
+</div>
+
+</details>
 
 </div>
 
@@ -138,7 +273,16 @@ Get/Set access to the color index of the track. Can be None for no color.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set the name of the current active input routing. When setting a new routing, the new routing must be one of the available ones.
+
+</div>
+
+</details>
 
 </div>
 
@@ -146,7 +290,16 @@ Get/Set the name of the current active input routing. When setting a new routing
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set the current active input sub routing. When setting a new routing, the new routing must be one of the available ones.
+
+</div>
+
+</details>
 
 </div>
 
@@ -154,7 +307,16 @@ Get/Set the current active input sub routing. When setting a new routing, the ne
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set the track's current monitoring state.
+
+</div>
+
+</details>
 
 </div>
 
@@ -162,7 +324,16 @@ Get/Set the track's current monitoring state.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set the current active output routing. When setting a new routing, the new routing must be one of the available ones.
+
+</div>
+
+</details>
 
 </div>
 
@@ -170,7 +341,16 @@ Get/Set the current active output routing. When setting a new routing, the new r
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set the current active output sub routing. When setting a new routing, the new routing must be one of the available ones.
+
+</div>
+
+</details>
 
 </div>
 
@@ -178,7 +358,16 @@ Get/Set the current active output sub routing. When setting a new routing, the n
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return const access to all available Devices that are present in the Tracks Devicechain. This tuple will also include the 'mixer_device' that every Track always has.
+
+</div>
+
+</details>
 
 </div>
 
@@ -186,7 +375,16 @@ Return const access to all available Devices that are present in the Tracks Devi
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 const access to the index of the fired (and thus blinking) clipslot in this track. This index is -1 if no slot is fired and -2 if the track's stop button has been fired.
+
+</div>
+
+</details>
 
 </div>
 
@@ -194,7 +392,16 @@ const access to the index of the fired (and thus blinking) clipslot in this trac
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set whether the track is folded or not. Only available if is_foldable is True.
+
+</div>
+
+</details>
 
 </div>
 
@@ -202,7 +409,16 @@ Get/Set whether the track is folded or not. Only available if is_foldable is Tru
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return the group track if is_grouped.
+
+</div>
+
+</details>
 
 </div>
 
@@ -210,7 +426,16 @@ return the group track if is_grouped.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track can be feed with an Audio signal. This is true for all Audio Tracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -218,7 +443,16 @@ return True, if this Track can be feed with an Audio signal. This is true for al
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track sends out an Audio signal. This is true for all Audio Tracks, and MIDI tracks with an Instrument.
+
+</div>
+
+</details>
 
 </div>
 
@@ -226,7 +460,16 @@ return True, if this Track sends out an Audio signal. This is true for all Audio
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track can be feed with an Audio signal. This is true for all MIDI Tracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -234,7 +477,16 @@ return True, if this Track can be feed with an Audio signal. This is true for al
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True, if this Track sends out MIDI events. This is true for all MIDI Tracks with no Instruments.
+
+</div>
+
+</details>
 
 </div>
 
@@ -242,7 +494,16 @@ return True, if this Track sends out MIDI events. This is true for all MIDI Trac
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Arm the track for recording. When The track is implicitly armed, it showsin a weaker color in the live GUI and is not saved in the set.
+
+</div>
+
+</details>
 
 </div>
 
@@ -250,7 +511,16 @@ Arm the track for recording. When The track is implicitly armed, it showsin a we
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only.
+
+</div>
+
+</details>
 
 </div>
 
@@ -258,7 +528,16 @@ Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return the MIDI or Audio meter value of the Tracks input, depending on the type of the Track input. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
+
+</div>
+
+</details>
 
 </div>
 
@@ -266,7 +545,16 @@ Return the MIDI or Audio meter value of the Tracks input, depending on the type 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only.
+
+</div>
+
+</details>
 
 </div>
 
@@ -274,7 +562,16 @@ Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get and set the current source channel for input routing. Raises ValueError if the type isn't one of the current values in available_input_routing_channels.
+
+</div>
+
+</details>
 
 </div>
 
@@ -282,7 +579,16 @@ Get and set the current source channel for input routing. Raises ValueError if t
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get and set the current source type for input routing. Raises ValueError if the type isn't one of the current values in available_input_routing_types.
+
+</div>
+
+</details>
 
 </div>
 
@@ -290,7 +596,16 @@ Get and set the current source type for input routing. Raises ValueError if the 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Const access to the list of available input routings.
+
+</div>
+
+</details>
 
 </div>
 
@@ -298,7 +613,16 @@ Const access to the list of available input routings.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return a list of all available input sub routings.
+
+</div>
+
+</details>
 
 </div>
 
@@ -306,7 +630,16 @@ Return a list of all available input sub routings.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True if the track can be (un)folded to hide/reveal contained tracks.
+
+</div>
+
+</details>
 
 </div>
 
@@ -314,7 +647,16 @@ return True if the track can be (un)folded to hide/reveal contained tracks.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True if this Track is currently frozen. No changes should be applied to the track's devices or clips while it is frozen.
+
+</div>
+
+</details>
 
 </div>
 
@@ -322,7 +664,16 @@ return True if this Track is currently frozen. No changes should be applied to t
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return True if this Track is current part of a group track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -330,7 +681,16 @@ return True if this Track is current part of a group track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return False if the track is not selected.
+
+</div>
+
+</details>
 
 </div>
 
@@ -338,7 +698,16 @@ return False if the track is not selected.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set whether a track with a rack device is showing its chains in session view.
+
+</div>
+
+</details>
 
 </div>
 
@@ -346,7 +715,16 @@ Get/Set whether a track with a rack device is showing its chains in session view
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 return False if the track is hidden within a folded group track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -354,7 +732,16 @@ return False if the track is hidden within a folded group track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return access to the special Device that every Track has: This Device contains the Volume, Pan, Sendamounts, and Crossfade assignment parameters.
+
+</div>
+
+</details>
 
 </div>
 
@@ -362,7 +749,16 @@ Return access to the special Device that every Track has: This Device contains t
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Mute/unmute the track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -370,7 +766,16 @@ Mute/unmute the track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Returns true if the track is muted because another track is soloed.
+
+</div>
+
+</details>
 
 </div>
 
@@ -378,7 +783,16 @@ Returns true if the track is muted because another track is soloed.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Read/write access to the name of the Track, as visible in the track header.
+
+</div>
+
+</details>
 
 </div>
 
@@ -386,7 +800,16 @@ Read/write access to the name of the Track, as visible in the track header.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Momentary value of left output channel meter, 0.0 to 1.0. For tracks with audio output only.
+
+</div>
+
+</details>
 
 </div>
 
@@ -394,7 +817,16 @@ Momentary value of left output channel meter, 0.0 to 1.0. For tracks with audio 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return the MIDI or Audio meter value of the Track output (behind the mixer_device), depending on the type of the Track input, this can be a MIDI or Audio meter. Meter values (MIDI or Audio) are always scaled from 0.0 to 1.0.
+
+</div>
+
+</details>
 
 </div>
 
@@ -402,7 +834,16 @@ Return the MIDI or Audio meter value of the Track output (behind the mixer_devic
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Momentary value of right output channel meter, 0.0 to 1.0. For tracks with audio output only.
+
+</div>
+
+</details>
 
 </div>
 
@@ -410,7 +851,16 @@ Momentary value of right output channel meter, 0.0 to 1.0. For tracks with audio
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get and set the current destination channel for output routing. Raises ValueError if the channel isn't one of the current values in available_output_routing_channels.
+
+</div>
+
+</details>
 
 </div>
 
@@ -418,7 +868,16 @@ Get and set the current destination channel for output routing. Raises ValueErro
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get and set the current destination type for output routing. Raises ValueError if the type isn't one of the current values in available_output_routing_types.
+
+</div>
+
+</details>
 
 </div>
 
@@ -426,7 +885,16 @@ Get and set the current destination type for output routing. Raises ValueError i
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Const access to the list of all available output routings.
+
+</div>
+
+</details>
 
 </div>
 
@@ -434,7 +902,16 @@ Const access to the list of all available output routings.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Return a list of all available output sub routings.
+
+</div>
+
+</details>
 
 </div>
 
@@ -442,7 +919,16 @@ Return a list of all available output sub routings.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Reports the performance impact of this track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -450,7 +936,16 @@ Reports the performance impact of this track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 const access to the index of the currently playing clip in the track. Will be -1 when no clip is playing.
+
+</div>
+
+</details>
 
 </div>
 
@@ -458,7 +953,16 @@ const access to the index of the currently playing clip in the track. Will be -1
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set the solo status of the track. Note that this will not disable the solo state of any other track. If you want exclusive solo, you have to disable the solo state of the other Tracks manually.
+
+</div>
+
+</details>
 
 </div>
 
@@ -466,7 +970,16 @@ Get/Set the solo status of the track. Note that this will not disable the solo s
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 returns the take lanes.
+
+</div>
+
+</details>
 
 </div>
 
@@ -474,7 +987,16 @@ returns the take lanes.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Representing the view aspects of a Track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -502,7 +1024,16 @@ it is **unverified**.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Creates an audio clip referencing the file at the given path and inserts it into the arrangement at the specified time. Throws an error when called on a non-audio or a frozen track, when the specified time is outside the [0., 1576800.] range, when the track is currently being recorded into, or when the path doesn't point to a valid audio file.
+
+</div>
+
+</details>
 
 </div>
 
@@ -512,7 +1043,16 @@ Creates an audio clip referencing the file at the given path and inserts it into
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Creates an empty MIDI clip and inserts it into the arrangement at the specified time. Throws an error when called on a non-MIDI track or a frozen track, when the specified time is outside the [0., 1576800.] range, or when the track is currently being recorded into.
+
+</div>
+
+</details>
 
 </div>
 
@@ -522,7 +1062,16 @@ Creates an empty MIDI clip and inserts it into the arrangement at the specified 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Create a new TakeLane for this track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -532,7 +1081,16 @@ Create a new TakeLane for this track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Delete the given clip. Raises a runtime error when the clip belongs to another track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -542,7 +1100,16 @@ Delete the given clip. Raises a runtime error when the clip belongs to another t
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Delete a device identified by the index in the 'devices' list.
+
+</div>
+
+</details>
 
 </div>
 
@@ -552,7 +1119,16 @@ Delete a device identified by the index in the 'devices' list.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Duplicate a clip and put it into the next free slot and return the index of the destination slot. A new scene is created if no free slot is available. If creating the new scene would exceed the limitations, a runtime error is raised.
+
+</div>
+
+</details>
 
 </div>
 
@@ -562,7 +1138,16 @@ Duplicate a clip and put it into the next free slot and return the index of the 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Duplicate the given clip into the arrangement of this track at the provided destination time and return it. When the type of the clip and the type of the track are incompatible, a runtime error is raised.
+
+</div>
+
+</details>
 
 </div>
 
@@ -572,7 +1157,16 @@ Duplicate the given clip into the arrangement of this track at the provided dest
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Duplicate a device at a given index in the 'devices' list.
+
+</div>
+
+</details>
 
 </div>
 
@@ -582,7 +1176,16 @@ Duplicate a device at a given index in the 'devices' list.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get data for the given key, that was previously stored using set_data.
+
+</div>
+
+</details>
 
 </div>
 
@@ -592,7 +1195,16 @@ Get data for the given key, that was previously stored using set_data.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Add a device at a given index in the 'devices' list. At end if -1.
+
+</div>
+
+</details>
 
 </div>
 
@@ -602,7 +1214,16 @@ Add a device at a given index in the 'devices' list. At end if -1.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Jump forward or backward in the currently running Sessionclip (if any) by the specified relative amount in beats. Does nothing if no Session Clip is currently running.
+
+</div>
+
+</details>
 
 </div>
 
@@ -612,7 +1233,16 @@ Jump forward or backward in the currently running Sessionclip (if any) by the sp
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Store data for the given key in this object. The data is persistent and will be restored when loading the Live Set.
+
+</div>
+
+</details>
 
 </div>
 
@@ -622,7 +1252,16 @@ Store data for the given key in this object. The data is persistent and will be 
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Stop running and triggered clip and slots on this track.
+
+</div>
+
+</details>
 
 </div>
 
@@ -634,8 +1273,6 @@ Stop running and triggered clip and slots on this track.
 ## Other classes
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">DeviceContainer</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
-
-This class is a common super class of Track and Chain
 
 Phantom base in the LOM type system. `Track` and `Chain` both
 register `DeviceContainer` as their direct Python superclass via
@@ -660,6 +1297,17 @@ rather than testing against the common base. Treat it as an
 implementation detail of the LOM type system, not a class to
 program against.
 
+<details class="raw-doc-toggle">
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+This class is a common super class of Track and Chain
+
+</div>
+
+</details>
+
 #### Properties
 
 <details class="inherited-section" open>
@@ -671,7 +1319,16 @@ program against.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get the canonical parent — the structural owner one step up the LOM tree.
+
+</div>
+
+</details>
 
 </div>
 
@@ -679,7 +1336,16 @@ Get the canonical parent — the structural owner one step up the LOM tree.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingChannel</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 This class represents a routing channel.
+
+</div>
+
+</details>
 
 #### Properties
 
@@ -687,7 +1353,16 @@ This class represents a routing channel.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Display name of routing channel.
+
+</div>
+
+</details>
 
 </div>
 
@@ -695,13 +1370,31 @@ Display name of routing channel.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 The routing channel's Layout, e.g., mono or stereo.
+
+</div>
+
+</details>
 
 </div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingChannelVector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A container for returning routing channels from Live.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -715,7 +1408,16 @@ A container for returning routing channels from Live.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingType</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 This class represents a routing type.
+
+</div>
+
+</details>
 
 #### Properties
 
@@ -723,7 +1425,16 @@ This class represents a routing type.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Live object associated with the routing type.
+
+</div>
+
+</details>
 
 </div>
 
@@ -731,7 +1442,16 @@ Live object associated with the routing type.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Category of the routing type.
+
+</div>
+
+</details>
 
 </div>
 
@@ -739,13 +1459,31 @@ Category of the routing type.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Display name of routing type.
+
+</div>
+
+</details>
 
 </div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">RoutingTypeVector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A container for returning routing types from Live.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -759,7 +1497,16 @@ A container for returning routing types from Live.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Representing the view aspects of a Track.
+
+</div>
+
+</details>
 
 #### Properties
 
@@ -772,7 +1519,16 @@ Representing the view aspects of a Track.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get the canonical parent of the track view.
+
+</div>
+
+</details>
 
 </div>
 
@@ -782,7 +1538,16 @@ Get the canonical parent of the track view.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Listen the device insertion mode of the track.  By default, it will insert devices at the end, but it can be changed to make it relative to current selection.
+
+</div>
+
+</details>
 
 </div>
 
@@ -790,7 +1555,16 @@ Get/Listen the device insertion mode of the track.  By default, it will insert d
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set/Listen if the track is shown collapsed in the arranger view.
+
+</div>
+
+</details>
 
 </div>
 
@@ -798,7 +1572,16 @@ Get/Set/Listen if the track is shown collapsed in the arranger view.
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Get/Set/Listen the insertion mode of the device.  While in insertion mode, loading new devices from the browser will place devices at the selected position.
+
+</div>
+
+</details>
 
 </div>
 
@@ -810,7 +1593,16 @@ Get/Set/Listen the insertion mode of the device.  While in insertion mode, loadi
 
 <div class="member-desc">
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Selects the track's instrument if it has one.
+
+</div>
+
+</details>
 
 </div>
 

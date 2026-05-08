@@ -93,6 +93,83 @@
   margin-bottom: 0;
 }
 
+/* `[runtime docstring]` chip — clickable `<summary>` of a `<details>`
+   that wraps the verbatim runtime docstring. Click to toggle the body
+   open / closed. Default state: open when the raw_doc is the only
+   prose on the node (it IS the description), closed when an authored
+   description sits above it (the chip is then a hover-style affordance
+   to "see the original"). */
+/* Top margin uses `!important` to beat Starlight's built-in
+   prose-flow spacing (`:not() + :not()` rule on `.sl-markdown-content`)
+   so the chip is deliberately offset from whatever sits above it. */
+/* Strip Starlight's default `<details>` chrome (left accent border,
+   padding, background) — our chip is the entire affordance, no
+   surrounding box. */
+.sl-markdown-content details.raw-doc-toggle {
+  border: none;
+  padding: 0;
+  background: none;
+  margin: 0;
+}
+.sl-markdown-content details.raw-doc-toggle > summary {
+  margin: 1rem 0 0.25rem 0 !important;
+  padding: 0;
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+/* Suppress browser-native + Starlight-injected disclosure markers —
+   leaves only our chip-internal caret. */
+.sl-markdown-content details.raw-doc-toggle > summary::-webkit-details-marker {
+  display: none;
+}
+.sl-markdown-content details.raw-doc-toggle > summary::before,
+.sl-markdown-content details.raw-doc-toggle > summary::marker {
+  content: none;
+  display: none;
+}
+/* Disclosure indicator inside the chip — small caret to the right of
+   the label that rotates on `[open]`. Keeping it inside the chip's
+   pill keeps the affordance visually tied to the chip itself. */
+.sl-markdown-content details.raw-doc-toggle > summary .desc-source-chip::after {
+  content: "▸";
+  display: inline-block;
+  margin-left: 0.3rem;
+  transition: transform 0.15s ease;
+}
+.sl-markdown-content details.raw-doc-toggle[open] > summary .desc-source-chip::after {
+  transform: rotate(90deg);
+}
+.sl-markdown-content .desc-source-chip {
+  display: inline-block;
+  padding: 0.02rem 0.4rem;
+  border-radius: 0.2rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.65em;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sl-color-gray-3);
+  background: var(--sl-color-gray-6);
+  border: 1px solid var(--sl-color-gray-5);
+}
+
+/* Verbatim runtime docstring rendered under the `[runtime docstring]`
+   chip. Always de-emphasized — smaller and muted — so the chip + body
+   read together as the runtime text, distinct from any authored prose
+   above. */
+.sl-markdown-content .raw-doc {
+  margin-top: 0;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content .raw-doc p {
+  margin: 0;
+}
+
 /* Property flags — chips appended INSIDE the H5 heading, with no
    DOM text content (visible labels come from CSS `::before`). Same
    trick as `.lom-badge` so the H5's `textContent` stays clean for

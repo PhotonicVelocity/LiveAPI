@@ -13,7 +13,16 @@ callbacks.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">FloatVector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A simple container for returning floats from Live.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -27,7 +36,16 @@ A simple container for returning floats from Live.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">IntU64Vector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A simple container for returning unsigned long integers from Live.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -41,7 +59,16 @@ A simple container for returning unsigned long integers from Live.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">IntVector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A simple container for returning integers from Live.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -57,7 +84,16 @@ A simple container for returning integers from Live.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">ObjectVector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A simple read only container for returning python objects.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -71,7 +107,16 @@ A simple read only container for returning python objects.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">StringVector</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A simple container for returning strings from Live.
+
+</div>
+
+</details>
 
 #### Methods
 
@@ -85,7 +130,16 @@ A simple container for returning strings from Live.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">Text</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A translatable, immutable string.
+
+</div>
+
+</details>
 
 #### Properties
 
@@ -93,7 +147,16 @@ A translatable, immutable string.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">Timer</span></span>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 A timer that will trigger a callback after a certain inverval. The timer can be repeated and will trigger the callback every interval. Errors in the callback will stop the timer.
+
+</div>
+
+</details>
 
 #### Properties
 
@@ -108,8 +171,6 @@ A timer that will trigger a callback after a certain inverval. The timer can be 
 ##### stop()
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">Vector</span></span>
-
-A simple read only container for returning objects from Live.
 
 Parametric base class — Live registers a single `Live.Base.Vector`
 on the Boost.Python side and reuses it for every LOM list-valued
@@ -148,6 +209,17 @@ modifying tracked collections. Whether calling `append` /
 `extend` directly on a LOM-returned vector produces consistent
 state (listener fires, UI updates, persistence) is **unverified**.
 
+<details class="raw-doc-toggle">
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
+A simple read only container for returning objects from Live.
+
+</div>
+
+</details>
+
 #### Methods
 
 ##### append()
@@ -164,7 +236,16 @@ state (listener fires, UI updates, persistence) is **unverified**.
 
 <div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label">Parameters</div><ul class="fn-sig-args"><li><span class="fn-arg-name">classname</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">textname</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/base/#text" title="Text">Text</a></div></div></div>
 
+<details class="raw-doc-toggle" open>
+<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
+
+<div class="raw-doc">
+
 Retrieves the (translated) Text identified by `classname` and `textname`.
+
+</div>
+
+</details>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">log</span></span>()
 
