@@ -15,13 +15,31 @@ callbacks.
 
 A simple container for returning floats from Live.
 
+#### Methods
+
+##### append<span class="meth-sig">(<span class="meth-arg">value</span>: float) <span class="meth-arrow">-&gt;</span> None</span>
+
+##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[float]) <span class="meth-arrow">-&gt;</span> None</span>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">IntU64Vector</span></span>
 
 A simple container for returning unsigned long integers from Live.
 
+#### Methods
+
+##### append<span class="meth-sig">(<span class="meth-arg">value</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+
+##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> None</span>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">IntVector</span></span>
 
 A simple container for returning integers from Live.
+
+#### Methods
+
+##### append<span class="meth-sig">(<span class="meth-arg">value</span>: int) <span class="meth-arrow">-&gt;</span> None</span>
+
+##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[int]) <span class="meth-arrow">-&gt;</span> None</span>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">LimitationError</span><span class="sig-base"><span class="sig-base-text" data-base="Exception" aria-label="Exception"></span></span></span>
 
@@ -29,9 +47,21 @@ A simple container for returning integers from Live.
 
 A simple read only container for returning python objects.
 
+#### Methods
+
+##### append<span class="meth-sig">(<span class="meth-arg">value</span>: object) <span class="meth-arrow">-&gt;</span> None</span>
+
+##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[object]) <span class="meth-arrow">-&gt;</span> None</span>
+
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">StringVector</span></span>
 
 A simple container for returning strings from Live.
+
+#### Methods
+
+##### append<span class="meth-sig">(<span class="meth-arg">value</span>: str) <span class="meth-arrow">-&gt;</span> None</span>
+
+##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[str]) <span class="meth-arrow">-&gt;</span> None</span>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Base.">Text</span></span>
 
@@ -78,15 +108,31 @@ LomObject) but is its own concrete class — Live's naming suggests
 "automatable value" is the relevant identity, not just "container
 of parameters."
 
-Behavior is identical across both patterns: read-only, iterable,
-indexable. The structural distinction matters only for
-`isinstance` checks and type annotations — and capture-time
-inheritance confirms the concrete `XVector` classes do **not**
-derive from `Vector`. Both `Live.Base.Vector` and every `XVector`
-have the same single direct base, `Boost.Python.instance`; they're
-siblings in the runtime class hierarchy, not a parent / child
-chain. `isinstance(routing_channels, Live.Base.Vector)` is
-structurally False.
+Behavior is identical across both patterns: iterable, indexable.
+The structural distinction matters only for `isinstance` checks
+and type annotations. The concrete `XVector` classes do **not**
+derive from `Vector` — both `Live.Base.Vector` and every
+`XVector` have the same single direct base,
+`Boost.Python.instance`; they're siblings in the runtime class
+hierarchy, not a parent / child chain.
+`isinstance(routing_channels, Live.Base.Vector)` is structurally
+False.
+
+**Bound mutators.** Every container class binds `append` and
+`extend` methods at the runtime level — Boost.Python wraps the
+underlying C++ `std::vector<T>` operations. Live's own
+docstring on `Vector` describes the class as "read only,"
+however, and the LOM provides dedicated state-change methods
+(`Track.create_audio_clip`, `Song.delete_track`, ...) for
+modifying tracked collections. Whether calling `append` /
+`extend` directly on a LOM-returned vector produces consistent
+state (listener fires, UI updates, persistence) is **unverified**.
+
+#### Methods
+
+##### append<span class="meth-sig">(<span class="meth-arg">value</span>: T) <span class="meth-arrow">-&gt;</span> None</span>
+
+##### extend<span class="meth-sig">(<span class="meth-arg">values</span>: Iterable[T]) <span class="meth-arrow">-&gt;</span> None</span>
 
 ## Functions
 

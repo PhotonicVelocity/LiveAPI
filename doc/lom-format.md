@@ -172,7 +172,11 @@ Iterability is encoded by two flags:
   `extend` bound by the parser, in addition to iteration). Distinguishes
   vector-style classes from plain iterators. The stub generator inherits
   the iterator protocol from `Vector[E]` for containers and uses
-  `Iterable[E]` for plain iterators.
+  `Iterable[E]` for plain iterators. The reference generator also
+  synthesizes `append(value: E)` and `extend(values: Iterable[E])`
+  methods on container pages from this flag + element type — the
+  YAML build itself filters those methods out, since both downstream
+  consumers (.pyi stubs, reference site) re-synthesize them locally.
 - **`parametric: true`** — only on `Live.Base.Vector`. The class is the
   generic base; the renderer emits `class Vector(Generic[T])` plus a
   module-scope `T = TypeVar('T', covariant=True)`. Concrete container

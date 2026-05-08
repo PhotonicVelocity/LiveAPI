@@ -121,6 +121,32 @@ graduate off this list as records are written.
   call `add_..._listener(callback)` twice; trigger the property
   change once; assert the counter equals 1 vs 2.
 
+### Vector containers — safety of `append` / `extend`
+
+- **Claim** (Base.Vector class description, "Bound mutators"
+  paragraph): "Whether calling `append` / `extend` directly on a
+  LOM-returned vector produces consistent state (listener fires, UI
+  updates, persistence) is **unverified**."
+- **What's known**: Boost.Python binds `append(value: T)` /
+  `extend(values: Iterable[T])` on every container class (the
+  parametric `Vector` base and every concrete `XVector`). Live's
+  own runtime docstring describes `Vector` as "read only." The LOM
+  provides dedicated state-change methods on the tracked objects
+  (`Track.create_audio_clip`, `Song.delete_track`, ...).
+- **What's unverified**: whether calling these mutators directly on
+  a LOM-returned vector (e.g. `track.arrangement_clips.append(clip)`)
+  succeeds, fails silently, or corrupts state; whether listener
+  triplets fire on the property; whether the change persists on
+  Set save / undo.
+- **Probe sketch**: pick a representative LOM-returned vector
+  property (e.g. `track.arrangement_clips`, `song.scenes`); register
+  a listener on the property; call `vector.append(...)` with a
+  freshly-constructed element; record (a) any exception, (b)
+  whether the listener fired, (c) whether subsequent reads of the
+  property reflect the new element, (d) whether the change survives
+  `song.save_song()` + reload. Repeat across a couple of containers
+  with different element types.
+
 ## Graduated (links to records)
 
 _None yet — Phase 2 record schema not locked._

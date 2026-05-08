@@ -1113,6 +1113,42 @@ def render_module_page(
                 and _resolve(m, "name") not in triplet_method_names
             )
         ]
+        # Container classes (`Live.Base.Vector` and every concrete
+        # `XVector`) bind `append` and `extend` at the runtime level,
+        # but the lom YAML build filters them — they're synthesized at
+        # stub-render time from the container flag + element type
+        # (see doc/lom-format.md §"Iterable container classes"). Mirror
+        # the synthesis here so the rendered reference shows the same
+        # mutator API. Element type: parametric `Vector` itself uses
+        # the type variable `T`; concrete containers use their
+        # `element_type:` (preferring an `element_type_override`).
+        synth_methods: list[dict] = []
+        if cls.get("container") or cls.get("parametric"):
+            cls_path = cls.get("path") or ""
+            if cls.get("parametric"):
+                elem_type = "T"
+            else:
+                elem_type = _resolve(cls, "element_type")
+            if elem_type:
+                synth_methods = [
+                    {
+                        "name": "append",
+                        "args": [
+                            {"name": "self", "type": cls_path},
+                            {"name": "value", "type": elem_type},
+                        ],
+                        "returns": {"type": "None"},
+                    },
+                    {
+                        "name": "extend",
+                        "args": [
+                            {"name": "self", "type": cls_path},
+                            {"name": "values", "type": f"Iterable[{elem_type}]"},
+                        ],
+                        "returns": {"type": "None"},
+                    },
+                ]
+        methods = synth_methods + methods
         if methods:
             lines.append("#### Methods")
             lines.append("")
