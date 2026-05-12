@@ -1,392 +1,449 @@
-# LOM YAML format
+# LOM module format
 
-Per-module YAML schema for the Live Object Model. One file per top-level
-Live module.
+Per-module markdown schema for the Live Object Model. One file per top-level Live module, under
+`stubs/<v>/modules/<Module>.md`. The format is the **authoring midpoint** in a two-stage transformation pipeline; humans
+edit only this midpoint, and two downstream generators project it into the shipped artifacts.
 
-Two locations, same schema:
+> **Status.** Format spec only. Implementation is in progress on branch `class-markdown-format`. The active generators
+> still read the previous YAML format at `stubs/<v>/lom/<Module>.yaml`; the migration plan is described in the
+> "Migration path" section below.
 
-- **`stubs/<v>/lom/<Module>.yaml`** — the curated SOT. Parser-derived
-  fields plus sibling `<field>_override:` blocks for hand-tightened
-  types/names.
-- **`stubs/<v>/reports/seed/<Module>.yaml`** — the algorithmic baseline
-  emitted by `tools/parse/build_lom_yaml.py` on every parse run. No
-  overrides; useful for diffing against `lom/` to see which facts have
-  been hand-touched.
+## Pipeline
 
-This is the format both stub generation (`tools/generate/generate_stubs.py`)
-and reference page generation will consume.
-
-## Conventions
-
-- **Members are grouped by kind into named lists**, not a flat list with
-  a `kind:` discriminator: `primary_class:`, `classes:`, `enums:`,
-  `functions:`, `constants:` at the module level; `properties:`,
-  `methods:`, `classes:`, `enums:`, `constants:` inside a class.
-- **Order within each list drives rendered output order.**
-- **`primary_class:`** is a one-element list carrying the module's
-  primary class (the one whose name matches the module's). Other classes
-  in the module live under `classes:`.
-- **Parser-derived fields stay flat scalars** — the 80% case (no
-  override) is one line per fact.
-- **Overrides live in a sibling `<field>_override:` block** carrying:
-  - `value:` — required, the override value
-  - `confidence:` — `high` / `medium` / `low`. Required for typed/structural
-    facts (`type`, `args`, `returns`, `element_type`); omitted for
-    name-only renames where the rename is positional-decorative under
-    PEP 570 (`, /`). Renders as a colored chip in the rendered docs
-    tooltip (high=green, medium=yellow, low=red).
-  - `source:` — required. See "Source format" below.
-  - `from:` — optional: the parser-derived value the override expects to
-    find. Validated during port/audit; mismatch is a drift warning.
-
-### Source format
-
-`source:` accepts either a single YAML block scalar (one piece of
-evidence) or a YAML list of strings (multiple independent evidence
-points, rendered as a bulleted list in the docs tooltip).
-
-Each source item — whether the standalone string or each list bullet —
-should start with a bracketed **evidence-type tag** identifying where
-the evidence comes from. The generator parses the leading `[tag]` and
-renders it as a styled chip on the bullet. Single-concern sources keep
-each `<field>_override.source` focused on its own concern; if a
-rename and a retype both need rationale, each goes on its own override
-block, not bundled into one.
-
-| Tag | When to use |
-|---|---|
-| `[corpus]` | Evidence from Ableton-shipped Remote Scripts (`external/corpus/...` paths). Push2, pushbase, _Framework, ableton.v2/v3, _MxDCore, etc. |
-| `[docstring]` | Evidence from the field's own `raw_doc` (Live's runtime docstring). Quoted text from raw_doc → use this tag. |
-| `[M4L]` | Evidence from Max for Live documentation (`external/max-for-live-docs/...`). |
-| `[C++ signature]` | Evidence from the C++ binding signature — `cpp_signature:` field, things like `boost::python::api::object`, `TWeakPtr<...>`, `std::vector<T>`, type-derived inference. |
-| `[sister method]` | Comparison to a similar/related method or property on the same or a related class. |
-| `[probe]` | Runtime introspection observation — probe data, element_repr observations, structural inference like "this is a LOM root so canonical_parent is None." |
-| `[schema]` | Applied per a documented YAML schema convention (e.g., the enum-arg convention). |
-
-**Single-string form** (one piece of evidence):
-
-```yaml
-type_override:
-  value: Live.Conversions.AudioToMidiType | int
-  confidence: high
-  source: |
-    [schema] applied per the enum-arg convention; `AudioToMidiType` enum
-    lives in the same module and the arg name is its direct snake-case.
+```
+LiveTree.raw.json     LiveClasses.json    ← Live probe outputs
+       │                    │               (pure data, machine-derived,
+       │                    │                no human content)
+       └─────────┬──────────┘
+                 │  (probe re-runs on every Live install / version bump)
+                 ▼
+        merge into existing markdown  ◀──┐
+                 │                       │ updates probe-derived fields,
+                 ▼                       │ preserves human content, flags
+stubs/<v>/modules/<Module>.md            │ drift between the two
+        │                                │
+        │  SOURCE OF TRUTH ──────────────┘
+        │  (structured data from probe
+        │   + human prose
+        │   + annotation records)
+        │
+        ├─→ stubs/<v>/Live/<Module>.pyi          ← typed Python stubs
+        │   (terse projection — types, signatures, `__doc__`)
+        │
+        └─→ web/src/content/docs/modules/...mdx  ← reference site
+            (rich projection — prose, footnotes, refinements, behavior)
 ```
 
-**List form** (multiple independent points, rendered as bullets):
+The markdown files are the **source of truth** for both downstream artifacts. Humans edit only the markdown; the probe
+never overwrites human content. On each re-probe:
+
+- Probe-derived fields (`raw_doc`, `type`, `ancestors`, `args`, `returns`, etc.) get refreshed from the new JSON.
+- Human content (description prose under each heading, `refinement` / `behavior` / `quirks` records) is preserved
+  verbatim.
+- Drift is surfaced as an audit signal — e.g., if a `refinement.probed` field no longer matches what the probe sees, the
+  rationale was attached to a value that no longer exists in this Live version, so a human needs to revisit. Similarly
+  when raw_doc text changes, authored prose may need a review; the diff flags it.
+
+The probe produces two complementary JSON artifacts:
+
+- **`LiveTree.raw.json`** — the tree shape: every module's nested children walked via `dir()` and the Boost.Python
+  introspection surface. Carries `name`, `type`, `id`, `repr`, `raw_doc`, `bases`, `init_doc`, and `children` arrays at
+  each node.
+- **`LiveClasses.json`** — the flat class index: qualified class names → property tables with probed types, getter
+  signatures, constructability flags. Resolves type information the tree walk can't see at the node level (Boost.Python
+  doesn't expose property types directly; the class index captures them separately).
+
+Both feed the parser that produces / updates the markdown midpoint.
+
+The midpoint is doing two distinct jobs:
+
+1. **Storage of structured data** in a form humans can read and edit — same data the probe JSON carries (kinds, types,
+   signatures, ancestors, raw_doc), reshaped into per-module files with the structural recursion visible as markdown
+   heading depth.
+2. **A canvas for human-authored content** that sits next to the data it annotates — module prose, class descriptions,
+   member descriptions, and structured annotation records (refinement, behavior, quirks) that the probe can't generate.
+
+Both downstream generators select the subset they need:
+
+| Field on the midpoint                            | Stub `.pyi`               | Reference site                    |
+| ------------------------------------------------ | ------------------------- | --------------------------------- |
+| `kind`, `path`, `ancestors`, structural identity | ✓                         | ✓                                 |
+| `type`, `args`, `returns` (resolved values)      | ✓                         | ✓                                 |
+| `raw_doc` (verbatim runtime text)                | as `__doc__`              | as footnote / fallback prose      |
+| Authored body prose                              | merged into `__doc__`     | primary description               |
+| `refinement` (probed value + sources)            | uses `value` only         | marker + tooltip                  |
+| `behavior` / `quirks` records                    | summary line in `__doc__` | full marker + tooltip + collector |
+
+## File shape
+
+One file per Live module: `stubs/<v>/modules/Chain.md`, `stubs/<v>/modules/Track.md`, etc.
+
+Top of file: YAML frontmatter carrying module identity. Body paragraphs before any heading are the module-level
+description prose.
+
+### Heading hierarchy
+
+| Heading                                                  | Marks                                            |
+| -------------------------------------------------------- | ------------------------------------------------ |
+| `## Classes`, `## Enums`, `## Functions`, `## Constants` | Module-level kind groupings (top-level sections) |
+| `### EntryName`                                          | One class / enum / function / constant entry     |
+| `#### Properties`, `#### Methods`                        | Sub-groupings inside a class                     |
+| `##### member_name`                                      | One property or method                           |
+
+Kind-group headings (H2 at module level, H4 inside a class) exist for _human readability_ of the source. The parser's
+authoritative discriminator is the `kind:` field inside each entry's fenced YAML. If a member sits under `#### Methods`
+but its YAML says `kind: property`, the YAML wins (and the parser warns).
+
+### Nested classes hoist to the top level
+
+A class declared inside another class (Live's structural pattern for `Song.View`, `Application.View`, `Clip.View`, etc.)
+renders at the module file's top level — H3 under `## Classes`, sibling of the parent class — using its simple name as
+the heading. The structural nesting is recorded in the entry's `parent:` field:
 
 ```yaml
-type_override:
-  value: Iterable[Live.Clip.MidiNoteSpecification]
-  confidence: high
-  source:
-  - |
-    [C++ signature] `boost::python::api::object` (generic) — the binding
-    doesn't enforce a specific vector class.
-  - |
-    [docstring] "Expects a Python iterable holding MidiNoteSpecification
-    objects."
-  - |
-    [corpus] both tuples and lists work — tuples (`(note,)` at
-    pushbase/note_editor_component.py:611) and lists
-    (`note_specifications` at _MxDCore/MxDCore.py:820+).
+kind: class
+path: Live.Chain.Chain.View
+parent: Chain
 ```
 
-Drop redundant lead-in prose that the tag already expresses (after
-`[M4L]`, drop "M4L docs say"; after `[corpus]`, drop "Corpus
-confirms"). Backtick-delimited spans inside a source item are
-preserved verbatim — MDX renders them as inline code in the tooltip.
-- **Inherited properties are dropped.** When an ancestor class declares
-  the same `name`/`type`/`settable`/`listenable` shape (and neither side
-  has overrides), the property is omitted from the subclass — pyright
-  resolves the annotation from the inherited declaration. Type-overridden
-  properties stay put.
+The parser groups by `parent:` when computing nested-class relationships. The renderer composes the qualified display
+name (`Chain.View`) and the slug (`chainview`) from `parent + name`. Source markdown stays flat and easy to navigate.
 
-## Module top level
+## Anatomy of a class entry
+
+````markdown
+### Chain
 
 ```yaml
-module: Song
-description: |              # hand-authored prose (markdown). Renders as the
-  Top-level Live set: tracks, transport, scenes, history. The Song is the
-  root of the LOM document tree.
-
-primary_class:
-- name: Song
-  ...
-
-classes:
-- name: BeatTime
-  ...
-
-enums:
-- name: ...
-
-functions:
-- name: ...
-
-constants:
-- name: ...
-```
-
-A module may omit any group when empty. The `description:` field is the
-hand-authored module-level prose; the reference generator uses it as the
-intro paragraph below the page H1 and as the `<meta>` description tag.
-Live's runtime exposes no module-level docstrings, so this field is
-always hand-authored. When absent, the reference renders a visible
-`_No module description._` placeholder so the gap is editorially obvious.
-
-## Class — primary
-
-Real source: `Live.Song.Song`.
-
-```yaml
-- name: Song
-  path: Live.Song.Song           # parser — fully qualified
-  raw_doc: This class represents a Live set.
-  description: |                 # hand-authored prose, optional
-    Class-level prose…
-  ancestors:                     # parser — Boost.Python boilerplate stripped
+kind: class
+path: Live.Chain.Chain
+ancestors:
+  - Live.Track.DeviceContainer
   - Live.LomObject.LomObject
-  init_doc: |-                   # parser — raw __init__ docstring
-    Raises an exception
-    This class cannot be instantiated from Python
-  constructable: false           # parser — has zero-arg __init__?
-
-  properties:
-  - name: tempo
-    ...
-  methods:
-  - name: create_audio_track
-    ...
-  classes:                       # nested classes (View, etc.)
-  - name: View
-    ...
-  enums:
-  - name: ...
+  - Boost.Python.instance
+constructable: false
+raw_doc: "This class represents a group device chain in Live."
 ```
 
-`init_doc:` is rarely useful — preserved verbatim but the renderer can
-suppress the boilerplate "cannot be instantiated" form.
+Authored class description prose. Multiple paragraphs OK. Markdown formatting works as expected.
 
-`description:` is hand-authored markdown prose (multi-paragraph,
-telegraphic per `doc/reference-design.md` §8). Rendered below the
-class's runtime `raw_doc` on the reference page. Use when the runtime
-docstring is too terse to convey what the class actually means in the
-LOM — phantom-base explanations (e.g. `Live.Track.DeviceContainer`),
-idiom notes, cross-class context that belongs adjacent to the class
-heading rather than buried in member descriptions. The module-top-level
-`description:` covers what's true of the module as a whole; class-level
-`description:` covers what's true of one class.
+#### Properties
 
-## Property — basic
-
-Real source: `Live.Song.Song.arrangement_overdub`.
+##### devices
 
 ```yaml
-- name: arrangement_overdub
-  raw_doc: Get/Set the global arrangement overdub state.
-  description: |                                   # hand — optional, takes
-    Authored prose, may be multi-paragraph.        # precedence over raw_doc
-  type: bool                                       # parser
-  settable: true                                   # parser
-  listenable:                                      # parser — listener triplet folded under the property
-  - add_arrangement_overdub_listener               #          (key omitted entirely when not listenable)
-  - remove_arrangement_overdub_listener
-  - arrangement_overdub_has_listener
+kind: property
+type: Live.Base.Vector[Live.Device.Device]
+settable: false
+listenable: true
+raw_doc: "Return const access to all available Devices that are present in the chains"
+refinement:
+  probed: Live.Base.Vector[Live.LomObject.LomObject]
+  confidence: high
+  sources:
+    - "[C++ signature] binding declares the element type as LomObject."
+    - "[corpus] Push2/device_navigation.py indexes chain.devices[i] as Device."
+behavior:
+  - id: excludes-mixer
+    assertion: "The vector excludes the chain's mixer_device."
+    confidence: verified
+    verified_against: 12.3.6
+    sources:
+      - "[probe] iterated devices and compared against chain.mixer_device."
 ```
 
-`description:` on a property is the same idea as on a class: hand-
-authored markdown prose, rendered below the property heading. Falls
-back to `raw_doc` when absent, so most properties currently render
-their runtime docstring; switch to `description` when prose needs
-more space than the runtime line affords.
+Devices contained in the chain, in chain-order. The vector excludes the chain's `mixer_device`[^excludes-mixer] — that
+lives on a separate property.
 
-Override example (`Live.Song.Song.appointed_device`):
+#### Methods
+
+##### delete_device
 
 ```yaml
-- name: appointed_device
-  raw_doc: Read, write, and listen access to the appointed Device
-  type: None                                       # parser saw None at probe time
-  type_override:
-    value: Live.Device.Device | None               # hand — corpus-verified
-    confidence: high
-    source: |
-      Docstring: "Read, write, and listen access to the appointed Device."
-      Corpus-verified — pushbase / ableton.v2 / ableton.v3 all read and
-      assign Device values here.
-  settable: true
-  listenable:
-  - add_appointed_device_listener
-  - remove_appointed_device_listener
-  - appointed_device_has_listener
+kind: method
+args:
+  - name: index
+    type: int
+    refinement:
+      name:
+        probed: arg2
+        sources:
+          - '[docstring] "Remove a device identified by its index from the chain".'
+      type:
+        probed: object
+        confidence: high
+        sources:
+          - "[C++ signature] void delete_device(TChainPyHandle, int)."
+returns:
+  type: None
+raw_doc: "Remove a device identified by its index from the chain."
 ```
 
-## Iterable container classes
+Remove the device at the given index from the chain.
+````
 
-Iterability is encoded by two flags:
+## Member frontmatter
 
-- **`iterable: true`** — the class is iterable (has `__iter__`). Set when
-  the runtime class supports the iterator protocol.
-- **`container: true`** — the class is a *container* (has `append` and
-  `extend` bound by the parser, in addition to iteration). Distinguishes
-  vector-style classes from plain iterators. The stub generator inherits
-  the iterator protocol from `Vector[E]` for containers and uses
-  `Iterable[E]` for plain iterators. The reference generator also
-  synthesizes `append(value: E)` and `extend(values: Iterable[E])`
-  methods on container pages from this flag + element type — the
-  YAML build itself filters those methods out, since both downstream
-  consumers (.pyi stubs, reference site) re-synthesize them locally.
-- **`parametric: true`** — only on `Live.Base.Vector`. The class is the
-  generic base; the renderer emits `class Vector(Generic[T])` plus a
-  module-scope `T = TypeVar('T', covariant=True)`. Concrete container
-  subclasses inherit from `Vector[E]` rather than redeclaring members.
-- **`element_type:`** — the concrete element type for non-parametric
-  iterables. Used by the renderer for `Iterable[E]` / `Vector[E]` bases
-  and for synthesizing typed `append`/`extend` on container subclasses.
+Each `##### member_name` H5 (or H3 for top-level enum / function / constant) is followed by a fenced YAML block carrying
+the member's **structured data**. Same syntactic role the file's top frontmatter plays for the document — just scoped to
+one member.
 
-Examples:
+The convention: read the fenced YAML block immediately after the heading; the markdown paragraph(s) below it (until the
+next heading) are the member's authored description.
+
+### Property fields
 
 ```yaml
-# Generic base — the only class with `parametric: true`.
-- name: Vector
-  path: Live.Base.Vector
-  raw_doc: A simple read only container for returning objects from Live.
-  ancestors: []
-  iterable: true
-  parametric: true               # → class Vector(Generic[T])
-
-# Concrete container — inherits Vector[float], gets typed append/extend synthesized.
-- name: FloatVector
-  path: Live.Base.FloatVector
-  iterable: true
-  container: true
-  element_type: float            # → class FloatVector(Vector[float])
-
-# Plain iterator (no append/extend in the runtime).
-- name: BrowserItemIterator
-  path: Live.Browser.BrowserItemIterator
-  iterable: true                 # no `container:` flag → renders as Iterable[E]
-  element_type_override:         # parser didn't observe element type; hand-supplied.
-    value: Live.Browser.BrowserItem
-    confidence: high
-    source: |
-      raw_doc confirms; corpus Push2/browser_list.py:63 isinstance check
-      against this class.
+kind: property
+type: <Python type annotation> # resolved value (overrides applied)
+settable: <bool>
+listenable: <bool> # or false / omitted
+raw_doc: <Live's runtime docstring>
+refinement: { ... } # optional, see below
+behavior: [...] # optional, see below
+quirks: [...] # optional, see below
 ```
 
-`append` and `extend` are not stored in the YAML for any iterable —
-they're synthesized at stub-render time (typed to the element for
-container subclasses; the abstract `Vector` base stays read-only at the
-type level).
-
-## Method
-
-Real source: `Live.Track.Track.create_audio_clip`. Parser splits the
-verbatim Boost.Python doc into three derived fields: a Python signature
-line, a C++ signature line, and the cleaned description text.
+### Method fields
 
 ```yaml
-- name: create_audio_clip
-  raw_doc: |-
-    Creates an audio clip referencing the file at the given path...
-  signature: 'create_audio_clip( (Track)arg1, (object)arg2, (float)arg3) -> Clip :'
-  cpp_signature: TWeakPtr<TPyHandle<AClip>> create_audio_clip(TTrackPyHandle,TString,double)
-  args:
-  - name: self
-    type: Live.Track.Track
-  - name: arg2                   # parser
-    name_override:               # hand — no confidence on name renames
-      value: file_path
-      source: |
-        Arg names verified against corpus / M4L docs:
-          - arg2 -> file_path  [M4L docs]: external/max-for-live-docs/9.0/track.md
-    type: str
-  - name: arg3
-    name_override:
-      value: position
-      source: |
-        ...
-    type: float
-  returns:
-    type: Live.Clip.Clip
+kind: method
+args:
+  - name: <arg name> # resolved (after rename)
+    type: <Python type> # resolved (after retype)
+    optional: <bool> # if has default
+    default: <literal> # if has default
+    refinement: { name: { ... }, type: { ... } } # optional, see below
+returns:
+  type: <Python type>
+  refinement: { ... } # optional
+raw_doc: <Live's runtime docstring>
+behavior: [...] # optional
+quirks: [...] # optional
 ```
 
-Per-arg overrides nest inside the arg dict, mirroring the top-level
-convention. `name_override:` typically omits `confidence:` (positional-
-only under PEP 570 means name accuracy affects hover hints, not type
-checking); typed `*_override:` blocks always carry it.
-
-## Enum
-
-Real source: `Live.Clip.GridQuantization`. Members are an ordered map
-of name → integer value.
+### Class fields
 
 ```yaml
-- name: GridQuantization
-  raw_doc: |-
-    The grid quantization used by Clip.quantize and Clip.quantize_pitch.
-  members:
-    g_no_grid: 0
-    g_thirtysecond: 1
-    g_sixteenth: 2
-    g_eighth: 3
-    g_quarter: 4
-    g_half: 5
-    g_bar: 6
-    g_2_bars: 7
-    g_4_bars: 8
-    g_8_bars: 9
+kind: class
+path: <fully qualified Live.Module.Name>
+parent: <ContainingClassName> # only if nested
+ancestors: [...] # MRO from probe
+constructable: <bool>
+raw_doc: <Live's runtime docstring>
 ```
 
-## Module-level function
-
-Real source: `Live.Conversions.audio_to_midi_clip`. Same shape as a
-class method, just nested at the module level instead of inside a class.
+### Enum / constant fields
 
 ```yaml
-- name: audio_to_midi_clip
-  raw_doc: |-
-    Creates a MIDI clip in a new MIDI track with the notes extracted from
-    the given audio_clip...
-  args:
-  - name: song
-    type: Live.Song.Song
-  - name: audio_clip
-    type: Live.Clip.Clip
-  - name: audio_to_midi_type
-    type: Live.Conversions.AudioToMidiType | int
-  returns:
-    type: None
+kind: enum
+members: { <name>: <int>, ... }
+raw_doc: <Live's runtime docstring>
 ```
-
-## Module-level constant
-
-Real source: `Live.Application.BETA`.
 
 ```yaml
-- name: BETA
-  type: str
-  value: Beta
+kind: constant
+type: <Python type>
+value: <literal>
 ```
 
-For the algorithmic transforms `build_lom_yaml.py` applies when emitting
-the seed (type qualification, optional widening, listener folding,
-parametric-container detection, inherited-property cleanup, etc.), see
-[`dataflow.md` — Stage 2b](dataflow.md#stage-2b--build-yaml-seed-offline).
-They produce the shapes documented above.
+## Annotation records
 
----
+Annotation records sit inside member frontmatter as named keys. Three kinds today:
 
-## Deferred
+- `refinement` — type / name overrides (the override layer from the old YAML, restructured). Singular per member-scope.
+- `behavior` — list of behavioral assertions about runtime behavior the type system can't capture. Each carries its own
+  confidence and evidence. Phase 2 content.
+- `quirks` — list of gotchas / edge cases worth flagging. Phase 2 content.
 
-- **Hypothesis attachment.** Format will be added to this spec once the
-  verification stage lands.
-- **`description:` field.** Hand-authored prose (markdown) parallel to
-  `raw_doc:`. Not currently emitted; reserved for the reference page
-  generator's authored-content phase.
-- **Confidence vocabulary expansion.** Today's `high` / `medium` / `low`
-  was inherited from the legacy refinement file. The
-  `reference-design.md` draft mentions `verified` / `state-dependent` /
-  `intermittent` / `mismatch` / `unprobed` for hypothesis records. To be
-  reconciled when verification lands.
+All three share the same body shape: a structured record with confidence, optional version verified against, and a list
+of sources tagged with bracketed evidence-type prefixes.
+
+### Refinement
+
+Property-scope (flat):
+
+```yaml
+refinement:
+  probed: <original value the probe captured>
+  confidence: high | medium | low
+  sources:
+    - "[<tag>] <evidence>"
+```
+
+Method-arg scope (nested by what's being refined — name vs type):
+
+```yaml
+refinement:
+  name:
+    probed: <original arg name, typically argN>
+    sources:
+      - "[<tag>] <evidence>"
+  type:
+    probed: <original type>
+    confidence: high | medium | low
+    sources:
+      - "[<tag>] <evidence>"
+```
+
+Method-return scope (flat):
+
+```yaml
+returns:
+  type: <resolved type>
+  refinement:
+    probed: <original return type>
+    confidence: high | medium | low
+    sources:
+      - "[<tag>] <evidence>"
+```
+
+### Behavior
+
+```yaml
+behavior:
+  - id:
+      <optional-kebab-case-id> # set if the assertion is
+      # referenced inline from prose
+    assertion: "<statement of runtime behavior>"
+    confidence: verified | state-dependent | intermittent | unprobed
+    verified_against: <Live version, e.g. 12.3.6>
+    sources:
+      - "[<tag>] <evidence>"
+```
+
+The `assertion:` is a one-sentence factual claim — the renderer shows it as the headline of the footnote tooltip. The
+`verified_against:` field tracks drift: if the probe re-runs against a newer Live version and the assertion still holds,
+this updates; if not, the record stays at its old version and an audit signal fires.
+
+### Quirks
+
+```yaml
+quirks:
+  - id: <optional-kebab-case-id>
+    summary: "<short statement of the gotcha>"
+    severity: edge-case | invariant | undocumented
+    sources:
+      - "[<tag>] <evidence>"
+```
+
+## Footnote references in prose
+
+Annotation records with an `id:` can be referenced inline from the markdown body using GFM's standard `[^id]` syntax:
+
+```markdown
+Devices contained in the chain, in chain-order. The vector excludes the chain's `mixer_device`[^excludes-mixer] — that
+lives on a separate property.
+```
+
+The renderer resolves `[^excludes-mixer]` against the member's `behavior` / `quirks` / `refinement` records by `id`,
+producing a superscript marker that hovers/clicks to reveal the record body. Records without an `id:` still render as a
+member-level footnote (chip on the heading); the `id:` is purely opt-in for inline placement at a specific phrase in
+prose.
+
+Note that `[^id]` references are initially scoped to the **member's** records — the parser only resolves IDs against
+records on the same member. Cross-member footnotes (a quirk on `Track.delete_clip` referenced from `Clip` prose, for
+example) are out of scope for v1 but a likely future expansion; promoting to class-scoped or module-scoped IDs would
+require uniqueness guarantees at the corresponding scope.
+
+## Evidence-type tags
+
+Each item in a `sources:` list starts with a bracketed evidence-type tag identifying where the evidence comes from. The
+renderer parses the leading `[tag]` and produces a styled chip on the bullet so readers can scan provenance.
+
+| Tag               | When to use                                                                       |
+| ----------------- | --------------------------------------------------------------------------------- |
+| `[corpus]`        | Evidence from Ableton-shipped Remote Scripts (`external/corpus/...` paths).       |
+| `[docstring]`     | Evidence from the field's own `raw_doc`. Quoted text from raw_doc → use this tag. |
+| `[M4L]`           | Evidence from Max for Live documentation (`external/max-for-live-docs/...`).      |
+| `[C++ signature]` | Evidence from the C++ binding signature (cpp_signature field).                    |
+| `[sister method]` | Comparison to a similar/related method or property on the same or related class.  |
+| `[probe]`         | Runtime introspection observation — probe data, element_repr observations.        |
+| `[schema]`        | Applied per a documented YAML schema convention (e.g., the enum-arg convention).  |
+| `[inference]`     | Reasoned conclusion from established facts — no direct citation. See note below.  |
+
+The `[inference]` tag covers claims that follow from how Python, Boost.Python, or the LOM's runtime semantics work in
+general — things that don't anchor to a specific corpus / docstring / M4L / signature site. It's structurally the
+weakest evidence kind (there's nothing concrete to cite), so prefer pairing with stronger sources when available, and
+keep `confidence: high` for inference-only annotations rare.
+
+Many `[inference]` claims today are unverified system-level invariants — facts about how the LOM works in aggregate that
+nobody's bothered to formally probe yet. Examples: "Boost.Python proxies are GC'd by Python independently of C++
+ownership," "every observable property exposes the same add/remove/has listener triplet," "setting a property and
+reading it back returns the same value." Each is a candidate for a **higher-level probe** — a one-time investigation
+documenting its scope, methodology, and findings, that per-member annotations then cite by reference. The promotion path
+is `[inference]` → `[probe]` claim by claim, as these system-level investigations land. Once written, a single
+higher-level probe can replace `[inference]` sources on dozens of members at once.
+
+## Raw docstring vs authored prose
+
+Both layers coexist for every entry that has a Live runtime `__doc__`:
+
+- **`raw_doc:` field in the entry's frontmatter** — verbatim runtime string the probe captured. Hand-edited never;
+  updated only by the probe on Live version bumps.
+- **Markdown body below the YAML block** — authored prose, optional.
+
+Renderer logic:
+
+| State        | Primary content             | Footnote                                                |
+| ------------ | --------------------------- | ------------------------------------------------------- |
+| Body present | Body (authored prose)       | `[runtime docstring]` footnote with the raw_doc content |
+| Body empty   | `raw_doc` rendered verbatim | Chip flags "raw runtime docstring; not yet authored"    |
+| Neither      | Skeleton placeholder        | Chip flags "no investigation yet"                       |
+
+This gives the docs an explicit "investigated" gradient: skeleton → raw_doc shown verbatim → raw_doc plus authored prose
+→ authored prose with verified behavior records.
+
+## Parser contract
+
+```python
+def parse_module_md(path: Path) -> dict:
+    """Read a module's class-markdown file → in-memory module dict.
+
+    Returns a dict matching the in-memory shape the generators consume:
+    {
+      "module": str,
+      "raw_doc": str | None,
+      "description": str,                   # body before any H2
+      "classes": [ <class_dict>, ... ],     # top-level + hoisted nested
+      "enums":   [ <enum_dict>, ... ],
+      "functions": [ ... ],
+      "constants": [ ... ],
+    }
+
+    Each class dict carries its own properties / methods / nested
+    children. Nested classes are resolved from the flat list via
+    each child's `parent:` field.
+    """
+```
+
+Output shape is what the two generators consume; neither generator's downstream code changes when the loader is swapped.
+
+## Migration path
+
+Five phases:
+
+1. **Format lock.** Format conventions defined by this document — the "Anatomy of a class entry" section is the
+   canonical reference.
+2. **Parser.** Write `parse_module_md.py` producing the in-memory shape current generators consume.
+3. **Dual-format loader in both generators.** Read either `lom/*.yaml` or `modules/*.md`; markdown wins when both exist.
+   Lets conversions land incrementally without holding the repo hostage.
+4. **Bulk conversion.** Auto-generate markdown from existing YAMLs (mechanical translation of structure, preservation of
+   authored prose). Manual review per file. Drop YAML as each module converts.
+5. **Sunset YAML.** Once all modules converted, remove the YAML branch from both generators and from the probe pipeline.
+   The probe step writes markdown directly.
+
+## Open questions
+
+- **Inline footnote placement scope** — currently `[^id]` references resolve against the containing **member's** records
+  only. Useful to allow scope-up to the class? Probably not — IDs would need uniqueness across the whole class.
+- **`raw_doc:` field placement at class level** — currently in the class's fenced YAML block (`raw_doc:` field). Equally
+  workable in the file's top frontmatter. Class-fenced wins for consistency with member-level placement; the file
+  frontmatter stays for module-level identity only.
+- **Probe pipeline output format** — Phase 5. Today the probe emits two parallel YAML files: the human-curated
+  `stubs/<v>/lom/<Module>.yaml` and the algorithmic baseline `stubs/<v>/reports/seed/<Module>.yaml`. A diff between them
+  is the drift-detection signal — expected diffs reflect intentional overrides; unexpected diffs flag that Live's
+  runtime changed since the last probe and a human needs to revisit. In Phase 5 the probe stops emitting YAML and emits
+  markdown directly to `stubs/<v>/reports/seed/<Module>.md` (or equivalent path). The drift workflow becomes a
+  markdown-vs-markdown diff against the curated `stubs/<v>/modules/<Module>.md` — same role, one format throughout. The
+  YAML branch of the toolchain retires after this lands.
