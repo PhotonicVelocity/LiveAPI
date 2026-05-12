@@ -94,11 +94,13 @@ Kind-group headings (H2 at module level, H4 inside a class) exist for _human rea
 authoritative discriminator is the `kind:` field inside each entry's fenced YAML. If a member sits under `#### Methods`
 but its YAML says `kind: property`, the YAML wins (and the parser warns).
 
-### Nested classes hoist to the top level
+### Nested classes / enums / constants hoist to the top level
 
-A class declared inside another class (Live's structural pattern for `Song.View`, `Application.View`, `Clip.View`, etc.)
-renders at the module file's top level — H3 under `## Classes`, sibling of the parent class — using its simple name as
-the heading. The structural nesting is recorded in the entry's `parent:` field:
+Anything declared inside a class — a nested class (Live's structural pattern for `Song.View`, `Application.View`,
+`Clip.View`, etc.), a nested enum (`Application.View.NavDirection`), or class-level constants (`Application.Variants`
+has `BETA`, `INTRO`, …) — renders at the module file's top level under the appropriate `## Classes` / `## Enums` /
+`## Constants` section, sibling of the parent class. The heading uses the simple name; the structural nesting is
+recorded in the entry's `parent:` field:
 
 ```yaml
 kind: class
@@ -106,8 +108,9 @@ path: Live.Chain.Chain.View
 parent: Chain
 ```
 
-The parser groups by `parent:` when computing nested-class relationships. The renderer composes the qualified display
-name (`Chain.View`) and the slug (`chainview`) from `parent + name`. Source markdown stays flat and easy to navigate.
+The parser groups by `parent:` when computing nested relationships. The renderer composes the qualified display name
+(`Chain.View`) and the slug (`chainview`) from `parent + name`. Source markdown stays flat and easy to navigate — a
+deeply nested member is always one level of indentation away.
 
 ## Anatomy of a class entry
 
@@ -138,11 +141,12 @@ settable: false
 listenable: true
 raw_doc: "Return const access to all available Devices that are present in the chains"
 refinement:
-  probed: Live.Base.Vector[Live.LomObject.LomObject]
-  confidence: high
-  sources:
-    - "[C++ signature] binding declares the element type as LomObject."
-    - "[corpus] Push2/device_navigation.py indexes chain.devices[i] as Device."
+  type:
+    probed: Live.Base.Vector[Live.LomObject.LomObject]
+    confidence: high
+    sources:
+      - "[C++ signature] binding declares the element type as LomObject."
+      - "[corpus] Push2/device_navigation.py indexes chain.devices[i] as Device."
 behavior:
   - id: excludes-mixer
     assertion: "The vector excludes the chain's mixer_device."
@@ -196,30 +200,38 @@ next heading) are the member's authored description.
 ```yaml
 kind: property
 type: <Python type annotation> # resolved value (overrides applied)
+element_type: <Python type> # optional, resolved element type for Vector-like types
 settable: <bool>
 listenable: <bool> # or false / omitted
 raw_doc: <Live's runtime docstring>
-refinement: { ... } # optional, see below
-behavior: [...] # optional, see below
-quirks: [...] # optional, see below
+refinement: { ... } # optional, see "Refinement" below
+behavior: [...] # optional
+quirks: [...] # optional
+deprecated: { ... } # optional, see "Member-level metadata"
+_synthesized: <bool> # optional, see "Member-level metadata"
+_synthesis_note: <prose> # optional
 ```
 
-### Method fields
+### Method / function fields
 
 ```yaml
-kind: method
+kind: method # or `function` for module-level
+signature: <Boost.Python signature string> # probe artifact, preserved verbatim
+cpp_signature: <C++ signature> # probe artifact, preserved verbatim
 args:
   - name: <arg name> # resolved (after rename)
     type: <Python type> # resolved (after retype)
     optional: <bool> # if has default
     default: <literal> # if has default
-    refinement: { name: { ... }, type: { ... } } # optional, see below
+    refinement: { name: { ... }, type: { ... } } # optional
 returns:
   type: <Python type>
-  refinement: { ... } # optional
+  element_type: <Python type> # optional, when return is Vector-like
+  refinement: { type: { ... }, element_type: { ... } } # optional
 raw_doc: <Live's runtime docstring>
 behavior: [...] # optional
 quirks: [...] # optional
+deprecated: { ... } # optional
 ```
 
 ### Class fields
@@ -230,6 +242,10 @@ path: <fully qualified Live.Module.Name>
 parent: <ContainingClassName> # only if nested
 ancestors: [...] # MRO from probe
 constructable: <bool>
+init_doc:
+  <Live's __init__ docstring> # probe artifact; typically the
+  # "Raises an exception" boilerplate
+  # for non-constructable classes
 raw_doc: <Live's runtime docstring>
 ```
 
@@ -237,14 +253,17 @@ raw_doc: <Live's runtime docstring>
 
 ```yaml
 kind: enum
+parent: <ContainingClassName> # only if nested in a class
 members: { <name>: <int>, ... }
 raw_doc: <Live's runtime docstring>
 ```
 
 ```yaml
 kind: constant
+parent: <ContainingClassName> # only if nested in a class
 type: <Python type>
 value: <literal>
+raw_doc: <Live's runtime docstring>
 ```
 
 ## Annotation records
@@ -261,41 +280,70 @@ of sources tagged with bracketed evidence-type prefixes.
 
 ### Refinement
 
-Property-scope (flat):
+`refinement:` blocks are **always nested by what's being refined**. The same shape applies at every scope (property,
+method arg, method return) — the only difference is which sub-keys are valid at each scope. A `refinement:` block holds
+one or more sub-blocks; each sub-block describes the refinement of one field (`type`, `name`, `element_type`, etc.) with
+its own probed value, confidence, and sources.
+
+Valid sub-keys per scope:
+
+| Scope         | Valid refinement sub-keys      |
+| ------------- | ------------------------------ |
+| Property      | `type`, `element_type`         |
+| Method arg    | `name`, `type`, `element_type` |
+| Method return | `type`, `element_type`         |
+
+Each sub-block has the same shape:
 
 ```yaml
-refinement:
-  probed: <original value the probe captured>
-  confidence: high | medium | low
+<sub-key>:
+  probed: <original value the probe captured> # optional for name refinements without prior name
+  confidence: high | medium | low # required for typed refinements; omitted for name renames
   sources:
     - "[<tag>] <evidence>"
 ```
 
-Method-arg scope (nested by what's being refined — name vs type):
+Example — property with a type refinement:
 
 ```yaml
+type: Live.Base.Vector[Live.Device.Device]
 refinement:
-  name:
-    probed: <original arg name, typically argN>
-    sources:
-      - "[<tag>] <evidence>"
   type:
-    probed: <original type>
-    confidence: high | medium | low
+    probed: Live.Base.Vector[Live.LomObject.LomObject]
+    confidence: high
     sources:
-      - "[<tag>] <evidence>"
+      - "[C++ signature] binding declares the element type as LomObject."
 ```
 
-Method-return scope (flat):
+Example — method arg with both a name rename and a type narrow:
 
 ```yaml
-returns:
-  type: <resolved type>
+- name: index
+  type: int
   refinement:
-    probed: <original return type>
-    confidence: high | medium | low
+    name:
+      probed: arg2
+      sources:
+        - '[docstring] "Remove a device identified by its index from the chain".'
+    type:
+      probed: object
+      confidence: high
+      sources:
+        - "[C++ signature] void delete_device(TChainPyHandle, int)."
+```
+
+Example — property with an element_type refinement on a Vector-bearing return:
+
+```yaml
+type: Live.Application.UnavailableFeatureVector
+element_type: Live.Application.UnavailableFeature
+refinement:
+  element_type:
+    confidence: high
     sources:
-      - "[<tag>] <evidence>"
+      - "[probe] property's probed_type is UnavailableFeatureVector; element type is the UnavailableFeature enum."
+      - "[corpus] checks of the form `Live.Application.UnavailableFeature.X not in
+        get_application().unavailable_features`."
 ```
 
 ### Behavior
@@ -326,6 +374,42 @@ quirks:
     sources:
       - "[<tag>] <evidence>"
 ```
+
+## Member-level metadata
+
+A few additional fields can sit alongside the main structural fields on any member entry. These are bookkeeping markers
+consumed by the generators — not annotations, not authored prose.
+
+### `deprecated:`
+
+Marks the member as deprecated. The renderer surfaces it via the `[deprecated]` chip + a collapsed "Deprecated" section
+at the bottom of the class block.
+
+```yaml
+deprecated: true               # bare flag — no replacement guidance available
+# OR
+deprecated:
+  replaced_by: <method_name>   # name of the replacement method on the same class
+                               # (renders as a clickable chip on the rendered page)
+```
+
+Used in `Clip.yaml` on methods like `get_notes` (deprecated; replaced by `get_notes_extended`) and on
+`Browser.legacy_libraries` (bare flag — no replacement, just abandoned).
+
+### `_synthesized:` and `_synthesis_note:`
+
+Flags a member as not declared in Live's runtime but added to the YAML to express a conceptual model. Used on
+`LomObject.canonical_parent` — Live declares `canonical_parent` per-subclass with narrowed return types but never on the
+`LomObject` base; we synthesize the universal declaration on the base for renderer convenience.
+
+```yaml
+_synthesized: true
+_synthesis_note: |
+  <prose explaining why the member exists in the YAML without a runtime declaration>
+```
+
+The renderer doesn't surface the `_` -prefixed fields to readers — they're internal markers that the lom-merge step
+preserves across probe runs (the probe never overwrites a synthesized entry).
 
 ## Footnote references in prose
 

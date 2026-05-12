@@ -52,12 +52,13 @@ type: None
 settable: false
 raw_doc: Returns the canonical parent of the application.
 refinement:
-  probed: None
-  confidence: high
-  sources:
-    - "[probe] Application is the LOM root. It has no parent — the probe's None observation reflects the structural
-      shape, not an instance-specific nullability. Every other class's `canonical_parent` probes as a concrete parent
-      type; only this and `Song.canonical_parent` probe as None."
+  type:
+    probed: None
+    confidence: high
+    sources:
+      - "[probe] Application is the LOM root. It has no parent — the probe's None observation reflects the structural
+        shape, not an instance-specific nullability. Every other class's `canonical_parent` probes as a concrete parent
+        type; only this and `Song.canonical_parent` probe as None."
 ```
 
 ##### control_surfaces
@@ -124,16 +125,17 @@ raw_doc: Reports Live's peak CPU load.
 ```yaml
 kind: property
 type: Live.Application.UnavailableFeatureVector
+element_type: Live.Application.UnavailableFeature
 settable: false
 listenable: true
 raw_doc: List of features that are unavailable due to limitations of the current Live edition.
-element_type_override:
-  value: Live.Application.UnavailableFeature
-  confidence: high
-  sources:
-    - "[probe] property's probed_type is UnavailableFeatureVector; element type is the UnavailableFeature enum."
-    - "[corpus] checks of the form `Live.Application.UnavailableFeature.X not in
-      Live.Application.get_application().unavailable_features`."
+refinement:
+  element_type:
+    confidence: high
+    sources:
+      - "[probe] property's probed_type is UnavailableFeatureVector; element type is the UnavailableFeature enum."
+      - "[corpus] checks of the form `Live.Application.UnavailableFeature.X not in
+        Live.Application.get_application().unavailable_features`."
 ```
 
 ##### view
@@ -408,12 +410,15 @@ kind: property
 type: Live.Application.ControlDescriptionVector
 settable: false
 refinement:
-  confidence: high
-  sources:
-    - "[probe] couldn't reach this class — ControlSurfaceProxy is M4L-only."
-    - "[corpus] _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c in self._proxy.control_descriptions` —
-      confirms it's a container of ControlDescription objects (each with a `.name` property)."
-    - "[schema] ControlDescriptionVector exists in the parsed tree with element_repr fixed below to ControlDescription."
+  type:
+    probed: null
+    confidence: high
+    sources:
+      - "[probe] couldn't reach this class — ControlSurfaceProxy is M4L-only."
+      - "[corpus] _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c in self._proxy.control_descriptions` —
+        confirms it's a container of ControlDescription objects (each with a `.name` property)."
+      - "[schema] ControlDescriptionVector exists in the parsed tree with element_repr fixed below to
+        ControlDescription."
 ```
 
 ##### pad_layout
@@ -425,11 +430,13 @@ settable: false
 listenable: true
 raw_doc: The layout of pads on Push.
 refinement:
-  confidence: high
-  sources:
-    - "[M4L] external/max-for-live-docs/9.0/controlsurface.md:18: `pad_layout symbol read-only observe` — `symbol` is
-      M4L parlance for a string (string-valued layout names like 'session', 'note.drums.64_pads')."
-    - '[docstring] "The layout of pads on Push."'
+  type:
+    probed: null
+    confidence: high
+    sources:
+      - "[M4L] external/max-for-live-docs/9.0/controlsurface.md:18: `pad_layout symbol read-only observe` — `symbol` is
+        M4L parlance for a string (string-valued layout names like 'session', 'note.drums.64_pads')."
+      - '[docstring] "The layout of pads on Push."'
 ```
 
 ##### type_name
@@ -439,11 +446,13 @@ kind: property
 type: str
 settable: false
 refinement:
-  confidence: medium
-  sources:
-    - "[corpus] no raw_doc, no M4L doc entry; binding access at _MxDCore/ControlSurfaceWrapper.py:234 returns
-      `self._proxy.type_name` from a wrapper property and uses the value in tuple/string contexts. `str` is the
-      strongest reading — promote via probe."
+  type:
+    probed: null
+    confidence: medium
+    sources:
+      - "[corpus] no raw_doc, no M4L doc entry; binding access at _MxDCore/ControlSurfaceWrapper.py:234 returns
+        `self._proxy.type_name` from a wrapper property and uses the value in tuple/string contexts. `str` is the
+        strongest reading — promote via probe."
 ```
 
 ##### control_values_arrived
@@ -496,14 +505,15 @@ cpp_signature: boost::python::tuple fetch_received_midi_messages(APythonControlS
 returns:
   type: tuple[tuple[int, ...], ...]
   refinement:
-    probed: tuple
-    confidence: medium
-    sources:
-      - "[docstring] `-> tuple` confirms the outer return is a tuple."
-      - "[corpus] _MxDCore/ControlSurfaceWrapper.py:251 iterates `for message in
-        self._proxy.fetch_received_midi_messages():` and passes each message to `handle_message(message)`. The corpus
-        doesn't unpack the inner tuple, so the inner shape `tuple[int, ...]` is inferred from MIDI semantics (MIDI
-        messages are tuples of status + data bytes, all ints)."
+    type:
+      probed: tuple
+      confidence: medium
+      sources:
+        - "[docstring] `-> tuple` confirms the outer return is a tuple."
+        - "[corpus] _MxDCore/ControlSurfaceWrapper.py:251 iterates `for message in
+          self._proxy.fetch_received_midi_messages():` and passes each message to `handle_message(message)`. The corpus
+          doesn't unpack the inner tuple, so the inner shape `tuple[int, ...]` is inferred from MIDI semantics (MIDI
+          messages are tuples of status + data bytes, all ints)."
 ```
 
 ##### fetch_received_values
@@ -515,14 +525,15 @@ cpp_signature: boost::python::tuple fetch_received_values(APythonControlSurfaceP
 returns:
   type: tuple[tuple[int, Any], ...]
   refinement:
-    probed: tuple
-    confidence: high
-    sources:
-      - "[docstring] `-> tuple` confirms the outer return is a tuple."
-      - "[corpus] _MxDCore/ControlSurfaceWrapper.py:244 explicitly unpacks the inner 2-tuple: `for control_id, value in
-        self._proxy.fetch_received_values():`. The first element is then used as a dict key
-        (`self._control_proxies_by_id[control_id]`) confirming int; the second element is passed to
-        `receive_value(value)` — value type depends on control, so Any."
+    type:
+      probed: tuple
+      confidence: high
+      sources:
+        - "[docstring] `-> tuple` confirms the outer return is a tuple."
+        - "[corpus] _MxDCore/ControlSurfaceWrapper.py:244 explicitly unpacks the inner 2-tuple: `for control_id, value
+          in self._proxy.fetch_received_values():`. The first element is then used as a dict key
+          (`self._control_proxies_by_id[control_id]`) confirming int; the second element is passed to
+          `receive_value(value)` — value type depends on control, so Any."
 ```
 
 ##### grab_control
@@ -1119,12 +1130,13 @@ args:
 returns:
   type: tuple[int, ...]
   refinement:
-    probed: tuple
-    confidence: high
-    sources:
-      - "[corpus] Push/handshake_component.py:53 wraps it for encryption; _APC/APC.py:79 compares the return to a dongle
-        challenge tuple."
-      - "[docstring] baseline Application.md:38 lists it as a module-level static."
+    type:
+      probed: tuple
+      confidence: high
+      sources:
+        - "[corpus] Push/handshake_component.py:53 wraps it for encryption; _APC/APC.py:79 compares the return to a
+          dongle challenge tuple."
+        - "[docstring] baseline Application.md:38 lists it as a module-level static."
 raw_doc: Returns an encrypted challenge based on the TEA algortithm
 ```
 
@@ -1182,4 +1194,60 @@ args:
 returns:
   type: int
 raw_doc: Returns a random integer from the given range.
+```
+
+## Constants
+
+### BETA
+
+```yaml
+kind: constant
+parent: Variants
+type: str
+value: Beta
+```
+
+### INTRO
+
+```yaml
+kind: constant
+parent: Variants
+type: str
+value: Intro
+```
+
+### LITE
+
+```yaml
+kind: constant
+parent: Variants
+type: str
+value: Lite
+```
+
+### STANDARD
+
+```yaml
+kind: constant
+parent: Variants
+type: str
+value: Standard
+```
+
+### SUITE
+
+```yaml
+kind: constant
+parent: Variants
+type: str
+value: Suite
+```
+
+### TRIAL
+
+```yaml
+kind: constant
+parent: Variants
+type: str
+value: Trial
 ```

@@ -76,17 +76,6 @@ def _collapse(s: str) -> str:
     return " ".join(s.split())
 
 
-def _convert_refinement(override: dict[str, Any]) -> dict[str, Any]:
-    """Convert a legacy `<field>_override:` block to the new refinement
-    fields. `override` is the contents of a `*_override:` mapping."""
-    out: dict[str, Any] = {}
-    if "confidence" in override:
-        out["confidence"] = override["confidence"]
-    if "source" in override:
-        out["sources"] = _normalize_sources(override["source"])
-    return out
-
-
 # ---------------------------------------------------------------------- members
 
 
@@ -103,6 +92,15 @@ def _emit_property(prop: dict[str, Any]) -> list[str]:
     elif probed_type is not None:
         data["type"] = probed_type
 
+    # element_type — present when the property returns a Vector-like
+    # whose element type is refined. The probe doesn't typically
+    # report the element type; it's filled in by hand via the legacy
+    # `element_type_override:` block which we restructure here under
+    # `refinement.element_type`.
+    element_override = prop.get("element_type_override")
+    if element_override and "value" in element_override:
+        data["element_type"] = element_override["value"]
+
     if "settable" in prop:
         data["settable"] = prop["settable"]
 
@@ -116,24 +114,31 @@ def _emit_property(prop: dict[str, Any]) -> list[str]:
     if prop.get("raw_doc"):
         data["raw_doc"] = _block_text(prop["raw_doc"])
 
-    # Refinement on the property's type.
+    # Refinement — always-nested form. Sub-keys: type, element_type.
+    refinement: dict[str, Any] = {}
     if type_override and "value" in type_override:
-        refinement = _convert_refinement(type_override)
-        if probed_type is not None:
-            refinement = {"probed": probed_type, **refinement}
+        sub: dict[str, Any] = {"probed": probed_type}
+        if "confidence" in type_override:
+            sub["confidence"] = type_override["confidence"]
+        if "source" in type_override:
+            sub["sources"] = _normalize_sources(type_override["source"])
+        refinement["type"] = sub
+    if element_override and "value" in element_override:
+        sub2: dict[str, Any] = {}
+        if "confidence" in element_override:
+            sub2["confidence"] = element_override["confidence"]
+        if "source" in element_override:
+            sub2["sources"] = _normalize_sources(element_override["source"])
+        refinement["element_type"] = sub2
+    if refinement:
         data["refinement"] = refinement
 
-    # element_type_override for Vector-bearing properties stays as-is
-    # for now — it's a different concern from the property's own type
-    # refinement. Carried verbatim under its current key.
-    if "element_type_override" in prop:
-        eto = prop["element_type_override"]
-        data["element_type_override"] = {
-            "value": eto["value"],
-            **({"confidence": eto["confidence"]} if "confidence" in eto else {}),
-            **({"sources": _normalize_sources(eto.get("source"))}
-               if "source" in eto else {}),
-        }
+    if prop.get("_synthesized"):
+        data["_synthesized"] = prop["_synthesized"]
+    if prop.get("_synthesis_note"):
+        data["_synthesis_note"] = _block_text(prop["_synthesis_note"])
+    if "deprecated" in prop:
+        data["deprecated"] = prop["deprecated"]
 
     description = prop.get("description") or ""
 
@@ -215,18 +220,22 @@ def _emit_method(method: dict[str, Any]) -> list[str]:
             rdata["type"] = rtype_override["value"]
         elif probed_rtype is not None:
             rdata["type"] = probed_rtype
+        # Always-nested refinement: sub-key `type` for type overrides.
         if rtype_override and "value" in rtype_override:
-            refinement: dict[str, Any] = {"probed": probed_rtype}
+            sub: dict[str, Any] = {"probed": probed_rtype}
             if "confidence" in rtype_override:
-                refinement["confidence"] = rtype_override["confidence"]
+                sub["confidence"] = rtype_override["confidence"]
             if "source" in rtype_override:
-                refinement["sources"] = _normalize_sources(rtype_override["source"])
-            rdata["refinement"] = refinement
+                sub["sources"] = _normalize_sources(rtype_override["source"])
+            rdata["refinement"] = {"type": sub}
         if rdata:
             data["returns"] = rdata
 
     if method.get("raw_doc"):
         data["raw_doc"] = _block_text(method["raw_doc"])
+
+    if "deprecated" in method:
+        data["deprecated"] = method["deprecated"]
 
     description = method.get("description") or ""
 
@@ -280,16 +289,18 @@ def _emit_function(fn: dict[str, Any]) -> list[str]:
         elif probed_rtype is not None:
             rdata["type"] = probed_rtype
         if rtype_override and "value" in rtype_override:
-            refinement: dict[str, Any] = {"probed": probed_rtype}
+            sub: dict[str, Any] = {"probed": probed_rtype}
             if "confidence" in rtype_override:
-                refinement["confidence"] = rtype_override["confidence"]
+                sub["confidence"] = rtype_override["confidence"]
             if "source" in rtype_override:
-                refinement["sources"] = _normalize_sources(rtype_override["source"])
-            rdata["refinement"] = refinement
+                sub["sources"] = _normalize_sources(rtype_override["source"])
+            rdata["refinement"] = {"type": sub}
         if rdata:
             data["returns"] = rdata
     if fn.get("raw_doc"):
         data["raw_doc"] = _block_text(fn["raw_doc"])
+    if "deprecated" in fn:
+        data["deprecated"] = fn["deprecated"]
 
     description = fn.get("description") or ""
     lines = [f"### {name}", "", _emit_yaml_block(data)]
@@ -300,9 +311,11 @@ def _emit_function(fn: dict[str, Any]) -> list[str]:
     return lines
 
 
-def _emit_constant(const: dict[str, Any]) -> list[str]:
+def _emit_constant(const: dict[str, Any], parent: str | None = None) -> list[str]:
     name = const["name"]
     data: dict[str, Any] = {"kind": "constant"}
+    if parent:
+        data["parent"] = parent
     if "type" in const:
         data["type"] = const["type"]
     if "value" in const:
@@ -326,6 +339,7 @@ def _emit_class(
     cls: dict[str, Any],
     hoisted_classes: list[tuple[str, dict[str, Any]]],
     hoisted_enums: list[tuple[str, dict[str, Any]]],
+    hoisted_constants: list[tuple[str, dict[str, Any]]],
     parent: str | None = None,
 ) -> list[str]:
     name = cls["name"]
@@ -355,6 +369,7 @@ def _emit_class(
     methods = cls.get("methods") or []
     nested_classes = cls.get("classes") or []
     nested_enums = cls.get("enums") or []
+    nested_constants = cls.get("constants") or []
 
     if properties:
         lines.append("#### Properties")
@@ -368,12 +383,15 @@ def _emit_class(
         for m in methods:
             lines.extend(_emit_method(m))
 
-    # Defer rendering of nested classes/enums; they will be hoisted to
-    # the file's top level by the caller.
+    # Defer rendering of nested classes / enums / constants; they will
+    # be hoisted to the file's top level by the caller with a `parent:`
+    # field marking the structural nesting.
     for nc in nested_classes:
         hoisted_classes.append((name, nc))
     for ne in nested_enums:
         hoisted_enums.append((name, ne))
+    for nc in nested_constants:
+        hoisted_constants.append((name, nc))
 
     return lines
 
@@ -401,21 +419,26 @@ def convert(module: dict[str, Any]) -> str:
     functions = module.get("functions") or []
     constants = module.get("constants") or []
 
-    # Collect nested classes/enums as we walk; they hoist to top-level
-    # under ## Classes / ## Enums with their `parent:` field set.
+    # Collect nested classes / enums / constants as we walk; they
+    # hoist to top-level under ## Classes / ## Enums / ## Constants
+    # with their `parent:` field set.
     hoisted_classes: list[tuple[str, dict[str, Any]]] = []
     hoisted_enums: list[tuple[str, dict[str, Any]]] = []
+    hoisted_constants: list[tuple[str, dict[str, Any]]] = []
 
     all_classes = list(primary_classes) + list(other_classes)
     if all_classes:
         out.append("## Classes")
         out.append("")
         for cls in all_classes:
-            out.extend(_emit_class(cls, hoisted_classes, hoisted_enums))
+            out.extend(_emit_class(
+                cls, hoisted_classes, hoisted_enums, hoisted_constants,
+            ))
         for parent_name, nested_cls in hoisted_classes:
             # Recursively hoist deeper nestings as well.
             out.extend(_emit_class(
-                nested_cls, hoisted_classes, hoisted_enums,
+                nested_cls,
+                hoisted_classes, hoisted_enums, hoisted_constants,
                 parent=parent_name,
             ))
 
@@ -433,11 +456,13 @@ def convert(module: dict[str, Any]) -> str:
         for fn in functions:
             out.extend(_emit_function(fn))
 
-    if constants:
+    if constants or hoisted_constants:
         out.append("## Constants")
         out.append("")
         for c in constants:
             out.extend(_emit_constant(c))
+        for parent_name, nested_const in hoisted_constants:
+            out.extend(_emit_constant(nested_const, parent=parent_name))
 
     return "\n".join(out).rstrip() + "\n"
 
