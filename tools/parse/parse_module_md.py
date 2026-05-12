@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Parse a per-module markdown file into an in-memory module dict.
 
-Reads `stubs/<v>/modules/<Module>.md` and returns a dict matching the
+Reads `content/<v>/modules/<Module>.md` and returns a dict matching the
 "natural new shape" the format spec describes. Downstream code that
 needs the legacy lom-YAML shape (for the existing generators)
 applies `to_legacy_shape()`; for direct use against the new format,

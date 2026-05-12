@@ -62,7 +62,7 @@ without letting users type them as kwargs"; it stays.
    - Generic-looking but truthful beats pretty but wrong.
 
    **Manual refinements** live as sibling `<field>_override:` blocks next to the parser-derived value in
-   `stubs/<v>/modules/*.md` (inside the fenced YAML block for each member). They are the one sanctioned
+   `content/<v>/modules/*.md` (inside the fenced YAML block for each member). They are the one sanctioned
    override path, used only to correct known
    wrongness — a probed type that's loose where the binding is strict, a missing element-type on a
    `Vector`, a return type the parser couldn't infer. Every override carries a `source:` field with

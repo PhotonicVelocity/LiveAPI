@@ -3,7 +3,7 @@
 
 Reads the parsed tree (output of parse_apicapture_results_v2.py) and
 emits one markdown file per top-level Live module to
-stubs/<v>/reports/seed/<Module>.md. Format spec: doc/lom-format.md.
+probe/<v>/seed/<Module>.md. Format spec: doc/lom-format.md.
 
 Top-down through the file you can read it as five conversion stages.
 Each stage maps a layer of the parsed tree onto the per-module dict
@@ -1179,17 +1179,17 @@ def main() -> int:
     in_path = (
         Path(args.input)
         if args.input
-        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveTree.parsed.json"
+        else REPO_ROOT / "probe" / args.version / "pipeline" / "LiveTree.parsed.json"
     )
     probe_path = (
         Path(args.probe)
         if args.probe
-        else REPO_ROOT / "stubs" / args.version / "pipeline" / "LiveClasses.json"
+        else REPO_ROOT / "probe" / args.version / "pipeline" / "LiveClasses.json"
     )
     out_dir = (
         Path(args.output)
         if args.output
-        else REPO_ROOT / "stubs" / args.version / "reports" / "seed"
+        else REPO_ROOT / "probe" / args.version / "seed"
     )
 
     if not in_path.exists():

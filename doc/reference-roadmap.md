@@ -8,7 +8,7 @@
 
 ## Phase 0: where we are today
 
-- Capture + parse + lom-build pipeline producing `stubs/<v>/modules/*.md`
+- Capture + parse + lom-build pipeline producing `content/<v>/modules/*.md`
   (the curated SOT — algorithmic seed plus sibling `<field>_override:` blocks).
 - Stubs generated from `modules/` via `generate_stubs.py`, including
   parser-side enum widening, optional widening, listener-triplet folding,
@@ -30,7 +30,7 @@ human-authored content yet.
 **What lands.**
 
 - `tools/generate/generate_reference.py` ported from the legacy
-  `LiveTree.refined.json` input to read `stubs/<v>/modules/*.md` directly.
+  `LiveTree.refined.json` input to read `content/<v>/modules/*.md` directly.
   Eliminates the duplicate-parse logic the audit flagged.
 - Per-class markdown pages with: title, full path, type signatures,
   property/method/enum tables, `Access via` cross-reference list, runtime
@@ -66,11 +66,11 @@ work tossed; Starlight project lives at `web/`.
 The generator is built up incrementally — each step is its own commit-sized
 change, each step's output is independently shippable. Earlier steps consume
 just the structural surface from the module markdown; later steps add detail
-until everything in `stubs/<v>/modules/*.md` (parser-derived fields plus
+until everything in `content/<v>/modules/*.md` (parser-derived fields plus
 override blocks) flows through to the rendered page.
 
 Status: **Phase 1 complete.** All 14 steps shipped — every field in
-`stubs/<v>/modules/*.md` flows through to the rendered page.
+`content/<v>/modules/*.md` flows through to the rendered page.
 Foundation pages for the LOM, Listeners, Calling conventions, and
 Remote scripts hoisted above the alphabetical Modules group in the
 sidebar. Per-class cross-reference ("Returned by") sections render
@@ -222,7 +222,7 @@ was hand-refined away from the parser-derived default.
   so method anchors (`-&gt;` in source) match the rendered-page slug
   Starlight generates from `->`.
 
-**Phase 1 is complete.** Every field in `stubs/<v>/modules/*.md`
+**Phase 1 is complete.** Every field in `content/<v>/modules/*.md`
 (parser-derived fields plus override blocks) flows through to the
 rendered page. Phase 2's authored prose / hypothesis records is the
 next layer — content, not infrastructure.
@@ -258,7 +258,7 @@ plumbing, with humans as the only verifier."
   level for now), quirks, verified-against (still version-tagged, just
   empty-handed).
 - Storage convention decided. Lean: per-class file in
-  `doc/records/<Class>.yaml`, parallel to `stubs/<v>/modules/<Module>.md`.
+  `doc/records/<Class>.yaml`, parallel to `content/<v>/modules/<Module>.md`.
 - Validator script run in CI: ensures every record refers to a real symbol
   in the lom YAML, schema is well-formed, no duplicate IDs.
 - Reference generator extended to read records. Authored description

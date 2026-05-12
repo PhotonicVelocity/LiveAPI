@@ -3,10 +3,10 @@
 Stage 2 has two steps:
 
   1. parse_apicapture_results_v2.py  — raw capture → LiveTree.parsed.v2.json
-  2. build_lom_md.py                 — parsed tree → stubs/<v>/reports/seed/*.md
+  2. build_lom_md.py                 — parsed tree → probe/<v>/seed/*.md
 
 The seed markdowns are the algorithmic baseline. The curated SOT lives at
-`stubs/<v>/modules/*.md` and is regenerated from the seed only at intentional
+`content/<v>/modules/*.md` and is regenerated from the seed only at intentional
 sync points (i.e. it does not flow automatically through this pipeline).
 
 Usage:

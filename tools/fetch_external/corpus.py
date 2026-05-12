@@ -5,7 +5,7 @@ The corpus is the source of truth for "how Ableton's own engineers use the API."
 It feeds:
   - tests/usage/* (Tier 4 verification — patterns drawn from real call sites)
   - tools/verify/audit_corpus.py (offline corpus audit against our stubs)
-  - stubs/<v>/modules/*.md (per-override source citations on _override blocks)
+  - content/<v>/modules/*.md (per-override source citations on _override blocks)
 
 The pin is updated rarely. When bumping:
   1. Update CORPUS_PIN below.

@@ -1,10 +1,10 @@
 # LOM module format
 
 Per-module markdown schema for the Live Object Model. One file per top-level Live module, under
-`stubs/<v>/modules/<Module>.md`. The format is the **authoring midpoint** in a two-stage transformation pipeline; humans
+`content/<v>/modules/<Module>.md`. The format is the **authoring midpoint** in a two-stage transformation pipeline; humans
 edit only this midpoint, and two downstream generators project it into the shipped artifacts.
 
-> **Status.** Live. The probe pipeline emits markdown directly, and both generators read `stubs/<v>/modules/<Module>.md`
+> **Status.** Live. The probe pipeline emits markdown directly, and both generators read `content/<v>/modules/<Module>.md`
 > as their only input. The legacy YAML format has been retired.
 
 ## Pipeline
@@ -19,7 +19,7 @@ LiveTree.raw.json     LiveClasses.json    ← Live probe outputs
         merge into existing markdown  ◀──┐
                  │                       │ updates probe-derived fields,
                  ▼                       │ preserves human content, flags
-stubs/<v>/modules/<Module>.md            │ drift between the two
+content/<v>/modules/<Module>.md            │ drift between the two
         │                                │
         │  SOURCE OF TRUTH ──────────────┘
         │  (structured data from probe
@@ -75,7 +75,7 @@ Both downstream generators select the subset they need:
 
 ## File shape
 
-One file per Live module: `stubs/<v>/modules/Chain.md`, `stubs/<v>/modules/Track.md`, etc.
+One file per Live module: `content/<v>/modules/Chain.md`, `content/<v>/modules/Track.md`, etc.
 
 Top of file: YAML frontmatter carrying module identity. Body paragraphs before any heading are the module-level
 description prose.

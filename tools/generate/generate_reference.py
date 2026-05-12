@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # vibe-coded: substantial AI-assisted authoring. Review before relying on.
-"""Generate Starlight (Astro) MDX reference pages from stubs/<v>/modules/*.md.
+"""Generate Starlight (Astro) MDX reference pages from content/<v>/modules/*.md.
 
 Phase 1 of the documentation roadmap (`doc/reference-roadmap.md`): mechanical
 translation of what the parser already knows. Built incrementally per the
@@ -1881,7 +1881,7 @@ def parse_foundation_markdown(path: Path) -> tuple[dict, str]:
 
     Foundation pages carry their content as standard MDX-style files —
     YAML frontmatter between `---` fences, markdown body after. Authors
-    edit these directly under `stubs/<v>/foundation/` rather than going
+    edit these directly under `content/<v>/` rather than going
     through the lom YAML.
     """
     text = path.read_text()
@@ -1943,7 +1943,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     parser.add_argument("version", nargs="?", default="12.3.6",
                         help="Live version (default: 12.3.6)")
-    parser.add_argument("--input", help="modules markdown dir (default: stubs/<v>/modules)")
+    parser.add_argument("--input", help="modules markdown dir (default: content/<v>/modules)")
     parser.add_argument(
         "--output",
         default=str(REPO_ROOT / "web" / "src" / "content" / "docs"),
@@ -1951,12 +1951,9 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    md_dir = Path(args.input) if args.input else REPO_ROOT / "stubs" / args.version / "modules"
-    foundation_dir = (
-        md_dir.parent / "foundation"
-        if md_dir.name == "modules"
-        else REPO_ROOT / "stubs" / args.version / "foundation"
-    )
+    md_dir = Path(args.input) if args.input else REPO_ROOT / "content" / args.version / "modules"
+    # Foundation pages are siblings to `modules/` — flat in content/<v>/.
+    foundation_dir = md_dir.parent
     out_dir = Path(args.output)
 
     if not md_dir.exists():
@@ -1983,7 +1980,7 @@ def main() -> int:
     references_index = build_references_index(modules, registry)
 
     # Foundation pages — authored markdown files under
-    # `stubs/<v>/foundation/`. Each may absorb a lom module's
+    # `content/<v>/`. Each may absorb a lom module's
     # structural content via `include_module:` frontmatter; absorbed
     # modules are skipped from the regular per-module page output.
     absorbed_modules: set[str] = set()
@@ -1998,7 +1995,7 @@ def main() -> int:
 
     written = 0
     for path, fm, body in foundation_pages:
-        slug = fm.get("slug") or path.stem.replace("-", "")
+        slug = fm.get("slug") or path.stem
         include_module = fm.get("include_module")
         module_doc = modules.get(include_module) if include_module else None
         text = render_foundation_page(

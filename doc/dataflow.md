@@ -31,10 +31,10 @@ where the data lives between stages. For *why* each piece exists see
                 │   runs:    tools/parse/build_lom_md.py                 │
                 └────────────────────────────────────────────────────────┘
                                           │
-                          stubs/<v>/reports/seed/*.md
+                          probe/<v>/seed/*.md
                                           │
    ┌────────────────────────────────┐     │
-   │ stubs/<v>/modules/*.md         │  ◀──┘  (resync at intentional checkpoints)
+   │ content/<v>/modules/*.md         │  ◀──┘  (resync at intentional checkpoints)
    │ CURATED SOT — seed + sibling   │
    │ <field>_override: blocks       │
    │ (each with source:) + prose    │
@@ -59,7 +59,7 @@ where the data lives between stages. For *why* each piece exists see
                                                 └──────────────────────────────────┘
 ```
 
-`stubs/<v>/modules/*.md` is the **single source of truth** that fans out into
+`content/<v>/modules/*.md` is the **single source of truth** that fans out into
 both renderings (stubs and reference). Nothing is hand-maintained twice. Each
 module file holds fenced YAML blocks for structured fields plus authored prose
 between them — format spec: [`lom-format.md`](lom-format.md).
@@ -83,7 +83,7 @@ with a known `.als` (from [`tools/sets/`](../tools/sets/)) and uses
 | probe (basic)    | [`PropertyProbe.py`](../tools/apicapture/scripts/PropertyProbe.py)  | Visits live instances, reads each property, records runtime types         |
 | probe (full)     | [`DeviceProbe.py`](../tools/apicapture/scripts/DeviceProbe.py)      | Loads every device through the browser to expose device-specific types    |
 
-**Outputs** (under [`stubs/<version>/pipeline/`](../stubs/12.3.6/pipeline/) — gitignored):
+**Outputs** (under [`probe/<version>/pipeline/`](../probe/12.3.6/pipeline/) — gitignored):
 
 - `LiveTree.raw.json` — structural snapshot (the dir-walk tree). Consumed by Stage 2a.
 - `LiveClasses.json` — runtime probe data keyed by class repr (property types, settable flags, no-arg getters).
@@ -115,7 +115,7 @@ Multi-step transform pipeline; each step takes the tree + a shared context dict 
 4. parse enum members from string-encoded forms, retype as `"enum"`
 5. parse function docs into structured `signature` / `description` / C++ pairs, build C++→Python type map, resolve into clean args + returns
 
-**Output:** [`stubs/<version>/pipeline/LiveTree.parsed.v2.json`](../stubs/12.3.6/pipeline/) —
+**Output:** [`probe/<version>/pipeline/LiveTree.parsed.v2.json`](../probe/12.3.6/pipeline/) —
 the canonical parser output. **Never hand-edited.**
 
 **Hand-curated:** none. Mechanical transform of capture data only.
@@ -144,14 +144,14 @@ applying the algorithmic decisions a human shouldn't have to make explicit:
 - Inherited-property cleanup (drop properties identical to an ancestor's declaration so pyright resolves the
   annotation from the inherited declaration; keeps overrides intact)
 
-**Output:** [`stubs/<version>/reports/seed/<Module>.md`](../stubs/12.3.6/reports/seed/) —
+**Output:** [`probe/<version>/seed/<Module>.md`](../probe/12.3.6/seed/) —
 the algorithmic baseline. Regenerated freely; not hand-edited.
 
 ---
 
 ## The modules/ SOT (curated)
 
-**Location:** [`stubs/<version>/modules/<Module>.md`](../stubs/12.3.6/modules/).
+**Location:** [`content/<version>/modules/<Module>.md`](../content/12.3.6/modules/).
 
 Started as a copy of `seed/`. Carries sibling `<field>_override:` blocks where humans
 have tightened types, renamed args, or qualified iterable element types. Each override
@@ -216,11 +216,11 @@ emits a static site under `web/dist/` → published to GitHub Pages at
 | Asset                                         | Source            | Drift risk |
 |-----------------------------------------------|-------------------|------------|
 | `tools/sets/<Set>.als`                         | hand              | low — only needs to exercise the API surface |
-| `stubs/<v>/modules/*.md` (override blocks)    | hand (sourced)    | tracked via `from:` drift checks; verified against the corpus in CI |
+| `content/<v>/modules/*.md` (override blocks)    | hand (sourced)    | tracked via `from:` drift checks; verified against the corpus in CI |
 | `web/src/content/docs/index.mdx`               | hand              | none (static landing page) |
 | `web/src/styles/custom.css`, `astro.config.mjs`| hand              | low |
-| `stubs/<v>/pipeline/LiveTree.parsed.v2.json`   | generated (Stage 2a) | regenerated from raw on every parse run; gitignored |
-| `stubs/<v>/reports/seed/*.md`                 | generated (Stage 2b) | committed; algorithmic baseline for diffing against `modules/` |
+| `probe/<v>/pipeline/LiveTree.parsed.v2.json`   | generated (Stage 2a) | regenerated from raw on every parse run; gitignored |
+| `probe/<v>/seed/*.md`                 | generated (Stage 2b) | committed; algorithmic baseline for diffing against `modules/` |
 | `stubs/<v>/Live/*.pyi`                         | generated (Stage 3a) | committed; published to PyPI |
 | `web/src/content/docs/modules/*.mdx`           | generated (Stage 3b) | committed; published to GitHub Pages |
 

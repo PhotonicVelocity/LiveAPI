@@ -1192,7 +1192,7 @@ def run_pipeline(tree: TreeNode, ctx: dict[str, Any] | None = None) -> tuple[Tre
 # ------------------------------------------------------------------------------- #
 
 
-STUBS_DIR = Path(__file__).resolve().parent.parent.parent / "stubs"
+PROBE_DIR = Path(__file__).resolve().parent.parent.parent / "probe"
 
 
 def resolve_pipeline_dir(version: str) -> Path:
@@ -1201,18 +1201,18 @@ def resolve_pipeline_dir(version: str) -> Path:
     Accepts exact versions (12.3.6) or partial (12.3 → 12.3.0). If the exact path doesn't exist, appends .0 as a
     fallback for minor-only versions. Returns the pipeline/ subdirectory where intermediates live.
     """
-    ver_dir = STUBS_DIR / version
+    ver_dir = PROBE_DIR / version
     if ver_dir.is_dir():
         return ver_dir / "pipeline"
 
     # Try appending .0 for partial versions like "12.3" → "12.3.0"
-    fallback = STUBS_DIR / f"{version}.0"
+    fallback = PROBE_DIR / f"{version}.0"
     if fallback.is_dir():
         return fallback / "pipeline"
 
     # List available versions for a helpful error
-    available = sorted(p.name for p in STUBS_DIR.iterdir() if p.is_dir()) if STUBS_DIR.is_dir() else []
-    msg = f"No stubs directory found for version '{version}'"
+    available = sorted(p.name for p in PROBE_DIR.iterdir() if p.is_dir()) if PROBE_DIR.is_dir() else []
+    msg = f"No probe directory found for version '{version}'"
     if available:
         msg += f"\nAvailable: {', '.join(available)}"
     raise SystemExit(msg)
