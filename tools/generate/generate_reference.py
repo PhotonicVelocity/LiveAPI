@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # vibe-coded: substantial AI-assisted authoring. Review before relying on.
-"""Generate Starlight (Astro) MDX reference pages from stubs/<v>/lom/*.yaml.
+"""Generate Starlight (Astro) MDX reference pages from stubs/<v>/modules/*.md.
 
 Phase 1 of the documentation roadmap (`doc/reference-roadmap.md`): mechanical
 translation of what the parser already knows. Built incrementally per the
@@ -22,7 +22,7 @@ Usage:
 
 Defaults:
     VERSION   12.3.6
-    --input   stubs/<VERSION>/lom
+    --input   stubs/<VERSION>/modules
     --output  web/src/content/docs
 """
 
@@ -1943,7 +1943,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     parser.add_argument("version", nargs="?", default="12.3.6",
                         help="Live version (default: 12.3.6)")
-    parser.add_argument("--input", help="lom YAML dir (default: stubs/<v>/lom)")
+    parser.add_argument("--input", help="modules markdown dir (default: stubs/<v>/modules)")
     parser.add_argument(
         "--output",
         default=str(REPO_ROOT / "web" / "src" / "content" / "docs"),
@@ -1951,44 +1951,30 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    in_dir = Path(args.input) if args.input else REPO_ROOT / "stubs" / args.version / "lom"
+    md_dir = Path(args.input) if args.input else REPO_ROOT / "stubs" / args.version / "modules"
     foundation_dir = (
-        in_dir.parent / "foundation"
-        if in_dir.name == "lom"
+        md_dir.parent / "foundation"
+        if md_dir.name == "modules"
         else REPO_ROOT / "stubs" / args.version / "foundation"
     )
-    # Dual-format loader (migration phase 3): when a sibling `modules/`
-    # dir contains `<Module>.md`, that markdown is the source of truth
-    # and we parse it instead of the YAML.
-    md_dir = in_dir.parent / "modules"
     out_dir = Path(args.output)
 
-    if not in_dir.exists():
-        print(f"error: lom YAML dir not found at {in_dir}", file=sys.stderr)
+    if not md_dir.exists():
+        print(f"error: modules markdown dir not found at {md_dir}", file=sys.stderr)
         return 2
 
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    md_modules: set[str] = set()
-    if md_dir.exists():
-        md_modules = {p.stem for p in md_dir.glob("*.md")}
-
-    def _load_module(yaml_path: Path) -> dict | None:
-        module_name = yaml_path.stem
-        if module_name in md_modules:
-            parse_dir = str(REPO_ROOT / "tools" / "parse")
-            if parse_dir not in sys.path:
-                sys.path.insert(0, parse_dir)
-            from parse_module_md import parse_module_md, to_legacy_shape
-            return to_legacy_shape(parse_module_md(md_dir / f"{module_name}.md"))
-        d = yaml.safe_load(yaml_path.read_text())
-        return d if isinstance(d, dict) else None
+    parse_dir = str(REPO_ROOT / "tools" / "parse")
+    if parse_dir not in sys.path:
+        sys.path.insert(0, parse_dir)
+    from parse_module_md import parse_module_md, to_legacy_shape
 
     # Load every module up front — registry build needs cross-module
     # visibility for type linking.
     modules: dict[str, dict] = {}
-    for path in sorted(in_dir.glob("*.yaml")):
-        d = _load_module(path)
+    for path in sorted(md_dir.glob("*.md")):
+        d = to_legacy_shape(parse_module_md(path))
         if isinstance(d, dict) and d.get("module"):
             modules[d["module"]] = d
 

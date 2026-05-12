@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Build .pyi stub files from per-module LOM YAML.
+"""Build .pyi stub files from per-module LOM markdown.
 
-Reads stubs/<v>/lom/*.yaml (the curated SOT) and emits .pyi stubs.
-Wherever the YAML carries a sibling `<field>_override:` block, the
-override's `value:` is preferred over the parser-derived field — that's
-the seam through which manual refinements reach the rendered stubs.
+Reads stubs/<v>/modules/*.md (the curated SOT) via the markdown parser
++ legacy-shape adapter and emits .pyi stubs. Wherever a member's fenced
+YAML block carries a sibling `<field>_override:` block, the override's
+`value:` is preferred over the parser-derived field — that's the seam
+through which manual refinements reach the rendered stubs.
 
 Usage:
     python tools/generate/generate_stubs.py 12.3.6
@@ -19,8 +20,6 @@ import sys
 from io import StringIO
 from pathlib import Path
 from typing import Any
-
-import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -647,28 +646,23 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
 def main() -> int:
     p = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     p.add_argument("version", help="Live version (e.g. 12.3.6)")
-    p.add_argument("--input", help="lom yaml dir (default: stubs/<v>/lom)")
+    p.add_argument("--input", help="modules markdown dir (default: stubs/<v>/modules)")
     p.add_argument("--output", help="output dir for .pyi files")
     args = p.parse_args()
 
-    seed_dir = (
+    md_dir = (
         Path(args.input)
         if args.input
-        else REPO_ROOT / "stubs" / args.version / "lom"
+        else REPO_ROOT / "stubs" / args.version / "modules"
     )
-    # Dual-format loader (migration phase 3): if a sibling `modules/`
-    # dir contains `<Module>.md`, that markdown is the source of truth
-    # and we parse it instead of the YAML. The legacy YAML branch
-    # stays in place for modules not yet converted.
-    md_dir = seed_dir.parent / "modules"
     out_dir = (
         Path(args.output).resolve()
         if args.output
         else REPO_ROOT / "stubs" / args.version / "Live"
     )
 
-    if not seed_dir.exists():
-        print(f"error: seed yaml dir not found at {seed_dir}", file=sys.stderr)
+    if not md_dir.exists():
+        print(f"error: modules markdown dir not found at {md_dir}", file=sys.stderr)
         return 2
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -677,33 +671,18 @@ def main() -> int:
     # resets the per-module accumulators.
     registry: dict[str, Any] = {}
 
-    # Build a set of module names that have markdown form available so
-    # the per-module loop can prefer markdown over yaml.
-    md_modules: set[str] = set()
-    if md_dir.exists():
-        md_modules = {p.stem for p in md_dir.glob("*.md")}
-
-    def _load_module(yaml_path: Path) -> dict:
-        """Prefer the markdown source when present; fall back to YAML."""
-        module_name = yaml_path.stem
-        if module_name in md_modules:
-            # Sibling-script import: tools/ isn't a package, so add the
-            # parse dir to sys.path and import by module name.
-            parse_dir = str(REPO_ROOT / "tools" / "parse")
-            if parse_dir not in sys.path:
-                sys.path.insert(0, parse_dir)
-            from parse_module_md import parse_module_md, to_legacy_shape
-            md_path = md_dir / f"{module_name}.md"
-            return to_legacy_shape(parse_module_md(md_path))
-        return yaml.safe_load(yaml_path.read_text())
+    parse_dir = str(REPO_ROOT / "tools" / "parse")
+    if parse_dir not in sys.path:
+        sys.path.insert(0, parse_dir)
+    from parse_module_md import parse_module_md, to_legacy_shape
 
     written = 0
     all_module_names: list[str] = []
-    for path in sorted(seed_dir.glob("*.yaml")):
-        module = _load_module(path)
-        # Foundation pages (e.g. `CallingConventions.yaml`,
-        # `RemoteScripts.yaml`) are docs-only lom YAMLs — pure prose,
-        # no `primary_class:` / `classes:` / `enums:` / `functions:` /
+    for path in sorted(md_dir.glob("*.md")):
+        module = to_legacy_shape(parse_module_md(path))
+        # Foundation pages (e.g. `CallingConventions.md`,
+        # `RemoteScripts.md`) are docs-only — pure prose, no
+        # `primary_class:` / `classes:` / `enums:` / `functions:` /
         # `constants:` content. Skip so the stub package doesn't ship
         # empty `Live.<Foundation>` modules that would pollute
         # downstream pyright namespaces. `LomObject` and `Listener`
