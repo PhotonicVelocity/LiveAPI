@@ -76,6 +76,16 @@ def _collapse(s: str) -> str:
     return " ".join(s.split())
 
 
+# Member names with markdown-significant characters need backticking in
+# headings so prettier / CommonMark don't mangle them — `__init__`
+# rendered bare becomes `**init**` (bold) on round-trip. Wrapping in
+# backticks tells the renderer this is inline code, preserved verbatim.
+def _escape_heading_name(name: str) -> str:
+    if name.startswith("_") or name.endswith("_") or "__" in name or "*" in name:
+        return f"`{name}`"
+    return name
+
+
 # ---------------------------------------------------------------------- members
 
 
@@ -142,7 +152,7 @@ def _emit_property(prop: dict[str, Any]) -> list[str]:
 
     description = prop.get("description") or ""
 
-    lines = [f"##### {name}", "", _emit_yaml_block(data)]
+    lines = [f"##### {_escape_heading_name(name)}", "", _emit_yaml_block(data)]
     if description.strip():
         lines.append("")
         lines.append(description.strip())
@@ -196,7 +206,7 @@ def _convert_arg(arg: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
-def _emit_method(method: dict[str, Any]) -> list[str]:
+def _emit_method(method: dict[str, Any], owning_class_path: str = "") -> list[str]:
     name = method["name"]
     data: dict[str, Any] = {"kind": "method"}
 
@@ -206,7 +216,21 @@ def _emit_method(method: dict[str, Any]) -> list[str]:
         data["cpp_signature"] = method["cpp_signature"]
 
     args = method.get("args") or []
-    # Drop the implicit `self` arg.
+    # Drop the implicit `self` arg from the markdown's args list — it's
+    # always present in the legacy YAML, never authored, restored on
+    # the adapter side. BUT: if the probed `self` type differs from
+    # the owning class (Boost.Python sometimes records `self` typed to
+    # the class that *declared* the method, even when inherited), we
+    # preserve that as a top-level `self_type:` field on the method
+    # so the round-trip is clean.
+    self_arg = next((a for a in args if a.get("name") == "self"), None)
+    if (
+        self_arg
+        and owning_class_path
+        and self_arg.get("type")
+        and self_arg["type"] != owning_class_path
+    ):
+        data["self_type"] = self_arg["type"]
     args = [a for a in args if a.get("name") != "self"]
     if args:
         data["args"] = [_convert_arg(a) for a in args]
@@ -231,6 +255,14 @@ def _emit_method(method: dict[str, Any]) -> list[str]:
         if rdata:
             data["returns"] = rdata
 
+    # Parameterized-observable methods (e.g. `Application.View.is_view_visible`)
+    # carry a `listenable:` triplet on the method itself — the listener
+    # callbacks take the same first arg as the method. Preserved as
+    # `listenable: true` shorthand; the parser/adapter expands the
+    # triplet from the method name.
+    if method.get("listenable"):
+        data["listenable"] = True
+
     if method.get("raw_doc"):
         data["raw_doc"] = _block_text(method["raw_doc"])
 
@@ -239,7 +271,7 @@ def _emit_method(method: dict[str, Any]) -> list[str]:
 
     description = method.get("description") or ""
 
-    lines = [f"##### {name}", "", _emit_yaml_block(data)]
+    lines = [f"##### {_escape_heading_name(name)}", "", _emit_yaml_block(data)]
     if description.strip():
         lines.append("")
         lines.append(description.strip())
@@ -261,7 +293,7 @@ def _emit_enum(enum: dict[str, Any], parent: str | None = None) -> list[str]:
 
     description = enum.get("description") or ""
 
-    lines = [f"### {name}", "", _emit_yaml_block(data)]
+    lines = [f"### {_escape_heading_name(name)}", "", _emit_yaml_block(data)]
     if description.strip():
         lines.append("")
         lines.append(description.strip())
@@ -303,7 +335,7 @@ def _emit_function(fn: dict[str, Any]) -> list[str]:
         data["deprecated"] = fn["deprecated"]
 
     description = fn.get("description") or ""
-    lines = [f"### {name}", "", _emit_yaml_block(data)]
+    lines = [f"### {_escape_heading_name(name)}", "", _emit_yaml_block(data)]
     if description.strip():
         lines.append("")
         lines.append(description.strip())
@@ -324,7 +356,7 @@ def _emit_constant(const: dict[str, Any], parent: str | None = None) -> list[str
         data["raw_doc"] = _block_text(const["raw_doc"])
 
     description = const.get("description") or ""
-    lines = [f"### {name}", "", _emit_yaml_block(data)]
+    lines = [f"### {_escape_heading_name(name)}", "", _emit_yaml_block(data)]
     if description.strip():
         lines.append("")
         lines.append(description.strip())
@@ -354,12 +386,34 @@ def _emit_class(
         data["init_doc"] = _block_text(cls["init_doc"])
     if "constructable" in cls:
         data["constructable"] = cls["constructable"]
+    # Container-class flags (`iterable`, `container`, `parametric`) preserved
+    # verbatim for Vector / XVector classes.
+    for flag in ("iterable", "container", "parametric"):
+        if flag in cls:
+            data[flag] = cls[flag]
+    # Class-level element_type — for Vector classes where the element
+    # type is refined via `element_type_override`. Same shape as on a
+    # property: top-level `element_type:` for the resolved value,
+    # `refinement.element_type` for the metadata.
+    element_override = cls.get("element_type_override")
+    element_type = cls.get("element_type")
+    if element_override and "value" in element_override:
+        data["element_type"] = element_override["value"]
+    elif element_type is not None:
+        data["element_type"] = element_type
     if cls.get("raw_doc"):
         data["raw_doc"] = _block_text(cls["raw_doc"])
+    if element_override and "value" in element_override:
+        sub: dict[str, Any] = {}
+        if "confidence" in element_override:
+            sub["confidence"] = element_override["confidence"]
+        if "source" in element_override:
+            sub["sources"] = _normalize_sources(element_override["source"])
+        data["refinement"] = {"element_type": sub}
 
     description = cls.get("description") or ""
 
-    lines = [f"### {name}", "", _emit_yaml_block(data)]
+    lines = [f"### {_escape_heading_name(name)}", "", _emit_yaml_block(data)]
     if description.strip():
         lines.append("")
         lines.append(description.strip())
@@ -380,8 +434,9 @@ def _emit_class(
     if methods:
         lines.append("#### Methods")
         lines.append("")
+        owning_path = cls.get("path", "")
         for m in methods:
-            lines.extend(_emit_method(m))
+            lines.extend(_emit_method(m, owning_path))
 
     # Defer rendering of nested classes / enums / constants; they will
     # be hoisted to the file's top level by the caller with a `parent:`
@@ -403,8 +458,17 @@ def convert(module: dict[str, Any]) -> str:
     """Convert a parsed lom-module dict to markdown text."""
     out: list[str] = []
     # Frontmatter.
+    frontmatter: dict[str, Any] = {"module": module["module"]}
+    if "_note" in module:
+        frontmatter["_note"] = _block_text(module["_note"])
     out.append("---")
-    out.append(f"module: {module['module']}")
+    fm_buf = io.StringIO()
+    yaml.dump(
+        frontmatter, fm_buf,
+        default_flow_style=False, sort_keys=False, allow_unicode=True,
+        width=120,
+    )
+    out.append(fm_buf.getvalue().rstrip())
     out.append("---")
     out.append("")
     # Module-level prose.
