@@ -313,7 +313,7 @@ def _parse_h3_entries(
 def to_legacy_shape(new: dict[str, Any]) -> dict[str, Any]:
     """Translate parser output to the legacy YAML-loader dict shape.
 
-    Roughly the inverse of `tools/parse/yaml_to_md.py`:
+    Roughly the inverse of `tools/parse/md_emit.py`:
 
     - Hoisted nested classes / enums / constants get re-grafted as children
       of their `parent:` class.

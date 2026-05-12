@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""One-shot converter from a lom YAML module file to the new
-markdown midpoint format.
+"""Emit a lom-module markdown file from an in-memory module dict.
 
-Usage: yaml_to_md.py <Module.yaml>  →  writes alongside as Module.md
+The dict shape is the one produced by `build_lom_md.py` — a parsed
+Live-class tree organized into named kind groups (primary_class /
+classes / enums / functions / constants). `convert(module_dict)`
+returns the markdown text; the file's CLI entry point reads a legacy
+lom YAML and writes the markdown equivalent, useful for one-off
+conversions of stale seeds.
 
-Mechanical translation. Output is meant for manual review and tweak;
-not intended to be roundtrip-pure with the parser. Used to bootstrap
-the canonical example and (eventually) drive migration phase 4.
+Format spec: doc/lom-format.md.
 """
 from __future__ import annotations
 
@@ -533,7 +535,7 @@ def convert(module: dict[str, Any]) -> str:
 
 def main() -> int:
     if len(sys.argv) != 2:
-        print("usage: yaml_to_md.py <Module.yaml>", file=sys.stderr)
+        print("usage: md_emit.py <Module.yaml>", file=sys.stderr)
         return 2
     in_path = Path(sys.argv[1])
     module = yaml.safe_load(in_path.read_text())
