@@ -1,14 +1,13 @@
-"""Run Stage 2: parse the raw capture and build the per-module LOM YAML seed.
+"""Run Stage 2: parse the raw capture and build the per-module LOM markdown seed.
 
-Stage 2 has two steps now that the JSON-layer refinement pipeline has been
-retired in favor of `stubs/<v>/lom/*.yaml` as the curated SOT:
+Stage 2 has two steps:
 
   1. parse_apicapture_results_v2.py  — raw capture → LiveTree.parsed.v2.json
-  2. build_lom_yaml.py               — parsed tree → stubs/<v>/reports/seed/*.yaml
+  2. build_lom_md.py                 — parsed tree → stubs/<v>/reports/seed/*.md
 
-The seed YAMLs are the algorithmic baseline. The hand-curated SOT lives in
-`stubs/<v>/lom/` and is regenerated from the seed only at intentional sync
-points (i.e. it does not flow automatically through this pipeline).
+The seed markdowns are the algorithmic baseline. The curated SOT lives at
+`stubs/<v>/modules/*.md` and is regenerated from the seed only at intentional
+sync points (i.e. it does not flow automatically through this pipeline).
 
 Usage:
     python tools/parse/run_parse_pipeline.py 12.3.6
@@ -36,7 +35,7 @@ def run(args: list[str], label: str) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Run Stage 2: parse raw capture and build LOM YAML seed")
+    parser = argparse.ArgumentParser(description="Run Stage 2: parse raw capture and build LOM markdown seed")
     parser.add_argument("version", help="Live version (e.g. 12.3.6)")
     args = parser.parse_args()
 
@@ -46,13 +45,13 @@ def main() -> None:
     )
 
     run(
-        ["tools/parse/build_lom_yaml.py", args.version],
-        "Stage 2b: Build LOM YAML seed",
+        ["tools/parse/build_lom_md.py", args.version],
+        "Stage 2b: Build LOM markdown seed",
     )
 
     print(
         f"\nStage 2 complete. Parsed tree at stubs/{args.version}/pipeline/LiveTree.parsed.v2.json; "
-        f"seed YAMLs at stubs/{args.version}/reports/seed/"
+        f"seed markdowns at stubs/{args.version}/reports/seed/"
     )
 
 

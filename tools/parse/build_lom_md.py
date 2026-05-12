@@ -1,31 +1,29 @@
 #!/usr/bin/env python3
-"""Build per-module LOM YAML files from LiveTree.parsed.json.
+"""Build per-module LOM markdown files from LiveTree.parsed.json.
 
 Reads the parsed tree (output of parse_apicapture_results_v2.py) and
-emits one YAML file per top-level Live module to
-stubs/<v>/reports/seed/<Module>.yaml. Format spec:
-doc/lom-format.md (the new named-group shape supersedes the
-single-`members:` shape committed in earlier drafts).
+emits one markdown file per top-level Live module to
+stubs/<v>/reports/seed/<Module>.md. Format spec: doc/lom-format.md.
 
 Top-down through the file you can read it as five conversion stages.
-Each stage maps a layer of the parsed tree onto the YAML shape; later
-stages compose with earlier ones via plain function calls — there's no
+Each stage maps a layer of the parsed tree onto the per-module dict
+shape; the final emission step hands that dict to `md_emit.convert()`
+for serialization. Stages compose via plain function calls — no
 visitor framework, just a recursive build:
 
   1. Top-level CLI driver (main): walk modules, dispatch, write files.
   2. Module conversion (build_module_yaml): split children into named
      kind-groups (primary_class / classes / enums / functions / constants).
   3. Per-node conversion (build_member): dispatch by parser `type:` to
-     produce a YAML member dict. Recurses into class bodies.
+     produce a member dict. Recurses into class bodies.
   4. Class-body expansion (_group_class_members): same kind-grouping as
      §2 plus listener-triplet folding and orphan-signal synthesis.
   5. Listener-triplet detection helpers (_LISTENER_RE,
      _collect_listener_triplets): pure inspection of a class's children;
      no mutations.
 
-Helpers (string normalization, kind-discriminator map, skip-list,
-YAML emission with literal-block strings) live alongside the stage they
-support and are clearly marked.
+Helpers (string normalization, kind-discriminator map, skip-list) live
+alongside the stage they support and are clearly marked.
 
 Iteration plan — each step extended build_member by one field or
 transformation, comparing output diffs along the way. The v2 parsed
@@ -55,8 +53,8 @@ tree has now been fully extracted; remaining fields require probe data
     13. getter return-type upgrades / mismatch reports
 
 Usage:
-    python tools/parse/build_lom_yaml.py 12.3.6
-    python tools/parse/build_lom_yaml.py 12.3.6 --output /tmp/seed
+    python tools/parse/build_lom_md.py 12.3.6
+    python tools/parse/build_lom_md.py 12.3.6 --output /tmp/seed
 """
 
 from __future__ import annotations
@@ -69,7 +67,10 @@ import sys
 from pathlib import Path
 from typing import Any
 
-import yaml
+# Sibling module — markdown emission. Imported via sys.path insertion
+# because tools/parse is not a package.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import md_emit  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -1151,97 +1152,13 @@ def build_module_yaml(module_node: dict[str, Any], registry: dict[str, Any]) -> 
 
 
 # region------------------------------------------------------------------------- #
-# YAML emission — literal-block representer + safe dumper config
+# Markdown emission — defer to md_emit.convert() for the actual serialization
 # ------------------------------------------------------------------------------- #
 
 
-def _str_representer(dumper: yaml.SafeDumper, data: str) -> Any:
-    """Use literal block style (`|`) for multiline strings; default otherwise."""
-    if "\n" in data:
-        return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
-    return dumper.represent_scalar("tag:yaml.org,2002:str", data)
-
-
-class _Dumper(yaml.SafeDumper):
-    pass
-
-
-_Dumper.add_representer(str, _str_representer)
-_Dumper.ignore_aliases = lambda self, data: True  # type: ignore[method-assign]
-
-
-_SECTION_KEYS = frozenset({
-    "primary_class", "classes", "enums", "functions", "constants",
-    "properties", "methods",
-})
-_KEY_ONLY_RE = re.compile(r"^(\s*)([A-Za-z_][A-Za-z0-9_]*):\s*$")
-_LITERAL_OPEN_RE = re.compile(r":\s*\|-?\s*$")
-_LIST_ITEM_RE = re.compile(r"^(\s*)- ")
-
-
-def _add_blank_lines(text: str) -> str:
-    """Insert blank lines between sibling list items under structural section
-    keys (properties, methods, classes, ...) for readability. Also inserts a
-    blank line before each new structural section key. Skips literal blocks.
-    """
-    lines = text.split("\n")
-    result: list[str] = []
-    parent_key_at_indent: dict[int, str] = {}
-    seen_first_item_at_indent: dict[int, bool] = {}
-    literal_indent: int | None = None
-
-    for line in lines:
-        if not line.strip():
-            literal_indent = None
-            result.append(line)
-            continue
-
-        indent = len(line) - len(line.lstrip())
-
-        if literal_indent is not None:
-            if indent > literal_indent:
-                result.append(line)
-                continue
-            literal_indent = None
-
-        for ind in [k for k in parent_key_at_indent if k > indent]:
-            parent_key_at_indent.pop(ind, None)
-            seen_first_item_at_indent.pop(ind, None)
-
-        m_list = _LIST_ITEM_RE.match(line)
-        m_key = _KEY_ONLY_RE.match(line)
-
-        if m_list:
-            parent = parent_key_at_indent.get(indent)
-            if parent in _SECTION_KEYS:
-                if seen_first_item_at_indent.get(indent, False) and result and result[-1].strip():
-                    result.append("")
-                seen_first_item_at_indent[indent] = True
-        elif m_key:
-            key = m_key.group(2)
-            parent_key_at_indent[indent] = key
-            seen_first_item_at_indent[indent] = False
-            if key in _SECTION_KEYS and result and result[-1].strip():
-                result.append("")
-
-        if _LITERAL_OPEN_RE.search(line):
-            literal_indent = indent
-
-        result.append(line)
-
-    return "\n".join(result)
-
-
-def emit_yaml(data: dict[str, Any], path: Path) -> None:
-    text = yaml.dump(
-        data,
-        Dumper=_Dumper,
-        sort_keys=False,
-        default_flow_style=False,
-        allow_unicode=True,
-        width=10000,
-    )
-    path.write_text(_add_blank_lines(text))
+def emit_md(data: dict[str, Any], path: Path) -> None:
+    """Serialize one module dict to markdown via md_emit.convert()."""
+    path.write_text(md_emit.convert(data))
 
 # endregion
 
@@ -1291,8 +1208,8 @@ def main() -> int:
               "type/element_type fields will be omitted", file=sys.stderr)
     registry = build_class_registry(tree, probe)
 
-    # Build every module YAML in memory first so the post-build cleanup
-    # has cross-module ancestor visibility.
+    # Build every module dict in memory first so the post-build cleanup
+    # has cross-module ancestor visibility before serialization.
     modules: dict[str, dict[str, Any]] = {}
     for module_node in tree.get("children", []):
         if module_node.get("type") != "module":
@@ -1304,9 +1221,13 @@ def main() -> int:
 
     dropped = _drop_ancestor_inherited_properties(modules)
     for name, doc in modules.items():
-        emit_yaml(doc, out_dir / f"{name}.yaml")
+        emit_md(doc, out_dir / f"{name}.md")
 
-    print(f"Wrote {len(modules)} module YAMLs to {out_dir.relative_to(REPO_ROOT)}/")
+    try:
+        rel = out_dir.relative_to(REPO_ROOT)
+        print(f"Wrote {len(modules)} module markdowns to {rel}/")
+    except ValueError:
+        print(f"Wrote {len(modules)} module markdowns to {out_dir}/")
     if dropped:
         print(f"  (skipped {dropped} property declarations identical to an ancestor's)")
     return 0
