@@ -297,11 +297,22 @@ Each sub-block has the same shape:
 
 ```yaml
 <sub-key>:
-  probed: <original value the probe captured> # optional for name refinements without prior name
+  probed: <original value the probe captured> # optional — omit when there's nothing to compare against
   confidence: high | medium | low # required for typed refinements; omitted for name renames
   sources:
     - "[<tag>] <evidence>"
 ```
+
+`probed:` is **only present when the probe captured a value the refinement is narrowing-away-from**. Some cases:
+
+- **Refining `type:` on a property/return.** Always carries `probed:` — the probe captured a wider or wrong type that's
+  being narrowed (e.g., `Chain.devices: Vector[LomObject]` → `Vector[Device]` has `probed: Vector[LomObject]`).
+- **Refining `name:` on a method arg.** Carries `probed:` to document the rename source (`arg2 → index`,
+  `probed: arg2`). Informational rather than a correction signal — the rename adds clarity over Boost.Python's
+  auto-generated `argN`, it doesn't fix wrongness.
+- **Refining `element_type:` on a concrete-vector property.** Often omits `probed:` because the probe sees the concrete
+  container class (`UnavailableFeatureVector`) but no element type — `element_type` is purely added information, not
+  refined-away-from anything.
 
 Example — property with a type refinement:
 
