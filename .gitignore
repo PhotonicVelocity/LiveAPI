@@ -7,9 +7,11 @@ dist/
 release/
 .env
 
-# Stubs — track Live/ output, ignore pipeline intermediates and symlinks
-stubs/*/pipeline/
-stubs/*/Log.txt
+# Probe pipeline intermediates — raw probe JSON outputs rebuild from a
+# Live capture run; we don't commit them. Log.txt is from the apicapture
+# Remote Script's runtime log.
+probe/*/pipeline/
+probe/*/Log.txt
 
 # External sources fetched by tools/fetch_external/
 # - corpus/             cloned from gluon/AbletonLive12_MIDIRemoteScripts at CORPUS_PIN

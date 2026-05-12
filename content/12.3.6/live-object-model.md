@@ -1,6 +1,5 @@
 ---
 title: Live Object Model
-slug: live-object-model
 include_module: LomObject
 sidebar_badge: core
 _note: |

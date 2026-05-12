@@ -3,7 +3,7 @@ module: LomObject
 _note: |-
   Module-level prose (intro, lifetime/identity model, collections) and
   the "Live Object Model" page title now live in
-  `stubs/12.3.6/foundation/lom-object.md`. That foundation page pulls
+  `content/12.3.6/live-object-model.md`. That foundation page pulls
   this module's structural content (`Live.LomObject.LomObject` class +
   `_live_ptr` / `canonical_parent` properties) in via its
   `include_module: LomObject` frontmatter directive.

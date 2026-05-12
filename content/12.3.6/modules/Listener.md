@@ -3,7 +3,7 @@ module: Listener
 _note: |-
   Module-level prose (subscription model, lifetime, threading, listener-only
   triplets) and the "Listeners" page title now live in
-  `stubs/12.3.6/foundation/listeners.md`. That foundation page pulls this
+  `content/12.3.6/listeners.md`. That foundation page pulls this
   module's structural content (`ListenerHandle` + `ListenerVector`) in via
   its `include_module: Listener` frontmatter directive.
 ---

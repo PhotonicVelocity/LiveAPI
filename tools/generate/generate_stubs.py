@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build .pyi stub files from per-module LOM markdown.
 
-Reads stubs/<v>/modules/*.md (the curated SOT) via the markdown parser
+Reads content/<v>/modules/*.md (the curated SOT) via the markdown parser
 + legacy-shape adapter and emits .pyi stubs. Wherever a member's fenced
 YAML block carries a sibling `<field>_override:` block, the override's
 `value:` is preferred over the parser-derived field — that's the seam
@@ -646,14 +646,14 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
 def main() -> int:
     p = argparse.ArgumentParser(description=(__doc__ or "").split("\n\n")[0])
     p.add_argument("version", help="Live version (e.g. 12.3.6)")
-    p.add_argument("--input", help="modules markdown dir (default: stubs/<v>/modules)")
+    p.add_argument("--input", help="modules markdown dir (default: content/<v>/modules)")
     p.add_argument("--output", help="output dir for .pyi files")
     args = p.parse_args()
 
     md_dir = (
         Path(args.input)
         if args.input
-        else REPO_ROOT / "stubs" / args.version / "modules"
+        else REPO_ROOT / "content" / args.version / "modules"
     )
     out_dir = (
         Path(args.output).resolve()

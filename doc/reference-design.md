@@ -64,7 +64,7 @@ A record carries:
   a `Notes:` section.
 - **Refinement metadata** — when an override narrows a type, the rationale
   (`source:` and `confidence:` from the `<field>_override:` block in
-  `stubs/<v>/modules/*.md`) surfaces in the reference so readers see _why_ a type
+  `content/<v>/modules/*.md`) surfaces in the reference so readers see _why_ a type
   was narrowed. Invisible from the stub itself.
 - **Verified-against** — the Live version the assertions were last verified
   against. Surfaces drift across version bumps.
@@ -182,7 +182,7 @@ introduces a garden-path reading, keep the word. Telegraphic ≠ cryptic.
 This doc deliberately doesn't decide:
 
 - **Sidecar storage format.** Per-member files vs single shared file vs
-  embedded as additional override-style fields in `stubs/<v>/modules/*.md`.
+  embedded as additional override-style fields in `content/<v>/modules/*.md`.
   Affects authoring ergonomics and merge-conflict surface.
 - **Stub docstring rendering style.** Replace runtime `__doc__` outright, or
   prepend authored prose with the runtime text below, or keep `__doc__` and

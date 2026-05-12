@@ -24,7 +24,7 @@ Treats the stubs as source code and runs pyright on them. Catches:
 
 Does **not** catch types that are syntactically valid but semantically wrong (e.g.,
 `Iterable[MidiNoteSpecification]` claimed when the binding requires `MidiNoteVector`). That class of
-accuracy issue is addressed by hand-curated `<field>_override:` blocks in `stubs/<v>/modules/*.md` (inside
+accuracy issue is addressed by hand-curated `<field>_override:` blocks in `content/<v>/modules/*.md` (inside
 each member's fenced YAML), each carrying a per-override `source:` rationale.
 
 **Tracking only.** Currently zero errors (post-cleanup baseline). `--strict` mode promotes Tier 2 to a
