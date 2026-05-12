@@ -6,13 +6,13 @@ Three-stage pipeline for capturing Live API metadata and generating typed Python
 Stage 1: Capture + Probe  (inside Live)        → LiveTree.raw.json + LiveClasses.json
 - Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
 - Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
-Stage 2: Parse + YAML seed (external)          → LiveTree.parsed.v2.json + stubs/<v>/reports/seed/*.yaml
+Stage 2: Parse + markdown seed (external)      → LiveTree.parsed.v2.json + stubs/<v>/reports/seed/*.md
 - Parses raw capture into a structured tree (LiveTree.parsed.v2.json)
-- Builds the per-module YAML seed under stubs/<v>/reports/seed/, applying algorithmic
+- Builds the per-module markdown seed under stubs/<v>/reports/seed/, applying algorithmic
   decisions (type qualification, optional widening, enum widening, listener-triplet folding,
   parametric-container detection)
 Stage 3: Generate         (external)           → stubs/<version>/Live/*.pyi
-- Reads stubs/<v>/lom/*.yaml (the hand-curated SOT — seed + sibling <field>_override: blocks)
+- Reads stubs/<v>/modules/*.md (the curated SOT — seed + sibling <field>_override: blocks)
   and emits .pyi stubs. The override mechanism is the seam through which manual refinements
   reach the rendered output.
 ```
@@ -160,27 +160,28 @@ older Live runtimes (e.g. Live 11's Python 3.7.3) without raising `TypeError` at
 publishing tracks Live 12.x only, but the apicapture pipeline still runs against 11.x via
 `tools/sets/Set 11 Project/`.
 
-## Stage 2: Parse + YAML seed (runs outside Live)
+## Stage 2: Parse + markdown seed (runs outside Live)
 
 The pipeline is intentionally minimal — see [doc/decisions.md "Stub Accuracy and Pipeline
 Posture"](../doc/decisions.md#stub-accuracy-and-pipeline-posture) for the rationale. Two scripts: parse the raw capture
-into a structured tree, then build a per-module YAML seed that captures every algorithmic decision before any human
+into a structured tree, then build a per-module markdown seed that captures every algorithmic decision before any human
 override.
 
 ```bash
 python tools/parse/run_parse_pipeline.py 12.3.6
 # Equivalent to:
 #   python tools/parse/parse_apicapture_results_v2.py 12.3.6
-#   python tools/parse/build_lom_yaml.py 12.3.6
+#   python tools/parse/build_lom_md.py 12.3.6
 ```
 
 Output: `stubs/12.3.6/pipeline/LiveTree.parsed.v2.json` (parsed tree) and
-`stubs/12.3.6/reports/seed/<Module>.yaml` (per-module YAML seed — the algorithmic baseline for each module).
+`stubs/12.3.6/reports/seed/<Module>.md` (per-module markdown seed — the algorithmic baseline for each module).
 
-The hand-curated SOT lives in `stubs/12.3.6/lom/<Module>.yaml`. It started as a copy of `seed/` and now carries
-sibling `<field>_override:` blocks where humans have tightened types, renamed args, or qualified iterable element
-types. `seed/` regenerates freely on each Stage 2 run; `lom/` is only resynced from `seed/` at intentional checkpoints
-(no automatic flow). Diff `seed/` against `lom/` to see exactly which facts have been hand-touched.
+The curated SOT lives in `stubs/12.3.6/modules/<Module>.md`. It started as a copy of `seed/` and now carries
+sibling `<field>_override:` blocks (inside the fenced YAML for each member) where humans have tightened types, renamed
+args, or qualified iterable element types. `seed/` regenerates freely on each Stage 2 run; `modules/` is only resynced
+from `seed/` at intentional checkpoints (no automatic flow). Diff `seed/` against `modules/` to see exactly which facts
+have been hand-touched.
 
 ### parse_apicapture_results_v2.py
 
@@ -199,10 +200,12 @@ Transforms applied:
 - **Signature parsing** — splits Python/C++ signatures into matched args/returns
 - **Type resolution** — resolves raw signature parts into clean structured args/returns using a C++ → Python type map
 
-### build_lom_yaml.py
+### build_lom_md.py
 
-Reads `LiveTree.parsed.v2.json` and emits one YAML per top-level Live module under `stubs/<v>/reports/seed/`. The
-algorithmic decisions live here — anything a human shouldn't have to make explicit:
+Reads `LiveTree.parsed.v2.json` and emits one markdown file per top-level Live module under `stubs/<v>/reports/seed/`.
+Internally it builds a per-module dict and serializes via `md_emit.convert()` — the same emitter used at intentional
+sync points to refresh the curated SOT. Algorithmic decisions live here — anything a human shouldn't have to make
+explicit:
 
 - Type qualification (`Track` → `Live.Track.Track`)
 - Optional widening (`T` + `default=None` → `T | None`)
@@ -210,10 +213,9 @@ algorithmic decisions live here — anything a human shouldn't have to make expl
 - Enum-from-default inference (bare `int` arg with default `Module.Enum.member` → `Enum | int`)
 - Listener-triplet folding (`add_*_listener`/`remove_*_listener`/`*_has_listener` collapsed under the property)
 - Parametric-container detection (Generic[T] for the abstract `Live.Base.Vector`)
-- Layout: blank lines between sections and list items for readability
 
-Format spec: [doc/lom-format.md](../doc/lom-format.md). The override pattern (`<field>_override:` siblings) is what
-the curated `lom/` layer adds on top of the seed.
+Format spec: [doc/lom-format.md](../doc/lom-format.md). The override pattern (`<field>_override:` siblings inside each
+member's fenced YAML) is what the curated `modules/` layer adds on top of the seed.
 
 ## Stage 3: Generate Stubs (runs outside Live)
 
@@ -221,9 +223,9 @@ the curated `lom/` layer adds on top of the seed.
 python tools/generate/generate_stubs.py 12.3.6
 ```
 
-Reads `stubs/<v>/lom/*.yaml` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator is mechanical —
+Reads `stubs/<v>/modules/*.md` and emits `.pyi` stub files in `stubs/<version>/Live/`. The generator is mechanical —
 it picks `<field>_override.value` when present, else falls back to the parser-derived field. No type inference,
-no narrowing decisions. Renders what the YAML says.
+no narrowing decisions. Renders what the markdown says.
 
 Output layout (flat, mirroring the real `Live` C extension module):
 
@@ -253,13 +255,15 @@ tools/
 │   │   └── DeviceProbe.py     Tick-driven device probing
 │   └── helpers/
 │       └── app.py           Version number extraction
-├── parse/                   Stage 2: parser + LOM YAML seed builder
+├── parse/                   Stage 2: parser + LOM markdown seed builder
 │   ├── parse_apicapture_results_v2.py   Parse raw capture → LiveTree.parsed.v2.json
-│   ├── build_lom_yaml.py                Build per-module YAML seed → stubs/<v>/reports/seed/*.yaml
+│   ├── build_lom_md.py                  Build per-module markdown seed → stubs/<v>/reports/seed/*.md
+│   ├── md_emit.py                       Markdown emitter (used by build_lom_md and one-off conversion)
+│   ├── parse_module_md.py               Markdown parser + legacy-shape adapter (consumed by generators)
 │   └── run_parse_pipeline.py            Orchestrator (parse + build)
 ├── generate/                Stage 3: stub + reference generation
-│   ├── generate_stubs.py         Read stubs/<v>/lom/*.yaml → emit .pyi
-│   └── generate_reference.py            Reference-doc generator (pending lom/ port)
+│   ├── generate_stubs.py         Read stubs/<v>/modules/*.md → emit .pyi
+│   └── generate_reference.py     Read stubs/<v>/modules/*.md → emit Starlight MDX
 ├── verify/                  Verification — pyright audit + corpus consistency checks
 │   ├── run.sh                        Orchestrator (Tiers 1-4)
 │   ├── parse_check.py                Tier 1: ast.parse over every .pyi

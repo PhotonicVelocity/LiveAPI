@@ -8,9 +8,9 @@
 
 ## Phase 0: where we are today
 
-- Capture + parse + lom-build pipeline producing `stubs/<v>/lom/*.yaml`
+- Capture + parse + lom-build pipeline producing `stubs/<v>/modules/*.md`
   (the curated SOT — algorithmic seed plus sibling `<field>_override:` blocks).
-- Stubs generated from `lom/` via `generate_stubs.py`, including
+- Stubs generated from `modules/` via `generate_stubs.py`, including
   parser-side enum widening, optional widening, listener-triplet folding,
   parametric-container detection, and the override mechanism.
 - Stub docstrings = runtime Boost.Python `__doc__` strings, verbatim.
@@ -22,15 +22,15 @@ covered at all.
 
 ## Phase 1 — Reference v0: render what we already know
 
-**Goal.** Resurface a published reference site, but driven from the lom YAML
-SOT this time (not AST-parsing the `.pyi` like the old generator did). Pure
-mechanical translation of what the parser already knows; no human-authored
-content yet.
+**Goal.** Resurface a published reference site, but driven from the curated
+markdown SOT this time (not AST-parsing the `.pyi` like the old generator
+did). Pure mechanical translation of what the parser already knows; no
+human-authored content yet.
 
 **What lands.**
 
 - `tools/generate/generate_reference.py` ported from the legacy
-  `LiveTree.refined.json` input to read `stubs/<v>/lom/*.yaml` directly.
+  `LiveTree.refined.json` input to read `stubs/<v>/modules/*.md` directly.
   Eliminates the duplicate-parse logic the audit flagged.
 - Per-class markdown pages with: title, full path, type signatures,
   property/method/enum tables, `Access via` cross-reference list, runtime
@@ -65,12 +65,12 @@ work tossed; Starlight project lives at `web/`.
 
 The generator is built up incrementally — each step is its own commit-sized
 change, each step's output is independently shippable. Earlier steps consume
-just the structural surface from the lom YAML; later steps add detail until
-everything in `stubs/<v>/lom/*.yaml` (parser-derived fields plus override
-blocks) flows through to the rendered page.
+just the structural surface from the module markdown; later steps add detail
+until everything in `stubs/<v>/modules/*.md` (parser-derived fields plus
+override blocks) flows through to the rendered page.
 
 Status: **Phase 1 complete.** All 14 steps shipped — every field in
-`stubs/<v>/lom/*.yaml` flows through to the rendered page.
+`stubs/<v>/modules/*.md` flows through to the rendered page.
 Foundation pages for the LOM, Listeners, Calling conventions, and
 Remote scripts hoisted above the alphabetical Modules group in the
 sidebar. Per-class cross-reference ("Returned by") sections render
@@ -222,7 +222,7 @@ was hand-refined away from the parser-derived default.
   so method anchors (`-&gt;` in source) match the rendered-page slug
   Starlight generates from `->`.
 
-**Phase 1 is complete.** Every field in `stubs/<v>/lom/*.yaml`
+**Phase 1 is complete.** Every field in `stubs/<v>/modules/*.md`
 (parser-derived fields plus override blocks) flows through to the
 rendered page. Phase 2's authored prose / hypothesis records is the
 next layer — content, not infrastructure.
@@ -258,7 +258,7 @@ plumbing, with humans as the only verifier."
   level for now), quirks, verified-against (still version-tagged, just
   empty-handed).
 - Storage convention decided. Lean: per-class file in
-  `doc/records/<Class>.yaml`, parallel to `stubs/<v>/lom/<Module>.yaml`.
+  `doc/records/<Class>.yaml`, parallel to `stubs/<v>/modules/<Module>.md`.
 - Validator script run in CI: ensures every record refers to a real symbol
   in the lom YAML, schema is well-formed, no duplicate IDs.
 - Reference generator extended to read records. Authored description
@@ -385,7 +385,7 @@ phase once the probe is doing real verification work.
 These are concerns that thread through multiple phases; flagged here so they
 don't get rediscovered as surprises later.
 
-- **`__init__` constructor handling.** `build_lom_yaml.py` now synthesizes
+- **`__init__` constructor handling.** `build_lom_md.py` now synthesizes
   an `__init__` method from `init_doc:` for constructable classes (or
   `(self) -> None` when none parses), and `generate_stubs.py` renders it.
   Authored prose for constructors (the doc-side concern) still rides on

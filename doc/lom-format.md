@@ -4,9 +4,8 @@ Per-module markdown schema for the Live Object Model. One file per top-level Liv
 `stubs/<v>/modules/<Module>.md`. The format is the **authoring midpoint** in a two-stage transformation pipeline; humans
 edit only this midpoint, and two downstream generators project it into the shipped artifacts.
 
-> **Status.** Format spec only. Implementation is in progress on branch `class-markdown-format`. The active generators
-> still read the previous YAML format at `stubs/<v>/lom/<Module>.yaml`; the migration plan is described in the
-> "Migration path" section below.
+> **Status.** Live. The probe pipeline emits markdown directly, and both generators read `stubs/<v>/modules/<Module>.md`
+> as their only input. The legacy YAML format has been retired.
 
 ## Pipeline
 
@@ -512,21 +511,7 @@ def parse_module_md(path: Path) -> dict:
     """
 ```
 
-Output shape is what the two generators consume; neither generator's downstream code changes when the loader is swapped.
-
-## Migration path
-
-Five phases:
-
-1. **Format lock.** Format conventions defined by this document — the "Anatomy of a class entry" section is the
-   canonical reference.
-2. **Parser.** Write `parse_module_md.py` producing the in-memory shape current generators consume.
-3. **Dual-format loader in both generators.** Read either `lom/*.yaml` or `modules/*.md`; markdown wins when both exist.
-   Lets conversions land incrementally without holding the repo hostage.
-4. **Bulk conversion.** Auto-generate markdown from existing YAMLs (mechanical translation of structure, preservation of
-   authored prose). Manual review per file. Drop YAML as each module converts.
-5. **Sunset YAML.** Once all modules converted, remove the YAML branch from both generators and from the probe pipeline.
-   The probe step writes markdown directly.
+Output shape is what the two generators consume.
 
 ## Open questions
 
@@ -535,10 +520,3 @@ Five phases:
 - **`raw_doc:` field placement at class level** — currently in the class's fenced YAML block (`raw_doc:` field). Equally
   workable in the file's top frontmatter. Class-fenced wins for consistency with member-level placement; the file
   frontmatter stays for module-level identity only.
-- **Probe pipeline output format** — Phase 5. Today the probe emits two parallel YAML files: the human-curated
-  `stubs/<v>/lom/<Module>.yaml` and the algorithmic baseline `stubs/<v>/reports/seed/<Module>.yaml`. A diff between them
-  is the drift-detection signal — expected diffs reflect intentional overrides; unexpected diffs flag that Live's
-  runtime changed since the last probe and a human needs to revisit. In Phase 5 the probe stops emitting YAML and emits
-  markdown directly to `stubs/<v>/reports/seed/<Module>.md` (or equivalent path). The drift workflow becomes a
-  markdown-vs-markdown diff against the curated `stubs/<v>/modules/<Module>.md` — same role, one format throughout. The
-  YAML branch of the toolchain retires after this lands.

@@ -2,7 +2,7 @@
 
 Scrapes the Live Object Model reference pages and saves them as markdown files
 under `external/max-for-live-docs/<version>/`. Used as one of the source-of-truth
-inputs cited by `<field>_override.source` blocks in `stubs/<v>/lom/*.yaml`.
+inputs cited by `<field>_override.source` blocks in `stubs/<v>/modules/*.md`.
 
 Supports two modes:
   - Current (Max 9+): per-class pages at /apiref/lom/<class>/

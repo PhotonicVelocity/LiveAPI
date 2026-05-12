@@ -64,7 +64,7 @@ A record carries:
   a `Notes:` section.
 - **Refinement metadata** — when an override narrows a type, the rationale
   (`source:` and `confidence:` from the `<field>_override:` block in
-  `stubs/<v>/lom/*.yaml`) surfaces in the reference so readers see _why_ a type
+  `stubs/<v>/modules/*.md`) surfaces in the reference so readers see _why_ a type
   was narrowed. Invisible from the stub itself.
 - **Verified-against** — the Live version the assertions were last verified
   against. Surfaces drift across version bumps.
@@ -182,7 +182,7 @@ introduces a garden-path reading, keep the word. Telegraphic ≠ cryptic.
 This doc deliberately doesn't decide:
 
 - **Sidecar storage format.** Per-member files vs single shared file vs
-  embedded as additional override-style fields in `stubs/<v>/lom/*.yaml`.
+  embedded as additional override-style fields in `stubs/<v>/modules/*.md`.
   Affects authoring ergonomics and merge-conflict surface.
 - **Stub docstring rendering style.** Replace runtime `__doc__` outright, or
   prepend authored prose with the runtime text below, or keep `__doc__` and
@@ -194,8 +194,8 @@ This doc deliberately doesn't decide:
   multiple members (warp-marker slope rule applies across `add` / `move` /
   `remove`); should the prose live once at the class level and be referenced,
   or duplicate-for-locality at each member?
-- **Constructor (`__init__`) coverage.** `build_lom_yaml.py` now synthesizes
+- **Constructor (`__init__`) coverage.** `build_lom_md.py` now synthesizes
   an `__init__` method from `init_doc` for constructable classes (or
-  `(self) -> None` when none is present), so this is wired into the lom
-  YAML and the stubs. Reference rendering of authored constructor prose
+  `(self) -> None` when none is present), so this is wired into the module
+  markdown and the stubs. Reference rendering of authored constructor prose
   remains an open layout question.
