@@ -656,6 +656,11 @@ def main() -> int:
         if args.input
         else REPO_ROOT / "stubs" / args.version / "lom"
     )
+    # Dual-format loader (migration phase 3): if a sibling `modules/`
+    # dir contains `<Module>.md`, that markdown is the source of truth
+    # and we parse it instead of the YAML. The legacy YAML branch
+    # stays in place for modules not yet converted.
+    md_dir = seed_dir.parent / "modules"
     out_dir = (
         Path(args.output).resolve()
         if args.output
@@ -672,10 +677,30 @@ def main() -> int:
     # resets the per-module accumulators.
     registry: dict[str, Any] = {}
 
+    # Build a set of module names that have markdown form available so
+    # the per-module loop can prefer markdown over yaml.
+    md_modules: set[str] = set()
+    if md_dir.exists():
+        md_modules = {p.stem for p in md_dir.glob("*.md")}
+
+    def _load_module(yaml_path: Path) -> dict:
+        """Prefer the markdown source when present; fall back to YAML."""
+        module_name = yaml_path.stem
+        if module_name in md_modules:
+            # Sibling-script import: tools/ isn't a package, so add the
+            # parse dir to sys.path and import by module name.
+            parse_dir = str(REPO_ROOT / "tools" / "parse")
+            if parse_dir not in sys.path:
+                sys.path.insert(0, parse_dir)
+            from parse_module_md import parse_module_md, to_legacy_shape
+            md_path = md_dir / f"{module_name}.md"
+            return to_legacy_shape(parse_module_md(md_path))
+        return yaml.safe_load(yaml_path.read_text())
+
     written = 0
     all_module_names: list[str] = []
     for path in sorted(seed_dir.glob("*.yaml")):
-        module = yaml.safe_load(path.read_text())
+        module = _load_module(path)
         # Foundation pages (e.g. `CallingConventions.yaml`,
         # `RemoteScripts.yaml`) are docs-only lom YAMLs — pure prose,
         # no `primary_class:` / `classes:` / `enums:` / `functions:` /
