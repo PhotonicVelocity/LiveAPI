@@ -1,8 +1,15 @@
 ---
 title: Live Object Model
-description: "The Live Object Model (LOM) is the tree of objects that comprises Live's runtime API — Sets, tracks, clips, devices, parameters, scenes, views — exposed with **properties** to read state, **methods** to drive behavior, and **parent / child relations** that form a navigable hierarchy."
-sidebar:
-  hidden: true
+slug: live-object-model
+include_module: LomObject
+sidebar_badge: core
+_note: |
+  Foundation page for the LOM. Every LOM class signature on every
+  other module page renders a clickable `LomObject` badge linking
+  here (see `lom_badge_html` in `tools/generate/generate_reference.py`).
+  Hoisted above the alphabetical Modules group in the sidebar (see
+  `web/astro.config.mjs`). The class itself (`Live.LomObject.LomObject`)
+  is appended below this prose via the `include_module:` directive.
 ---
 
 The Live Object Model (LOM) is the tree of objects that comprises
@@ -78,38 +85,3 @@ container patterns:
 Both behave identically at the Python level — read-only, iterable,
 indexable. See [`Live.Base.Vector`](/LiveAPI/modules/base/#vector)
 for the specific rule and one observed exception.
-
-
-### <span class="sig"><span class="sig-name" data-path="Live.LomObject.">LomObject</span></span>
-
-<details class="raw-doc-toggle" open>
-<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
-
-<div class="raw-doc">
-
-this is the base class for an object that is accessible via the LOM
-
-</div>
-
-</details>
-
-#### Properties
-
-##### _live_ptr<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
-
-##### canonical_parent<span class="prop-type">: <a href="/LiveAPI/modules/lomobject/#lomobject" title="LomObject">LomObject</a> | None</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
-
-<div class="member-desc">
-
-<details class="raw-doc-toggle" open>
-<summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
-
-<div class="raw-doc">
-
-Get the canonical parent — the structural owner one step up the LOM tree.
-
-</div>
-
-</details>
-
-</div>

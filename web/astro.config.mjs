@@ -40,7 +40,7 @@ export default defineConfig({
         // threading rules), not the LOM itself.
         {
           label: "Remote scripts",
-          link: "/modules/remotescripts/",
+          link: "/remote-scripts/",
           badge: { text: "core", variant: "tip" },
         },
         {
@@ -48,11 +48,11 @@ export default defineConfig({
           badge: { text: "core", variant: "tip" },
           collapsed: false,
           items: [
-            { label: "Overview", link: "/modules/lomobject/" },
-            { label: "Listeners", link: "/modules/listener/" },
+            { label: "Overview", link: "/live-object-model/" },
+            { label: "Listeners", link: "/listeners/" },
             {
               label: "Calling conventions",
-              link: "/modules/callingconventions/",
+              link: "/calling-conventions/",
             },
             {
               label: "Modules",

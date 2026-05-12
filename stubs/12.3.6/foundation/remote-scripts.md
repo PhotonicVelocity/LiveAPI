@@ -1,8 +1,12 @@
 ---
 title: Remote scripts
-description: "A Remote Script is a Python module Live loads at startup to drive external integrations — MIDI controllers, custom control surfaces, network bridges."
-sidebar:
-  hidden: true
+slug: remote-scripts
+sidebar_badge: core
+_note: |
+  Foundation page describing the runtime model that wraps every
+  interaction with the LOM — not a class reference. Hoisted above
+  the alphabetical Modules group in the sidebar (see
+  `web/astro.config.mjs`).
 ---
 
 A Remote Script is a Python module Live loads at startup to drive
@@ -228,4 +232,3 @@ Pre-existing wired-up callbacks (Live listeners, scheduled
 messages) survive a `disconnect()` only if your `disconnect()`
 releases them — leak audits are a development-time
 responsibility.
-

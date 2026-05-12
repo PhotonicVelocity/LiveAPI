@@ -9,7 +9,7 @@ libraries, and the current project. The `Browser` class lets scripts walk
 these libraries and load any browsable item into a track or device chain.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Browser.">Browser</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Browser.">Browser</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -133,7 +133,7 @@ Returns a browser item with access to all the Drums content.
 
 </div>
 
-##### filter_type<span class="prop-type">: <a href="/LiveAPI/modules/browser/#filtertype" title="FilterType">FilterType</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `FilterType` enum in the same module (Browser); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### filter_type<span class="prop-type">: <a href="/LiveAPI/modules/browser/#filtertype" title="FilterType">FilterType</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-schema">schema</span> `FilterType` enum in the same module (Browser); property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -150,7 +150,7 @@ Bang triggered when the hotswap target has changed.
 
 </div>
 
-##### hotswap_target<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> reads `hotswap_target` as a `Device`: Push2/browser_component.py:538 does `self._browser.hotswap_target.selected_preset_index = ...`, where `selected_preset_index` is a Device-side attribute. `None` when no hotswap is active.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`, which would suggest BrowserItem; corpus pattern contradicts that for the property's runtime type.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### hotswap_target<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a> | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> reads `hotswap_target` as a `Device`: Push2/browser_component.py:538 does `self._browser.hotswap_target.selected_preset_index = ...`, where `selected_preset_index` is a Device-side attribute. `None` when no hotswap is active.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> sister `relation_to_hotswap_target` takes `NPythonBrowser::TPythonBrowserItem`, which would suggest BrowserItem; corpus pattern contradicts that for the property's runtime type.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -322,7 +322,7 @@ Returns a browser item with access to all the User Library content.
 
 #### Listener Only
 
-##### full_refresh<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+##### full_refresh<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/#listener-only-triplets" title="Listener-only triplet — see Listeners for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
 <div class="listener-only-triplet"><span class="listener-only-method">add_full_refresh_listener</span>  ·  <span class="listener-only-method">remove_full_refresh_listener</span>  ·  <span class="listener-only-method">full_refresh_has_listener</span></div>
 
@@ -337,7 +337,7 @@ typically after a library scan or plugin rescan.
 
 ##### load_item()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -356,7 +356,7 @@ Loads the provided browser item.
 
 ##### preview_item()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -375,7 +375,7 @@ Previews the provided browser item.
 
 ##### relation_to_hotswap_target()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/browser/#relation" title="Relation">Relation</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">item</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/browser/#relation" title="Relation">Relation</a></div></div></div>
 
 <div class="member-desc">
 
@@ -675,11 +675,11 @@ A container for returning browser items from Live.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/browser/#browseritem" title="BrowserItem">BrowserItem</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 3 members elsewhere in the LOM</summary>

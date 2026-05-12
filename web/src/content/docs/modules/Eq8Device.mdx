@@ -8,7 +8,7 @@ The `Eq8Device` class extends `Device` with the per-band frequency, gain,
 and Q controls plus EQ Eight's analyzer state.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Eq8Device.">Eq8Device</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/device/#device" data-base="Device" aria-label="Device"></a></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Eq8Device.">Eq8Device</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/device/#device" data-base="Device" aria-label="Device"></a></span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -154,7 +154,7 @@ Return the type of the device.
 
 </details>
 
-##### edit_mode<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### edit_mode<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -171,7 +171,7 @@ Access to Eq8's edit mode.
 
 </div>
 
-##### global_mode<span class="prop-type">: <a href="/LiveAPI/modules/eq8device/#globalmode" title="GlobalMode">GlobalMode</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> `GlobalMode` enum in same module (Eq8Device). Property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### global_mode<span class="prop-type">: <a href="/LiveAPI/modules/eq8device/#globalmode" title="GlobalMode">GlobalMode</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> `GlobalMode` enum in same module (Eq8Device). Property name is a direct snake-case match.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -273,7 +273,7 @@ Return access to the name of the device.
 
 </div>
 
-##### oversample<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### oversample<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -348,7 +348,7 @@ Saves the current state of the device to the compare AB slot. Only relevant if c
 
 ##### store_chosen_bank()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -373,7 +373,7 @@ Set the selected bank in the device for persistency.
 
 ## Other classes
 
-### <span class="sig"><span class="sig-name" data-path="Live.Eq8Device.">Eq8Device.View</span><span class="sig-base"><span class="sig-base-text" data-base="View" aria-label="View"></span></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Eq8Device.">Eq8Device.View</span><span class="sig-base"><span class="sig-base-text" data-base="View" aria-label="View"></span></span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -429,7 +429,7 @@ Get/Set/Listen if the device is shown collapsed in the device chain.
 
 </div>
 
-##### selected_band<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### selected_band<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
