@@ -9,7 +9,7 @@ properties are supported by every track type, and individual members are
 marked accordingly.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/track/#devicecontainer" data-base="DeviceContainer" aria-label="DeviceContainer"></a></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/track/#devicecontainer" data-base="DeviceContainer" aria-label="DeviceContainer"></a></span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -48,7 +48,7 @@ Get the canonical parent of the track.
 
 </details>
 
-##### arm<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### arm<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -65,7 +65,7 @@ Arm the track for recording. Not available for Main- and Send Tracks.
 
 </div>
 
-##### arrangement_clips<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### arrangement_clips<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -82,7 +82,7 @@ const access to the list of clips in arrangement viewThe list will be empty for 
 
 </div>
 
-##### available_input_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### available_input_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -99,7 +99,7 @@ Return a list of source channels for input routing.
 
 </div>
 
-##### available_input_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### available_input_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -116,7 +116,7 @@ Return a list of source types for input routing.
 
 </div>
 
-##### available_output_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### available_output_routing_channels<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannelvector" title="RoutingChannelVector">RoutingChannelVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -133,7 +133,7 @@ Return a list of destination channels for output routing.
 
 </div>
 
-##### available_output_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### available_output_routing_types<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtypevector" title="RoutingTypeVector">RoutingTypeVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -150,7 +150,7 @@ Return a list of destination types for output routing.
 
 </div>
 
-##### back_to_arranger<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### back_to_arranger<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -218,7 +218,7 @@ return True, if this Track contains a rack instrument device that is capable of 
 
 </div>
 
-##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -235,7 +235,7 @@ const access to the list of clipslots (see class AClipSlot) for this track. The 
 
 </div>
 
-##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -252,7 +252,7 @@ Get/set access to the color of the Track (RGB).
 
 </div>
 
-##### color_index<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color_index<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -269,7 +269,7 @@ Get/Set access to the color index of the track. Can be None for no color.
 
 </div>
 
-##### current_input_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### current_input_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -286,7 +286,7 @@ Get/Set the name of the current active input routing. When setting a new routing
 
 </div>
 
-##### current_input_sub_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### current_input_sub_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -303,7 +303,7 @@ Get/Set the current active input sub routing. When setting a new routing, the ne
 
 </div>
 
-##### current_monitoring_state<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### current_monitoring_state<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -320,7 +320,7 @@ Get/Set the track's current monitoring state.
 
 </div>
 
-##### current_output_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### current_output_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -337,7 +337,7 @@ Get/Set the current active output routing. When setting a new routing, the new r
 
 </div>
 
-##### current_output_sub_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### current_output_sub_routing<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -354,7 +354,7 @@ Get/Set the current active output sub routing. When setting a new routing, the n
 
 </div>
 
-##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/device/#device" title="Device">Device</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/device/#device" title="Device">Device</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -371,7 +371,7 @@ Return const access to all available Devices that are present in the Tracks Devi
 
 </div>
 
-##### fired_slot_index<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### fired_slot_index<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -422,7 +422,7 @@ return the group track if is_grouped.
 
 </div>
 
-##### has_audio_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### has_audio_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -439,7 +439,7 @@ return True, if this Track can be feed with an Audio signal. This is true for al
 
 </div>
 
-##### has_audio_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### has_audio_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -456,7 +456,7 @@ return True, if this Track sends out an Audio signal. This is true for all Audio
 
 </div>
 
-##### has_midi_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### has_midi_input<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -473,7 +473,7 @@ return True, if this Track can be feed with an Audio signal. This is true for al
 
 </div>
 
-##### has_midi_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### has_midi_output<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -490,7 +490,7 @@ return True, if this Track sends out MIDI events. This is true for all MIDI Trac
 
 </div>
 
-##### implicit_arm<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### implicit_arm<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -507,7 +507,7 @@ Arm the track for recording. When The track is implicitly armed, it showsin a we
 
 </div>
 
-##### input_meter_left<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_meter_left<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -524,7 +524,7 @@ Momentary value of left input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 </div>
 
-##### input_meter_level<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_meter_level<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -541,7 +541,7 @@ Return the MIDI or Audio meter value of the Tracks input, depending on the type 
 
 </div>
 
-##### input_meter_right<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_meter_right<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -558,7 +558,7 @@ Momentary value of right input channel meter, 0.0 to 1.0. For Audio Tracks only.
 
 </div>
 
-##### input_routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -575,7 +575,7 @@ Get and set the current source channel for input routing. Raises ValueError if t
 
 </div>
 
-##### input_routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -592,7 +592,7 @@ Get and set the current source type for input routing. Raises ValueError if the 
 
 </div>
 
-##### input_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -609,7 +609,7 @@ Const access to the list of available input routings.
 
 </div>
 
-##### input_sub_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### input_sub_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -643,7 +643,7 @@ return True if the track can be (un)folded to hide/reveal contained tracks.
 
 </div>
 
-##### is_frozen<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_frozen<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -694,7 +694,7 @@ return False if the track is not selected.
 
 </div>
 
-##### is_showing_chains<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_showing_chains<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -745,7 +745,7 @@ Return access to the special Device that every Track has: This Device contains t
 
 </div>
 
-##### mute<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### mute<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -762,7 +762,7 @@ Mute/unmute the track.
 
 </div>
 
-##### muted_via_solo<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### muted_via_solo<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -779,7 +779,7 @@ Returns true if the track is muted because another track is soloed.
 
 </div>
 
-##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -796,7 +796,7 @@ Read/write access to the name of the Track, as visible in the track header.
 
 </div>
 
-##### output_meter_left<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_meter_left<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -813,7 +813,7 @@ Momentary value of left output channel meter, 0.0 to 1.0. For tracks with audio 
 
 </div>
 
-##### output_meter_level<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_meter_level<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -830,7 +830,7 @@ Return the MIDI or Audio meter value of the Track output (behind the mixer_devic
 
 </div>
 
-##### output_meter_right<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_meter_right<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -847,7 +847,7 @@ Momentary value of right output channel meter, 0.0 to 1.0. For tracks with audio
 
 </div>
 
-##### output_routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_routing_channel<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -864,7 +864,7 @@ Get and set the current destination channel for output routing. Raises ValueErro
 
 </div>
 
-##### output_routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_routing_type<span class="prop-type">: <a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -881,7 +881,7 @@ Get and set the current destination type for output routing. Raises ValueError i
 
 </div>
 
-##### output_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -898,7 +898,7 @@ Const access to the list of all available output routings.
 
 </div>
 
-##### output_sub_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### output_sub_routings<span class="prop-type">: <a href="/LiveAPI/modules/base/#stringvector" title="StringVector">StringVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -915,7 +915,7 @@ Return a list of all available output sub routings.
 
 </div>
 
-##### performance_impact<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### performance_impact<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -932,7 +932,7 @@ Reports the performance impact of this track.
 
 </div>
 
-##### playing_slot_index<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### playing_slot_index<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -949,7 +949,7 @@ const access to the index of the currently playing clip in the track. Will be -1
 
 </div>
 
-##### solo<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### solo<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -966,7 +966,7 @@ Get/Set the solo status of the track. Note that this will not disable the solo s
 
 </div>
 
-##### take_lanes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/takelane/#takelane" title="TakeLane">TakeLane</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### take_lanes<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/takelane/#takelane" title="TakeLane">TakeLane</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -1002,7 +1002,7 @@ Representing the view aspects of a Track.
 
 #### Listener Only
 
-##### data<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+##### data<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/#listener-only-triplets" title="Listener-only triplet — see Listeners for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
 <div class="listener-only-triplet"><span class="listener-only-method">add_data_listener</span>  ·  <span class="listener-only-method">remove_data_listener</span>  ·  <span class="listener-only-method">data_has_listener</span></div>
 
@@ -1020,7 +1020,7 @@ it is **unverified**.
 
 ##### create_audio_clip()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">file_path</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">position</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">file_path</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">position</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -1039,7 +1039,7 @@ Creates an audio clip referencing the file at the given path and inserts it into
 
 ##### create_midi_clip()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -1077,7 +1077,7 @@ Create a new TakeLane for this track.
 
 ##### delete_clip()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1096,7 +1096,7 @@ Delete the given clip. Raises a runtime error when the clip belongs to another t
 
 ##### delete_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1115,7 +1115,7 @@ Delete a device identified by the index in the 'devices' list.
 
 ##### duplicate_clip_slot()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -1134,7 +1134,7 @@ Duplicate a clip and put it into the next free slot and return the index of the 
 
 ##### duplicate_clip_to_arrangement()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">clip</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></span></li><li><span class="fn-arg-name">destination_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -1153,7 +1153,7 @@ Duplicate the given clip into the arrangement of this track at the provided dest
 
 ##### duplicate_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1172,7 +1172,7 @@ Duplicate a device at a given index in the 'devices' list.
 
 ##### get_data()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">default_value</span>: <span class="fn-arg-type">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as Song.get_data — corpus-confirmed.</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as Song.get_data — corpus-confirmed.</li></ul></span></sup></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">default_value</span>: <span class="fn-arg-type">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as Song.get_data — corpus-confirmed.</li></ul></span></sup></span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as Song.get_data — corpus-confirmed.</li></ul></span></sup></div></div></div>
 
 <div class="member-desc">
 
@@ -1191,7 +1191,7 @@ Get data for the given key, that was previously stored using set_data.
 
 ##### insert_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same shape as Chain.insert_device.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> returns `TWeakPtr<TPyHandleBase>` (generic LomObject) — no specific type enforced.</li><li><span class="ot-tag ot-tag-probe">probe</span> `track.devices` element_repr is `<class 'Device.Device'>` — the runtime returns Device instances when iterated, matching the insert return.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> + [M4L] confirm semantics ("Add a device at a given index in the 'devices' list").</li></ul></span></sup></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same shape as Chain.insert_device.</li><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> returns `TWeakPtr<TPyHandleBase>` (generic LomObject) — no specific type enforced.</li><li><span class="ot-tag ot-tag-probe">probe</span> `track.devices` element_repr is `<class 'Device.Device'>` — the runtime returns Device instances when iterated, matching the insert return.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> + [M4L] confirm semantics ("Add a device at a given index in the 'devices' list").</li></ul></span></sup></div></div></div>
 
 <div class="member-desc">
 
@@ -1210,7 +1210,7 @@ Add a device at a given index in the 'devices' list. At end if -1.
 
 ##### jump_in_running_session_clip()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">beats</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1229,7 +1229,7 @@ Jump forward or backward in the currently running Sessionclip (if any) by the sp
 
 ##### set_data()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as Song.set_data — corpus-confirmed.</li></ul></span></sup></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">key</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">Any<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">object</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> same pattern as Song.set_data — corpus-confirmed.</li></ul></span></sup></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1248,7 +1248,7 @@ Store data for the given key in this object. The data is persistent and will be 
 
 ##### stop_all_clips()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">quantized</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">quantized</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -1301,7 +1301,7 @@ Stop running and triggered clip and slots on this track.
 
 ## Other classes
 
-### <span class="sig"><span class="sig-name" data-path="Live.Track.">DeviceContainer</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Track.">DeviceContainer</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 Phantom base in the LOM type system. `Track` and `Chain` both
 register `DeviceContainer` as their direct Python superclass via
@@ -1453,11 +1453,11 @@ A container for returning routing channels from Live.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingchannel" title="RoutingChannel">RoutingChannel</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 4 members elsewhere in the LOM</summary>
@@ -1590,11 +1590,11 @@ A container for returning routing types from Live.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/track/#routingtype" title="RoutingType">RoutingType</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 4 members elsewhere in the LOM</summary>
@@ -1620,7 +1620,7 @@ A container for returning routing types from Live.
 </div>
 </details>
 
-### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Track.">Track.View</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -1659,7 +1659,7 @@ Get the canonical parent of the track view.
 
 </details>
 
-##### device_insert_mode<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### device_insert_mode<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -1676,7 +1676,7 @@ Get/Listen the device insertion mode of the track.  By default, it will insert d
 
 </div>
 
-##### is_collapsed<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_collapsed<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -1693,7 +1693,7 @@ Get/Set/Listen if the track is shown collapsed in the arranger view.
 
 </div>
 
-##### selected_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### selected_device<span class="prop-type">: <a href="/LiveAPI/modules/device/#device" title="Device">Device</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

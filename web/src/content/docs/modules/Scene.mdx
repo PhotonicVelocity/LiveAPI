@@ -8,7 +8,7 @@ matrix. The `Scene` class controls scene firing, naming, color, and the
 per-scene tempo and time-signature overrides.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Scene.">Scene</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Scene.">Scene</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -47,7 +47,7 @@ Get the canonical parent of the scene.
 
 </details>
 
-##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### clip_slots<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a>]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -64,7 +64,7 @@ return a list of clipslots (see class AClipSlot) that this scene covers.
 
 </div>
 
-##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -81,7 +81,7 @@ Get/set access to the color of the scene (RGB).
 
 </div>
 
-##### color_index<span class="prop-type">: int | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Get/set access to the color index of the scene. Can be None for no color." Explicit nullability documented in raw_doc.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color_index<span class="prop-type">: int | None<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">None</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "Get/set access to the color index of the scene. Can be None for no color." Explicit nullability documented in raw_doc.</li></ul></span></sup></span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -115,7 +115,7 @@ Returns True if all clip slots of this scene are empty.
 
 </div>
 
-##### is_triggered<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_triggered<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -132,7 +132,7 @@ Const access to the scene's trigger state.
 
 </div>
 
-##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -149,7 +149,7 @@ Get/Set the name of the scene.
 
 </div>
 
-##### tempo<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### tempo<span class="prop-type">: float</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -166,7 +166,7 @@ Get/Set the tempo value of the scene. The song will use the scene's tempo as soo
 
 </div>
 
-##### tempo_enabled<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### tempo_enabled<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -183,7 +183,7 @@ Get/Set the active state of the scene tempo. When disabled, the scene will use t
 
 </div>
 
-##### time_signature_denominator<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### time_signature_denominator<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -200,7 +200,7 @@ Get/Set the scene's time signature denominator. The song will use the scene's ti
 
 </div>
 
-##### time_signature_enabled<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### time_signature_enabled<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -217,7 +217,7 @@ Get the active state of the scene time signature. When disabled, the scene will 
 
 </div>
 
-##### time_signature_numerator<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### time_signature_numerator<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -238,7 +238,7 @@ Get/Set the scene's time signature numerator. The song will use the scene's time
 
 ##### fire()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">force_legato</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">can_select_scene_on_launch</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">force_legato</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">can_select_scene_on_launch</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -257,7 +257,7 @@ Fire the scene directly. Will fire all clipslots that this scene owns and select
 
 ##### fire_as_selected()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">force_legato</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">force_legato</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -276,7 +276,7 @@ Fire the selected scene. Will fire all clipslots that this scene owns and select
 
 ##### set_fire_button_state()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 

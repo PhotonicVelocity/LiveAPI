@@ -9,7 +9,7 @@ its launch and stop buttons, and, for group-track slots, the aggregated
 playing state of clips inside the group.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.ClipSlot.">ClipSlot</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.ClipSlot.">ClipSlot</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -65,7 +65,7 @@ Returns the Clip which this clipslots currently owns. Might be None.
 
 </div>
 
-##### color<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -82,7 +82,7 @@ Returns the canonical color for the clip slot or None if it does not exist.
 
 </div>
 
-##### color_index<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color_index<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -99,7 +99,7 @@ Returns the canonical color index for the clip slot or None if it does not exist
 
 </div>
 
-##### controls_other_clips<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### controls_other_clips<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -116,7 +116,7 @@ Returns true if firing this slot will fire clips in other slots. Can only be tru
 
 </div>
 
-##### has_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### has_clip<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -133,7 +133,7 @@ Returns true if this Clipslot owns a Clip.
 
 </div>
 
-##### has_stop_button<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### has_stop_button<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -201,7 +201,7 @@ Returns whether the clip associated with the slot is recording.
 
 </div>
 
-##### is_triggered<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_triggered<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -218,7 +218,7 @@ Const access to the triggering state of the clip slot.
 
 </div>
 
-##### playing_status<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslotplayingstate" title="ClipSlotPlayingState">ClipSlotPlayingState</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### playing_status<span class="prop-type">: <a href="/LiveAPI/modules/clipslot/#clipslotplayingstate" title="ClipSlotPlayingState">ClipSlotPlayingState</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -256,7 +256,7 @@ returns true if the clip slot will record on being fired.
 
 ##### create_audio_clip()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">file_path</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">file_path</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -275,7 +275,7 @@ Creates an audio clip referencing the file at the given absolute path in the slo
 
 ##### create_clip()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/clip/#clip" title="Clip">Clip</a></div></div></div>
 
 <div class="member-desc">
 
@@ -311,7 +311,7 @@ Removes the clip contained in the slot. Raises an exception if the slot was empt
 
 ##### duplicate_clip_to()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">target_clip_slot</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">target_clip_slot</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/clipslot/#clipslot" title="ClipSlot">ClipSlot</a></span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -347,7 +347,7 @@ Fire a Clip if this Clipslot owns one, else trigger the stop button, if we have 
 
 ##### set_fire_button_state()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">state</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 

@@ -8,7 +8,7 @@ incoming MIDI note to a `DrumChain`. The `DrumPad` class exposes the pad's
 note, name, mute/solo state, and the chains routed to it.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.DrumPad.">DrumPad</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.DrumPad.">DrumPad</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -47,7 +47,7 @@ Get the canonical parent of the drum pad.
 
 </details>
 
-##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### chains<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -64,7 +64,7 @@ Return const access to the list of chains in this drum pad.
 
 </div>
 
-##### mute<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### mute<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -81,7 +81,7 @@ Mute/unmute the pad.
 
 </div>
 
-##### name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### name<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -115,7 +115,7 @@ Get the MIDI note of the drum pad.
 
 </div>
 
-##### solo<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### solo<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

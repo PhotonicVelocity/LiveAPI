@@ -9,7 +9,7 @@ class exposes Live's version, the browser, the control-surface registry,
 and the `Application.View` for navigating Live's windows and panels.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -48,7 +48,7 @@ Returns the canonical parent of the application.
 
 </details>
 
-##### average_process_usage<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### average_process_usage<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -82,7 +82,7 @@ Returns an interface to the browser.
 
 </div>
 
-##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[object]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### control_surfaces<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[object]</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -150,7 +150,7 @@ Returns the number of connected Push apps.
 
 </div>
 
-##### open_dialog_count<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### open_dialog_count<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -167,7 +167,7 @@ The number of open dialogs in Live. 0 if not dialog is open.
 
 </div>
 
-##### peak_process_usage<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### peak_process_usage<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -184,7 +184,7 @@ Reports Live's peak CPU load.
 
 </div>
 
-##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector" title="UnavailableFeatureVector">UnavailableFeatureVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### unavailable_features<span class="prop-type">: <a href="/LiveAPI/modules/application/#unavailablefeaturevector" title="UnavailableFeatureVector">UnavailableFeatureVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -355,7 +355,7 @@ Returns the full version string of Live.
 
 ##### has_option()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">option_name</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">option_name</span>: <span class="fn-arg-type">str</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -374,7 +374,7 @@ Returns True if the given entry exists in Options.txt, False otherwise.
 
 ##### press_current_dialog_button()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -393,7 +393,7 @@ Press a button, by index, on the current message box.
 
 ##### show_message()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">text</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/base/#text" title="Text">Text</a></span></li><li><span class="fn-arg-name">buttons</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int</span> = <span class="fn-arg-default">MessageButtons.OK_BUTTON</span></li><li><span class="fn-arg-name">enable_markup</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">show_success_icon</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">text</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/base/#text" title="Text">Text</a></span></li><li><span class="fn-arg-name">buttons</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int</span> = <span class="fn-arg-default">MessageButtons.OK_BUTTON</span></li><li><span class="fn-arg-name">enable_markup</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">show_success_icon</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -412,7 +412,7 @@ Shows a message box, returning the position of the pressed button.
 
 ##### show_on_the_fly_message()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">message</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">buttons</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int</span> = <span class="fn-arg-default">MessageButtons.OK_BUTTON</span></li><li><span class="fn-arg-name">enable_markup</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">show_success_icon</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">push_dialog_type</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#pushdialogtype" title="PushDialogType">PushDialogType</a> | int</span> = <span class="fn-arg-default">PushDialogType.MESSAGE_BOX</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">message</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">buttons</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#messagebuttons" title="MessageButtons">MessageButtons</a> | int</span> = <span class="fn-arg-default">MessageButtons.OK_BUTTON</span></li><li><span class="fn-arg-name">enable_markup</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">show_success_icon</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">False</span></li><li><span class="fn-arg-name">push_dialog_type</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#pushdialogtype" title="PushDialogType">PushDialogType</a> | int</span> = <span class="fn-arg-default">PushDialogType.MESSAGE_BOX</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <div class="member-desc">
 
@@ -471,11 +471,11 @@ A container for returning control descriptions.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/application/#controldescription" title="ControlDescription">ControlDescription</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 1 member elsewhere in the LOM</summary>
@@ -505,7 +505,7 @@ Represents a control surface running in a different process. For use by M4L
 
 ##### control_descriptions<span class="prop-type">: <a href="/LiveAPI/modules/application/#controldescriptionvector" title="ControlDescriptionVector">ControlDescriptionVector</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-probe">probe</span> couldn't reach this class — ControlSurfaceProxy is M4L-only.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> _MxDCore/ControlSurfaceWrapper.py:238 iterates `c.name for c in self._proxy.control_descriptions` — confirms it's a container of ControlDescription objects (each with a `.name` property).</li><li><span class="ot-tag ot-tag-schema">schema</span> ControlDescriptionVector exists in the parsed tree with element_repr fixed below to ControlDescription.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span></span>
 
-##### pad_layout<span class="prop-type">: str<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/controlsurface.md:18: `pad_layout symbol read-only observe` — `symbol` is M4L parlance for a string (string-valued layout names like 'session', 'note.drums.64_pads').</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "The layout of pads on Push."</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### pad_layout<span class="prop-type">: str<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><ul class="ot-sources"><li><span class="ot-tag ot-tag-m4l">M4L</span> external/max-for-live-docs/9.0/controlsurface.md:18: `pad_layout symbol read-only observe` — `symbol` is M4L parlance for a string (string-valued layout names like 'session', 'note.drums.64_pads').</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "The layout of pads on Push."</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -526,7 +526,7 @@ The layout of pads on Push.
 
 #### Listener Only
 
-##### control_values_arrived<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+##### control_values_arrived<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/#listener-only-triplets" title="Listener-only triplet — see Listeners for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
 <div class="listener-only-triplet"><span class="listener-only-method">add_control_values_arrived_listener</span>  ·  <span class="listener-only-method">remove_control_values_arrived_listener</span>  ·  <span class="listener-only-method">control_values_arrived_has_listener</span></div>
 
@@ -539,7 +539,7 @@ callback.
 
 </div>
 
-##### midi_received<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+##### midi_received<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/#listener-only-triplets" title="Listener-only triplet — see Listeners for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
 <div class="listener-only-triplet"><span class="listener-only-method">add_midi_received_listener</span>  ·  <span class="listener-only-method">remove_midi_received_listener</span>  ·  <span class="listener-only-method">midi_received_has_listener</span></div>
 
@@ -555,7 +555,7 @@ the messages via `fetch_received_midi_messages`.
 
 ##### enable_receive_midi()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">enabled</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">enabled</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 ##### fetch_received_midi_messages()
 
@@ -567,27 +567,27 @@ the messages via `fetch_received_midi_messages`.
 
 ##### grab_control()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 ##### release_control()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 ##### send_midi()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_event_bytes</span>: <span class="fn-arg-type">tuple[int, ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `void send_midi(APythonControlSurfaceProxy {lvalue}, boost::python::tuple)` — the binding takes an untyped tuple at the C++ level.</li><li><span class="ot-tag ot-tag-schema">schema</span> narrowed to `tuple[int, ...]` per function semantics — MIDI bytes are 0–255 ints by definition.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> binding calls pass int tuples: FaderfoxScript.py:111 (`self.c_instance.send_midi(midi_event_bytes)`), Axiom_49_61_Classic/Axiom.py:70 (`self._Axiom__c_instance.send_midi(midi_event_bytes)`); wrapper composers also produce int tuples (LV2_LX2_LC2_LD2/LV2TransportController.py:69-71 `(NOTEON_STATUS + channel, note, 127)`, LV2_LX2_LC2_LD2/FaderfoxMixerController.py:142 `(175, 16, 16)`).</li></ul></span></sup></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">midi_event_bytes</span>: <span class="fn-arg-type">tuple[int, ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `void send_midi(APythonControlSurfaceProxy {lvalue}, boost::python::tuple)` — the binding takes an untyped tuple at the C++ level.</li><li><span class="ot-tag ot-tag-schema">schema</span> narrowed to `tuple[int, ...]` per function semantics — MIDI bytes are 0–255 ints by definition.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> binding calls pass int tuples: FaderfoxScript.py:111 (`self.c_instance.send_midi(midi_event_bytes)`), Axiom_49_61_Classic/Axiom.py:70 (`self._Axiom__c_instance.send_midi(midi_event_bytes)`); wrapper composers also produce int tuples (LV2_LX2_LC2_LD2/LV2TransportController.py:69-71 `(NOTEON_STATUS + channel, note, 127)`, LV2_LX2_LC2_LD2/FaderfoxMixerController.py:142 `(175, 16, 16)`).</li></ul></span></sup></span></li></ul></div></div>
 
 ##### send_value()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">tuple[Any, ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `void send_value(APythonControlSurfaceProxy {lvalue}, boost::python::tuple)` — the binding strictly accepts a tuple.</li><li><span class="ot-tag ot-tag-schema">schema</span> `tuple[Any, ...]` matches the untyped Boost.Python tuple — the binding itself doesn't constrain element type at the C++ level.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> calls like `interface.send_value(0)` or `button.send_value(value)` don't contradict this — those go to Python wrappers (SysexElement.send_value at sysex_element.py:25, InputControlElement.send_value at InputControlElement.py:324) which compose a tuple internally before the binding call. Zero direct `Live.Application.ControlSurfaceProxy.send_value` callsites exist in the corpus.</li></ul></span></sup></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">tuple[Any, ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> `void send_value(APythonControlSurfaceProxy {lvalue}, boost::python::tuple)` — the binding strictly accepts a tuple.</li><li><span class="ot-tag ot-tag-schema">schema</span> `tuple[Any, ...]` matches the untyped Boost.Python tuple — the binding itself doesn't constrain element type at the C++ level.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> calls like `interface.send_value(0)` or `button.send_value(value)` don't contradict this — those go to Python wrappers (SysexElement.send_value at sysex_element.py:25, InputControlElement.send_value at InputControlElement.py:324) which compose a tuple internally before the binding call. Zero direct `Live.Application.ControlSurfaceProxy.send_value` callsites exist in the corpus.</li></ul></span></sup></span></li></ul></div></div>
 
 ##### subscribe_to_control()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 ##### unsubscribe_from_control()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">control_id</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">UnavailableFeatureVector</span></span>
 
@@ -606,11 +606,11 @@ A container for returning unavailable features.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/application/#unavailablefeature" title="UnavailableFeature">UnavailableFeature</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 1 member elsewhere in the LOM</summary>
@@ -638,7 +638,7 @@ Holds strings representing what type of Live is running.
 
 #### Constants
 
-### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Application.">Application.View</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -677,7 +677,7 @@ Get the canonical parent of the application view.
 
 </details>
 
-##### browse_mode<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### browse_mode<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -694,7 +694,7 @@ Return true if HotSwap mode is active for any target.
 
 </div>
 
-##### focused_document_view<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### focused_document_view<span class="prop-type">: str</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -713,7 +713,7 @@ Return the name of the document view ('Session' or 'Arranger') shown in the curr
 
 #### Listener Only
 
-##### view_focus_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+##### view_focus_changed<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/#listener-only-triplets" title="Listener-only triplet — see Listeners for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
 <div class="listener-only-triplet"><span class="listener-only-method">add_view_focus_changed_listener</span>  ·  <span class="listener-only-method">remove_view_focus_changed_listener</span>  ·  <span class="listener-only-method">view_focus_changed_has_listener</span></div>
 
@@ -750,7 +750,7 @@ Return a list of strings with the available subcomponent views, which is to be s
 
 ##### focus_view()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -769,7 +769,7 @@ Show and focus one through the identifier string specified view.
 
 ##### hide_view()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -786,9 +786,9 @@ Hide one through the identifier string specified view.
 
 </div>
 
-##### is_view_visible()<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/#listener-only-triplets" title="Listener-only triplet — see Listener for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
+##### is_view_visible()<span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/#listener-only-triplets" title="Listener-only triplet — see Listeners for what makes these distinct from value-bearing observables." aria-label="listen"></a></span>
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">main_window_only</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">main_window_only</span>: <span class="fn-arg-type">bool</span> = <span class="fn-arg-default">True</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">bool</div></div></div>
 
 <div class="member-desc">
 
@@ -823,7 +823,7 @@ Return true if the through the identifier string specified view is currently vis
 
 ##### scroll_view()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">direction</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "into the given direction".</li><li><span class="ot-tag ot-tag-schema">schema</span> Application.View nests a single enum (`NavDirection`) with members up/down/left/right — direct semantic match. Boost.Python emits the enum class as an int subclass, hence `NavDirection | int` (standard enum-widening pattern).</li></ul></span></sup></span></li><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">modifier_pressed</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">direction</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "into the given direction".</li><li><span class="ot-tag ot-tag-schema">schema</span> Application.View nests a single enum (`NavDirection`) with members up/down/left/right — direct semantic match. Boost.Python emits the enum class as an int subclass, hence `NavDirection | int` (standard enum-widening pattern).</li></ul></span></sup></span></li><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">modifier_pressed</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -842,7 +842,7 @@ Scroll through the identifier string specified view into the given direction, if
 
 ##### show_view()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">view</span>: <span class="fn-arg-type">str</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -878,7 +878,7 @@ Reveals the device chain, the browser and starts hot swap for the selected devic
 
 ##### zoom_view()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">direction</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "into the given direction".</li><li><span class="ot-tag ot-tag-schema">schema</span> Application.View nests a single enum (`NavDirection`) with members up/down/left/right — direct semantic match. Boost.Python emits the enum class as an int subclass, hence `NavDirection | int` (standard enum-widening pattern).</li></ul></span></sup></span></li><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">modifier_pressed</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">direction</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/application/#applicationviewnavdirection" title="Application.View.NavDirection">NavDirection</a> | int<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-docstring">docstring</span> "into the given direction".</li><li><span class="ot-tag ot-tag-schema">schema</span> Application.View nests a single enum (`NavDirection`) with members up/down/left/right — direct semantic match. Boost.Python emits the enum class as an int subclass, hence `NavDirection | int` (standard enum-widening pattern).</li></ul></span></sup></span></li><li><span class="fn-arg-name">view_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">modifier_pressed</span>: <span class="fn-arg-type">bool</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -995,7 +995,7 @@ Returns true if multiple APCs should be combined.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge</span></span>()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">dongle1</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">dongle2</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">key_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[int, ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> Push/handshake_component.py:53 wraps it for encryption; _APC/APC.py:79 compares the return to a dongle challenge tuple.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> baseline Application.md:38 lists it as a module-level static.</li></ul></span></sup></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">dongle1</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">dongle2</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">key_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">0</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">tuple[int, ...]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">tuple</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-corpus">corpus</span> Push/handshake_component.py:53 wraps it for encryption; _APC/APC.py:79 compares the return to a dongle challenge tuple.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> baseline Application.md:38 lists it as a module-level static.</li></ul></span></sup></div></div></div>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -1010,7 +1010,7 @@ Returns an encrypted challenge based on the TEA algortithm
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">encrypt_challenge2</span></span>()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">challenge</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">challenge</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -1040,7 +1040,7 @@ Returns the application instance.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.Application.">get_random_int</span></span>()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">min_value</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">max_value</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">min_value</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">max_value</span>: <span class="fn-arg-type">int</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">int</div></div></div>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>

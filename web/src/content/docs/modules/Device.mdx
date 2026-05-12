@@ -9,7 +9,7 @@ parameters, on/off state, and preset-loading behavior are shared by all
 device subclasses.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Device.">Device</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Device.">Device</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -133,7 +133,7 @@ Return const access to the name of the device's class.
 
 </div>
 
-##### is_active<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_active<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -150,7 +150,7 @@ Return const access to whether this device is active. This will be false bothwhe
 
 </div>
 
-##### is_using_compare_preset_b<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_using_compare_preset_b<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -167,7 +167,7 @@ Returns whether the Device has loaded the preset in compare slot B. Only relevan
 
 </div>
 
-##### latency_in_ms<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### latency_in_ms<span class="prop-type">: float</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -184,7 +184,7 @@ Returns the latency of the device in ms.
 
 </div>
 
-##### latency_in_samples<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### latency_in_samples<span class="prop-type">: int</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -201,7 +201,7 @@ Returns the latency of the device in samples.
 
 </div>
 
-##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -218,7 +218,7 @@ Return access to the name of the device.
 
 </div>
 
-##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### parameters<span class="prop-type">: <a href="/LiveAPI/modules/device/#atimeablevaluevector" title="ATimeableValueVector">ATimeableValueVector</a></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -290,7 +290,7 @@ Saves the current state of the device to the compare AB slot. Only relevant if c
 
 ##### store_chosen_bank()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">script_index</span>: <span class="fn-arg-type">int</span></li><li><span class="fn-arg-name">bank_index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -356,11 +356,11 @@ Set the selected bank in the device for persistency.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/deviceparameter/#deviceparameter" title="DeviceParameter">DeviceParameter</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 16 members elsewhere in the LOM</summary>
@@ -463,7 +463,7 @@ Set the selected bank in the device for persistency.
 </div>
 </details>
 
-### <span class="sig"><span class="sig-name" data-path="Live.Device.">Device.View</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Device.">Device.View</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -502,7 +502,7 @@ Get the canonical parent of the View.
 
 </details>
 
-##### is_collapsed<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_collapsed<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 

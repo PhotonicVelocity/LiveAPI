@@ -9,7 +9,7 @@ per-parameter timeline of breakpoints applied during playback. The
 removing events over a time range.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Envelope.">Envelope</span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Envelope.">Envelope</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -52,7 +52,7 @@ Get the canonical parent of the envelope.
 
 ##### delete_events_in_range()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -71,7 +71,7 @@ Deletes the events in the specified time range.
 
 ##### events_in_range()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelopeeventvector" title="EnvelopeEventVector">EnvelopeEventVector</a></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">end_time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/envelope/#envelopeeventvector" title="EnvelopeEventVector">EnvelopeEventVector</a></div></div></div>
 
 <div class="member-desc">
 
@@ -90,7 +90,7 @@ Returns the events in the specified time range.
 
 ##### insert_step()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">start_time</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">length</span>: <span class="fn-arg-type">float</span></li><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type">float</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -109,7 +109,7 @@ Given a start time, a step length and a value, creates a step in the envelope.
 
 ##### value_at_time()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">time</span>: <span class="fn-arg-type">float</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return">float</div></div></div>
 
 <div class="member-desc">
 
@@ -213,11 +213,11 @@ A container for holding envelope events.
 
 ##### append()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a></span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">value</span>: <span class="fn-arg-type"><a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a></span></li></ul></div></div>
 
 ##### extend()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a>]</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">values</span>: <span class="fn-arg-type">Iterable[<a href="/LiveAPI/modules/envelope/#envelopeevent" title="EnvelopeEvent">EnvelopeEvent</a>]</span></li></ul></div></div>
 
 <details class="references-section">
 <summary>Returned by 1 member elsewhere in the LOM</summary>

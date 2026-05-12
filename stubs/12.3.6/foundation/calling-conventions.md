@@ -1,8 +1,13 @@
 ---
 title: Calling conventions
-description: "Every method and function in the LOM takes **positional arguments only** — no kwargs."
-sidebar:
-  hidden: true
+slug: calling-conventions
+sidebar_badge: core
+_note: |
+  Foundation page describing the positional-only calling model that
+  applies across every callable in the LOM. Linked from the
+  `Parameters` section label on every method / function reference
+  page. Hoisted above the alphabetical Modules group in the sidebar
+  (see `web/astro.config.mjs`).
 ---
 
 Every method and function in the LOM takes **positional arguments
@@ -57,4 +62,3 @@ Names label the slot, not the call:
   "view_name" of type "str"`
 
 Treat the names as documentation, not call-site syntax.
-

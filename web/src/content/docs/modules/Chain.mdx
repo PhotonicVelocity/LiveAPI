@@ -8,7 +8,7 @@ MIDI Effect Rack. The `Chain` class hosts the chain's nested devices,
 per-chain `ChainMixerDevice`, and key/velocity/chain-selector zones.
 
 
-### <span class="sig"><span class="sig-name" data-path="Live.Chain.">Chain</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/track/#devicecontainer" data-base="DeviceContainer" aria-label="DeviceContainer"></a></span></span><a class="lom-badge" href="/LiveAPI/modules/lomobject/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
+### <span class="sig"><span class="sig-name" data-path="Live.Chain.">Chain</span><span class="sig-base"><a class="sig-base-link" href="/LiveAPI/modules/track/#devicecontainer" data-base="DeviceContainer" aria-label="DeviceContainer"></a></span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
 <details class="raw-doc-toggle" open>
 <summary class="desc-source"><span class="desc-source-chip desc-source-runtime">runtime docstring</span></summary>
@@ -47,7 +47,7 @@ Get the canonical parent of the chain.
 
 </details>
 
-##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -64,7 +64,7 @@ Access the color index of the Chain.
 
 </div>
 
-##### color_index<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### color_index<span class="prop-type">: int</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -81,7 +81,7 @@ Access the color index of the Chain.
 
 </div>
 
-##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/device/#device" title="Device">Device</a>]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">Vector[LomObject]</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> binding declares the element type as `LomObject` — wider than what the container actually holds.</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> `Track.devices` is declared `Vector[Device]`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "all available Devices" — matches the narrower runtime type.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> treats `track.devices` and `chain.devices` interchangeably as Device sequences: Launchpad_Pro/DrumGroupFinderComponent.py:65,74 filters `track_or_chain.devices` on `d.type == DeviceType.instrument` (Device.type is a DeviceType enum; only Devices carry it); Push2/device_navigation.py:134,269,511 indexes `chain.devices[i]` as Device; pushbase/browser_modes.py:84-92 indexes `chain.devices` as Device.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### devices<span class="prop-type">: <a href="/LiveAPI/modules/base/#vector" title="Vector">Vector</a>[<a href="/LiveAPI/modules/device/#device" title="Device">Device</a>]<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">Vector[LomObject]</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> binding declares the element type as `LomObject` — wider than what the container actually holds.</li><li><span class="ot-tag ot-tag-sister-method">sister method</span> `Track.devices` is declared `Vector[Device]`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "all available Devices" — matches the narrower runtime type.</li><li><span class="ot-tag ot-tag-corpus">corpus</span> treats `track.devices` and `chain.devices` interchangeably as Device sequences: Launchpad_Pro/DrumGroupFinderComponent.py:65,74 filters `track_or_chain.devices` on `d.type == DeviceType.instrument` (Device.type is a DeviceType enum; only Devices carry it); Push2/device_navigation.py:134,269,511 indexes `chain.devices[i]` as Device; pushbase/browser_modes.py:84-92 indexes `chain.devices` as Device.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -166,7 +166,7 @@ return True, if this Chain sends out MIDI events. This is true for all MIDI Chai
 
 </div>
 
-##### is_auto_colored<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### is_auto_colored<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -200,7 +200,7 @@ Return access to the mixer device that holds the chain's mixer parameters: the V
 
 </div>
 
-##### mute<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### mute<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -217,7 +217,7 @@ Mute/unmute the chain.
 
 </div>
 
-##### muted_via_solo<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### muted_via_solo<span class="prop-type">: bool</span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -234,7 +234,7 @@ Return const access to whether this chain is muted due to some other chain being
 
 </div>
 
-##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### name<span class="prop-type">: str</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -251,7 +251,7 @@ Read/write access to the name of the Chain, as visible in the track header.
 
 </div>
 
-##### solo<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/modules/listener/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### solo<span class="prop-type">: bool</span><span class="prop-flags"><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
@@ -272,7 +272,7 @@ Get/Set the solo status of the chain. Note that this will not disable the solo s
 
 ##### delete_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -291,7 +291,7 @@ Remove a device identified by its index from the chain. Throws runtime error if 
 
 ##### duplicate_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">index</span>: <span class="fn-arg-type">int</span></li></ul></div></div>
 
 <div class="member-desc">
 
@@ -310,7 +310,7 @@ Duplicate the device at the given index in the chain.
 
 ##### insert_device()
 
-<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/modules/callingconventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> returns `TWeakPtr<TPyHandleBase>` (the generic LomObject handle) — no specific type enforced.</li><li><span class="ot-tag ot-tag-probe">probe</span> `chain.devices` element_reprs are `<class 'Device.Device'>` (plus the `WavetableDevice` subclass) — the runtime returns properly-typed Device instances when iterated, so `insert_device` returning `Device` matches the observed instance type.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> + [M4L] confirm semantics ("Add a device at a given index").</li></ul></span></sup></div></div></div>
+<div class="fn-sig-block"><div class="fn-sig-section"><div class="fn-sig-label"><a href="/LiveAPI/calling-conventions/" title="All LOM methods / functions take positional arguments only. See Calling conventions for details.">Parameters</a></div><ul class="fn-sig-args"><li><span class="fn-arg-name">device_name</span>: <span class="fn-arg-type">str</span></li><li><span class="fn-arg-name">device_index</span>: <span class="fn-arg-type">int</span> = <span class="fn-arg-default">-1</span></li></ul></div><div class="fn-sig-section"><div class="fn-sig-label">Returns</div><div class="fn-sig-return"><a href="/LiveAPI/modules/device/#device" title="Device">Device</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-confidence ot-confidence-high">high confidence</span><span class="ot-row"><span class="ot-label">Probed as</span><code class="ot-value">LomObject</code></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-c-signature">C++ signature</span> returns `TWeakPtr<TPyHandleBase>` (the generic LomObject handle) — no specific type enforced.</li><li><span class="ot-tag ot-tag-probe">probe</span> `chain.devices` element_reprs are `<class 'Device.Device'>` (plus the `WavetableDevice` subclass) — the runtime returns properly-typed Device instances when iterated, so `insert_device` returning `Device` matches the observed instance type.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> + [M4L] confirm semantics ("Add a device at a given index").</li></ul></span></sup></div></div></div>
 
 <div class="member-desc">
 
