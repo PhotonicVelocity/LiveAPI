@@ -30,9 +30,9 @@ where the data lives between stages. For *why* each piece exists see
                 │   driver:  tools/parse/run_parse_pipeline.py           │
                 │   runs:    tools/parse/build_lom_md.py                 │
                 └────────────────────────────────────────────────────────┘
-                                          │
-                          probe/<v>/seed/*.md
-                                          │
+                                           │
+                                 probe/<v>/seed/*.md
+                                           │
    ┌─────────────────────────────────────┐ │
    │ content/<v>/                        │◀┘  (resync at intentional checkpoints)
    │   modules/*.md   ← per-module SOT   │
@@ -42,8 +42,8 @@ where the data lives between stages. For *why* each piece exists see
    │ <field>_override: blocks (each      │
    │ with source:) + authored prose      │
    └─────────────────┬───────────────────┘
-                    ▼
-              ┌─────┴─────────────────────────────────────────────┐
+                     ▼
+              ┌──-───┴────────────────────────────────────────────┐
               ▼                                                   ▼
    ┌──────────────────────────────────┐         ┌──────────────────────────────────┐
    │  Stage 3a — STUBS                │         │  Stage 3b — REFERENCE PAGES      │
@@ -51,15 +51,14 @@ where the data lives between stages. For *why* each piece exists see
    │    generate_stubs.py             │         │    generate_reference.py         │
    │                                  │         │                                  │
    │  → stubs/<v>/Live/*.pyi          │         │  → web/.../modules/*.mdx         │
+   └────────────────┬─────────────────┘         └────────────────┬─────────────────┘
+                    ▼                                            ▼
+   ┌──────────────────────────────────┐         ┌──────────────────────────────────┐
+   │  Stage 4a — STUB PACKAGE BUILD   │         │  Stage 4b — SITE BUILD           │
+   │  tools/publish/                  │         │  npm run build (web/)            │
+   │    build_package.py              │         │  Astro / Starlight integration   │
+   │  → dist/*.whl + sdist → PyPI     │         │  → web/dist/ → GitHub Pages      │
    └──────────────────────────────────┘         └──────────────────────────────────┘
-                                                              │
-                                                              ▼
-                                                ┌──────────────────────────────────┐
-                                                │  Stage 4 — SITE BUILD            │
-                                                │  npm run build (web/)            │
-                                                │  Astro / Starlight integration   │
-                                                │  → web/dist/ → GitHub Pages      │
-                                                └──────────────────────────────────┘
 ```
 
 `content/<v>/` is the **single source of truth** that fans out into both
@@ -228,7 +227,20 @@ settable/listenable → ...) is tracked in
 
 ---
 
-## Stage 4 — Site build
+## Stage 4 — Two distributions of one SOT
+
+Stage 3's two renderings each get their own publish step. Both run on
+demand, not as part of the per-module generate flow.
+
+### 4a. Stub package build → PyPI
+
+**Tool:** [`tools/publish/build_package.py`](../tools/publish/build_package.py).
+Reads `stubs/<v>/Live/*.pyi`, wraps it as a PEP 561 stub-only package
+(`Live-stubs/` so `import Live` resolves), and writes a wheel + sdist to
+`dist/` plus a zip archive for the GitHub release. The PyPI upload itself
+is a separate `twine upload dist/*` step.
+
+### 4b. Site build → GitHub Pages
 
 **Tool:** Astro + Starlight (`npm run build` in [`web/`](../web/)). Pulls in
 the generated MDX, the hand-curated landing page, the CSS, and the config →
