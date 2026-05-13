@@ -119,33 +119,50 @@ _LIVE_CLASS_RE = re.compile(r"\bLive(?:\.[A-Z][A-Za-z0-9_]*)+\b")
 
 
 def _resolve(node: dict, key: str) -> Any:
-    """Read `key` from `node`, preferring `<key>_override.value` when present.
-
-    Mirrors the override-resolution helper in `generate_stubs.py`. Same
-    rule: parser-derived field and human override sit side-by-side; the
-    consumer picks the override.
+    """Read `key` from `node`. The markdown SOT stores resolved values
+    directly (with the parser-derived diagnostics living under
+    `refinement.<key>.probed`), so this is just `node.get(key)`. Kept as
+    a named helper because the access pattern is grep-friendly and the
+    historical override-merge behavior makes the call sites read clearly.
     """
-    override = node.get(f"{key}_override")
-    if isinstance(override, dict) and "value" in override:
-        return override["value"]
     return node.get(key)
+
+
+def _listener_triplet(member: dict) -> list[str]:
+    """Three listener-triplet method names for a member.
+
+    `listenable:` can be `true` (shorthand — expand to `add_X_listener` /
+    `remove_X_listener` / `X_has_listener` derived from the member's name)
+    or an explicit list. Empty list when the member isn't listenable.
+    """
+    listenable = member.get("listenable")
+    if listenable is True:
+        n = member.get("name", "")
+        return [f"add_{n}_listener", f"remove_{n}_listener", f"{n}_has_listener"]
+    if isinstance(listenable, list):
+        return listenable
+    return []
 
 
 def override_marker_html(node: dict, key: str) -> str:
     """Small superscript marker rendered after a value that came from a
-    manual override block. The marker carries a structured tooltip child
-    (hidden by default, revealed on hover/focus) with the probed →
-    refined values on separate lines, a confidence chip, and the
-    override's `source:` evidence as a tagged bullet list. The visible
-    asterisk is a CSS `::before` pseudo-element on `.override-marker`
-    so MDX doesn't see a bare `*` as markdown emphasis."""
-    override = node.get(f"{key}_override")
-    if not isinstance(override, dict) or "value" not in override:
+    `refinement` block. The marker carries a structured tooltip child
+    (hidden by default, revealed on hover/focus) with the probed-as
+    value, a confidence chip, and the refinement's `sources:` evidence
+    as a tagged bullet list. The visible asterisk is a CSS `::before`
+    pseudo-element on `.override-marker` so MDX doesn't see a bare `*`
+    as markdown emphasis."""
+    refinement = node.get("refinement") or {}
+    block = refinement.get(key)
+    if not isinstance(block, dict):
         return ""
 
-    original = node.get(key)
-    confidence = override.get("confidence", "")
-    raw_source = override.get("source", "")
+    # `original` is the probed-as value (what the parser/runtime saw
+    # before manual refinement). May be absent for refinements that
+    # exist only to assert confidence / sources for an unchanged value.
+    original = block.get("probed")
+    confidence = block.get("confidence", "")
+    raw_source = block.get("sources", "")
 
     def _flat(s: object) -> str:
         return re.sub(r"\s+", " ", str(s)).strip() if s else ""
@@ -312,8 +329,6 @@ def build_class_registry(modules: dict[str, dict]) -> dict[str, str]:
                 registry.setdefault(f"{full}.{e_name}", module_name)
 
     for module_name, doc in modules.items():
-        for cls in doc.get("primary_class") or []:
-            walk(cls, "", module_name)
         for cls in doc.get("classes") or []:
             walk(cls, "", module_name)
         for enum in doc.get("enums") or []:
@@ -959,8 +974,6 @@ def build_class_index(modules: dict[str, dict]) -> dict[str, tuple[str, dict]]:
 
     for module_name, doc in modules.items():
         base = f"Live.{module_name}"
-        for top in doc.get("primary_class") or []:
-            walk(top, module_name, base)
         for top in doc.get("classes") or []:
             walk(top, module_name, base)
     return index
@@ -1083,8 +1096,6 @@ def build_references_index(
             walk_class(nested, owner_module, owner_display)
 
     for module_name, doc in modules.items():
-        for top in doc.get("primary_class") or []:
-            walk_class(top, module_name)
         for top in doc.get("classes") or []:
             walk_class(top, module_name)
 
@@ -1350,14 +1361,15 @@ def render_module_page(
     # `<meta>` snippet reads naturally.
     seo_description = first_sentence(doc.get("description")) or f"Reference for Live.{module_name}."
 
-    primary_classes = doc.get("primary_class") or []
-    other_classes = doc.get("classes") or []
+    # Split classes into "primary" (the conventional Live.X.X self-named
+    # class) and "other" by matching the module name. A few modules
+    # (Conversions, Licensing — function-only) have no primary class.
+    all_classes = doc.get("classes") or []
+    primary_classes = [c for c in all_classes if c.get("name") == module_name]
+    other_classes = [c for c in all_classes if c.get("name") != module_name]
     enums = doc.get("enums") or []
     functions = doc.get("functions") or []
 
-    # The lom format already promotes the conventional Live.X.X main class
-    # into `primary_class:`. A few modules (e.g. Conversions, Licensing —
-    # function-only modules) have no primary class.
     main_class = primary_classes[0] if primary_classes else None
 
     lines: list[str] = []
@@ -1591,7 +1603,7 @@ def render_module_page(
                 flags = member_flags_html(prop)
                 lines.append(f"##### {heading}{flags}")
                 lines.append("")
-                triplet = _resolve(prop, "listenable") or []
+                triplet = _listener_triplet(prop)
                 if triplet:
                     methods_html = "  ·  ".join(
                         f'<span class="listener-only-method">{m}</span>'
@@ -1610,7 +1622,7 @@ def render_module_page(
         # signatures are documented through the parent's `description:`.
         triplet_method_names: set[str] = set()
         for m in cls.get("methods") or []:
-            for triplet_name in (_resolve(m, "listenable") or []):
+            for triplet_name in _listener_triplet(m):
                 if isinstance(triplet_name, str):
                     triplet_method_names.add(triplet_name)
         methods = [
@@ -1629,7 +1641,7 @@ def render_module_page(
         # the synthesis here so the rendered reference shows the same
         # mutator API. Element type: parametric `Vector` itself uses
         # the type variable `T`; concrete containers use their
-        # `element_type:` (preferring an `element_type_override`).
+        # resolved `element_type:`.
         synth_methods: list[dict] = []
         if cls.get("container") or cls.get("parametric"):
             cls_path = cls.get("path") or ""
@@ -2004,13 +2016,13 @@ def main() -> int:
     parse_dir = str(REPO_ROOT / "tools" / "parse")
     if parse_dir not in sys.path:
         sys.path.insert(0, parse_dir)
-    from parse_module_md import parse_module_md, to_legacy_shape
+    from parse_module_md import parse_module_md, regraft_hoisted
 
     # Load every module up front — registry build needs cross-module
     # visibility for type linking.
     modules: dict[str, dict] = {}
     for path in sorted(md_dir.glob("*.md")):
-        d = to_legacy_shape(parse_module_md(path))
+        d = regraft_hoisted(parse_module_md(path))
         if isinstance(d, dict) and d.get("module"):
             modules[d["module"]] = d
 

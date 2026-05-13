@@ -2,10 +2,8 @@
 """Parse a per-module markdown file into an in-memory module dict.
 
 Reads `content/<v>/modules/<Module>.md` and returns a dict matching the
-"natural new shape" the format spec describes. Downstream code that
-needs the legacy lom-YAML shape (for the existing generators)
-applies `to_legacy_shape()`; for direct use against the new format,
-consume the parser output directly.
+shape lom-format.md describes — the same dict the generators consume
+directly.
 
 Output shape:
 
@@ -25,6 +23,11 @@ properties, methods.
 Each member dict carries the fields from its fenced YAML block,
 augmented with: description (markdown body prose between the fenced
 block and the next heading).
+
+Nested classes / enums / constants land in the module's flat top-level
+lists with a `parent:` field. Callers that want them re-grafted under
+their parent class (e.g., the renderers walking `cls.classes` for
+nested types) apply `regraft_hoisted(module)` after parsing.
 """
 from __future__ import annotations
 
@@ -307,317 +310,41 @@ def _parse_h3_entries(
     return entries
 
 
-# ---------------------------------------------------------------------- legacy adapter
+# ---------------------------------------------------------------------- regraft helper
 
 
-def to_legacy_shape(new: dict[str, Any]) -> dict[str, Any]:
-    """Translate parser output to the legacy YAML-loader dict shape.
+def regraft_hoisted(module: dict[str, Any]) -> dict[str, Any]:
+    """Move hoisted nested classes / enums / constants from the
+    module's flat top-level lists into their parent class's nested
+    lists. Mutates `module` in place and returns it for chaining.
 
-    Roughly the inverse of `tools/parse/md_emit.py`:
-
-    - Hoisted nested classes / enums / constants get re-grafted as children
-      of their `parent:` class.
-    - The class whose name matches the module name moves out of `classes:`
-      into a one-element `primary_class:` list.
-    - Per-member: `kind:` discriminator dropped (implicit in old shape);
-      `refinement: {<key>: {...}}` blocks convert back to `*_override:`
-      siblings (`type_override`, `name_override`, `element_type_override`);
-      `listenable: true` expands to the standard
-      `add_X_listener / remove_X_listener / X_has_listener` triplet.
-    - Method arg lists get an implicit `self` arg prepended, typed to
-      the containing class's qualified path.
-
-    Used during the dual-format-loader transition (migration phase 3):
-    the existing generators consume the legacy shape; this adapter
-    lets them read markdown sources without an internal rewrite.
+    The markdown spec hoists nested types to flat top-level (so deeply
+    nested members stay one indentation away in the source — see
+    lom-format.md). Each hoisted child carries a `parent: <name>`
+    field. The generators iterate `cls.classes` / `cls.enums` /
+    `cls.constants` when walking nested children, so this regraft puts
+    each child where the iteration expects to find it.
     """
-    module_name = new["module"]
-    legacy: dict[str, Any] = {"module": module_name}
-    if new.get("description"):
-        legacy["description"] = new["description"]
-    if new.get("_note"):
-        legacy["_note"] = new["_note"]
+    classes = list(module.get("classes") or [])
+    enums = list(module.get("enums") or [])
+    constants = list(module.get("constants") or [])
+    classes_by_name = {c["name"]: c for c in classes}
 
-    # Bucket hoisted children by parent for re-grafting.
-    classes_by_parent: dict[str | None, list[dict[str, Any]]] = {}
-    enums_by_parent: dict[str | None, list[dict[str, Any]]] = {}
-    constants_by_parent: dict[str | None, list[dict[str, Any]]] = {}
-    for cls in new.get("classes", []):
-        classes_by_parent.setdefault(cls.get("parent"), []).append(cls)
-    for enum in new.get("enums", []):
-        enums_by_parent.setdefault(enum.get("parent"), []).append(enum)
-    for const in new.get("constants", []):
-        constants_by_parent.setdefault(const.get("parent"), []).append(const)
+    def _split(items, key):
+        top = []
+        for item in items:
+            parent_name = item.get("parent")
+            parent_cls = classes_by_name.get(parent_name) if parent_name else None
+            if parent_cls is None:
+                top.append(item)
+            else:
+                parent_cls.setdefault(key, []).append(item)
+        return top
 
-    def convert_class(cls: dict[str, Any]) -> dict[str, Any]:
-        name = cls["name"]
-        path = cls.get("path", "")
-        result: dict[str, Any] = {"name": name}
-        for key in (
-            "path", "ancestors", "init_doc", "constructable", "raw_doc",
-            "iterable", "container", "parametric",
-        ):
-            if key in cls:
-                result[key] = cls[key]
-        # Class-level element_type_override — reconstruct from
-        # `element_type` + `refinement.element_type` if present.
-        if "element_type" in cls and "refinement" in cls and "element_type" in cls["refinement"]:
-            ref_et = cls["refinement"]["element_type"]
-            override: dict[str, Any] = {"value": cls["element_type"]}
-            if "confidence" in ref_et:
-                override["confidence"] = ref_et["confidence"]
-            if "sources" in ref_et:
-                override["source"] = ref_et["sources"]
-            result["element_type_override"] = override
-        elif "element_type" in cls:
-            result["element_type"] = cls["element_type"]
-        if "description" in cls:
-            result["description"] = cls["description"]
-        if "properties" in cls:
-            result["properties"] = [_convert_property(p) for p in cls["properties"]]
-        if "methods" in cls:
-            result["methods"] = [
-                _convert_method(m, owning_class_path=path) for m in cls["methods"]
-            ]
-        # Re-graft hoisted children.
-        nested_classes = classes_by_parent.get(name, [])
-        if nested_classes:
-            result["classes"] = [convert_class(c) for c in nested_classes]
-        nested_enums = enums_by_parent.get(name, [])
-        if nested_enums:
-            result["enums"] = [_convert_enum(e) for e in nested_enums]
-        nested_constants = constants_by_parent.get(name, [])
-        if nested_constants:
-            result["constants"] = [_convert_constant(c) for c in nested_constants]
-        return result
-
-    # Split classes into primary (name matches module) + others.
-    top_level_classes = classes_by_parent.get(None, [])
-    primary: list[dict[str, Any]] = []
-    others: list[dict[str, Any]] = []
-    for cls in top_level_classes:
-        converted = convert_class(cls)
-        if cls["name"] == module_name:
-            primary.append(converted)
-        else:
-            others.append(converted)
-    legacy["primary_class"] = primary
-    legacy["classes"] = others
-    legacy["enums"] = [_convert_enum(e) for e in enums_by_parent.get(None, [])]
-    legacy["functions"] = [
-        _convert_function(f) for f in new.get("functions", [])
-    ]
-    legacy["constants"] = [
-        _convert_constant(c) for c in constants_by_parent.get(None, [])
-    ]
-    return legacy
-
-
-def _convert_property(prop: dict[str, Any]) -> dict[str, Any]:
-    result: dict[str, Any] = {"name": prop["name"]}
-    refinement = prop.get("refinement") or {}
-
-    # type / type_override — if `refinement.type` exists, the resolved
-    # `type:` is the override value; revert to probed for legacy `type:`.
-    if "type" in refinement:
-        ref_type = refinement["type"]
-        if "probed" in ref_type:
-            result["type"] = ref_type["probed"]
-        elif "type" in prop:
-            result["type"] = prop["type"]
-        override: dict[str, Any] = {"value": prop["type"]}
-        if "confidence" in ref_type:
-            override["confidence"] = ref_type["confidence"]
-        if "sources" in ref_type:
-            override["source"] = ref_type["sources"]
-        result["type_override"] = override
-    elif "type" in prop:
-        result["type"] = prop["type"]
-
-    # element_type / element_type_override — only the override side
-    # survives in legacy; the resolved `element_type:` field is dropped.
-    if "element_type" in refinement:
-        ref_et = refinement["element_type"]
-        override = {"value": prop["element_type"]}
-        if "confidence" in ref_et:
-            override["confidence"] = ref_et["confidence"]
-        if "sources" in ref_et:
-            override["source"] = ref_et["sources"]
-        result["element_type_override"] = override
-
-    if "settable" in prop:
-        result["settable"] = prop["settable"]
-
-    # Expand `listenable: true` to the standard triplet.
-    listenable = prop.get("listenable")
-    if listenable is True:
-        n = prop["name"]
-        result["listenable"] = [
-            f"add_{n}_listener",
-            f"remove_{n}_listener",
-            f"{n}_has_listener",
-        ]
-    elif isinstance(listenable, list):
-        result["listenable"] = listenable
-
-    if "raw_doc" in prop:
-        result["raw_doc"] = prop["raw_doc"]
-    if "description" in prop:
-        result["description"] = prop["description"]
-    if prop.get("_synthesized"):
-        result["_synthesized"] = prop["_synthesized"]
-    if "_synthesis_note" in prop:
-        result["_synthesis_note"] = prop["_synthesis_note"]
-    if "deprecated" in prop:
-        result["deprecated"] = prop["deprecated"]
-    return result
-
-
-def _convert_arg(arg: dict[str, Any]) -> dict[str, Any]:
-    result: dict[str, Any] = {}
-    refinement = arg.get("refinement") or {}
-
-    # name + name_override
-    if "name" in refinement:
-        ref_name = refinement["name"]
-        if "probed" in ref_name:
-            result["name"] = ref_name["probed"]
-        else:
-            result["name"] = arg["name"]
-        override: dict[str, Any] = {"value": arg["name"]}
-        if "sources" in ref_name:
-            override["source"] = ref_name["sources"]
-        result["name_override"] = override
-    else:
-        result["name"] = arg["name"]
-
-    # type + type_override
-    if "type" in refinement:
-        ref_type = refinement["type"]
-        if "probed" in ref_type:
-            result["type"] = ref_type["probed"]
-        elif "type" in arg:
-            result["type"] = arg["type"]
-        override = {"value": arg["type"]}
-        if "confidence" in ref_type:
-            override["confidence"] = ref_type["confidence"]
-        if "sources" in ref_type:
-            override["source"] = ref_type["sources"]
-        result["type_override"] = override
-    elif "type" in arg:
-        result["type"] = arg["type"]
-
-    if arg.get("optional"):
-        result["optional"] = arg["optional"]
-    if "default" in arg:
-        result["default"] = arg["default"]
-    return result
-
-
-def _convert_method(
-    method: dict[str, Any], *, owning_class_path: str = "",
-) -> dict[str, Any]:
-    result: dict[str, Any] = {"name": method["name"]}
-    if "raw_doc" in method:
-        result["raw_doc"] = method["raw_doc"]
-    if "signature" in method:
-        result["signature"] = method["signature"]
-    if "cpp_signature" in method:
-        result["cpp_signature"] = method["cpp_signature"]
-
-    # Restore the implicit `self` arg. Defaults to the owning class's
-    # path; override via the method's `self_type:` field for methods
-    # the probe recorded with an inherited (parent-class) self type.
-    self_type = method.get("self_type") or owning_class_path
-    args = []
-    if self_type:
-        args.append({"name": "self", "type": self_type})
-    for arg in method.get("args", []):
-        args.append(_convert_arg(arg))
-    if args:
-        result["args"] = args
-
-    returns = method.get("returns") or {}
-    if returns:
-        r = _convert_returns(returns)
-        if r:
-            result["returns"] = r
-
-    # Parameterized-observable methods carry a listener triplet.
-    # Expand `listenable: true` to the explicit triplet derived from
-    # the method's name.
-    if method.get("listenable") is True:
-        n = method["name"]
-        result["listenable"] = [
-            f"add_{n}_listener",
-            f"remove_{n}_listener",
-            f"{n}_has_listener",
-        ]
-    elif isinstance(method.get("listenable"), list):
-        result["listenable"] = method["listenable"]
-
-    if "description" in method:
-        result["description"] = method["description"]
-    if "deprecated" in method:
-        result["deprecated"] = method["deprecated"]
-    return result
-
-
-def _convert_function(fn: dict[str, Any]) -> dict[str, Any]:
-    # Module-level function: no `self` arg. Otherwise same shape as method.
-    result: dict[str, Any] = {"name": fn["name"]}
-    if "raw_doc" in fn:
-        result["raw_doc"] = fn["raw_doc"]
-    if "signature" in fn:
-        result["signature"] = fn["signature"]
-    if "cpp_signature" in fn:
-        result["cpp_signature"] = fn["cpp_signature"]
-    if "args" in fn:
-        result["args"] = [_convert_arg(a) for a in fn["args"]]
-    returns = fn.get("returns") or {}
-    if returns:
-        r = _convert_returns(returns)
-        if r:
-            result["returns"] = r
-    if "description" in fn:
-        result["description"] = fn["description"]
-    return result
-
-
-def _convert_returns(returns: dict[str, Any]) -> dict[str, Any]:
-    result: dict[str, Any] = {}
-    refinement = returns.get("refinement") or {}
-    if "type" in refinement:
-        ref_type = refinement["type"]
-        if "probed" in ref_type:
-            result["type"] = ref_type["probed"]
-        elif "type" in returns:
-            result["type"] = returns["type"]
-        override: dict[str, Any] = {"value": returns["type"]}
-        if "confidence" in ref_type:
-            override["confidence"] = ref_type["confidence"]
-        if "sources" in ref_type:
-            override["source"] = ref_type["sources"]
-        result["type_override"] = override
-    elif "type" in returns:
-        result["type"] = returns["type"]
-    return result
-
-
-def _convert_enum(enum: dict[str, Any]) -> dict[str, Any]:
-    result: dict[str, Any] = {"name": enum["name"]}
-    for key in ("path", "members", "raw_doc", "description"):
-        if key in enum:
-            result[key] = enum[key]
-    return result
-
-
-def _convert_constant(const: dict[str, Any]) -> dict[str, Any]:
-    result: dict[str, Any] = {"name": const["name"]}
-    for key in ("type", "value", "raw_doc", "description"):
-        if key in const:
-            result[key] = const[key]
-    return result
+    module["classes"] = _split(classes, "classes")
+    module["enums"] = _split(enums, "enums")
+    module["constants"] = _split(constants, "constants")
+    return module
 
 
 # ---------------------------------------------------------------------- CLI
@@ -631,13 +358,13 @@ def main() -> int:
         help="Output format (default: yaml)",
     )
     parser.add_argument(
-        "--legacy", action="store_true",
-        help="Emit the legacy YAML-loader shape (for generator compatibility)",
+        "--regraft", action="store_true",
+        help="Re-graft hoisted nested children under their parent class.",
     )
     args = parser.parse_args()
     data = parse_module_md(Path(args.path))
-    if args.legacy:
-        data = to_legacy_shape(data)
+    if args.regraft:
+        data = regraft_hoisted(data)
     if args.format == "yaml":
         yaml.dump(data, sys.stdout, sort_keys=False, allow_unicode=True, width=120)
     elif args.format == "json":

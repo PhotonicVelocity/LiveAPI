@@ -27,15 +27,29 @@ REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
 
 def _resolve(node: dict[str, Any], key: str) -> Any:
-    """Read `key` from `node`, preferring `<key>_override.value` when present.
-
-    Mirrors the override pattern in doc/lom-format.md: parser-derived
-    field and human override sit side-by-side; consumer picks override.
+    """Read `key` from `node`. The markdown SOT stores resolved values
+    directly (parser-derived diagnostics live under `refinement.<key>.probed`),
+    so this is just `node.get(key)`. Kept as a named helper for grep + call-
+    site readability.
     """
-    override = node.get(f"{key}_override")
-    if isinstance(override, dict) and "value" in override:
-        return override["value"]
     return node.get(key)
+
+
+def _listener_triplet(member: dict[str, Any]) -> list[str]:
+    """Return the three listener-triplet method names for a member.
+
+    Handles both forms `listenable:` can take in the markdown SOT:
+    `true` (shorthand — expand to `add_X_listener` / `remove_X_listener`
+    / `X_has_listener` derived from the member's name) or an explicit
+    list (rare). Empty list when the member isn't listenable.
+    """
+    listenable = member.get("listenable")
+    if listenable is True:
+        n = member.get("name", "")
+        return [f"add_{n}_listener", f"remove_{n}_listener", f"{n}_has_listener"]
+    if isinstance(listenable, list):
+        return listenable
+    return []
 
 
 # --- Type rendering ---------------------------------------------------- #
@@ -134,17 +148,17 @@ def _format_method_args(args: list[dict[str, Any]], current_module: str,
     """Produce the parenthesized arg list including PEP 570 `, /`.
 
     Live's binding accepts only positional args, so every callable ends
-    with `, /` after its last positional. For methods, `self` is the
-    first arg and is rendered as `self` (no type annotation, matching
-    Python convention). `__init__` skips the `, /` marker — v1 emits
-    `def __init__(self, ...) -> None: ...` without the positional-only
-    fence."""
+    with `, /` after its last positional. For methods, `self` is
+    prepended (the markdown SOT lists only the real Python args; the
+    binding's implicit `self` is a stub-rendering decision, not data).
+    Rendered as bare `self` to match Python convention — no type
+    annotation. `__init__` skips the `, /` marker, mirroring v1's
+    emission of `def __init__(self, ...) -> None: ...`.
+    """
     formatted: list[str] = []
-    rest = list(args)
-    if is_method and rest and rest[0].get("name") == "self":
+    if is_method:
         formatted.append("self")
-        rest = rest[1:]
-    for arg in rest:
+    for arg in args:
         formatted.append(_format_arg(arg, current_module, imports, enclosing_class))
     if (
         method_name != "__init__"
@@ -202,16 +216,18 @@ def _build_property_block(prop: dict[str, Any], current_module: str,
     """
     name = _resolve(prop, "name")
     type_str = _resolve(prop, "type")
-    # Property-level element_type_override upgrades a non-parametric type
+    # Property-level element_type refinement upgrades a non-parametric type
     # to its parametric form for the two cases where the property type
     # itself is generic: `Live.Base.Vector` + element=DeviceParameter →
     # `Live.Base.Vector[DeviceParameter]`, and `tuple` + element=int →
     # `tuple[int, ...]`. For typed Vector subclasses (UnavailableFeatureVector,
-    # BrowserItemIterator, etc.) the element lives on the class itself, so the
-    # override is redundant at the property site and skipped here.
-    elem_ov = prop.get("element_type_override")
-    if isinstance(elem_ov, dict) and elem_ov.get("value") and type_str:
-        elem_val = elem_ov["value"]
+    # BrowserItemIterator, etc.) the element lives on the class itself, so
+    # the property doesn't carry a `refinement.element_type` and this path
+    # is skipped — the gate is the presence of the refinement block, not
+    # the resolved element_type field alone.
+    has_elem_refinement = "element_type" in (prop.get("refinement") or {})
+    elem_val = prop.get("element_type")
+    if has_elem_refinement and elem_val and type_str:
         if type_str == "tuple":
             type_str = f"tuple[{elem_val}, ...]"
         elif type_str == "Live.Base.Vector":
@@ -417,7 +433,7 @@ def _collect_class_members(cls: dict[str, Any], current_module: str,
         block = _build_property_block(prop, current_module, imports, registry)
         if block:
             entries.append((prop["name"], block, "property"))
-        for listener in prop.get("listenable") or []:
+        for listener in _listener_triplet(prop):
             entries.append((listener, _build_listener_method(listener, prop["name"]), "method"))
     for m in cls.get("methods") or []:
         entries.append((m["name"], _build_method_block(m, current_module, imports, registry, True, cls["name"]), "method"))
@@ -548,9 +564,15 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     registry["_module_emits_typevar"] = False
 
     # Class-like entries (classes + enums) intermix alphabetically except
-    # the primary class which leads regardless.
+    # the primary class which leads regardless. The "primary" class is
+    # the one whose simple name matches the module name (e.g.
+    # `Live.Track.Track` for module `Track`); identified inline rather
+    # than via a separate `primary_class:` field on the dict.
+    all_classes = module.get("classes") or []
+    primary_classes = [c for c in all_classes if c.get("name") == module_name]
+    other_classes = [c for c in all_classes if c.get("name") != module_name]
     class_entries: list[tuple[str, list[str]]] = []
-    for cls in module.get("classes") or []:
+    for cls in other_classes:
         class_entries.append((cls["name"], _build_class_block(cls, module_name, imports, registry)))
     for enum in module.get("enums") or []:
         class_entries.append((enum["name"], _build_enum_block(enum)))
@@ -569,7 +591,7 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     body: list[str] = []
 
     # Primary class first
-    for cls in module.get("primary_class") or []:
+    for cls in primary_classes:
         body.extend(_build_class_block(cls, module_name, imports, registry))
         body.append("")
     # Then class-like, function, constant groups
@@ -587,7 +609,7 @@ def emit_module(module: dict[str, Any], registry: dict[str, Any]) -> str:
     # class first, then class-likes alphabetically, then functions
     # alphabetically, then constants alphabetically.
     names: list[str] = []
-    for cls in module.get("primary_class") or []:
+    for cls in primary_classes:
         names.append(cls["name"])
     names.extend(name for name, _ in class_entries)
     names.extend(name for name, _ in fn_entries)
@@ -674,23 +696,22 @@ def main() -> int:
     parse_dir = str(REPO_ROOT / "tools" / "parse")
     if parse_dir not in sys.path:
         sys.path.insert(0, parse_dir)
-    from parse_module_md import parse_module_md, to_legacy_shape
+    from parse_module_md import parse_module_md, regraft_hoisted
 
     written = 0
     all_module_names: list[str] = []
     for path in sorted(md_dir.glob("*.md")):
-        module = to_legacy_shape(parse_module_md(path))
+        module = regraft_hoisted(parse_module_md(path))
         # Foundation pages (e.g. `CallingConventions.md`,
         # `RemoteScripts.md`) are docs-only — pure prose, no
-        # `primary_class:` / `classes:` / `enums:` / `functions:` /
-        # `constants:` content. Skip so the stub package doesn't ship
-        # empty `Live.<Foundation>` modules that would pollute
-        # downstream pyright namespaces. `LomObject` and `Listener`
-        # are sidebar-hidden but DO have real class content, so they
-        # still ship.
+        # `classes:` / `enums:` / `functions:` / `constants:` content.
+        # Skip so the stub package doesn't ship empty `Live.<Foundation>`
+        # modules that would pollute downstream pyright namespaces.
+        # `LomObject` and `Listener` are sidebar-hidden but DO have
+        # real class content, so they still ship.
         has_content = any(
             module.get(k) for k in
-            ("primary_class", "classes", "enums", "functions", "constants")
+            ("classes", "enums", "functions", "constants")
         )
         if not has_content:
             continue
