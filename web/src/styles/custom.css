@@ -438,15 +438,24 @@
   pointer-events: none;
 }
 
-/* `Probed as <type>` row — label on the left, value beside it in a
-   monospace code style so the type identifier stands out. Single
-   row layout (the rendered page already shows the refined type;
-   the tooltip only needs to surface what was probed). */
+/* Top row of the tooltip — `Probed as <type>` on the left, confidence
+   chip floated right. The refined type itself is already visible in
+   the page text the marker is attached to, so we only surface what
+   was probed; the chip sits in the same row so the trust signal
+   reads alongside the value being scrutinized. */
 .sl-markdown-content .override-marker-tooltip .ot-row {
   display: flex;
   align-items: baseline;
-  gap: 0.5rem;
+  justify-content: space-between;
+  gap: 0.75rem;
   margin-bottom: 0.5rem;
+}
+.sl-markdown-content .override-marker-tooltip .ot-row-left {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-width: 0;
+  flex: 1;
 }
 .sl-markdown-content .override-marker-tooltip .ot-label {
   color: var(--sl-color-gray-3);
@@ -466,11 +475,10 @@
 }
 
 /* Confidence chip — colored by level. high=green, medium=yellow,
-   low=red. Sits at the top of the tooltip — sets the trust signal
-   the reader needs before the rationale below. */
+   low=red. Sits in the right side of the top row. */
 .sl-markdown-content .override-marker-tooltip .ot-confidence {
   display: inline-block;
-  margin: 0 0 0.4rem 0;
+  flex-shrink: 0;
   padding: 0.05rem 0.45rem;
   border-radius: 0.2rem;
   font-family: var(--sl-font-system-mono);

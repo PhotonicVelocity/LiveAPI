@@ -195,24 +195,33 @@ def override_marker_html(node: dict, key: str) -> str:
 
     parts: list[str] = []
 
-    # Confidence chip first — sets the trust signal the reader needs
-    # before the rationale below. The refined value is visible in the
-    # page text the marker is attached to, so we don't repeat it; we
-    # only show what was probed (the parser-derived original) so the
-    # reader can see what changed.
-    if confidence:
-        conf_slug = re.sub(r"[^a-z0-9]+", "-", confidence.lower()).strip("-")
-        parts.append(
-            f'<span class="ot-confidence ot-confidence-{_esc(conf_slug)}">'
-            f'{_esc(confidence)} confidence</span>'
-        )
-    if original is not None:
-        parts.append(
-            f'<span class="ot-row">'
-            f'<span class="ot-label">Probed as</span>'
-            f'<code class="ot-value">{_mdx_text(_fmt_type(original))}</code>'
-            f'</span>'
-        )
+    # Top row: probed-as on the left, confidence chip floated right.
+    # The refined value is visible in the page text the marker is
+    # attached to, so we don't repeat it; we only show what was
+    # probed (the parser-derived original) so the reader can see what
+    # changed. Confidence chip sits in the same row so the trust
+    # signal reads alongside the value being scrutinized, not above
+    # it.
+    if original is not None or confidence:
+        row_parts: list[str] = []
+        if original is not None:
+            row_parts.append(
+                f'<span class="ot-row-left">'
+                f'<span class="ot-label">Probed as</span>'
+                f'<code class="ot-value">{_mdx_text(_fmt_type(original))}</code>'
+                f'</span>'
+            )
+        else:
+            # Confidence-only refinement (no probed value to surface) — keep
+            # the row structure so the chip still floats to the right edge.
+            row_parts.append('<span class="ot-row-left"></span>')
+        if confidence:
+            conf_slug = re.sub(r"[^a-z0-9]+", "-", confidence.lower()).strip("-")
+            row_parts.append(
+                f'<span class="ot-confidence ot-confidence-{_esc(conf_slug)}">'
+                f'{_esc(confidence)} confidence</span>'
+            )
+        parts.append(f'<span class="ot-row">{"".join(row_parts)}</span>')
 
     # `source:` accepts a single string or a YAML list of independent
     # evidence points. Each list item may carry a leading `[tag]`
