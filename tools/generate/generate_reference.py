@@ -22,7 +22,7 @@ Usage:
 
 Defaults:
     VERSION   12.3.6
-    --input   stubs/<VERSION>/modules
+    --input   content/<VERSION>/modules
     --output  web/src/content/docs
 """
 
