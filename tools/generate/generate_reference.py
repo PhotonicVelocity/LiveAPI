@@ -765,7 +765,13 @@ def emit_description_block(lines: list[str], member: dict, *, wrapped: bool) -> 
         return
     marker = source_footnote_html(member)
     if marker:
-        body = f"{body}{marker}"
+        # Put the marker on its own source line — joined inline with a
+        # preceding text paragraph by markdown's adjacent-line rule, but
+        # safely separated when the body ends in a block construct
+        # (closing code fence, list, etc.) where appending content on
+        # the same line would prevent the construct from closing and
+        # break MDX parsing of everything that follows.
+        body = f"{body}\n{marker}"
     if wrapped:
         lines.append(f'<div class="member-desc">\n\n{body}\n\n</div>')
     else:
