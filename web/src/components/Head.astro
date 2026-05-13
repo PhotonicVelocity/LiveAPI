@@ -1,0 +1,12 @@
+---
+// Head override — adds the tooltip-positioner script to every page.
+// See `../scripts/tooltip-positioner.js` for the positioning logic that
+// keeps footnote tooltips (.source-marker, .override-marker) within the
+// article's bounds and out from under the sidebars / sticky header.
+import Default from "@astrojs/starlight/components/Head.astro";
+---
+
+<Default><slot /></Default>
+<script>
+  import "../scripts/tooltip-positioner.js";
+</script>
