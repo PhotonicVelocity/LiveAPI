@@ -156,8 +156,8 @@ inline body text.
 ### 5. `raw_doc` vs authored prose
 
 The body text under a member always renders the same way — readers don't see a visual distinction between authored
-prose and runtime docstring. A footnote marker on the member is the source signal: hover/focus reveals the
-provenance.
+prose and runtime docstring. A footnote marker appended to the end of the body is the source signal: hover/focus
+reveals the provenance.
 
 **Source — two real states:**
 
@@ -175,37 +175,28 @@ raw_doc: "Return const access to all available Devices that are present in the c
 
 > Devices contained in the chain, in chain-order. Excludes the chain's `mixer_device`.
 
-State 1 (raw_doc only, no body prose): the body renders the `raw_doc` text verbatim. Footnote marker indicates
-"runtime docstring; not yet authored."
+State 1 (raw_doc only, no body prose): the body renders the `raw_doc` text verbatim. Footnote tooltip reads
+"From Live's runtime docstring."
 
-State 2 (raw_doc + authored body): the body renders the authored prose. Footnote marker indicates "authored;
-original runtime docstring is:" with the raw_doc text in the tooltip.
+State 2 (raw_doc + authored body): the body renders the authored prose. Footnote tooltip shows the raw_doc text
+verbatim under a "Runtime docstring" label so readers can compare authored vs source.
 
 Reader-side: the body always reads as prose; the marker is the truth-in-labeling.
 
-**Renders as:** the same footnote primitive used everywhere else. Marker glyph likely distinguishable from the
-behavior/quirk/refinement skins — this is a "source signal" footnote, not an annotation. Glyph candidate: a small
-quote-mark or document icon.
+**Renders as:** the same footnote primitive used elsewhere, with a `ⓘ` glyph (distinct from the `*` glyph used by
+refinement/annotation markers so the reader can tell "source-of-body footnote" apart from "annotation footnote" at
+a glance). Marker is appended at the end of the rendered body (not on the heading) so the affordance sits next to
+the prose it annotates.
 
-Tooltip body:
+**Status:** ✅ wired. `source_footnote_html()` in `generate_reference.py` produces the marker; CSS classes
+`.source-marker`, `.source-marker-tooltip`, `.sm-label`, `.sm-raw`, `.sm-note` are styled in `custom.css`. Hover
+positioning shared with refinement markers via `web/src/scripts/tooltip-positioner.js` — both clamp to the article
+bounds and floor on the visible bottom of all sticky top bars.
 
-- State 1: a single row "Runtime docstring — not yet investigated." (the body the reader is already seeing IS the
-  docstring; no need to repeat it in the tooltip).
-- State 2: a labeled "Runtime docstring" row showing the raw_doc text verbatim. Lets the reader compare authored
-  prose against the source the author was working from.
+**Resolved opens:**
 
-**Status:** ⚠️ partial. Today the renderer emits `raw_doc` as the description when present; authored body prose
-probably renders too (passes through MDX). But:
-
-- No marker on either state today.
-- No tooltip distinguishing the two states.
-
-**Open:**
-
-- A "no investigation yet" state (no raw_doc, no body) — does it get a marker at all? Probably no — absence speaks
-  for itself. Or maybe a faint placeholder chip on the heading.
-- Marker glyph choice — pick something visually distinct from the annotation footnotes (behavior/quirk/refinement)
-  so a reader can tell "source-of-body footnote" apart from "annotation footnote" at a glance.
+- "No investigation yet" state (no raw_doc, no body) → no marker (absence speaks for itself).
+- Marker glyph → `ⓘ` (small info-circle), visually distinct from the `*` used by refinement/annotation footnotes.
 
 ### 6. `deprecated:` — member-level flag
 
@@ -260,7 +251,7 @@ Roughly in increasing order of complexity / risk:
 
 1. **`_synthesized:` chip.** Trivial once the chip vocabulary is locked.
 2. **`deprecated:` rendering.** Binary or structured; pick A vs B.
-3. **`raw_doc` / body matrix.** Mid scope. Needs a per-member chip slug system and a "demoted raw_doc" target.
+3. ~~**`raw_doc` / body matrix.**~~ ✅ Shipped (§5). Body always renders as prose; ⓘ footnote at end carries source.
 4. **`behavior:` + `quirks:` footnote rendering.** Together — same data shape, same primitive as refinement, two
    skins for visual distinction. Generalize `override_marker_html()` into a record-agnostic footnote renderer.
 5. **Inline `[^id]` resolution.** Depends on (4). Generator-side rewrite of `[^id]` in member prose into the footnote
