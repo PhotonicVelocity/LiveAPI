@@ -1,0 +1,37 @@
+name: Web Build Check
+
+# Compiles the Starlight site via `astro build` on every push to main
+# and every PR. Catches MDX issues (unclosed tags, invalid JSX, parser
+# rejections) before they reach the deploy-site workflow — which runs
+# only after a merge to main, so a broken build there is too late to
+# block. This workflow is the pre-merge gate for the same build step.
+#
+# No path filter: required-status-check workflows must always run, or
+# branch protection blocks PRs whose paths don't match the filter.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build site
+        run: npm run build
