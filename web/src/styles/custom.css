@@ -378,31 +378,70 @@
    keyboard focus) with the probed → refined values on separate
    lines, a confidence chip, and the override's evidence as a tagged
    bullet list. */
-.sl-markdown-content sup.override-marker {
+.sl-markdown-content sup.override-marker,
+.sl-markdown-content sup.behavior-marker,
+.sl-markdown-content sup.quirk-marker,
+.sl-markdown-content sup.note-marker {
   position: relative;
-  display: inline-block;
-  /* Padding expands the hit target around the small glyph — easier
-     to mouse over when the marker sits sandwiched between a type
-     link and the H5 anchor button. The `::before` glyph sits in the
-     center; the padding is invisible but clickable. */
+  /* `display: inline` (not inline-block) so the marker participates in
+     the normal text flow rather than acting as an inline-atom that
+     the line-break algorithm can wrap onto a fresh line. Combined
+     with the U+2060 word-joiner the renderer prepends, the marker
+     stays glued to the preceding token in prose. */
+  display: inline;
   margin-left: 0.1em;
-  padding: 0.15rem 0.3rem;
-  font-size: 1em;
+  padding: 0 0.3rem;
+  /* Font-size slightly under 1em + line-height: 1 keeps the marker
+     from extending the line box. Without these, `vertical-align: super`
+     (browser default for `<sup>`) at full size raises the marker so
+     high that the line containing it spaces taller than its neighbors.
+     Browsers' own `<sup>` defaults use `font-size: smaller` for the
+     same reason. */
+  font-size: 0.85em;
+  line-height: 1;
   font-weight: 600;
-  color: var(--sl-color-blue-high);
   cursor: help;
   user-select: none;
   outline: none;
   border-radius: 0.2rem;
   transition: background-color 0.1s ease;
 }
-/* Visible asterisk is a pseudo-element — MDX would parse a bare `*`
-   inside the `<sup>` body as markdown emphasis. */
+/* Visible glyph is a pseudo-element — MDX would parse a bare `*` /
+   `!` inside the `<sup>` body as markdown formatting. Each marker
+   kind gets a distinct glyph + accent color so the reader can tell
+   refinement (*) from behavior (†) from quirk (!) at a glance. */
+.sl-markdown-content sup.override-marker {
+  color: var(--sl-color-blue-high);
+}
 .sl-markdown-content sup.override-marker::before {
   content: "*";
 }
+.sl-markdown-content sup.behavior-marker {
+  color: var(--sl-color-green-high);
+}
+.sl-markdown-content sup.behavior-marker::before {
+  content: "†";
+}
+.sl-markdown-content sup.quirk-marker {
+  color: var(--sl-color-orange-high, var(--sl-color-yellow-high));
+}
+.sl-markdown-content sup.quirk-marker::before {
+  content: "!";
+}
+.sl-markdown-content sup.note-marker {
+  color: var(--sl-color-purple-high, var(--sl-color-gray-2));
+}
+.sl-markdown-content sup.note-marker::before {
+  content: "‡";
+}
 .sl-markdown-content sup.override-marker:hover,
-.sl-markdown-content sup.override-marker:focus {
+.sl-markdown-content sup.override-marker:focus,
+.sl-markdown-content sup.behavior-marker:hover,
+.sl-markdown-content sup.behavior-marker:focus,
+.sl-markdown-content sup.quirk-marker:hover,
+.sl-markdown-content sup.quirk-marker:focus,
+.sl-markdown-content sup.note-marker:hover,
+.sl-markdown-content sup.note-marker:focus {
   color: var(--sl-color-text);
   background: var(--sl-color-gray-6);
 }
@@ -413,10 +452,16 @@
    within the article's bounds and out from under Starlight's
    sidebars / sticky header. The `.is-open` class is the JS-side
    visibility toggle. */
-.sl-markdown-content sup.override-marker > .override-marker-tooltip {
+.sl-markdown-content sup.override-marker > .override-marker-tooltip,
+.sl-markdown-content sup.behavior-marker > .behavior-marker-tooltip,
+.sl-markdown-content sup.quirk-marker > .quirk-marker-tooltip,
+.sl-markdown-content sup.note-marker > .note-marker-tooltip {
   display: none;
 }
-.sl-markdown-content sup.override-marker > .override-marker-tooltip.is-open {
+.sl-markdown-content sup.override-marker > .override-marker-tooltip.is-open,
+.sl-markdown-content sup.behavior-marker > .behavior-marker-tooltip.is-open,
+.sl-markdown-content sup.quirk-marker > .quirk-marker-tooltip.is-open,
+.sl-markdown-content sup.note-marker > .note-marker-tooltip.is-open {
   display: block;
   padding: 0.6rem 0.75rem;
   min-width: 22rem;
@@ -443,21 +488,21 @@
    the page text the marker is attached to, so we only surface what
    was probed; the chip sits in the same row so the trust signal
    reads alongside the value being scrutinized. */
-.sl-markdown-content .override-marker-tooltip .ot-row {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-row {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
   gap: 0.75rem;
   margin-bottom: 0.5rem;
 }
-.sl-markdown-content .override-marker-tooltip .ot-row-left {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-row-left {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
   min-width: 0;
   flex: 1;
 }
-.sl-markdown-content .override-marker-tooltip .ot-label {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-label {
   color: var(--sl-color-gray-3);
   font-weight: 500;
   text-transform: uppercase;
@@ -465,7 +510,7 @@
   letter-spacing: 0.05em;
   flex-shrink: 0;
 }
-.sl-markdown-content .override-marker-tooltip code.ot-value {
+.sl-markdown-content [class*="-marker-tooltip"] code.ot-value {
   font-family: var(--sl-font-system-mono);
   font-size: 0.95em;
   background: none;
@@ -473,10 +518,27 @@
   color: var(--sl-color-text);
   word-break: break-word;
 }
+/* Assertion text in a behavior / quirk tooltip — body prose styling
+   (proportional font, full readable size). Behaves like a paragraph
+   inside the .ot-row-left slot so the confidence chip can still float
+   right next to it. */
+.sl-markdown-content [class*="-marker-tooltip"] .ot-assertion {
+  color: var(--sl-color-text);
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+/* Body of an anonymous inline footnote (^[body]) — single text block,
+   no structured rows, no chip. */
+.sl-markdown-content .note-marker-tooltip .ot-note {
+  display: block;
+  color: var(--sl-color-text);
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
 
 /* Confidence chip — colored by level. high=green, medium=yellow,
    low=red. Sits in the right side of the top row. */
-.sl-markdown-content .override-marker-tooltip .ot-confidence {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-confidence {
   display: inline-block;
   flex-shrink: 0;
   padding: 0.05rem 0.45rem;
@@ -487,31 +549,43 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-.sl-markdown-content .override-marker-tooltip .ot-confidence-high {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-confidence-high {
   background: var(--sl-color-green-low);
   color: var(--sl-color-green-high);
 }
-.sl-markdown-content .override-marker-tooltip .ot-confidence-medium {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-confidence-medium {
   background: var(--sl-color-yellow-low, var(--sl-color-orange-low));
   color: var(--sl-color-yellow-high, var(--sl-color-orange-high));
 }
-.sl-markdown-content .override-marker-tooltip .ot-confidence-low {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-confidence-low {
   background: var(--sl-color-red-low);
   color: var(--sl-color-red-high);
 }
 
 /* Source list — bulleted evidence items, each with a leading
-   evidence-type chip ([corpus], [docstring], [M4L], etc). */
-.sl-markdown-content .override-marker-tooltip ul.ot-sources {
+   evidence-type chip ([corpus], [docstring], [M4L], etc). Emitted as
+   nested spans (not ul/li) because MDX promotes block-level HTML to
+   block scope when it appears inline, which breaks the `<sup>` marker
+   in prose context. Spans + display:block reproduce a list visually
+   while staying inline-safe. */
+.sl-markdown-content [class*="-marker-tooltip"] .ot-sources {
+  display: block;
   margin: 0;
-  padding-left: 1rem;
-  list-style: disc;
+  padding-left: 0;
 }
-.sl-markdown-content .override-marker-tooltip ul.ot-sources li {
-  margin: 0.15rem 0;
+.sl-markdown-content [class*="-marker-tooltip"] .ot-source {
+  display: block;
+  position: relative;
+  margin: 0.15rem 0 0.15rem 1rem;
   font-size: 0.95em;
 }
-.sl-markdown-content .override-marker-tooltip .ot-tag {
+.sl-markdown-content [class*="-marker-tooltip"] .ot-source::before {
+  content: "•";
+  position: absolute;
+  left: -0.85rem;
+  color: var(--sl-color-gray-3);
+}
+.sl-markdown-content [class*="-marker-tooltip"] .ot-tag {
   display: inline-block;
   padding: 0.05rem 0.4rem;
   margin-right: 0.3rem;

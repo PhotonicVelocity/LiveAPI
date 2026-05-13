@@ -2,9 +2,8 @@
 module: Chain
 ---
 
-Represents a single device chain inside an Instrument, Drum, Audio Effect, or
-MIDI Effect Rack. The `Chain` class hosts the chain's nested devices,
-per-chain `ChainMixerDevice`, and key/velocity/chain-selector zones.
+Represents a single device chain inside an Instrument, Drum, Audio Effect, or MIDI Effect Rack. The `Chain` class hosts
+the chain's nested devices, per-chain `ChainMixerDevice`, and key/velocity/chain-selector zones.
 
 ## Classes
 
@@ -14,9 +13,9 @@ per-chain `ChainMixerDevice`, and key/velocity/chain-selector zones.
 kind: class
 path: Live.Chain.Chain
 ancestors:
-- Live.Track.DeviceContainer
-- Live.LomObject.LomObject
-- Boost.Python.instance
+  - Live.Track.DeviceContainer
+  - Live.LomObject.LomObject
+  - Boost.Python.instance
 init_doc: |-
   Raises an exception
   This class cannot be instantiated from Python
@@ -68,14 +67,43 @@ refinement:
     probed: Live.Base.Vector[Live.LomObject.LomObject]
     confidence: high
     sources:
-    - '[C++ signature] binding declares the element type as `LomObject` — wider than what the container actually holds.'
-    - '[sister method] `Track.devices` is declared `Vector[Device]`.'
-    - '[docstring] "all available Devices" — matches the narrower runtime type.'
-    - '[corpus] treats `track.devices` and `chain.devices` interchangeably as Device sequences: Launchpad_Pro/DrumGroupFinderComponent.py:65,74
-      filters `track_or_chain.devices` on `d.type == DeviceType.instrument` (Device.type is a DeviceType enum; only Devices
-      carry it); Push2/device_navigation.py:134,269,511 indexes `chain.devices[i]` as Device; pushbase/browser_modes.py:84-92
-      indexes `chain.devices` as Device.'
+      - "[C++ signature] binding declares the element type as `LomObject` — wider than what the container actually
+        holds."
+      - "[sister method] `Track.devices` is declared `Vector[Device]`."
+      - '[docstring] "all available Devices" — matches the narrower runtime type.'
+      - "[corpus] treats `track.devices` and `chain.devices` interchangeably as Device sequences:
+        Launchpad_Pro/DrumGroupFinderComponent.py:65,74 filters `track_or_chain.devices` on `d.type ==
+        DeviceType.instrument` (Device.type is a DeviceType enum; only Devices carry it);
+        Push2/device_navigation.py:134,269,511 indexes `chain.devices[i]` as Device; pushbase/browser_modes.py:84-92
+        indexes `chain.devices` as Device."
+behavior:
+  - id: excludes-mixer
+    assertion:
+      The vector excludes the chain's `mixer_device` — that lives on a separate property and isn't traversed by
+      iteration here.
+    confidence: high
+    verified_against: 12.3.6
+    sources:
+      - "[probe] iterating `chain.devices` on a populated rack never yields `mixer_device`; the mixer is only reachable
+        via `chain.mixer_device`."
+      - "[corpus] every corpus access pairs `chain.devices` with a separate `chain.mixer_device` access when the mixer
+        is needed (Push2/device_navigation.py, pushbase/browser_modes.py)."
+quirks:
+  - id: chain-order
+    assertion:
+      Order in the vector matches the audible signal chain — left-to-right in Live's Rack UI, top-to-bottom in the LOM.
 ```
+
+Devices contained in the chain, in chain-order. The vector excludes the chain's `mixer_device`[^excludes-mixer] — that
+lives on a separate property and is reached through its own accessor. Iteration is read-only^[Use `delete_device`,
+`duplicate_device`, `insert_device` to mutate; in-place writes via `chain.devices[i] = ...` raise.] and the order
+matches the audible signal chain — left-to-right in Live's Rack UI corresponds to top-to-bottom in the LOM, with audio
+flowing from index 0 toward the end of the vector.
+
+For most navigation purposes you treat this collection as if it returned plain `Device` values, even though the C++
+binding's declared element type is the broader `LomObject` — that's why the type carries a refinement footnote
+explaining the narrowing. Reflecting back into the LOM via `chain.devices[i].canonical_parent` returns the chain itself,
+which is useful when walking the tree without keeping a separate parent reference.
 
 ##### has_audio_input
 
@@ -196,21 +224,21 @@ raw_doc: |-
 
 ```yaml
 kind: method
-signature: 'delete_device( (Chain)arg1, (int)arg2) -> None :'
+signature: "delete_device( (Chain)arg1, (int)arg2) -> None :"
 cpp_signature: void delete_device(TChainPyHandle,int)
 args:
-- name: index
-  type: int
-  refinement:
-    name:
-      probed: arg2
-      sources:
-      - '[C++ signature] `void delete_device(TChainPyHandle, int)` — int.'
-      - '[docstring] "Remove a device identified by its index from the chain".'
-      - '[M4L] chain.md: `Parameter: index [int]`.'
-      - '[corpus] the previous `device` rename was wrong: its lone def-vote came from Push2/device_navigation.py:151 `def
-        delete_device(device)`, a module-level helper that takes a Device object as a convenience and converts to an int index
-        before calling the binding (`device_parent.delete_device(device_index)` at line 154).'
+  - name: index
+    type: int
+    refinement:
+      name:
+        probed: arg2
+        sources:
+          - "[C++ signature] `void delete_device(TChainPyHandle, int)` — int."
+          - '[docstring] "Remove a device identified by its index from the chain".'
+          - "[M4L] chain.md: `Parameter: index [int]`."
+          - "[corpus] the previous `device` rename was wrong: its lone def-vote came from Push2/device_navigation.py:151
+            `def delete_device(device)`, a module-level helper that takes a Device object as a convenience and converts
+            to an int index before calling the binding (`device_parent.delete_device(device_index)` at line 154)."
 returns:
   type: None
 raw_doc: Remove a device identified by its index from the chain. Throws runtime error if bad index.
@@ -220,16 +248,16 @@ raw_doc: Remove a device identified by its index from the chain. Throws runtime 
 
 ```yaml
 kind: method
-signature: 'duplicate_device( (Chain)arg1, (int)arg2) -> None :'
+signature: "duplicate_device( (Chain)arg1, (int)arg2) -> None :"
 cpp_signature: void duplicate_device(TChainPyHandle,int)
 args:
-- name: index
-  type: int
-  refinement:
-    name:
-      probed: arg2
-      sources:
-      - '[docstring] "Duplicate the device at the given index in the chain".'
+  - name: index
+    type: int
+    refinement:
+      name:
+        probed: arg2
+        sources:
+          - '[docstring] "Duplicate the device at the given index in the chain".'
 returns:
   type: None
 raw_doc: Duplicate the device at the given index in the chain.
@@ -239,16 +267,17 @@ raw_doc: Duplicate the device at the given index in the chain.
 
 ```yaml
 kind: method
-signature: 'insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :'
-cpp_signature: TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>,
+signature: "insert_device( (Chain)arg1, (str)DeviceName [, (int)DeviceIndex=-1]) -> LomObject :"
+cpp_signature:
+  TWeakPtr<TPyHandleBase> insert_device(TChainPyHandle,std::__1::basic_string<char, std::__1::char_traits<char>,
   std::__1::allocator<char>> [,int=-1])
 args:
-- name: device_name
-  type: str
-- name: device_index
-  type: int
-  optional: true
-  default: '-1'
+  - name: device_name
+    type: str
+  - name: device_index
+    type: int
+    optional: true
+    default: "-1"
 returns:
   type: Live.Device.Device
   refinement:
@@ -256,10 +285,10 @@ returns:
       probed: Live.LomObject.LomObject
       confidence: high
       sources:
-      - '[C++ signature] returns `TWeakPtr<TPyHandleBase>` (the generic LomObject handle) — no specific type enforced.'
-      - '[probe] `chain.devices` element_reprs are `<class ''Device.Device''>` (plus the `WavetableDevice` subclass) — the
-        runtime returns properly-typed Device instances when iterated, so `insert_device` returning `Device` matches the observed
-        instance type.'
-      - '[docstring] + [M4L] confirm semantics ("Add a device at a given index").'
+        - "[C++ signature] returns `TWeakPtr<TPyHandleBase>` (the generic LomObject handle) — no specific type enforced."
+        - "[probe] `chain.devices` element_reprs are `<class 'Device.Device'>` (plus the `WavetableDevice` subclass) —
+          the runtime returns properly-typed Device instances when iterated, so `insert_device` returning `Device`
+          matches the observed instance type."
+        - '[docstring] + [M4L] confirm semantics ("Add a device at a given index").'
 raw_doc: Add a device at a given index in the chain. At end if -1.
 ```

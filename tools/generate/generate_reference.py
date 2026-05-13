@@ -144,6 +144,347 @@ def _listener_triplet(member: dict) -> list[str]:
     return []
 
 
+# --- Footnote-marker primitives -------------------------------------- #
+#
+# Shared shape: a `<sup>` glyph attached to a phrase or heading, hover
+# reveals a structured tooltip. Used by refinement-on-value (override
+# marker, `*`), behavior records (footnote-marker--behavior, `†`),
+# quirk records (footnote-marker--quirk, `!`), and the source-of-body
+# marker (source-marker, `ⓘ`). The render helpers below factor out the
+# tooltip rows + bullets so each marker function just supplies the
+# kind-specific top content.
+
+
+def _mdx_text(s: str) -> str:
+    """Escape MDX-significant characters in inline element-child text
+    while leaving backtick-delimited code spans untouched.
+
+    MDX honors backslash-escapes for `<` `>` `{` `}` outside code spans
+    — they decode to literal characters at render time. But inside
+    backtick code spans MDX treats the content as opaque and DOESN'T
+    decode the backslashes, so we'd emit visible backslash-angle-bracket
+    literals if we ran the escape blindly.
+    """
+    out: list[str] = []
+    i = 0
+    n = len(s)
+    while i < n:
+        ch = s[i]
+        if ch == "`":
+            j = s.find("`", i + 1)
+            if j == -1:
+                # Unmatched backtick — drop the special meaning, keep as literal.
+                out.append("\\`")
+                i += 1
+            else:
+                out.append(s[i : j + 1])
+                i = j + 1
+        elif ch == "\\":
+            out.append("\\\\")
+            i += 1
+        elif ch in "<>{}":
+            out.append("\\" + ch)
+            i += 1
+        else:
+            out.append(ch)
+            i += 1
+    return "".join(out)
+
+
+def _flatten_whitespace(s: object) -> str:
+    return re.sub(r"\s+", " ", str(s)).strip() if s else ""
+
+
+def _confidence_chip_html(confidence: str) -> str:
+    """Colored chip — high=green, medium=yellow, low=red. Empty string
+    when no confidence is set."""
+    if not confidence:
+        return ""
+    slug = re.sub(r"[^a-z0-9]+", "-", confidence.lower()).strip("-")
+    return (
+        f'<span class="ot-confidence ot-confidence-{html.escape(slug, quote=True)}">'
+        f"{html.escape(confidence, quote=True)} confidence</span>"
+    )
+
+
+def _sources_list_html(raw_source: object) -> str:
+    """`sources:` rendered as a bulleted list — each leading `[tag]`
+    extracted into a styled chip. Accepts a single string or a list of
+    strings. Empty string when no sources.
+
+    Uses `<span>` containers, not `<ul>`/`<li>`: MDX promotes `<ul>` to
+    block-level even when embedded inline, which breaks the enclosing
+    `<sup>` marker when the marker is placed in prose context. Spans
+    stay inline; CSS turns them into a visually bulleted list.
+    """
+    if isinstance(raw_source, list):
+        items = [_flatten_whitespace(item) for item in raw_source if item]
+    elif raw_source:
+        items = [_flatten_whitespace(raw_source)]
+    else:
+        items = []
+    if not items:
+        return ""
+    tag_re = re.compile(r"^\[([^\]]+)\]\s*(.*)$")
+    bullets: list[str] = []
+    for item in items:
+        m = tag_re.match(item)
+        if m:
+            tag, body = m.group(1), m.group(2)
+            tag_slug = re.sub(r"[^a-z0-9]+", "-", tag.lower()).strip("-")
+            bullets.append(
+                f'<span class="ot-source">'
+                f'<span class="ot-tag ot-tag-{html.escape(tag_slug, quote=True)}">'
+                f"{html.escape(tag, quote=True)}</span>"
+                f" {_mdx_text(body)}"
+                f"</span>"
+            )
+        else:
+            bullets.append(f'<span class="ot-source">{_mdx_text(item)}</span>')
+    return f'<span class="ot-sources">{"".join(bullets)}</span>'
+
+
+def record_footnote_html(record: dict, kind: str) -> str:
+    """Footnote marker for a `behavior:` or `quirks:` record.
+
+    Tooltip body:
+      - Assertion headline (the record's `assertion:` text) + confidence
+        chip floated right.
+      - Optional `Verified against Live <v>` row.
+      - Sources bullets with `[tag]` chips.
+
+    `kind` drives the marker glyph (CSS skin) and the aria-label —
+    "behavior" or "quirk". Empty string when the record is empty.
+    """
+    if not isinstance(record, dict):
+        return ""
+    assertion = record.get("assertion", "")
+    confidence = record.get("confidence", "")
+    verified_against = record.get("verified_against", "")
+    sources = record.get("sources", "")
+
+    parts: list[str] = []
+
+    # Top row: assertion on left, confidence chip floated right.
+    if assertion or confidence:
+        row_parts: list[str] = []
+        if assertion:
+            row_parts.append(
+                f'<span class="ot-row-left">'
+                f'<span class="ot-assertion">{_mdx_text(str(assertion).strip())}</span>'
+                f"</span>"
+            )
+        else:
+            row_parts.append('<span class="ot-row-left"></span>')
+        row_parts.append(_confidence_chip_html(confidence))
+        parts.append(f'<span class="ot-row">{"".join(row_parts)}</span>')
+
+    # Verified-against row — small label + version code.
+    if verified_against:
+        parts.append(
+            f'<span class="ot-row">'
+            f'<span class="ot-label">Verified against</span>'
+            f'<code class="ot-value">Live {html.escape(str(verified_against), quote=True)}</code>'
+            f"</span>"
+        )
+
+    sources_html = _sources_list_html(sources)
+    if sources_html:
+        parts.append(sources_html)
+
+    if not parts:
+        return ""
+
+    aria_labels = {"behavior": "behavioral assertion", "quirk": "quirk"}
+    # U+2060 word-joiner prevents the line from breaking between the
+    # preceding token and the marker glyph — keeps the marker glued
+    # to the word it annotates instead of wrapping to a new line.
+    return (
+        f"⁠"
+        f'<sup class="{kind}-marker" tabindex="0" '
+        f'aria-label="{aria_labels.get(kind, kind)}">'
+        f'<span class="{kind}-marker-tooltip" role="tooltip">'
+        f"{''.join(parts)}</span></sup>"
+    )
+
+
+def member_footnotes_html(member: dict, exclude_ids: set[str] | None = None) -> str:
+    """All behavior + quirk record markers for a member, concatenated.
+
+    Records with an `id:` listed in `exclude_ids` are skipped — used by
+    the inline-`[^id]` placement pass to avoid double-attaching a record
+    that was placed inline in the prose. Defaults to the
+    `__inline_footnote_ids` field stashed on `member` by the inline-
+    resolution pre-pass (see `resolve_inline_footnotes_in_module`).
+    """
+    if exclude_ids is None:
+        stashed = member.get("__inline_footnote_ids")
+        exclude = stashed if isinstance(stashed, set) else set()
+    else:
+        exclude = exclude_ids
+    out: list[str] = []
+    for rec in member.get("behavior") or []:
+        if isinstance(rec, dict) and rec.get("id") in exclude:
+            continue
+        out.append(record_footnote_html(rec, "behavior"))
+    for rec in member.get("quirks") or []:
+        if isinstance(rec, dict) and rec.get("id") in exclude:
+            continue
+        out.append(record_footnote_html(rec, "quirk"))
+    return "".join(out)
+
+
+_INLINE_REF_RE = re.compile(r"\[\^([A-Za-z0-9][A-Za-z0-9_-]*)\]")
+
+
+def _scan_anon_footnotes(body: str, replacer) -> str:
+    """Rewrite `^[body]` anonymous footnotes via a backtick-aware scan.
+
+    A regex over `\\^\\[([^\\]]+?)\\]` truncates at the first `]`, which
+    breaks when the body contains code spans with brackets in them (e.g.
+    `chain.devices[i]`). This scanner tracks whether we're inside a
+    backtick code span and only matches `[` / `]` at the prose level.
+    Nested `[...]` inside the body are also handled via a depth counter.
+
+    Calls `replacer(inner_body)` for each match and substitutes its
+    return string.
+    """
+    out: list[str] = []
+    i = 0
+    n = len(body)
+    in_code = False
+    while i < n:
+        ch = body[i]
+        if ch == "`":
+            in_code = not in_code
+            out.append(ch)
+            i += 1
+            continue
+        if not in_code and ch == "^" and i + 1 < n and body[i + 1] == "[":
+            # Scan to the matching `]` at depth 0, ignoring brackets
+            # inside nested code spans.
+            j = i + 2
+            depth = 1
+            inner_code = False
+            while j < n:
+                jc = body[j]
+                if jc == "`":
+                    inner_code = not inner_code
+                elif not inner_code and jc == "[":
+                    depth += 1
+                elif not inner_code and jc == "]":
+                    depth -= 1
+                    if depth == 0:
+                        break
+                j += 1
+            if j < n:
+                out.append(replacer(body[i + 2 : j]))
+                i = j + 1
+                continue
+            # Unclosed `^[` — leave the literal text alone.
+        out.append(ch)
+        i += 1
+    return "".join(out)
+
+
+def _anon_footnote_html(text: str) -> str:
+    """Pandoc-style anonymous inline footnote — `^[body]` syntax. The
+    bracketed body becomes the entire tooltip content; no `id:`, no
+    `confidence:`, no `sources:`. Distinct glyph (`‡`) so an
+    anonymous aside reads apart from the structured-record markers."""
+    return (
+        f"⁠"  # word joiner — keep the marker glued to the preceding token
+        f'<sup class="note-marker" tabindex="0" aria-label="note">'
+        f'<span class="note-marker-tooltip" role="tooltip">'
+        f'<span class="ot-note">{_mdx_text(text.strip())}</span>'
+        f"</span></sup>"
+    )
+
+
+def _resolve_inline_footnotes(
+    body: str, member: dict
+) -> tuple[str, set[str]]:
+    """Replace inline footnote references in prose with marker HTML.
+
+    Handles two forms:
+      `[^id]`  — resolves against the member's `behavior:` and `quirks:`
+                 records by `id`. Placed marker is the record's full
+                 tooltip. Unresolved ids are left as literal text and
+                 logged to stderr.
+      `^[body]` — anonymous inline footnote. Body becomes the tooltip.
+
+    Returns (rewritten_body, placed_ids) where `placed_ids` lists the
+    ids that got placed inline (so the heading-attachment pass can
+    skip them).
+    """
+    record_by_id: dict[str, tuple[dict, str]] = {}
+    for rec in member.get("behavior") or []:
+        if isinstance(rec, dict) and rec.get("id"):
+            record_by_id[rec["id"]] = (rec, "behavior")
+    for rec in member.get("quirks") or []:
+        if isinstance(rec, dict) and rec.get("id"):
+            record_by_id[rec["id"]] = (rec, "quirk")
+
+    placed_ids: set[str] = set()
+
+    def _replace_ref(match: re.Match) -> str:
+        ref_id = match.group(1)
+        if ref_id in record_by_id:
+            rec, kind = record_by_id[ref_id]
+            placed_ids.add(ref_id)
+            return record_footnote_html(rec, kind)
+        # Unresolved — leave the literal `[^id]` so the failure is
+        # visible. Astro / remark will render it as a broken footnote
+        # ref, which is preferable to silently dropping it.
+        print(
+            f"warning: unresolved inline footnote [^{ref_id}] on "
+            f"{member.get('name', '<anonymous>')}",
+            file=sys.stderr,
+        )
+        return match.group(0)
+
+    body = _INLINE_REF_RE.sub(_replace_ref, body)
+    body = _scan_anon_footnotes(body, _anon_footnote_html)
+    return body, placed_ids
+
+
+def resolve_inline_footnotes_in_module(module: dict) -> None:
+    """Walk every class and member in `module`, rewriting `description:`
+    in place to replace `[^id]` / `^[body]` refs with marker HTML and
+    stashing the placed-id set on each member as
+    `__inline_footnote_ids`. Generators call this once per module at
+    load time so heading + body emission both see the rewritten data."""
+
+    def _process(node: dict) -> None:
+        desc = node.get("description")
+        if isinstance(desc, str) and desc.strip():
+            rewritten, placed = _resolve_inline_footnotes(desc, node)
+            node["description"] = rewritten
+            node["__inline_footnote_ids"] = placed
+        else:
+            node["__inline_footnote_ids"] = set()
+
+    def _walk_class(cls: dict) -> None:
+        _process(cls)
+        for prop in cls.get("properties") or []:
+            _process(prop)
+        for method in cls.get("methods") or []:
+            _process(method)
+        for nested in cls.get("classes") or []:
+            _walk_class(nested)
+        for nested_enum in cls.get("enums") or []:
+            _process(nested_enum)
+
+    for cls in module.get("classes") or []:
+        _walk_class(cls)
+    for enum in module.get("enums") or []:
+        _process(enum)
+    for fn in module.get("functions") or []:
+        _process(fn)
+    for const in module.get("constants") or []:
+        _process(const)
+
+
 def override_marker_html(node: dict, key: str) -> str:
     """Small superscript marker rendered after a value that came from a
     `refinement` block. The marker carries a structured tooltip child
@@ -164,52 +505,6 @@ def override_marker_html(node: dict, key: str) -> str:
     confidence = block.get("confidence", "")
     raw_source = block.get("sources", "")
 
-    def _flat(s: object) -> str:
-        return re.sub(r"\s+", " ", str(s)).strip() if s else ""
-
-    def _esc(s: str) -> str:
-        return html.escape(s, quote=True)
-
-    def _mdx_text(s: str) -> str:
-        """Escape MDX-significant characters in inline element-child
-        text while leaving backtick-delimited code spans untouched.
-
-        MDX honors backslash-escapes for `<` `>` `{` `}` outside code
-        spans — they decode to literal characters at render time. But
-        inside backtick code spans MDX treats the content as opaque
-        and DOESN'T decode the backslashes, so we'd emit visible
-        backslash-angle-bracket literals if we ran the escape blindly.
-        """
-        out: list[str] = []
-        i = 0
-        n = len(s)
-        while i < n:
-            ch = s[i]
-            if ch == "`":
-                j = s.find("`", i + 1)
-                if j == -1:
-                    # Unmatched backtick — drop the special meaning,
-                    # keep as literal.
-                    out.append("\\`")
-                    i += 1
-                else:
-                    # Pass code span verbatim, including delimiters.
-                    out.append(s[i : j + 1])
-                    i = j + 1
-            elif ch == "\\":
-                out.append("\\\\")
-                i += 1
-            elif ch in "<>{}":
-                out.append("\\" + ch)
-                i += 1
-            else:
-                out.append(ch)
-                i += 1
-        return "".join(out)
-
-    def _fmt_type(v: object) -> str:
-        return display_type(v) if isinstance(v, str) else str(v)
-
     parts: list[str] = []
 
     # Top row: probed-as on the left, confidence chip floated right.
@@ -222,67 +517,34 @@ def override_marker_html(node: dict, key: str) -> str:
     if original is not None or confidence:
         row_parts: list[str] = []
         if original is not None:
+            probed_str = display_type(original) if isinstance(original, str) else str(original)
             row_parts.append(
                 f'<span class="ot-row-left">'
                 f'<span class="ot-label">Probed as</span>'
-                f'<code class="ot-value">{_mdx_text(_fmt_type(original))}</code>'
-                f'</span>'
+                f'<code class="ot-value">{_mdx_text(probed_str)}</code>'
+                f"</span>"
             )
         else:
             # Confidence-only refinement (no probed value to surface) — keep
             # the row structure so the chip still floats to the right edge.
             row_parts.append('<span class="ot-row-left"></span>')
-        if confidence:
-            conf_slug = re.sub(r"[^a-z0-9]+", "-", confidence.lower()).strip("-")
-            row_parts.append(
-                f'<span class="ot-confidence ot-confidence-{_esc(conf_slug)}">'
-                f'{_esc(confidence)} confidence</span>'
-            )
+        row_parts.append(_confidence_chip_html(confidence))
         parts.append(f'<span class="ot-row">{"".join(row_parts)}</span>')
 
-    # `source:` accepts a single string or a YAML list of independent
-    # evidence points. Each list item may carry a leading `[tag]`
-    # prefix marking the evidence type — extracted and rendered as a
-    # styled chip on the bullet so readers can scan provenance at a
-    # glance.
-    if isinstance(raw_source, list):
-        items = [_flat(item) for item in raw_source if item]
-    elif raw_source:
-        items = [_flat(raw_source)]
-    else:
-        items = []
-
-    if items:
-        bullet_html: list[str] = []
-        tag_re = re.compile(r"^\[([^\]]+)\]\s*(.*)$")
-        for item in items:
-            m = tag_re.match(item)
-            if m:
-                tag = m.group(1)
-                body = m.group(2)
-                tag_slug = re.sub(r"[^a-z0-9]+", "-", tag.lower()).strip("-")
-                bullet_html.append(
-                    f'<li>'
-                    f'<span class="ot-tag ot-tag-{_esc(tag_slug)}">'
-                    f'{_esc(tag)}</span>'
-                    f' {_mdx_text(body)}'
-                    f'</li>'
-                )
-            else:
-                bullet_html.append(f'<li>{_mdx_text(item)}</li>')
-        parts.append(
-            f'<ul class="ot-sources">{"".join(bullet_html)}</ul>'
-        )
+    sources_html = _sources_list_html(raw_source)
+    if sources_html:
+        parts.append(sources_html)
 
     if not parts:
         parts.append('<span class="ot-row">Manually refined.</span>')
 
     inner = "".join(parts)
     return (
+        f"⁠"  # word joiner — keep the marker glued to the refined value
         f'<sup class="override-marker" tabindex="0" '
         f'aria-label="manually refined">'
         f'<span class="override-marker-tooltip" role="tooltip">'
-        f'{inner}</span></sup>'
+        f"{inner}</span></sup>"
     )
 
 
@@ -765,13 +1027,21 @@ def emit_description_block(lines: list[str], member: dict, *, wrapped: bool) -> 
         return
     marker = source_footnote_html(member)
     if marker:
-        # Put the marker on its own source line — joined inline with a
-        # preceding text paragraph by markdown's adjacent-line rule, but
-        # safely separated when the body ends in a block construct
-        # (closing code fence, list, etc.) where appending content on
-        # the same line would prevent the construct from closing and
-        # break MDX parsing of everything that follows.
-        body = f"{body}\n{marker}"
+        # Inline-append the marker so it reads as a footnote on the
+        # last sentence of the body. Exception: when the body ends in
+        # a closing code fence (or other block construct), appending
+        # content on the same line would prevent the construct from
+        # closing and break MDX parsing of everything that follows
+        # (see fix-mdx-fence-marker). In that case, put the marker on
+        # a fresh line — it becomes its own paragraph, which is
+        # acceptable for the edge case where the body ended in a fence
+        # anyway.
+        stripped = body.rstrip()
+        last_line = stripped.rsplit("\n", 1)[-1] if "\n" in stripped else stripped
+        if last_line.lstrip().startswith("```"):
+            body = f"{stripped}\n{marker}"
+        else:
+            body = f"{stripped}⁠{marker}"  # U+2060 word joiner, prevent wrap
     if wrapped:
         lines.append(f'<div class="member-desc">\n\n{body}\n\n</div>')
     else:
@@ -1553,13 +1823,17 @@ def render_module_page(
                 if kind == "property":
                     heading = property_heading_html(m, registry, current_module=anc_module)
                     flags = member_flags_html(m)
-                    lines.append(f"##### {heading}{flags}")
+
+                    fns = member_footnotes_html(m)
+                    lines.append(f"##### {heading}{fns}{flags}")
                     lines.append("")
                     emit_description_block(lines, m, wrapped=True)
                 else:  # method
                     heading = method_signature_html(m)
                     flags = member_flags_html(m)
-                    lines.append(f"##### {heading}{flags}")
+
+                    fns = member_footnotes_html(m)
+                    lines.append(f"##### {heading}{fns}{flags}")
                     lines.append("")
                     sig_block = callable_signature_block_html(
                         m, anc_module, registry,
@@ -1584,7 +1858,9 @@ def render_module_page(
             for prop in properties:
                 heading = property_heading_html(prop, registry, current_module=module_name)
                 flags = member_flags_html(prop)
-                lines.append(f"##### {heading}{flags}")
+
+                fns = member_footnotes_html(prop)
+                lines.append(f"##### {heading}{fns}{flags}")
                 lines.append("")
                 emit_description_block(lines, prop, wrapped=True)
         # Signal-only listener triplets — `notes`, `loop_jump`, etc.
@@ -1607,7 +1883,9 @@ def render_module_page(
                 # alternation.
                 heading = property_heading_html(prop, registry, current_module=module_name)
                 flags = member_flags_html(prop)
-                lines.append(f"##### {heading}{flags}")
+
+                fns = member_footnotes_html(prop)
+                lines.append(f"##### {heading}{fns}{flags}")
                 lines.append("")
                 triplet = _listener_triplet(prop)
                 if triplet:
@@ -1685,7 +1963,9 @@ def render_module_page(
         def _render_method(method: dict) -> None:
             heading = method_signature_html(method)
             flags = member_flags_html(method)
-            lines.append(f"##### {heading}{flags}")
+
+            fns = member_footnotes_html(method)
+            lines.append(f"##### {heading}{fns}{flags}")
             lines.append("")
             sig_block = callable_signature_block_html(
                 method, module_name, registry,
@@ -1759,7 +2039,9 @@ def render_module_page(
             for prop in deprecated_properties:
                 heading = property_heading_html(prop, registry, current_module=module_name)
                 flags = member_flags_html(prop)
-                lines.append(f"##### {heading}{flags}")
+
+                fns = member_footnotes_html(prop)
+                lines.append(f"##### {heading}{fns}{flags}")
                 lines.append("")
                 emit_description_block(lines, prop, wrapped=True)
             for method in deprecated_methods:
@@ -2025,11 +2307,15 @@ def main() -> int:
     from parse_module_md import parse_module_md, regraft_hoisted
 
     # Load every module up front — registry build needs cross-module
-    # visibility for type linking.
+    # visibility for type linking. Per-module pre-pass: regraft hoisted
+    # nested children under their parent class, then rewrite inline
+    # `[^id]` / `^[body]` footnote refs in member prose so heading +
+    # body emission both see the same resolved state.
     modules: dict[str, dict] = {}
     for path in sorted(md_dir.glob("*.md")):
         d = regraft_hoisted(parse_module_md(path))
         if isinstance(d, dict) and d.get("module"):
+            resolve_inline_footnotes_in_module(d)
             modules[d["module"]] = d
 
     registry = build_class_registry(modules)

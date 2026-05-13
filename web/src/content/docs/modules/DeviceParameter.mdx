@@ -10,8 +10,7 @@ display string, automation state, and MIDI/key mapping target.
 
 ### <span class="sig"><span class="sig-name" data-path="Live.DeviceParameter.">DeviceParameter</span></span><a class="lom-badge" href="/LiveAPI/live-object-model/" title="This is a LomObject — see the LomObject page for the universal identity / lifetime model" aria-label="LomObject"></a>
 
-This class represents a (automatable) parameter within a MIDI or Audio DSP-Device.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+This class represents a (automatable) parameter within a MIDI or Audio DSP-Device.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 #### Properties
 
@@ -24,19 +23,17 @@ This class represents a (automatable) parameter within a MIDI or Audio DSP-Devic
 
 <div class="member-desc">
 
-Get the canonical parent of the device parameter.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Get the canonical parent of the device parameter.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
 </details>
 
-##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-row"><span class="ot-row-left"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><span class="ot-confidence ot-confidence-high">high confidence</span></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> `AutomationState` enum in same module. Property name matches the enum snake-case; raw_doc describes automation states (none / playing / overridden) which match `AutomationState` members.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### automation_state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#automationstate" title="AutomationState">AutomationState</a>⁠<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-row"><span class="ot-row-left"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><span class="ot-confidence ot-confidence-high">high confidence</span></span><span class="ot-sources"><span class="ot-source"><span class="ot-tag ot-tag-sister-method">sister method</span> `AutomationState` enum in same module. Property name matches the enum snake-case; raw_doc describes automation states (none / playing / overridden) which match `AutomationState` members.</span></span></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
-Returns state of type AutomationState.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns state of type AutomationState.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -44,8 +41,7 @@ Returns state of type AutomationState.
 
 <div class="member-desc">
 
-Return the default value for this parameter.  A Default value is only available for non-quantized parameter types (see 'is_quantized').
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Return the default value for this parameter.  A Default value is only available for non-quantized parameter types (see 'is_quantized').⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -53,8 +49,7 @@ Return the default value for this parameter.  A Default value is only available 
 
 <div class="member-desc">
 
-Get/Set the current value (as visible in the GUI) this parameter. The value must be inside the min/max properties of this device.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Get/Set the current value (as visible in the GUI) this parameter. The value must be inside the min/max properties of this device.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -62,8 +57,7 @@ Get/Set the current value (as visible in the GUI) this parameter. The value must
 
 <div class="member-desc">
 
-Returns false if the parameter has been macro mapped or disabled by Max.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns false if the parameter has been macro mapped or disabled by Max.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -71,8 +65,7 @@ Returns false if the parameter has been macro mapped or disabled by Max.
 
 <div class="member-desc">
 
-Returns True, if this value is a boolean or integer like switch. Non quantized values are continues float values.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns True, if this value is a boolean or integer like switch. Non quantized values are continues float values.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -80,8 +73,7 @@ Returns True, if this value is a boolean or integer like switch. Non quantized v
 
 <div class="member-desc">
 
-Returns const access to the upper value of the allowed range for this parameter
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns const access to the upper value of the allowed range for this parameter⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -89,8 +81,7 @@ Returns const access to the upper value of the allowed range for this parameter
 
 <div class="member-desc">
 
-Returns const access to the lower value of the allowed range for this parameter
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns const access to the lower value of the allowed range for this parameter⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -98,8 +89,7 @@ Returns const access to the lower value of the allowed range for this parameter
 
 <div class="member-desc">
 
-Returns const access the name of this parameter, as visible in Lives automation choosers.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns const access the name of this parameter, as visible in Lives automation choosers.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -107,8 +97,7 @@ Returns const access the name of this parameter, as visible in Lives automation 
 
 <div class="member-desc">
 
-Returns const access the original name of this parameter, unaffected of any renamings.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns const access the original name of this parameter, unaffected of any renamings.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -116,17 +105,15 @@ Returns const access the original name of this parameter, unaffected of any rena
 
 <div class="member-desc">
 
-Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Return the list of possible values for this parameter. Like value_items, but prefers short value names if available. Raises an error if 'is_quantized' is False.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
-##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a><sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-row"><span class="ot-row-left"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><span class="ot-confidence ot-confidence-high">high confidence</span></span><ul class="ot-sources"><li><span class="ot-tag ot-tag-sister-method">sister method</span> two enums in same module overlap on the name `state`: `AutomationState` and `ParameterState`.</li><li><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the state of the parameter: enabled, irrelevant, ..." — those are exactly `ParameterState` member names (enabled / irrelevant / disabled). `AutomationState`'s members (none / playing / overridden) describe a different concept.</li></ul></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
+##### state<span class="prop-type">: <a href="/LiveAPI/modules/deviceparameter/#parameterstate" title="ParameterState">ParameterState</a>⁠<sup class="override-marker" tabindex="0" aria-label="manually refined"><span class="override-marker-tooltip" role="tooltip"><span class="ot-row"><span class="ot-row-left"><span class="ot-label">Probed as</span><code class="ot-value">int</code></span><span class="ot-confidence ot-confidence-high">high confidence</span></span><span class="ot-sources"><span class="ot-source"><span class="ot-tag ot-tag-sister-method">sister method</span> two enums in same module overlap on the name `state`: `AutomationState` and `ParameterState`.</span><span class="ot-source"><span class="ot-tag ot-tag-docstring">docstring</span> "Returns the state of the parameter: enabled, irrelevant, ..." — those are exactly `ParameterState` member names (enabled / irrelevant / disabled). `AutomationState`'s members (none / playing / overridden) describe a different concept.</span></span></span></sup></span><span class="prop-flags"><span class="prop-flag prop-flag-ro" aria-label="read-only"></span><a class="prop-flag prop-flag-listen" href="/LiveAPI/listeners/" title="This member is observable — see Listener for the subscription model." aria-label="listen"></a></span>
 
 <div class="member-desc">
 
-Returns the state of the parameter: - enabled - the parameter's value can be changed, - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled, - disabled - the parameter's value cannot be changed.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Returns the state of the parameter: - enabled - the parameter's value can be changed, - irrelevant - the parameter is enabled, but value changes will not take any effect until it gets enabled, - disabled - the parameter's value cannot be changed.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -134,8 +121,7 @@ Returns the state of the parameter: - enabled - the parameter's value can be cha
 
 <div class="member-desc">
 
-Get/Set the current internal value of this parameter. The value must be inside the min/max properties of this device.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Get/Set the current internal value of this parameter. The value must be inside the min/max properties of this device.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -143,8 +129,7 @@ Get/Set the current internal value of this parameter. The value must be inside t
 
 <div class="member-desc">
 
-Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Return the list of possible values for this parameter. Raises an error if 'is_quantized' is False.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -154,8 +139,7 @@ Return the list of possible values for this parameter. Raises an error if 'is_qu
 
 <div class="member-desc">
 
-Notify the begin of a modification of the parameter, when a sequence of modifications have to be consider a consistent group -- for Sexample, when recording automation.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Notify the begin of a modification of the parameter, when a sequence of modifications have to be consider a consistent group -- for Sexample, when recording automation.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -163,8 +147,7 @@ Notify the begin of a modification of the parameter, when a sequence of modifica
 
 <div class="member-desc">
 
-Notify the end of a modification of the parameter. See begin_gesture.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Notify the end of a modification of the parameter. See begin_gesture.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -172,8 +155,7 @@ Notify the end of a modification of the parameter. See begin_gesture.
 
 <div class="member-desc">
 
-Reenable automation for this parameter.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Reenable automation for this parameter.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 
@@ -183,8 +165,7 @@ Reenable automation for this parameter.
 
 <div class="member-desc">
 
-Return a string representation of the given value. To be used for display purposes only. This value can include characters like 'db' or 'hz', depending on the type of the parameter.
-<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
+Return a string representation of the given value. To be used for display purposes only. This value can include characters like 'db' or 'hz', depending on the type of the parameter.⁠<sup class="source-marker" tabindex="0" aria-label="from Live's runtime docstring"><span class="source-marker-tooltip" role="tooltip"><span class="sm-note">From Live's runtime docstring.</span></span></sup>
 
 </div>
 

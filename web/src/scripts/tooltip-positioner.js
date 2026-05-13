@@ -12,8 +12,10 @@
 //     overlaps the sidebars or the page rails.
 
 (function () {
-  const MARKER_SELECTOR = "sup.source-marker, sup.override-marker";
-  const TOOLTIP_SELECTOR = ".source-marker-tooltip, .override-marker-tooltip";
+  const MARKER_SELECTOR =
+    "sup.source-marker, sup.override-marker, sup.behavior-marker, sup.quirk-marker, sup.note-marker";
+  const TOOLTIP_SELECTOR =
+    ".source-marker-tooltip, .override-marker-tooltip, .behavior-marker-tooltip, .quirk-marker-tooltip, .note-marker-tooltip";
   const EDGE_PAD = 12;
   const GAP = 8;
 
