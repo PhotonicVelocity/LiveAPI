@@ -125,20 +125,14 @@
   background: var(--sl-color-gray-6);
 }
 
-/* Tooltip child — hidden by default, shown on hover/focus. Same
-   positioning approach as `.override-marker-tooltip` (centered above
-   the marker, fixed max-width, word-wrap long content). */
+/* Tooltip child — visibility + position managed by
+   `web/src/scripts/tooltip-positioner.js`; see same comment on
+   `.override-marker-tooltip` above. */
 .sl-markdown-content sup.source-marker > .source-marker-tooltip {
   display: none;
 }
-.sl-markdown-content sup.source-marker:hover > .source-marker-tooltip,
-.sl-markdown-content sup.source-marker:focus > .source-marker-tooltip {
+.sl-markdown-content sup.source-marker > .source-marker-tooltip.is-open {
   display: block;
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 0.4rem;
   padding: 0.6rem 0.75rem;
   min-width: 22rem;
   max-width: 32rem;
@@ -413,21 +407,17 @@
   background: var(--sl-color-gray-6);
 }
 
-/* Tooltip child — hidden by default, shown on hover/focus of the
-   parent marker. Centered on the marker so the box doesn't bias
-   into either of Starlight's sidebars. Long content word-wraps at
-   the tooltip's max-width. */
+/* Tooltip child — hidden by default. Position + show are managed by
+   `web/src/scripts/tooltip-positioner.js`, which writes inline
+   `position: fixed; top; left;` on hover/focus so the box stays
+   within the article's bounds and out from under Starlight's
+   sidebars / sticky header. The `.is-open` class is the JS-side
+   visibility toggle. */
 .sl-markdown-content sup.override-marker > .override-marker-tooltip {
   display: none;
 }
-.sl-markdown-content sup.override-marker:hover > .override-marker-tooltip,
-.sl-markdown-content sup.override-marker:focus > .override-marker-tooltip {
+.sl-markdown-content sup.override-marker > .override-marker-tooltip.is-open {
   display: block;
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-bottom: 0.4rem;
   padding: 0.6rem 0.75rem;
   min-width: 22rem;
   max-width: 30rem;
