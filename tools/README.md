@@ -6,8 +6,8 @@ Three-stage pipeline for capturing Live API metadata and generating typed Python
 Stage 1: Capture + Probe  (inside Live)        → LiveTree.raw.json + LiveClasses.json
 - Captures structural tree via dir() and raw docstrings, settability via fset (LiveTree.raw.json)
 - Probes runtime types in a saved set, then loads devices for additional discovery (LiveClasses.json)
-Stage 2: Parse + markdown seed (external)      → LiveTree.parsed.v2.json + probe/<v>/seed/*.md
-- Parses raw capture into a structured tree (LiveTree.parsed.v2.json)
+Stage 2: Parse + markdown seed (external)      → LiveTree.parsed.json + probe/<v>/seed/*.md
+- Parses raw capture into a structured tree (LiveTree.parsed.json)
 - Builds the per-module markdown seed under probe/<v>/seed/, applying algorithmic
   decisions (type qualification, optional widening, enum widening, listener-triplet folding,
   parametric-container detection)
@@ -170,11 +170,11 @@ override.
 ```bash
 python tools/parse/run_parse_pipeline.py 12.3.6
 # Equivalent to:
-#   python tools/parse/parse_apicapture_results_v2.py 12.3.6
+#   python tools/parse/parse_apicapture_results.py 12.3.6
 #   python tools/parse/build_lom_md.py 12.3.6
 ```
 
-Output: `probe/12.3.6/pipeline/LiveTree.parsed.v2.json` (parsed tree) and
+Output: `probe/12.3.6/pipeline/LiveTree.parsed.json` (parsed tree) and
 `probe/12.3.6/seed/<Module>.md` (per-module markdown seed — the algorithmic baseline for each module).
 
 The curated SOT lives in `content/12.3.6/modules/<Module>.md`. It started as a copy of `seed/` and now carries
@@ -183,9 +183,9 @@ args, or qualified iterable element types. `seed/` regenerates freely on each St
 from `seed/` at intentional checkpoints (no automatic flow). Diff `seed/` against `modules/` to see exactly which facts
 have been hand-touched.
 
-### parse_apicapture_results_v2.py
+### parse_apicapture_results.py
 
-Reads `LiveTree.raw.json` from the pipeline directory and produces `LiveTree.parsed.v2.json` — a normalized,
+Reads `LiveTree.raw.json` from the pipeline directory and produces `LiveTree.parsed.json` — a normalized,
 enriched tree. Probe data (`LiveClasses.json`) is currently not consumed by v2; the parser is raw_doc-driven.
 
 Transforms applied:
@@ -202,7 +202,7 @@ Transforms applied:
 
 ### build_lom_md.py
 
-Reads `LiveTree.parsed.v2.json` and emits one markdown file per top-level Live module under `probe/<v>/seed/`.
+Reads `LiveTree.parsed.json` and emits one markdown file per top-level Live module under `probe/<v>/seed/`.
 Internally it builds a per-module dict and serializes via `md_emit.convert()` — the same emitter used at intentional
 sync points to refresh the curated SOT. Algorithmic decisions live here — anything a human shouldn't have to make
 explicit:
@@ -256,7 +256,7 @@ tools/
 │   └── helpers/
 │       └── app.py           Version number extraction
 ├── parse/                   Stage 2: parser + LOM markdown seed builder
-│   ├── parse_apicapture_results_v2.py   Parse raw capture → LiveTree.parsed.v2.json
+│   ├── parse_apicapture_results.py   Parse raw capture → LiveTree.parsed.json
 │   ├── build_lom_md.py                  Build per-module markdown seed → probe/<v>/seed/*.md
 │   ├── md_emit.py                       Markdown emitter (used by build_lom_md and one-off conversion)
 │   ├── parse_module_md.py               Markdown parser + legacy-shape adapter (consumed by generators)

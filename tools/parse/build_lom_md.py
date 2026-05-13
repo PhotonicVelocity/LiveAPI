@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build per-module LOM markdown files from LiveTree.parsed.json.
 
-Reads the parsed tree (output of parse_apicapture_results_v2.py) and
+Reads the parsed tree (output of parse_apicapture_results.py) and
 emits one markdown file per top-level Live module to
 probe/<v>/seed/<Module>.md. Format spec: doc/lom-format.md.
 
@@ -26,11 +26,11 @@ Helpers (string normalization, kind-discriminator map, skip-list) live
 alongside the stage they support and are clearly marked.
 
 Iteration plan — each step extended build_member by one field or
-transformation, comparing output diffs along the way. The v2 parsed
-tree has now been fully extracted; remaining fields require probe data
+transformation, comparing output diffs along the way. The parsed tree
+has now been fully extracted; remaining fields require probe data
 (LiveClasses.json), folded in by a later stage.
 
-  Done — raw_doc-derived (v2 parsed tree only):
+  Done — raw_doc-derived (parsed tree only):
     1.  one file per module, just `module:` and empty `members:`
     2.  list class/enum/function/constant names (with kind grouping
         and primary-class promotion)
@@ -715,9 +715,8 @@ def build_member(
         if init_doc:
             out["init_doc"] = init_doc
         # `constructable` comes from the probe (it's an observation about
-        # whether `Class()` succeeds at runtime), not the dir-walk
-        # capture. The parser node only has it if v1's merge_probe_data
-        # step ran; v2 reads probe directly.
+        # whether `Class()` succeeds at runtime), not the dir-walk capture.
+        # We read it from the probe data directly.
         out["constructable"] = bool(
             node.get("constructable")
             or (probe_entry and probe_entry.get("constructable"))

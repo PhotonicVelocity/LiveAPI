@@ -2,7 +2,7 @@
 
 Stage 2 has two steps:
 
-  1. parse_apicapture_results_v2.py  — raw capture → LiveTree.parsed.v2.json
+  1. parse_apicapture_results.py  — raw capture → LiveTree.parsed.json
   2. build_lom_md.py                 — parsed tree → probe/<v>/seed/*.md
 
 The seed markdowns are the algorithmic baseline. The curated SOT lives at
@@ -40,7 +40,7 @@ def main() -> None:
     args = parser.parse_args()
 
     run(
-        ["tools/parse/parse_apicapture_results_v2.py", args.version],
+        ["tools/parse/parse_apicapture_results.py", args.version],
         "Stage 2a: Parse raw capture",
     )
 
@@ -50,8 +50,8 @@ def main() -> None:
     )
 
     print(
-        f"\nStage 2 complete. Parsed tree at stubs/{args.version}/pipeline/LiveTree.parsed.v2.json; "
-        f"seed markdowns at stubs/{args.version}/reports/seed/"
+        f"\nStage 2 complete. Parsed tree at probe/{args.version}/pipeline/LiveTree.parsed.json; "
+        f"seed markdowns at probe/{args.version}/seed/"
     )
 
 

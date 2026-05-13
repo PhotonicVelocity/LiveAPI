@@ -20,10 +20,10 @@ where the data lives between stages. For *why* each piece exists see
                 ┌────────────────────────────────────────────────────────┐
                 │   Stage 2a — PARSE                                     │
                 │   driver:  tools/parse/run_parse_pipeline.py           │
-                │   runs:    tools/parse/parse_apicapture_results_v2.py  │
+                │   runs:    tools/parse/parse_apicapture_results.py     │
                 └────────────────────────────────────────────────────────┘
                                           │
-                          LiveTree.parsed.v2.json (immutable)
+                          LiveTree.parsed.json (immutable)
                                           ▼
                 ┌────────────────────────────────────────────────────────┐
                 │   Stage 2b — BUILD MARKDOWN SEED                       │
@@ -33,12 +33,15 @@ where the data lives between stages. For *why* each piece exists see
                                           │
                           probe/<v>/seed/*.md
                                           │
-   ┌────────────────────────────────┐     │
-   │ content/<v>/modules/*.md         │  ◀──┘  (resync at intentional checkpoints)
-   │ CURATED SOT — seed + sibling   │
-   │ <field>_override: blocks       │
-   │ (each with source:) + prose    │
-   └────────────────┬───────────────┘
+   ┌─────────────────────────────────────┐ │
+   │ content/<v>/                        │◀┘  (resync at intentional checkpoints)
+   │   modules/*.md   ← per-module SOT   │
+   │   *.md           ← 4 foundation     │
+   │                    pages (flat)     │
+   │ CURATED — seed + sibling            │
+   │ <field>_override: blocks (each      │
+   │ with source:) + authored prose      │
+   └─────────────────┬───────────────────┘
                     ▼
               ┌─────┴─────────────────────────────────────────────┐
               ▼                                                   ▼
@@ -59,10 +62,12 @@ where the data lives between stages. For *why* each piece exists see
                                                 └──────────────────────────────────┘
 ```
 
-`content/<v>/modules/*.md` is the **single source of truth** that fans out into
-both renderings (stubs and reference). Nothing is hand-maintained twice. Each
-module file holds fenced YAML blocks for structured fields plus authored prose
-between them — format spec: [`lom-format.md`](lom-format.md).
+`content/<v>/` is the **single source of truth** that fans out into both
+renderings (stubs and reference). Per-module markdown lives in
+`modules/<Module>.md`; the 4 cross-cutting foundation pages sit flat at
+the version root. Nothing is hand-maintained twice. Each file holds fenced
+YAML blocks for structured fields plus authored prose between them —
+format spec: [`lom-format.md`](lom-format.md).
 
 ---
 
@@ -87,7 +92,7 @@ with a known `.als` (from [`tools/sets/`](../tools/sets/)) and uses
 
 - `LiveTree.raw.json` — structural snapshot (the dir-walk tree). Consumed by Stage 2a.
 - `LiveClasses.json` — runtime probe data keyed by class repr (property types, settable flags, no-arg getters).
-  Currently *not* consumed by the v2 parse pipeline (which is raw_doc-only); kept around as a future input
+  Currently *not* consumed by the parse pipeline (which is raw_doc-only); kept around as a future input
   for probe-confirmed type widening and for pre-port verification of overrides.
 
 **Hand-curated inputs:** the `.als` set files in
@@ -95,14 +100,13 @@ with a known `.als` (from [`tools/sets/`](../tools/sets/)) and uses
 have instances to walk.
 
 **Not committed:** the raw outputs aren't in git (they're rebuildable from a
-running Live). The committed `Live/` directory is the *generated stubs*, not
-the raw capture (confusing naming — see Stage 3a).
+running Live).
 
 ---
 
 ## Stage 2a — Parse (offline)
 
-**Tool:** [`tools/parse/parse_apicapture_results_v2.py`](../tools/parse/parse_apicapture_results_v2.py)
+**Tool:** [`tools/parse/parse_apicapture_results.py`](../tools/parse/parse_apicapture_results.py)
 (invoked via [`tools/parse/run_parse_pipeline.py`](../tools/parse/run_parse_pipeline.py)).
 
 **Inputs:** `LiveTree.raw.json` from Stage 1.
@@ -115,7 +119,7 @@ Multi-step transform pipeline; each step takes the tree + a shared context dict 
 4. parse enum members from string-encoded forms, retype as `"enum"`
 5. parse function docs into structured `signature` / `description` / C++ pairs, build C++→Python type map, resolve into clean args + returns
 
-**Output:** [`probe/<version>/pipeline/LiveTree.parsed.v2.json`](../probe/12.3.6/pipeline/) —
+**Output:** [`probe/<version>/pipeline/LiveTree.parsed.json`](../probe/12.3.6/pipeline/) —
 the canonical parser output. **Never hand-edited.**
 
 **Hand-curated:** none. Mechanical transform of capture data only.
@@ -128,7 +132,7 @@ the canonical parser output. **Never hand-edited.**
 (also invoked via `run_parse_pipeline.py`). Builds the per-module dict in
 memory and serializes via [`md_emit.convert()`](../tools/parse/md_emit.py).
 
-**Inputs:** `LiveTree.parsed.v2.json`.
+**Inputs:** `LiveTree.parsed.json`.
 
 Converts the parsed tree into one markdown file per top-level Live module,
 applying the algorithmic decisions a human shouldn't have to make explicit:
@@ -149,19 +153,34 @@ the algorithmic baseline. Regenerated freely; not hand-edited.
 
 ---
 
-## The modules/ SOT (curated)
+## The content/ SOT (curated)
 
-**Location:** [`content/<version>/modules/<Module>.md`](../content/12.3.6/modules/).
+**Location:** [`content/<version>/`](../content/12.3.6/). The version root
+holds two kinds of markdown:
 
-Started as a copy of `seed/`. Carries sibling `<field>_override:` blocks where humans
-have tightened types, renamed args, or qualified iterable element types. Each override
-has a `value:`, an optional `confidence:` (`high` / `medium` / `low` for typed
-overrides), and a required `source:` field (corpus def-site, M4L doc citation, raw_doc
-text). Format spec: [`lom-format.md`](lom-format.md).
+- `content/<v>/modules/<Module>.md` — one file per top-level Live module
+  (43 today). Started as a copy of `probe/<v>/seed/`. Carries sibling
+  `<field>_override:` blocks (inside each member's fenced YAML) where
+  humans have tightened types, renamed args, or qualified iterable
+  element types. Each override has a `value:`, an optional `confidence:`
+  (`high` / `medium` / `low` for typed overrides), and a required
+  `source:` field (corpus def-site, M4L doc citation, raw_doc text).
+- `content/<v>/*.md` (flat) — 4 foundation pages
+  (`live-object-model.md`, `listeners.md`, `calling-conventions.md`,
+  `remote-scripts.md`). Hand-authored prose for cross-cutting concepts;
+  two of them (`live-object-model`, `listeners`) absorb a module's
+  structural content via an `include_module:` directive in their
+  frontmatter, so those modules don't render their own per-module page.
 
-`seed/` regenerates on every Stage 2 run; `modules/` is only resynced at intentional
-checkpoints, so a fresh capture won't trample existing overrides. Diffing `seed/`
-against `modules/` shows exactly which facts have been hand-touched.
+Filenames mirror their rendered URL slugs (`live-object-model.md` →
+`/LiveAPI/live-object-model/`), so the repo layout is one-to-one with
+the site URL tree. Format spec: [`lom-format.md`](lom-format.md).
+
+`probe/<v>/seed/` regenerates on every Stage 2 run; `content/<v>/` is
+only resynced at intentional checkpoints, so a fresh capture won't
+trample existing overrides. The diff workflow crosses dirs:
+`diff probe/<v>/seed/ content/<v>/modules/` shows exactly which facts
+have been hand-touched.
 
 **Drift safety:** type overrides can include a `from:` value that's validated against
 the parsed-tree value during port/audit, so a Live-version change that shifts parser
@@ -171,7 +190,7 @@ output surfaces as a warning rather than being silently absorbed.
 
 ## Stage 3 — Two renderings of one SOT
 
-Both consumers read `modules/*.md` and *only* that. They never reach back to raw
+Both consumers read `content/<v>/` and *only* that. They never reach back to raw
 capture, M4L docs, or the corpus.
 
 ### 3a. Stub generation
@@ -188,7 +207,14 @@ Python stubs published as the `ableton-live-stubs` package via
 
 **Tool:** [`tools/generate/generate_reference.py`](../tools/generate/generate_reference.py).
 
-**Output:** [`web/src/content/docs/modules/*.mdx`](../web/src/content/docs/modules/) — one MDX page per top-level Live module (43 today). The current step ladder (modules → classes → properties → property types → settable/listenable → ...) is tracked in [`reference-roadmap.md`](reference-roadmap.md).
+**Output:** 45 generated MDX pages under [`web/src/content/docs/`](../web/src/content/docs/):
+41 per-module pages at `modules/<Module>.mdx` (LomObject and Listener
+are absorbed by their foundation pages and skipped here) plus 4
+foundation pages flat at the docs root (`live-object-model.mdx`,
+`listeners.mdx`, `calling-conventions.mdx`, `remote-scripts.mdx`). The
+current step ladder (modules → classes → properties → property types →
+settable/listenable → ...) is tracked in
+[`reference-roadmap.md`](reference-roadmap.md).
 
 **Hand-curated companions** in [`web/`](../web/):
 
@@ -216,10 +242,11 @@ emits a static site under `web/dist/` → published to GitHub Pages at
 | Asset                                         | Source            | Drift risk |
 |-----------------------------------------------|-------------------|------------|
 | `tools/sets/<Set>.als`                         | hand              | low — only needs to exercise the API surface |
-| `content/<v>/modules/*.md` (override blocks)    | hand (sourced)    | tracked via `from:` drift checks; verified against the corpus in CI |
+| `content/<v>/modules/*.md` (override blocks)   | hand (sourced)    | tracked via `from:` drift checks; verified against the corpus in CI |
+| `content/<v>/*.md` (4 foundation pages)        | hand              | none (cross-cutting prose) |
 | `web/src/content/docs/index.mdx`               | hand              | none (static landing page) |
 | `web/src/styles/custom.css`, `astro.config.mjs`| hand              | low |
-| `probe/<v>/pipeline/LiveTree.parsed.v2.json`   | generated (Stage 2a) | regenerated from raw on every parse run; gitignored |
+| `probe/<v>/pipeline/LiveTree.parsed.json`   | generated (Stage 2a) | regenerated from raw on every parse run; gitignored |
 | `probe/<v>/seed/*.md`                 | generated (Stage 2b) | committed; algorithmic baseline for diffing against `modules/` |
 | `stubs/<v>/Live/*.pyi`                         | generated (Stage 3a) | committed; published to PyPI |
 | `web/src/content/docs/modules/*.mdx`           | generated (Stage 3b) | committed; published to GitHub Pages |
@@ -230,12 +257,12 @@ emits a static site under `web/dist/` → published to GitHub Pages at
 
 - [`external/corpus/`](../external/) — Ableton's shipped Remote Scripts, fetched by [`tools/fetch_external/`](../tools/fetch_external/). Used as evidence (`source:` citations) when authoring overrides, and by [`tools/verify/`](../tools/verify/) to assert generated stubs accept the corpus. Not consumed by stub or reference generation directly.
 - [`doc/live-api/*.md`](live-api/) — *legacy* hand-authored per-class notes from before the Starlight pivot. Currently untracked / not consumed by anything in the pipeline. Worth deciding whether to retire, fold into overrides as `source:` evidence, or carry forward into Phase 2 hypothesis records.
-- **Hypothesis records (Phase 2, not yet implemented).** [`reference-design.md`](reference-design.md) describes a future authoring surface — YAML/JSON behavioral claims that get verified against running Live and rendered alongside the structural skeleton. None of this exists in the pipeline today; the current generator only renders what `modules/*.md` contains.
+- **Hypothesis records (Phase 2, not yet implemented).** [`reference-design.md`](reference-design.md) describes a future authoring surface — YAML/JSON behavioral claims that get verified against running Live and rendered alongside the structural skeleton. None of this exists in the pipeline today; the current generator only renders what `content/<v>/` contains.
 
 ---
 
 ## Open questions for the architecture discussion
 
-- Should hypothesis records (Phase 2) be a *third* input alongside `modules/*.md`, or merge into the module markdown before generation?
+- Should hypothesis records (Phase 2) be a *third* input alongside `content/<v>/`, or merge into the module markdown before generation?
 - Status of `doc/live-api/`: retire, port forward, or keep as scratchpad?
-- Reference and stubs both consume `modules/*.md` directly today. As authored content grows, do we want an intermediate "rendered tree" stage that pre-resolves cross-references, link slugs, etc., so both consumers don't reimplement that logic?
+- Reference and stubs both consume `content/<v>/` directly today. As authored content grows, do we want an intermediate "rendered tree" stage that pre-resolves cross-references, link slugs, etc., so both consumers don't reimplement that logic?
