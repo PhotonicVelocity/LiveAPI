@@ -1,0 +1,60 @@
+name: Regen Check
+
+# Catches "edited the SOT but forgot to regenerate" — runs both generators
+# against the committed `content/<v>/` markdown and fails if the result
+# differs from the committed `stubs/<v>/Live/*.pyi` or
+# `web/src/content/docs/**/*.mdx`.
+
+on:
+  push:
+    paths:
+      - "content/**"
+      - "tools/parse/**"
+      - "tools/generate/**"
+      - "stubs/**"
+      - "web/src/content/docs/**"
+      - ".github/workflows/regen-check.yml"
+  pull_request:
+    paths:
+      - "content/**"
+      - "tools/parse/**"
+      - "tools/generate/**"
+      - "stubs/**"
+      - "web/src/content/docs/**"
+      - ".github/workflows/regen-check.yml"
+  workflow_dispatch:
+
+jobs:
+  regen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Regenerate .pyi stubs
+        run: python tools/generate/generate_stubs.py 12.3.6
+
+      - name: Regenerate reference MDX
+        run: python tools/generate/generate_reference.py 12.3.6
+
+      - name: Check for drift
+        run: |
+          if ! git diff --quiet -- stubs/ web/src/content/docs/; then
+            echo "::error::Generated outputs drifted from the SOT in content/."
+            echo "::error::Run \`python tools/generate/generate_stubs.py 12.3.6\` and"
+            echo "::error::\`python tools/generate/generate_reference.py 12.3.6\` locally, then commit."
+            echo ""
+            echo "Drift summary:"
+            git diff --stat -- stubs/ web/src/content/docs/
+            echo ""
+            echo "Drift detail:"
+            git --no-pager diff -- stubs/ web/src/content/docs/
+            exit 1
+          fi
+          echo "No drift. Generated outputs match the SOT."
