@@ -1,24 +1,35 @@
 # Documentation — Roadmap
 
-> Companion to `reference-design.md` and `reference-design-sketches.md`. The
-> design docs describe the destination; this doc describes the path. Each
-> phase is independently shippable and produces visible value before the next
-> phase starts. Sizing is rough — small / medium / large relative to each
-> other, not in hours.
+> Companion to `reference-design.md` (and the archived
+> `planning/history/reference-design-sketches.md`). The design docs describe
+> the destination; this doc describes the path. Each phase is independently
+> shippable and produces visible value before the next phase starts. Sizing
+> is rough — small / medium / large relative to each other, not in hours.
 
 ## Phase 0: where we are today
 
-- Capture + parse + lom-build pipeline producing `content/<v>/modules/*.md`
-  (the curated SOT — algorithmic seed plus sibling `<field>_override:` blocks).
+Phase 1 is shipped; we're in the early part of Phase 2 (record schema landed,
+some records flowing; rendering of remaining record types and the stub-side
+authored-prose pickup still TBD). Specifically:
+
+- Capture + parse + lom-build pipeline produces `content/<v>/modules/*.md`
+  (the curated SOT — algorithmic seed plus per-member `refinement:` blocks).
 - Stubs generated from `modules/` via `generate_stubs.py`, including
   parser-side enum widening, optional widening, listener-triplet folding,
-  parametric-container detection, and the override mechanism.
-- Stub docstrings = runtime Boost.Python `__doc__` strings, verbatim.
-- No reference site (parked).
-- No hypothesis records, no behavioral probing.
+  parametric-container detection, and the refinement override mechanism.
+- Stub docstrings still = runtime Boost.Python `__doc__` strings, verbatim
+  (the "authored prose flows into stub `.pyi`" path from §5 of
+  `reference-design.md` is not built).
+- Reference site is live (Phase 1 complete — see the step ladder below).
+  Source-of-body footnote (`ⓘ`) and refinement footnote (`*`) both
+  surface authored-vs-runtime provenance and override rationale on hover.
+- Record schema for `refinement:` / `behavior:` / `quirks:` is locked
+  in [`lom-format.md`](lom-format.md). `refinement:` records flow end-to-end;
+  `behavior:` / `quirks:` are defined but unrendered.
+- No probe driver, no behavioral verification.
 
 The LOM's structural surface is well-covered. The behavioral surface is not
-covered at all.
+covered at all yet.
 
 ## Phase 1 — Reference v0: render what we already know
 
@@ -101,8 +112,9 @@ was hand-refined away from the parser-derived default.
 - **Step 2 — Class descriptions.** ✅ Done. Each class heading gets its
   `raw_doc` rendered below as a paragraph. Same for enums and module
   functions when those have raw_doc set. Module-level pages additionally
-  carry hand-authored `description:` prose at the page top (lom YAML's
-  module-top-level `description:` field; see lom-format.md).
+  carry hand-authored `description:` prose at the page top (the
+  module-level `description:` field in `content/<v>/modules/*.md`; see
+  lom-format.md).
 - **Step 3 — Properties listed.** ✅ Done. For each class (starting with
   the main class), `#### Properties` section emits each property name as
   an H5 in monospace bold, indented under the class. Filters
@@ -244,44 +256,58 @@ next layer — content, not infrastructure.
   prominent monospace signature at 1.3rem at the top of the page,
   no left-border accent. Other classes go under `## Other classes`.
 
-## Phase 2 — Hypothesis records: schema, authoring, dual rendering
+## Phase 2 — Record schema, authoring, dual rendering
 
-**Goal.** Lock the record format and start hand-authoring prose for the LOM.
-Both stubs and the reference start picking up authored content. _No probe
-yet — verification comes in Phase 3._ This phase is "the schema and the
-plumbing, with humans as the only verifier."
+**Goal.** Get the record format usable end-to-end. Both stubs and the
+reference pick up authored content. _No probe yet — verification comes in
+Phase 3._ This phase is "the schema and the plumbing, with humans as the
+only verifier."
 
-**What lands.**
+**Storage convention** (locked, differs from earlier proposal). Records live
+inside each member's fenced YAML block in `content/<v>/modules/<Module>.md`,
+not in a separate `doc/records/<Class>.yaml`. The earlier per-class-sidecar
+proposal was rejected in favor of co-locating the structured fields with the
+member's prose so authors edit in one place. See `lom-format.md`.
 
-- Locked record schema (YAML or JSON), validated. Covers description,
-  structured hypotheses (with `confidence: unprobed` as the only allowed
-  level for now), quirks, verified-against (still version-tagged, just
-  empty-handed).
-- Storage convention decided. Lean: per-class file in
-  `doc/records/<Class>.yaml`, parallel to `content/<v>/modules/<Module>.md`.
-- Validator script run in CI: ensures every record refers to a real symbol
-  in the lom YAML, schema is well-formed, no duplicate IDs.
-- Reference generator extended to read records. Authored description
-  replaces runtime docstring when present (with the runtime version
-  available in a "see source" admonition or similar).
-- Stub generator extended to read records. Authored description replaces or
-  augments the runtime `__doc__` in the emitted `.pyi`. The two-rendering
-  story from §5 of the design doc starts working end-to-end.
-- A handful of records hand-authored as proof: one per slice-plan target
-  (`Song.tempo`, `Track.delete_clip`, `Clip.add_warp_marker`) plus a couple
-  of randomly-picked simple properties to stress the layout.
+**Status — what's already landed:**
 
-**Why second.** The schema lock-in is the single biggest risk for the rest
-of the work — the previous attempt's stall point. Doing it before the probe
-forces the format to serve the human authoring case first; the probe just
-has to verify what's already structured. If the schema feels right to write
-by hand, it'll feel right to verify against.
+- `refinement:` records (type / name / element_type overrides) are spec'd,
+  validated by round-trip, and rendered in the reference as `*` footnote
+  markers with confidence + sources tooltip.
+- `behavior:` / `quirks:` shape is defined in lom-format.md (id, assertion,
+  confidence, verified_against, sources) but not yet rendered.
+- `[^id]` inline footnote references in member prose are defined but not
+  yet rendered (planning lives in `doc/web-rendering.md` §4).
+- Source-of-body footnote (`ⓘ` revealing raw_doc vs authored origin) is
+  live in the reference.
+
+**Still to land in Phase 2:**
+
+- Reference rendering of `behavior:` and `quirks:` records (same footnote
+  primitive as `refinement:`; planning in `web-rendering.md` §§2-3).
+- Inline `[^id]` resolution pass in the generator (`web-rendering.md` §4).
+- `deprecated:` and `_synthesized:` rendering (`web-rendering.md` §§6-7).
+- Validator script run in CI: ensures every `[^id]` reference resolves to
+  a real record on the same member, schema is well-formed, no duplicate
+  IDs on a member.
+- Stub generator extended to read authored prose. Authored `description:`
+  replaces or augments the runtime `__doc__` in the emitted `.pyi`. The
+  two-rendering story from §5 of the design doc starts working end-to-end
+  (this is the missing half — today's stubs ship raw `__doc__` only).
+- A handful of richer records hand-authored as proof — `behavior:` /
+  `quirks:` entries on a few high-traffic members (Song.tempo,
+  Track.delete_clip, Clip.add_warp_marker) to exercise the layout.
+
+**Why second.** The schema lock-in was the single biggest risk; doing it
+before the probe forced the format to serve human authoring first. The
+remaining Phase 2 work is mechanical now that the format is settled.
 
 The stub-docstring payoff comes here, not at the end. Hand-authored prose
-in stub `.pyi` lands the moment you have records — no probe required.
+in stub `.pyi` lands the moment the stub generator picks it up — no probe
+required.
 
-**Size.** Medium. Schema design is the careful part; the integrations on
-both generators are mechanical once it's locked.
+**Size.** Medium for what's left — incremental record-type rendering plus
+the stub-side pickup; both ride on the existing footnote primitive.
 
 ## Phase 3 — Probe driver, cold path
 

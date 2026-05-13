@@ -1,9 +1,10 @@
 # Documentation — Design
 
-> Status: draft. Focus is **structure** — what the docs contain, how the
-> content is organized, and how stubs and the reference relate. Implementation
-> details (pipeline stages, slice plans, lessons-learned, build framework) live
-> elsewhere; this doc decides shape first.
+> Focus is **structure** — what the docs contain, how the content is
+> organized, and how stubs and the reference relate. Implementation details
+> (pipeline stages, slice plans, lessons-learned, build framework) live
+> elsewhere; this doc decides shape first. Companion: `reference-roadmap.md`
+> for the path; `web-rendering.md` for the rendering primitives.
 
 ## 1. Where we are vs. where we're going
 
@@ -93,13 +94,20 @@ A class page carries:
 Both stubs and reference draw from the same records. Each artifact picks the
 subset that fits its medium:
 
-| Field on the record   | Stub docstring                        | Reference page                        |
-| --------------------- | ------------------------------------- | ------------------------------------- |
-| Description (prose)   | Replaces / augments runtime `__doc__` | Renders as the description text       |
-| Behavioral assertions | Short summary as `Notes:` block       | Full structured rendering             |
-| Quirks                | One-line callout(s) in `Notes:`       | Inline callout boxes                  |
-| Refinement metadata   | Invisible                             | Rendered with `source:` citation      |
-| Cross-references      | Link to reference page                | Rendered as "Access via" / type links |
+| Field on the record   | Stub docstring                        | Reference page                                                  |
+| --------------------- | ------------------------------------- | --------------------------------------------------------------- |
+| Description (prose)   | Replaces / augments runtime `__doc__` | Renders as the description text                                 |
+| Refinement (`type` / `name` / `element_type`) | Uses the refined `value` only | Refined value plus `*` footnote with confidence + sources       |
+| Behavioral assertions | Short summary as `Notes:` block       | Footnote on the asserted phrase or member (id + tooltip)        |
+| Quirks                | One-line callout(s) in `Notes:`       | Footnote with the quirk text (same primitive as behavior)       |
+| Cross-references      | Link to reference page                | Rendered as "Access via" / type links                           |
+
+> **Implementation status.** The refinement row and the cross-reference row are
+> shipped. Behavioral / quirks footnotes have a locked schema but no rendering
+> yet (see `web-rendering.md`). The stubs side of "authored description
+> replaces / augments runtime `__doc__`" is **not yet wired** — stubs today
+> emit raw `__doc__` only; lifting authored prose into the `.pyi` is the
+> missing half of Phase 2.
 
 The stub is the editor-time view: terse, scoped to what's useful at the call
 site. The reference is the deep-dive view: full structured assertions, links to
@@ -115,9 +123,11 @@ about it; the stub is more compressed. In both:
   inconsistently," "behavior depends on whether track is armed."
 - An `unprobed` assertion renders as an open question — visible to the reader,
   not pretending the gap doesn't exist.
-- Members with no record at all render with their parser-derived type signature
-  only and a placeholder description ("not yet investigated"). Honest about
-  the lack of investigation.
+- A member whose body text is the runtime `__doc__` (no authored prose yet)
+  carries an `ⓘ` source footnote labelling it "From Live's runtime
+  docstring." A member with authored prose carries the same footnote, but
+  the tooltip shows the original `raw_doc` for comparison. A member with
+  neither carries no marker — absence is the signal.
 
 Confidence levels never get collapsed for the convenience of cleaner-looking
 output. If two preconditions yield two outcomes, both render. If a probe is
@@ -181,21 +191,25 @@ introduces a garden-path reading, keep the word. Telegraphic ≠ cryptic.
 
 This doc deliberately doesn't decide:
 
-- **Sidecar storage format.** Per-member files vs single shared file vs
-  embedded as additional override-style fields in `content/<v>/modules/*.md`.
-  Affects authoring ergonomics and merge-conflict surface.
 - **Stub docstring rendering style.** Replace runtime `__doc__` outright, or
   prepend authored prose with the runtime text below, or keep `__doc__` and
   append a `Notes:` section. Pick by writing a few examples and reading them.
-- **Reference page layout details.** Section order, table column widths,
-  how `Access via` is collapsed vs. always-shown. Best decided by trying
-  layouts on a real class.
+  (Reference side is decided — `ⓘ` footnote labels the source, body always
+  renders as prose; see web-rendering.md §5.)
 - **Class-level vs member-level scope of authored content.** Some quirks span
   multiple members (warp-marker slope rule applies across `add` / `move` /
   `remove`); should the prose live once at the class level and be referenced,
-  or duplicate-for-locality at each member?
-- **Constructor (`__init__`) coverage.** `build_lom_md.py` now synthesizes
-  an `__init__` method from `init_doc` for constructable classes (or
-  `(self) -> None` when none is present), so this is wired into the module
-  markdown and the stubs. Reference rendering of authored constructor prose
-  remains an open layout question.
+  or duplicate-for-locality at each member? Cross-member `[^id]` resolution
+  is out of scope for v1 (see lom-format.md "Footnote references in prose")
+  but this is the resolution path if we lift it.
+
+**Resolved since draft:**
+
+- ~~**Sidecar storage format.**~~ Decided: records embed inside each member's
+  fenced YAML block in `content/<v>/modules/<Module>.md`. See lom-format.md.
+- ~~**Reference page layout details.**~~ Locked during Phase 1 — see
+  reference-roadmap.md "Phase 1 layout decisions."
+- ~~**Constructor (`__init__`) coverage.**~~ `build_lom_md.py` synthesizes
+  an `__init__` from `init_doc` for constructable classes (or `(self) -> None`
+  when none parses); both generators render it. Authored constructor prose
+  uses the same member-level pathway as any other method.

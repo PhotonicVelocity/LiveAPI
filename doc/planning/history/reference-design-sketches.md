@@ -1,4 +1,16 @@
-# Documentation — Worked Sketches
+# Documentation — Worked Sketches (historical)
+
+> **Status.** Archived. These sketches predate the lom-format spec —
+> the record format they propose (top-level `"Live.X.X.member":` keys
+> with `hypotheses` / `action` / `expects` / `operation_rules` /
+> `invariants` fields) didn't survive into the shipped schema. The
+> actual format embeds member-scoped `refinement:` / `behavior:` /
+> `quirks:` records inside each member's fenced YAML block in
+> `content/<v>/modules/<Module>.md`; see [`doc/lom-format.md`](../../lom-format.md).
+>
+> Kept here as context for the design conversation that led to the
+> current format. New worked examples — sketched in the actual
+> shipped format — would be a separate doc.
 
 > Companion to `reference-design.md`. Walks through concrete examples of what a
 > member record looks like, what its stub docstring renders to, and what its
