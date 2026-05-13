@@ -714,20 +714,14 @@ def method_signature_html(method: dict) -> str:
 def emit_description_block(lines: list[str], member: dict, *, wrapped: bool) -> None:
     """Emit description prose for `member`.
 
-    Layouts:
-      - Has authored `description:` AND `raw_doc:`:
-            <description prose>
-            [runtime docstring]
-            <raw_doc text>
-      - Has only `description:`: the authored prose alone, no chip.
-      - Has only `raw_doc:`: chip + raw_doc text.
-      - Has neither: emits nothing.
+    The body always renders as plain prose, regardless of source: authored
+    `description:` when present, else the `raw_doc:` text as fallback. The
+    source signal (runtime docstring vs authored, with the original
+    raw_doc text on hover) is appended as a footnote marker at the end of
+    the body so the affordance sits next to the prose it annotates rather
+    than on the heading — see `source_footnote_html()`.
 
-    The raw_doc block always renders de-emphasized so the chip + the
-    smaller / muted text read as a single unit — the verbatim runtime
-    docstring, distinct from any authored prose above it.
-
-    `wrapped=True` puts the whole block inside `<div class="member-desc">`
+    `wrapped=True` puts the body inside `<div class="member-desc">`
     — used for properties / methods / signal-only nested under a class
     (indented gutter, muted color). `wrapped=False` emits at page margin
     — for class / enum / function H3 entities whose prose sits flush
@@ -739,35 +733,71 @@ def emit_description_block(lines: list[str], member: dict, *, wrapped: bool) -> 
     raw = _resolve(member, "raw_doc")
     has_desc = isinstance(desc, str) and bool(desc.strip())
     has_raw = isinstance(raw, str) and bool(raw.strip())
-    if not has_desc and not has_raw:
-        return
-
-    parts: list[str] = []
     if has_desc:
-        parts.append(desc.strip())
-    if has_raw:
-        # Open by default when the raw_doc is the only prose on the
-        # node (it IS the description — collapsing it hides the only
-        # info). Collapsed by default when an authored description
-        # sits above it, so the editorial prose reads as primary and
-        # the runtime text is reachable via click.
-        open_attr = "" if has_desc else " open"
-        details_block = (
-            f'<details class="raw-doc-toggle"{open_attr}>\n'
-            f'<summary class="desc-source">'
-            f'<span class="desc-source-chip desc-source-runtime">'
-            f'runtime docstring</span></summary>\n\n'
-            f'<div class="raw-doc">\n\n{normalize_paragraph(raw)}\n\n</div>\n\n'
-            f'</details>'
-        )
-        parts.append(details_block)
-
-    body = "\n\n".join(parts)
+        body = desc.strip()
+    elif has_raw:
+        body = normalize_paragraph(raw)
+    else:
+        return
+    marker = source_footnote_html(member)
+    if marker:
+        body = f"{body}{marker}"
     if wrapped:
         lines.append(f'<div class="member-desc">\n\n{body}\n\n</div>')
     else:
         lines.append(body)
     lines.append("")
+
+
+def source_footnote_html(member: dict) -> str:
+    """Footnote marker on a member heading signalling the source of the
+    rendered body text. Hover/focus reveals a structured tooltip.
+
+    Two states (matching `emit_description_block`'s body-source logic):
+
+    - `description:` present → body is authored prose. Tooltip shows
+      the original `raw_doc` text under a "Runtime docstring" label so
+      readers can compare authored vs source.
+    - `description:` absent and `raw_doc:` present → body is the
+      raw_doc text rendered verbatim. Tooltip says "Runtime docstring —
+      not yet investigated."
+    - Neither: returns empty string.
+
+    The visible glyph is a CSS `::before` pseudo-element on
+    `.source-marker` so MDX doesn't parse a literal character as
+    markdown formatting.
+    """
+    desc = _resolve(member, "description")
+    raw = _resolve(member, "raw_doc")
+    has_desc = isinstance(desc, str) and bool(desc.strip())
+    has_raw = isinstance(raw, str) and bool(raw.strip())
+    if not has_raw:
+        return ""
+
+    if has_desc:
+        raw_html = "<br/>".join(
+            html.escape(line, quote=True)
+            for line in raw.strip().splitlines()
+        )
+        inner = (
+            f'<span class="sm-label">Runtime docstring</span>'
+            f'<span class="sm-raw">{raw_html}</span>'
+        )
+        label = "view runtime docstring"
+    else:
+        inner = (
+            f'<span class="sm-note">'
+            f'From Live\'s runtime docstring.'
+            f'</span>'
+        )
+        label = "from Live's runtime docstring"
+
+    return (
+        f'<sup class="source-marker" tabindex="0" '
+        f'aria-label="{label}">'
+        f'<span class="source-marker-tooltip" role="tooltip">'
+        f'{inner}</span></sup>'
+    )
 
 
 def member_flags_html(member: dict) -> str:
@@ -1369,8 +1399,8 @@ def render_module_page(
         # lives on the class node as `description:` (see lom-format.md —
         # analogous to the module-top-level `description:`, but scoped
         # to one class) and overrides parser-derived `raw_doc`. The
-        # original raw_doc remains accessible via the chip-line tooltip
-        # rendered above the prose by `emit_description_block`.
+        # original raw_doc remains accessible via the source-footnote
+        # marker on the H3 heading (see `source_footnote_html`).
         emit_description_block(lines, cls, wrapped=False)
         rendered_name = display_name or cls["name"]
         # Partition the YAML's `properties:` list into real properties

@@ -93,81 +93,92 @@
   margin-bottom: 0;
 }
 
-/* `[runtime docstring]` chip — clickable `<summary>` of a `<details>`
-   that wraps the verbatim runtime docstring. Click to toggle the body
-   open / closed. Default state: open when the raw_doc is the only
-   prose on the node (it IS the description), closed when an authored
-   description sits above it (the chip is then a hover-style affordance
-   to "see the original"). */
-/* Top margin uses `!important` to beat Starlight's built-in
-   prose-flow spacing (`:not() + :not()` rule on `.sl-markdown-content`)
-   so the chip is deliberately offset from whatever sits above it. */
-/* Strip Starlight's default `<details>` chrome (left accent border,
-   padding, background) — our chip is the entire affordance, no
-   surrounding box. */
-.sl-markdown-content details.raw-doc-toggle {
-  border: none;
-  padding: 0;
-  background: none;
-  margin: 0;
-}
-.sl-markdown-content details.raw-doc-toggle > summary {
-  margin: 1rem 0 0.25rem 0 !important;
-  padding: 0;
-  display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
-  cursor: pointer;
-  list-style: none;
-  user-select: none;
-}
-/* Suppress browser-native + Starlight-injected disclosure markers —
-   leaves only our chip-internal caret. */
-.sl-markdown-content details.raw-doc-toggle > summary::-webkit-details-marker {
-  display: none;
-}
-.sl-markdown-content details.raw-doc-toggle > summary::before,
-.sl-markdown-content details.raw-doc-toggle > summary::marker {
-  content: none;
-  display: none;
-}
-/* Disclosure indicator inside the chip — small caret to the right of
-   the label that rotates on `[open]`. Keeping it inside the chip's
-   pill keeps the affordance visually tied to the chip itself. */
-.sl-markdown-content details.raw-doc-toggle > summary .desc-source-chip::after {
-  content: "▸";
+/* `.source-marker` — footnote marker on a member H5 indicating the
+   source of the rendered body text (runtime docstring vs authored
+   prose). Hover/focus reveals a structured tooltip with the original
+   raw_doc text (when authored prose is rendered) or a "not yet
+   investigated" note (when raw_doc is rendered verbatim as the body).
+   Visual glyph is a small `ⓘ` so a reader can distinguish source-of-
+   body markers from annotation footnotes (override-marker `*`) at a
+   glance. */
+.sl-markdown-content sup.source-marker {
+  position: relative;
   display: inline-block;
-  margin-left: 0.3rem;
-  transition: transform 0.15s ease;
-}
-.sl-markdown-content details.raw-doc-toggle[open] > summary .desc-source-chip::after {
-  transform: rotate(90deg);
-}
-.sl-markdown-content .desc-source-chip {
-  display: inline-block;
-  padding: 0.02rem 0.4rem;
-  border-radius: 0.2rem;
-  font-family: var(--sl-font-system-mono);
-  font-size: 0.65em;
+  margin-left: 0.25em;
+  padding: 0.1rem 0.25rem;
+  font-size: 0.85em;
   font-weight: 500;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   color: var(--sl-color-gray-3);
+  cursor: help;
+  user-select: none;
+  outline: none;
+  border-radius: 0.2rem;
+  vertical-align: middle;
+  transition: background-color 0.1s ease, color 0.1s ease;
+}
+.sl-markdown-content sup.source-marker::before {
+  content: "ⓘ";
+}
+.sl-markdown-content sup.source-marker:hover,
+.sl-markdown-content sup.source-marker:focus {
+  color: var(--sl-color-text);
   background: var(--sl-color-gray-6);
-  border: 1px solid var(--sl-color-gray-5);
 }
 
-/* Verbatim runtime docstring rendered under the `[runtime docstring]`
-   chip. Always de-emphasized — smaller and muted — so the chip + body
-   read together as the runtime text, distinct from any authored prose
-   above. */
-.sl-markdown-content .raw-doc {
-  margin-top: 0;
+/* Tooltip child — hidden by default, shown on hover/focus. Same
+   positioning approach as `.override-marker-tooltip` (centered above
+   the marker, fixed max-width, word-wrap long content). */
+.sl-markdown-content sup.source-marker > .source-marker-tooltip {
+  display: none;
+}
+.sl-markdown-content sup.source-marker:hover > .source-marker-tooltip,
+.sl-markdown-content sup.source-marker:focus > .source-marker-tooltip {
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 0.4rem;
+  padding: 0.6rem 0.75rem;
+  min-width: 22rem;
+  max-width: 32rem;
+  width: max-content;
+  background: var(--sl-color-bg-nav);
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.4rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   font-size: var(--sl-text-sm);
+  font-family: var(--sl-font), system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-weight: 400;
+  color: var(--sl-color-text);
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1.5;
+  text-align: left;
+  z-index: 1000;
+  pointer-events: none;
+}
+.sl-markdown-content .source-marker-tooltip .sm-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--sl-color-gray-3);
 }
-.sl-markdown-content .raw-doc p {
-  margin: 0;
+.sl-markdown-content .source-marker-tooltip .sm-raw {
+  display: block;
+  font-family: var(--sl-font-system-mono);
+  font-size: 0.9em;
+  color: var(--sl-color-text);
+  white-space: normal;
+}
+.sl-markdown-content .source-marker-tooltip .sm-note {
+  display: block;
+  font-style: italic;
+  color: var(--sl-color-gray-3);
 }
 
 /* Property flags — chips appended INSIDE the H5 heading, with no
