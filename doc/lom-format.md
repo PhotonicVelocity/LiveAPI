@@ -455,16 +455,17 @@ require uniqueness guarantees at the corresponding scope.
 Each item in a `sources:` list starts with a bracketed evidence-type tag identifying where the evidence comes from. The
 renderer parses the leading `[tag]` and produces a styled chip on the bullet so readers can scan provenance.
 
-| Tag               | When to use                                                                       |
-| ----------------- | --------------------------------------------------------------------------------- |
-| `[corpus]`        | Evidence from Ableton-shipped Remote Scripts (`external/corpus/...` paths).       |
-| `[docstring]`     | Evidence from the field's own `raw_doc`. Quoted text from raw_doc → use this tag. |
-| `[M4L]`           | Evidence from Max for Live documentation (`external/max-for-live-docs/...`).      |
-| `[C++ signature]` | Evidence from the C++ binding signature (cpp_signature field).                    |
-| `[sister method]` | Comparison to a similar/related method or property on the same or related class.  |
-| `[probe]`         | Runtime introspection observation — probe data, element_repr observations.        |
-| `[schema]`        | Applied per a documented YAML schema convention (e.g., the enum-arg convention).  |
-| `[inference]`     | Reasoned conclusion from established facts — no direct citation. See note below.  |
+| Tag                | When to use                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------- |
+| `[corpus]`         | Evidence from Ableton-shipped Remote Scripts (`external/corpus/...` paths).             |
+| `[docstring]`      | Evidence from the field's own `raw_doc`. Quoted text from raw_doc → use this tag.       |
+| `[M4L]`            | Evidence from Max for Live documentation (`external/max-for-live-docs/...`).            |
+| `[C++ signature]`  | Evidence from the C++ binding signature (cpp_signature field).                          |
+| `[sister method]`  | Comparison to a similar/related method or property on the same or related class.        |
+| `[probe]`          | Runtime introspection observation — probe data, element_repr observations.              |
+| `[informal probe]` | Pre-Phase-3 informal observation: previous reference docs or ad-hoc probe-script NOTES. |
+| `[schema]`         | Applied per a documented YAML schema convention (e.g., the enum-arg convention).        |
+| `[inference]`      | Reasoned conclusion from established facts — no direct citation. See note below.        |
 
 The `[inference]` tag covers claims that follow from how Python, Boost.Python, or the LOM's runtime semantics work in
 general — things that don't anchor to a specific corpus / docstring / M4L / signature site. It's structurally the
@@ -478,6 +479,12 @@ reading it back returns the same value." Each is a candidate for a **higher-leve
 documenting its scope, methodology, and findings, that per-member annotations then cite by reference. The promotion path
 is `[inference]` → `[probe]` claim by claim, as these system-level investigations land. Once written, a single
 higher-level probe can replace `[inference]` sources on dozens of members at once.
+
+The `[informal probe]` tag is a transitional bucket — observations recorded in the older PythonForLive reference docs
+(`doc/live-api/`) and in the abandoned targeted-probing-\* branch scripts' `NOTES` dicts. Real observation work was
+done; methodology, set-state, and version provenance vary by author and weren't always recorded. Treat as stronger than
+`[inference]` (someone did see this) but weaker than `[probe]` (no rigorous capture). Promotion path is
+`[informal probe]` → `[probe]` once the Phase-3 probe driver re-verifies the claim.
 
 ## Raw docstring vs authored prose
 
