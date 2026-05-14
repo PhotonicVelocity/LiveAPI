@@ -21,6 +21,17 @@ init_doc: |-
   This class cannot be instantiated from Python
 constructable: false
 raw_doc: This class represents a group device chain in Live.
+behavior:
+  - id: lifetime-c-owned
+    assertion:
+      Chain lifetime is owned by the parent rack — `Chain` instances are invalidated when the parent rack is deleted,
+      replaced, or restructured. Holding a Chain reference across such operations raises on next access.
+    confidence: high
+    sources:
+      - "[inference] LOM-wide invariant: every non-root LomObject's lifetime is bound to its parent's identity."
+quirks:
+  - id: phantom-via-devices
+    assertion: A chain's `mixer_device` isn't reachable via `chain.devices` even though it's structurally a device.
 ```
 
 #### Properties

@@ -1690,7 +1690,8 @@ def render_module_page(
             cls, module_name, registry,
             display_name=display_name, class_index=class_index,
         )
-        lines.append(f"### {sig}")
+        fns = member_footnotes_html(cls)
+        lines.append(f"### {sig}{fns}")
         lines.append("")
         # Hand-authored, multi-paragraph class description (markdown)
         # lives on the class node as `description:` (see lom-format.md —
@@ -2169,7 +2170,8 @@ def render_module_page(
         lines.append("")
         for display, enum in enums_flat:
             sig = enum_signature_html(enum, module_name, display_name=display)
-            lines.append(f"### {sig}")
+            fns = member_footnotes_html(enum)
+            lines.append(f"### {sig}{fns}")
             lines.append("")
             # Enum description — top-level H3 entity, sits at page
             # margin like a class description. NOT wrapped in
@@ -2198,7 +2200,8 @@ def render_module_page(
         lines.append("## Functions")
         lines.append("")
         for fn in functions:
-            lines.append(f"### {function_signature_html(fn, module_name)}")
+            fns_marker = member_footnotes_html(fn)
+            lines.append(f"### {function_signature_html(fn, module_name)}{fns_marker}")
             lines.append("")
             sig_block = callable_signature_block_html(fn, module_name, registry)
             if sig_block:
