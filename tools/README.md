@@ -298,13 +298,13 @@ result against the committed `stubs/<v>/Live/` and `web/src/content/docs/`. Any 
 
 ### CI workflows in effect
 
-| Workflow          | Triggers on                                                     | What it checks                                                         |
-| ----------------- | --------------------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------ |
-| `regen-check`     | Pushes / PRs touching `content/`, `tools/parse                  | generate/`, `stubs/`, `web/src/content/docs/`                          | Regenerated outputs match committed outputs (no drift) |
-| `web-build-check` | Every push to main and every PR                                 | Astro build succeeds — catches MDX parse errors before merge           |
-| `verify-stubs`    | Pushes / PRs touching `stubs/`, `tools/verify/`, `tests/usage/` | Tier 1 (ast.parse) + Tier 2 (pyright, tracking) + Tier 4 (usage tests) |
-| `deploy-site`     | Push to main touching `web/`                                    | Rebuilds + deploys the GitHub Pages site                               |
-| `release`         | Push to main touching `stubs/12.*/Live/`                        | Builds and publishes the PyPI wheel for the changed Live version       |
+| Workflow          | Triggers on                                                                 | What it checks                                                                                                                      |
+| ----------------- | --------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `regen-check`     | Pushes / PRs touching `content/`, `tools/parse                              | generate/`, `stubs/`, `web/src/content/docs/`                                                                                       | Regenerated outputs match committed outputs (no drift) |
+| `web-build-check` | Every push to main and every PR                                             | Astro build succeeds — catches MDX parse errors before merge                                                                        |
+| `verify-stubs`    | Pushes / PRs touching `stubs/`, `content/`, `tools/verify/`, `tests/usage/` | `validate_content.py` (SOT schema + inline footnote links) + Tier 1 (ast.parse) + Tier 2 (pyright, tracking) + Tier 4 (usage tests) |
+| `deploy-site`     | Push to main touching `web/`                                                | Rebuilds + deploys the GitHub Pages site                                                                                            |
+| `release`         | Push to main touching `stubs/12.*/Live/`                                    | Builds and publishes the PyPI wheel for the changed Live version                                                                    |
 
 `web-build-check` is the **required status check** for branch protection. PRs can't be merged via the UI until it
 passes. The other workflows fail visibly but don't block merge — they're tracking signals.
@@ -343,8 +343,9 @@ tools/
 ├── generate/                Stage 3: stub + reference generation
 │   ├── generate_stubs.py         Read content/<v>/modules/*.md → emit .pyi
 │   └── generate_reference.py     Read content/<v>/modules/*.md → emit Starlight MDX
-├── verify/                  Verification — pyright audit + corpus consistency checks
-│   ├── run.sh                        Orchestrator (Tiers 1-4)
+├── verify/                  Verification — content schema + pyright audit + corpus consistency
+│   ├── run.sh                        Orchestrator (content + Tiers 1-4)
+│   ├── validate_content.py           Content schema + inline-footnote link integrity
 │   ├── parse_check.py                Tier 1: ast.parse over every .pyi
 │   ├── audit_corpus.py               Offline pyright audit over external/corpus
 │   ├── audit_ignores.yaml            Investigated-and-declined audit findings

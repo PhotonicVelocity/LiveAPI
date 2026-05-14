@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - "stubs/**"
+      - "content/**"
       - "tools/verify/**"
       - "tests/usage/**"
       - ".github/workflows/verify-stubs.yml"
@@ -11,6 +12,7 @@ on:
   pull_request:
     paths:
       - "stubs/**"
+      - "content/**"
       - "tools/verify/**"
       - "tests/usage/**"
       - ".github/workflows/verify-stubs.yml"
@@ -28,7 +30,10 @@ jobs:
           python-version: "3.12"
 
       - name: Install pyright
-        run: pip install pyright==1.1.408
+        run: pip install pyright==1.1.408 pyyaml
+
+      - name: Validate content/ schema + link integrity
+        run: python tools/verify/validate_content.py 12.3.6
 
       - name: Tier 1 — ast.parse
         run: python tools/verify/parse_check.py 12.3.6

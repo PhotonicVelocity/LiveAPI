@@ -24,14 +24,26 @@ done
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$REPO_ROOT"
 
+# Prefer the local venv if present — parse_module_md needs pyyaml which
+# isn't always in the system python.
+if [[ -x "$REPO_ROOT/.venv/bin/python" ]]; then
+  PY="$REPO_ROOT/.venv/bin/python"
+else
+  PY="python3"
+fi
+
 OVERALL=0
 
 echo "=== Corpus pin consistency ==="
-python3 tools/fetch_external/check_pin.py || OVERALL=1
+$PY tools/fetch_external/check_pin.py || OVERALL=1
+echo
+
+echo "=== Content schema + link integrity (content/$VERSION/) ==="
+$PY tools/verify/validate_content.py "$VERSION" || OVERALL=1
 echo
 
 echo "=== Tier 1: ast.parse on stubs/$VERSION/Live ==="
-python3 tools/verify/parse_check.py "$VERSION" || OVERALL=1
+$PY tools/verify/parse_check.py "$VERSION" || OVERALL=1
 echo
 
 echo "=== Tier 4: usage tests against stubs/$VERSION ==="

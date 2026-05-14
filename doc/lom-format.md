@@ -1,11 +1,11 @@
 # LOM module format
 
 Per-module markdown schema for the Live Object Model. One file per top-level Live module, under
-`content/<v>/modules/<Module>.md`. The format is the **authoring midpoint** in a two-stage transformation pipeline; humans
-edit only this midpoint, and two downstream generators project it into the shipped artifacts.
+`content/<v>/modules/<Module>.md`. The format is the **authoring midpoint** in a two-stage transformation pipeline;
+humans edit only this midpoint, and two downstream generators project it into the shipped artifacts.
 
-> **Status.** Live. The probe pipeline emits markdown directly, and both generators read `content/<v>/modules/<Module>.md`
-> as their only input. The legacy YAML format has been retired.
+> **Status.** Live. The probe pipeline emits markdown directly, and both generators read
+> `content/<v>/modules/<Module>.md` as their only input. The legacy YAML format has been retired.
 
 ## Pipeline
 
@@ -364,7 +364,7 @@ behavior:
       <optional-kebab-case-id> # set if the assertion is
       # referenced inline from prose
     assertion: "<statement of runtime behavior>"
-    confidence: verified | state-dependent | intermittent | unprobed
+    confidence: high | medium | low | verified | state-dependent | intermittent | unprobed
     verified_against: <Live version, e.g. 12.3.6>
     sources:
       - "[<tag>] <evidence>"
@@ -374,16 +374,26 @@ The `assertion:` is a one-sentence factual claim — the renderer shows it as th
 `verified_against:` field tracks drift: if the probe re-runs against a newer Live version and the assertion still holds,
 this updates; if not, the record stays at its old version and an audit signal fires.
 
+`confidence:` accepts a union of two vocabularies. `high` / `medium` / `low` is hand-assessed confidence (the authoring
+case, used today since no probe driver exists yet — same scale as the refinement layer). `verified` / `state-dependent`
+/ `intermittent` / `unprobed` is probe-verified confidence — what Phase 3's probe driver writes back after running the
+named assertions against Live. Records get promoted from the hand-confidence levels to the probe-verified levels
+record-by-record as probe coverage lands.
+
 ### Quirks
 
 ```yaml
 quirks:
-  - id: <optional-kebab-case-id>
-    summary: "<short statement of the gotcha>"
-    severity: edge-case | invariant | undocumented
+  - id: <optional-kebab-case-id> # set if referenced inline from prose
+    assertion: "<short statement of the gotcha>"
+    confidence: high | medium | low | verified | state-dependent | intermittent | unprobed
+    verified_against: <Live version, e.g. 12.3.6>
     sources:
       - "[<tag>] <evidence>"
 ```
+
+Same shape as `behavior:` — only the visual skin (marker glyph + color) differs at render time. Treat the distinction as
+authorial: `behavior:` records describe what the LOM does on purpose; `quirks:` records describe gotchas worth flagging.
 
 ## Member-level metadata
 
